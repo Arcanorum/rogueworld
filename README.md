@@ -1,5 +1,5 @@
-# dungeonz
-Everything for the game Dungeonz.
+# Dungeonz
+## Everything for the game Dungeonz.
 
 Greetings! You have stumbled upon the work area for Dungeonz, the free, browser based, massively multiplayer online RPG.
 

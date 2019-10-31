@@ -1,0 +1,23 @@
+{ "columns":4,
+ "image":"boundaries.png",
+ "imageheight":16,
+ "imagewidth":64,
+ "margin":0,
+ "name":"boundaries",
+ "spacing":0,
+ "tilecount":4,
+ "tileheight":16,
+ "tiles":
+    {
+     "0":
+        {
+         "type":"SafeZone"
+        },
+     "2":
+        {
+         "type":"Darkness"
+        }
+    },
+ "tilewidth":16,
+ "type":"tileset"
+}

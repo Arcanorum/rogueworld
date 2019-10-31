@@ -1,0 +1,41 @@
+
+#background_img {
+    position: absolute;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: -1;
+}
+
+#content {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+}
+
+#title_img {
+    width: 80%;
+    padding-top: 20px;
+}
+
+.common {
+    font-family: 'Press Start 2P';
+    color: #222034;
+    margin: 20px;
+}
+
+.h1_header_text {
+    font-size: 4vw;
+}
+
+.h2_header_text {
+    font-size: 2.6vw;
+}
+
+.main_text {
+    font-size: 1.4vw;
+}

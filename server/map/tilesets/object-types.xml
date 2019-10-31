@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="Exit" color="#a0a0a4">
+  <property name="TargetEntrance" type="string" default=""/>
+  <property name="TargetZone" type="string" default=""/>
+ </objecttype>
+ <objecttype name="Entrance" color="#a0a0a4">
+  <property name="Entrance" type="string" default=""/>
+ </objecttype>
+ <objecttype name="Sign" color="#a0a0a4">
+  <property name="Message" type="string"/>
+ </objecttype>
+</objecttypes>

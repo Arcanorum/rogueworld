@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dungeonz.io</title>
+
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <link rel="shortcut icon" type="image/png" href="assets/img/misc/favicon.png">
+    <link rel="icon" sizes="192x192" href="assets/img/misc/favicon.png">
+    <link rel="shortcut icon" href="assets/img/misc/home-icon.png">
+    <link rel="apple-touch-icon" href="assets/img/misc/home-icon.png">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1, IE=9">
+    <meta name="description" content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
+    <meta name="keywords" content="game,io,multiplayer,roguelike,MMO,dungeon,online,games,gaming">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Dungeonz.io">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width initial-scale=0.5 maximum-scale=1 user-scalable=yes minimal-ui" />
+
+    <meta property="og:title" content="Dungeonz.io">
+    <meta property="og:url" content="https://dungeonz.io/">
+    <meta property="og:type" content="game">
+    <meta property="og:description" content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
+    <meta property="og:image" content="http://dungeonz.io/assets/img/misc/share-banner.png">
+    <meta property="og:image:width" content="1032">
+    <meta property="og:image:height" content="679">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="@waywardworlds">
+    <meta property="twitter:creator" content="@waywardworlds">
+    <meta property="twitter:url" content="https://dungeonz.io/">
+    <meta property="twitter:title" content="Dungeonz.io">
+    <meta property="twitter:description" content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
+    <meta property="twitter:image" content="http://dungeonz.io/assets/img/misc/share-banner.png">
+    <meta property="twitter:image:alt" content="A scene from the game with players fighting monsters.">
+
+    <!--<script src="src/lib/phaser.min.js"></script>-->
+    <script src="src/lib/phaser.js"></script>
+    <script src="src/lib/phaser-debug.js"></script>
+
+    <script src="dist/main.js"></script>
+
+    <link rel="stylesheet" href="main.css" type="text/css"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111760957-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-111760957-3');
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+        new Crate({
+            server: '472783630075166751',
+            channel: '529389784821399552',
+            shard: 'https://disweb.deploys.io',
+
+            location: ['bottom', 'left'],
+            defer: true
+        })
+    </script>
+
+</head>
+<body style="margin: 0; overflow:hidden;">
+    <img id="background_img" src="assets/img/misc/home-background.gif">
+    <div id="background_shadow"></div>
+
+    <div id="game_cont" class="press_start_font">
+        <div id="game_canvas"></div>
+        <div id="gui_cont" class="normal_cursor">
+
+            <div id="hp_energy_bars_cont" class="gui_zoomable">
+                <div id="hitpoint_cont" class="inline_cont">
+                    <img id="hitpoint_icon" class="gui_icon" src="assets/img/gui/hud/hitpoint-icon.png" draggable="false">
+                    <div id="hitpoint_counters"></div>
+                    <div id="hitpoint_tooltip"  class="top_left_tooltip generic_tooltip"></div>
+                </div>
+                <div id="energy_cont" class="inline_cont">
+                    <img id="energy_icon" class="gui_icon" src="assets/img/gui/hud/energy-icon.png" draggable="false">
+                    <div id="energy_counters"></div>
+                    <div id="energy_tooltip"    class="top_left_tooltip generic_tooltip"></div>
+                </div>
+            </div>
+
+            <div id="top_left_corner_cont" class="gui_zoomable">
+                <div id="glory_cont" class="inline_cont">
+                    <img id="glory_icon"                class="gui_icon" src="assets/img/gui/hud/glory-icon.png" draggable="false">
+                    <div id="glory_counter"             class="text_counter">100</div>
+                    <div id="glory_counter_transition"  class="text_counter text_counter_transition">100</div>
+                    <div id="glory_tooltip"     class="top_left_tooltip generic_tooltip"></div>
+                </div>
+                <div id="defence_cont" class="inline_cont">
+                    <img id="defence_icon" class="gui_icon" src="assets/img/gui/hud/defence-icon.png" draggable="false">
+                    <div id="defence_counter"   class="text_counter">%0</div>
+                    <div id="defence_tooltip"   class="top_left_tooltip generic_tooltip"></div>
+                </div>
+                <div id="avatar_cont" class="inline_cont">
+                    <img id="avatar_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/stats-icon.png" draggable="false">
+                    <div id="avatar_tooltip"    class="top_left_tooltip generic_tooltip"></div>
+                </div>
+                <div id="tasks_cont" class="inline_cont">
+                    <img id="tasks_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/tasks-icon.png" draggable="false">
+                    <div id="tasks_tooltip"     class="top_left_tooltip generic_tooltip"></div>
+                </div>
+                <div id="map_cont" class="inline_cont" onclick="window.open('/assets/img/misc/overworld.png', '_blank');">
+                    <img id="map_icon"  class="gui_icon hand_cursor" src="assets/img/gui/hud/map-icon.png" draggable="false">
+                    <div id="map_tooltip"       class="top_left_tooltip generic_tooltip"></div>
+                </div>
+                <div id="clan_cont" class="inline_cont">
+                    <img id="clan_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/clan-icon.png" draggable="false">
+                    <div id="clan_tooltip"      class="top_left_tooltip generic_tooltip"></div>
+                </div>
+            </div>
+            <div id="top_right_corner_cont" class="gui_zoomable">
+                <div id="exit_cont" class="inline_cont">
+                    <div id="exit_tooltip"      class="top_right_tooltip generic_tooltip"></div>
+                    <img id="exit_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/exit-icon.png" draggable="false">
+                </div>
+                <div id="discord_cont" class="inline_cont">
+                    <div id="discord_tooltip"       class="top_right_tooltip generic_tooltip"></div>
+                    <img id="discord_icon"  class="gui_icon hand_cursor" src="assets/img/gui/hud/discord-icon.png" draggable="false"
+                         onclick="window.open('https://discord.gg/7wjyU7B', '_blank');"
+                    >
+                </div>
+                <div id="wiki_cont" class="inline_cont">
+                    <div id="wiki_tooltip"      class="top_right_tooltip generic_tooltip"></div>
+                    <img id="wiki_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/wiki-icon.png" draggable="false"
+                         onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');"
+                    >
+                </div>
+            </div>
+            <div id="bottom_left_corner_cont" class="gui_zoomable">
+            </div>
+            <div id="bottom_right_corner_cont" class="gui_zoomable">
+                <div class="inline_cont">
+                    <div id="audio_tooltip"         class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="audio_minus_icon"      class="gui_icon hand_cursor" src="assets/img/gui/hud/minus-icon.png" draggable="false">
+                    <div id="audio_counter"         class="text_counter"></div>
+                    <img id="audio_plus_icon"       class="gui_icon hand_cursor" src="assets/img/gui/hud/plus-icon.png" draggable="false">
+                    <img id="audio_icon"            class="gui_icon" src="assets/img/gui/hud/audio-icon.png" draggable="false">
+                </div>
+                <div class="inline_cont">
+                    <div id="gui_zoom_tooltip"      class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="gui_zoom_minus_icon"   class="gui_icon hand_cursor" src="assets/img/gui/hud/minus-icon.png" draggable="false">
+                    <div id="gui_zoom_counter"      class="text_counter"></div>
+                    <img id="gui_zoom_plus_icon"    class="gui_icon hand_cursor" src="assets/img/gui/hud/plus-icon.png" draggable="false">
+                    <img id="gui_zoom_icon"         class="gui_icon" src="assets/img/gui/hud/zoom-icon.png" draggable="false">
+                </div>
+                <div class="inline_cont">
+                    <div id="virtual_dpad_tooltip"  class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="virtual_dpad_icon"     class="gui_icon hand_cursor" src="assets/img/gui/hud/virtual-dpad-icon.png" draggable="false">
+                </div>
+                <div class="inline_cont">
+                    <div id="fullscreen_tooltip"    class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="fullscreen_icon"       class="gui_icon hand_cursor" src="assets/img/gui/hud/fullscreen-icon.png" draggable="false">
+                </div>
+                <!--<div class="inline_cont">
+                    <div id="quick_turn_tooltip"    class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="quick_turn_icon"       class="gui_icon hand_cursor" src="assets/img/gui/hud/turn-icon.png" draggable="false">
+                </div>-->
+                <div class="inline_cont">
+                    <div id="settings_tooltip"      class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="settings_icon"         class="gui_icon hand_cursor" src="assets/img/gui/hud/settings-icon.png" draggable="false">
+                </div>
+            </div>
+
+            <div id="inventory_tooltip" class="counter_tooltip generic_tooltip gui_zoomable"></div>
+            <img id="inventory_icon" class="gui_icon gui_zoomable" src="assets/img/gui/hud/inventory-icon.png" draggable="false">
+
+            <div id="respawn_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="game_over_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="create_account_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="account_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="dungeon_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="stats_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="tasks_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="bank_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="clan_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="generator_panel"></div>
+
+            <div id="crafting_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="shop_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="hint_panel" class="centered panel_template_cont gui_zoomable"></div>
+
+            <div id="spell_bar" class="gui_zoomable">
+                <div id="spell_tooltip">
+                    <div id="spell_tooltip_name"></div>
+                    <div id="spell_tooltip_description"></div>
+                </div>
+                <div id="spell_slots_cont"></div>
+            </div>
+
+            <div id="virtual_dpad">
+                <img id="virtual_dpad_up"    draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-up-icon.png">
+                <img id="virtual_dpad_down"  draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-down-icon.png">
+                <img id="virtual_dpad_left"  draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-left-icon.png">
+                <img id="virtual_dpad_right" draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-right-icon.png">
+            </div>
+
+            <span id="inventory_bar" class="gui_zoomable">
+                <div id="inventory_message" class="text_counter_transition"></div>
+                <div id="item_tooltip_cont">
+                    <div id="item_name"></div>
+                    <div id="item_description"></div>
+                    <div id="item_durability"></div>
+                </div>
+            </span>
+
+        </div>
+        <input id="chat_input" type="text" minLength="1" maxLength="46" placeholder="Enter a message"/>
+    </div>
+
+    <div id="home_cont" class="press_start_font">
+
+        <div id="center_text_cont">
+            <div id="center_text" class="scale-up-center">Play</div>
+        </div>
+
+        <div id="main_columns">
+            <div id="left_bar">
+                <div id="partners_credits_cont" class="bottom_texts">
+                    <span id="partners_text" onclick="partnersPressed();">Partners</span>
+                    |
+                    <span id="credits_text" onclick="window.open('/credits', '_blank');">Credits</span></div>
+            </div>
+
+            <div id="center_bar">
+                <div id="title_cont">
+                    <img id="title_img" src="assets/img/misc/dungeonzio-title.png">
+                    <div id="new_character_continue_cont">
+                        <div id="new_character" class="title_button_unselected"
+                             onclick="newCharacterPressed()"></div>
+                        <div id="continue" class="title_button_unselected"
+                             onclick="continuePressed()"></div>
+                    </div>
+                    <div id="play_inputs_cont">
+                        <input id="name_input" class="home_input" type="text" maxlength="20" autofocus>
+                        <input id="username_input" class="home_input" type="text" maxlength="50">
+                        <input id="password_input" class="home_input" type="password" maxlength="50">
+                        <img id="show_password" draggable="false" class="show_password_active" src="assets/img/misc/show-icon-active.png" onclick="showPasswordPressed()">
+                    </div>
+                </div>
+                <div id="center_button" onclick="console.log('cent text pressed'); playPressed()"></div>
+            </div>
+
+            <div id="right_bar">
+                <div id="antisocial_bar">
+                    <div id="notdiscord_button" class="antisocial_button">
+                        <img class="antisocial_icon" src="assets/img/misc/notdiscord-logo.png" onclick="window.open('https://discord.gg/7wjyU7B', '_blank');">
+                    </div>
+                    <div id="notreddit_button" class="antisocial_button">
+                        <img class="antisocial_icon" src="assets/img/misc/notreddit-logo.png" onclick="window.open('https://www.reddit.com/r/dungeonz/', '_blank');">
+                    </div>
+                    <div id="notfacebook_button" class="antisocial_button">
+                        <img class="antisocial_icon" src="assets/img/misc/notfacebook-logo.png" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=dungeonz.io', '_blank');">
+                    </div>
+                    <div id="notwiki_button" class="antisocial_button">
+                        <img class="antisocial_icon" src="assets/img/misc/notfandom-logo.png" onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');">
+                    </div>
+                </div>
+                <div id="news_cont" onclick="window.open('/changelog.txt', '_blank');">
+                    <h1 id="news_header">News</h1>
+                    <p id="news_date">20/05/2019</p>
+                    <p id="news_title">Update 5<br>Forest maze</p>
+                    <img id="news_image" draggable="false" src="assets/img/misc/news-20-05-2019.PNG">
+                </div>
+                <div></div>
+                <div id="renderer_language_cont" class="bottom_texts">
+                    <span id="renderer_text" onclick="swapRenderer()">WebGL</span>
+                    |
+                    <span id="language_text">Language</span></div>
+                <ul id="language_list">
+                    <li id="language_english"       class="language_option">English</li>
+                    <li id="language_french"        class="language_option">Français</li>
+                    <li id="language_spanish"       class="language_option">Español</li>
+                    <li id="language_portuguese"    class="language_option">Português do Brasil</li>
+                    <li id="language_turkish"       class="language_option">Türkçe</li>
+                    <li id="language_german"        class="language_option">Deutsch</li>
+                    <li id="language_russian"       class="language_option">русский язык</li>
+                    <li id="language_polish"        class="language_option">Polski</li>
+                    <li id="language_chinese"       class="language_option">中文</li>
+                    <li id="add_translation"        class="language_option" onclick="window.open('https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0', '_blank');"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--<div id="top_bar">
+
+            <div class="top_bar_button_cont">
+                <img id="dmp_button" class="top_bar_button" src="assets/img/misc/dmp-icon.png"
+                     onclick="document.getElementById('dmp_cont').style.visibility = 'visible';"
+                     onmouseover="changeHoverTooltip('DMP tooltip');"
+                     onmouseleave="document.getElementById('main_tooltip').style.visibility = 'hidden'">
+                <!--<p style="position: absolute; background-color: #37946e; padding: 8px; color: white; border: 4px solid white">On sale!<br>50% off!</p>-->
+            <!--</div>
+
+            <div class="top_bar_button_cont">
+                <div id="renderer_button" class="top_bar_button"
+                     onclick="swapRenderer();"
+                     onmouseover="changeHoverTooltip('Renderer tooltip');"
+                     onmouseleave="document.getElementById('main_tooltip').style.visibility = 'hidden'">
+                    <p id="renderer_text" class="top_bar_text">WebGL</p>
+                </div>
+            </div>
+            <div class="top_bar_button_cont">
+                <div id="language_button" class="top_bar_button">
+                    <p id="language_text" class="top_bar_text">Language</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="controls" class="instructions_border">
+            <img class="controls_image" src="assets/img/misc/controls-move.png">
+            <p id="controls_move"></p>
+            <img class="controls_image" src="assets/img/misc/controls-use-item.png">
+            <p id="controls_use_held_item"></p>
+            <img class="controls_image" src="assets/img/misc/controls-pick-up-item.png">
+            <p id="controls_pick_up_item"></p>
+            <img class="controls_image" src="assets/img/misc/controls-select-item.png">
+            <p id="controls_select_item"></p>
+        </div>
+    </div>-->
+
+        <!--<div id="main_tooltip" class="press_start_font"></div>-->
+
+        <div id="partners_cont" class="press_start_font">
+            <div id="partners_close" onclick="partnersPressed()">x</div>
+            <div id="partners_header">Thanks to our partners</div>
+            <a href="http://iogames.space/" target="_blank">
+                <img id="iogames_space_logo" src="assets/img/misc/iogames-space-logo.png">
+            </a>
+            <a href="https://www.crazygames.com/c/io" target="_blank">
+                <img id="crazy_games_logo" src="assets/img/misc/crazy-games-logo.png">
+            </a>
+            <a href="https://x1p.com/" target="_blank">
+                <img id="x1p_logo" src="assets/img/misc/x1p-logo.png" title="best .io games" alt="best .io games">
+            </a>
+        </div>
+
+        <script>
+            console.log("- - running index script");
+
+            /**
+             * Whether the "New character" tab should be shown. Otherwise shows the "Continue" tab.
+             * @type {boolean}
+             */
+            window.newCharacter = true;
+
+            const newCharacterButton = document.getElementById('new_character');
+            const continueButton = document.getElementById('continue');
+            const nameInput = document.getElementById('name_input');
+            const usernameInput = document.getElementById('username_input');
+            const passwordInput = document.getElementById('password_input');
+            const showPasswordButton = document.getElementById('show_password');
+
+            // Get the code from the client local storage if one exists.
+            const storedUsername = localStorage.getItem('username');
+            if(storedUsername !== null){
+                window.newCharacter = false;
+                usernameInput.value = storedUsername;
+            }
+
+            function newCharacterPressed () {
+                window.newCharacter = true;
+                // Hide the username and password inputs and the button to show/hide the password value.
+                usernameInput.style.display = "none";
+                passwordInput.style.display = "none";
+                showPasswordButton.style.display = "none";
+                // Show the name input.
+                nameInput.style.display = "block";
+                // Lighten the new character tab button.
+                newCharacterButton.className = "title_button_selected";
+                // Darken the continue tab button.
+                continueButton.className = "title_button_unselected";
+            }
+
+            function continuePressed () {
+                window.newCharacter = false;
+                // Hide the name input.
+                nameInput.style.display = "none";
+                // Show the username and password inputs and the button to show/hide the password value.
+                usernameInput.style.display = "block";
+                passwordInput.style.display = "block";
+                showPasswordButton.style.display = "block";
+                // Lighten the continue tab button.
+                continueButton.className = "title_button_selected";
+                // Darken the new character tab button.
+                newCharacterButton.className = "title_button_unselected";
+            }
+
+            function showPasswordPressed () {
+                // Change the type of the continue code input.
+                if(passwordInput.type === "text"){
+                    passwordInput.type = "password";
+                    // Set the icon image to be the open eye.
+                    showPasswordButton.src = "assets/img/misc/show-icon-active.png";
+                    showPasswordButton.className = "show_password_active";
+                }
+                else {
+                    passwordInput.type = "text";
+                    // Set the icon image to be the closed eye.
+                    showPasswordButton.src = "assets/img/misc/show-icon-inactive.png";
+                    showPasswordButton.className = "show_password_inactive";
+                }
+            }
+
+            nameInput.onkeydown = function (event) {
+                // If the Enter key is pressed, attempt to connect.
+                if (event.keyCode === 13) {
+                    playPressed();
+                }
+            };
+
+            passwordInput.onkeydown = function (event) {
+                // If the Enter key is pressed, attempt to connect.
+                if (event.keyCode === 13) {
+                    playPressed();
+                }
+            };
+
+            if(window.newCharacter === true){
+                newCharacterPressed();
+            }
+            else {
+                continuePressed();
+            }
+
+            function partnersPressed () {
+                if(document.getElementById('partners_cont').style.visibility === "visible"){
+                    document.getElementById('partners_cont').style.visibility = "hidden";
+                }
+                else {
+                    document.getElementById('partners_cont').style.visibility = "visible";
+                }
+            }
+
+            // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#Converting_a_digest_to_a_hex_string
+            window.digestMessage = async function (message) {
+                const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+                const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+                return hashHex;
+            };
+
+            async function playPressed () {
+                if(window.newCharacter === true){
+                    // New character option selected. Start as a new character with the given display name.
+                    window.connectToGameServer();
+                    // Only attempt to connect if the connection is ready to communicate.
+                    if(ws.readyState === 1){
+                        ws.sendEvent('new_char', {displayName: document.getElementById('name_input').value});
+                    }
+                }
+                else {
+                    // Continue as an existing character with the given continue code.
+                    window.connectToGameServer();
+                    // Only attempt to connect if the connection is ready to communicate.
+                    if(ws.readyState === 1){
+                        // Check username and password are valid.
+                        const username = document.getElementById('username_input').value;
+                        const password = document.getElementById('password_input').value;
+                        if(username === "") return;
+                        if(password === "") return;
+
+                        const hash = await digestMessage(password); // Encrypt the password before sending.
+
+                        ws.sendEvent('log_in', {
+                            username: username,
+                            password: hash
+                        });
+                    }
+                }
+            }
+
+            document.getElementById('language_text').onclick = function (event) {
+                if(document.getElementById('language_list').style.visibility === "visible"){
+                    document.getElementById('language_list').style.visibility = "hidden";
+                }
+                else {
+                    document.getElementById('language_list').style.visibility = "visible";
+                }
+            };
+
+            function changeLanguage (language) {
+                dungeonz.language = language;
+
+                // Update the DOM elements that have text with the values for the selected language.
+                // Home page.
+                //document.getElementById('warning_message').innerText =      dungeonz.getTextDef('Connect game server warning');
+                document.getElementById('language_text').innerText =        dungeonz.getTextDef('Language');
+                document.getElementById('add_translation').innerText =      dungeonz.getTextDef('Add translation');
+                document.getElementById('news_header').innerText =          dungeonz.getTextDef('News');
+                document.getElementById('name_input').placeholder =         dungeonz.getTextDef('Name input');
+                document.getElementById('username_input').placeholder =     "Username"; //dungeonz.getTextDef('Continue code input');
+                document.getElementById('password_input').placeholder =     "Password"; //dungeonz.getTextDef('Continue code input');
+                document.getElementById('new_character').innerText =        dungeonz.getTextDef('New character');
+                document.getElementById('continue').innerText =             dungeonz.getTextDef('Continue');
+                document.getElementById('center_text').innerText =          dungeonz.getTextDef('Play');
+                //document.getElementById('controls_move').innerText =        dungeonz.getTextDef('Controls: move');
+                //document.getElementById('controls_use_held_item').innerText=dungeonz.getTextDef('Controls: use held item');
+                //document.getElementById('controls_pick_up_item').innerText =dungeonz.getTextDef('Controls: pick up item');
+                //document.getElementById('controls_select_item').innerText = dungeonz.getTextDef('Controls: select item');
+
+                // General GUI tooltips.
+                document.getElementById('defence_tooltip').innerText =      dungeonz.getTextDef('Defence tooltip');
+                document.getElementById('hitpoint_tooltip').innerText =     dungeonz.getTextDef('Hitpoint tooltip');
+                document.getElementById('energy_tooltip').innerText =       dungeonz.getTextDef('Energy tooltip');
+                document.getElementById('glory_tooltip').innerText =        dungeonz.getTextDef('Glory tooltip');
+                document.getElementById('avatar_tooltip').innerText =       dungeonz.getTextDef('Avatar tooltip');
+                document.getElementById('tasks_tooltip').innerText =        dungeonz.getTextDef('Tasks tooltip');
+                document.getElementById('map_tooltip').innerText =          dungeonz.getTextDef('Map tooltip');
+                document.getElementById('clan_tooltip').innerText =         dungeonz.getTextDef('Clan tooltip');
+                document.getElementById('inventory_tooltip').innerHTML =    dungeonz.getTextDef('Inventory tooltip');
+                document.getElementById('exit_tooltip').innerHTML =         dungeonz.getTextDef('Exit tooltip');
+                document.getElementById('discord_tooltip').innerHTML =      dungeonz.getTextDef('Discord tooltip');
+                document.getElementById('wiki_tooltip').innerHTML =         dungeonz.getTextDef('Wiki tooltip');
+                document.getElementById('settings_tooltip').innerHTML =     dungeonz.getTextDef('Settings tooltip');
+                //document.getElementById('quick_turn_tooltip').innerHTML =   dungeonz.getTextDef('Quick turn tooltip');
+                document.getElementById('audio_tooltip').innerHTML =        dungeonz.getTextDef('Audio tooltip');
+                document.getElementById('gui_zoom_tooltip').innerHTML =     dungeonz.getTextDef('GUI zoom tooltip');
+                document.getElementById('virtual_dpad_tooltip').innerHTML = dungeonz.getTextDef('Virtual D pad tooltip');
+                document.getElementById('fullscreen_tooltip').innerHTML =   dungeonz.getTextDef('Fullscreen tooltip');
+
+                // Hide the language list again.
+                document.getElementById('language_list').style.visibility = "hidden";
+            }
+
+            // Load the default language.
+            changeLanguage(dungeonz.language);
+
+            document.getElementById('language_english').onclick =       function () { changeLanguage('English') };
+            document.getElementById('language_french').onclick =        function () { changeLanguage('French') };
+            document.getElementById('language_spanish').onclick =       function () { changeLanguage('Spanish') };
+            document.getElementById('language_portuguese').onclick =    function () { changeLanguage('Portuguese (Brazil)') };
+            document.getElementById('language_turkish').onclick =       function () { changeLanguage('Turkish') };
+            document.getElementById('language_german').onclick =        function () { changeLanguage('German') };
+            document.getElementById('language_russian').onclick =       function () { changeLanguage('Russian') };
+            document.getElementById('language_polish').onclick =        function () { changeLanguage('Polish') };
+            document.getElementById('language_chinese').onclick =       function () { changeLanguage('Chinese') };
+
+            //let hoverTooltip = document.getElementById('main_tooltip');
+            //console.log("ht:", hoverTooltip);
+            // Changes the text displayed in the main tooltip.
+            function changeHoverTooltip (textDef) {
+                let hoverTooltip = document.getElementById('main_tooltip');
+                hoverTooltip.innerText = dungeonz.getTextDef(textDef);
+                hoverTooltip.style.visibility = 'visible';
+            }
+
+            // Saved renderer preference already loaded in Main.js.
+            if(window.renderer === 'canvas'){
+                document.getElementById('renderer_text').innerText = 'Canvas';
+            }
+
+            function swapRenderer() {
+                if(window.renderer === 'canvas'){
+                    localStorage.setItem('renderer', 'webgl');
+                }
+                else {
+                    localStorage.setItem('renderer', 'canvas');
+                }
+
+                location.reload();
+            }
+
+            // Disable the right click context menu on the game.
+            //document.getElementById('game_cont').addEventListener('contextmenu', event => event.preventDefault());
+
+            // Load the changelog contents into the news section.
+            let xmlhttp, text;
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', './changelog.txt', false);
+            xmlhttp.send();
+            text = xmlhttp.responseText;
+
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+
+#hint_panel {
+    visibility: hidden;
+}
+
+#hint_main_cont {
+    background-color: $colourDB32VeryDarkPurple;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#hint_text {
+    font-size: 22px;
+    font-weight: bold;
+    color: $colourDB32White;
+    padding: 10px;
+    padding-top: 30px;
+}
+
+#hint_image {
+    width: 90%;
+    border: 26px $colourDB32VeryDarkPurple solid;
+}

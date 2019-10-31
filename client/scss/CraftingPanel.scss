@@ -1,0 +1,59 @@
+
+#crafting_panel {
+    visibility: hidden;
+}
+
+#crafting_inner_cont {
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(7, auto);
+    grid-template-rows: 50% 50%;
+    align-items: center;
+    justify-items: center;
+    padding: 12px;
+    padding-top: 33px;
+}
+
+#crafting_tooltip {
+    visibility: hidden;
+    position: absolute;
+    max-width: 250px;
+    color: $colourDB32White;
+    text-align: center;
+    font-size: 12px;
+    background-color: $colourDB32VeryDarkPurple;
+    padding: 6px;
+    top: 0%;
+    transform: translate(-100%, 0%);
+    left: 0%;
+}
+
+.crafting_component_slot_cont {
+    background-color: $colourDB32GreyOpacity50;
+    width: 72%;
+    border: 6px solid $colourDB32VeryDarkPurple;
+    &:hover {
+        transform: scale(1.1);
+        filter: brightness(150%);
+    }
+}
+
+.crafting_component_slot_icon {
+    visibility: hidden;
+    width: 100%;
+}
+
+#crafting_arrow_icon {
+    width: 100%;
+}
+
+// The remove and accept buttons.
+.crafting_button {
+    visibility: hidden;
+    width: 75%;
+    cursor: $cursorHand;
+    &:hover {
+        transform: scale(1.2);
+        filter: brightness(150%);
+    }
+}

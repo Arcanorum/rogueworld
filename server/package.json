@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^2.0.15"
+  },
+  "dependencies": {
+    "mongoose": "^5.7.0",
+    "node-webhooks": "^1.4.2",
+    "ws": "^5.2.2",
+    "xlsx": "^0.13.5"
+  }
+}

@@ -43,6 +43,9 @@ Not everything that the project needs to work is included in the repository. For
 
 Which will get the rest of the files (as defined in package.json) from NPM and add them to the node_modules folder which it should also create.
 
+### Building and running
+To start the server, run `node index` in a command line terminal.
+
 ## *I want to add a...*
 Features are divided into two rough categories:
 
@@ -52,18 +55,13 @@ Things like movement, collision, creating entities, AI, etc. that affects the fu
 ### **Content:**
 Things that implement mechanics to give players stuff to do, such as resources to gather, items to craft, creatures to slay, structures to build, etc.
 
-#### Creature
+#### [Creature](CREATURES.md)
 
+#### [Item](ITEMS.md)
 
-#### Item/Crafting recipe
+#### [Crafting recipe](CRAFTING_RECIPES.md)
 
-
-#### Dungeon
-
-
-
-### Building and running
-To start the server, run `node index` in a command line terminal.
+#### [Dungeon](DUNGEONS.md)
 
 
 For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B

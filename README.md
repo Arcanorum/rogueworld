@@ -47,12 +47,67 @@ Which will get the rest of the files (as defined in package.json) from NPM and a
 
 ### Start the server
 This should be done *before* building the client, as there are things that the server adds to the client files which the client needs when it is being built.
+
 Open the project root in a command line and run `npm run server`.
+
+If all went well, you should see something like this in the terminal:
+```
+...
+* Board data written to client: dungeon-blood-halls
+* Board loaded: dungeon-blood-halls
+* Board data written to client: dungeon-shadow-dojo
+* Board loaded: dungeon-shadow-dojo
+* Board data written to client: dungeon-forest-maze
+* Board loaded: dungeon-forest-maze
+* Tilesets copied to client assets.
+* End of index
+```
+
+To stop the server, hit `Ctrl + C`, another window should pop up for a second, then `Ctrl + C` again.
 
 ### Build the client
 The client (the front end that the user sees) needs to be built before it can be used.
 Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
+
 Open the project root in a command line and run `npm run client`.
+
+If all went well, you should see something like this in the terminal:
+```
+C:\Users\User\dungeonz>npm run client
+
+> dungeonz@0.0.1 client C:\Users\User\dungeonz
+> cd client && sass scss/Main.scss:main.css && npm start
+
+
+> client@1.0.0 start C:\Users\User\dungeonz\client
+> webpack --mode development
+
+Hash: 4d985204d46da56bf492
+Version: webpack 4.32.2
+Time: 2294ms
+Built at: 11/02/2019 22:04:51
+  Asset      Size  Chunks             Chunk Names
+main.js  9.11 MiB    main  [emitted]  main
+Entrypoint main = main.js
+[./assets/map/dungeon-bandit-hideout.json] 19.5 KiB {main} [built]
+[./assets/map/dungeon-blood-halls.json] 25.2 KiB {main} [built]
+[./assets/map/dungeon-city-sewers.json] 32.3 KiB {main} [built]
+[./assets/map/dungeon-east-pyramid.json] 24.1 KiB {main} [built]
+[./assets/map/dungeon-forest-maze.json] 111 KiB {main} [built]
+[./assets/map/dungeon-knight-training-arena.json] 26 KiB {main} [built]
+[./assets/map/dungeon-shadow-dojo.json] 43.3 KiB {main} [built]
+[./assets/map/dungeon-west-pyramid.json] 19.1 KiB {main} [built]
+[./assets/map/fight-pit.json] 3.19 KiB {main} [built]
+[./assets/map/overworld.json] 7.99 MiB {main} [built]
+[./src/Boot.js] 7.47 KiB {main} [built]
+[./src/Game.js] 34.5 KiB {main} [built]
+[./src/Main.js] 1.02 KiB {main} [built]
+[./src/WebSocketEvents.js] 28.1 KiB {main} [built]
+[./src/index.js] 83 bytes {main} [built]
+    + 185 hidden modules
+
+C:\Users\User\dungeonz>
+```
 
 ## *I want to add a...*
 Features are divided into two rough categories:

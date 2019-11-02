@@ -23,8 +23,9 @@ Before you jump into the code and start adding cool new features, there are some
 
 **You should also have:**
 - NodeJS installed (currently using v12.9.1)
-- An IDE installed (such as VSCode or WebStorm)
+- MongoDB installed (currently using v4.2.0)
 - Git installed
+- An IDE installed (such as VSCode or WebStorm)
 - A GitHub account
 - And probably a Git GUI client (such as GitHub Desktop)
 

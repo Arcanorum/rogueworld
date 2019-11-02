@@ -12,7 +12,7 @@ Here you can find basically everything that goes into the game, what is currentl
 
 The creation of Dungeonz is a collaborative effort, with content and mechanics able to be added by members of the community.
 
-#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If you are already a big-brain, you can probably skip most of this readme.***
+#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification. If you are already a big-brain, you can probably skip most of this readme.***
 
 ## *Ok, cool, where do I start?*
 Before you jump into the code and start adding cool new features, there are some things you will need.
@@ -46,12 +46,13 @@ Not everything that the project needs to work is included in the repository. For
 Which will get the rest of the files (as defined in package.json) from NPM and add them to the node_modules folder which it should also create (this process might take a while).
 
 ### Start the server
-To start the server, open the project root in a command line and run `npm run server`.
+This should be done *before* building the client, as there are things that the server adds to the client files which the client needs when it is being built.
+Open the project root in a command line and run `npm run server`.
 
 ### Build the client
-The client (the front end that the user sees) needs to be built first before it can be used.
+The client (the front end that the user sees) needs to be built before it can be used.
 Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
-Go to `/client`
+Open the project root in a command line and run `npm run client`.
 
 ## *I want to add a...*
 Features are divided into two rough categories:

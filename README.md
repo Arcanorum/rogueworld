@@ -22,11 +22,12 @@ Before you jump into the code and start adding cool new features, there are some
 - Git
 
 **You should also have:**
-- NodeJS installed (currently using v12.9.1)
-- MongoDB installed (currently using v4.2.0)
-- Git installed
+- [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.9.1)
+- [MongoDB](https://www.mongodb.com/download-center/community) installed (currently using v4.2.0)
+- [Git](https://git-scm.com/downloads) installed
 - An IDE installed (such as VSCode or WebStorm)
-- A GitHub account
+- [Tiled](https://www.mapeditor.org/) installed
+- A [GitHub](https://github.com/) account
 - And probably a Git GUI client (such as GitHub Desktop)
 
 ### Setup

@@ -3,3 +3,6 @@
 client/node_modules/
 
 server/node_modules/
+client/main.css
+client/main.css.map
+client/dist/main.js

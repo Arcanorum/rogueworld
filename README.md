@@ -43,10 +43,15 @@ Not everything that the project needs to work is included in the repository. For
 
 `npm i` (Shorthand for `npm install`)
 
-Which will get the rest of the files (as defined in package.json) from NPM and add them to the node_modules folder which it should also create.
+Which will get the rest of the files (as defined in package.json) from NPM and add them to the node_modules folder which it should also create (this process might take a while).
 
-### Building and running
-To start the server, run `node index` in a command line terminal.
+### Start the server
+To start the server, open the project root in a command line and run `npm run server`.
+
+### Build the client
+The client (the front end that the user sees) needs to be built first before it can be used.
+Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
+Go to `/client`
 
 ## *I want to add a...*
 Features are divided into two rough categories:

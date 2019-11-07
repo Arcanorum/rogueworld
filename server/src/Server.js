@@ -21,5 +21,20 @@ else {
     console.log("* Could not locate SSL certificate.");
 }
 
+const express = require('express');
+const app = express();
+const path = require('path');
+app.use(express.static('/'));
+app.use(express.static(path.join(__dirname, '../../client/')));
+
+app.get('/', (req, res) => {
+    console.log("app get /");
+    //res.send('this is some test text');
+
+    res.sendFile(path.join(__dirname, '../../client/index.html'));
+});
+
+app.listen(4567);
+
 module.exports = wss;
 

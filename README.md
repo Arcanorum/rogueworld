@@ -118,13 +118,15 @@ Things like movement, collision, creating entities, AI, etc. that affects the fu
 ### **Content:**
 Things that implement mechanics to give players stuff to do, such as resources to gather, items to craft, creatures to slay, structures to build, etc.
 
-#### [Creature](CREATURES.md)
+#### [Map editor](guides/MAP_EDITOR.md)
 
-#### [Item](ITEMS.md)
+#### [Creature](guides/CREATURES.md)
 
-#### [Crafting recipe](CRAFTING_RECIPES.md)
+#### [Item](guides/ITEMS.md)
 
-#### [Dungeon](DUNGEONS.md)
+#### [Crafting recipe](guides/CRAFTING_RECIPES.md)
+
+#### [Dungeon](guides/DUNGEONS.md)
 
 
 For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B

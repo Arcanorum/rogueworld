@@ -7,18 +7,18 @@ let server;
 let wss;
 
 if(fs.existsSync(pathToKeys + 'fullchain.pem')){
-    const https = require('https');
-    server = new https.createServer({
-        cert:   fs.readFileSync(pathToKeys + 'fullchain.pem'),
-        key:    fs.readFileSync(pathToKeys + 'privkey.pem'),
-    });
-    wss = new WebSocket.Server({server});
-    server.listen(portNumber);
-    console.log("* Started HTTPS server on port", portNumber);
+    //const https = require('https');
+    //server = new https.createServer({
+    //    cert:   fs.readFileSync(pathToKeys + 'fullchain.pem'),
+    //    key:    fs.readFileSync(pathToKeys + 'privkey.pem'),
+    //});
+    //wss = new WebSocket.Server({server});
+    //server.listen(portNumber);
+    //console.log("* Started HTTPS server on port", portNumber);
 }
 else {
     wss = new WebSocket.Server({port: portNumber});
-    console.log("* Could not locate SSL certificate.");
+    //console.log("* Could not locate SSL certificate.");
 }
 
 const express = require('express');

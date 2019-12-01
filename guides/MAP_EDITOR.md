@@ -6,11 +6,11 @@ All maps are built using Tiled map editor, which you will need to have installed
 
 *Note: If you experience that Tiled crashes (often when zoomed out far) or that it stutters a lot, try disabling hardware accelerated drawing in Preferences.*
 
-<img src="tiled-opengl.png" alt="drawing" width="50%"/>
+<img src="tiled-opengl.png" width="50%"/>
 
 # Layers
 
-<img src="tiled-layers.png" alt="drawing" width="50%"/>
+<img src="tiled-layers.png" width="50%"/>
 
 Each map file has a set of layers in it. A layer is basically a surface to add game world features to, which logically groups those features together.
 
@@ -33,7 +33,7 @@ There is only one object layer, *"Configurables"*, which as the name suggests, i
 
 Used to cover areas of the map for when generating the world map image, so unfinished and secret areas can be hidden.
 
-<img src="tiled-shroud.png" alt="drawing" width="50%"/>
+<img src="tiled-shroud.png" width="50%"/>
 
 ## Boundaries layer
 
@@ -43,7 +43,7 @@ Currently the only meaningful boundary that can be applied is the *SafeZone* til
 
 The *Darkness* tile will possibly be used in the future for marking areas as being dark, even during the day, such as in caves or buildings.
 
-<img src="tiled-boundaries.png" alt="drawing" width="50%"/>
+<img src="tiled-boundaries.png" width="50%"/>
 
 ## Configurables layer
 

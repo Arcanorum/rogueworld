@@ -46,9 +46,11 @@ Not everything that the project needs to work is included in the repository. For
 Which will get the rest of the files (as defined in package.json) from NPM and add them to the node_modules folder which it should also create (this process might take a while).
 
 ### Start the server
-This should be done *before* building the client, as there are things that the server adds to the client files which the client needs when it is being built.
+This should be done *before* building the client, as there are things that the server generates and adds to the client files which the client needs when it is being built.
 
-Open the project root in a command line and run `npm run server`.
+Open the project root in a command line and run:
+
+ `npm run server`.
 
 If all went well, you should see something like this in the terminal:
 ```
@@ -63,13 +65,34 @@ If all went well, you should see something like this in the terminal:
 * End of index
 ```
 
-To stop the server, hit `Ctrl + C`, another window should pop up for a second, then `Ctrl + C` again.
+***Note:*** The MongoDB database must already be running for the game server to start. If it is not running you get an error when you try to start the game server.
+```
+DB connect error: Error: connect ECONNREFUSED 127.0.0.1:27017
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1056:14) {
+  name: 'MongoNetworkError',
+  errorLabels: [ 'TransientTransactionError' ],
+  [Symbol(mongoErrorContextSymbol)]: {}
+}
+```
+To start the database server, open another terminal window and run
+
+`mongod`
+
+<img src="guides/start-mongo-server.gif" width="50%"/>
+
+You can just minimise this terminal and leave it running while you are doing other stuff with the game server.
+
+To stop the game server, hit `Ctrl + C`, another window should pop up for a second then close itself, then `Ctrl + C` again.
+
+
 
 ### Build the client
 The client (the front end that the user sees) needs to be built before it can be used.
 Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
 
-Open the project root in a command line and run `npm run client`.
+Open the project root in a command line and run
+
+`npm run client`
 
 If all went well, you should see something like this in the terminal:
 ```
@@ -109,6 +132,10 @@ Entrypoint main = main.js
 C:\Users\User\dungeonz>
 ```
 
+Finally, to open the client and play the game, go to http://localhost:4567/ in a web browser.
+
+<img src="guides/client-served-locally.png" width="50%"/>
+
 ## *I want to add a...*
 Features are divided into two rough categories:
 
@@ -116,7 +143,7 @@ Features are divided into two rough categories:
 Things like movement, collision, creating entities, AI, etc. that affects the fundamental flow of the game. Due to how they are often intricately tied to many other things, these are mostly handled by me, with input from the community.
 
 ### **Content:**
-Things that implement mechanics to give players stuff to do, such as resources to gather, items to craft, creatures to slay, structures to build, etc.
+Things that implement mechanics to give players stuff to do, such as areas to explore, resources to gather, items to craft, creatures to slay, structures to build, etc.
 
 #### [Map editor](guides/MAP_EDITOR.md)
 

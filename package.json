@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "cd server && npm install && cd ../client && npm install",
     "server": "cd server && node index",
-    "client": "cd client && sass scss/Main.scss:main.css && npm start"
+    "client": "cd client && npx sass scss/Main.scss:main.css && npm start"
   },
   "dependencies": {}
 }

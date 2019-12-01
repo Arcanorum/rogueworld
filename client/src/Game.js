@@ -17,12 +17,12 @@ dungeonz.Game = function () {
 dungeonz.Game.prototype = {
 
     init: function () {
+        console.log("* In game init");
+        
         const data = window.joinWorldData;
         // Game has loaded ok. Clear the backup timeouts.
         clearTimeout(window.joinWorldStartTimeout);
         clearTimeout(window.joinWorldReloadTimeout);
-
-        console.log("* In game init");
 
         /**
          * The name of the board the player is on. This has nothing to do with a dungeon instance that this board might be for.

@@ -44,15 +44,15 @@ function makeWebSocketConnection (url) {
 window.connectToGameServer = function () {
 
     // If the game is running in dev mode (localhost), connect without SSL.
-    if(window.devMode === true){
+    // if(window.devMode === true){
         // Make a connection, or if one is already made, return so the listeners aren't added again.
         if(makeWebSocketConnection('ws://127.0.0.4:3000') === false) return false;
-    }
+    // }
     // Deployment mode. Connect using SSL.
-    else {
-        // Make a connection, or if one is already made, return so the listeners aren't added again.
-        if(makeWebSocketConnection('wss://test.waywardworlds.com:3000') === false) return false;
-    }
+    // else {
+    //     // Make a connection, or if one is already made, return so the listeners aren't added again.
+    //     if(makeWebSocketConnection('wss://test.waywardworlds.com:3000') === false) return false;
+    // }
 
     /**
      * Event emit helper. Attach this to a socket, and use it to send an event to the server.

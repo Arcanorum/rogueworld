@@ -90,7 +90,7 @@ To stop the game server, hit `Ctrl + C`, another window should pop up for a seco
 The client (the front end that the user sees) needs to be built before it can be used.
 Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
 
-Open the project root in a command line and run
+Open the project root in another command line and run
 
 `npm run client`
 

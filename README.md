@@ -157,3 +157,24 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 
 For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B
+
+### Deployment notes
+If deploying to a remote Linux server where you want to run the game server in the background as a service, you might find the provided dungeonz service file useful.
+
+While in the project root directory in a terminal, move the dungeonz service file to the services directory:
+
+`cp dungeonz.service ../../etc/systemd/system/dungeonz.service`
+
+Give it permissions:
+
+`chmod 644 /etc/systemd/system/dungeonz.service`
+
+And use the service with:
+
+`sudo systemctl start dungeonz`
+
+`sudo systemctl status dungeonz`
+
+`sudo systemctl stop dungeonz`
+
+`sudo systemctl restart dungeonz`

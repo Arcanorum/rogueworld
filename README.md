@@ -161,13 +161,13 @@ For any questions about this project or the game in general, join the Discord se
 ### Deployment notes
 If deploying to a remote Linux server where you want to run the game server in the background as a service, you might find the provided dungeonz service file useful.
 
-While in the project root directory in a terminal, move the dungeonz service file to the services directory:
+While in the project root directory in a terminal, copy the dungeonz service file to the services directory:
 
 `cp dungeonz.service ../../etc/systemd/system/dungeonz.service`
 
 Give it permissions:
 
-`chmod 644 /etc/systemd/system/dungeonz.service`
+`chmod 644 ../../etc/systemd/system/dungeonz.service`
 
 And use the service with:
 

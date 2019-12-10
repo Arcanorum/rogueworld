@@ -21,31 +21,54 @@ Before you jump into the code and start adding cool new features, there are some
 - JavaScript (JS)
 - Git
 
-**You should also have:**
+**To run the project, you will need:**
 - [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.9.1)
 - [MongoDB](https://www.mongodb.com/download-center/community) installed (currently using v4.2.0)
 - [Git](https://git-scm.com/downloads) installed
+
+**To edit the project, you will also need:**
 - An IDE installed (such as VSCode or WebStorm)
 - [Tiled](https://www.mapeditor.org/) installed
 - A [GitHub](https://github.com/) account
 - And probably a Git GUI client (such as GitHub Desktop)
 
-### Setup
+To verify that you have what you need, you can run:
+```
+node -v
+npm -v
+mongo --version
+git --version
+```
+
+<img src="guides/install-verify.gif" width="50%"/>
+
+***Note for Windows users:*** The MongoDB installer might not add `mongo` to your environment variables, in which case your would get an error such as
+
+`'mongo' is not recognized as an internal or external command, operable program or batch file.`
+
+To fix:
+https://stackoverflow.com/questions/42159481/mongodb-node-js-module-mongo-is-not-recognised-as-an-internal-or-external-comm/48840077
+
+## Setup
 You will need to download and set up the project to start editing files and hacking away.
 
-Open a command line wherever you want the project folder to be, and enter:
+Open a command prompt wherever you want the project folder to be, and enter:
 
 `git clone https://github.com/Arcanorum/dungeonz.git`
 
 Which will copy the current version of the project from GitHub to your computer.
 
+<img src="guides/git-clone.gif" width="50%"/>
+
 Not everything that the project needs to work is included in the repository. For the extra stuff (external dependencies), in the command line in the same directory as the project, run:
 
 `npm i` (Shorthand for `npm install`)
 
-Which will get the rest of the files (as defined in package.json) from NPM and add them to the node_modules folder which it should also create (this process might take a while).
+Which will get the rest of the files (as defined in package.json) from NPM and add them to the *node_modules* folders which it should also create in */client* and */server* (this process might take a while).
 
-### Start the server
+<img src="guides/npm-install.gif" width="50%"/>
+
+## Start the server
 This should be done *before* building the client, as there are things that the server generates and adds to the client files which the client needs when it is being built.
 
 Open the project root in a command line and run:
@@ -64,6 +87,8 @@ If all went well, you should see something like this in the terminal:
 * Tilesets copied to client assets.
 * End of index
 ```
+
+<img src="guides/start-server.gif" width="50%"/>
 
 ***Note:*** The MongoDB database must already be running for the game server to start. If it is not running you get an error when you try to start the game server.
 ```
@@ -84,9 +109,7 @@ You can just minimise this terminal and leave it running while you are doing oth
 
 To stop the game server, hit `Ctrl + C`, another window should pop up for a second then close itself, then `Ctrl + C` again.
 
-
-
-### Build the client
+## Build the client
 The client (the front end that the user sees) needs to be built before it can be used.
 Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
 
@@ -132,6 +155,8 @@ Entrypoint main = main.js
 C:\Users\User\dungeonz>
 ```
 
+<img src="guides/build-client.gif" width="50%"/>
+
 Finally, to open the client and play the game, go to http://localhost:4567/ in a web browser.
 
 <img src="guides/client-served-locally.png" width="50%"/>
@@ -175,6 +200,6 @@ And use the service with:
 
 `sudo systemctl status dungeonz`
 
-`sudo systemctl stop dungeonz`
-
 `sudo systemctl restart dungeonz`
+
+`sudo systemctl stop dungeonz`

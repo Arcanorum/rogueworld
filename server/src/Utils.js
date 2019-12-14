@@ -22,6 +22,26 @@ const Utils = {
     },
 
     /**
+     * @param {Array} array
+     * @param {String} nameKey - The name of each propety key on the result object.
+     * @param {String} valueKey - The name of the property to use as each propety value.
+     */
+    arrayToObject: (array, nameKey, valueKey) => {
+        return array.reduce((obj, item) => {
+            obj[item[nameKey]] = item[valueKey];
+            return obj;
+        }, {});
+    },
+
+    /**
+     * Prints a warning message.
+     * @param {*} message
+     */
+    warning: function (message) {
+        console.log("* WARNING: " + message);
+    },
+
+    /**
      * Stops the process and prints an error message.
      * @param {*} message
      */

@@ -2,11 +2,17 @@
 
 This guide covers creating and editing the game world maps, such as the main overworld, and dungeons.
 
+The first part of this guide covers basic editor info and reference material, and towards the end will be a walkthough that you can follow along with that demonstrates most of the core features.
+
 All maps are built using Tiled map editor, which you will need to have installed. https://www.mapeditor.org/
 
-*Note: If you experience that Tiled crashes (often when zoomed out far) or that it stutters a lot, try disabling hardware accelerated drawing in Preferences.*
+***Note:*** If you experience that Tiled crashes (often when zoomed out far) or that it stutters a lot, try disabling hardware accelerated drawing in Preferences.
 
 <img src="tiled-opengl.png" width="50%"/>
+
+***Note:*** You should enable 'Snap to Grid' mode, given the grid based nature of the game.
+
+<img src="tiled-grid-snap.png" width="50%"/>
 
 # Layers
 
@@ -31,7 +37,7 @@ There is only one object layer, *"Configurables"*, which as the name suggests, i
 
 ## Shroud layer
 
-Used to cover areas of the map for when generating the world map image, so unfinished and secret areas can be hidden.
+Used to cover areas of the map for when generating the world map image, so unfinished and secret areas can be hidden. Currently only used on the Overworld map.
 
 <img src="tiled-shroud.png" width="50%"/>
 
@@ -53,12 +59,32 @@ The *Darkness* tile will possibly be used in the future for marking areas as bei
 
 ## Ground layer
 
+
+# Walkthough - Creating a new dungeon
+
+Let's create a basic dungeon and add it to the game.
+
+There is a blank template that can be used to start any new maps, /server/map/BLANK.json
+
+Make a copy of this file, and rename it to whatever you want the dungeon to be called, following the naming convention of the exiting dungeon map files.
+
+[copy blank.json gif]
+
+Now we can open it in Tiled to edit it.
+
+[open in tiled gif]
+
+Here we have a grassy field, with a few default objects already added which every dungeon should have.
+
+These are, an entrance (where players arrive into the dungeon), an exit (where players leave the dungeon), and an optional entity spawner (for adding a boss to the dungeon).
+
+With these in place, we can add the dungeon to the game and enter it to test that it works.
+
+
 # Changing the terrain
 
 "Terrain" is a term used to cover anything about the game world that changes the geometry/shape of the world and is not interactive.
 This includes walls, cliffs, boulders, fences, tables, benches, and so on.
-
-By terrain I
 
 # Spawn a creature
 
@@ -66,7 +92,7 @@ By terrain I
 
 # Spawn an item pickup
 
-
+Pickaxe and hatchet
 
 # Entrances & exits
 

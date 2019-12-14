@@ -1,6 +1,6 @@
 
 const wss = require('./Server');
-
+const Utils = require('./Utils');
 const AccountManager = require('./AccountManager');
 const clanManager = require('./ClanManager');
 const EventsList = require('./EventsList');
@@ -31,17 +31,37 @@ const world = {
     dayPhase: DayPhases.Day,
 
     init() {
-        this.loadBoard('tutorial',                      false,  false);
-        this.loadBoard('overworld',                     false,  false);
-        this.loadBoard('fight-pit',                     true,   false);
-        this.loadBoard('dungeon-city-sewers',           true,   true);
-        this.loadBoard('dungeon-knight-training-arena', true,   true);
-        this.loadBoard('dungeon-bandit-hideout',        true,   true);
-        this.loadBoard('dungeon-west-pyramid',          true,   true);
-        this.loadBoard('dungeon-east-pyramid',          true,   true);
-        this.loadBoard('dungeon-blood-halls',           true,   true);
-        this.loadBoard('dungeon-shadow-dojo',           true,   true);
-        this.loadBoard('dungeon-forest-maze',           true,   true);
+        const fs = require('fs');
+        const dirs = fs.readdirSync('map', {encoding: 'utf-8', withFileTypes: true});
+        const path = require('path');
+
+        dirs.forEach((elem) => {
+            const parsed = path.parse(elem.name);
+            // Skip the blank template map.
+            if(parsed.name === "BLANK") return;
+            // Skip disabled maps. Anything with a # at the front.
+            if(parsed.name[0] === "#") {
+                console.log("* Skipping disabled map:", elem.name);
+                return;
+            }
+            // Only load JSON map data.
+            if(parsed.ext === ".json"){
+                this.loadBoard(parsed.name);
+            }
+
+        });
+        
+        // this.loadBoard('tutorial',                      false,  false);
+        // this.loadBoard('overworld',                     false,  false);
+        // this.loadBoard('fight-pit',                     true,   false);
+        // this.loadBoard('dungeon-city-sewers',           true,   true);
+        // this.loadBoard('dungeon-knight-training-arena', true,   true);
+        // this.loadBoard('dungeon-bandit-hideout',        true,   true);
+        // this.loadBoard('dungeon-west-pyramid',          true,   true);
+        // this.loadBoard('dungeon-east-pyramid',          true,   true);
+        // this.loadBoard('dungeon-blood-halls',           true,   true);
+        // this.loadBoard('dungeon-shadow-dojo',           true,   true);
+        // this.loadBoard('dungeon-forest-maze',           true,   true);
 
         // Load the clans into the game world after the boards are
         // created, or there will be nothing to add the structures to.
@@ -58,12 +78,26 @@ const world = {
 
     /**
      * @param {String} dataFileName - The end part of the URL to the map data file.
-     * @param {Boolean} alwaysNight - Whether this board will ignore changes in the time of day outside.
-     * @param {Boolean} isDungeon - Whether this board is for a dungeon.
-     * @returns {Board}
      */
-    loadBoard(dataFileName, alwaysNight, isDungeon) {
+    loadBoard(dataFileName) {
         const data = require('../map/' + dataFileName + '.json');
+
+        if(!data.properties) Utils.error(
+            "Map data has no properties. " +
+            "Must have the required ones, such as 'AlwaysNight', 'IsDungeon'. " +
+            "On map: " + dataFileName
+        );
+
+        const mapProperties = Utils.arrayToObject(data.properties, 'name', 'value');
+        
+        let alwaysNight = false;
+        if(mapProperties['AlwaysNight'] == undefined) Utils.error("Map data is missing property: AlwaysNight. On map: " + dataFileName);
+        if(mapProperties['AlwaysNight'] === true) alwaysNight = true;
+
+        let isDungeon = false;
+        if(mapProperties['IsDungeon'] == undefined) Utils.error("Map data is missing property: IsDungeon. On map: " + dataFileName);
+        if(mapProperties['IsDungeon'] === true) isDungeon = true;
+
         const board = new Board(data, dataFileName, alwaysNight, isDungeon);
         if(board.alwaysNight === false){
             board.dayPhase = this.dayPhase;
@@ -73,11 +107,10 @@ const world = {
         this.boardsObject[dataFileName] = board;
 
         console.log("* Board loaded:", dataFileName);
-
-        return board;
     },
 
     linkExits() {
+        //console.log("linking exits");
         let board,
             row,
             rowLen,
@@ -125,7 +158,7 @@ const world = {
 
         if(clientSocket.entity !== undefined){
             // Weird bug... :S
-            console.log("* WARNING: * * * * * adding existing player, but client socket already has an entity");
+            Utils.warning("* * * * * adding existing player, but client socket already has an entity");
         }
 
         // Don't let too many players in the world.

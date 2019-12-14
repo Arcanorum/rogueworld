@@ -113,8 +113,8 @@ class Board {
      * A board for entities to exist on. The game world is made up of boards. Boards are made up of tiles.
      * @param {*} mapData
      * @param {String} name
-     * @param {Boolean} alwaysNight
-     * @param {Boolean} isDungeon
+     * @param {Boolean} alwaysNight - Whether this board will ignore changes in the time of day outside.
+     * @param {Boolean} isDungeon - Whether this board is for a dungeon.
      */
     constructor (mapData, name, alwaysNight, isDungeon) {
 
@@ -431,6 +431,8 @@ class Board {
                         col: col,
                         board: this
                     };
+
+                    mapObject.properties = Utils.arrayToObject(mapObject.properties, 'name', 'value');
 
                     if(mapObject.properties['Disabled']){
                         console.log("* WARNING: Map object is disabled in map data:", mapObject);

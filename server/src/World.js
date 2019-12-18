@@ -3,6 +3,7 @@ const wss = require('./Server');
 const Utils = require('./Utils');
 const AccountManager = require('./AccountManager');
 const clanManager = require('./ClanManager');
+const Dungeon = require('./Dungeon');
 const EventsList = require('./EventsList');
 const BoardsList = require('./BoardsList');
 const DayPhases = require('./DayPhases');
@@ -80,6 +81,7 @@ const world = {
      * @param {String} dataFileName - The end part of the URL to the map data file.
      */
     loadBoard(dataFileName) {
+        console.log("load board, datafilename:", dataFileName);
         const data = require('../map/' + dataFileName + '.json');
 
         if(!data.properties) Utils.error(
@@ -91,13 +93,18 @@ const world = {
         const mapProperties = Utils.arrayToObject(data.properties, 'name', 'value');
         
         let alwaysNight = false;
-        if(mapProperties['AlwaysNight'] == undefined) Utils.error("Map data is missing property: AlwaysNight. On map: " + dataFileName);
+        if(mapProperties['AlwaysNight'] == undefined) Utils.error("Map data is missing property: 'AlwaysNight'. On map: " + dataFileName);
         if(mapProperties['AlwaysNight'] === true) alwaysNight = true;
 
         let isDungeon = false;
-        if(mapProperties['IsDungeon'] == undefined) Utils.error("Map data is missing property: IsDungeon. On map: " + dataFileName);
-        if(mapProperties['IsDungeon'] === true) isDungeon = true;
+        if(mapProperties['IsDungeon'] == undefined) Utils.error("Map data is missing property: 'IsDungeon'. On map: " + dataFileName);
+        if(mapProperties['IsDungeon'] === true){
+            if(!mapProperties['Difficulty']) Utils.warning("Dungeon map is missing property: 'Difficulty'. Using default. On map: " + dataFileName);
+            if(!mapProperties['NameDefinitionID']) Utils.warning("Dungeon map is missing property: 'NameDefinitionID'. Using default. On map: " + dataFileName);
+            isDungeon = true;
 
+            console.log("new dungeon:", new Dungeon(dataFileName, mapProperties['NameDefinitionID'], mapProperties['Difficulty']));
+        }
         const board = new Board(data, dataFileName, alwaysNight, isDungeon);
         if(board.alwaysNight === false){
             board.dayPhase = this.dayPhase;

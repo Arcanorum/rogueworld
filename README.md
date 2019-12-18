@@ -170,10 +170,6 @@ Things like movement, collision, creating entities, AI, etc. that affects the fu
 ### **Content:**
 Things that implement mechanics to give players stuff to do, such as areas to explore, resources to gather, items to craft, creatures to slay, structures to build, etc.
 
-### Map editor
-
-The first part of this guide covers basic editor info and reference material, and towards the end will be a walkthough that you can follow along with that demonstrates most of the core features.
-
 #### [Map editor - Reference](guides/MAP_EDITOR_REFERENCE.md)
 #### [Map editor - Walkthrough](guides/MAP_EDITOR_WALKTHROUGH.md)
 

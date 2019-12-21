@@ -158,11 +158,12 @@ class Board {
          * Whether this board should always be night time, and will not observe changes in the world day phase.
          * @type {Boolean}
          */
-        this.alwaysNight = alwaysNight;
+        this.alwaysNight = alwaysNight || false;
+        // If always night, then set time to night.
         if(this.alwaysNight === true) this.dayPhase = DayPhases.Night;
 
         /** @type {Boolean} Whether this board is for a dungeon, and any breakables inside it will not be breakable. */
-        this.isDungeon = isDungeon;
+        this.isDungeon = isDungeon || false;
 
         // The data to use to build the map.
         this.mapData = mapData;

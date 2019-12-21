@@ -1,4 +1,5 @@
-# Dungeonz
+# [Dungeonz](http://142.93.54.176:4567/)
+
 ## Everything for the game Dungeonz.
 
 Greetings! You have stumbled upon the work area for Dungeonz, the free, browser based, massively multiplayer online RPG.
@@ -15,18 +16,22 @@ The creation of Dungeonz is a collaborative effort, with content and mechanics a
 #### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification. If you are already a big-brain, you can probably skip most of this readme.***
 
 ## *Ok, cool, where do I start?*
+
 Before you jump into the code and start adding cool new features, there are some things you will need.
 
 **You should understand to an intermediate level:**
+
 - JavaScript (JS)
 - Git
 
 **To run the project, you will need:**
+
 - [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.9.1)
 - [MongoDB](https://www.mongodb.com/download-center/community) installed (currently using v4.2.0)
 - [Git](https://git-scm.com/downloads) installed
 
 **To edit the project, you will also need:**
+
 - An IDE installed (such as VSCode or WebStorm)
 - [Tiled](https://www.mapeditor.org/) installed
 - A [GitHub](https://github.com/) account
@@ -50,6 +55,7 @@ To fix:
 https://stackoverflow.com/questions/42159481/mongodb-node-js-module-mongo-is-not-recognised-as-an-internal-or-external-comm/48840077
 
 ## Setup
+
 You will need to download and set up the project to start editing files and hacking away.
 
 Open a command prompt wherever you want the project folder to be, and enter:
@@ -69,6 +75,7 @@ Which will get the rest of the files (as defined in package.json) from NPM and a
 <img src="guides/npm-install.gif" width="50%"/>
 
 ## Start the server
+
 This should be done *before* building the client, as there are things that the server generates and adds to the client files which the client needs when it is being built.
 
 Open the project root in a command line and run:
@@ -110,6 +117,7 @@ You can just minimise this terminal and leave it running while you are doing oth
 To stop the game server, hit `Ctrl + C`, another window should pop up for a second then close itself, then `Ctrl + C` again.
 
 ## Build the client
+
 The client (the front end that the user sees) needs to be built before it can be used.
 Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
 
@@ -162,12 +170,15 @@ Finally, to open the client and play the game, go to http://localhost:4567/ in a
 <img src="guides/client-served-locally.png" width="50%"/>
 
 ## *I want to add a...*
+
 Features are divided into two rough categories:
 
 ### **Mechanics:**
+
 Things like movement, collision, creating entities, AI, etc. that affects the fundamental flow of the game. Due to how they are often intricately tied to many other things, these are mostly handled by me, with input from the community.
 
 ### **Content:**
+
 Things that implement mechanics to give players stuff to do, such as areas to explore, resources to gather, items to craft, creatures to slay, structures to build, etc.
 
 #### [Map editor - Reference](guides/MAP_EDITOR_REFERENCE.md)
@@ -185,6 +196,7 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B
 
 ### Deployment notes
+
 If deploying to a remote Linux server where you want to run the game server in the background as a service, you might find the provided dungeonz service file useful.
 
 While in the project root directory in a terminal, copy the dungeonz service file to the services directory:

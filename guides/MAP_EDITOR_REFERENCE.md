@@ -4,9 +4,9 @@
 
 [add map property gif]
 
-- **AlwaysNight** {Boolean} - Whether this map should alwyas be night/dark and ignore changes in the time of day outside. Useful for maps that are underground or indoors and should always have the darkness effect active.
+- **AlwaysNight** {Boolean} - Whether this map should alwyas be night/dark and ignore changes in the time of day outside. Useful for maps that are underground or indoors and should always have the darkness effect active. Default value: `false`.
 
-- **IsDungeon** *{Boolean}* - Whether this map is for a dungeon. Used to make the overworld portals in this map only activate once a boss entity has been killed on the map.
+- **IsDungeon** *{Boolean}* - Whether this map is for a dungeon. Used to make the overworld portals in this map only activate once a boss entity has been killed on the map. Default value: `false`.
 
 If **IsDungeon** is set to `true`, then you should also add the following map properties to configure the dungeon.
 

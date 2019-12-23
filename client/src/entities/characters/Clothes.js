@@ -1,5 +1,5 @@
 
-import ItemTypes from '../../../src/catalogues/ItemTypes'
+const ItemTypes = require('../../../src/catalogues/ItemTypes');
 
 const moveAnimCompleted = function () {
     this.frameName = this.clothesFrames[this.clothesName][this.parent.direction];
@@ -120,4 +120,4 @@ Sprite.prototype.clothesFrames = {
     }
 };
 
-export default Sprite;
+module.exports = Sprite;

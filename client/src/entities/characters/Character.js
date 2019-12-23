@@ -137,4 +137,4 @@ Sprite.prototype.onCuredStop = function () {
 };
 
 
-export default Sprite;
+module.exports = Sprite;

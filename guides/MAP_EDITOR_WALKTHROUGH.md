@@ -95,6 +95,10 @@ If you haven't already, I would advise reading through the [map editor reference
 
 # Editing the ground
 
+For a dungeon set above ground, the 
+
+For an underground
+
 
 
 Empty tile to mark areas that can't walked on and represent an area that it doesn't make sense to see, such as with an underground map.

@@ -1,6 +1,6 @@
 
-import Character from './Character'
-import Clothes from "./Clothes";
+const Character = require('./Character');
+const Clothes = require('./Clothes');
 
 const Sprite = function (x, y, config) {
     Character.call(this, x, y, config);
@@ -39,4 +39,6 @@ Sprite.prototype.baseFrames = {
     r: 'human-right-1'
 };
 
-export default Sprite;
+console.log("in player.js");
+
+module.exports = Sprite;

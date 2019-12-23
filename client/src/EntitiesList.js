@@ -91,7 +91,42 @@ Phaser.Sprite.prototype.addDisplayName = function (displayName) {
     this.displayName.visible = false;
 };
 
-import Player                   from './characters/Player'
+// function requireAll(r) {
+//     try {
+//         console.log("required:", r);
+//         const keys = r.keys();
+//         console.log("  keys:", keys);
+//         keys.forEach((key) => {
+
+//              require.context('./', true, /\.js$/)
+            
+//         });
+//     }
+//     catch(err){
+//         console.log(err);
+//     }
+    
+// }
+
+console.log("before require all");
+
+const allFiles = (ctx => {
+    let keys = ctx.keys();
+    let values = keys.map(ctx);
+    console.log("vals:", values);
+    return keys.reduce((object, key, index) => {
+        key = key.split("/").pop().slice(0, -3);
+        object[key] = values[index];
+        return object;
+    }, {});
+})(require.context('./entities/', true, /.js$/));
+
+//requireAll();
+//console.log("after require all, all:", allFiles);
+
+
+
+/*import Player                   from './characters/Player'
 
 import ArenaMaster              from './characters/ArenaMaster'
 import Assassin                 from './characters/Assassin'
@@ -263,13 +298,15 @@ import ProjSuperBloodBolt       from './projectiles/ProjSuperBloodBolt'
 import ProjSuperFire            from './projectiles/ProjSuperFire'
 import ProjSuperWind            from './projectiles/ProjSuperWind'
 import ProjVampireFang          from './projectiles/ProjVampireFang'
-import ProjWind                 from './projectiles/ProjWind'
+import ProjWind                 from './projectiles/ProjWind'*/
 
 /**
  * A list of all client display entities that can be created.
  * @type {Object}
  */
-const EntitiesList = {
+const EntitiesList = allFiles;
+
+/*{
 
     Player:                 Player,
     ArenaMaster:            ArenaMaster,
@@ -441,6 +478,6 @@ const EntitiesList = {
     ProjVampireFang:        ProjVampireFang,
     ProjWind:               ProjWind,
 
-};
+};*/
 
 export default EntitiesList;

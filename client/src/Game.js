@@ -1,5 +1,6 @@
 import EntityTypes from '../src/catalogues/EntityTypes'
-import EntityList from './entities/EntitiesList';
+import EntitiesList from './EntitiesList';
+console.log("Entities list, game.js:", EntitiesList);
 import Tilemap from './Tilemap'
 import GUI from './gui/GUI'
 import Stats from './Stats'
@@ -9,7 +10,7 @@ import BankManager from "./BankManager";
 import ClanManager from "./ClanManager";
 
 dungeonz.EntityTypes = EntityTypes;
-dungeonz.EntityList = EntityList;
+dungeonz.EntitiesList = EntitiesList;
 
 dungeonz.Game = function () {
 };
@@ -686,17 +687,18 @@ dungeonz.Game.prototype = {
         }
 
         // Check that an entity type exists with the type name that corresponds to the given type number.
-        if(EntityList[EntityTypes[typeNumber]] === undefined){
+        if(EntitiesList[EntityTypes[typeNumber]] === undefined){
             console.log("* Invalid entity type number:", typeNumber, ", entity types:", EntityTypes);
             return;
         }
 
         // Add an object that represents this entity to the dynamics list.
+        console.log("new ent, type:", EntityTypes[typeNumber]);
         this.dynamics[id] = {
             id: id,
             row: row,
             col: col,
-            sprite: new EntityList[EntityTypes[typeNumber]](
+            sprite: new EntitiesList[EntityTypes[typeNumber]](
                 col * dungeonz.TILE_SIZE * GAME_SCALE,
                 row * dungeonz.TILE_SIZE * GAME_SCALE,
                 data)

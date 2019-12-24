@@ -18,4 +18,4 @@ Sprite.prototype.directionAngles = {
     r: 45
 };
 
-export default Sprite;
+module.exports = Sprite;

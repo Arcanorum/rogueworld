@@ -1,5 +1,5 @@
 
-import NPCShopTypes from './../../catalogues/NPCShopTypes'
+const NPCShopTypes = require('./../../catalogues/NPCShopTypes');
 
 const Sprite = function (x, y, config) {
     Phaser.Sprite.call(this, _this.game, x, y, undefined, undefined);
@@ -32,4 +32,4 @@ Sprite.prototype.onInputDown = function () {
     }
 };
 
-export default Sprite;
+module.exports = Sprite;

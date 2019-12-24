@@ -1,5 +1,5 @@
 
-import Character from './Character'
+const Character = require('./Character');
 
 const Sprite = function (x, y, config) {
     Character.call(this, x, y, config);
@@ -23,4 +23,4 @@ Sprite.prototype.baseFrames = {
     r: 'blood-lord-right-1'
 };
 
-export default Sprite;
+module.exports = Sprite;

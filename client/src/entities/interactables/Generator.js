@@ -16,4 +16,4 @@ Sprite.prototype.interactedByPlayer = function () {
     //_this.GUI.generatorPanel.show();
 };
 
-export default Sprite;
+module.exports = Sprite;

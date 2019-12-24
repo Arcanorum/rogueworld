@@ -136,5 +136,4 @@ Sprite.prototype.onCuredStop = function () {
     this.curedEffect.animations.stop(null, true);
 };
 
-
 module.exports = Sprite;

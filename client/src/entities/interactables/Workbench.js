@@ -17,4 +17,4 @@ Sprite.prototype.interactedByPlayer = function () {
     _this.GUI.craftingPanel.show(dungeonz.getTextDef("Workbench"), 'assets/img/gui/panels/workbench.png');
 };
 
-export default Sprite;
+module.exports = Sprite;

@@ -19,6 +19,12 @@ const Behaviours = {
      */
     Pacifist: registerBehaviour(),
     /**
+     * Defensive:
+     * - Runs on sight.
+     * - Fights back.
+     */
+    Defensive: registerBehaviour(),
+    /**
      * Aggressive:
      * - Attacks hostiles in range.
      * - Fights back.
@@ -38,7 +44,7 @@ const Behaviours = {
     /**
      * Opportunistic:
      * - Attacks hostiles and neutrals in range if they are on low hitpoints.
-     * - Runs on attacked.
+     * - Runs on attacked, unless attacker is on low hitpoints.
      */
     Opportunistic: registerBehaviour()
 };

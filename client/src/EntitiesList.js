@@ -99,7 +99,7 @@ const allFiles = (ctx => {
         object[key] = values[index];
         return object;
     }, {});
-})(require.context('./entities/', true, /.js$/));
+})(require.context('./entities/', true, /.js$/)); //TODO move this to be exported, pointless EntitiesList object
 
 /**
  * A list of all client display entities that can be created.

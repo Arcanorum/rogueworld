@@ -1,5 +1,5 @@
 
-const ItemsList = require('../items/ItemsList');
+const ItemsList = require('../ItemsList');
 const EventsList = require('./../EventsList');
 const Utils = require('../Utils');
 

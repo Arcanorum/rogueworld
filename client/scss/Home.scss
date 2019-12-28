@@ -58,19 +58,6 @@
     bottom: 1vw;
 }
 
-#dmp_button {
-    background-color: $colourDB32VeryDarkPurple;
-    margin: 1vw;
-    width: 8vw;
-    border: $colourDB32White solid 0.3vw;
-    cursor: pointer;
-    user-select: none;
-    &:hover {
-        filter: brightness(150%);
-        transform: scale(1.1);
-    }
-}
-
 #partners_credits_cont {
     position: absolute;
     left: 2vw;

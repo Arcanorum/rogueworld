@@ -2,7 +2,7 @@
 import ItemTypes from '../src/catalogues/ItemTypes'
 
 class BankItem {
-    constructor (dmpLocked) {
+    constructor () {
         /**
          * The entry of this item in the ItemTypes catalogue. Null if this bank item slot is empty.
          * @type {Object||null}
@@ -10,7 +10,6 @@ class BankItem {
         this.catalogueEntry = null;
         this.durability = null;
         this.maxDurability = null;
-        this.dmpLocked = dmpLocked;
     }
 }
 
@@ -27,13 +26,9 @@ class BankManager {
         /** @type {BankItem[]} */
         this.items = [];
 
-        // Add the free slots.
-        for(let i=0; i<15; i+=1){
-            this.items.push(new BankItem(false));
-        }
-        // Add the DMP locked slots.
-        for(let i=0; i<45; i+=1){
-            this.items.push(new BankItem(true));
+        // Add the slots.
+        for(let i=0; i<60; i+=1){
+            this.items.push(new BankItem());
         }
 
         // If a list of existing items on this player was given, fill the client inventory.
@@ -55,27 +50,13 @@ class BankManager {
      * @returns {Number|Boolean}
      */
     getFirstEmptySlotIndex () {
-        const DMPActivated = dungeonz.DMPActivated;
-        // If they have a DMP activated, just find the first empty slot.
-        if(DMPActivated === true){
-            for(let i=0; i<this.items.length; i+=1){
-                // If an empty slot is found, return it.
-                if(this.items[i].catalogueEntry === null) return i;
-            }
-            // No empty slot found.
-            return false;
+        // Find the first empty slot.
+        for(let i=0; i<this.items.length; i+=1){
+            // If an empty slot is found, return it.
+            if(this.items[i].catalogueEntry === null) return i;
         }
-        // If they don't have a DMP activated, check if the slot is DMP only, and if so don't return it.
-        else {
-            for(let i=0; i<this.items.length; i+=1){
-                // If a DMP locked slot is reached, stop searching, as all the free ones will have been before this.
-                if(this.items[i].dmpLocked === true) return false;
-                // If an empty slot is found, return it.
-                if(this.items[i].catalogueEntry === null) return i;
-            }
-            // No empty slot found.
-            return false;
-        }
+        // No empty slot found.
+        return false;
     }
 
     /**
@@ -85,10 +66,9 @@ class BankManager {
      */
     getFirstEmptySlotIndexInSelectedTab () {
         const selectedTab = this.selectedTab;
-        const DMPActivated = dungeonz.DMPActivated;
         const startSlotIndex = (selectedTab - 1) * 15;
         const endSlotIndex = startSlotIndex + 15;
-        // If they don't have a DMP activated, then the selected tab should be 1 anyway.
+
         for(let i=startSlotIndex; i<endSlotIndex; i+=1){
             // If an empty slot is found, return it.
             if(this.items[i].catalogueEntry === null) return i;
@@ -97,6 +77,10 @@ class BankManager {
         return false;
     }
 
+    /**
+     * Get the bank tab that a bank slot index belongs to.
+     * @param {Number|String} slotIndex 
+     */
     slotIndexToTabNumber (slotIndex) {
         if(slotIndex < 15) return 1;
         if(slotIndex < 30) return 2;

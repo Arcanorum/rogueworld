@@ -138,5 +138,5 @@ class Spawner extends Entity {
 module.exports = Spawner;
 
 const World = require('./../../World');
-const ItemsList = require('./../../items/ItemsList');
+const ItemsList = require('./../../ItemsList');
 const DungeonsList = require('./../../DungeonsList');

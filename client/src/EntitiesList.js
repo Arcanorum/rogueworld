@@ -91,7 +91,11 @@ Phaser.Sprite.prototype.addDisplayName = function (displayName) {
     this.displayName.visible = false;
 };
 
-const allFiles = (ctx => {
+/**
+ * A list of all client display entities that can be created.
+ * @type {Object}
+ */
+export default (ctx => {
     let keys = ctx.keys();
     let values = keys.map(ctx);
     return keys.reduce((object, key, index) => {
@@ -99,12 +103,4 @@ const allFiles = (ctx => {
         object[key] = values[index];
         return object;
     }, {});
-})(require.context('./entities/', true, /.js$/)); //TODO move this to be exported, pointless EntitiesList object
-
-/**
- * A list of all client display entities that can be created.
- * @type {Object}
- */
-const EntitiesList = allFiles;
-
-export default EntitiesList;
+})(require.context('./entities/', true, /.js$/));

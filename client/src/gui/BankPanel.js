@@ -17,19 +17,11 @@ class Tab {
         this.button.src = 'assets/img/gui/panels/bank-tab-' + number + '-button-inactive.png';
         this.button.className = 'bank_tab_button';
         this.container.appendChild(this.button);
-        // If no DMP, show the locked tab icon instead.
-        if(number !== 1 && dungeonz.DMPActivated === false){
-            this.button.src = 'assets/img/gui/panels/bank-tab-locked-icon.png';
-            // Attach tooltip hover listeners to show the "DMP needed" warning.
-            this.container.onmouseover = bankPanel.tabMouseOver;
-            this.container.onmouseout = bankPanel.tabMouseOut;
-        }
-        // A DMP is activated, add the tab click events.
-        else {
-            this.container.onclick = bankPanel.tabClick;
-            // Store the number of this tab on the tab itself.
-            this.container.setAttribute('tabNumber', number);
-        }
+
+        // Add the tab click event.
+        this.container.onclick = bankPanel.tabClick;
+        // Store the number of this tab on the tab itself.
+        this.container.setAttribute('tabNumber', number);
     }
 }
 
@@ -167,13 +159,6 @@ class BankPanel extends PanelTemplate {
         this.tooltip.id = 'bank_tooltip';
         this.topContainer.appendChild(this.tooltip);
 
-        // Only add the "DMP needed" tab tooltip if a DMP isn't activated.
-        if(dungeonz.DMPActivated === false){
-            this.dmpTooltip = document.createElement('div');
-            this.dmpTooltip.id = 'bank_dmp_tooltip';
-            this.topContainer.appendChild(this.dmpTooltip);
-        }
-
     }
 
     show () {
@@ -213,10 +198,6 @@ class BankPanel extends PanelTemplate {
     }
 
     tabClick () {
-        // Only change the tabs if this player has a DMP active.
-        // If they don't, only the first tab is available, which is already selected.
-        if(dungeonz.DMPActivated === false) return;
-
         const tabNumber = this.getAttribute('tabNumber');
         _this.player.bankManager.loadTab(tabNumber);
         const tabs = _this.GUI.bankPanel.tabs;
@@ -227,19 +208,6 @@ class BankPanel extends PanelTemplate {
         tabs[4].button.src = 'assets/img/gui/panels/bank-tab-4-button-inactive.png';
         // Make the selected tab look active.
         tabs[tabNumber].button.src = 'assets/img/gui/panels/bank-tab-' + tabNumber + '-button-active.png';
-    }
-
-    tabMouseOver () {
-        const bankPanel = _this.GUI.bankPanel;
-
-        bankPanel.dmpTooltip.innerText = dungeonz.getTextDef("Bank panel: Tab DMP needed");
-        bankPanel.dmpTooltip.style.visibility = 'visible';
-
-        this.appendChild(bankPanel.dmpTooltip);
-    }
-
-    tabMouseOut () {
-        _this.GUI.bankPanel.dmpTooltip.style.visibility = 'hidden';
     }
 
     slotClick () {

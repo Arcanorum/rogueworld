@@ -23,7 +23,7 @@ Which can then be extended by adding more properties its prototype object. See [
 
 ## 2. Add it to the server entities list.
 
-### [EntitiesList.js](../server/src/entities/EntitiesList.js)
+### [EntitiesList.js](../server/src/EntitiesList.js)
 
 <img src="creature-entities-list.png" alt="drawing" width="50%"/>
 

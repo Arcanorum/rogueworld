@@ -56,7 +56,6 @@ async function logOut(data) {
         creationTime:   {type: Date,    default: Date.now()},
         lastLogOutTime: {type: Date,    default: Date.now()},
         isLoggedIn:     {type: Boolean, default: false},
-        dmpActivated:   {type: Boolean, default: false},
         displayName:    {type: String,  default: "Savage"},
         glory:          {type: Number,  default: 0},
         bankItems:      {type: Array,   default: []},

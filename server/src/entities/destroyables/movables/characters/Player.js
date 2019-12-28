@@ -9,7 +9,6 @@ class Player extends Character {
      * @param {Number} config.col
      * @param {Board} config.board
      * @param {Object} config.socket
-     * @param {Boolean} config.dmpActivated
      */
     constructor (config) {
         super(config);
@@ -19,8 +18,6 @@ class Player extends Character {
         this.socket = config.socket;
 
         config.socket.entity = this;
-
-        this.dmpActivated = true; // TODO: remove
 
         this.stats = new Statset(this);
         this.tasks = new Taskset(this);

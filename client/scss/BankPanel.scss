@@ -22,20 +22,6 @@
     grid-template-columns: 15% 2% auto;
 }
 
-#bank_dmp_tooltip {
-    position: absolute;
-    width: 300px;
-    color: $colourDB32White;
-    text-align: left;
-    font-size: 12px;
-    background-color: $colourDB32VeryDarkPurple;
-    padding: 8px;
-    top: 50%;
-    left: 50%;
-    z-index: 1;
-    visibility: hidden;
-}
-
 #bank_tabs_cont {
     display: grid;
     grid-template-rows: repeat(4, 25%);

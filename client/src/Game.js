@@ -693,7 +693,6 @@ dungeonz.Game.prototype = {
         }
 
         // Add an object that represents this entity to the dynamics list.
-        console.log("new ent, type:", EntityTypes[typeNumber]);
         this.dynamics[id] = {
             id: id,
             row: row,

@@ -52,18 +52,6 @@ const world = {
 
         });
         
-        // this.loadBoard('tutorial',                      false,  false);
-        // this.loadBoard('overworld',                     false,  false);
-        // this.loadBoard('fight-pit',                     true,   false);
-        // this.loadBoard('dungeon-city-sewers',           true,   true);
-        // this.loadBoard('dungeon-knight-training-arena', true,   true);
-        // this.loadBoard('dungeon-bandit-hideout',        true,   true);
-        // this.loadBoard('dungeon-west-pyramid',          true,   true);
-        // this.loadBoard('dungeon-east-pyramid',          true,   true);
-        // this.loadBoard('dungeon-blood-halls',           true,   true);
-        // this.loadBoard('dungeon-shadow-dojo',           true,   true);
-        // this.loadBoard('dungeon-forest-maze',           true,   true);
-
         // Load the clans into the game world after the boards are
         // created, or there will be nothing to add the structures to.
         //clanManager.loadDataFromFile();
@@ -81,7 +69,6 @@ const world = {
      * @param {String} dataFileName - The end part of the URL to the map data file.
      */
     loadBoard(dataFileName) {
-        console.log("load board, datafilename:", dataFileName);
         const data = require('../map/' + dataFileName + '.json');
 
         if(!data.properties) Utils.error(
@@ -102,8 +89,8 @@ const world = {
             if(!mapProperties['Difficulty']) Utils.warning("Dungeon map is missing property: 'Difficulty'. Using default. On map: " + dataFileName);
             if(!mapProperties['NameDefinitionID']) Utils.warning("Dungeon map is missing property: 'NameDefinitionID'. Using default. On map: " + dataFileName);
             isDungeon = true;
-
-            console.log("new dungeon:", new Dungeon(dataFileName, mapProperties['NameDefinitionID'], mapProperties['Difficulty']));
+            
+            new Dungeon(dataFileName, mapProperties['NameDefinitionID'], mapProperties['Difficulty']);
         }
         const board = new Board(data, dataFileName, alwaysNight, isDungeon);
         if(board.alwaysNight === false){
@@ -197,7 +184,6 @@ const world = {
                 id: playerEntity.id,
                 row: playerEntity.row,
                 col: playerEntity.col,
-                dmpActivated: playerEntity.dmpActivated,
                 displayName: playerEntity.displayName,
                 maxHitPoints: playerEntity.maxHitPoints,
                 maxEnergy: playerEntity.maxEnergy,
@@ -353,5 +339,5 @@ module.exports = world;
 
 // Import these AFTER the world is exported.
 const Board = require('./Board');
-const EntitiesList = require('./entities/EntitiesList');
+const EntitiesList = require('./EntitiesList');
 const Exit = require('./entities/statics/interactables/exits/Exit');

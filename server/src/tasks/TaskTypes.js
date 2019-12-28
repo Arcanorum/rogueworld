@@ -1,5 +1,5 @@
 
-const ItemsList = require('../items/ItemsList');
+const ItemsList = require('../ItemsList');
 const Utils = require('../Utils');
 
 //class Task {

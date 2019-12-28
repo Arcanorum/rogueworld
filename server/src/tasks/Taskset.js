@@ -84,4 +84,4 @@ module.exports = Taskset;
 //const TaskProgress = require('./TaskProgress.js');
 const Task = require('./Task');
 const TaskTypes = require('./TaskTypes');
-const ItemsList = require('../items/ItemsList');
+const ItemsList = require('../ItemsList');

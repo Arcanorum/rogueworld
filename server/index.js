@@ -15,9 +15,9 @@ async function init() {
     world.init();
 
     // Create a finished reference to the list of items. Mainly useful for the BankManager.
-    require('./src/items/ItemsList').LIST = require('./src/items/ItemsList');
+    require('./src/ItemsList').LIST = require('./src/ItemsList');
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
-    require('./src/items/Item').prototype.EntitiesList = require('./src/entities/EntitiesList');
+    require('./src/items/Item').prototype.EntitiesList = require('./src/EntitiesList');
 
     const fs = require('fs');
 
@@ -82,5 +82,5 @@ async function init() {
         console.log("* Tilesets copied to client assets.");
     }
 
-    console.log("* End of index");
+    console.log("* End of index. Server is good to go :)");
 }

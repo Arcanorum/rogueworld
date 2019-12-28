@@ -1,11 +1,6 @@
 
 class BankItem {
-    /**
-     * @param dmpLocked - Whether this tab can only be used if a DMP is active on the character.
-     */
-    constructor (dmpLocked) {
-        /** @type {Boolean} */
-        this.dmpLocked = dmpLocked;
+    constructor () {
         /** @type {Number|null} */
         this.durability = null;
         /** @type {Number|null} */
@@ -85,14 +80,7 @@ class BankAccount {
         /** @type {BankItem} The bank item slot to deposit to. */
         const bankItem = this.items[bankSlotIndex];
         if(bankItem === undefined) return;
-        // Check the account has a DMP active if trying to access a DMP only slot.
-        if(bankItem.dmpLocked === true){
-            if(this.player.dmpActivated === false){
-                // Don't have a DMP, can't access this slot.
-                return;
-            }
-        }
-
+        
         // The data to store, before the item is destroyed.
         const durability = inventoryItem.durability;
         const maxDurability = inventoryItem.maxDurability;
@@ -241,4 +229,4 @@ class BankAccount {
 module.exports = BankAccount;
 
 const BankChest = require('./entities/statics/interactables/breakables/BankChest');
-const ItemsList = require('./items/ItemsList');
+const ItemsList = require('./ItemsList');

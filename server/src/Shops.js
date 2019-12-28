@@ -1,5 +1,5 @@
 
-const ItemsList = require('./items/ItemsList');
+const ItemsList = require('./ItemsList');
 
 class StockItem {
     constructor (itemType, basePrice, price) {

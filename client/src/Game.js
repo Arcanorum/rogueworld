@@ -1,6 +1,5 @@
 import EntityTypes from '../src/catalogues/EntityTypes'
 import EntitiesList from './EntitiesList';
-console.log("Entities list, game.js:", EntitiesList);
 import Tilemap from './Tilemap'
 import GUI from './gui/GUI'
 import Stats from './Stats'

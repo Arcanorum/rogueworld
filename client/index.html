@@ -265,7 +265,7 @@
                         <img id="show_password" draggable="false" class="show_password_active" src="assets/img/misc/show-icon-active.png" onclick="showPasswordPressed()">
                     </div>
                 </div>
-                <div id="center_button" onclick="console.log('cent text pressed'); playPressed()"></div>
+                <div id="center_button" onclick="playPressed()"></div>
             </div>
 
             <div id="right_bar">
@@ -324,8 +324,6 @@
         </div>
 
         <script>
-            console.log("- - running index script");
-
             /**
              * Whether the "New character" tab should be shown. Otherwise shows the "Continue" tab.
              * @type {boolean}
@@ -430,6 +428,7 @@
             };
 
             async function playPressed () {
+                console.log("* Play pressed");
                 if(window.newCharacter === true){
                     // New character option selected. Start as a new character with the given display name.
                     window.connectToGameServer();

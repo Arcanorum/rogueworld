@@ -39,6 +39,4 @@ Sprite.prototype.baseFrames = {
     r: 'human-right-1'
 };
 
-console.log("in player.js");
-
 module.exports = Sprite;

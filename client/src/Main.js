@@ -16,13 +16,8 @@
 
     game.state.start('Boot');
 
-    // Check if the game should be run in dev mode by checking if a file exists.
-    const http = new XMLHttpRequest();
-    // This file only exists in the server directory, which only the developer has.
-    // Load it synchronously with false.
-    http.open('HEAD', "../server/admin-commands", false);
-    http.send();
-    if(http.status === 200){
+    // Check if the game should be run in dev mode by checking if it is localhost.
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === ""){
         console.log("* Running in dev mode.");
         window.devMode = true;
     }

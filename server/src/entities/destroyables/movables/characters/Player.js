@@ -88,9 +88,6 @@ class Player extends Character {
     }
 
     onDestroy () {
-        /** @type {BoardTile} */
-        //const boardTile = this.board.grid[this.row][this.col];
-
         /** @type {Item} */
         let item;
 
@@ -109,9 +106,6 @@ class Player extends Character {
         this.board.removePlayer(this);
 
         super.onDestroy();
-
-        // Tell the player they died.
-        //this.socket.sendEvent(this.EventsList.player_died); TODO: not being used?
     }
 
     /**

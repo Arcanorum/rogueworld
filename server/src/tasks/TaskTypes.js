@@ -1,27 +1,5 @@
 
-const ItemsList = require('../ItemsList');
 const Utils = require('../Utils');
-
-//class Task {
-//    /**
-//     *
-//     * @param {String} taskID - The unique ID of this task.
-//     * @param {String} textDefIDName - The ID name in the text defs file for this task.
-//     * @param {Number} completionThreshold - How much progress must be made to complete this task.
-//     * @param {Object} reward - An object of the items and glory to give when this task is claimed.
-//     * @param {Array} reward.itemTypes - The item type class references to give.
-//     * @param {Number} reward.glory - How much glory to give.
-//     * @param {Function} claimFunction - A function to run when the reward is claimed, to do extra stuff like adding another task.
-//     */
-//    constructor (taskID, textDefIDName, completionThreshold, reward, claimFunction) {
-//        this.taskID = taskID;
-//        this.textDefIDName = textDefIDName;
-//        this.completionThreshold = completionThreshold;
-//        this.reward = reward;
-//        this.onClaimed = claimFunction;
-//    }
-//}
-
 
 const TaskCategories = {
     Kill: [],
@@ -123,39 +101,5 @@ for(let categoryKey in TaskCategories){
         }
     }
 }
-
-
-// Write the registered task types to the client, so the client knows what rewards and progress threshold to use for each type name.
-//const fs = require('fs');
-//let dataToWrite = {};
-/*
-for(let typeKey in TaskTypes){
-    // Don't check prototype properties.
-    if(TaskTypes.hasOwnProperty(typeKey) === false) continue;
-
-    const task = TaskTypes[typeKey];
-
-    dataToWrite[typeKey] = {};
-    dataToWrite[typeKey].textDefIDName = task.textDefIDName;
-    dataToWrite[typeKey].completionThreshold = task.completionThreshold;
-    dataToWrite[typeKey].rewardGlory = task.reward.glory;// TODO: don't write this here, make it dynamic, will be ok...
-    dataToWrite[typeKey].rewardItemTypeNumbers = [];
-    for(let i=0; i<task.reward.itemTypes.length; i+=1){
-        if(task.reward.itemTypes[i] === undefined) continue;
-        dataToWrite[typeKey].rewardItemTypeNumbers[i] = task.reward.itemTypes[i].prototype.typeNumber;
-    }
-}*/
-/*
-// Check the type catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no type catalogue.
-if(fs.existsSync('../client/src/catalogues/TaskTypes.json')){
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
-
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/TaskTypes.json', dataToWrite);
-
-    console.log("* Task types catalogue written to file.");
-}*/
 
 module.exports = TaskTypes;

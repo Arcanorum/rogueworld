@@ -1,27 +1,7 @@
 
-const ItemsList = require('../ItemsList');
 const EventsList = require('./../EventsList');
 const Utils = require('../Utils');
-
-/**
- * A list of potential rewards to be given on completion of a task.
- * @type {Array}
- */
-const RewardList = [];
-RewardList.push(ItemsList.ItemExpOrbMelee);
-RewardList.push(ItemsList.ItemExpOrbRanged);
-RewardList.push(ItemsList.ItemExpOrbMagic);
-RewardList.push(ItemsList.ItemExpOrbGathering);
-RewardList.push(ItemsList.ItemExpOrbWeaponry);
-RewardList.push(ItemsList.ItemExpOrbArmoury);
-RewardList.push(ItemsList.ItemExpOrbToolery);
-RewardList.push(ItemsList.ItemExpOrbPotionry);
-RewardList.push(ItemsList.ItemWindGem);
-RewardList.push(ItemsList.ItemFireGem);
-RewardList.push(ItemsList.ItemBloodGem);
-RewardList.push(ItemsList.ItemBookOfLight);
-RewardList.push(ItemsList.ItemBookOfSouls);
-RewardList.push(ItemsList.ItemVampireFang);
+const RewardsList = require('./RewardsList');
 
 class Task {
     /**
@@ -130,7 +110,7 @@ class NewTask extends Task {
 
         const rewardItems = [];
         for(let i=0; i<length; i+=1){
-            rewardItems.push(Utils.getRandomElement(RewardList));
+            rewardItems.push(Utils.getRandomElement(RewardsList));
         }
 
         super(

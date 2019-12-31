@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Mage",
+        "corpseType": "Human",
+        "behaviour": "Aggressive",
+        "dropList": {
+            "Fabric": 0.5,
+            "MageRobe": 0.5,
+            "FireGem": 0.5,
+            "FireStaff": 0.2
+        }
+    },
+    {
+        "name": "Rat",
+        "taskIDKilled": "Rats"
+    }
+]

@@ -8,6 +8,10 @@ require('require-dir')('items', {
     recurse: true,
     mapKey: (value, baseName) => {
         if(typeof value === "function"){
+            // Only add things that are actual items (has "Item" prefix), not superclasses.
+            // Also catch the "Item" class itself.
+            if(baseName.substring(0, 4) !== "Item" || baseName === "Item") return;
+
             ItemsList[baseName] = value;
         }
     }

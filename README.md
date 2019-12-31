@@ -216,3 +216,7 @@ And use the service with:
 `sudo systemctl restart dungeonz`
 
 `sudo systemctl stop dungeonz`
+
+You will need to redirect requests for port 80 (HTTP) on the game server to port 4567 (the Express server).
+
+`sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 4567`

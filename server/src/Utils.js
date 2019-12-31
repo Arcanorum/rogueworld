@@ -37,8 +37,9 @@ const Utils = {
      * Prints a warning message.
      * @param {*} message
      */
-    warning: function (message) {
-        console.log("* WARNING: " + message);
+    warning: function (...args) {
+        args.unshift("* WARNING:");
+        console.log.apply(console, args);
     },
 
     /**

@@ -220,7 +220,7 @@ const world = {
 
         if(clientSocket.entity !== undefined){
             // Weird bug... :S
-            console.log("* WARNING: * * * * * adding new player, but client socket already has an entity");
+            Utils.warning("* * * * adding new player, but client socket already has an entity");
         }
 
         console.log("* World add new player:", displayName);

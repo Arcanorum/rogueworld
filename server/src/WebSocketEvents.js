@@ -1,4 +1,5 @@
 
+const Utils = require('./Utils');
 const wss = require('./Server');
 const world = require('./World');
 const SpellBook = require('./items/holdable/spell_books/SpellBook');
@@ -99,7 +100,7 @@ wss.on('connection', function (clientSocket) {
             parsedMessage = JSON.parse(payload);
         }
         catch (e) {
-            console.log('* WARNING: message, invalid payload:', payload);
+            Utils.warning('message event, invalid payload:', payload);
             return;
         }
 
@@ -602,7 +603,7 @@ eventResponses.task_claim_reward = function (clientSocket, data) {
     if(clientSocket.entity.hitPoints <= 0) return;
     // Check they are trying to claim a task that they actually have.
     if(clientSocket.entity.tasks.list[data] === undefined){
-        console.log("* WARNING: task list item is undefined, data:", data);
+        Utils.warning("task_claim_reward event. Task list item is undefined, data:", data);
         return;
     }
     clientSocket.entity.tasks.list[data].claimReward();

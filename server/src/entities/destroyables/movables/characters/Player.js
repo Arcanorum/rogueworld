@@ -66,17 +66,17 @@ class Player extends Character {
 
     checkWebsocketConnectionIsAlive () {
         if(this.socket === undefined){
-            console.log("* WARNING: Checking player entity websocket connection, is undefined.");
+            Utils.warning("Checking player entity websocket connection, is undefined.");
             this.destroy();
             return;
         }
         if(this.socket === null){
-            console.log("* WARNING: Checking player entity websocket connection, is null.");
+            Utils.warning("Checking player entity websocket connection, is null.");
             this.destroy();
             return;
         }
         if(this.socket.entity !== this){
-            console.log("* WARNING: Checking player entity websocket connection, entity is not this.");
+            Utils.warning("Checking player entity websocket connection, entity is not this.");
             this.destroy();
             return;
         }

@@ -103,7 +103,7 @@ class Spawner extends Entity {
 
         // Make sure this is a spawnable type of entity.
         if(entity.spawner === undefined){
-            console.log("* WARNING: Trying to create an entity from a spawner that doesn't have a `spawner` property, type:", entity.constructor.name);
+            Utils.warning("Trying to create an entity from a spawner that doesn't have a `spawner` property, type: " + entity.constructor.name);
         }
         else {
             entity.spawner = this;
@@ -137,6 +137,7 @@ class Spawner extends Entity {
 }
 module.exports = Spawner;
 
+const Utils = require('./../../Utils');
 const World = require('./../../World');
 const ItemsList = require('./../../ItemsList');
 const DungeonsList = require('./../../DungeonsList');

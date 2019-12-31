@@ -26,7 +26,7 @@ module.exports = {
     async setup() {
         // Setup should only happen once.
         if(isSetup === true){
-            console.log("* WARNING: Attempt to setup account manager again.");
+            Utils.warning("Attempt to setup account manager again.");
             process.exit();
             return;
         }
@@ -98,11 +98,7 @@ module.exports = {
      */
     async createAccount(username, password, entity, onSuccess, onFailure) {
 
-        console.log("AM, creating account:");
-
         const formattedData = this.getFormattedSaveData(entity);
-
-        console.log("formatted data:", formattedData);
 
         const acc = new AccountModel({
             username: username,
@@ -118,7 +114,6 @@ module.exports = {
 
         await acc.save()
             .then((res) => {
-                console.log("create account save res:", res);
                 onSuccess();
             })
             .catch((err) => {
@@ -130,7 +125,7 @@ module.exports = {
                         return;
                     }
                 }
-                console.log("error:", err);
+                console.log("* Account manager, create account error:", err);
             })
     },
 
@@ -149,7 +144,6 @@ module.exports = {
 
                 // Prevent them from logging into an account that is already logged in.
                 if(res.isLoggedIn === true){
-                    console.log(username, "is already logged in");
                     clientSocket.sendEvent(EventsList.something_went_wrong);
                     return;
                 }
@@ -158,19 +152,17 @@ module.exports = {
                     // Success.
                     res.isLoggedIn = true;
 
-                    console.log(username, "is now logged in");
-
                     await res.save();
 
                     onSuccess(res);
                 }
+                // Password is incorrect.
                 else {
-                    console.log(password, " password is invalid");
                     clientSocket.sendEvent(EventsList.invalid_login_details);
                 }
             })
             .catch((err) => {
-                console.log("error:", err);
+                console.log("* Account manager, log in error:", err);
                 // Failure.
                 clientSocket.sendEvent(EventsList.something_went_wrong);
             });
@@ -182,21 +174,16 @@ module.exports = {
      * @param {Object} clientSocket
      */
     async logOut(clientSocket) {
-        console.log("log out:", clientSocket.accountUsername);
         if(!clientSocket) return;
         if(!clientSocket.entity) return;
         if(!clientSocket.accountUsername) return;
 
         const formattedData = this.getFormattedSaveData(clientSocket.entity);
 
-        console.log("  trying to find doc for this acc");
         await AccountModel.findOne({username: clientSocket.accountUsername})
             .then(async (res) => {
                 // If a document by the given username was NOT found, res will be null.
-                if(!res){
-                    console.log(" NO account found!");
-                    return;
-                }
+                if(!res) return;
 
                 res.lastLogOutTime = Date.now();
                 res.isLoggedIn = false;
@@ -208,10 +195,9 @@ module.exports = {
                 res.tasks = formattedData.tasks;
 
                 await res.save();
-                console.log("logged out successfully");
             })
             .catch((err) => {
-                console.log("error:", err);
+                console.log("* Account manager, log out error:", err);
                 // Failure.
                 clientSocket.sendEvent(EventsList.something_went_wrong);
             });
@@ -437,4 +423,5 @@ const ItemsList = require('./ItemsList');
 const Task = require('./tasks/Task');
 const TaskTypes = require('./tasks/TaskTypes');
 const EventsList = require('./EventsList');
+const Utils = require('./Utils');
 const fs = require('fs');

@@ -190,7 +190,7 @@ class Board {
         // Load the map objects.
         // Check that there is some map data for the map of this board.
         if(mapData === undefined){
-            console.error("* WARNING: No map data found for this board when creating board " + this.name);
+            Utils.error("No map data found for this board when creating board " + this.name);
             return;
         }
 
@@ -204,7 +204,7 @@ class Board {
                         return mapData.layers[i];
                     }
                 }
-                console.log("* WARNING: Couldn't find tilemap layer '" + layerName + "' for board " + this.name + '.');
+                Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + '.');
                 return false;
             };
 
@@ -300,7 +300,7 @@ class Board {
                     this.grid[row][col].groundType = GroundTypes[type];
                 }
                 else {
-                    console.log("* WARNING: Invalid ground mapTile type: " + type);
+                    Utils.warning("Invalid ground mapTile type: " + type);
                 }
                 // Move to the next column.
                 col += 1;
@@ -385,7 +385,7 @@ class Board {
                     if(entity instanceof EntitiesList.CraftingStation) staticTile.push(entity.typeNumber);
                 }
                 else {
-                    //console.log("* WARNING: Entity type doesn't exist for static mapTile type: " + type);
+                    //Utils.warning("Entity type doesn't exist for static mapTile type: " + type);
                     // Still need to put something in the statics data for the client.
                     new StaticTile(row, col, relativeID);
                 }
@@ -435,7 +435,7 @@ class Board {
                     mapObject.properties = Utils.arrayToObject(mapObject.properties, 'name', 'value');
 
                     if(mapObject.properties['Disabled']){
-                        console.log("* WARNING: Map object is disabled in map data:", mapObject);
+                        Utils.warning("Map object is disabled in map data:", mapObject);
                         continue;
                     }
 
@@ -458,14 +458,14 @@ class Board {
                         case 'DungeonPortal':
                             // Check the dungeon portal properties are valid.
                             if(mapObject.properties === undefined){
-                                console.log("* WARNING: No properties set on dungeon portal in map data:", mapObject);
+                                Utils.warning("No properties set on dungeon portal in map data:", mapObject);
                                 continue;
                             }
                             config.targetBoard = mapObject.properties['TargetBoard'];
                             config.targetEntranceName = mapObject.properties['TargetEntranceName'];
                             // Check the dungeon portal properties are valid.
                             if(config.targetBoard === undefined){
-                                console.log("* WARNING: Dungeon portal in map data with invalid property:", mapObject);
+                                Utils.warning("Dungeon portal in map data with invalid property:", mapObject);
                                 continue;
                             }
                             break;
@@ -516,7 +516,7 @@ class Board {
                         }
                     }
                     else {
-                        console.log("* WARNING: Entity type doesn't exist for configurable object type: " + type);
+                        Utils.warning("Entity type doesn't exist for configurable object type: " + type);
                     }
                 }
             }

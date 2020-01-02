@@ -1658,7 +1658,7 @@ class Mob extends Character {
     assignMobValues (valuesTypeName, prototype) {
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
-
+        console.log("mob values,", valuesTypeName, ":", statValues);
         prototype.gloryValue = statValues.gloryValue;
         prototype.maxHitPoints = statValues.maxHitPoints;
         prototype.defence = statValues.defence;
@@ -1672,6 +1672,15 @@ class Mob extends Character {
         prototype.faction = statValues.faction;
         prototype.behaviour = statValues.behaviour;
         prototype.dropAmount = statValues.dropAmount;
+
+        statValues.dropList.forEach((drop) => {
+
+            prototype.dropList.push(
+                {
+                    itemType: require('./../../../pickups/Pickup' + drop.pickupName),
+                    probability: drop.probability
+                });
+        });
     }
 
 }

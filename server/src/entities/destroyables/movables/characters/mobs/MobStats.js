@@ -15,6 +15,27 @@ function getValue (config, valueName, propName, typeCheckFunc) {
     }
 }
 
+class Drop {
+    constructor (config) {
+        this.pickupType = config.itemType;
+
+        /**
+         * How many chances to get the item
+         */
+        this.rolls = config.rolls || 1;
+
+        this.dropRate = 0.2;
+        // If a specific drop rate is given, use that.
+        if(config.dropRate){
+            this.dropRate = config.dropRate
+        }
+        // Otherwise use the item pickup default drop rate.
+        else if() {
+
+        }
+    }
+}
+
 class MobStats {
     constructor (config) {
 
@@ -53,6 +74,8 @@ class MobStats {
         }
 
         this.dropAmount =       getValue(config, "Drop amount",     "dropAmount",   Number.isInteger);
+
+        this.dropList = [];
     }
 }
 

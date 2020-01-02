@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Default",
+        "gloryValue": 5,
+        "maxHitPoints": 100,
+        "defence": 0,
+        "viewRange": 0,
+        "moveRate": 1000,
+        "wanderRate": 10000,
+        "targetSearchRate": 4000,
+        "attackRate": 1500,
+        "meleeAttackPower": 0,
+        "projectileAttackType": null,
+        "faction": "Citizens",
+        "behaviour": "Cowardly"
+    },
+    {
+        "name": "Citizen",
+        "viewRange": 8,
+        "moveRate": 850,
+        "meleeAttackPower": 10
+    },
+    {
+        "name": "Knight",
+        "gloryValue": 40,
+        "defence": 40
+    },
+    {
+        "name": "Mage",
+        "corpseType": "Human",
+        "behaviour": "Aggressive",
+        "dropList": [
+            {
+                "typeName": "Fabric",
+                "rolls": 2,
+                "dropRate": 0.5
+            },
+            {
+                "typeName": "MageRobe",
+                "dropRate": 1
+            },
+            {
+                "typeName": "FireGem",
+                "dropRate": 0.4
+            },
+            {
+                "typeName": "FireStaff",
+                "dropRate": 0.2
+            }
+        ]        
+    },
+    {
+        "name": "Rat",
+        "taskIDKilled": "Rats"
+    }
+]

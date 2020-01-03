@@ -17,20 +17,42 @@ function getValue (config, valueName, propName, typeCheckFunc) {
 
 class Drop {
     constructor (config) {
-        this.pickupType = config.itemType;
+        /**
+         * The item pickup entity to be created when this item is dropped.
+         * @type {Function}
+         */
+        this.pickupType = EntitiesList["Pickup" + config.itemName];
+
+        if(this.pickupType instanceof Pickup === false) Utils.error("Mob item drop name is not a valid item. Check there is a pickup entity with this item name. Config:" + config);
 
         /**
-         * How many chances to get the item
+         * How many separate chances to get the item.
+         * @type {Number}
          */
-        this.rolls = config.rolls || 1;
+        this.rolls = 1;
+        // Use config if set.
+        if(config.rolls !== undefined){
+            // Check it is valid.
+            if(Number.isInteger(config.rolls) === false) Utils.error("Mob item drop rolls must be an integer. Config:" + config);
+            if(config.rolls > 1) Utils.error("Mob item drop rolls must be greater than 1. Config:", config);
 
+            this.rolls = config.rolls;
+        }
+        
+        /**
+         * The chance of getting the item on each roll.
+         * @type {Numnber}
+         */
         this.dropRate = 0.2;
-        // If a specific drop rate is given, use that.
-        if(config.dropRate){
-            this.dropRate = config.dropRate
+        // Use config if set.
+        if(config.dropRate !== undefined){
+            // Check it is valid.
+            if(config.dropRate <= 0 || config.dropRate > 100) Utils.error("Mob item drop rate must be greater than 0, up to 100, i.e. 40 => 40% chance. Config:" + config);
+
+            this.rolls = config.rolls;
         }
         // Otherwise use the item pickup default drop rate.
-        else if() {
+        else if(true) {
 
         }
     }

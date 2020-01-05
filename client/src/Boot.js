@@ -152,8 +152,6 @@ dungeonz.Boot.prototype = {
             window.focus();
         }, false);
 
-        console.log("loaded maps data:", dungeonz.mapsData);
-
         // Changes the size of the game renderer to match the size of the window.
         this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.scale.fullScreenScaleMode = Phaser.ScaleManager.RESIZE;

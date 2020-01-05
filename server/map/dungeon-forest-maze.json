@@ -2158,6 +2158,11 @@
          "value":false
         }, 
         {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Master"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true

@@ -1,4 +1,4 @@
-const DungeonsList = require('./DungeonsList');
+
 const Utils = require('./Utils');
 
 const Difficulties = {};
@@ -39,8 +39,10 @@ class Dungeon {
             difficulty = Difficulties[difficultyName];
             // Check the given difficulty name is valid.
             if(!difficulty) Utils.error(
-                "Dungeon difficulty name is invalid: " + difficultyName +
-                '\nDefined difficulties:\n' + Difficulties
+                "Dungeon difficulty name is invalid.",
+                "Difficulty name: ", difficultyName +
+                ". On map:", name,
+                '\nValid difficulties:\n', Difficulties
             );
         }
 
@@ -140,3 +142,5 @@ class Dungeon {
 }
 
 module.exports = Dungeon;
+
+const DungeonsList = require('./DungeonsList');

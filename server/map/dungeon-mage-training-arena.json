@@ -101,6 +101,34 @@
                  "width":16,
                  "x":272,
                  "y":80
+                }, 
+                {
+                 "gid":909,
+                 "height":64,
+                 "id":44,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"EntityClassName",
+                         "type":"string",
+                         "value":"Mage"
+                        }, 
+                        {
+                         "name":"MaxAtOnce",
+                         "type":"int",
+                         "value":4
+                        }, 
+                        {
+                         "name":"SpawnRate",
+                         "type":"int",
+                         "value":60000
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":224,
+                 "x":64,
+                 "y":208
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -121,13 +149,23 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":44,
+ "nextobjectid":45,
  "orientation":"orthogonal",
  "properties":[
+        {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Expert"
+        }, 
         {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
+        }, 
+        {
+         "name":"NameDefinitionID",
+         "type":"string",
+         "value":"Mage training arena"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.1",

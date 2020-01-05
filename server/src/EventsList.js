@@ -106,16 +106,12 @@ for(let eventTypeKey in EventsList){
     dataToWrite[EventsList[eventTypeKey]] = eventTypeKey;
 }
 
-// Check the catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no event name catalogue.
-if(fs.existsSync('../client/src/catalogues/EventNames.json')){
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/EventNames.json', dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/EventNames.json', dataToWrite);
 
-    console.log("* Event names catalogue written to file.");
-}
+console.log("* Event names catalogue written to file.");
 
 module.exports = EventsList;

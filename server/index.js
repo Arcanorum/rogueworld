@@ -9,10 +9,12 @@ async function init() {
     require('./src/TextDefinitionsParser');
     require('./src/items/holdable/spell_books/SpellBooksList');
     require('./src/ChatWarnings');
-    require('./src/DungeonsList');
+
     //const clanManager = require('./src/ClanManager');
     const world = require('./src/World');
     world.init();
+
+    require('./src/CatalogueBuilders').buildDungeonPrompts();
 
     // Create a finished reference to the list of items. Mainly useful for the BankManager.
     require('./src/ItemsList').LIST = require('./src/ItemsList');

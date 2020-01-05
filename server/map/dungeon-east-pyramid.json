@@ -615,6 +615,11 @@
          "value":true
         }, 
         {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Expert"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true

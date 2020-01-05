@@ -1658,6 +1658,7 @@ class Mob extends Character {
     assignMobValues (valuesTypeName, prototype) {
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
+        if(statValues === undefined) Utils.error("No mob stat values defined for type name:", valuesTypeName);
         //console.log("mob.js, mob values,", valuesTypeName, ":", statValues);
         prototype.gloryValue = statValues.gloryValue;
         prototype.maxHitPoints = statValues.maxHitPoints;

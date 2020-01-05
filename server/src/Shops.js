@@ -192,13 +192,16 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.ItemNoctisOre, 0));
         this.addStock(new StockItem(ItemsList.ItemCotton, 0));
         this.addStock(new StockItem(ItemsList.ItemFeathers, 0));
+        this.addStock(new StockItem(ItemsList.ItemWindGem, 0));
         this.addStock(new StockItem(ItemsList.ItemFireGem, 0));
+        this.addStock(new StockItem(ItemsList.ItemBloodGem, 0));
 
         this.addStock(new StockItem(ItemsList.ItemRedcap, 0));
         this.addStock(new StockItem(ItemsList.ItemGreencap, 0));
         this.addStock(new StockItem(ItemsList.ItemBluecap, 0));
         this.addStock(new StockItem(ItemsList.ItemHealthPotion, 0));
         this.addStock(new StockItem(ItemsList.ItemEnergyPotion, 0));
+        this.addStock(new StockItem(ItemsList.ItemCurePotion, 0));
 
         this.addStock(new StockItem(ItemsList.ItemIronDagger, 0));
         this.addStock(new StockItem(ItemsList.ItemIronSword, 0));
@@ -226,6 +229,7 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.ItemFireStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemSuperFireStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemWindStaff, 0));
+        this.addStock(new StockItem(ItemsList.ItemSuperWindStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemBookOfLight, 0));
         this.addStock(new StockItem(ItemsList.ItemBookOfSouls, 0));
         this.addStock(new StockItem(ItemsList.ItemPlainRobe, 0));
@@ -238,7 +242,6 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.ItemDungiumPickaxe, 0));
         this.addStock(new StockItem(ItemsList.ItemNoctisHatchet, 0));
         this.addStock(new StockItem(ItemsList.ItemNoctisPickaxe, 0));
-        this.addStock(new StockItem(ItemsList.ItemRespawnOrb, 0));
 
         //this.addStock(new StockItem(ItemsList.ItemCharter, 0));
         //this.addStock(new StockItem(ItemsList.ItemWorkbench, 0));
@@ -401,19 +404,12 @@ for(let shopKey in ShopTypes){
 
 }
 
-//console.log("shop types data to write:");
-//console.log(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-// Check the catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no shop catalogue.
-if (fs.existsSync('../client/src/catalogues/NPCShopTypes.json')) {
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/NPCShopTypes.json', dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/NPCShopTypes.json', dataToWrite);
-
-    console.log("* NPC shop types catalogue written to file.");
-}
+console.log("* NPC shop types catalogue written to file.");
 
 module.exports = ShopTypes;

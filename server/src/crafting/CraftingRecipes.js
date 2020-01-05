@@ -34,14 +34,10 @@ for(let stationKey in CraftingManager.StationRecipes){
     }
 }
 
-// Check the type catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no catalogue.
-if (fs.existsSync('../client/src/catalogues/CraftingRecipes.json')) {
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/CraftingRecipes.json', dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/CraftingRecipes.json', dataToWrite);
 
-    console.log("* Crafting recipes catalogue written to file.");
-}
+console.log("* Crafting recipes catalogue written to file.");

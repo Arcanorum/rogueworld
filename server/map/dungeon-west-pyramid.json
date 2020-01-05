@@ -421,6 +421,11 @@
          "value":true
         }, 
         {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Advanced"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true

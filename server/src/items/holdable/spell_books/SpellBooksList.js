@@ -30,14 +30,10 @@ for(let itemTypeKey in SpellBookList){
     };
 }
 
-// Check the type catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no type catalogue.
-if (fs.existsSync('../client/src/catalogues/SpellBookTypes.json')) {
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/SpellBookTypes.json', dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/SpellBookTypes.json', dataToWrite);
 
-    console.log("* Spell book types catalogue written to file.");
-}
+console.log("* Spell book types catalogue written to file.");

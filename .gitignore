@@ -4,6 +4,7 @@ client/node_modules/
 client/main.css
 client/main.css.map
 client/dist/
-client/assets/map
+client/assets/map/
+client/src/catalogues/
 
 server/node_modules/

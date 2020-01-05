@@ -450,7 +450,12 @@
         {
          "name":"AlwaysNight",
          "type":"bool",
-         "value":true
+         "value":false
+        }, 
+        {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Master"
         }, 
         {
          "name":"IsDungeon",

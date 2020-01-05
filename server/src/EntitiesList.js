@@ -26,16 +26,12 @@ for(let entityTypeKey in EntitiesList){
     dataToWrite[EntitiesList[entityTypeKey].prototype.typeNumber] = entityTypeKey;
 }
 
-// Check the type catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no type catalogue.
-if (fs.existsSync('../client/src/catalogues/EntityTypes.json')) {
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/EntityTypes.json', dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/EntityTypes.json', dataToWrite);
 
-    console.log("* Entity types catalogue written to file.");
-}
+console.log("* Entity types catalogue written to file.");
 
 module.exports = EntitiesList;

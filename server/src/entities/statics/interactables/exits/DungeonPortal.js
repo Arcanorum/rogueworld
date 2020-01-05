@@ -2,7 +2,6 @@
 const Exit = require('./Exit');
 
 class DungeonPortal extends Exit {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -17,6 +16,7 @@ class DungeonPortal extends Exit {
         // Link this portal to the dungeon.
         /** @type {Dungeon} A reference to the dungeon instance. */
         this.dungeon = DungeonsList.ByName[config.targetBoard];
+        if(this.dungeon === undefined) Utils.error("Cannot create dungeon portal entity, the target board is not in the dungeons list. Config:", config);
         this.dungeon.dungeonPortal = this;
     }
 
@@ -48,6 +48,7 @@ class DungeonPortal extends Exit {
 }
 module.exports = DungeonPortal;
 
+const Utils = require('../../../../Utils');
 const Player = require('../../../destroyables/movables/characters/Player');
 const DungeonsList = require('../../../../DungeonsList');
 

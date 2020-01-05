@@ -6,13 +6,11 @@ const Factions = require('../../../../../Factions');
 const Behaviours = require('../../../../../Behaviours');
 
 function getValue (config, valueName, propName, typeCheckFunc) {
-    if(config[valueName] === undefined){
-        return defaultMobStats[propName];
-    }
+    if(config[valueName] === undefined) return defaultMobStats[propName];
+
     else if(typeCheckFunc(config[valueName]) === false) Utils.error(valueName + " is incorrect type: " + typeof config[valueName]);
-    else {
-        return config[valueName];
-    }
+
+    else return config[valueName];
 }
 
 class Drop {

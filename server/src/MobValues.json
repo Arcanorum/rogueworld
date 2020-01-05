@@ -31,23 +31,42 @@
         "behaviour": "Aggressive",
         "dropList": [
             {
-                "typeName": "Fabric",
+                "itemName": "Fabric",
                 "rolls": 2,
-                "dropRate": 0.5
+                "dropRate": 50
             },
             {
-                "typeName": "MageRobe",
-                "dropRate": 1
+                "itemName": "MageRobe",
+                "dropRate": 50
             },
             {
-                "typeName": "FireGem",
+                "itemName": "FireGem",
+                "dropRate": 40
+            },
+            {
+                "itemName": "FireStaff",
+                "dropRate": 30
+            }
+        ]
+    },
+    {
+        "name": "ArchMage",
+        "corpseType": "Human",
+        "behaviour": "Aggressive",
+        "dropList": [
+            {
+                "itemName": "MageRobe",
+                "dropRate": 100
+            },
+            {
+                "itemName": "FireGem",
                 "dropRate": 0.4
             },
             {
-                "typeName": "FireStaff",
+                "itemName": "FireStaff",
                 "dropRate": 0.2
             }
-        ]        
+        ]
     },
     {
         "name": "Rat",

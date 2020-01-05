@@ -27,6 +27,8 @@ const Utils = {
      * @param {String} valueKey - The name of the property to use as each propety value.
      */
     arrayToObject: (array, nameKey, valueKey) => {
+        if(Array.isArray(array) === false) return {};
+        
         return array.reduce((obj, item) => {
             obj[item[nameKey]] = item[valueKey];
             return obj;
@@ -46,8 +48,9 @@ const Utils = {
      * Stops the process and prints an error message.
      * @param {*} message
      */
-    error: function (message) {
-        console.error("* ERROR: " + message);
+    error: function (...args) {
+        args.unshift("* ERROR: ");
+        console.error.apply(console, args);
         console.trace();
         process.exit();
     }

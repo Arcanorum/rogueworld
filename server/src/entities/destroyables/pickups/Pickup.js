@@ -2,7 +2,6 @@
 const Destroyable = require('../Destroyable');
 
 class Pickup extends Destroyable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -49,5 +48,13 @@ Pickup.prototype.ItemType = 'Item type not set.';
  * @type {Spawner}
  */
 Pickup.prototype.spawner = null;
+
+/**
+ * The percent chance this item will be dropped when rolled from a mob drop list.
+ * From 0 to 100 (percent), including 100 but not 0, as 0 would mean the item 
+ * can never drop, so pointless to have it on a drop list.
+ * @type {Number}
+ */
+Pickup.prototype.dropRate = 20;
 
 module.exports = Pickup;

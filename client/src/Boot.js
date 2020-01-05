@@ -1,19 +1,6 @@
 import TextDefs from '../src/catalogues/TextDefinitions';
 import DungeonPrompts from '../src/catalogues/DungeonPrompts';
 
-// Import the data for each map.
-import tutorial from '../assets/map/tutorial'
-import overworld from '../assets/map/overworld'
-import fight_pit from '../assets/map/fight-pit'
-import dungeon_city_sewers from '../assets/map/dungeon-city-sewers'
-import dungeon_knight_training_arena from '../assets/map/dungeon-knight-training-arena'
-import dungeon_bandit_hideout from '../assets/map/dungeon-bandit-hideout'
-import dungeon_west_pyramid from '../assets/map/dungeon-west-pyramid'
-import dungeon_east_pyramid from '../assets/map/dungeon-east-pyramid'
-import dungeon_blood_halls from '../assets/map/dungeon-blood-halls'
-import dungeon_shadow_dojo from '../assets/map/dungeon-shadow-dojo'
-import dungeon_forest_maze from '../assets/map/dungeon-forest-maze'
-
 /** @type {Phaser.State}
  * A global reference to the currently running Phaser state. */
 window._this = {};
@@ -113,6 +100,21 @@ window.windowResize = function () {
     tilemap.updateBorders();
 };
 
+// Import the data for each map.
+function requireAll(r) {
+    r.keys().forEach((fileName)=>{
+        // Remove the './' from the start.
+        fileName = fileName.substring(2);
+        // Remove the '.json' from the end.
+        fileName = fileName.slice(0, -5);
+
+        if(fileName === 'BLANK') return;
+
+        dungeonz.mapsData[fileName] = require('../assets/map/' + fileName + '.json');
+    });
+}
+requireAll(require.context('../assets/map/', true, /\.json$/));
+
 dungeonz.Boot = function () {
     
 };
@@ -150,18 +152,7 @@ dungeonz.Boot.prototype = {
             window.focus();
         }, false);
 
-        // Store the maps data in the global object with the expected name format, as variable names can't have dashes in them
-        dungeonz.mapsData["tutorial"] =                     tutorial;
-        dungeonz.mapsData["overworld"] =                    overworld;
-        dungeonz.mapsData["fight-pit"] =                    fight_pit;
-        dungeonz.mapsData["dungeon-city-sewers"] =          dungeon_city_sewers;
-        dungeonz.mapsData["dungeon-knight-training-arena"] =dungeon_knight_training_arena;
-        dungeonz.mapsData["dungeon-bandit-hideout"] =       dungeon_bandit_hideout;
-        dungeonz.mapsData["dungeon-west-pyramid"] =         dungeon_west_pyramid;
-        dungeonz.mapsData["dungeon-east-pyramid"] =         dungeon_east_pyramid;
-        dungeonz.mapsData["dungeon-blood-halls"] =          dungeon_blood_halls;
-        dungeonz.mapsData["dungeon-shadow-dojo"] =          dungeon_shadow_dojo;
-        dungeonz.mapsData["dungeon-forest-maze"] =          dungeon_forest_maze;
+        console.log("loaded maps data:", dungeonz.mapsData);
 
         // Changes the size of the game renderer to match the size of the window.
         this.scale.scaleMode = Phaser.ScaleManager.RESIZE;

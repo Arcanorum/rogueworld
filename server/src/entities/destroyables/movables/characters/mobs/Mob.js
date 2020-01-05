@@ -1658,7 +1658,7 @@ class Mob extends Character {
     assignMobValues (valuesTypeName, prototype) {
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
-        console.log("mob values,", valuesTypeName, ":", statValues);
+        //console.log("mob.js, mob values,", valuesTypeName, ":", statValues);
         prototype.gloryValue = statValues.gloryValue;
         prototype.maxHitPoints = statValues.maxHitPoints;
         prototype.defence = statValues.defence;

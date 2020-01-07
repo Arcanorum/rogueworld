@@ -35,6 +35,14 @@ class Pickup extends Destroyable {
 
     onPickedUp (pickedUpBy) {}
 
+    setItemType (moduleName) {
+        this.ItemType = require('../../../items/' + moduleName);
+
+        if(typeof this.ItemType !== "function"){
+            Utils.error("Cannot set pickup item type, item type does not exist:", moduleName);
+        }
+    }
+
 }
 
 /**
@@ -58,3 +66,5 @@ Pickup.prototype.spawner = null;
 Pickup.prototype.dropRate = 20;
 
 module.exports = Pickup;
+
+const Utils = require('../../../Utils');

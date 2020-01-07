@@ -33,6 +33,7 @@ class ItemBookOfLight extends SpellBook {
         }
     }
 
+    // Ward.
     spell2 () {
         const range = 1;
         const rangePlusOne = range + 1;
@@ -50,11 +51,11 @@ class ItemBookOfLight extends SpellBook {
                 boardTile = board.grid[row + rowOffset][col + colOffset];
                 // Check col is valid.
                 if(boardTile === undefined) continue;
-                // Give all nearby character a ward.
+                // Give all nearby characters a ward.
                 for(let dynamicKey in boardTile.destroyables){
                     if(boardTile.destroyables.hasOwnProperty(dynamicKey) === false) continue;
 
-                    // Make sure the entity can be cursed. Might not be a character.
+                    // Make sure the entity can be warded. Might not be a character.
                     if(boardTile.destroyables[dynamicKey].enchantment === undefined) continue;
 
                     new this.MagicEffects.Ward(boardTile.destroyables[dynamicKey]);
@@ -63,6 +64,7 @@ class ItemBookOfLight extends SpellBook {
         }
     }
 
+    // Cleanse.
     spell3 () {
         const range = 1;
         const rangePlusOne = range + 1;
@@ -94,6 +96,7 @@ class ItemBookOfLight extends SpellBook {
         }
     }
 
+    // Pacify.
     spell4 (config) {
         new ProjPacify({row: config.row, col: config.col, board: config.board, direction: config.direction, source: config.source}).emitToNearbyPlayers();
     }

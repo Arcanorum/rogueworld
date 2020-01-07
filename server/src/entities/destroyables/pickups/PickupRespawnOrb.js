@@ -6,4 +6,4 @@ class PickupRespawnOrb extends Pickup {}
 module.exports = PickupRespawnOrb;
 
 PickupRespawnOrb.prototype.registerEntityType();
-PickupRespawnOrb.prototype.ItemType = require('../../../items/ItemRespawnOrb');
+PickupRespawnOrb.prototype.setItemType('ItemFireGem');

@@ -3,17 +3,9 @@ const Boss = require('./Boss');
 
 class BloodLord extends Boss {
 
-    attackMelee () {
-        // Only melee attack target if it is adjacent.
-        if(this.isAdjacentToEntity(this.target) === false) return;
-
-        // Face the target if not already doing so.
-        this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
-
-        this.target.damage(this.meleeAttackPower, this);
-
+    onAttackSuccess() {
         // Vampires heal on attack.
-        this.modHitPoints(2);
+        this.modHitPoints(10);
     }
 
 }

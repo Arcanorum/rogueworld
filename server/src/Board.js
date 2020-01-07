@@ -54,7 +54,7 @@ class BoardTile {
 
         /**
          * Entities that do not have a definite existence, and so must be sent dynamically to the player.
-         * Pickups, Movables ((can move and change board), Characters (players, mobs), Projectiles).
+         * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
          * Should NOT occupy a tile that has an active blocking static. Accessed by their entity ID.
          * @type {{}}
          */
@@ -62,7 +62,7 @@ class BoardTile {
 
         /**
          * A separate list of destroyables just for Players, mainly for emitting events, less messing around filtering other entities.
-         * Also added to destroyables list.
+         * Anything in here should also be in the destroyables list.
          * @type {{}}
          */
         this.players = {};
@@ -1029,18 +1029,16 @@ class Board {
      * @return {String} The direction of the offset. One of Entity.Directions.
      */
     rowColOffsetToDirection (rowOffset, colOffset) {
-        if(rowOffset < 0){
-            return Directions.UP;
-        }
-        if(rowOffset > 0){
-            return Directions.DOWN;
-        }
-        if(colOffset < 0){
-            return Directions.LEFT;
-        }
-        if(colOffset > 0){
-            return Directions.RIGHT;
-        }
+        if(rowOffset < 0) return Directions.UP;
+
+        if(rowOffset > 0) return Directions.DOWN;
+
+        if(colOffset < 0) return Directions.LEFT;
+
+        if(colOffset > 0) return Directions.RIGHT;
+
+        if(rowOffset === 0 && colOffset === 0) return Directions.UP;
+
         Utils.error("A valid offset wasn't given to Board.rowColOffsetToDirection, row: " + rowOffset + ", col: " + colOffset);
     }
 

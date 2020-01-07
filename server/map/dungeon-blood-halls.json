@@ -687,6 +687,11 @@
          "name":"IsDungeon",
          "type":"bool",
          "value":true
+        }, 
+        {
+         "name":"NameDefinitionID",
+         "type":"string",
+         "value":"Blood halls"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.1",

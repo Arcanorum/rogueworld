@@ -2,6 +2,9 @@
 const Boss = require('./Boss');
 const Utils = require('./../../../../../Utils');
 
+const specialAttack1Rate = 6000;
+const specialAttack2Rate = 8000;
+
 class MasterAssassin extends Boss {
 
     /**
@@ -13,8 +16,8 @@ class MasterAssassin extends Boss {
     constructor (config) {
         super(config);
 
-        this.specialAttack1Timeout = setTimeout(this.specialAttack1.bind(this), 6000);
-        this.specialAttack2Timeout = setTimeout(this.specialAttack2.bind(this), 8000);
+        this.specialAttack1Timeout = setTimeout(this.specialAttack1.bind(this), specialAttack1Rate);
+        this.specialAttack2Timeout = setTimeout(this.specialAttack2.bind(this), specialAttack2Rate);
     }
 
     onDestroy () {
@@ -47,7 +50,7 @@ class MasterAssassin extends Boss {
                 this.modDirection(this.target.direction);
             }
         }
-        this.specialAttack1Timeout = setTimeout(this.specialAttack1.bind(this), 6000);
+        this.specialAttack1Timeout = setTimeout(this.specialAttack1.bind(this), specialAttack1Rate);
     }
 
     specialAttack2 () {
@@ -64,7 +67,7 @@ class MasterAssassin extends Boss {
             new ProjShuriken({row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this}).emitToNearbyPlayers();
             new ProjShuriken({row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this}).emitToNearbyPlayers();
         }
-        this.specialAttack2Timeout = setTimeout(this.specialAttack2.bind(this), 8000);
+        this.specialAttack2Timeout = setTimeout(this.specialAttack2.bind(this), specialAttack2Rate);
     }
 
 }

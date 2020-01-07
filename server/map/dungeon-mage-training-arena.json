@@ -53,6 +53,11 @@
                          "name":"MaxAtOnce",
                          "type":"int",
                          "value":1
+                        }, 
+                        {
+                         "name":"SpawnRate",
+                         "type":"int",
+                         "value":120000
                         }],
                  "rotation":0,
                  "type":"",

@@ -1684,6 +1684,16 @@ class Mob extends Character {
         });
     }
 
+    addToDropList (itemName) {
+        const itemType = require('../../../pickups/Pickup' + itemName);
+
+        if(typeof itemType !== "function"){
+            Utils.error("Cannot add to mob drop list, pickup entity does not exist:", itemName);
+        }
+
+        this.dropList.push(itemType);
+    }
+
 }
 module.exports = Mob;
 

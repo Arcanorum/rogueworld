@@ -6,12 +6,53 @@ const Factions = require('../../../../../Factions');
 const Behaviours = require('../../../../../Behaviours');
 
 function getValue (config, valueName, propName, typeCheckFunc) {
-    if(config[valueName] === undefined){
-        return defaultMobStats[propName];
-    }
+    if(config[valueName] === undefined) return defaultMobStats[propName];
+
     else if(typeCheckFunc(config[valueName]) === false) Utils.error(valueName + " is incorrect type: " + typeof config[valueName]);
-    else {
-        return config[valueName];
+
+    else return config[valueName];
+}
+
+class Drop {
+    constructor (config) {
+        /**
+         * The item pickup entity to be created when this item is dropped.
+         * @type {Function}
+         */
+        this.pickupType = EntitiesList["Pickup" + config.itemName];
+
+        if(this.pickupType instanceof Pickup === false) Utils.error("Mob item drop name is not a valid item. Check there is a pickup entity with this item name. Config:" + config);
+
+        /**
+         * How many separate chances to get the item.
+         * @type {Number}
+         */
+        this.rolls = 1;
+        // Use config if set.
+        if(config.rolls !== undefined){
+            // Check it is valid.
+            if(Number.isInteger(config.rolls) === false) Utils.error("Mob item drop rolls must be an integer. Config:" + config);
+            if(config.rolls > 1) Utils.error("Mob item drop rolls must be greater than 1. Config:", config);
+
+            this.rolls = config.rolls;
+        }
+        
+        /**
+         * The chance of getting the item on each roll.
+         * @type {Numnber}
+         */
+        this.dropRate = 0.2;
+        // Use config if set.
+        if(config.dropRate !== undefined){
+            // Check it is valid.
+            if(config.dropRate <= 0 || config.dropRate > 100) Utils.error("Mob item drop rate must be greater than 0, up to 100, i.e. 40 => 40% chance. Config:" + config);
+
+            this.rolls = config.rolls;
+        }
+        // Otherwise use the item pickup default drop rate.
+        else if(true) {
+
+        }
     }
 }
 
@@ -53,6 +94,8 @@ class MobStats {
         }
 
         this.dropAmount =       getValue(config, "Drop amount",     "dropAmount",   Number.isInteger);
+
+        this.dropList = [];
     }
 }
 

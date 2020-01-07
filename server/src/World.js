@@ -40,11 +40,7 @@ const world = {
             const parsed = path.parse(elem.name);
             // Skip the blank template map.
             if(parsed.name === "BLANK") return;
-            // Skip disabled maps. Anything with a # at the front.
-            if(parsed.name[0] === "#") {
-                console.log("* Skipping disabled map:", elem.name);
-                return;
-            }
+            
             // Only load JSON map data.
             if(parsed.ext === ".json"){
                 this.loadBoard(parsed.name);
@@ -71,13 +67,13 @@ const world = {
     loadBoard(dataFileName) {
         const data = require('../map/' + dataFileName + '.json');
 
-        if(!data.properties) Utils.error(
-            "Map data has no properties. " +
-            "Must have the required ones, such as 'AlwaysNight', 'IsDungeon'. " +
-            "On map: " + dataFileName
-        );
-
         const mapProperties = Utils.arrayToObject(data.properties, 'name', 'value');
+
+        // Skip disabled maps.
+        if(mapProperties['Disabled'] === true) {
+            console.log("* Skipping disabled map:", dataFileName);
+            return;
+        }
         
         let alwaysNight = false;
         if(mapProperties['AlwaysNight'] == undefined) Utils.warning("Map data is missing property: 'AlwaysNight'. On map: " + dataFileName);

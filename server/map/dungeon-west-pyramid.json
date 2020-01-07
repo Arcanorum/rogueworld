@@ -421,9 +421,19 @@
          "value":true
         }, 
         {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Advanced"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
+        }, 
+        {
+         "name":"NameDefinitionID",
+         "type":"string",
+         "value":"West pyramid"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.1",

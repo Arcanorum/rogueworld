@@ -317,6 +317,18 @@
             <key type="filename">entities/characters/knight/knight-up-1.png</key>
             <key type="filename">entities/characters/knight/knight-up-2.png</key>
             <key type="filename">entities/characters/knight/knight-up-3.png</key>
+            <key type="filename">entities/characters/mage/mage-down-1.png</key>
+            <key type="filename">entities/characters/mage/mage-down-2.png</key>
+            <key type="filename">entities/characters/mage/mage-down-3.png</key>
+            <key type="filename">entities/characters/mage/mage-left-1.png</key>
+            <key type="filename">entities/characters/mage/mage-left-2.png</key>
+            <key type="filename">entities/characters/mage/mage-left-3.png</key>
+            <key type="filename">entities/characters/mage/mage-right-1.png</key>
+            <key type="filename">entities/characters/mage/mage-right-2.png</key>
+            <key type="filename">entities/characters/mage/mage-right-3.png</key>
+            <key type="filename">entities/characters/mage/mage-up-1.png</key>
+            <key type="filename">entities/characters/mage/mage-up-2.png</key>
+            <key type="filename">entities/characters/mage/mage-up-3.png</key>
             <key type="filename">entities/characters/mummy/mummy-down-1.png</key>
             <key type="filename">entities/characters/mummy/mummy-down-2.png</key>
             <key type="filename">entities/characters/mummy/mummy-down-3.png</key>
@@ -924,6 +936,7 @@
             <filename>entities/characters/assassin</filename>
             <filename>entities/characters/gnarl</filename>
             <filename>entities/characters/grass scamp</filename>
+            <filename>entities/characters/mage</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

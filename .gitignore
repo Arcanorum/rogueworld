@@ -1,8 +1,10 @@
 .idea/
 
 client/node_modules/
-
-server/node_modules/
 client/main.css
 client/main.css.map
 client/dist/
+client/assets/map/
+client/src/catalogues/
+
+server/node_modules/

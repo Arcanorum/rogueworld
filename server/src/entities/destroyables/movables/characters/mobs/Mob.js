@@ -1658,7 +1658,8 @@ class Mob extends Character {
     assignMobValues (valuesTypeName, prototype) {
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
-
+        if(statValues === undefined) Utils.error("No mob stat values defined for type name:", valuesTypeName);
+        //console.log("mob.js, mob values,", valuesTypeName, ":", statValues);
         prototype.gloryValue = statValues.gloryValue;
         prototype.maxHitPoints = statValues.maxHitPoints;
         prototype.defence = statValues.defence;
@@ -1672,6 +1673,25 @@ class Mob extends Character {
         prototype.faction = statValues.faction;
         prototype.behaviour = statValues.behaviour;
         prototype.dropAmount = statValues.dropAmount;
+
+        statValues.dropList.forEach((drop) => {
+
+            prototype.dropList.push(
+                {
+                    itemType: require('./../../../pickups/Pickup' + drop.pickupName),
+                    probability: drop.probability
+                });
+        });
+    }
+
+    addToDropList (itemName) {
+        const itemType = require('../../../pickups/Pickup' + itemName);
+
+        if(typeof itemType !== "function"){
+            Utils.error("Cannot add to mob drop list, pickup entity does not exist:", itemName);
+        }
+
+        this.dropList.push(itemType);
     }
 
 }

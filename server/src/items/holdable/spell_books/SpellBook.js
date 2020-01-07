@@ -92,7 +92,7 @@ SpellBook.prototype.registerSpellBookType = function () {
 
     spellBookTypeNumberCounter+=1;
 
-    console.log("* Registering spell book type: ", this);
+    //console.log("* Registering spell book type: ", this);
 };
 
 module.exports = SpellBook;

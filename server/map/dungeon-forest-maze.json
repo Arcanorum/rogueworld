@@ -2158,9 +2158,19 @@
          "value":false
         }, 
         {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Master"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
+        }, 
+        {
+         "name":"NameDefinitionID",
+         "type":"string",
+         "value":"Forest maze"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.1",

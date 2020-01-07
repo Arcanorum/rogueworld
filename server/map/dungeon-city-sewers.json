@@ -607,9 +607,19 @@
          "value":true
         }, 
         {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Beginner"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
+        }, 
+        {
+         "name":"NameDefinitionID",
+         "type":"string",
+         "value":"City sewers"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.1",

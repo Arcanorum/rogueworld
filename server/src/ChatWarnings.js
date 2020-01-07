@@ -23,16 +23,12 @@ for(let key in ChatWarnings){
     dataToWrite[ChatWarnings[key]] = key;
 }
 
-// Check the catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no catalogue.
-if (fs.existsSync('../client/src/catalogues/ChatWarnings.json')) {
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/ChatWarnings.json', dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/ChatWarnings.json', dataToWrite);
 
-    console.log("* Chat warnings catalogue written to file.");
-}
+console.log("* Chat warnings catalogue written to file.");
 
 module.exports = ChatWarnings;

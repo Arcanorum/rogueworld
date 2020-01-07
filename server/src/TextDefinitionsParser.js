@@ -82,17 +82,12 @@ if(fs.existsSync('Dungeonz.io translations.xlsx') === true){
     // Write the text defs to the client.
     let dataToWrite = {};
 
-    // Check the file to write to exists. Catches the case that this is the deployment server
-    // and thus doesn't have a client directory, and thus no text defs file.
-    if (fs.existsSync('../client/src/catalogues/TextDefinitions.json')) {
-        // Turn the data into a string.
-        dataToWrite = JSON.stringify(defsAsJSON);
+    // Turn the data into a string.
+    dataToWrite = JSON.stringify(defsAsJSON);
 
-        // Write the data to the file in the client files.
-        fs.writeFileSync('../client/src/catalogues/TextDefinitions.json', dataToWrite);
+    // Write the data to the file in the client files.
+    fs.writeFileSync('../client/src/catalogues/TextDefinitions.json', dataToWrite);
 
-        console.log("* Text definitions catalogue written to file.");
-    }
+    console.log("* Text definitions catalogue written to file.");
 
 }
-

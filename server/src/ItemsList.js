@@ -50,16 +50,12 @@ for(let itemTypeKey in ItemsList){
     };
 }
 
-// Check the type catalogue exists. Catches the case that this is the deployment server
-// and thus doesn't have a client directory, and thus no type catalogue.
-if (fs.existsSync('../client/src/catalogues/ItemTypes.json')) {
-    // Turn the data into a string.
-    dataToWrite = JSON.stringify(dataToWrite);
+// Turn the data into a string.
+dataToWrite = JSON.stringify(dataToWrite);
 
-    // Write the data to the file in the client files.
-    fs.writeFileSync('../client/src/catalogues/ItemTypes.json', dataToWrite);
+// Write the data to the file in the client files.
+fs.writeFileSync('../client/src/catalogues/ItemTypes.json', dataToWrite);
 
-    console.log("* Item types catalogue written to file.");
-}
+console.log("* Item types catalogue written to file.");
 
 module.exports = ItemsList;

@@ -450,12 +450,22 @@
         {
          "name":"AlwaysNight",
          "type":"bool",
-         "value":true
+         "value":false
+        }, 
+        {
+         "name":"Difficulty",
+         "type":"string",
+         "value":"Master"
         }, 
         {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
+        }, 
+        {
+         "name":"NameDefinitionID",
+         "type":"string",
+         "value":"Shadow dojo"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.1",

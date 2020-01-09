@@ -33,7 +33,6 @@ async function init() {
 
         console.log("* Exitting");
 
-
         process.exit();
     }
 
@@ -73,16 +72,16 @@ async function init() {
         process.exit();
     });
 
-    // Check the image exists. Catches the case that this is the deployment server
-    // and thus doesn't have a client directory, and thus no type catalogue.
-    if (fs.existsSync('../client/assets/img/ground.png')) {
-        // Copy the tileset image sources to the client, so they are the same as what the server is using.
-        // Saves having to copy over the images when a change is made to the one used in Tiled.
-        fs.createReadStream('./map/tilesets/ground.png').pipe(fs.createWriteStream('../client/assets/img/ground.png'));
-        fs.createReadStream('./map/tilesets/statics.png').pipe(fs.createWriteStream('../client/assets/img/statics.png'));
-
-        console.log("* Tilesets copied to client assets.");
+    // Check the location to write to exists. If not, create it.
+    if (fs.existsSync('../client/assets/img') === false) {
+        fs.mkdirSync('../client/assets/img');
     }
+    // Copy the tileset image sources to the client, so they are the same as what the server is using.
+    // Saves having to copy over the images when a change is made to the one used in Tiled.
+    fs.createReadStream('./map/tilesets/ground.png').pipe(fs.createWriteStream('../client/assets/img/ground.png'));
+    fs.createReadStream('./map/tilesets/statics.png').pipe(fs.createWriteStream('../client/assets/img/statics.png'));
+
+    console.log("* Tilesets copied to client assets.");
 
     console.log("* End of index. Server is good to go :)");
 }

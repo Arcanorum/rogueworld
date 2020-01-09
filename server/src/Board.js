@@ -534,17 +534,15 @@ class Board {
 
         const json = JSON.stringify(clientData);
 
-        // Check the client map directory exists. Catches the case that this is the deployment server
-        // and thus doesn't have a client directory.
-        if (fs.existsSync("../client/assets/map")) {
-            // Write the data to the file in the client files.
-            fs.writeFileSync("../client/assets/map/" + this.name + ".json", json, "utf8");
-
-            console.log("* Board data written to client: " + this.name);
+        // Check the location to write to exists. If not, create it.
+        if (fs.existsSync('../client/assets/map') === false) {
+            fs.mkdirSync('../client/assets/map');
         }
-        else {
 
-        }
+        // Write the data to the file in the client files.
+        fs.writeFileSync("../client/assets/map/" + this.name + ".json", json, "utf8");
+
+        console.log("* Board data written to client: " + this.name);
     }
 
     /**

@@ -1,4 +1,6 @@
 
+const fs = require('fs');
+
 const Utils = {
     /**
      * Gets a random number between, and including, min and max.
@@ -33,6 +35,23 @@ const Utils = {
             obj[item[nameKey]] = item[valueKey];
             return obj;
         }, {});
+    },
+
+    /**
+     * Checks the location to write to exists. If not, creates it.
+     * @param {String} directory The directory to check for.
+     */
+    checkDirectoryExists: (directory) => {
+        if (fs.existsSync(directory) === false) {
+            fs.mkdirSync(directory);
+        }
+    },
+
+    /**
+     * Checks the client catalogues directory exists. If not, creates it.
+     */
+    checkClientCataloguesExists: () => {
+        this.checkDirectoryExists('../client/src/catalogues');
     },
 
     /**

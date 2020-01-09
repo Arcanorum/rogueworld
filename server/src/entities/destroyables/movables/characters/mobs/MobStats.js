@@ -1,11 +1,12 @@
 
 const Utils = require('./../../../../../Utils');
-const XLSX = require('xlsx');
+//const XLSX = require('xlsx');
 const fs = require('fs');
 const Factions = require('../../../../../Factions');
 const Behaviours = require('../../../../../Behaviours');
 
 function getValue (config, valueName, propName, typeCheckFunc) {
+
     if(config[valueName] === undefined) return defaultMobStats[propName];
 
     else if(typeCheckFunc(config[valueName]) === false) Utils.error(valueName + " is incorrect type: " + typeof config[valueName]);
@@ -114,67 +115,75 @@ class MobStats {
  */
 const MobStatsList = {};
 
-const workbook = XLSX.readFile('Dungeonz.io mob values.xlsx');
+// Get the 
 
-const firstSheetName = workbook.SheetNames[0];
-// Get the worksheet.
-const worksheet = workbook.Sheets[firstSheetName];
+const MobValues = require('../../../../../MobValues.json');
+console.log("loaded mob values:", MobValues);
 
-//console.log("worksheet:", worksheet);
 
-// Some characters to loop though, to go across the columns.
-const columnChars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'];
 
-// The column that the entity type names are on.
-const entityNameCol = 'A';
-// The row that the value names are on. "Glory value", "Defence", etc.
-const valueNamesRow = 1;
-// The row that the default values are on.
-const defaultValuesRow = 2;
 
-let defaultMobStats;
+// const workbook = XLSX.readFile('Dungeonz.io mob values.xlsx');
 
-const config = {};
+// const firstSheetName = workbook.SheetNames[0];
+// // Get the worksheet.
+// const worksheet = workbook.Sheets[firstSheetName];
 
-// Go through all of the columns. Start at 1 to skip 'A' for entity name, as don't need the name.
-for(let i=1; i<columnChars.length; i+=1){
-    // Check if the end of the list of value names has been reached.
-    if(worksheet[columnChars[i] + valueNamesRow] === undefined) break;
-    // Check there is a default value defined.
-    if(worksheet[columnChars[i] + defaultValuesRow] === undefined) Utils.error("Parsing mob values, default value missing for value name:" + worksheet[columnChars[i] + valueNamesRow].v);
+// //console.log("worksheet:", worksheet);
 
-    const valueName = worksheet[columnChars[i] + valueNamesRow].v;
-    const value = worksheet[columnChars[i] + defaultValuesRow].v;
+// // Some characters to loop though, to go across the columns.
+// const columnChars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'];
 
-    config[valueName] = value;
-}
+// // The column that the entity type names are on.
+// const entityNameCol = 'A';
+// // The row that the value names are on. "Glory value", "Defence", etc.
+// const valueNamesRow = 1;
+// // The row that the default values are on.
+// const defaultValuesRow = 2;
 
-defaultMobStats = new MobStats(config);
+// let defaultMobStats;
 
-// Where the adder is currently up to, how far down it has gone, what entity type it is adding.
-// Start at 3, as 2 is default.
-let currentValuesRow = 3;
+// const config = {};
 
-while(true){
-    if(worksheet[entityNameCol + currentValuesRow] === undefined) break;
+// // Go through all of the columns. Start at 1 to skip 'A' for entity name, as don't need the name.
+// for(let i=1; i<columnChars.length; i+=1){
+//     // Check if the end of the list of value names has been reached.
+//     if(worksheet[columnChars[i] + valueNamesRow] === undefined) break;
+//     // Check there is a default value defined.
+//     if(worksheet[columnChars[i] + defaultValuesRow] === undefined) Utils.error("Parsing mob values, default value missing for value name:" + worksheet[columnChars[i] + valueNamesRow].v);
 
-    const config = {};
+//     const valueName = worksheet[columnChars[i] + valueNamesRow].v;
+//     const value = worksheet[columnChars[i] + defaultValuesRow].v;
 
-    // Go through all of the columns. Start at 1 to skip 'A' for entity name, as don't need the name.
-    for(let i=1; i<columnChars.length; i+=1){
-        // Check if the end of the list of value names has been reached.
-        if(worksheet[columnChars[i] + valueNamesRow] === undefined) break;
-        //console.log("looped, current values row:", currentValuesRow, ", col:", columnChars[i]);
+//     config[valueName] = value;
+// }
 
-        const valueName = worksheet[columnChars[i] + valueNamesRow].v;
-        const value = worksheet[columnChars[i] + currentValuesRow] ? worksheet[columnChars[i] + currentValuesRow].v : undefined;
+// defaultMobStats = new MobStats(config);
 
-        config[valueName] = value;
-    }
+// // Where the adder is currently up to, how far down it has gone, what entity type it is adding.
+// // Start at 3, as 2 is default.
+// let currentValuesRow = 3;
 
-    MobStatsList[worksheet[entityNameCol + currentValuesRow].v] = new MobStats(config);
+// while(true){
+//     if(worksheet[entityNameCol + currentValuesRow] === undefined) break;
 
-    currentValuesRow += 1;
-}
+//     const config = {};
+
+//     // Go through all of the columns. Start at 1 to skip 'A' for entity name, as don't need the name.
+//     for(let i=1; i<columnChars.length; i+=1){
+//         // Check if the end of the list of value names has been reached.
+//         if(worksheet[columnChars[i] + valueNamesRow] === undefined) break;
+//         //console.log("looped, current values row:", currentValuesRow, ", col:", columnChars[i]);
+
+//         const valueName = worksheet[columnChars[i] + valueNamesRow].v;
+//         const value = worksheet[columnChars[i] + currentValuesRow] ? worksheet[columnChars[i] + currentValuesRow].v : undefined;
+
+//         config[valueName] = value;
+//     }
+
+//     MobStatsList[worksheet[entityNameCol + currentValuesRow].v] = new MobStats(config);
+
+//     currentValuesRow += 1;
+// }
 
 module.exports = MobStatsList;

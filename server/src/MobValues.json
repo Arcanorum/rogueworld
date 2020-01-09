@@ -12,7 +12,8 @@
         "meleeAttackPower": 0,
         "projectileAttackType": null,
         "faction": "Citizens",
-        "behaviour": "Cowardly"
+        "behaviour": "Cowardly",
+        "corpseType": null
     },
     {
         "name": "Citizen",
@@ -23,53 +24,110 @@
     {
         "name": "Knight",
         "gloryValue": 40,
-        "defence": 40
+        "defence": 40,
+        "viewRange": 6,
+        "moveRate": 850,
+        "projectileAttackType": "IronSword",
+        "faction": "CityGuards"
+    },
+    {
+        "name": "Commander",
+        "gloryValue": 200,
+        "maxHitPoints": 200,
+        "defence": 40,
+        "viewRange": 6,
+        "moveRate": 600,
+        "projectileAttackType": "DungiumSword",
+        "faction": "CityGuards"
+    },
+    {
+        "name": "Warrior",
+        "gloryValue": 35,
+        "defence": 40,
+        "viewRange": 5,
+        "moveRate": 700,
+        "projectileAttackType": "IronHammer",
+        "faction": "Barbarians"
+    },
+    {
+        "name": "Prisoner",
+        "gloryValue": 10,
+        "viewRange": 5,
+        "moveRate": 700,
+        "meleeAttackPower": 15,
+        "faction": "Outlaws"
+    },
+    {
+        "name": "Bandit",
+        "gloryValue": 30,
+        "defence": 30,
+        "viewRange": 6,
+        "moveRate": 700,
+        "attackRate": 2000,
+        "projectileAttackType": "IronDagger",
+        "faction": "Outlaws"
+    },
+    {
+        "name": "Bandit leader",
+        "gloryValue": 100,
+        "maxHitPoints": 250,
+        "defence": 30,
+        "viewRange": 6,
+        "moveRate": 500,
+        "projectileAttackType": "DungiumDagger",
+        "faction": "Outlaws"
+    },
+    {
+        "name": "Rat",
+        "maxHitPoints": 30,
+        "viewRange": 4,
+        "moveRate": 600,
+        "meleeAttackPower": 5,
+        "faction": "HostileAnimals",
+        "taskIDKilled": "Rats"
+    },
+    {
+        "name": "Bat",
+        "gloryValue": 15,
+        "maxHitPoints": 40,
+        "viewRange": 4,
+        "moveRate": 500,
+        "meleeAttackPower": 5,
+        "faction": "HostileAnimals"
+    },
+    {
+        "name": "Hawk",
+        "gloryValue": 20,
+        "maxHitPoints": 60,
+        "viewRange": 5,
+        "moveRate": 500,
+        "meleeAttackPower": 8,
+        "faction": "HostileAnimals"
     },
     {
         "name": "Mage",
-        "corpseType": "Human",
         "behaviour": "Aggressive",
+        "corpseType": "Human",
         "dropList": [
             {
                 "itemName": "Fabric",
-                "rolls": 2,
-                "dropRate": 50
+                "rolls": 2
             },
-            {
-                "itemName": "MageRobe",
-                "dropRate": 50
-            },
-            {
-                "itemName": "FireGem",
-                "dropRate": 40
-            },
-            {
-                "itemName": "FireStaff",
-                "dropRate": 30
-            }
+            {"itemName": "MageRobe"},
+            {"itemName": "FireGem"},
+            {"itemName": "FireStaff"}
         ]
     },
     {
         "name": "ArchMage",
-        "corpseType": "Human",
         "behaviour": "Aggressive",
+        "corpseType": "Human",
         "dropList": [
-            {
-                "itemName": "MageRobe",
-                "dropRate": 100
-            },
-            {
-                "itemName": "FireGem",
-                "dropRate": 0.4
-            },
-            {
-                "itemName": "FireStaff",
-                "dropRate": 0.2
-            }
+            {"itemName": "MageRobe", "dropRate": 100},
+            {"itemName": "FireGem", "rolls": 2},
+            {"itemName": "FireGem", "rolls": 2, "dropRate": 100},
+            {"itemName": "FireStaff", "rolls": 2},
+            {"itemName": "BookOfLight", "rolls": 2}
         ]
-    },
-    {
-        "name": "Rat",
-        "taskIDKilled": "Rats"
     }
 ]

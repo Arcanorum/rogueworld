@@ -1672,9 +1672,9 @@ class Mob extends Character {
         if(statValues.projectileAttackType !== null) prototype.projectileAttackType = require('./../../' + statValues.projectileAttackType);
         prototype.faction = statValues.faction;
         prototype.behaviour = statValues.behaviour;
-        prototype.dropAmount = statValues.dropAmount;
 
         statValues.dropList.forEach((drop) => {
+            console.log("drop:", drop);
 
             prototype.dropList.push(
                 {

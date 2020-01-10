@@ -407,6 +407,8 @@ for(let shopKey in ShopTypes){
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);
 
+require('./Utils').checkClientCataloguesExists();
+
 // Write the data to the file in the client files.
 fs.writeFileSync('../client/src/catalogues/NPCShopTypes.json', dataToWrite);
 

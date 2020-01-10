@@ -534,10 +534,7 @@ class Board {
 
         const json = JSON.stringify(clientData);
 
-        // Check the location to write to exists. If not, create it.
-        if (fs.existsSync('../client/assets/map') === false) {
-            fs.mkdirSync('../client/assets/map');
-        }
+        Utils.checkDirectoryExists('../client/assets/map');
 
         // Write the data to the file in the client files.
         fs.writeFileSync("../client/assets/map/" + this.name + ".json", json, "utf8");

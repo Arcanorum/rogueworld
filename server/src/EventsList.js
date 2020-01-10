@@ -109,10 +109,8 @@ for(let eventTypeKey in EventsList){
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);
 
-// Check the location to write to exists. If not, create it.
-if (fs.existsSync('../client/src/catalogues') === false) {
-    fs.mkdirSync('../client/src/catalogues');
-}
+require('./Utils').checkClientCataloguesExists();
+
 // Write the data to the file in the client files.
 fs.writeFileSync('../client/src/catalogues/EventNames.json', dataToWrite);
 

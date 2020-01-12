@@ -52,14 +52,7 @@ class Mob extends Character {
             nearbyPlayers[i].tasks.progressTask(this.taskIDKilled);
         }
 
-        // Drop one of the items in the drop list.
-        // Create a new pickup which will be added to the board.
-        // Check the mob has something in its drop list.
-        if(this.dropList[0] !== undefined){
-            for(let i=0; i<this.dropAmount; i+=1){
-                new this.dropList[Utils.getRandomIntInclusive(0, this.dropList.length-1)]({row: this.row, col: this.col, board: this.board}).emitToNearbyPlayers();
-            }
-        }
+        this.dropItems();
 
         super.onDestroy();
     }
@@ -99,6 +92,22 @@ class Mob extends Character {
             }
 
         }
+    }
+
+    /**
+     * Create some pickups for whatever this mob has dropped from its drop list.
+     */
+    dropItems() {
+        this.dropList.forEach((dropConfig) => {
+            // Roll for this drop as many times as it is configured to.
+            for(let roll=0; roll<dropConfig.rolls; roll+=1){
+                // Do the roll.
+                if(dropConfig.dropRate >= Utils.getRandomIntInclusive(1, 100)){
+                    // Create a new pickup which will be added to the board.
+                    new dropConfig.pickupType({row: this.row, col: this.col, board: this.board}).emitToNearbyPlayers();
+                }
+            }
+        });
     }
 
     /**
@@ -1781,6 +1790,6 @@ Mob.prototype.constrainedToSpawnerBounds = false;
 
 /**
  * An array of pickups that could be created when this mob is destroyed.
- * @type {Array.<Pickup>}
+ * @type {Array.<Drop>}
  */
 Mob.prototype.dropList = [];

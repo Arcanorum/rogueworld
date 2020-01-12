@@ -30,7 +30,7 @@ if(fs.existsSync(pathToKeys + 'fullchain.pem')){
     }, app);
 
     console.log("* Started HTTPS server on port", expressPortNumber);
-    console.log("* Started WS server using SSL on port", webSocketPortNumber);
+    console.log("* Started WS server using SSL on port", expressPortNumber);
 }
 // No certificate found, use unsecure connections for development.
 else {
@@ -39,18 +39,15 @@ else {
 
     console.log("* Could not locate SSL certificate.");
     console.log("* Started unsecure HTTP server on port", expressPortNumber);
-    console.log("* Started unsecure WS server on port", webSocketPortNumber);
+    console.log("* Started unsecure WS server on port", expressPortNumber);
 }
 
 httpServer.listen(expressPortNumber);
 
 console.log("before new WS server");
 wss = new WebSocket.Server({
-    server: httpServer,
-    port: webSocketPortNumber
+    server: httpServer
 });
 console.log("WS server:", wss);
-
-
 
 module.exports = wss;

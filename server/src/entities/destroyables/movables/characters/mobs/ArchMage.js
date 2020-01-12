@@ -127,7 +127,4 @@ const ProjPacify = require('./../../projectiles/ProjPacify');
 const MagicEffects = require('./../../../../../MagicEffects');
 
 ArchMage.prototype.registerEntityType();
-ArchMage.prototype.assignMobValues("Arch mage", ArchMage.prototype);
-ArchMage.prototype.CorpseType = require('../../../corpses/CorpseHuman');
-ArchMage.prototype.addToDropList('BookOfLight');
-ArchMage.prototype.addToDropList('SuperFireStaff');
+ArchMage.prototype.assignMobValues();

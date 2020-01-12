@@ -1,4 +1,3 @@
-// Mob values are defined at https://docs.google.com/spreadsheets/d/1Hzu-qrflnSssyDC2sUa4ipaGjBGKccUAgGeO83yqw-A/edit#gid=0
 
 const fs = require('fs');
 

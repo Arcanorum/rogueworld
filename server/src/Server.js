@@ -2,7 +2,8 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const expressPortNumber = 4567;
+//const expressPortNumber = 4567;
+const serverPortNumber = 4567;
 
 app.use(express.static(path.join(__dirname, '../../client/')));
 
@@ -13,7 +14,7 @@ app.get('/', (req, res) => {
 
 // WebSocket config.
 const WebSocket = require('ws');
-const webSocketPortNumber = 3000;
+//const webSocketPortNumber = 3000;
 let httpServer;
 let wss;
 
@@ -29,8 +30,8 @@ if(fs.existsSync(pathToKeys + 'fullchain.pem')){
        key:    fs.readFileSync(pathToKeys + 'privkey.pem'),
     }, app);
 
-    console.log("* Started HTTPS server on port", expressPortNumber);
-    console.log("* Started WS server using SSL on port", expressPortNumber);
+    console.log("* Started HTTPS server on port", serverPortNumber);
+    console.log("* Started WS server using SSL on port", serverPortNumber);
 }
 // No certificate found, use unsecure connections for development.
 else {
@@ -38,11 +39,11 @@ else {
     httpServer = http.createServer(app);
 
     console.log("* Could not locate SSL certificate.");
-    console.log("* Started unsecure HTTP server on port", expressPortNumber);
-    console.log("* Started unsecure WS server on port", expressPortNumber);
+    console.log("* Started unsecure HTTP server on port", serverPortNumber);
+    console.log("* Started unsecure WS server on port", serverPortNumber);
 }
 
-httpServer.listen(expressPortNumber);
+httpServer.listen(serverPortNumber);
 
 console.log("before new WS server");
 wss = new WebSocket.Server({

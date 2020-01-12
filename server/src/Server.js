@@ -42,11 +42,15 @@ else {
     console.log("* Started unsecure WS server on port", webSocketPortNumber);
 }
 
+httpServer.listen(expressPortNumber);
+
+console.log("before new WS server");
 wss = new WebSocket.Server({
     server: httpServer,
     port: webSocketPortNumber
 });
+console.log("WS server:", wss);
 
-httpServer.listen(expressPortNumber);
+
 
 module.exports = wss;

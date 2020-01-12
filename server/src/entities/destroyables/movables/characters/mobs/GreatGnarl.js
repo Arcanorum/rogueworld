@@ -88,14 +88,5 @@ const ProjAcorn = require('./../../projectiles/ProjAcorn');
 const GrassScamp = require('./../../characters/mobs/GrassScamp');
 
 GreatGnarl.prototype.registerEntityType();
-GreatGnarl.prototype.assignMobValues("Great gnarl", GreatGnarl.prototype);
+GreatGnarl.prototype.assignMobValues();
 GreatGnarl.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillGnarls.taskID;
-GreatGnarl.prototype.dropList = [
-    require('../../../pickups/PickupRespawnOrb'),
-    require('../../../pickups/PickupExpOrbMelee'),
-    require('../../../pickups/PickupExpOrbRanged'),
-    require('../../../pickups/PickupExpOrbMagic'),
-    require('../../../pickups/PickupExpOrbGathering'),
-    require('../../../pickups/PickupWindGem'),
-    require('../../../pickups/PickupSuperWindStaff'),
-];

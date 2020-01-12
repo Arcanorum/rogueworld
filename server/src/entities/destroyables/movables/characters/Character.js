@@ -187,9 +187,7 @@ class Character extends Movable {
 }
 module.exports = Character;
 
-const Utils = require('../../../../Utils');
 const GroundTypes = require('../../../../GroundTypes');
-const StatusEffects = require('../../../../StatusEffects');
 
 // Give each character easy access to the factions list.
 Character.prototype.Factions = require('../../../../Factions');
@@ -208,7 +206,7 @@ Character.prototype.maxHitPoints = 200;
 Character.prototype.hitPoints = Character.prototype.maxHitPoints;
 
 /**
- * A percentage to reduce incoming damage by. 0.4 = 40%
+ * A percentage to reduce incoming damage by. 40 => 40%.
  * @type {Number}
  */
 Character.prototype.defence = 0;
@@ -221,7 +219,7 @@ Character.prototype.enchantment = null;
 Character.prototype.statusEffects = null;
 
 /**
- * What kind of corpse entity will be created when this character is destroyed.
- * @type {Corpse}
+ * What type of corpse entity will be created when this character is destroyed.
+ * @type {Function}
  */
 Character.prototype.CorpseType = null;

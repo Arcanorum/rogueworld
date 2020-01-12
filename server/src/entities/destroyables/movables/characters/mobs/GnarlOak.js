@@ -12,12 +12,5 @@ class GnarlOak extends Mob {
 module.exports = GnarlOak;
 
 GnarlOak.prototype.registerEntityType();
-GnarlOak.prototype.assignMobValues("Gnarl oak", GnarlOak.prototype);
+GnarlOak.prototype.assignMobValues();
 GnarlOak.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillGnarls.taskID;
-GnarlOak.prototype.dropList = [
-    require('./../../../pickups/PickupRedcap'),
-    require('./../../../pickups/PickupGreencap'),
-    require('./../../../pickups/PickupOakLogs'),
-    require('./../../../pickups/PickupIronArrows'),
-    require('./../../../pickups/PickupOakBow'),
-];

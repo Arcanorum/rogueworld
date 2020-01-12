@@ -20,7 +20,7 @@ class Slime extends Mob {}
 module.exports = Slime;
 
 Slime.prototype.registerEntityType();
-Slime.prototype.assignMobValues("Slime", Slime.prototype);
+Slime.prototype.assignMobValues();
 ```
 
 ## Add it to the stat definitions spreadsheet.
@@ -55,7 +55,7 @@ class GiantSlime extends Boss {}
 module.exports = GiantSlime;
 
 GiantSlime.prototype.registerEntityType();
-GiantSlime.prototype.assignMobValues("Giant slime", GiantSlime.prototype);
+GiantSlime.prototype.assignMobValues();
 ```
 
 

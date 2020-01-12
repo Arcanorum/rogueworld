@@ -1651,54 +1651,33 @@ class Mob extends Character {
     }
 
     /**
-     * Assigns the property values for this mob type from the mob values spreadsheet.
-     * @param {String} valuesTypeName
-     * @param {Object} prototype
+     * Assigns the property values for this mob type from the mob values data list.
      */
-    assignMobValues (valuesTypeName, prototype) {
+    assignMobValues () {
+        const valuesTypeName = this.constructor.name
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
         if(statValues === undefined) Utils.error("No mob stat values defined for type name:", valuesTypeName);
-        //console.log("mob.js, mob values,", valuesTypeName, ":", statValues);
-        prototype.gloryValue = statValues.gloryValue;
-        prototype.maxHitPoints = statValues.maxHitPoints;
-        prototype.defence = statValues.defence;
-        prototype.viewRange = statValues.viewRange;
-        prototype.moveRate = statValues.moveRate;
-        prototype.wanderRate = statValues.wanderRate;
-        prototype.targetSearchRate = statValues.targetSearchRate;
-        prototype.attackRate = statValues.attackRate;
-        prototype.meleeAttackPower = statValues.meleeAttackPower;
-        if(statValues.projectileAttackType !== null) prototype.projectileAttackType = require('./../../' + statValues.projectileAttackType);
-        prototype.faction = statValues.faction;
-        prototype.behaviour = statValues.behaviour;
-
-        statValues.dropList.forEach((drop) => {
-            console.log("drop:", drop);
-
-            prototype.dropList.push(
-                {
-                    itemType: require('./../../../pickups/Pickup' + drop.pickupName),
-                    probability: drop.probability
-                });
-        });
-    }
-
-    addToDropList (itemName) {
-        const itemType = require('../../../pickups/Pickup' + itemName);
-
-        if(typeof itemType !== "function"){
-            Utils.error("Cannot add to mob drop list, pickup entity does not exist:", itemName);
-        }
-
-        this.dropList.push(itemType);
+        this.gloryValue = statValues.gloryValue;
+        this.maxHitPoints = statValues.maxHitPoints;
+        this.defence = statValues.defence;
+        this.viewRange = statValues.viewRange;
+        this.moveRate = statValues.moveRate;
+        this.wanderRate = statValues.wanderRate;
+        this.targetSearchRate = statValues.targetSearchRate;
+        this.attackRate = statValues.attackRate;
+        this.meleeAttackPower = statValues.meleeAttackPower;
+        if(statValues.projectileAttackType !== null) this.projectileAttackType = require('./../../' + statValues.projectileAttackType);
+        this.CorpseType = statValues.corpseType;
+        this.faction = statValues.faction;
+        this.behaviour = statValues.behaviour;
+        this.dropList = statValues.dropList;
     }
 
 }
 module.exports = Mob;
 
 const Player = require('../Player');
-const Projectile = require('./../../projectiles/Projectile');
 
 Mob.StatValues = require('./MobStats');
 
@@ -1776,12 +1755,12 @@ Mob.prototype.attackRange = 1;
 Mob.prototype.meleeAttackPower = 0;
 /**
  * The kind of projectile that this mob will use to attack. The class itself, not an instance of it.
- * @type {Projectile|Null}
+ * @type {Function|Null}
  */
 Mob.prototype.projectileAttackType = null;
 /**
  * The function to be called every attack rate interval. Typically shoots a projectile or melee attacks.
- * @type {Projectile|Null}
+ * @type {Function|Null}
  */
 Mob.prototype.attackFunction = Mob.prototype.attackMelee;
 
@@ -1801,13 +1780,7 @@ Mob.prototype.behaviour = Mob.prototype.Behaviours.Cowardly;
 Mob.prototype.constrainedToSpawnerBounds = false;
 
 /**
- * An array of pickups that will be created when this mob is destroyed.
+ * An array of pickups that could be created when this mob is destroyed.
  * @type {Array.<Pickup>}
  */
 Mob.prototype.dropList = [];
-
-/**
- * The amount of item pickups that will be created when this mob is destroyed.
- * @type {Number}
- */
-Mob.prototype.dropAmount = 1;

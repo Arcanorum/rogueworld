@@ -76,17 +76,5 @@ module.exports = MasterAssassin;
 const ProjShuriken = require('./../../projectiles/ProjShuriken');
 
 MasterAssassin.prototype.registerEntityType();
-MasterAssassin.prototype.assignMobValues("Master assassin", MasterAssassin.prototype);
-MasterAssassin.prototype.CorpseType = require('../../../corpses/CorpseHuman');
+MasterAssassin.prototype.assignMobValues();
 MasterAssassin.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillOutlaws.taskID;
-MasterAssassin.prototype.dropList = [
-    require('../../../pickups/PickupRespawnOrb'),
-    require('../../../pickups/PickupExpOrbMelee'),
-    require('../../../pickups/PickupExpOrbRanged'),
-    require('../../../pickups/PickupSuperFireStaff'),
-    require('../../../pickups/PickupBloodGem'),
-    require('../../../pickups/PickupFireGem'),
-    require('../../../pickups/PickupWindGem'),
-    require('../../../pickups/PickupNinjaGarb'),
-    require('../../../pickups/PickupNoctisDagger'),
-];

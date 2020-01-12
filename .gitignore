@@ -8,3 +8,4 @@ client/assets/map/
 client/src/catalogues/
 
 server/node_modules/
+server/PlayerDataDump.json

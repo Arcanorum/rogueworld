@@ -5,7 +5,5 @@ class Rat extends Mob {}
 module.exports = Rat;
 
 Rat.prototype.registerEntityType();
-Rat.prototype.assignMobValues("Rat", Rat.prototype);
+Rat.prototype.assignMobValues();
 Rat.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillRats.taskID;
-Rat.prototype.dropList = [
-];

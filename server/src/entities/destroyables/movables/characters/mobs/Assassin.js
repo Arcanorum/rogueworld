@@ -59,14 +59,5 @@ module.exports = Assassin;
 const ProjShuriken = require('./../../projectiles/ProjShuriken');
 
 Assassin.prototype.registerEntityType();
-Assassin.prototype.assignMobValues("Assassin", Assassin.prototype);
-Assassin.prototype.CorpseType = require('../../../corpses/CorpseHuman');
+Assassin.prototype.assignMobValues();
 Assassin.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillOutlaws.taskID;
-Assassin.prototype.dropList = [
-    require('../../../pickups/PickupNinjaGarb'),
-    require('../../../pickups/PickupFabric'),
-    require('../../../pickups/PickupNoctisOre'),
-    require('../../../pickups/PickupNoctisBar'),
-    require('../../../pickups/PickupNoctisDagger'),
-    require('../../../pickups/PickupShuriken'),
-];

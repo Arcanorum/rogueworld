@@ -20,14 +20,5 @@ class Vampire extends Mob {
 module.exports = Vampire;
 
 Vampire.prototype.registerEntityType();
-Vampire.prototype.assignMobValues("Vampire", Vampire.prototype);
+Vampire.prototype.assignMobValues();
 Vampire.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillVampires.taskID;
-Vampire.prototype.CorpseType = require('../../../corpses/CorpseHuman');
-Vampire.prototype.dropList = [
-    require('../../../pickups/PickupFabric'),
-    require('../../../pickups/PickupFabric'),
-    require('../../../pickups/PickupFabric'),
-    require('../../../pickups/PickupIronOre'),
-    require('../../../pickups/PickupVampireFang'),
-    require('../../../pickups/PickupBloodGem'),
-];

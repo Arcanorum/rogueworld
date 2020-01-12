@@ -1,9 +1,9 @@
 
-const Utils = require('./../../../../../Utils');
-//const XLSX = require('xlsx');
 const fs = require('fs');
+const Utils = require('./../../../../../Utils');
 const Factions = require('../../../../../Factions');
 const Behaviours = require('../../../../../Behaviours');
+const Pickup = require('../../../pickups/Pickup');
 
 /**
  * Gets the value to use for a mob for a given property.
@@ -24,13 +24,24 @@ function getValue (config, valueName, typeCheckFunc) {
 
 class Drop {
     constructor (config) {
+
+        if(fs.existsSync("../server/src/entities/destroyables/pickups/Pickup" + config.itemName + ".js") === false) {
+            Utils.error("Cannot add to drop list, drop item name does not match any pickup class file name:", config.itemName);
+        }
+
         /**
          * The item pickup entity to be created when this item is dropped.
          * @type {Function}
          */
-        this.pickupType = EntitiesList["Pickup" + config.itemName];
+        this.pickupType = require("../../../pickups/Pickup" + config.itemName);
 
-        if(this.pickupType instanceof Pickup === false) Utils.error("Mob item drop name is not a valid item. Check there is a pickup entity with this item name. Config:" + config);
+        if(typeof this.pickupType !== "function"){
+            Utils.error("Cannot add to drop list, pickup entity is not a function/class. Is it disabled?:", config.itemName);
+        }
+
+        if(this.pickupType.prototype instanceof Pickup === false){
+            Utils.error("Cannot add to drop list, imported entity type does not extend type Pickup. Config:" + config);
+        }
 
         /**
          * How many separate chances to get the item.
@@ -41,7 +52,7 @@ class Drop {
         if(config.rolls !== undefined){
             // Check it is valid.
             if(Number.isInteger(config.rolls) === false) Utils.error("Mob item drop rolls must be an integer. Config:" + config);
-            if(config.rolls > 1) Utils.error("Mob item drop rolls must be greater than 1. Config:", config);
+            if(config.rolls < 1) Utils.error("Mob item drop rolls must be greater than 1. Config:", config);
 
             this.rolls = config.rolls;
         }
@@ -50,25 +61,23 @@ class Drop {
          * The chance of getting the item on each roll.
          * @type {Numnber}
          */
-        this.dropRate = 0.2;
+        this.dropRate = 20;
         // Use config if set.
         if(config.dropRate !== undefined){
             // Check it is valid.
             if(config.dropRate <= 0 || config.dropRate > 100) Utils.error("Mob item drop rate must be greater than 0, up to 100, i.e. 40 => 40% chance. Config:" + config);
 
-            this.rolls = config.rolls;
+            this.dropRate = config.dropRate;
         }
-        // Otherwise use the item pickup default drop rate.
-        else if(true) {
-
+        // Otherwise use the item pickup default drop rate if it is defined.
+        else {
+            this.dropRate = this.pickupType.prototype.dropRate;
         }
     }
 }
 
 class MobStats {
     constructor (config) {
-        console.log("new mobstats, config:", config);
-
         // Simple values that can be taken from the config as they are:
 
         this.gloryValue =       getValue(config, "gloryValue",          Number.isInteger);
@@ -80,9 +89,8 @@ class MobStats {
         this.targetSearchRate = getValue(config, "targetSearchRate",    Number.isInteger);
         this.attackRate =       getValue(config, "attackRate",          Number.isInteger);
         this.meleeAttackPower = getValue(config, "meleeAttackPower",    Number.isInteger);
-        this.dropList =         getValue(config, "dropList",            Array.isArray);
 
-        // More complex config values that need some validify checks
+        // More complex config values that need some validity checks
         // first, or that need to reference certain existing values:
 
         this.projectileAttackType = null;
@@ -107,6 +115,26 @@ class MobStats {
         else {
             if(Behaviours[config["behaviour"]] === undefined) Utils.error("Invalid behaviour given: " + config["behaviour"]);
             this.behaviour = Behaviours[config["behaviour"]];
+        }
+
+        // Use null corpse type if undefined. Use null directly, otherwise this might be for the default mob stats itself.
+        if(config["corpseType"] === undefined || config["corpseType"] === null) this.corpseType = null;
+        else {
+            if(fs.existsSync('./src/entities/destroyables/corpses/Corpse' + config["corpseType"] + '.js') === false){
+                Utils.error("Invalid corpse type given: " + config["corpseType"]);
+            }
+
+            this.corpseType = require('../../../corpses/Corpse' + config["corpseType"]);
+        }
+
+        if(config["dropList"] === undefined) this.dropList = defaultMobStats["dropList"];
+        else {
+            if(Array.isArray(config["dropList"]) === false) Utils.error("Invalid drop list given. Must be an array:", config["dropList"]);
+
+            this.dropList = [];
+            config["dropList"].forEach((dropConfig) => {
+                this.dropList.push(new Drop(dropConfig));
+            })
         }
 
     }
@@ -147,7 +175,5 @@ MobValues.forEach((rawConfig) => {
         MobStatsList[config.name] = new MobStats(config);
     }
 });
-
-console.log("mobstats list:", MobStatsList);
 
 module.exports = MobStatsList;

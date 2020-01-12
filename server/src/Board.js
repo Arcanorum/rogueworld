@@ -539,7 +539,7 @@ class Board {
         // Write the data to the file in the client files.
         fs.writeFileSync("../client/assets/map/" + this.name + ".json", json, "utf8");
 
-        console.log("* Board data written to client: " + this.name);
+        //console.log("* Board data written to client: " + this.name);
     }
 
     /**

@@ -2,7 +2,7 @@
 var counter = 0;
 function registerChatWarningID () {
     counter += 1;
-    console.log("* Registering chat warning, ID: ", counter);
+    //console.log("* Registering chat warning, ID: ", counter);
     return counter;
 }
 

@@ -14,7 +14,6 @@ class Spawner extends Entity {
      * @param {String} [config.dropList=undefined] - Any special item drop list that the entities spawned should use instead of their class one, such as keys.
      */
     constructor (config) {
-        //console.log("spawner const");
         super(config);
 
         this.EntityType = config.entityType;
@@ -33,12 +32,14 @@ class Spawner extends Entity {
 
             this.dropList = [];
 
-            for(let i=0; i<splitList.length; i+=1){
-                // Check the pickup entity type name is valid.
-                if(ItemsList["Item" + splitList[i]] === undefined) continue;
-                this.dropList.push(ItemsList["Item" + splitList[i]].prototype.PickupType);
-            }
+            splitList.forEach((itemName) => {
+                
+                this.dropList.push(new Drop({
+                    itemName: itemName,
+                    dropRate: 100
+                }));
 
+            });
         }
 
         //config.board.spawners[this.id] = this;
@@ -139,5 +140,5 @@ module.exports = Spawner;
 
 const Utils = require('./../../Utils');
 const World = require('./../../World');
-const ItemsList = require('./../../ItemsList');
+const Drop = require('../../Drop');
 const DungeonsList = require('./../../DungeonsList');

@@ -21,7 +21,7 @@ class Entity {
 
     /**
      * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
-     * Calls onDamage or onHeal based on the amount.
+     * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
      * @param {Number} amount - How much to increase or decrease by.
      * @param {Entity} [source] - The entity that caused this change.
      */
@@ -63,7 +63,11 @@ class Entity {
         amount = Math.floor(amount);
         this.hitPoints += amount;
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, {id: this.id, amount: amount});
+
+        this.postHeal(amount, source);
     }
+
+    postHeal (amount, source) {}
 
     /**
      * Deal damage to this entity. Lowers the hitpoints. Used mainly by weapons and melee mobs when attacking.

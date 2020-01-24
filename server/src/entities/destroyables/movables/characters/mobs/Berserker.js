@@ -4,24 +4,13 @@ const Mob = require('./Mob');
 class Berserker extends Mob {
 
     onModHitPoints() {
-        console.log("berserker, onmodhitpoints. Current hp:", this.hitPoints);
-
         // Make this mob attack faster as their HP gets lower.
-
-        console.log("  this attack rate:", this.attackRate);
-        console.log("  proto attack rate:", Berserker.prototype.attackRate);
-
-        // Get what percent of their HP is left.
-
         const percentHP = this.hitPoints / this.maxHitPoints;
-        console.log("hp %:", percentHP);
-        
+        const baseAttackRate = Berserker.prototype.attackRate;
         const attackRateIncrease = 1 - percentHP;
-
-        console.log("AR increase:", attackRateIncrease);
-        this.attackRate = Berserker.prototype.attackRate - ((Berserker.prototype.attackRate / 2) * attackRateIncrease);
-
-        console.log("new attack rate:", this.attackRate);
+        // Can have up to 50% attack rate delay reduction (attack 2x as often).
+        // Need `/ 2` otherwise they can go as low as 100% reduction (no delay between attacks, i.e. a machine gun).
+        this.attackRate = baseAttackRate - ((baseAttackRate / 2) * attackRateIncrease);
     }
 
 }

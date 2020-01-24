@@ -268,6 +268,19 @@ Projectile.prototype.range = "Projectile range not set";
  */
 Projectile.prototype.attackPower = 0;
 
+Projectile.prototype.DamageTypes = {
+    Physical: 0,
+    Magic: 1
+};
+
+/**
+ * What kind of damage this projectile will deal.
+ * Some entities can only be hit by projectiles of a certain type.
+ * i.e. Swords vs ghosts
+ * @type {Number}
+ */
+Projectile.prototype.damageType = Projectile.prototype.DamageTypes.Physical;
+
 /**
  * How often this projectile moves along its path, in ms.
  * @type {Number}

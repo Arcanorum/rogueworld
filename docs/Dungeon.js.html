@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: Dungeon.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Anvil.html">Anvil</a></li><li><a href="BankChest.html">BankChest</a></li><li><a href="Board.html">Board</a></li><li><a href="Boss.html">Boss</a></li><li><a href="Breakable.html">Breakable</a></li><li><a href="Buildable.html">Buildable</a></li><li><a href="Character.html">Character</a></li><li><a href="CraftingStation.html">CraftingStation</a></li><li><a href="Destroyable.html">Destroyable</a></li><li><a href="Dungeon.html">Dungeon</a></li><li><a href="DungeonPortal.html">DungeonPortal</a></li><li><a href="Entity.html">Entity</a></li><li><a href="Entrance.html">Entrance</a></li><li><a href="Exit.html">Exit</a></li><li><a href="Furnace.html">Furnace</a></li><li><a href="GreatGnarl.html">GreatGnarl</a></li><li><a href="GroundTile.html">GroundTile</a></li><li><a href="Interactable.html">Interactable</a></li><li><a href="Item.html">Item</a></li><li><a href="Laboratory.html">Laboratory</a></li><li><a href="MagicEffect.html">MagicEffect</a></li><li><a href="MasterAssassin.html">MasterAssassin</a></li><li><a href="MetalDoor.html">MetalDoor</a></li><li><a href="Mob.html">Mob</a></li><li><a href="NewTask.html">NewTask</a></li><li><a href="OverworldPortal.html">OverworldPortal</a></li><li><a href="Pickup.html">Pickup</a></li><li><a href="Player.html">Player</a></li><li><a href="Projectile.html">Projectile</a></li><li><a href="ShopClan.html">ShopClan</a></li><li><a href="ShopNPC.html">ShopNPC</a></li><li><a href="Spawner.html">Spawner</a></li><li><a href="SpawnerArea.html">SpawnerArea</a></li><li><a href="SpawnerTotem.html">SpawnerTotem</a></li><li><a href="Stat.html">Stat</a></li><li><a href="Static.html">Static</a></li><li><a href="Statset.html">Statset</a></li><li><a href="StatusEffect.html">StatusEffect</a></li><li><a href="Task.html">Task</a></li><li><a href="Taskset.html">Taskset</a></li><li><a href="TaskType.html">TaskType</a></li><li><a href="WoodDoor.html">WoodDoor</a></li><li><a href="WoodDoorLockedBlue.html">WoodDoorLockedBlue</a></li><li><a href="WoodDoorLockedGreen.html">WoodDoorLockedGreen</a></li><li><a href="WoodDoorLockedRed.html">WoodDoorLockedRed</a></li><li><a href="WoodDoorLockedYellow.html">WoodDoorLockedYellow</a></li><li><a href="Workbench.html">Workbench</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getValue">getValue</a></li><li><a href="global.html#MobStatsList">MobStatsList</a></li><li><a href="global.html#RewardsList">RewardsList</a></li><li><a href="global.html#sendEvent">sendEvent</a></li><li><a href="global.html#taskType">taskType</a></li></ul></div><div class="category"><h2>Corpse</h2><h3>Classes</h3><ul><li><a href="CorpseHuman.html">CorpseHuman</a></li></ul></div><div class="category"><h2>Mob</h2><h3>Classes</h3><ul><li><a href="ArchMage.html">ArchMage</a></li><li><a href="Assassin.html">Assassin</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>Dungeon.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+const Utils = require('./Utils');
+
+const Difficulties = {};
+
+class Difficulty {
+    constructor(name, gloryCost) {
+        // If a dungeon already exists with the given name, stop the server.
+        if(Difficulties[name]) Utils.error('Difficulty name is already taken:' + name);
+        this.name = name;
+
+        this.gloryCost = gloryCost || 0;
+    }
+}
+
+Difficulties.Beginner = new Difficulty("Beginner", 200);
+Difficulties.Advanced = new Difficulty("Advanced", 500);
+Difficulties.Expert =   new Difficulty("Expert", 1000);
+Difficulties.Master =   new Difficulty("Master", 5000);
+
+let idCounter = 1;
+
+class Dungeon {
+    /**
+     *
+     * @param {String} name - What this dungeon is called. Used in Tiled to define what dungeon a dungeon door leads to.
+     * @param {String} nameDefinitionID - The ID of the text definition to use for the name of this dungeon.
+     * @param {String} [difficulty=Difficulties.Beginner] - Roughly how difficult this dungeon is relative to most others.
+     */
+    constructor (name, nameDefinitionID, difficultyName) {
+        this.id = idCounter;
+        idCounter+=1;
+
+        this.name = name;
+
+        let difficulty = Difficulties.Beginner;
+        // Use the given difficulty name map setting if given.
+        if(difficultyName){
+            difficulty = Difficulties[difficultyName];
+            // Check the given difficulty name is valid.
+            if(!difficulty) Utils.error(
+                "Dungeon difficulty name is invalid.",
+                "Difficulty name: ", difficultyName +
+                ". On map:", name,
+                '\nValid difficulties:\n', Difficulties
+            );
+        }
+
+        /**
+         * Written to client to show the difficulty on the dungeon prompt.
+         * @type {String}
+         */
+        this.difficultyName = difficulty.name;
+
+        /**
+         * Written to client to show the dungeon name on the dungeon prompt.
+         * @type {String}
+         */
+        this.nameDefinitionID = "Dungeon name: " + nameDefinitionID;
+
+        /**
+         * How much glory a player must pay to enter.
+         * Written to client to show the glory cost on the dungeon prompt.
+         * @type {Number}
+         */
+        this.gloryCost = difficulty.gloryCost || 0;
+
+        // Easy to access references to this instance.
+        DungeonsList.ByID[this.id] = this;
+        DungeonsList.ByName[this.name] = this;
+
+        /**
+         * The exit used to get into this dungeon.
+         * Max one per dungeon. Only one way to get in.
+         * @type {DungeonPortal}
+         */
+        this.dungeonPortal = null;
+
+        /**
+         * The exit used to get out of this dungeon.
+         * Max one per dungeon. Only one way to get out.
+         * @type {OverworldPortal}
+         */
+        this.overworldPortal = null;
+
+        /**
+         * The boss that must be defeated first before the overworld portal activates.
+         * @type {Boss}
+         */
+        this.boss = null;
+
+        /**
+         * Locked doors in dungeons stay open when unlocked, but are closed when the boss respawns.
+         * @type {Interactable[]}
+         */
+        this.lockedDoors = [];
+
+        /**
+         * A list of the mobs that have keys in their drop lists, so they can be killed and respawned in their correct areas.
+         * @type {Object}
+         */
+        this.keyHolders = {};
+    }
+
+    /**
+     * Close this dungeon so no more players can enter it when the boss is defeated. Will be unlocked when the boss respawns.
+     */
+    lock () {
+        // Open the exit of the dungeon so the players can leave.
+        this.overworldPortal.activate();
+
+        // Close the entrance to this dungeon so no more players can enter until the boss respawns.
+        this.dungeonPortal.deactivate();
+
+        // Remove the reference to the boss entity from the dungeon, as the entity actually gets destroyed, not recycled.
+        this.boss = null;
+    }
+
+    /**
+     * Open this dungeon so more players can enter it when the boss respawns.
+     */
+    unlock (boss) {
+        // Set the given entity to be the boss of the dungeon it is in. Boss entities must only be spawned into boards that are dungeons.
+        this.boss = boss;
+        // Open the entrance of the dungeon so players can enter.
+        this.dungeonPortal.activate();
+        // Close the exit, so players cannot leave until this boss is defeated.
+        this.overworldPortal.deactivate();
+        // Reactivate all doors in this dungeon.
+        for(let i=0; i&lt;this.lockedDoors.length; i+=1){
+            this.lockedDoors[i].activate();
+        }
+        // Kill all key holders.
+        for(let keyHolderID in this.keyHolders){
+            if(this.keyHolders.hasOwnProperty(keyHolderID) === false) continue;
+            this.keyHolders[keyHolderID].destroy();
+        }
+        // Make a new list of key holders.
+        this.keyHolders = {};
+    }
+
+}
+
+module.exports = Dungeon;
+
+const DungeonsList = require('./DungeonsList');</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Jan 25 2020 01:23:46 GMT+0000 (Greenwich Mean Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

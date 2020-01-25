@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: crafting/CraftingManager.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Anvil.html">Anvil</a></li><li><a href="BankChest.html">BankChest</a></li><li><a href="Board.html">Board</a></li><li><a href="Boss.html">Boss</a></li><li><a href="Breakable.html">Breakable</a></li><li><a href="Buildable.html">Buildable</a></li><li><a href="Character.html">Character</a></li><li><a href="CraftingStation.html">CraftingStation</a></li><li><a href="Destroyable.html">Destroyable</a></li><li><a href="Dungeon.html">Dungeon</a></li><li><a href="DungeonPortal.html">DungeonPortal</a></li><li><a href="Entity.html">Entity</a></li><li><a href="Entrance.html">Entrance</a></li><li><a href="Exit.html">Exit</a></li><li><a href="Furnace.html">Furnace</a></li><li><a href="GreatGnarl.html">GreatGnarl</a></li><li><a href="GroundTile.html">GroundTile</a></li><li><a href="Interactable.html">Interactable</a></li><li><a href="Item.html">Item</a></li><li><a href="Laboratory.html">Laboratory</a></li><li><a href="MagicEffect.html">MagicEffect</a></li><li><a href="MasterAssassin.html">MasterAssassin</a></li><li><a href="MetalDoor.html">MetalDoor</a></li><li><a href="Mob.html">Mob</a></li><li><a href="NewTask.html">NewTask</a></li><li><a href="OverworldPortal.html">OverworldPortal</a></li><li><a href="Pickup.html">Pickup</a></li><li><a href="Player.html">Player</a></li><li><a href="Projectile.html">Projectile</a></li><li><a href="ShopClan.html">ShopClan</a></li><li><a href="ShopNPC.html">ShopNPC</a></li><li><a href="Spawner.html">Spawner</a></li><li><a href="SpawnerArea.html">SpawnerArea</a></li><li><a href="SpawnerTotem.html">SpawnerTotem</a></li><li><a href="Stat.html">Stat</a></li><li><a href="Static.html">Static</a></li><li><a href="Statset.html">Statset</a></li><li><a href="StatusEffect.html">StatusEffect</a></li><li><a href="Task.html">Task</a></li><li><a href="Taskset.html">Taskset</a></li><li><a href="TaskType.html">TaskType</a></li><li><a href="WoodDoor.html">WoodDoor</a></li><li><a href="WoodDoorLockedBlue.html">WoodDoorLockedBlue</a></li><li><a href="WoodDoorLockedGreen.html">WoodDoorLockedGreen</a></li><li><a href="WoodDoorLockedRed.html">WoodDoorLockedRed</a></li><li><a href="WoodDoorLockedYellow.html">WoodDoorLockedYellow</a></li><li><a href="Workbench.html">Workbench</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getValue">getValue</a></li><li><a href="global.html#MobStatsList">MobStatsList</a></li><li><a href="global.html#RewardsList">RewardsList</a></li><li><a href="global.html#sendEvent">sendEvent</a></li><li><a href="global.html#taskType">taskType</a></li></ul></div><div class="category"><h2>Corpse</h2><h3>Classes</h3><ul><li><a href="CorpseHuman.html">CorpseHuman</a></li></ul></div><div class="category"><h2>Mob</h2><h3>Classes</h3><ul><li><a href="ArchMage.html">ArchMage</a></li><li><a href="Assassin.html">Assassin</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>crafting/CraftingManager.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+const CraftingManager = {
+
+    StationRecipes: {},
+
+    /**
+     *
+     * @param {Object} config
+     * @param {Function} config.result
+     * @param {String} config.craftingStat
+     * @param {Function} config.stationType
+     * @param {Function} config.comp1
+     * @param {Function} [config.comp2]
+     * @param {Function} [config.comp3]
+     * @param {Function} [config.comp4]
+     * @param {Function} [config.comp5]
+     * @param {Number} [config.statXPGiven] - A specific amount of XP given for crafting this item. Default will use the sum of the craftingExpValues of each component.
+     * @param {TaskType} [config.taskCrafted] - What task will crafting this item give progress towards.
+     */
+    addRecipe: function (config) {
+        if(config.comp1 === undefined) return;
+
+        let recipeCode = config.comp1.prototype.typeNumber + '-';
+        let statXPGiven = config.comp1.prototype.craftingExpValue;
+        if(config.comp2 !== undefined){ recipeCode += config.comp2.prototype.typeNumber + '-'; statXPGiven += config.comp2.prototype.craftingExpValue }
+        if(config.comp3 !== undefined){ recipeCode += config.comp3.prototype.typeNumber + '-'; statXPGiven += config.comp3.prototype.craftingExpValue }
+        if(config.comp4 !== undefined){ recipeCode += config.comp4.prototype.typeNumber + '-'; statXPGiven += config.comp4.prototype.craftingExpValue }
+        if(config.comp5 !== undefined){ recipeCode += config.comp5.prototype.typeNumber + '-'; statXPGiven += config.comp5.prototype.craftingExpValue }
+
+        if(config.statXPGiven !== undefined) statXPGiven = config.statXPGiven;
+
+        const stationTypeNumber = config.stationType.prototype.typeNumber;
+
+        if(this.StationRecipes[stationTypeNumber] === undefined){
+            this.StationRecipes[stationTypeNumber] = {};
+        }
+
+        let taskIDCrafted;
+        if(config.taskCrafted === undefined || config.taskCrafted.taskID === undefined){
+            taskIDCrafted = null;
+        }
+        else {
+            taskIDCrafted = config.taskCrafted.taskID;
+        }
+
+        this.StationRecipes[stationTypeNumber][recipeCode] = {
+            /** @type {Function} */
+            result: config.result,
+            /** @type {String} */
+            craftingStat: config.craftingStat,
+            /** @type {Number} */
+            statXPGiven: statXPGiven,
+            /** @type {Number} */
+            stationTypeNumber: config.stationType.prototype.typeNumber,
+            /** @type {String} */
+            taskIDCrafted: taskIDCrafted
+        };
+    },
+
+    /**
+     *
+     * @param {Player} crafter
+     * @param {Number} stationTypeNumber
+     * @param {Array} inventorySlotKeys
+     * @returns {*}
+     */
+    craft: function (crafter, stationTypeNumber, inventorySlotKeys) {
+        if(Array.isArray(inventorySlotKeys) === false) return;
+        // Check for any duplicate values in the components.
+        // Someone might try to use the same inventory item for multiple components.
+        if((new Set(inventorySlotKeys)).size !== inventorySlotKeys.length) return;
+        // Check the station type number is valid. Might have been invalid input.
+        if(this.StationRecipes[stationTypeNumber] === undefined) return;
+
+        let recipeCode = '';
+        // How many of the components have a durability.
+        let durabilityCount = 0;
+        let totalPercentRemaining = 0;
+        let totalPercentImproved = 0;
+
+        let item;
+        const inventory = crafter.inventory;
+        for(let i=0; i&lt;inventorySlotKeys.length; i+=1){
+            // Only string names of each slot to use should be in the components.
+            if(typeof inventorySlotKeys[i] !== 'string') return;
+
+            item = inventory[inventorySlotKeys[i]];
+            if(item === undefined) continue;
+            if(item === null) continue;
+            recipeCode += item.typeNumber + '-';
+            if(item.durability !== null){
+                durabilityCount += 1;
+                totalPercentRemaining += item.durability / item.maxDurability;
+                totalPercentImproved += item.maxDurability / item.baseDurability;
+            }
+        }
+
+        let recipe = this.StationRecipes[stationTypeNumber][recipeCode];
+
+        if(recipe === undefined) return;
+
+        // Check the player is stood next to the correct type of crafting station.
+        if(crafter.isAdjacentToStaticType(stationTypeNumber) === false){
+            //console.log(" not next to station");
+            return;
+        }
+
+        let resultDurability = null;
+        let resultMaxDurability = null;
+        // If the item to be crafted has a durability, it is affected by some crafting stat of the crafter.
+        if(recipe.result.prototype.baseDurability !== null){
+            if(durabilityCount > 0){
+                const maxDurabilityPercentImproved = totalPercentImproved / durabilityCount;
+                const durabilityPercentRemaining = totalPercentRemaining / durabilityCount;
+                resultMaxDurability = Math.trunc(recipe.result.prototype.baseDurability * maxDurabilityPercentImproved * (1 + (crafter.stats[recipe.craftingStat].level / 20)));
+                resultDurability = Math.trunc(resultMaxDurability * durabilityPercentRemaining);
+            }
+            // None of the ingredients have a durability, so don't need to worry about the average percent remaining on the
+            // resulting item (it will be 100% of base max durability), but still need to factor in the stat level improvement.
+            else {
+                resultMaxDurability = Math.trunc(recipe.result.prototype.baseDurability * (1 + (crafter.stats[recipe.craftingStat].level / 20)));
+                resultDurability = Math.trunc(resultMaxDurability);
+            }
+        }
+
+        crafter.stats[recipe.craftingStat].gainExp(recipe.statXPGiven * 0.5);
+
+        // Remove the items from the crafter that were used in the recipe.
+        for(let i=0; i&lt;inventorySlotKeys.length; i+=1){
+            item = inventory[inventorySlotKeys[i]];
+            if(item === undefined) continue;
+            if(item === null) continue;
+            item.destroy();
+        }
+
+        crafter.addToInventory(new recipe.result({durability: resultDurability, maxDurability: resultMaxDurability}));
+
+        crafter.modGlory(recipe.statXPGiven);
+
+        crafter.tasks.progressTask(recipe.taskIDCrafted);
+    }
+
+};
+
+module.exports = CraftingManager;
+
+// Run the crafting recipes file to init the recipes.
+require('./CraftingRecipes');</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Jan 25 2020 01:23:46 GMT+0000 (Greenwich Mean Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

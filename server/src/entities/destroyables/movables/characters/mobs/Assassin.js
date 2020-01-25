@@ -3,8 +3,9 @@ const Mob = require('./Mob');
 const Utils = require('./../../../../../Utils');
 
 class Assassin extends Mob {
-
     /**
+     * @category Mob
+     * 
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col

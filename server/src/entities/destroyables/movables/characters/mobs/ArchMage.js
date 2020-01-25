@@ -8,6 +8,8 @@ const specialAttack3Rate = 3000;
 
 class ArchMage extends Boss {
     /**
+     * @category Mob
+     * 
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col

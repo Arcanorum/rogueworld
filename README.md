@@ -1,4 +1,4 @@
-# [Dungeonz](http://142.93.54.176:4567/)
+# [Dungeonz](http://142.93.54.176/)
 
 ## Everything for the game Dungeonz.
 
@@ -165,7 +165,7 @@ C:\Users\User\dungeonz>
 
 <img src="guides/build-client.gif" width="50%"/>
 
-Finally, to open the client and play the game, go to http://localhost:4567/ in a web browser.
+Finally, to open the client and play the game, go to http://localhost/ in a web browser.
 
 <img src="guides/client-served-locally.png" width="50%"/>
 
@@ -216,7 +216,3 @@ And use the service with:
 `sudo systemctl restart dungeonz`
 
 `sudo systemctl stop dungeonz`
-
-You will need to redirect requests for port 80 (HTTP) on the game server to port 4567 (the Express server).
-
-`sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 4567`

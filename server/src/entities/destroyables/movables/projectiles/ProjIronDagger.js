@@ -15,4 +15,4 @@ ProjIronDagger.prototype.attackPower = require('../../../../ModHitPointValues').
 ProjIronDagger.prototype.moveRate = 200;
 ProjIronDagger.prototype.range = 1;
 ProjIronDagger.prototype.hasBackStabBonus = true;
-ProjIronDagger.prototype.damageType = ProjIronDagger.prototype.DamageTypes.Melee;
+ProjIronDagger.prototype.collisionType = ProjIronDagger.prototype.CollisionTypes.Melee;

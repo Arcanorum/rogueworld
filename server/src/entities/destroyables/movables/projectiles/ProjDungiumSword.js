@@ -14,4 +14,4 @@ ProjDungiumSword.prototype.registerEntityType();
 ProjDungiumSword.prototype.attackPower = require('../../../../ModHitPointValues').ProjDungiumSword;
 ProjDungiumSword.prototype.moveRate = 200;
 ProjDungiumSword.prototype.range = 3;
-ProjDungiumSword.prototype.damageType = ProjDungiumSword.prototype.DamageTypes.Melee;
+ProjDungiumSword.prototype.collisionType = ProjDungiumSword.prototype.CollisionTypes.Melee;

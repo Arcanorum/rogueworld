@@ -15,4 +15,4 @@ ProjDungiumDagger.prototype.attackPower = require('../../../../ModHitPointValues
 ProjDungiumDagger.prototype.moveRate = 200;
 ProjDungiumDagger.prototype.range = 1;
 ProjDungiumDagger.prototype.hasBackStabBonus = true;
-ProjDungiumDagger.prototype.damageType = ProjDungiumDagger.prototype.DamageTypes.Melee;
+ProjDungiumDagger.prototype.collisionType = ProjDungiumDagger.prototype.CollisionTypes.Melee;

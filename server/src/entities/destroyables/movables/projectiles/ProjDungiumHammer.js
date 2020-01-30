@@ -15,4 +15,4 @@ ProjDungiumHammer.prototype.registerEntityType();
 ProjDungiumHammer.prototype.attackPower = require('../../../../ModHitPointValues').ProjDungiumHammer;
 ProjDungiumHammer.prototype.moveRate = 200;
 ProjDungiumHammer.prototype.range = 2;
-ProjDungiumHammer.prototype.damageType = ProjDungiumHammer.prototype.DamageTypes.Melee;
+ProjDungiumHammer.prototype.collisionType = ProjDungiumHammer.prototype.CollisionTypes.Melee;

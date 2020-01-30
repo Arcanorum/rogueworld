@@ -23,14 +23,24 @@ class Character extends Movable {
     }
 
     /**
-     * @param {Number} amount
+     * @param {Damage} damage
      * @param {Entity} source
      */
-    onDamage (amount, source) {
+    onDamage (damage, source) {
         // If they have a ward enchantment, ignore the damage.
         if(this.enchantment !== null){
             if(this.enchantment.onCharacterDamaged() === false){
                 return;
+            }
+        }
+
+        // If the character is immune to all of the types of the incoming damage, ignore the damage completely.
+        // If any of the damage types are not blocked, the full damage is dealt.
+        const immuneToAll = false;
+        for(let type of damage.types){
+            console.log("character ondamage, damage type:", type);
+            if(){
+
             }
         }
 
@@ -204,6 +214,10 @@ Character.prototype.faction = Character.prototype.Factions.Citizens;
  */
 Character.prototype.maxHitPoints = 200;
 Character.prototype.hitPoints = Character.prototype.maxHitPoints;
+
+Character.prototype.damageTypeImmunities = [
+    
+]
 
 /**
  * A percentage to reduce incoming damage by. 40 => 40%.

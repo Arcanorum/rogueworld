@@ -102,6 +102,19 @@ class Projectile extends Movable {
     }
 
     /**
+     * Checks if the entity collided with can be hit by any of the damage types this projectile deals.
+     * @param {Entity} entity 
+     */
+    doesEntityIgnoreAllDamageTypes (entity) {
+        for(const element of this.damageTypes){
+            if(entity.damageTypeIgnoreList.includes(element)){
+                return true;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Check for collisions between high blocking statics, and destroyables.
      */
     checkCollisions () {
@@ -119,6 +132,8 @@ class Projectile extends Movable {
             if(destroyable === this) continue;
             // Don't check against source.
             if(destroyable === this.source) continue;
+
+            if(this.checkDamageTypeIgnoreList(destroyable)) continue;
 
             this.handleCollision(destroyable);
         }
@@ -189,7 +204,7 @@ class Projectile extends Movable {
         // Does this projectile deal any damage.
         if(this.attackPower === 0) dealDamage = false;
         // Does this projectile hit low blocking statics?
-        if(this.damageType === this.DamageTypes.Melee){
+        if(this.collisionType === this.CollisionTypes.Melee){
             if(collidee instanceof Static){
                 // Only damage the static (if it is an interactable) and destroy this projectile when it hits a blocking static,
                 // as it might hit a non-blocking one such as an open door or cut down tree, but it should still pass through them.
@@ -207,6 +222,14 @@ class Projectile extends Movable {
                 // If attacked from behind, apply bonus damage.
                 if(collidee.direction === this.direction) damageAmount = this.attackPower * 3;
             }
+        }
+
+        if(this.damageType === this.DamageTypes.Physical){
+            // Check if the target can be affected by physical attacks.
+            if(collidee.ignorePhysicalDamage === true) return;
+
+            // Check how much physical resistance the target has.
+            damageAmount = 0;//calculation for how much resistance they have Resistance property? this or armour?
         }
 
 
@@ -268,19 +291,6 @@ Projectile.prototype.range = "Projectile range not set";
  */
 Projectile.prototype.attackPower = 0;
 
-Projectile.prototype.DamageTypes = {
-    Physical: 0,
-    Magic: 1
-};
-
-/**
- * What kind of damage this projectile will deal.
- * Some entities can only be hit by projectiles of a certain type.
- * i.e. Swords vs ghosts
- * @type {Number}
- */
-Projectile.prototype.damageType = Projectile.prototype.DamageTypes.Physical;
-
 /**
  * How often this projectile moves along its path, in ms.
  * @type {Number}
@@ -294,10 +304,17 @@ Projectile.prototype.moveRate = 500;
 Projectile.prototype.range = 5;
 
 /**
- * Valid types to use for damageType.
+ * The types of damage this projectile will deal when it hits something.
+ */
+Projectile.prototype.damageTypes = [
+    Damage.prototype.Physical
+];
+
+/**
+ * Valid types to use for collisionType.
  * @type {{Melee: number, Ranged: number}}
  */
-Projectile.prototype.DamageTypes = {
+Projectile.prototype.CollisionTypes = {
     Melee: 1,
     Ranged: 2
 };
@@ -308,7 +325,7 @@ Projectile.prototype.DamageTypes = {
  * instead of the projectile just passing over/through them.
  * @type {Number}
  */
-Projectile.prototype.damageType = Projectile.prototype.DamageTypes.Ranged;
+Projectile.prototype.collisionType = Projectile.prototype.CollisionTypes.Ranged;
 
 /**
  * Whether this projectile deals bonus damage when it hits a character from behind.

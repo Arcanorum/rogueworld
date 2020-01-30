@@ -15,4 +15,4 @@ ProjNoctisDagger.prototype.attackPower = require('../../../../ModHitPointValues'
 ProjNoctisDagger.prototype.moveRate = 200;
 ProjNoctisDagger.prototype.range = 1;
 ProjNoctisDagger.prototype.hasBackStabBonus = true;
-ProjNoctisDagger.prototype.damageType = ProjNoctisDagger.prototype.DamageTypes.Melee;
+ProjNoctisDagger.prototype.collisionType = ProjNoctisDagger.prototype.CollisionTypes.Melee;

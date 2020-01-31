@@ -5,12 +5,10 @@
     "postinstall": "cd server && npm install && cd ../client && npm install",
     "server": "cd server && node index",
     "client": "cd client && npx sass scss/Main.scss:main.css && npm start",
-    "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
-    "md": "jsdoc2md --no-cache -c jsdoc.json --files server/src/*"
+    "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "better-docs": "^1.4.7",
-    "jsdoc": "^3.6.3",
-    "jsdoc-to-markdown": "^5.0.3"
+    "jsdoc": "^3.6.3"
   }
 }

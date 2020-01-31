@@ -36,13 +36,7 @@ class Character extends Movable {
 
         // If the character is immune to all of the types of the incoming damage, ignore the damage completely.
         // If any of the damage types are not blocked, the full damage is dealt.
-        const immuneToAll = false;
-        for(let type of damage.types){
-            console.log("character ondamage, damage type:", type);
-            if(){
-
-            }
-        }
+        if(damage.canAffectTarget === false) return;
 
         // Apply the damage reduction from defence bonuses.
         // Amount is negative, so add to reduce the damage.

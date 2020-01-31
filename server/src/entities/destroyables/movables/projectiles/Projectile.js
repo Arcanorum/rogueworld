@@ -105,14 +105,24 @@ class Projectile extends Movable {
      * Checks if the entity collided with can be hit by any of the damage types this projectile deals.
      * @param {Entity} entity 
      */
-    doesEntityIgnoreAllDamageTypes (entity) {
-        for(const element of this.damageTypes){
-            if(entity.damageTypeIgnoreList.includes(element)){
-                return true;
-            }
-        }
-        return true;
-    }
+    canDamageTypeCollideWithTarget (entity) {
+        // Check the entity is immune to anything.
+       if(entity.damageTypeImmunities){
+           // Check every type of this damage
+           for(let type of this.damage.types){
+               // If the entity is immune to the current type, check the net one.
+               if(entity.damageTypeImmunities.includes(type)){
+                   continue;
+               }
+               // Entity is not immune to this damage type, they can be affected.
+               return true;
+           }
+       }
+       else {
+           return true;
+       }
+       return false;
+   }
 
     /**
      * Check for collisions between high blocking statics, and destroyables.
@@ -133,7 +143,8 @@ class Projectile extends Movable {
             // Don't check against source.
             if(destroyable === this.source) continue;
 
-            if(this.checkDamageTypeIgnoreList(destroyable)) continue;
+            // Pass through if none of the damage
+            if(this.canDamageTypeCollideWithTarget(destroyable) === false) continue;
 
             this.handleCollision(destroyable);
         }
@@ -216,7 +227,7 @@ class Projectile extends Movable {
                 if(collidee.isHighBlocked() === false) dealDamage = false;
             }
         }
-
+        
         if(this.hasBackStabBonus === true){
             if(collidee instanceof Character){
                 // If attacked from behind, apply bonus damage.
@@ -278,6 +289,7 @@ module.exports = Projectile;
 const Character = require('../characters/Character');
 const Static = require('../../../statics/Static');
 const ProjWind = require('../projectiles/ProjWind');
+const Damage = require('../../../../Damage');
 
 /**
  * How many board tiles can this projectile can move before it is destroyed.
@@ -289,7 +301,10 @@ Projectile.prototype.range = "Projectile range not set";
  * How much damage is dealt to something when this projectile hits it.
  * @type {Number}
  */
-Projectile.prototype.attackPower = 0;
+Projectile.prototype.damage = new Damage({
+    amount: 0,
+    types: [Damage.Types.Physical]
+});
 
 /**
  * How often this projectile moves along its path, in ms.
@@ -306,9 +321,9 @@ Projectile.prototype.range = 5;
 /**
  * The types of damage this projectile will deal when it hits something.
  */
-Projectile.prototype.damageTypes = [
-    Damage.prototype.Physical
-];
+// Projectile.prototype.damageTypes = [
+//     Damage.prototype.Physical
+// ];
 
 /**
  * Valid types to use for collisionType.

@@ -21,7 +21,7 @@ class Entity {
 
     /**
      * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
-     * Calls onDamage or onHeal based on the amount.
+     * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
      * @param {Number} amount - How much to increase or decrease by.
      * @param {Entity} [source] - The entity that caused this change.
      */

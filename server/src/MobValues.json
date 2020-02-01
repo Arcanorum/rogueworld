@@ -81,6 +81,22 @@
         ]
     },
     {
+        "name": "Berserker",
+        "gloryValue": 60,
+        "defence": 40,
+        "viewRange": 5,
+        "moveRate": 600,
+        "projectileAttackType": "IronSword",
+        "faction": "Barbarians",
+        "corpseType": "Human",
+        "dropList": [
+            {"itemName": "IronOre"},
+            {"itemName": "IronBar"},
+            {"itemName": "IronSword"},
+            {"itemName": "Redcap"}
+        ]
+    },
+    {
         "name": "Mage",
         "corpseType": "Human",
         "projectileAttackType": "Fire",

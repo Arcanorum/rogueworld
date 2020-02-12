@@ -256,7 +256,8 @@ class Player extends Character {
         }
         // Damage any clothes being worn.
         if(this.clothing !== null){
-            this.clothing.modDurability(-Math.floor(amount * 0.25));
+            // Clothing only takes 25% of damage taken from the wearer.
+            this.clothing.damage(-Math.floor(amount * 0.25), damagedBy);
         }
 
         super.damage(amount, damagedBy);

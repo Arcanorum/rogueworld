@@ -37,6 +37,8 @@ class ProjSuperWind extends ProjWind{
 
         this.pushBackCollidee(collidee);
 
+        collidee.damage(this.attackPower, this.source);
+
         this.destroy();
     }
 
@@ -46,3 +48,5 @@ module.exports = ProjSuperWind;
 const Static = require('../../../statics/Static');
 
 ProjSuperWind.prototype.registerEntityType();
+
+ProjSuperWind.prototype.attackPower = 2;

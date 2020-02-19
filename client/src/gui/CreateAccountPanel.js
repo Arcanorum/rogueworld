@@ -67,7 +67,7 @@ class CreateAccountPanel extends PanelTemplate {
     }
 
     async createAccountPressed () {
-        console.log("create account pressed");
+        console.log("* Create account pressed.");
 
         // Check username and password are valid.
         const username = this.usernameInput.value;

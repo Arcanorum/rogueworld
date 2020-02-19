@@ -73,7 +73,8 @@ class Entity {
     damage (amount, source) {
         // Make sure the amount is valid. Might not have the attackPower set.
         if(amount === null) return;
-        this.modHitPoints(-amount, source);
+        // Check the amount is negative before doing the HP modify.
+        this.modHitPoints(-Math.abs(amount), source);
     }
 
     /**

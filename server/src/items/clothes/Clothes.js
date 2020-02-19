@@ -59,9 +59,7 @@ class Clothes extends Item {
         this.onDamaged(amount, source);
     }
 
-    onDamaged (amount, source) {
-        super.onDamaged(amount, source);
-    }
+    onDamaged (amount, source) { }
 
 }
 

@@ -289,14 +289,13 @@ class Player extends Character {
 
     modGlory (amount) {
         this.glory += amount;
+
+        if(this.glory < 0) {
+            this.glory = 0;
+        }
+        
         // Tell the player their new glory amount.
         this.socket.sendEvent(this.EventsList.glory_value, this.glory);
-    }
-
-    modBounty (amount) {
-        this.bounty += amount;
-        // Tell the player their new bounty amount.
-        this.socket.sendEvent(this.EventsList.bounty_value, this.bounty);
     }
 
     modHitPoints (amount, source) {

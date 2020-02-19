@@ -25,7 +25,7 @@ class Holdable extends Item {
             this.owner.modDirection(direction);
         }
 
-        this.onUsed();
+        this.onUsed(direction);
     }
 
     equip () {
@@ -58,5 +58,11 @@ class Holdable extends Item {
  * @type {Number}
  */
 Holdable.prototype.useEnergyCost = 0;
+
+/**
+ * How much energy it costs for a character to use this item.
+ * @type {Number}
+ */
+Holdable.prototype.useGloryCost = 0;
 
 module.exports = Holdable;

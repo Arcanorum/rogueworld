@@ -16,6 +16,7 @@ const ModHitPointValues = {
     ProjIronHammer: 10,
     ProjDungiumHammer: 10,
     ProjNoctisHammer: 15,
+    ProjHammerOfGlory: 20,
 
     ProjShuriken: 10,
     ProjSnowball: 4,

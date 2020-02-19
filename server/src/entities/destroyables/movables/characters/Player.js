@@ -256,7 +256,8 @@ class Player extends Character {
         }
         // Damage any clothes being worn.
         if(this.clothing !== null){
-            this.clothing.modDurability(-Math.floor(amount * 0.25));
+            // Clothing only takes 25% of damage taken from the wearer.
+            this.clothing.damage(-Math.floor(amount * 0.25), damagedBy);
         }
 
         super.damage(amount, damagedBy);
@@ -288,14 +289,13 @@ class Player extends Character {
 
     modGlory (amount) {
         this.glory += amount;
+
+        if(this.glory < 0) {
+            this.glory = 0;
+        }
+        
         // Tell the player their new glory amount.
         this.socket.sendEvent(this.EventsList.glory_value, this.glory);
-    }
-
-    modBounty (amount) {
-        this.bounty += amount;
-        // Tell the player their new bounty amount.
-        this.socket.sendEvent(this.EventsList.bounty_value, this.bounty);
     }
 
     modHitPoints (amount, source) {

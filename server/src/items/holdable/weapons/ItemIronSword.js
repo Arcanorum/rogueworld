@@ -1,4 +1,3 @@
-
 const Weapon = require('./Weapon');
 
 class ItemIronSword extends Weapon {}

@@ -1,30 +1,32 @@
 
 const ModHitPointValues = {
 
-    ProjIronArrow: 6,
-    ProjDungiumArrow: 6,
-    ProjNoctisArrow: 9,
+    ProjIronArrow: 14,
+    ProjDungiumArrow: 16,
+    ProjNoctisArrow: 18,
 
-    ProjIronDagger: 4,
-    ProjDungiumDagger: 4,
-    ProjNoctisDagger: 6,
+    ProjIronDagger: 8,
+    ProjDungiumDagger: 10,
+    ProjNoctisDagger: 12,
 
-    ProjIronSword: 10,
-    ProjDungiumSword: 10,
-    ProjNoctisSword: 15,
+    ProjIronSword: 20,
+    ProjDungiumSword: 24,
+    ProjNoctisSword: 28,
 
-    ProjIronHammer: 10,
-    ProjDungiumHammer: 10,
-    ProjNoctisHammer: 15,
-    ProjHammerOfGlory: 20,
+    ProjIronHammer: 20,
+    ProjDungiumHammer: 24,
+    ProjNoctisHammer: 28,
+    ProjHammerOfGlory: 32,
 
-    ProjShuriken: 10,
-    ProjSnowball: 4,
-    ProjAcorn: 8,
-    ProjVampireFang: 10,
+    ProjShuriken: 20,
+    ProjSnowball: 8,
+    ProjAcorn: 16,
+    ProjVampireFang: 20,
 
-    ProjBloodBoltHeal: 10,
-    ProjBloodBoltDamage: 15,
+    ProjWind: 6,
+
+    ProjBloodBoltHeal: 15,
+    ProjBloodBoltDamage: 30,
 
     BookOfLightHealArea: 20,
     BookOfSoulsConsume: 40,
@@ -34,7 +36,7 @@ const ModHitPointValues = {
     Burn: 10,
     Poison: 5,
     Disease: 3,
-    HealthRegen: 5,
+    HealthRegen: 10,
 };
 
 module.exports = ModHitPointValues;

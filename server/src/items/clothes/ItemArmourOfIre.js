@@ -35,7 +35,7 @@ ItemArmourOfIre.prototype.registerItemType();
 ItemArmourOfIre.prototype.idName = "Dungium armour";
 ItemArmourOfIre.prototype.PickupType = require('../../entities/destroyables/pickups/PickupArmourOfIre');
 ItemArmourOfIre.prototype.iconSource = "icon-dungium-armour";
-ItemArmourOfIre.prototype.useGloryCost = 12;
+ItemArmourOfIre.prototype.useGloryCost = 10;
 ItemArmourOfIre.prototype.category = Clothes.prototype.categories.Clothing;
 ItemArmourOfIre.prototype.defenceBonus = 0.50;
 ItemArmourOfIre.prototype.statBonuses = {

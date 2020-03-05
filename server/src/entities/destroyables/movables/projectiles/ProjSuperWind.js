@@ -48,5 +48,4 @@ module.exports = ProjSuperWind;
 const Static = require('../../../statics/Static');
 
 ProjSuperWind.prototype.registerEntityType();
-
-ProjSuperWind.prototype.attackPower = 2;
+ProjSuperWind.prototype.attackPower = require('../../../../ModHitPointValues').ProjWind;

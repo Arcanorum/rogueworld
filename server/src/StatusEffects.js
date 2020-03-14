@@ -1,6 +1,8 @@
 
 const EventsList = require('./EventsList');
 const Utils = require('./Utils');
+const Damage = require('./Damage');
+const Heal = require('./Heal');
 
 class StatusEffect {
     /**
@@ -48,15 +50,24 @@ class StatusEffect {
             this.stop();
             return;
         }
-        // If this effect changes the hitpoint of what it is applied to, mod the hitpoints.
-        if(this._modHitpointsOnEffect !== 0){
-            if(this._modHitpointsOnEffect < 0){
-                this.appliedTo.damage(-this._modHitpointsOnEffect, this.source);
-            }
-            else {
-                this.appliedTo.modHitPoints(this._modHitpointsOnEffect, this.source);
-            }
+        // If this effect damages what it is applied to, damage them.
+        if(this._damageAmount){
+            this.appliedTo.damage(
+                new Damage({
+                    amount: this._damageAmount,
+                    types: this._damageTypes,
+                    armourPiercing: this._damageArmourPiercing
+                }),
+                this.source
+            );
         }
+        // Or if this effect heals what it is applied to, heal them.
+        else if(this._healAmount){
+            this.appliedTo.heal(
+                new Heal(this._healAmount)
+            );
+        }
+        
         this._effectsRemaining -= 1;
         // Check if the effect duration is over.
         if(this._effectsRemaining < 1){
@@ -98,8 +109,13 @@ class StatusEffect {
 StatusEffect.prototype.effectName = '';
 /** @type {Boolean} Should the effect by activated on start. */
 StatusEffect.prototype._effectOnStart = false;
+// TODO: docs
 /** @type {Number} How much to modify the hitpoints of the thing it is applied to by each effect. */
-StatusEffect.prototype._modHitpointsOnEffect = 0;
+StatusEffect.prototype._damageAmount = 0;
+StatusEffect.prototype._damageTypes = [];
+StatusEffect.prototype._damageArmourPiercing = 0;
+// TODO: docs
+StatusEffect.prototype._healAmount = 0;
 /** @type {Number} How many more times will this effect happen before stopping. */
 StatusEffect.prototype._effectsRemaining = 0;
 /** @type {Number} How long will this effect last for when started. Starting the effect multiple times does not stack this duration. */
@@ -137,7 +153,9 @@ class Burn extends StatusEffect {
     }
 }
 Burn.prototype._effectOnStart = true;
-Burn.prototype._modHitpointsOnEffect = -require('./ModHitPointValues').Burn;
+Burn.prototype._damageAmount = -require('./ModHitPointValues').Burn;
+Burn.prototype._damageTypes = [Damage.Types.Physical, Damage.Types.Magical];
+Burn.prototype._damageArmourPiercing = 50;
 Burn.prototype._startingEffectsRemaining = 3;
 Burn.prototype._startEffectEventName = EventsList.effect_start_burn;
 Burn.prototype._stopEffectEventName = EventsList.effect_stop_burn;
@@ -174,7 +192,9 @@ class Poison extends StatusEffect {
         return true;
     }
 }
-Poison.prototype._modHitpointsOnEffect = -require('./ModHitPointValues').Poison;
+Poison.prototype._damageAmount = -require('./ModHitPointValues').Poison;
+Poison.prototype._damageTypes = [Damage.Types.Biological];
+Poison.prototype._damageArmourPiercing = 100;
 Poison.prototype._startingEffectsRemaining = 5;
 Poison.prototype._effectRate = 2000;
 Poison.prototype._startEffectEventName = EventsList.effect_start_poison;
@@ -182,7 +202,9 @@ Poison.prototype._stopEffectEventName = EventsList.effect_stop_poison;
 Poison.prototype.hazardous = true;
 
 class Disease extends StatusEffect {}
-Disease.prototype._modHitpointsOnEffect = -require('./ModHitPointValues').Disease;
+Disease.prototype._damageAmount = -require('./ModHitPointValues').Disease;
+Disease.prototype._damageTypes = [Damage.Types.Biological];
+Disease.prototype._damageArmourPiercing = 100;
 Disease.prototype._startingEffectsRemaining = 20;
 Disease.prototype._effectRate = 4000;
 Disease.prototype._startEffectEventName = EventsList.effect_start_disease;
@@ -190,7 +212,7 @@ Disease.prototype._stopEffectEventName = EventsList.effect_stop_disease;
 Disease.prototype.hazardous = true;
 
 class HealthRegen extends StatusEffect {}
-HealthRegen.prototype._modHitpointsOnEffect = require('./ModHitPointValues').HealthRegen;
+HealthRegen.prototype._healAmount = require('./ModHitPointValues').HealthRegen;
 HealthRegen.prototype._startingEffectsRemaining = 5;
 HealthRegen.prototype._startEffectEventName = EventsList.effect_start_health_regen;
 HealthRegen.prototype._stopEffectEventName = EventsList.effect_stop_health_regen;

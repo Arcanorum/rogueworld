@@ -11,6 +11,6 @@ class ProjShuriken extends Projectile {
 module.exports = ProjShuriken;
 
 ProjShuriken.prototype.registerEntityType();
-ProjShuriken.prototype.attackPower = require('../../../../ModHitPointValues').ProjShuriken;
+ProjShuriken.prototype.assignModHitPointValues();
 ProjShuriken.prototype.moveRate = 150;
 ProjShuriken.prototype.range = 4;

@@ -11,7 +11,7 @@ class ProjNoctisDagger extends Projectile {
 module.exports = ProjNoctisDagger;
 
 ProjNoctisDagger.prototype.registerEntityType();
-ProjNoctisDagger.prototype.attackPower = require('../../../../ModHitPointValues').ProjNoctisDagger;
+ProjNoctisDagger.prototype.assignModHitPointValues();
 ProjNoctisDagger.prototype.moveRate = 200;
 ProjNoctisDagger.prototype.range = 1;
 ProjNoctisDagger.prototype.hasBackStabBonus = true;

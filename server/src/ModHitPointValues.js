@@ -1,39 +1,122 @@
+const Damage = require('./Damage');
 
-const ModHitPointValues = {
+const Physical = Damage.Types.Physical;
+const Magical = Damage.Types.Magical;
+const Biological = Damage.Types.Biological;
 
-    ProjIronArrow: 6,
-    ProjDungiumArrow: 6,
-    ProjNoctisArrow: 9,
+const ModHitPointConfigs = {
 
-    ProjIronDagger: 4,
-    ProjDungiumDagger: 4,
-    ProjNoctisDagger: 6,
+    ProjIronArrow: {
+        damageAmount: 6,
+        damageTypes: [Physical],
+        damageArmourPiercing: 15
+    },
+    ProjDungiumArrow: {
+        damageAmount: 7,
+        damageTypes: [Physical],
+        damageArmourPiercing: 20
+    },
+    ProjNoctisArrow: {
+        damageAmount: 9,
+        damageTypes: [Physical],
+        damageArmourPiercing: 25
+    },
 
-    ProjIronSword: 10,
-    ProjDungiumSword: 10,
-    ProjNoctisSword: 15,
+    ProjIronDagger: {
+        damageAmount: 4,
+        damageTypes: [Physical]
+    },
+    ProjDungiumDagger: {
+        damageAmount: 5,
+        damageTypes: [Physical]
+    },
+    ProjNoctisDagger: {
+        damageAmount: 6,
+        damageTypes: [Physical]
+    },
 
-    ProjIronHammer: 10,
-    ProjDungiumHammer: 10,
-    ProjNoctisHammer: 15,
+    ProjIronSword: {
+        damageAmount: 10,
+        damageTypes: [Physical]
+    },
+    ProjDungiumSword: {
+        damageAmount: 12,
+        damageTypes: [Physical]
+    },
+    ProjNoctisSword: {
+        damageAmount: 15,
+        damageTypes: [Physical]
+    },
 
-    ProjShuriken: 10,
-    ProjSnowball: 4,
-    ProjAcorn: 8,
-    ProjVampireFang: 10,
+    ProjIronHammer: {
+        damageAmount: 10,
+        damageTypes: [Physical]
+    },
+    ProjDungiumHammer: {
+        damageAmount: 12,
+        damageTypes: [Physical]
+    },
+    ProjNoctisHammer: {
+        damageAmount: 15,
+        damageTypes: [Physical]
+    },
 
-    ProjBloodBoltHeal: 10,
-    ProjBloodBoltDamage: 15,
+    ProjShuriken: {
+        damageAmount: 10,
+        damageTypes: [Physical]
+    },
+    ProjSnowball: {
+        damageAmount: 4,
+        damageTypes: [Physical]
+    },
+    ProjAcorn: {
+        damageAmount: 8,
+        damageTypes: [Physical]
+    },
+    ProjVampireFang: {
+        damageAmount: 10,
+        damageTypes: [Physical, Biological]
+    },
 
-    BookOfLightHealArea: 20,
-    BookOfSoulsConsume: 40,
+    ProjBloodBolt: {
+        damageAmount: 15,
+        damageTypes: [Magical, Biological],
+        healAmount: 10
+    },
+    ProjWind: {
+        damageAmount: 5,
+        damageTypes: [Magical]
+    },
 
-    Spikes: 10,
+    BookOfLightHealArea: {
+        healAmount: 20
+    },
+    BookOfSoulsConsume: {
+        healAmount: 40
+    },
 
-    Burn: 10,
-    Poison: 5,
-    Disease: 3,
-    HealthRegen: 5,
+    Spikes: {
+        damageAmount: 10,
+        damageTypes: [Physical],
+        damageArmourPiercing: 50
+    },
+
+    Burn: {
+        damageAmount: 10,
+        damageTypes: [Physical, Magical]
+    },
+    Poison: {
+        damageAmount: 5,
+        damageTypes: [Biological]
+    },
+    Disease: {
+        damageAmount: 3,
+        damageTypes: [Biological]
+    },
+    HealthRegen: {
+        healAmount: 5
+    }
+
 };
 
-module.exports = ModHitPointValues;
+module.exports = ModHitPointConfigs;

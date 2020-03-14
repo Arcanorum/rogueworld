@@ -11,7 +11,7 @@ class ProjDungiumSword extends Projectile {
 module.exports = ProjDungiumSword;
 
 ProjDungiumSword.prototype.registerEntityType();
-ProjDungiumSword.prototype.attackPower = require('../../../../ModHitPointValues').ProjDungiumSword;
+ProjDungiumSword.prototype.assignModHitPointValues();
 ProjDungiumSword.prototype.moveRate = 200;
 ProjDungiumSword.prototype.range = 3;
 ProjDungiumSword.prototype.collisionType = ProjDungiumSword.prototype.CollisionTypes.Melee;

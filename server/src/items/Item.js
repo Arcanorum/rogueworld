@@ -126,7 +126,6 @@ class Item {
      * @param {Number} amount
      */
     modDurability (amount) {
-        //console.log("mod durability, amount:", amount);
         // Check a valid value was given.
         if(!amount) return;
 

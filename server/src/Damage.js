@@ -1,16 +1,16 @@
 
 class Damage {
     /**
-     * 
+     * A model of damage to be dealt.
      * @param {Object} config
      * @param {Number} config.amount How much damage to deal.
      * @param {Array.<Number>} [config.types=[Damage.Types.Physical]] The types of damage to deal. A list of Damage.Types.
-     * @param {Number} config.piercing How much armour this damage will ignore. 0 to 1.
+     * @param {Number} [config.armourPiercing=0] How much armour this damage will ignore. 0 to 1.
      */
     constructor(config) {
-        if(config.amount) this.amount = amount;
+        if(config.amount) this.amount = config.amount;
         if(config.types) this.types = config.types;
-        if(config.piercing) this.piercing = config.piercing;
+        if(config.armourPiercing) this.armourPiercing = config.armourPiercing;
     }
 
     /**
@@ -35,8 +35,7 @@ class Damage {
         }
         return false;
     }
-
-    thing = 55;
+    
 }
 module.exports = Damage;
 
@@ -83,4 +82,4 @@ Damage.prototype.types = [
  * From 0 to 1. 0.3 => 30%
  * @type {Number}
  */
-Damage.prototype.piercing = 0;
+Damage.prototype.armourPiercing = 0;

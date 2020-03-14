@@ -11,7 +11,7 @@ class ProjNoctisSword extends Projectile {
 module.exports = ProjNoctisSword;
 
 ProjNoctisSword.prototype.registerEntityType();
-ProjNoctisSword.prototype.attackPower = require('../../../../ModHitPointValues').ProjNoctisSword;
+ProjNoctisSword.prototype.assignModHitPointValues();
 ProjNoctisSword.prototype.moveRate = 200;
 ProjNoctisSword.prototype.range = 3;
 ProjNoctisSword.prototype.collisionType = ProjNoctisSword.prototype.CollisionTypes.Melee;

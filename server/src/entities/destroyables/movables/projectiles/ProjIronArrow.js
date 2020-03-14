@@ -11,6 +11,6 @@ class ProjIronArrow extends Projectile {
 module.exports = ProjIronArrow;
 
 ProjIronArrow.prototype.registerEntityType();
-ProjIronArrow.prototype.attackPower = require('../../../../ModHitPointValues').ProjIronArrow;
+ProjIronArrow.prototype.assignModHitPointValues();
 ProjIronArrow.prototype.moveRate = 200;
 ProjIronArrow.prototype.range = 7;

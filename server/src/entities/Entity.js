@@ -1,4 +1,3 @@
-
 var idCounter = 1;
 var typeNumberCounter = 1;
 
@@ -22,11 +21,12 @@ class Entity {
     /**
      * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
      * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
-     * @param {Number} amount - How much to increase or decrease by.
+     * @param {Damage|Heal} hitPointModifier - How much to increase or decrease by.
      * @param {Entity} [source] - The entity that caused this change.
      */
-    modHitPoints (amount, source) {
-        amount = Math.floor(amount);
+    modHitPoints (hitPointModifier, source) {
+        const amount = Math.floor(hitPointModifier.amount);
+
         // Catch non-integer values, or the HP will bug out.
         if(Number.isInteger(amount) === false) return;
 
@@ -37,12 +37,15 @@ class Entity {
         if(this.hitPoints === null) return;
 
         // If damaged.
-        if(amount < 0){
-            this.onDamage(amount, source);
+        if(hitPointModifier instanceof Damage){
+            this.onDamage(hitPointModifier, source);
         }
-        // Healed.
+        // If healed.
+        else if(hitPointModifier instanceof Heal) {
+            this.onHeal(hitPointModifier);
+        }
         else {
-            this.onHeal(amount, source);
+            Utils.warning("Hitpoint modifier passed into Entity.modHitPoints is not an instance of either Damage or Heal. hitPointModifier:", hitPointModifier);
         }
 
         this.onModHitPoints();
@@ -54,12 +57,25 @@ class Entity {
     }
 
     /**
+     * 
+     * @param {Heal} heal 
+     * @param {Entity} source 
+     */
+    heal (heal, source) {
+        if((heal instanceof Heal) === false) {
+            Utils.error("Entity.heal must be passed a Heal config object. Value of 'heal':", heal);
+        }
+        // Make sure the amount is valid.
+        if(heal.amount === null) return;
+        this.modHitPoints(heal, source);
+    }
+
+    /**
      * Hitpoints are to be added to this entity.
      * If overwritten, should still be chained from the caller up to this.
      * @param {Number} amount - How much to increase by.
-     * @param {Entity} [source] - The entity that caused this healing.
      */
-    onHeal (amount, source) {
+    onHeal (amount) {
         amount = Math.floor(amount);
         this.hitPoints += amount;
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, {id: this.id, amount: amount});
@@ -67,13 +83,15 @@ class Entity {
 
     /**
      * Deal damage to this entity. Lowers the hitpoints. Used mainly by weapons and melee mobs when attacking.
-     * @param {Number} amount - How much to decrease by. Use the absolute value, not negative.
+     * @param {Damage} damage - A damage config object.
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    damage (amount, source) {
-        // Make sure the amount is valid. Might not have the attackPower set.
-        if(amount === null) return;
-        this.modHitPoints(-amount, source);
+    damage (damage, source) {
+        if((damage instanceof Damage) === false) {
+            Utils.error("Entity.damage must be passed a Damage config object. Value of 'damage':", damage);
+        }
+
+        this.modHitPoints(damage, source);
     }
 
     /**
@@ -81,12 +99,12 @@ class Entity {
      * If HP goes <0, then onAllHitPointsLost is called.
      * This method does NOT destroy directly.
      * If overwritten, should still be chained from the caller up to this.
-     * @param {Number} amount - How much to decrease by.
+     * @param {Damage} damage
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    onDamage (amount, source) {
-        amount = Math.floor(amount);
-        this.hitPoints += amount;
+    onDamage (damage, source) {
+        damage.amount = Math.floor(damage.amount);
+        this.hitPoints -= damage.amount;
 
         // Check if this entity is destroyed.
         if(this.hitPoints <= 0){
@@ -94,7 +112,7 @@ class Entity {
         }
         // Entity is still alive. Tell nearby players.
         else {
-            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, {id: this.id, amount: amount});
+            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, {id: this.id, amount: -damage.amount});
         }
     }
 
@@ -120,7 +138,6 @@ class Entity {
      * @return {{}}
      */
     getEmittableProperties (properties) {
-        //console.log("*  *   props:", properties);
         return properties;
     }
 
@@ -230,6 +247,8 @@ class Entity {
 module.exports = Entity;
 
 const Utils = require('./../Utils');
+const Damage = require('../Damage');
+const Heal = require('../Heal');
 
 // Give each entity easy access to the events list.
 Entity.prototype.EventsList = require('../EventsList');
@@ -246,7 +265,6 @@ Entity.prototype.registerEntityType = function () {
     typeNumberCounter+=1;
 
     //console.log("* Registering entity type: ", this);
-
 };
 
 /**

@@ -387,8 +387,6 @@ eventResponses.drop_item = function (clientSocket, data) {
 
     const boardTile = entity.board.grid[entity.row][entity.col];
 
-    //console.log("board tile:", boardTile);
-
     // Check the board tile the player is standing on doesn't already have an item or interactable on it.
     if(boardTile.isLowBlocked() === true) {
         clientSocket.sendEvent(EventsList.cannot_drop_here);

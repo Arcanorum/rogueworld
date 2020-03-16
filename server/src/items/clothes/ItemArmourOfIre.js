@@ -14,7 +14,7 @@ class ItemArmourOfIre extends Clothes {
 
     onDamaged (amount, source) {
         // Check the entity can be damaged.
-        if(source.damage){
+        if(source && source.damage){
             // Only damage the source if this player has glory.
             if(this.owner.glory > Math.abs(amount)){
                 this.owner.modGlory(amount);

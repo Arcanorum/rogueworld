@@ -1,4 +1,3 @@
-
 const Pickup = require('./Pickup');
 
 class PickupMageRobe extends Pickup {}

@@ -11,6 +11,6 @@ class ProjNoctisArrow extends Projectile {
 module.exports = ProjNoctisArrow;
 
 ProjNoctisArrow.prototype.registerEntityType();
-ProjNoctisArrow.prototype.assignModHitPointValues();
+ProjNoctisArrow.prototype.assignModHitPointConfigs();
 ProjNoctisArrow.prototype.moveRate = 200;
 ProjNoctisArrow.prototype.range = 7;

@@ -21,6 +21,6 @@ const Character = require('../characters/Character');
 const Heal = require('../../../../Heal');
 
 ProjVampireFang.prototype.registerEntityType();
-ProjVampireFang.prototype.assignModHitPointValues();
+ProjVampireFang.prototype.assignModHitPointConfigs();
 ProjVampireFang.prototype.moveRate = 200;
 ProjVampireFang.prototype.range = 1;

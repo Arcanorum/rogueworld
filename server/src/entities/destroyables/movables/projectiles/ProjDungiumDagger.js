@@ -11,7 +11,7 @@ class ProjDungiumDagger extends Projectile {
 module.exports = ProjDungiumDagger;
 
 ProjDungiumDagger.prototype.registerEntityType();
-ProjDungiumDagger.prototype.assignModHitPointValues();
+ProjDungiumDagger.prototype.assignModHitPointConfigs();
 ProjDungiumDagger.prototype.moveRate = 200;
 ProjDungiumDagger.prototype.range = 1;
 ProjDungiumDagger.prototype.hasBackStabBonus = true;

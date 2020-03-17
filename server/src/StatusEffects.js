@@ -153,7 +153,7 @@ class Burn extends StatusEffect {
     }
 }
 Burn.prototype._effectOnStart = true;
-Burn.prototype._damageAmount = -require('./ModHitPointValues').Burn;
+Burn.prototype._damageAmount = -require('./ModHitPointConfigs').Burn;
 Burn.prototype._damageTypes = [Damage.Types.Physical, Damage.Types.Magical];
 Burn.prototype._damageArmourPiercing = 50;
 Burn.prototype._startingEffectsRemaining = 3;
@@ -192,7 +192,7 @@ class Poison extends StatusEffect {
         return true;
     }
 }
-Poison.prototype._damageAmount = -require('./ModHitPointValues').Poison;
+Poison.prototype._damageAmount = -require('./ModHitPointConfigs').Poison;
 Poison.prototype._damageTypes = [Damage.Types.Biological];
 Poison.prototype._damageArmourPiercing = 100;
 Poison.prototype._startingEffectsRemaining = 5;
@@ -202,7 +202,7 @@ Poison.prototype._stopEffectEventName = EventsList.effect_stop_poison;
 Poison.prototype.hazardous = true;
 
 class Disease extends StatusEffect {}
-Disease.prototype._damageAmount = -require('./ModHitPointValues').Disease;
+Disease.prototype._damageAmount = -require('./ModHitPointConfigs').Disease;
 Disease.prototype._damageTypes = [Damage.Types.Biological];
 Disease.prototype._damageArmourPiercing = 100;
 Disease.prototype._startingEffectsRemaining = 20;
@@ -212,7 +212,7 @@ Disease.prototype._stopEffectEventName = EventsList.effect_stop_disease;
 Disease.prototype.hazardous = true;
 
 class HealthRegen extends StatusEffect {}
-HealthRegen.prototype._healAmount = require('./ModHitPointValues').HealthRegen;
+HealthRegen.prototype._healAmount = require('./ModHitPointConfigs').HealthRegen;
 HealthRegen.prototype._startingEffectsRemaining = 5;
 HealthRegen.prototype._startEffectEventName = EventsList.effect_start_health_regen;
 HealthRegen.prototype._stopEffectEventName = EventsList.effect_stop_health_regen;

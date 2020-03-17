@@ -65,4 +65,4 @@ const Damage = require('../../../../Damage');
 const Heal = require('../../../../Heal');
 
 ProjSuperBloodBolt.prototype.registerEntityType();
-ProjSuperBloodBolt.prototype.assignModHitPointValues("ProjBloodBolt");
+ProjSuperBloodBolt.prototype.assignModHitPointConfigs("ProjBloodBolt");

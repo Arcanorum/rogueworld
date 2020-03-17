@@ -37,6 +37,6 @@ const Damage = require('../../../../Damage');
 const Heal = require('../../../../Heal');
 
 ProjBloodBolt.prototype.registerEntityType();
-ProjBloodBolt.prototype.assignModHitPointValues();
+ProjBloodBolt.prototype.assignModHitPointConfigs();
 ProjBloodBolt.prototype.moveRate = 200;
 ProjBloodBolt.prototype.range = 10;

@@ -11,6 +11,6 @@ class ProjAcorn extends Projectile {
 module.exports = ProjAcorn;
 
 ProjAcorn.prototype.registerEntityType();
-ProjAcorn.prototype.assignModHitPointValues();
+ProjAcorn.prototype.assignModHitPointConfigs();
 ProjAcorn.prototype.moveRate = 200;
 ProjAcorn.prototype.range = 6;

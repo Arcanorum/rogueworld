@@ -13,7 +13,7 @@ class BloodPriest extends Mob {
 }
 module.exports = BloodPriest;
 
-const HalfProjBloodBoltDamage = require('../../../../../ModHitPointValues').ProjBloodBolt.damageAmount * 0.5;
+const HalfProjBloodBoltDamage = require('../../../../../ModHitPointConfigs').ProjBloodBolt.damageAmount * 0.5;
 const Heal = require('../../../../../Heal');
 
 BloodPriest.prototype.registerEntityType();

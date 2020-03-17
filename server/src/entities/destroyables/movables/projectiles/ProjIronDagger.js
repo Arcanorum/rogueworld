@@ -11,7 +11,7 @@ class ProjIronDagger extends Projectile {
 module.exports = ProjIronDagger;
 
 ProjIronDagger.prototype.registerEntityType();
-ProjIronDagger.prototype.assignModHitPointValues();
+ProjIronDagger.prototype.assignModHitPointConfigs();
 ProjIronDagger.prototype.moveRate = 200;
 ProjIronDagger.prototype.range = 1;
 ProjIronDagger.prototype.hasBackStabBonus = true;

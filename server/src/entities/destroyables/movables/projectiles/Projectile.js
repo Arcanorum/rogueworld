@@ -1,6 +1,6 @@
 const Movable = require('../Movable');
 const Utils = require('../../../../Utils');
-const ModHitPointValues = require('../../../../ModHitPointValues');
+const ModHitPointConfigs = require('../../../../ModHitPointConfigs');
 
 class Projectile extends Movable {
 
@@ -289,13 +289,13 @@ class Projectile extends Movable {
         }
     }
 
-    /**
+    /**-
      * Assigns the damage and heal values for this projectile type from the mob hitpoint values list.
      * @param {String} specificValuesName - Set to use a specific set of values instead of whatever matches the name of this entity class.
      */
-    assignModHitPointValues (specificValuesName) {
+    assignModHitPointConfigs (specificValuesName) {
         const valuesName = this.constructor.name
-        const modHitPointConfig = ModHitPointValues[specificValuesName] || ModHitPointValues[valuesName];
+        const modHitPointConfig = ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName];
         if(modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
 
         if(modHitPointConfig.damageAmount) this.damageAmount = modHitPointConfig.damageAmount;

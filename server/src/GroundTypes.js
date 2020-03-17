@@ -1,6 +1,6 @@
 const GroundTile = require('./GroundTile');
 const StatusEffects = require('./StatusEffects');
-const ModHitPointValues = require('./ModHitPointValues');
+const ModHitPointConfigs = require('./ModHitPointConfigs');
 
 const GroundTypes = {
 
@@ -16,9 +16,9 @@ const GroundTypes = {
     Poison:         new GroundTile({name: 'Poison', StatusEffect: StatusEffects.Poison}),
     Spikes:         new GroundTile({name: 'Spikes',
         damageConfig: {
-            amount: ModHitPointValues.Spikes.damageAmount,
-            types: ModHitPointValues.Spikes.damageTypes,
-            armourPiercing: ModHitPointValues.Spikes.damageArmourPiercing
+            amount: ModHitPointConfigs.Spikes.damageAmount,
+            types: ModHitPointConfigs.Spikes.damageTypes,
+            armourPiercing: ModHitPointConfigs.Spikes.damageArmourPiercing
         }}),
 
 };

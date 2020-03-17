@@ -54,6 +54,13 @@ class Clothes extends Item {
         this.owner.modDefence(-this.defenceBonus);
     }
 
+    damage (amount, source) {
+        this.modDurability(amount);
+        this.onDamaged(amount, source);
+    }
+
+    onDamaged (amount, source) { }
+
 }
 
 Clothes.prototype.defenceBonus = 0;

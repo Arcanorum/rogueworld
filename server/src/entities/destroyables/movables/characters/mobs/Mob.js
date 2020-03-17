@@ -1669,6 +1669,11 @@ class Mob extends Character {
         this.defence = statValues.defence;
         this.viewRange = statValues.viewRange;
         this.moveRate = statValues.moveRate;
+        if(this.moveRate === 0){
+            // If the move rate is 0, make them unable to move, or 
+            // they will have unlimited move speed/teleport to target.
+            this.move = () => {}
+        }
         this.wanderRate = statValues.wanderRate;
         this.targetSearchRate = statValues.targetSearchRate;
         this.attackRate = statValues.attackRate;

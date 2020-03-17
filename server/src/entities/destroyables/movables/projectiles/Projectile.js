@@ -265,7 +265,7 @@ class Projectile extends Movable {
      * Push back the thing that this entity collided with.
      * @param {Entity} collidee
      */
-    pushBackCollidee (collidee) {
+    pushBackCollidee (collidee, tileCount) {
         // Check any of the conditions that should always be checked.
         this.mandatoryCollideeChecks(collidee);
 
@@ -274,7 +274,15 @@ class Projectile extends Movable {
             collidee.modDirection(this.direction);
             // Clear their current move loop so they don't end up with 2 loops after doing this direct movement. Only affects mobs.
             clearTimeout(collidee.moveLoop);
-            collidee.push(offset.row, offset.col);
+            
+            if(tileCount > 1) {
+                for(let i=0; i<tileCount; i+=1){
+                    collidee.push(offset.row, offset.col);
+                }
+            }
+            else {
+                collidee.push(offset.row, offset.col);
+            }
             this.destroy();
             return;
         }

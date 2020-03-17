@@ -1052,6 +1052,22 @@ class Board {
         Utils.error("A valid direction wasn't given to Board.directionToRowColOffset, direction: " + direction);
     }
 
+    getRowColsToSides (direction, row, col) {
+        if(direction === Directions.UP || direction === Directions.DOWN){
+            return [
+                {row: row, col: col - 1},
+                {row: row, col: col + 1}
+            ];
+        }
+        // If it is not up or down, it must be left or right.
+        else {
+            return [
+                {row: row - 1, col: col},
+                {row: row + 1, col: col}
+            ];
+        }
+    }
+
     /**
      * Gets the row and column of the board tile in front of the direction from a given row/col.
      * @param {String} direction

@@ -46,7 +46,7 @@ class Item {
         this.onUsed();
     }
 
-    onUsed () {
+    onUsed (direction) {
         // Something might have happened to the owner of this item when it was used by them.
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
         if(this.owner === null) return;
@@ -59,6 +59,7 @@ class Item {
         // Check if this item should lose durability when used.
         if(this.useDurabilityCost > 0){
             if(this.expGivenStatName !== null){
+                // TODO: dunno about this, seems a bit lame now
                 // Check if the durability cost should be waived based on stat level chance.
                 const waiveChance = getRandomIntInclusive(0, 99);
                 if(waiveChance <= this.owner.stats[this.expGivenStatName].level){

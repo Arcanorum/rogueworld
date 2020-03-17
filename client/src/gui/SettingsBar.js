@@ -140,8 +140,6 @@ class SettingsBar {
         this.virtualDPadIcon.onclick =  function(){
             if(dungeonz.virtualDPadEnabled === true){
                 dungeonz.virtualDPadEnabled = false;
-                console.log(_this);
-                console.log(_this.GUI);
                 _this.GUI.virtualDPad.style.visibility = "hidden";
                 settingsBar.virtualDPadIcon.style.opacity = "0.5";
             }

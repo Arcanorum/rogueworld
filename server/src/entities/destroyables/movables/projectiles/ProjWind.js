@@ -13,6 +13,7 @@ class ProjWind extends Projectile {
 module.exports = ProjWind;
 
 ProjWind.prototype.registerEntityType();
+ProjWind.prototype.assignModHitPointConfigs();
 ProjWind.prototype.moveRate = 200;
 ProjWind.prototype.range = 10;
 ProjWind.prototype.attackPower = 2;

@@ -1,9 +1,9 @@
-
 const fs = require('fs');
 const Utils = require('./../../../../../Utils');
 const Factions = require('../../../../../Factions');
 const Behaviours = require('../../../../../Behaviours');
 const Drop = require('../../../../../Drop');
+const Damage = require('../../../../../Damage');
 
 /**
  * Gets the value to use for a mob for a given property.
@@ -26,18 +26,30 @@ class MobStats {
     constructor (config) {
         // Simple values that can be taken from the config as they are:
 
-        this.gloryValue =       getValue(config, "gloryValue",          Number.isInteger);
-        this.maxHitPoints =     getValue(config, "maxHitPoints",        Number.isInteger);
-        this.defence =          getValue(config, "defence",             Number.isInteger) / 100; // Convert to a percentage.
-        this.viewRange =        getValue(config, "viewRange",           Number.isInteger);
-        this.moveRate =         getValue(config, "moveRate",            Number.isInteger);
-        this.wanderRate =       getValue(config, "wanderRate",          Number.isInteger);
-        this.targetSearchRate = getValue(config, "targetSearchRate",    Number.isInteger);
-        this.attackRate =       getValue(config, "attackRate",          Number.isInteger);
-        this.meleeAttackPower = getValue(config, "meleeAttackPower",    Number.isInteger);
+        this.gloryValue =                   getValue(config, "gloryValue",                  Number.isInteger);
+        this.maxHitPoints =                 getValue(config, "maxHitPoints",                Number.isInteger);
+        this.defence =                      getValue(config, "defence",                     Number.isInteger) / 100; // Convert to a percentage.
+        this.viewRange =                    getValue(config, "viewRange",                   Number.isInteger);
+        this.moveRate =                     getValue(config, "moveRate",                    Number.isInteger);
+        this.wanderRate =                   getValue(config, "wanderRate",                  Number.isInteger);
+        this.targetSearchRate =             getValue(config, "targetSearchRate",            Number.isInteger);
+        this.attackRate =                   getValue(config, "attackRate",                  Number.isInteger);
+        this.meleeDamageAmount =            getValue(config, "meleeDamageAmount",           Number.isInteger);
+        this.meleeDamageArmourPiercing =    getValue(config, "meleeDamageArmourPiercing",   Number.isInteger);
 
         // More complex config values that need some validity checks
         // first, or that need to reference certain existing values:
+        
+        if(config["meleeDamageTypes"] === undefined) this.meleeDamageTypes = defaultMobStats["meleeDamageTypes"];
+        else {
+            this.meleeDamageTypes = [];
+            config["meleeDamageTypes"].forEach((typeName) => {
+                // Check the name of the damage type in the config is valid.
+                if(Damage.Types[typeName] === undefined) Utils.error("Invalid melee damage type list given. Damage type does not exist:", typeName);
+
+                this.meleeDamageTypes.push(Damage.Types[typeName]);
+            });
+        }
 
         this.projectileAttackType = null;
         // If a projectile attack type is defined, use it.
@@ -47,6 +59,7 @@ class MobStats {
                 this.projectileAttackType = 'projectiles/Proj' + config["projectileAttackType"];
             }
         }
+
 
         // Use the default faction if undefined.
         if(config["faction"] === undefined) this.faction = defaultMobStats["faction"];
@@ -101,7 +114,7 @@ class MobStats {
  */
 const MobStatsList = {};
 
-const MobValues = require('../../../../../MobValues.json');
+const MobValues = require('./MobValues.json');
 
 let defaultMobStats;
 

@@ -60,7 +60,7 @@ class ItemBookOfSouls extends SpellBook {
             if(boardTile.destroyables[entityKey].master === this.owner){
                 // Consume the minion.
                 boardTile.destroyables[entityKey].destroy();
-                this.owner.modHitPoints(ModHitPointValues.BookOfSoulsConsume);
+                this.owner.modHitPoints(ModHitPointConfigs.BookOfSoulsConsume);
                 return;
             }
         }
@@ -120,7 +120,7 @@ class ItemBookOfSouls extends SpellBook {
 module.exports = ItemBookOfSouls;
 
 const ProjDeathbind = require('../../../entities/destroyables/movables/projectiles/ProjDeathbind');
-const ModHitPointValues = require('../../../ModHitPointValues');
+const ModHitPointConfigs = require('../../../ModHitPointConfigs');
 
 ItemBookOfSouls.prototype.registerItemType();
 ItemBookOfSouls.prototype.idName = "Book of souls";

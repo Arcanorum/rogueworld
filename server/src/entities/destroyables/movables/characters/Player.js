@@ -56,7 +56,6 @@ class Player extends Character {
 
         // Start the energy regen loop.
         if(this.energyRegenRate !== false){
-            //console.log("char enrgy rgn rate: ", this.energyRegenRate);
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
         }
 
@@ -166,7 +165,6 @@ class Player extends Character {
     }
 
     regenEnergy () {
-        //console.log("regenning energy character: ", this.energy);
         if(this.energy < this.maxEnergy){
             this.modEnergy(+1);
         }
@@ -415,8 +413,6 @@ class Player extends Character {
         // Keep the slot key it is in on the item itself.
         item.slotKey = slotKey;
 
-        //console.log("item added to char inventory at:", slotKey);
-
         // Tell the player an item was added to their inventory.
         this.socket.sendEvent(this.EventsList.add_item, {typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability});
     }
@@ -503,7 +499,6 @@ class Player extends Character {
             if(this.inventory.hasOwnProperty(slotKey) === false) continue;
             // If an empty slot is found, return the key for it.
             if(this.inventory[slotKey] === null) {
-                //console.log("empty slot key:", slotKey);
                 return slotKey;
             }
         }

@@ -11,8 +11,8 @@ class ProjIronDagger extends Projectile {
 module.exports = ProjIronDagger;
 
 ProjIronDagger.prototype.registerEntityType();
-ProjIronDagger.prototype.attackPower = require('../../../../ModHitPointValues').ProjIronDagger;
+ProjIronDagger.prototype.assignModHitPointConfigs();
 ProjIronDagger.prototype.moveRate = 200;
 ProjIronDagger.prototype.range = 1;
 ProjIronDagger.prototype.hasBackStabBonus = true;
-ProjIronDagger.prototype.damageType = ProjIronDagger.prototype.DamageTypes.Melee;
+ProjIronDagger.prototype.collisionType = ProjIronDagger.prototype.CollisionTypes.Melee;

@@ -59,7 +59,6 @@ class Task {
         if(this.progress >= this.completionThreshold){
             this.completed = true;
         }
-        //console.log("task progress made:", this.taskType.taskID, ", val:", this.progress);
     }
 
     claimReward () {

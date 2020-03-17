@@ -101,7 +101,6 @@ const CraftingManager = {
 
         // Check the player is stood next to the correct type of crafting station.
         if(crafter.isAdjacentToStaticType(stationTypeNumber) === false){
-            //console.log(" not next to station");
             return;
         }
 

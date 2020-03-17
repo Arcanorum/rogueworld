@@ -35,8 +35,6 @@ class Interactable extends Static {
      * Activate this interactable.
      */
     activate () {
-        //console.log("activating interactable");
-
         // Check there are no obstructions on the object before activating it.
         if(this.board.grid[this.row][this.col].containsAnyDestroyables() === false){
             // Nothing in the way. Reactivate this object.
@@ -56,8 +54,6 @@ class Interactable extends Static {
      * Deactivate this interactable.
      */
     deactivate () {
-        //console.log("deactivating interactable");
-
         this.activeState = false;
 
         // If a reactivation rate is set, start a timer to reactivate this object.

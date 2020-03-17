@@ -32,7 +32,6 @@ class MagicEffect {
     onCharacterAttack () {}
 
     onTimeUp () {
-        //console.log("magic effect time up");
         this.remove();
     }
 
@@ -79,11 +78,9 @@ class Enchantment extends MagicEffect {
 class Ward extends Enchantment {
     constructor (character) {
         super(character);
-        //console.log("ward constructor");
     }
 
     onCharacterDamaged () {
-        //console.log("ward oncharacterdamaged");
         this.remove();
         return false;
     }

@@ -95,12 +95,9 @@ const world = {
 
         this.boardsArray.push(board);
         this.boardsObject[dataFileName] = board;
-
-        //console.log("* Board loaded:", dataFileName);
     },
 
     linkExits() {
-        //console.log("linking exits");
         let board,
             row,
             rowLen,

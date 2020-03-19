@@ -238,10 +238,10 @@ class Player extends Character {
     }
 
     /**
-     * @param {Number} amount
+     * @param {Damage} damage
      * @param {Entity} damagedBy
      */
-    damage (amount, damagedBy) {
+    damage (damage, damagedBy) {
         if(damagedBy !== undefined && damagedBy !== null){
             // If damaged by another player in a safe zone, ignore the damage.
             if(damagedBy instanceof Player){
@@ -255,10 +255,17 @@ class Player extends Character {
         // Damage any clothes being worn.
         if(this.clothing !== null){
             // Clothing only takes 25% of damage taken from the wearer.
-            this.clothing.damage(-Math.floor(amount * 0.25), damagedBy);
+            this.clothing.damage( //TODO: test this, was just being passed in amount before, not the whole damage config
+                new Damage({
+                    amount: Math.floor(damage.amount * 0.25),
+                    types: damage.types,
+                    armourPiercing: damage.armourPiercing
+                }),
+                damagedBy
+            );
         }
 
-        super.damage(amount, damagedBy);
+        super.damage(damage, damagedBy);
     }
 
     /**
@@ -287,6 +294,7 @@ class Player extends Character {
 
     modGlory (amount) {
         this.glory += amount;
+        this.glory = Math.floor(this.glory);
 
         if(this.glory < 0) {
             this.glory = 0;
@@ -310,6 +318,7 @@ class Player extends Character {
 
     modEnergy (amount) {
         this.energy += amount;
+        this.energy = Math.floor(this.energy);
 
         // Make sure they can't go above max energy.
         if(this.energy > this.maxEnergy){
@@ -552,6 +561,7 @@ const BankAccount = require('../../../../BankAccount');
 const Statset = require('../../../../stats/Statset');
 const Taskset = require('../../../../tasks/Taskset');
 const world = require('../../../../World');
+const Damage = require('../../../../Damage');
 
 Player.prototype.registerEntityType();
 

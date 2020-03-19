@@ -11,7 +11,7 @@ ItemHammerOfGlory.prototype.registerItemType();
 ItemHammerOfGlory.prototype.idName = "Hammer of glory";
 ItemHammerOfGlory.prototype.PickupType = require('../../../entities/destroyables/pickups/PickupHammerOfGlory');
 ItemHammerOfGlory.prototype.ProjectileType = ProjectileType;
-ItemHammerOfGlory.prototype.useGloryCost = 0;
+ItemHammerOfGlory.prototype.useGloryCost = 15;
 ItemHammerOfGlory.prototype.iconSource = "icon-iron-hammer";
 ItemHammerOfGlory.prototype.category = Weapon.prototype.categories.Weapon;
 ItemHammerOfGlory.prototype.expGivenStatName = ItemHammerOfGlory.prototype.StatNames.Melee;

@@ -60,6 +60,10 @@ const ModHitPointConfigs = {
         damageAmount: 15,
         damageTypes: [Physical]
     },
+    ProjHammerOfGlory: {
+        damageAmount: 20,
+        damageTypes: [Physical]
+    },
 
     ProjShuriken: {
         damageAmount: 10,

@@ -45,11 +45,11 @@ class Zombie extends Mob {
         super.onMove();
     }
 
-    damage (amount, damagedBy) {
+    damage (damage, damagedBy) {
         // Ignore damage from master.
         if(damagedBy === this.master) return;
 
-        super.damage(amount, damagedBy);
+        super.damage(damage, damagedBy);
     }
 
     isWithinMasterRange () {

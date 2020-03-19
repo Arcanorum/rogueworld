@@ -236,13 +236,6 @@ class Projectile extends Movable {
             console.log("projectile.js damagecollidee, immune to all damage types, take no damage");
             damageAmount = 0;
         }
-        // if(this.damageType === this.DamageTypes.Physical){//todo: remove?
-        //     // Check if the target can be affected by physical attacks.
-        //     if(collidee.ignorePhysicalDamage === true) return;
-
-        //     // Check how much physical resistance the target has.
-        //     damageAmount = 0;//calculation for how much resistance they have Resistance property? this or armour?
-        // }
 
         if(dealDamage === true){
             // Don't cause self-damage for whoever created this projectile.
@@ -256,6 +249,7 @@ class Projectile extends Movable {
                 }),
                 this.source
             );
+            
             this.destroy();
         }
 

@@ -131,6 +131,7 @@ class Item {
         if(!amount) return;
 
         this.durability += amount;
+        this.durability = Math.floor(this.durability);
 
         // Make sure it doesn't go above max durability if repaired.
         if(this.durability > this.maxDurability){

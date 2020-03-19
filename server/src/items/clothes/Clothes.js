@@ -54,12 +54,22 @@ class Clothes extends Item {
         this.owner.modDefence(-this.defenceBonus);
     }
 
-    damage (amount, source) {
-        this.modDurability(amount);
-        this.onDamaged(amount, source);
+    /**
+     * Deal damage to this clothing item. Reduces the durability.
+     * @param {Damage} damage 
+     * @param {Entity} source 
+     */
+    damage (damage, source) {
+        this.modDurability(-Math.abs(damage.amount));
+        this.onDamaged(damage, source);
     }
 
-    onDamaged (amount, source) { }
+    /**
+     * 
+     * @param {Damage} damage 
+     * @param {Entity} source 
+     */
+    onDamaged (damage, source) { }
 
 }
 

@@ -4,11 +4,13 @@ const Item = require('./Item');
 class ItemGreencap extends Item {
 
     onUsed () {
-        this.owner.damage(new Damage({
-            amount: 5,
-            types: [Damage.Types.Biological],
-            armourPiercing: 100
-        }));
+        this.owner.damage(
+            new Damage({
+                amount: 5,
+                types: [Damage.Types.Biological],
+                armourPiercing: 100
+            })
+        );
 
         super.onUsed();
     }

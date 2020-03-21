@@ -10,6 +10,6 @@ ItemIronArrows.prototype.idName = "Iron arrows";
 ItemIronArrows.prototype.PickupType = require('../../entities/destroyables/pickups/PickupIronArrows');
 ItemIronArrows.prototype.ProjectileType = require('../../entities/destroyables/movables/projectiles/ProjIronArrow');
 ItemIronArrows.prototype.baseValue = 10;
-ItemIronArrows.prototype.baseDurability = 25;
+ItemIronArrows.prototype.baseDurability = 50;
 ItemIronArrows.prototype.useDurabilityCost = 1;
 ItemIronArrows.prototype.iconSource = "icon-iron-arrows";

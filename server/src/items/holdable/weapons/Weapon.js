@@ -11,7 +11,7 @@ class Weapon extends Holdable {
         const owner = this.owner;
 
         if(owner.energy < this.useEnergyCost) return;
-        if(owner.glory < this.useGloryCost) return;
+        if(this.useGloryCost && owner.glory < this.useGloryCost) return;
 
         const front = owner.board.getRowColInFront(direction || owner.direction, owner.row, owner.col);
 
@@ -22,8 +22,8 @@ class Weapon extends Holdable {
 
         new this.ProjectileType({row: front.row, col: front.col, board: owner.board, direction: direction || owner.direction, source: this.owner}).emitToNearbyPlayers({});
 
-        owner.modEnergy(-this.useEnergyCost);
-        owner.modGlory(-this.useGloryCost);
+        if(this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
+        if(this.useGloryCost) owner.modGlory(-this.useGloryCost);
 
         // Keep this at the bottom otherwise the item might be broken and destroyed
         // when the durability is updated, so the above stuff will get buggy.

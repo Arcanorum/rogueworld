@@ -32,7 +32,7 @@ ItemStormcaller.prototype.registerItemType();
 ItemStormcaller.prototype.idName = "Stormcaller";
 ItemStormcaller.prototype.PickupType = require('../../../entities/destroyables/pickups/PickupStormcaller');
 ItemStormcaller.prototype.ProjectileType = ProjectileType;
-ItemStormcaller.prototype.useGloryCost = 0;
+ItemStormcaller.prototype.useGloryCost = 10;
 ItemStormcaller.prototype.iconSource = "icon-super-wind-staff";
 ItemStormcaller.prototype.category = Weapon.prototype.categories.Weapon;
 ItemStormcaller.prototype.expGivenStatName = ItemStormcaller.prototype.StatNames.Magic;

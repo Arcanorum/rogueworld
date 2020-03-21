@@ -32,7 +32,7 @@ ItemEternalFlame.prototype.registerItemType();
 ItemEternalFlame.prototype.idName = "Eternal Flame";
 ItemEternalFlame.prototype.PickupType = require('../../../entities/destroyables/pickups/PickupEternalFlame');
 ItemEternalFlame.prototype.ProjectileType = ProjectileType;
-ItemEternalFlame.prototype.useGloryCost = 0;
+ItemEternalFlame.prototype.useGloryCost = 10;
 ItemEternalFlame.prototype.iconSource = "icon-super-fire-staff";
 ItemEternalFlame.prototype.category = Weapon.prototype.categories.Weapon;
 ItemEternalFlame.prototype.expGivenStatName = ItemEternalFlame.prototype.StatNames.Magic;

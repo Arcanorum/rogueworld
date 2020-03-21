@@ -26,6 +26,6 @@ ItemSuperBloodStaff.prototype.baseValue = 50;
 ItemSuperBloodStaff.prototype.category = Weapon.prototype.categories.Weapon;
 ItemSuperBloodStaff.prototype.baseDurability = 30;
 ItemSuperBloodStaff.prototype.useDurabilityCost = 1;
-ItemSuperBloodStaff.prototype.useEnergyCost = 2;
+ItemSuperBloodStaff.prototype.useEnergyCost = 3;
 ItemSuperBloodStaff.prototype.expGivenStatName = ItemSuperBloodStaff.prototype.StatNames.Magic;
 ItemSuperBloodStaff.prototype.canUseIntoHighBlockedTile = false;

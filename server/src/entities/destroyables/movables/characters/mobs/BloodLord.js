@@ -5,11 +5,15 @@ class BloodLord extends Boss {
 
     onAttackSuccess() {
         // Vampires heal on attack.
-        this.modHitPoints(10);
+        this.heal(
+            new Heal(10)
+        );
     }
 
 }
 module.exports = BloodLord;
+
+const Heal = require('../../../../../Heal');
 
 BloodLord.prototype.registerEntityType();
 BloodLord.prototype.assignMobValues();

@@ -27,7 +27,7 @@ class ItemBookOfLight extends SpellBook {
 
                     if(boardTile.destroyables[entityKey].modHitPoints === undefined) continue;
 
-                    boardTile.destroyables[entityKey].modHitPoints(ModHitPointValues.BookOfLightHealArea);
+                    boardTile.destroyables[entityKey].modHitPoints(ModHitPointConfigs.BookOfLightHealArea);
                 }
             }
         }
@@ -105,7 +105,7 @@ class ItemBookOfLight extends SpellBook {
 module.exports = ItemBookOfLight;
 
 const ProjPacify = require('../../../entities/destroyables/movables/projectiles/ProjPacify');
-const ModHitPointValues = require('../../../ModHitPointValues');
+const ModHitPointConfigs = require('../../../ModHitPointConfigs');
 
 ItemBookOfLight.prototype.registerItemType();
 ItemBookOfLight.prototype.idName = "Book of light";

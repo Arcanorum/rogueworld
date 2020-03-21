@@ -22,7 +22,6 @@ class Destroyable extends Entity {
     }
 
     getEmittableProperties (properties) {
-        //console.log("*  *   props:", properties);
         properties.id = this.id;
         properties.typeNumber = this.typeNumber;
         properties.row = this.row;

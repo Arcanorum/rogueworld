@@ -11,6 +11,6 @@ class ProjDungiumArrow extends Projectile {
 module.exports = ProjDungiumArrow;
 
 ProjDungiumArrow.prototype.registerEntityType();
-ProjDungiumArrow.prototype.attackPower = require('../../../../ModHitPointValues').ProjDungiumArrow;
+ProjDungiumArrow.prototype.assignModHitPointConfigs();
 ProjDungiumArrow.prototype.moveRate = 200;
 ProjDungiumArrow.prototype.range = 7;

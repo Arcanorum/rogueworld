@@ -1,30 +1,33 @@
-
 class GroundTile {
-
     /**
-     *
-     * @param {String} name - A unique name for this type of tile.
-     * @param {Number} [damage=0] - How much damage this tile deals to entities that stand on it.
-     * @param {Boolean} [canBeStoodOn=true] - Whether this tile can be stood on.
-     * @param {Boolean} [canBeBuiltOn=false] - Whether this tile can be built on (clan structures).
-     * @param {Function} [StatusEffect=null] - A status effect class that can be applied to entities that stand on it.
+     * @param {Object} config
+     * @param {String} config.name - A unique name for this type of tile.
+     * @param {Object} [config.damageConfig]
+     * @param {Number} [config.damageConfig.amount] - How much damage this tile deals to entities that stand on it.
+     * @param {Array} [config.damageConfig.types]
+     * @param {Number} [config.damageConfig.armourPiercing]
+     * @param {Boolean} [config.canBeStoodOn=true] - Whether this tile can be stood on.
+     * @param {Boolean} [config.canBeBuiltOn=false] - Whether this tile can be built on (clan structures).
+     * @param {Function} [config.StatusEffect=null] - A status effect class that can be applied to entities that stand on it.
      */
-    constructor (name, damage, canBeStoodOn, canBeBuiltOn, StatusEffect) {
+    constructor (config) {
 
-        this.name = name;
+        this.name = config.name;
 
-        this.damage = damage || 0;
+        if(config.damageConfig){
+            this.damageAmount = config.damageConfig.amount;
+            this.damageTypes = config.damageConfig.types;
+            this.damageArmourPiercing = config.damageConfig.armourPiercing;
+        }
 
-        this.canBeStoodOn = true;
-        if(canBeStoodOn === false) this.canBeStoodOn = false;
+        if(config.canBeStoodOn === false) this.canBeStoodOn = false;
 
-        this.canBeBuiltOn = false;
-        if(canBeBuiltOn === true) this.canBeBuiltOn = true;
+        if(config.canBeBuiltOn === true) this.canBeBuiltOn = true;
 
-        this.StatusEffect = StatusEffect || null;
+        if(config.StatusEffect) this.StatusEffect = config.StatusEffect || null;
 
-        this.hazardous = false;
-        if(this.damage > 0) this.hazardous = true;
+        if(this.damageAmount > 0) this.hazardous = true;
+
         if(this.StatusEffect !== null){
             if(this.StatusEffect.prototype.hazardous === true) this.hazardous = true;
         }
@@ -32,5 +35,12 @@ class GroundTile {
     }
 
 }
+GroundTile.prototype.damageAmount = 0;
+GroundTile.prototype.damageTypes = [];
+GroundTile.prototype.damageArmourPiercing = 0;
+GroundTile.prototype.canBeStoodOn = true;
+GroundTile.prototype.canBeBuiltOn = false;
+GroundTile.prototype.StatusEffect = null;
+GroundTile.prototype.hazardous = false;
 
 module.exports = GroundTile;

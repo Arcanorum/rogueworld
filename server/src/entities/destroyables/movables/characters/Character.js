@@ -23,10 +23,10 @@ class Character extends Movable {
     }
 
     /**
-     * @param {Number} amount
+     * @param {Damage} damage
      * @param {Entity} source
      */
-    onDamage (amount, source) {
+    onDamage (damage, source) {
         // If they have a ward enchantment, ignore the damage.
         if(this.enchantment !== null){
             if(this.enchantment.onCharacterDamaged() === false){
@@ -34,15 +34,20 @@ class Character extends Movable {
             }
         }
 
+        // If the character is immune to all of the types of the incoming damage, ignore the damage completely.
+        // If any of the damage types are not blocked, the full damage is dealt.
+        if(damage.canAffectTarget(this) === false) return;
+
         // Apply the damage reduction from defence bonuses.
         // Amount is negative, so add to reduce the damage.
-        amount -= (amount * this.defence);
+        damage.amount -= (damage.amount * this.defence);
+
         // Minimum damage is 1.
-        if(amount > -1){
-            amount = -1;
+        if(damage.amount < 1){
+            damage.amount = 1;
         }
 
-        super.onDamage(amount, source);
+        super.onDamage(damage, source);
     }
 
     onAllHitPointsLost () {
@@ -154,7 +159,13 @@ class Character extends Movable {
 
         // Damage if the ground type deals damage.
         if(groundType.damage > 0){
-            this.damage(groundType.damage);
+            this.damage(
+                new Damage({
+                    amount: groundType.damageAmount,
+                    types: groundType.damageTypes,
+                    armourPiercing: groundType.damageArmourPiercing
+                })
+            );
         }
     }
 
@@ -188,6 +199,7 @@ class Character extends Movable {
 module.exports = Character;
 
 const GroundTypes = require('../../../../GroundTypes');
+const Damage = require('../../../../Damage');
 
 // Give each character easy access to the factions list.
 Character.prototype.Factions = require('../../../../Factions');
@@ -204,6 +216,8 @@ Character.prototype.faction = Character.prototype.Factions.Citizens;
  */
 Character.prototype.maxHitPoints = 200;
 Character.prototype.hitPoints = Character.prototype.maxHitPoints;
+
+Character.prototype.damageTypeImmunities = [];
 
 /**
  * A percentage to reduce incoming damage by. 40 => 40%.

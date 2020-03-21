@@ -45,11 +45,11 @@ class Zombie extends Mob {
         super.onMove();
     }
 
-    damage (amount, damagedBy) {
+    damage (damage, damagedBy) {
         // Ignore damage from master.
         if(damagedBy === this.master) return;
 
-        super.damage(amount, damagedBy);
+        super.damage(damage, damagedBy);
     }
 
     isWithinMasterRange () {
@@ -92,7 +92,7 @@ const Character = require('../../Character');
  */
 Zombie.prototype.master = null;
 
-Zombie.prototype.meleeAttackPower = 2;
+Zombie.prototype.meleeDamageAmount = 2;
 Zombie.prototype.moveRate = 500;
 Zombie.prototype.viewRange = 4;
 Zombie.prototype.faction = Zombie.prototype.Factions.Zombies;

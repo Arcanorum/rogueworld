@@ -60,7 +60,6 @@ class Stat {
         while((this.exp >= this.nextLevelExpRequirement) && (this.level < this.maxLevel)){
             this.levelUp();
         }
-        //console.log("calced curr lvl from exp, current exp:", this.exp, ", level:", this.level);
     }
 
     gainExp (amount) {
@@ -73,8 +72,6 @@ class Stat {
                 this.levelUp();
 
                 this.player.socket.sendEvent(EventsList.stat_levelled, {statName: this.name, level: this.level, nextLevelExpRequirement: this.nextLevelExpRequirement});
-
-                //console.log(this.name + " levelled up to:", this.level, ", exp:", this.exp, ", next lvl exp req:", this.nextLevelExpRequirement);
             }
         }
     }
@@ -83,7 +80,6 @@ class Stat {
         this.level += 1;
 
         this.expRequirementIncreaseAmount = this.expRequirementIncreaseAmount * this.expRequirementIncreaseMultiplier;
-        //console.log("stat exp req inc amount:", this.expRequirementIncreaseAmount);
 
         this.nextLevelExpRequirement += Math.floor(this.expRequirementIncreaseAmount);
     }

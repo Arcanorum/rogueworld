@@ -15,7 +15,6 @@ class SpawnerArea extends Spawner {
      * @param {Number} [config.spawnRate=1000] - How often this spawner creates a new entity, in ms.
      */
     constructor (config) {
-        //console.log("spawnerarea const, entity type:", config.entityType);
         super(config);
 
         this.top = config.row;

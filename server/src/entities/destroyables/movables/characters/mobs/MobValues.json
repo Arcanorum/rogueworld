@@ -9,7 +9,9 @@
         "wanderRate": 10000,
         "targetSearchRate": 4000,
         "attackRate": 1500,
-        "meleeAttackPower": 0,
+        "meleeDamageAmount": 0,
+        "meleeDamageTypes": ["Physical"],
+        "meleeDamageArmourPiercing": 0,
         "projectileAttackType": null,
         "faction": "Citizens",
         "behaviour": "Cowardly",
@@ -20,7 +22,7 @@
         "name": "Citizen",
         "viewRange": 8,
         "moveRate": 850,
-        "meleeAttackPower": 10,
+        "meleeDamageAmount": 10,
         "corpseType": "Human",
         "dropList": [
             {"itemName": "Fabric"},
@@ -130,7 +132,7 @@
         "gloryValue": 10,
         "viewRange": 5,
         "moveRate": 700,
-        "meleeAttackPower": 15,
+        "meleeDamageAmount": 15,
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [
@@ -223,7 +225,7 @@
         "maxHitPoints": 30,
         "viewRange": 4,
         "moveRate": 600,
-        "meleeAttackPower": 5,
+        "meleeDamageAmount": 5,
         "faction": "HostileAnimals",
         "taskIDKilled": "Rats"
     },
@@ -233,7 +235,7 @@
         "maxHitPoints": 40,
         "viewRange": 4,
         "moveRate": 500,
-        "meleeAttackPower": 5,
+        "meleeDamageAmount": 5,
         "faction": "HostileAnimals"
     },
     {
@@ -242,7 +244,7 @@
         "maxHitPoints": 60,
         "viewRange": 5,
         "moveRate": 500,
-        "meleeAttackPower": 8,
+        "meleeDamageAmount": 8,
         "faction": "HostileAnimals",
         "dropList": [
             {"itemName": "Feathers"}
@@ -254,7 +256,7 @@
         "viewRange": 5,
         "moveRate": 500,
         "attackRate": 2000,
-        "meleeAttackPower": 15,
+        "meleeDamageAmount": 15,
         "faction": "HostileAnimals",
         "dropList": [
             {"itemName": "DungiumOre"},
@@ -267,7 +269,7 @@
         "viewRange": 5,
         "moveRate": 500,
         "attackRate": 2000,
-        "meleeAttackPower": 15,
+        "meleeDamageAmount": 15,
         "faction": "HostileAnimals",
         "dropList": [
             {"itemName": "OakLogs"},
@@ -336,7 +338,7 @@
         "gloryValue": 20,
         "viewRange": 4,
         "moveRate": 500,
-        "meleeAttackPower": 20,
+        "meleeDamageAmount": 20,
         "faction": "Zombies"
     },
     {
@@ -346,7 +348,7 @@
         "viewRange": 5,
         "moveRate": 1500,
         "attackRate": 2000,
-        "meleeAttackPower": 25,
+        "meleeDamageAmount": 25,
         "faction": "Zombies",
         "dropList": [
             {"itemName": "OakLogs"},
@@ -399,7 +401,9 @@
         "viewRange": 6,
         "moveRate": 400,
         "attackRate": 1000,
-        "meleeAttackPower": 20,
+        "meleeDamageAmount": 20,
+        "meleeDamageTypes": ["Physical", "Biological"],
+        "meleeDamageArmourPiercing": 20,
         "faction": "Vampires",
         "dropList": [
             {"itemName": "Fabric"},
@@ -432,7 +436,7 @@
         "viewRange": 6,
         "moveRate": 300,
         "attackRate": 1000,
-        "meleeAttackPower": 30,
+        "meleeDamageAmount": 30,
         "faction": "Vampires",
         "dropList": [
             {"itemName": "ExpOrbMelee", "dropRate": 100},

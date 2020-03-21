@@ -10,14 +10,26 @@ class Vampire extends Mob {
         // Face the target if not already doing so.
         this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
 
-        this.target.damage(this.meleeAttackPower, this);
+        this.target.damage(
+            new Damage({
+                amount: this.meleeDamageAmount,
+                types: this.meleeDamageTypes,
+                armourPiercing: this.meleeDamageArmourPiercing
+            }),
+            this
+        );
 
         // Vampires heal on attack.
-        this.modHitPoints(1);
+        this.heal(
+            new Heal(10)
+        );
     }
 
 }
 module.exports = Vampire;
+
+const Damage = require('../../../../../Damage');
+const Heal = require('../../../../../Heal');
 
 Vampire.prototype.registerEntityType();
 Vampire.prototype.assignMobValues();

@@ -122,7 +122,6 @@ class Mob extends Character {
 
         // If being told to move directly by some external input, do it.
         if(byRows !== undefined && byCols !== undefined){
-            //console.log("mob told to move directly, byRows:", byRows, ", byCols:", byCols);
             super.move(byRows, byCols);
         }
         // Not being told to move, so decide for itself.
@@ -133,7 +132,6 @@ class Mob extends Character {
     }
 
     moveTowardsEntity (entity) {
-        //console.log("move towards entity");
         const
             col = this.col,
             row = this.row,
@@ -144,8 +142,6 @@ class Mob extends Character {
             grid = this.board.grid;
 
         // TODO: also stop them from targetting if the line of sight is broken to the target (stops them bumming walls all day)
-
-        //console.log("moving towards, dist to target, hori:", this.col - this.target.col, ", vert:", this.row - this.target.row, ", id:", this.target.id);
 
         // If the target is in the next space, don't move on top of them.
         if(horiDist + vertDist === 1){
@@ -555,10 +551,10 @@ class Mob extends Character {
     }
 
     /**
-     * @param {Number} amount
+     * @param {Damage} damage
      * @param {Entity} damagedBy
      */
-    onDamage (amount, damagedBy) {
+    onDamage (damage, damagedBy) {
         if(damagedBy instanceof Player){
             this.target = damagedBy;
         }
@@ -573,7 +569,7 @@ class Mob extends Character {
                 this.target = damagedBy;
             }
         }
-        super.onDamage(amount, damagedBy);
+        super.onDamage(damage, damagedBy);
     }
 
     /**
@@ -615,7 +611,10 @@ class Mob extends Character {
         // Face the target if not already doing so.
         this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
 
-        this.target.damage(this.meleeAttackPower, this);
+        this.target.damage(new Damage({
+            amount: this.meleeDamageAmount,
+            types: [Damage.Types.Physical]
+        }), this);
 
         this.onAttackSuccess();
     }
@@ -1554,8 +1553,6 @@ class Mob extends Character {
      * Gets the nearest entity to this mob that it considers hostile, according to its faction status.
      */
     getNearestHostile () {
-        //console.log("getting nearest enemy, I am:", this.id);
-
         let rowOffset = -this.viewRange,
             colOffset = -this.viewRange,
             viewRange = this.viewRange,
@@ -1680,7 +1677,7 @@ class Mob extends Character {
         this.wanderRate = statValues.wanderRate;
         this.targetSearchRate = statValues.targetSearchRate;
         this.attackRate = statValues.attackRate;
-        this.meleeAttackPower = statValues.meleeAttackPower;
+        this.meleeDamageAmount = statValues.meleeDamageAmount;
         if(statValues.projectileAttackType !== null) this.projectileAttackType = require('./../../' + statValues.projectileAttackType);
         this.CorpseType = statValues.corpseType;
         this.faction = statValues.faction;
@@ -1692,6 +1689,7 @@ class Mob extends Character {
 module.exports = Mob;
 
 const Player = require('../Player');
+const Damage = require('../../../../../Damage');
 
 Mob.StatValues = require('./MobStats');
 
@@ -1766,7 +1764,11 @@ Mob.prototype.attackRange = 1;
  * @type {Number}
  * @default 0
  */
-Mob.prototype.meleeAttackPower = 0;
+Mob.prototype.meleeDamageAmount = 0;
+
+Mob.prototype.meleeDamageTypes = [Damage.Types.Physical];
+
+Mob.prototype.meleeDamageArmourPiercing = 0;
 /**
  * The kind of projectile that this mob will use to attack. The class itself, not an instance of it.
  * @type {Function|Null}

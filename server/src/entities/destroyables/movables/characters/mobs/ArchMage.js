@@ -55,7 +55,9 @@ class ArchMage extends Boss {
      */
     specialAttack2 () {
         // Heal if damaged.
-        if(this.hitPoints < this.maxHitPoints) this.modHitPoints(20);
+        if(this.hitPoints < this.maxHitPoints) this.heal(
+            new Heal(20)
+        );
 
         // Cast ward on self.
         new MagicEffects.Ward(this);
@@ -127,6 +129,7 @@ const Projectile = require('./../../projectiles/Projectile');
 const ProjWind = require('./../../projectiles/ProjWind');
 const ProjPacify = require('./../../projectiles/ProjPacify');
 const MagicEffects = require('./../../../../../MagicEffects');
+const Heal = require('../../../../../Heal');
 
 ArchMage.prototype.registerEntityType();
 ArchMage.prototype.assignMobValues();

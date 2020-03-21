@@ -14,4 +14,4 @@ ProjCopperSword.prototype.registerEntityType();
 ProjCopperSword.prototype.assignModHitPointConfigs();
 ProjCopperSword.prototype.moveRate = 200;
 ProjCopperSword.prototype.range = 3;
-ProjCopperSword.prototype.damageType = ProjCopperSword.prototype.DamageTypes.Melee;
+ProjCopperSword.prototype.collisionType = ProjCopperSword.prototype.CollisionTypes.Melee;

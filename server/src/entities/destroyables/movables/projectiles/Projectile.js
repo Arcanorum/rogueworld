@@ -320,10 +320,30 @@ const Damage = require('../../../../Damage');
  */
 Projectile.prototype.range = "Projectile range not set";
 
-// Mod hitpoint configs.
+/**
+ * How much damage this projectile will deal when it hits something.
+ * @type {Number}
+ */
 Projectile.prototype.damageAmount = 0;
+
+/**
+ * The types of damage this projectile will deal when it hits something.
+ * @type {Array.<Number>}
+ */
 Projectile.prototype.damageTypes = [Damage.Types.Physical];
+
+/**
+ * What percentage of armour this projectile will ignore when dealing damage.
+ * 0 = 0%, 100 = 100%, etc.
+ * @type {Number}
+ * @default
+ */
 Projectile.prototype.damageArmourPiercing = 0;
+
+/**
+ * How many hitpoints this projectile will restore when it hits something.
+ * @type {Number}
+ */
 Projectile.prototype.healAmount = 0;
 
 /**
@@ -337,13 +357,6 @@ Projectile.prototype.moveRate = 500;
  * @type {Number}
  */
 Projectile.prototype.range = 5;
-
-/**
- * The types of damage this projectile will deal when it hits something.
- */
-// Projectile.prototype.damageTypes = [
-//     Damage.prototype.Physical
-// ];
 
 /**
  * Valid types to use for collisionType.

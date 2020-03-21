@@ -7,88 +7,88 @@ const Biological = Damage.Types.Biological;
 const ModHitPointConfigs = {
 
     ProjIronArrow: {
-        damageAmount: 6,
+        damageAmount: 14,
         damageTypes: [Physical],
         damageArmourPiercing: 15
     },
     ProjDungiumArrow: {
-        damageAmount: 7,
+        damageAmount: 16,
         damageTypes: [Physical],
         damageArmourPiercing: 20
     },
     ProjNoctisArrow: {
-        damageAmount: 9,
+        damageAmount: 18,
         damageTypes: [Physical],
         damageArmourPiercing: 25
     },
 
     ProjIronDagger: {
-        damageAmount: 4,
+        damageAmount: 8,
         damageTypes: [Physical]
     },
     ProjDungiumDagger: {
-        damageAmount: 5,
+        damageAmount: 10,
         damageTypes: [Physical]
     },
     ProjNoctisDagger: {
-        damageAmount: 6,
+        damageAmount: 12,
         damageTypes: [Physical]
     },
 
     ProjIronSword: {
-        damageAmount: 10,
+        damageAmount: 20,
         damageTypes: [Physical]
     },
     ProjDungiumSword: {
-        damageAmount: 12,
+        damageAmount: 24,
         damageTypes: [Physical]
     },
     ProjNoctisSword: {
-        damageAmount: 15,
+        damageAmount: 28,
         damageTypes: [Physical]
     },
 
     ProjIronHammer: {
-        damageAmount: 10,
+        damageAmount: 20,
         damageTypes: [Physical]
     },
     ProjDungiumHammer: {
-        damageAmount: 12,
+        damageAmount: 24,
         damageTypes: [Physical]
     },
     ProjNoctisHammer: {
-        damageAmount: 15,
+        damageAmount: 28,
         damageTypes: [Physical]
     },
     ProjHammerOfGlory: {
-        damageAmount: 20,
+        damageAmount: 32,
         damageTypes: [Physical]
     },
 
     ProjShuriken: {
-        damageAmount: 10,
+        damageAmount: 20,
         damageTypes: [Physical]
     },
     ProjSnowball: {
-        damageAmount: 4,
-        damageTypes: [Physical]
-    },
-    ProjAcorn: {
         damageAmount: 8,
         damageTypes: [Physical]
     },
+    ProjAcorn: {
+        damageAmount: 16,
+        damageTypes: [Physical]
+    },
     ProjVampireFang: {
-        damageAmount: 10,
+        damageAmount: 20,
         damageTypes: [Physical, Biological]
     },
 
     ProjBloodBolt: {
-        damageAmount: 15,
+        damageAmount: 30,
         damageTypes: [Magical, Biological],
         healAmount: 10
     },
     ProjWind: {
-        damageAmount: 5,
+        damageAmount: 6,
         damageTypes: [Magical]
     },
 
@@ -118,7 +118,7 @@ const ModHitPointConfigs = {
         damageTypes: [Biological]
     },
     HealthRegen: {
-        healAmount: 5
+        healAmount: 10
     }
 
 };

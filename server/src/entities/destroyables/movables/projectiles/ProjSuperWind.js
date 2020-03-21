@@ -37,7 +37,14 @@ class ProjSuperWind extends ProjWind{
 
         this.pushBackCollidee(collidee);
 
-        collidee.damage(this.attackPower, this.source);
+        collidee.damage(
+            new Damage({
+                amount: this.meleeDamageAmount,
+                types: this.meleeDamageTypes,
+                armourPiercing: this.meleeDamageArmourPiercing
+            }),
+            this.source
+        );
 
         this.destroy();
     }
@@ -46,6 +53,7 @@ class ProjSuperWind extends ProjWind{
 module.exports = ProjSuperWind;
 
 const Static = require('../../../statics/Static');
+const Damage = require('../../../../Damage');
 
 ProjSuperWind.prototype.registerEntityType();
-ProjSuperWind.prototype.attackPower = require('../../../../ModHitPointValues').ProjWind;
+ProjSuperWind.prototype.assignModHitPointConfigs("ProjWind");

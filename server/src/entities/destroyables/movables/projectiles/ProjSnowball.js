@@ -11,6 +11,6 @@ class ProjSnowball extends Projectile {
 module.exports = ProjSnowball;
 
 ProjSnowball.prototype.registerEntityType();
-ProjSnowball.prototype.attackPower = require('../../../../ModHitPointValues').ProjSnowball;
+ProjSnowball.prototype.assignModHitPointConfigs();
 ProjSnowball.prototype.moveRate = 200;
 ProjSnowball.prototype.range = 4;

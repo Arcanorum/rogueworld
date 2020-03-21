@@ -127,11 +127,11 @@ class Item {
      * @param {Number} amount
      */
     modDurability (amount) {
-        //console.log("mod durability, amount:", amount);
         // Check a valid value was given.
         if(!amount) return;
 
         this.durability += amount;
+        this.durability = Math.floor(this.durability);
 
         // Make sure it doesn't go above max durability if repaired.
         if(this.durability > this.maxDurability){

@@ -40,8 +40,6 @@ class Taskset {
 
     // The owner has no task progress so far, give them the starting tasks.
     addStartingTasks () {
-        //console.log("adding starting tasks");
-
         this.owner.tasks.list = {};
         new Task.Task(this.owner, TaskTypes.KillRats,          0, 5, [ItemsList.ItemIronHammer],        500);
         new Task.Task(this.owner, TaskTypes.KillBats,          0, 5, [ItemsList.ItemIronArmour],        500);

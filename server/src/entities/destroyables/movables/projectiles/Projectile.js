@@ -1,5 +1,6 @@
-
 const Movable = require('../Movable');
+const Utils = require('../../../../Utils');
+const ModHitPointConfigs = require('../../../../ModHitPointConfigs');
 
 class Projectile extends Movable {
 
@@ -61,8 +62,6 @@ class Projectile extends Movable {
     }
 
     move () {
-        //console.log("projectile move:", this.constructor.name, ", id:", this.id);
-
         this.canMove = true;
 
         this.checkCollisions();
@@ -90,7 +89,6 @@ class Projectile extends Movable {
         this.tilesTravelled += 1;
 
         if(this.tilesTravelled >= this.range){
-            //console.log("proj has moved far enough,", this.tilesTravelled);
             this.destroy();
             return;
         }
@@ -100,6 +98,29 @@ class Projectile extends Movable {
 
         this.moveLoop = setTimeout(this.move.bind(this), this.moveRate);
     }
+
+    /**
+     * Checks if the entity collided with can be hit by any of the damage types this projectile deals.
+     * @param {Entity} entity 
+     */
+    canDamageTypeCollideWithTarget (entity) {
+        // Check the entity is immune to anything.
+       if(entity.damageTypeImmunities){
+           // Check every type of this damage.
+           for(let type of this.damageTypes){
+               // If the entity is immune to the current type, check the net one.
+               if(entity.damageTypeImmunities.includes(type)){
+                   continue;
+               }
+               // Entity is not immune to this damage type, they can be affected.
+               return true;
+           }
+       }
+       else {
+           return true;
+       }
+       return false;
+   }
 
     /**
      * Check for collisions between high blocking statics, and destroyables.
@@ -119,6 +140,9 @@ class Projectile extends Movable {
             if(destroyable === this) continue;
             // Don't check against source.
             if(destroyable === this.source) continue;
+
+            // Pass through if none of the damage applies to this entity.
+            if(this.canDamageTypeCollideWithTarget(destroyable) === false) continue;
 
             this.handleCollision(destroyable);
         }
@@ -143,7 +167,7 @@ class Projectile extends Movable {
      * @param {Entity} collidee - The entity that this projectile collided with.
      */
     handleCollision (collidee) {
-        console.log("WARNING: Projectile type defined without overriding Projectile.handleCollision:", this.constructor.name);
+        Utils.warning("Projectile type defined without overriding Projectile.handleCollision:", this.constructor.name);
     }
 
     /**
@@ -151,7 +175,6 @@ class Projectile extends Movable {
      * @param {Entity} collidee - The entity that this projectile collided with.
      */
     mandatoryCollideeChecks (collidee) {
-        //console.log("projectile mandatoryCollideeChecks");
         // Add this to the default checks that get done when any projectile moves, as
         // the case where a wind moves into a projectile is covered by the wind itself,
         // but not when the other projectile is the one moving into the wind during its own move.
@@ -162,7 +185,6 @@ class Projectile extends Movable {
                 collidee.destroy();
             }
             else {
-                //console.log("  generic handle collision, this:", this.constructor.name, ", id:", this.id, ", collidee:", collidee.constructor.name, ", id:", collidee.id);
                 collidee.pushBackCollidee(this);
             }
         }
@@ -182,14 +204,14 @@ class Projectile extends Movable {
 
         // Should damage be dealt after below conditions are applied.
         let dealDamage = true;
-        let damageAmount = this.attackPower;
+        let damageAmount = this.damageAmount;
 
         // Can the collidee be damaged.
         if(collidee.hitPoints === null) dealDamage = false;
         // Does this projectile deal any damage.
-        if(this.attackPower === 0) dealDamage = false;
+        if(damageAmount === 0) dealDamage = false;
         // Does this projectile hit low blocking statics?
-        if(this.damageType === this.DamageTypes.Melee){
+        if(this.collisionType === this.CollisionTypes.Melee){
             if(collidee instanceof Static){
                 // Only damage the static (if it is an interactable) and destroy this projectile when it hits a blocking static,
                 // as it might hit a non-blocking one such as an open door or cut down tree, but it should still pass through them.
@@ -201,20 +223,33 @@ class Projectile extends Movable {
                 if(collidee.isHighBlocked() === false) dealDamage = false;
             }
         }
-
+        
         if(this.hasBackStabBonus === true){
             if(collidee instanceof Character){
                 // If attacked from behind, apply bonus damage.
-                if(collidee.direction === this.direction) damageAmount = this.attackPower * 3;
+                if(collidee.direction === this.direction) damageAmount = this.damageAmount * 3;
             }
         }
 
+        if(this.canDamageTypeCollideWithTarget(collidee) === false){
+            // TODO: test this
+            console.log("projectile.js damagecollidee, immune to all damage types, take no damage");
+            damageAmount = 0;
+        }
 
         if(dealDamage === true){
             // Don't cause self-damage for whoever created this projectile.
             if(collidee === this.source) return;
 
-            collidee.damage(damageAmount, this.source);
+            collidee.damage(
+                new Damage({
+                    amount: damageAmount,
+                    types: this.damageTypes,
+                    armourPiercing: this.damageArmourPiercing
+                }),
+                this.source
+            );
+            
             this.destroy();
         }
 
@@ -228,7 +263,6 @@ class Projectile extends Movable {
         // Check any of the conditions that should always be checked.
         this.mandatoryCollideeChecks(collidee);
 
-        //console.log("  projectile push back collidee, this:", this.constructor.name, ", id:", this.id, ", collidee:", collidee.constructor.name, ", id:", collidee.id);
         if(collidee instanceof Character){
             const offset = this.board.directionToRowColOffset(this.direction);
             collidee.modDirection(this.direction);
@@ -257,12 +291,28 @@ class Projectile extends Movable {
         }
     }
 
+    /**-
+     * Assigns the damage and heal values for this projectile type from the mob hitpoint values list.
+     * @param {String} specificValuesName - Set to use a specific set of values instead of whatever matches the name of this entity class.
+     */
+    assignModHitPointConfigs (specificValuesName) {
+        const valuesName = this.constructor.name
+        const modHitPointConfig = ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName];
+        if(modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
+
+        if(modHitPointConfig.damageAmount) this.damageAmount = modHitPointConfig.damageAmount;
+        if(modHitPointConfig.damageTypes) this.damageTypes = modHitPointConfig.damageTypes;
+        if(modHitPointConfig.damageArmourPiercing) this.damageArmourPiercing = modHitPointConfig.damageArmourPiercing;
+        if(modHitPointConfig.healAmount) this.healAmount = modHitPointConfig.healAmount;
+    }
+
 }
 module.exports = Projectile;
 
 const Character = require('../characters/Character');
 const Static = require('../../../statics/Static');
 const ProjWind = require('../projectiles/ProjWind');
+const Damage = require('../../../../Damage');
 
 /**
  * How many board tiles can this projectile can move before it is destroyed.
@@ -270,11 +320,11 @@ const ProjWind = require('../projectiles/ProjWind');
  */
 Projectile.prototype.range = "Projectile range not set";
 
-/**
- * How much damage is dealt to something when this projectile hits it.
- * @type {Number}
- */
-Projectile.prototype.attackPower = 0;
+// Mod hitpoint configs.
+Projectile.prototype.damageAmount = 0;
+Projectile.prototype.damageTypes = [Damage.Types.Physical];
+Projectile.prototype.damageArmourPiercing = 0;
+Projectile.prototype.healAmount = 0;
 
 /**
  * How often this projectile moves along its path, in ms.
@@ -289,10 +339,17 @@ Projectile.prototype.moveRate = 500;
 Projectile.prototype.range = 5;
 
 /**
- * Valid types to use for damageType.
+ * The types of damage this projectile will deal when it hits something.
+ */
+// Projectile.prototype.damageTypes = [
+//     Damage.prototype.Physical
+// ];
+
+/**
+ * Valid types to use for collisionType.
  * @type {{Melee: number, Ranged: number}}
  */
-Projectile.prototype.DamageTypes = {
+Projectile.prototype.CollisionTypes = {
     Melee: 1,
     Ranged: 2
 };
@@ -303,7 +360,7 @@ Projectile.prototype.DamageTypes = {
  * instead of the projectile just passing over/through them.
  * @type {Number}
  */
-Projectile.prototype.damageType = Projectile.prototype.DamageTypes.Ranged;
+Projectile.prototype.collisionType = Projectile.prototype.CollisionTypes.Ranged;
 
 /**
  * Whether this projectile deals bonus damage when it hits a character from behind.

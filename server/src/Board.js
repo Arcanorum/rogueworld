@@ -422,8 +422,6 @@ class Board {
                 // Get and separate the type from the prefix using the tile GID.
                 type = staticsTileset.tiles[objectID].type;
 
-                //console.log("object id:", objectID, "type:", type, "mapObject.properties:", mapObject);
-
                 // Check that the type of this tile is a valid one.
                 if(EntitiesList[type]){
                     const config = {
@@ -609,7 +607,6 @@ class Board {
      * @return {Array} Returns an array containing the entities found.
      */
     getNearbyDynamicsData (row, col) {
-        //console.log("getNearbyDynamicsData");
         /** @type {Array} */
         const nearbyDynamics = [];
 
@@ -654,7 +651,6 @@ class Board {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
                     if(interactable.activeState === false){
-                        //console.log("interactable added to data to send, id:", entity.id);
                         // Add the relevant data of this entity to the data to return.
                         nearbyDynamics.push(
                             interactable.getEmittableProperties({})
@@ -675,7 +671,6 @@ class Board {
      * @return {Array|Boolean} Returns an array containing the entities found, or false if none found.
      */
     getDynamicsAtViewRangeData (row, col, direction) {
-        //console.log("get dyns at view range data, dir:", direction);
         /** @type {Array} */
         const edgeDynamics = [];
 
@@ -715,7 +710,6 @@ class Board {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
                     if(interactable.activeState === false){
-                        //console.log("interactable added to data to send, id:", entity.id);
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -751,7 +745,6 @@ class Board {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
                     if(interactable.activeState === false){
-                        //console.log("interactable added to data to send, id:", entity.id);
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -787,7 +780,6 @@ class Board {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
                     if(interactable.activeState === false){
-                        //console.log("interactable added to data to send, id:", entity.id);
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -823,7 +815,6 @@ class Board {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
                     if(interactable.activeState === false){
-                        //console.log("interactable added to data to send, id:", entity.id);
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -847,7 +838,6 @@ class Board {
      * @returns {Array} An array of Player entities.
      */
     getNearbyPlayers (row, col, range) {
-        //console.log("get nearby players, range:", range);
         const nearbyPlayers = [],
             grid = this.grid,
             rangePlusOne = range + 1;
@@ -889,7 +879,6 @@ class Board {
      * @param {Number} [range=playerViewRangePlusOne] - A specific range to define 'nearby' to be, otherwise uses the player view range + 1.
      */
     emitToNearbyPlayers (row, col, eventNameID, data, range) {
-        //console.log("emit to nearby players");
         let nearbyRange = playerViewRange,
             nearbyRangePlusOne = playerViewRangePlusOne;
 
@@ -918,10 +907,6 @@ class Board {
                 if(grid[targetRow][targetCol] === undefined) continue;
 
                 players = grid[targetRow][targetCol].players;
-
-                //console.log("etnp:", eventNameID);
-
-                //console.log("players at: " + (i + row) + " | " + (j + col), players);
 
                 ownPropNames = Object.getOwnPropertyNames(players);
 
@@ -1154,7 +1139,6 @@ class Board {
      * @returns {Boolean} Whether the tile is buildable or not.
      */
     isTileBuildable (row, col) {
-        //console.log("is tile buildable");
         // Check this board is the overworld. Can only build on the overworld.
         if(this !== boardsObject['overworld']){
             //console.log("  this board is NOT the overworld");

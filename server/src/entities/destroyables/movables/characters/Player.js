@@ -56,7 +56,6 @@ class Player extends Character {
 
         // Start the energy regen loop.
         if(this.energyRegenRate !== false){
-            //console.log("char enrgy rgn rate: ", this.energyRegenRate);
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
         }
 
@@ -166,7 +165,6 @@ class Player extends Character {
     }
 
     regenEnergy () {
-        //console.log("regenning energy character: ", this.energy);
         if(this.energy < this.maxEnergy){
             this.modEnergy(+1);
         }
@@ -240,10 +238,10 @@ class Player extends Character {
     }
 
     /**
-     * @param {Number} amount
+     * @param {Damage} damage
      * @param {Entity} damagedBy
      */
-    damage (amount, damagedBy) {
+    damage (damage, damagedBy) {
         if(damagedBy !== undefined && damagedBy !== null){
             // If damaged by another player in a safe zone, ignore the damage.
             if(damagedBy instanceof Player){
@@ -257,10 +255,17 @@ class Player extends Character {
         // Damage any clothes being worn.
         if(this.clothing !== null){
             // Clothing only takes 25% of damage taken from the wearer.
-            this.clothing.damage(-Math.floor(amount * 0.25), damagedBy);
+            this.clothing.damage( //TODO: test this, was just being passed in amount before, not the whole damage config
+                new Damage({
+                    amount: Math.floor(damage.amount * 0.25),
+                    types: damage.types,
+                    armourPiercing: damage.armourPiercing
+                }),
+                damagedBy
+            );
         }
 
-        super.damage(amount, damagedBy);
+        super.damage(damage, damagedBy);
     }
 
     /**
@@ -289,6 +294,7 @@ class Player extends Character {
 
     modGlory (amount) {
         this.glory += amount;
+        this.glory = Math.floor(this.glory);
 
         if(this.glory < 0) {
             this.glory = 0;
@@ -312,6 +318,7 @@ class Player extends Character {
 
     modEnergy (amount) {
         this.energy += amount;
+        this.energy = Math.floor(this.energy);
 
         // Make sure they can't go above max energy.
         if(this.energy > this.maxEnergy){
@@ -415,8 +422,6 @@ class Player extends Character {
         // Keep the slot key it is in on the item itself.
         item.slotKey = slotKey;
 
-        //console.log("item added to char inventory at:", slotKey);
-
         // Tell the player an item was added to their inventory.
         this.socket.sendEvent(this.EventsList.add_item, {typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability});
     }
@@ -503,7 +508,6 @@ class Player extends Character {
             if(this.inventory.hasOwnProperty(slotKey) === false) continue;
             // If an empty slot is found, return the key for it.
             if(this.inventory[slotKey] === null) {
-                //console.log("empty slot key:", slotKey);
                 return slotKey;
             }
         }
@@ -557,6 +561,7 @@ const BankAccount = require('../../../../BankAccount');
 const Statset = require('../../../../stats/Statset');
 const Taskset = require('../../../../tasks/Taskset');
 const world = require('../../../../World');
+const Damage = require('../../../../Damage');
 
 Player.prototype.registerEntityType();
 

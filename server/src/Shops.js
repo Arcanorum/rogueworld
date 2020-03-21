@@ -45,7 +45,6 @@ class Shop {
     }
 
     checkStock (index, itemTypeName, price) {
-        //console.log("shop check stock");
         return true;
     }
 
@@ -72,7 +71,6 @@ class Shop {
         buyer.modGlory(-price);
 
         this.stockSold(index);
-        //console.log("stock sold:", itemTypeNumber, ", for:", price);
     }
 
 }

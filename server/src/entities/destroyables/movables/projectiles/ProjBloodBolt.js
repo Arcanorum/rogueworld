@@ -11,9 +11,18 @@ class ProjBloodBolt extends Projectile {
             // Don't cause self-damage for whoever created this projectile.
             if(collidee === this.source) return;
 
-            collidee.damage(this.attackPower, this.source);
+            collidee.damage(
+                new Damage({
+                    amount: this.damageAmount,
+                    types: this.damageTypes,
+                    armourPiercing: this.damageArmourPiercing
+                }),
+                this.source
+            );
             // Blood bolt heals HP on hit.
-            this.source.modHitPoints(+ModHitPointValues.ProjBloodBoltHeal);
+            this.source.heal(
+                new Heal(this.healAmount)
+            );
 
             this.destroy();
         }
@@ -24,9 +33,10 @@ class ProjBloodBolt extends Projectile {
 module.exports = ProjBloodBolt;
 
 const Character = require('../characters/Character');
-const ModHitPointValues = require('../../../../ModHitPointValues');
+const Damage = require('../../../../Damage');
+const Heal = require('../../../../Heal');
 
 ProjBloodBolt.prototype.registerEntityType();
-ProjBloodBolt.prototype.attackPower = ModHitPointValues.ProjBloodBoltDamage;
+ProjBloodBolt.prototype.assignModHitPointConfigs();
 ProjBloodBolt.prototype.moveRate = 200;
 ProjBloodBolt.prototype.range = 10;

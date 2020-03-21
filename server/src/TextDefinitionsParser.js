@@ -33,8 +33,6 @@ let currentLanguageDefs;
 defsAsJSON[currentLanguageName] = {};
 
 while(true){
-    //console.log("row:", currentDefRow, "ID:", worksheet[idNameCol + currentDefRow].v, "lang col:", currentLanguageCol, "current lang:", currentLanguageName);
-
     // Check if this language is valid. The previous one might have been the last one, in which case end.
     if(currentLanguageName === undefined) break;
 

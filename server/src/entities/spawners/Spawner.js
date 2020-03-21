@@ -122,8 +122,6 @@ class Spawner extends Entity {
      * @param {Entity} entityID
      */
     childDestroyed (entityID) {
-        //console.log("spawner child destroyed");
-
         this.currentlySpawned -= 1;
 
         // If the destroyed child was in a dungeon, and has a drop list (probably for keys), then remove them from the key holder list.

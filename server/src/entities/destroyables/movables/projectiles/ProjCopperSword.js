@@ -11,7 +11,7 @@ class ProjCopperSword extends Projectile {
 module.exports = ProjCopperSword;
 
 ProjCopperSword.prototype.registerEntityType();
-ProjCopperSword.prototype.attackPower = require('../../../../ModHitPointValues').ProjCopperSword;
+ProjCopperSword.prototype.assignModHitPointConfigs();
 ProjCopperSword.prototype.moveRate = 200;
 ProjCopperSword.prototype.range = 3;
 ProjCopperSword.prototype.damageType = ProjCopperSword.prototype.DamageTypes.Melee;

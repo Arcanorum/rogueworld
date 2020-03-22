@@ -111,15 +111,18 @@ const ModHitPointConfigs = {
 
     Burn: {
         damageAmount: 10,
-        damageTypes: [Physical, Magical]
+        damageTypes: [Physical, Magical],
+        damageArmourPiercing: 50
     },
     Poison: {
         damageAmount: 5,
-        damageTypes: [Biological]
+        damageTypes: [Biological],
+        damageArmourPiercing: 100
     },
     Disease: {
         damageAmount: 3,
-        damageTypes: [Biological]
+        damageTypes: [Biological],
+        damageArmourPiercing: 100
     },
     HealthRegen: {
         healAmount: 10

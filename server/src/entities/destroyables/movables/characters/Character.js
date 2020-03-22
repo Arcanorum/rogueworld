@@ -38,9 +38,27 @@ class Character extends Movable {
         // If any of the damage types are not blocked, the full damage is dealt.
         if(damage.canAffectTarget(this) === false) return;
 
-        // Apply the damage reduction from defence bonuses.
-        // Amount is negative, so add to reduce the damage.
-        damage.amount -= (damage.amount * this.defence);
+        // Apply the damage reduction multiplier from defence bonuses.
+        //console.log("char ondamage, damage:", damage.amount);
+        if(this.defence >= 0){
+            //console.log("has defence:", this.defence);
+            let effectiveDefence = this.defence;
+            if(damage.armourPiercing > 0){
+                const apPercentage = damage.armourPiercing / 100;
+                effectiveDefence = this.defence - (this.defence * apPercentage);
+                //console.log("  armour piercing:", apPercentage);
+            }
+            //console.log("effective defence:", effectiveDefence);
+            const multipler = ( 100 / ( 100 + effectiveDefence) );
+            damage.amount = damage.amount * multipler;
+            //console.log("  after mod:", damage.amount);
+        }
+        // Negative defence means bonus damage multiplier.
+        else {
+            //console.log("no defence");
+            damage.amount = damage.amount * ( 2 - ( 100 / ( 100 - (this.defence) ) ) );
+            //console.log("  after mod:", damage.amount);
+        }
 
         // Minimum damage is 1.
         if(damage.amount < 1){
@@ -220,8 +238,20 @@ Character.prototype.hitPoints = Character.prototype.maxHitPoints;
 Character.prototype.damageTypeImmunities = [];
 
 /**
- * A percentage to reduce incoming damage by. 40 => 40%.
+ * How much the damage reduction multipler should reduce incoming damage by.
+ * 
+ * Defence does not block damage outright, but instead follows an curve that
+ * gives more effective HP with each point.
+ * @see Character.onDamage
  * @type {Number}
+ * @example
+ * Defence:     Damage taken:   Reduction:
+ * 0        =   100%            0
+ * 10       =   91%             9%
+ * 30       =   77%             23%
+ * 50       =   66%             34%
+ * 100      =   50%             50%
+ * 200      =   33%             67%
  */
 Character.prototype.defence = 0;
 

@@ -28,7 +28,7 @@ class MobStats {
 
         this.gloryValue =                   getValue(config, "gloryValue",                  Number.isInteger);
         this.maxHitPoints =                 getValue(config, "maxHitPoints",                Number.isInteger);
-        this.defence =                      getValue(config, "defence",                     Number.isInteger) / 100; // Convert to a percentage.
+        this.defence =                      getValue(config, "defence",                     Number.isInteger);
         this.viewRange =                    getValue(config, "viewRange",                   Number.isInteger);
         this.moveRate =                     getValue(config, "moveRate",                    Number.isInteger);
         this.wanderRate =                   getValue(config, "wanderRate",                  Number.isInteger);

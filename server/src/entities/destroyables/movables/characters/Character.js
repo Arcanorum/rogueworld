@@ -85,7 +85,7 @@ class Character extends Movable {
     }
 
     onDestroy () {
-        clearTimeout(this.energyRegenLoop);
+        clearTimeout(this.energyRegenLoop); // TODO move to player?
 
         // Stop all status effects, otherwise they can keep being damaged, and
         // potentially die multiple times while already dead, or be healed and revived.

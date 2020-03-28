@@ -321,11 +321,7 @@ class GUI {
     }
 
     updateDefenceCounters () {
-        // Remove all current defence counters.
-        //this.removeExistingDOMElements(this.defenceCounters);
-        // Add new ones for however many defence points.
-        //this.addDefenceCounters(this.game.player.defence);
-        this.defenceCounter.innerText = "%" + (this.game.player.defence * 100);
+        this.defenceCounter.innerText = this.game.player.defence;
     }
 
     updateHitPointCounters () {

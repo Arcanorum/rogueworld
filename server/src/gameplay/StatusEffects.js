@@ -1,6 +1,6 @@
 
-const EventsList = require('./EventsList');
-const Utils = require('./Utils');
+const EventsList = require('../EventsList');
+const Utils = require('../Utils');
 const Damage = require('./Damage');
 const Heal = require('./Heal');
 
@@ -152,10 +152,11 @@ class Burn extends StatusEffect {
         return true;
     }
 }
+const burnDamageConfig = require('./ModHitPointConfigs').Burn;
 Burn.prototype._effectOnStart = true;
-Burn.prototype._damageAmount = -require('./ModHitPointConfigs').Burn;
-Burn.prototype._damageTypes = [Damage.Types.Physical, Damage.Types.Magical];
-Burn.prototype._damageArmourPiercing = 50;
+Burn.prototype._damageAmount = burnDamageConfig.damageAmount;
+Burn.prototype._damageTypes = burnDamageConfig.damageTypes;
+Burn.prototype._damageArmourPiercing = burnDamageConfig.damageArmourPiercing;
 Burn.prototype._startingEffectsRemaining = 3;
 Burn.prototype._startEffectEventName = EventsList.effect_start_burn;
 Burn.prototype._stopEffectEventName = EventsList.effect_stop_burn;
@@ -192,9 +193,10 @@ class Poison extends StatusEffect {
         return true;
     }
 }
-Poison.prototype._damageAmount = -require('./ModHitPointConfigs').Poison;
-Poison.prototype._damageTypes = [Damage.Types.Biological];
-Poison.prototype._damageArmourPiercing = 100;
+const poisonDamageConfig = require('./ModHitPointConfigs').Poison;
+Poison.prototype._damageAmount = poisonDamageConfig.damageAmount;
+Poison.prototype._damageTypes = poisonDamageConfig.damageTypes;
+Poison.prototype._damageArmourPiercing = poisonDamageConfig.damageArmourPiercing;
 Poison.prototype._startingEffectsRemaining = 5;
 Poison.prototype._effectRate = 2000;
 Poison.prototype._startEffectEventName = EventsList.effect_start_poison;
@@ -202,9 +204,10 @@ Poison.prototype._stopEffectEventName = EventsList.effect_stop_poison;
 Poison.prototype.hazardous = true;
 
 class Disease extends StatusEffect {}
-Disease.prototype._damageAmount = -require('./ModHitPointConfigs').Disease;
-Disease.prototype._damageTypes = [Damage.Types.Biological];
-Disease.prototype._damageArmourPiercing = 100;
+const diseaseDamageConfig = require('./ModHitPointConfigs').Disease;
+Disease.prototype._damageAmount = diseaseDamageConfig.damageAmount;
+Disease.prototype._damageTypes = diseaseDamageConfig.damageTypes;
+Disease.prototype._damageArmourPiercing = diseaseDamageConfig.damageArmourPiercing;
 Disease.prototype._startingEffectsRemaining = 20;
 Disease.prototype._effectRate = 4000;
 Disease.prototype._startEffectEventName = EventsList.effect_start_disease;
@@ -212,7 +215,7 @@ Disease.prototype._stopEffectEventName = EventsList.effect_stop_disease;
 Disease.prototype.hazardous = true;
 
 class HealthRegen extends StatusEffect {}
-HealthRegen.prototype._healAmount = require('./ModHitPointConfigs').HealthRegen;
+HealthRegen.prototype._healAmount = require('./ModHitPointConfigs').HealthRegen.healAmount;
 HealthRegen.prototype._startingEffectsRemaining = 5;
 HealthRegen.prototype._startEffectEventName = EventsList.effect_start_health_regen;
 HealthRegen.prototype._stopEffectEventName = EventsList.effect_stop_health_regen;
@@ -246,4 +249,4 @@ const StatusEffects = {
 
 module.exports = StatusEffects;
 
-const GroundTypes = require('./GroundTypes');
+const GroundTypes = require('../board/GroundTypes');

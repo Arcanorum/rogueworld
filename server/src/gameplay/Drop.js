@@ -1,6 +1,6 @@
 const fs = require('fs');
-const Pickup = require('./entities/destroyables/pickups/Pickup');
-const Utils = require('./Utils');
+const Pickup = require('../entities/destroyables/pickups/Pickup');
+const Utils = require('../Utils');
 
 class Drop {
     constructor (config) {
@@ -13,7 +13,7 @@ class Drop {
          * The item pickup entity to be created when this item is dropped.
          * @type {Function}
          */
-        this.pickupType = require("./entities/destroyables/pickups/Pickup" + config.itemName);
+        this.pickupType = require("../entities/destroyables/pickups/Pickup" + config.itemName);
 
         if(typeof this.pickupType !== "function"){
             Utils.error("Cannot add to drop list, pickup entity is not a function/class. Is it disabled?:", config.itemName);

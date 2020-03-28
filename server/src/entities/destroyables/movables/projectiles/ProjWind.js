@@ -19,7 +19,7 @@ class ProjWind extends Projectile {
 }
 module.exports = ProjWind;
 
-const Damage = require('../../../../Damage');
+const Damage = require('../../../../gameplay/Damage');
 
 ProjWind.prototype.registerEntityType();
 ProjWind.prototype.assignModHitPointConfigs();

@@ -50,6 +50,6 @@ class ProjSuperFire extends ProjFire{
 module.exports = ProjSuperFire;
 
 const Static = require('../../../statics/Static');
-const Burn = require('./../../../../StatusEffects').Burn;
+const Burn = require('./../../../../gameplay/StatusEffects').Burn;
 
 ProjSuperFire.prototype.registerEntityType();

@@ -14,7 +14,7 @@ ItemIronArmour.prototype.iconSource = "icon-iron-armour";
 ItemIronArmour.prototype.baseValue = 10;
 ItemIronArmour.prototype.category = Clothes.prototype.categories.Clothing;
 ItemIronArmour.prototype.baseDurability = 100;
-ItemIronArmour.prototype.defenceBonus = 0.4;
+ItemIronArmour.prototype.defenceBonus = 50;
 ItemIronArmour.prototype.statBonuses = {
     [StatNames.Melee]: 1
 };

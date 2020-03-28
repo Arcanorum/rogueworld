@@ -19,7 +19,7 @@ class ItemGreencap extends Item {
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemGreencap;
 
-const Damage = require('../Damage');
+const Damage = require('../gameplay/Damage');
 
 ItemGreencap.prototype.registerItemType();
 ItemGreencap.prototype.idName = "Greencap";

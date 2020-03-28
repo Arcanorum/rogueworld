@@ -33,8 +33,8 @@ class ProjBloodBolt extends Projectile {
 module.exports = ProjBloodBolt;
 
 const Character = require('../characters/Character');
-const Damage = require('../../../../Damage');
-const Heal = require('../../../../Heal');
+const Damage = require('../../../../gameplay/Damage');
+const Heal = require('../../../../gameplay/Heal');
 
 ProjBloodBolt.prototype.registerEntityType();
 ProjBloodBolt.prototype.assignModHitPointConfigs();

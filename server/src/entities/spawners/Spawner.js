@@ -138,5 +138,5 @@ module.exports = Spawner;
 
 const Utils = require('./../../Utils');
 const World = require('./../../World');
-const Drop = require('../../Drop');
+const Drop = require('../../gameplay/Drop');
 const DungeonsList = require('./../../DungeonsList');

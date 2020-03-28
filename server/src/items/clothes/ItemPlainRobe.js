@@ -14,7 +14,7 @@ ItemPlainRobe.prototype.iconSource = "icon-plain-robe";
 ItemPlainRobe.prototype.baseValue = 10;
 ItemPlainRobe.prototype.category = Clothes.prototype.categories.Clothing;
 ItemPlainRobe.prototype.baseDurability = 100;
-ItemPlainRobe.prototype.defenceBonus = 0.2;
+ItemPlainRobe.prototype.defenceBonus = 20;
 ItemPlainRobe.prototype.statBonuses = {
     [StatNames.Potionry]: 1
 };

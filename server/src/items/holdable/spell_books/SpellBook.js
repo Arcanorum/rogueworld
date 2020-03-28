@@ -62,7 +62,7 @@ class SpellBook extends Holdable {
 }
 
 // Give all spell books easy access to the list of magic effects.
-SpellBook.prototype.MagicEffects = require('../../../MagicEffects');
+SpellBook.prototype.MagicEffects = require('../../../gameplay/MagicEffects');
 
 /**
  * The ID of this spell in the language text definitions file.

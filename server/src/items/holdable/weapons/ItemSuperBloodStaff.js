@@ -15,7 +15,7 @@ class ItemSuperBloodStaff extends Weapon {
 module.exports = ItemSuperBloodStaff;
 
 const ProjectileType = require('../../../entities/destroyables/movables/projectiles/ProjSuperBloodBolt');
-const ModHitPointConfigs = require('../../../ModHitPointConfigs');
+const ModHitPointConfigs = require('../../../gameplay/ModHitPointConfigs');
 
 ItemSuperBloodStaff.prototype.registerItemType();
 ItemSuperBloodStaff.prototype.idName = "Super blood staff";

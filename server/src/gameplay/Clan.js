@@ -420,5 +420,5 @@ class Clan {
 
 module.exports = Clan;
 
-const Utils = require('./Utils');
+const Utils = require('../Utils');
 const clanManager = require('./ClanManager');

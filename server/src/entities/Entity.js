@@ -73,10 +73,10 @@ class Entity {
     /**
      * Hitpoints are to be added to this entity.
      * If overwritten, should still be chained from the caller up to this.
-     * @param {Number} amount - How much to increase by.
+     * @param {Heal} heal - A heal config object.
      */
-    onHeal (amount) {
-        amount = Math.floor(amount);
+    onHeal (heal) {
+        const amount = Math.floor(heal.amount);
         this.hitPoints += amount;
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, {id: this.id, amount: amount});
     }
@@ -247,8 +247,8 @@ class Entity {
 module.exports = Entity;
 
 const Utils = require('./../Utils');
-const Damage = require('../Damage');
-const Heal = require('../Heal');
+const Damage = require('../gameplay/Damage');
+const Heal = require('../gameplay/Heal');
 
 // Give each entity easy access to the events list.
 Entity.prototype.EventsList = require('../EventsList');

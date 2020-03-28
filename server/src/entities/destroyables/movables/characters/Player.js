@@ -556,12 +556,12 @@ module.exports = Player;
 // Need to define the references to the sub-classes that are used by methods here AFTER the class is exported, otherwise the class doesn't exist yet for them to extend from.
 // Same reason for all other classes.
 const Utils = require('../../../../Utils');
-const BoardsList = require('../../../../BoardsList');
+const BoardsList = require('../../../../board/BoardsList');
 const BankAccount = require('../../../../BankAccount');
 const Statset = require('../../../../stats/Statset');
 const Taskset = require('../../../../tasks/Taskset');
 const world = require('../../../../World');
-const Damage = require('../../../../Damage');
+const Damage = require('../../../../gameplay/Damage');
 
 Player.prototype.registerEntityType();
 

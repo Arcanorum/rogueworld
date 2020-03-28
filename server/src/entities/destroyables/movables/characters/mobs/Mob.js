@@ -1689,12 +1689,12 @@ class Mob extends Character {
 module.exports = Mob;
 
 const Player = require('../Player');
-const Damage = require('../../../../../Damage');
+const Damage = require('../../../../../gameplay/Damage');
 
 Mob.StatValues = require('./MobStats');
 
 // Give each mob easy access to the behaviours list.
-Mob.prototype.Behaviours = require('../../../../../Behaviours');
+Mob.prototype.Behaviours = require('../../../../../gameplay/Behaviours');
 
 /**
  * How much glory is given out to all nearby players when this mob dies.

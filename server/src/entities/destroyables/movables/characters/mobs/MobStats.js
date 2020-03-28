@@ -1,9 +1,9 @@
 const fs = require('fs');
 const Utils = require('./../../../../../Utils');
-const Factions = require('../../../../../Factions');
-const Behaviours = require('../../../../../Behaviours');
-const Drop = require('../../../../../Drop');
-const Damage = require('../../../../../Damage');
+const Factions = require('../../../../../gameplay/Factions');
+const Behaviours = require('../../../../../gameplay/Behaviours');
+const Drop = require('../../../../../gameplay/Drop');
+const Damage = require('../../../../../gameplay/Damage');
 
 /**
  * Gets the value to use for a mob for a given property.
@@ -28,7 +28,7 @@ class MobStats {
 
         this.gloryValue =                   getValue(config, "gloryValue",                  Number.isInteger);
         this.maxHitPoints =                 getValue(config, "maxHitPoints",                Number.isInteger);
-        this.defence =                      getValue(config, "defence",                     Number.isInteger) / 100; // Convert to a percentage.
+        this.defence =                      getValue(config, "defence",                     Number.isInteger);
         this.viewRange =                    getValue(config, "viewRange",                   Number.isInteger);
         this.moveRate =                     getValue(config, "moveRate",                    Number.isInteger);
         this.wanderRate =                   getValue(config, "wanderRate",                  Number.isInteger);

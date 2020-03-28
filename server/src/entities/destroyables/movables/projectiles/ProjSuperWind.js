@@ -53,7 +53,7 @@ class ProjSuperWind extends ProjWind{
 module.exports = ProjSuperWind;
 
 const Static = require('../../../statics/Static');
-const Damage = require('../../../../Damage');
+const Damage = require('../../../../gameplay/Damage');
 
 ProjSuperWind.prototype.registerEntityType();
 ProjSuperWind.prototype.assignModHitPointConfigs("ProjWind");

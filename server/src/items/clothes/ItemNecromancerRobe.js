@@ -14,7 +14,7 @@ ItemNecromancerRobe.prototype.iconSource = "icon-necromancer-robe";
 ItemNecromancerRobe.prototype.baseValue = 10;
 ItemNecromancerRobe.prototype.category = Clothes.prototype.categories.Clothing;
 ItemNecromancerRobe.prototype.baseDurability = 100;
-ItemNecromancerRobe.prototype.defenceBonus = 0.2;
+ItemNecromancerRobe.prototype.defenceBonus = 20;
 ItemNecromancerRobe.prototype.statBonuses = {
     [StatNames.Magic]: 1
 };

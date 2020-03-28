@@ -14,7 +14,7 @@ ItemDungiumArmour.prototype.iconSource = "icon-dungium-armour";
 ItemDungiumArmour.prototype.baseValue = 10;
 ItemDungiumArmour.prototype.category = Clothes.prototype.categories.Clothing;
 ItemDungiumArmour.prototype.baseDurability = 200;
-ItemDungiumArmour.prototype.defenceBonus = 0.35;
+ItemDungiumArmour.prototype.defenceBonus = 60;
 ItemDungiumArmour.prototype.statBonuses = {
     [StatNames.Melee]: 2
 };

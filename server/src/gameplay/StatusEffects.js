@@ -1,6 +1,6 @@
 
-const EventsList = require('./EventsList');
-const Utils = require('./Utils');
+const EventsList = require('../EventsList');
+const Utils = require('../Utils');
 const Damage = require('./Damage');
 const Heal = require('./Heal');
 
@@ -249,4 +249,4 @@ const StatusEffects = {
 
 module.exports = StatusEffects;
 
-const GroundTypes = require('./GroundTypes');
+const GroundTypes = require('../board/GroundTypes');

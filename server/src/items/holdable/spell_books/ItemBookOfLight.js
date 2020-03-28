@@ -105,7 +105,7 @@ class ItemBookOfLight extends SpellBook {
 module.exports = ItemBookOfLight;
 
 const ProjPacify = require('../../../entities/destroyables/movables/projectiles/ProjPacify');
-const ModHitPointConfigs = require('../../../ModHitPointConfigs');
+const ModHitPointConfigs = require('../../../gameplay/ModHitPointConfigs');
 
 ItemBookOfLight.prototype.registerItemType();
 ItemBookOfLight.prototype.idName = "Book of light";

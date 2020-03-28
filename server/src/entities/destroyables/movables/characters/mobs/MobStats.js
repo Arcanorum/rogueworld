@@ -1,9 +1,9 @@
 const fs = require('fs');
 const Utils = require('./../../../../../Utils');
-const Factions = require('../../../../../Factions');
-const Behaviours = require('../../../../../Behaviours');
-const Drop = require('../../../../../Drop');
-const Damage = require('../../../../../Damage');
+const Factions = require('../../../../../gameplay/Factions');
+const Behaviours = require('../../../../../gameplay/Behaviours');
+const Drop = require('../../../../../gameplay/Drop');
+const Damage = require('../../../../../gameplay/Damage');
 
 /**
  * Gets the value to use for a mob for a given property.

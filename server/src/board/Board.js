@@ -1,20 +1,20 @@
 
 const fs =                      require('fs');
-const Utils =                   require('./Utils');
+const Utils =                   require('../Utils');
 const GroundTypes =             require('./GroundTypes');
-const groundTileset =           require('./../map/tilesets/ground');
-const boundariesTileset =       require('./../map/tilesets/boundaries');
-const staticsTileset =          require('./../map/tilesets/statics');
-const EntitiesList =            require('./EntitiesList');
-const Player =                  require('./entities/destroyables/movables/characters/Player');
-const DayPhases =               require('./DayPhases');
+const groundTileset =           require('../../map/tilesets/ground');
+const boundariesTileset =       require('../../map/tilesets/boundaries');
+const staticsTileset =          require('../../map/tilesets/statics');
+const EntitiesList =            require('../EntitiesList');
+const Player =                  require('../entities/destroyables/movables/characters/Player');
+const DayPhases =               require('../DayPhases');
 
 const playerViewRange =         EntitiesList["Player"].viewRange;
 // Need this so that the loops in the functions that emit to players around the player view range go all the way to
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
 // Precomputed value to avoid having to do `i <= playerViewRange` (2 checks), or `i < playerViewRange + 1` (repeated calculation).
 const playerViewRangePlusOne = playerViewRange + 1;
-const Directions =              require('./entities/Entity').prototype.Directions;
+const Directions =              require('../entities/Entity').prototype.Directions;
 
 // Sum the amount of tiles in each previous tileset to get the start GID of each tileset.
 const boundariesStartGID = groundTileset.tilecount;

@@ -247,8 +247,8 @@ class Entity {
 module.exports = Entity;
 
 const Utils = require('./../Utils');
-const Damage = require('../Damage');
-const Heal = require('../Heal');
+const Damage = require('../gameplay/Damage');
+const Heal = require('../gameplay/Heal');
 
 // Give each entity easy access to the events list.
 Entity.prototype.EventsList = require('../EventsList');

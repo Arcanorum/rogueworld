@@ -61,8 +61,8 @@ module.exports = ProjSuperBloodBolt;
 
 const Static = require('../../../statics/Static');
 const Character = require('../../../destroyables/movables/characters/Character');
-const Damage = require('../../../../Damage');
-const Heal = require('../../../../Heal');
+const Damage = require('../../../../gameplay/Damage');
+const Heal = require('../../../../gameplay/Heal');
 
 ProjSuperBloodBolt.prototype.registerEntityType();
 ProjSuperBloodBolt.prototype.assignModHitPointConfigs("ProjBloodBolt");

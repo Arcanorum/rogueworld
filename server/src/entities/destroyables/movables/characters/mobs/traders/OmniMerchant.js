@@ -6,4 +6,4 @@ module.exports = OmniMerchant;
 
 OmniMerchant.prototype.registerEntityType();
 OmniMerchant.prototype.faction = Merchant.prototype.Factions.Citizens;
-OmniMerchant.prototype.shop = new (require('./../../../../../../Shops')).Omni();
+OmniMerchant.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Omni();

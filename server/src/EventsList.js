@@ -71,7 +71,6 @@ const EventsList = {
     heal:                       registerEventName(),
     hit_point_value:            registerEventName(),
     invalid_login_details:      registerEventName(),
-    //invalid_continue_code:      registerEventName(),
     inactive_state:             registerEventName(),
     item_broken:                registerEventName(),
     inventory_full:             registerEventName(),

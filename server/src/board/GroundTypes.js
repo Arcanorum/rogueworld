@@ -1,6 +1,6 @@
 const GroundTile = require('./GroundTile');
-const StatusEffects = require('./StatusEffects');
-const ModHitPointConfigs = require('./ModHitPointConfigs');
+const StatusEffects = require('../gameplay/StatusEffects');
+const ModHitPointConfigs = require('../gameplay/ModHitPointConfigs');
 
 const GroundTypes = {
 

@@ -128,8 +128,8 @@ module.exports = ArchMage;
 const Projectile = require('./../../projectiles/Projectile');
 const ProjWind = require('./../../projectiles/ProjWind');
 const ProjPacify = require('./../../projectiles/ProjPacify');
-const MagicEffects = require('./../../../../../MagicEffects');
-const Heal = require('../../../../../Heal');
+const MagicEffects = require('./../../../../../gameplay/MagicEffects');
+const Heal = require('../../../../../gameplay/Heal');
 
 ArchMage.prototype.registerEntityType();
 ArchMage.prototype.assignMobValues();

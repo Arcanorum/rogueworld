@@ -21,7 +21,7 @@ class ProjPacify extends Projectile {
 module.exports = ProjPacify;
 
 const Character = require('../characters/Character');
-const MagicEffects = require('../../../../MagicEffects');
+const MagicEffects = require('../../../../gameplay/MagicEffects');
 
 ProjPacify.prototype.registerEntityType();
 ProjPacify.prototype.moveRate = 200;

@@ -1,6 +1,6 @@
 const Movable = require('../Movable');
 const Utils = require('../../../../Utils');
-const ModHitPointConfigs = require('../../../../ModHitPointConfigs');
+const ModHitPointConfigs = require('../../../../gameplay/ModHitPointConfigs');
 
 class Projectile extends Movable {
 
@@ -312,7 +312,7 @@ module.exports = Projectile;
 const Character = require('../characters/Character');
 const Static = require('../../../statics/Static');
 const ProjWind = require('../projectiles/ProjWind');
-const Damage = require('../../../../Damage');
+const Damage = require('../../../../gameplay/Damage');
 
 /**
  * How many board tiles can this projectile can move before it is destroyed.

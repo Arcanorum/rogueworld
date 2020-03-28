@@ -28,8 +28,8 @@ class Vampire extends Mob {
 }
 module.exports = Vampire;
 
-const Damage = require('../../../../../Damage');
-const Heal = require('../../../../../Heal');
+const Damage = require('../../../../../gameplay/Damage');
+const Heal = require('../../../../../gameplay/Heal');
 
 Vampire.prototype.registerEntityType();
 Vampire.prototype.assignMobValues();

@@ -15,7 +15,7 @@ class ItemEnergyPotion extends Item {
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemEnergyPotion;
 
-const EnergyRegen = require('./../StatusEffects').EnergyRegen;
+const EnergyRegen = require('./../gameplay/StatusEffects').EnergyRegen;
 
 ItemEnergyPotion.prototype.registerItemType();
 ItemEnergyPotion.prototype.idName = "Energy potion";

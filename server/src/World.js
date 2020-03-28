@@ -2,10 +2,10 @@
 const wss = require('./Server');
 const Utils = require('./Utils');
 const AccountManager = require('./AccountManager');
-const clanManager = require('./ClanManager');
+const clanManager = require('./gameplay/ClanManager');
 const Dungeon = require('./Dungeon');
 const EventsList = require('./EventsList');
-const BoardsList = require('./BoardsList');
+const BoardsList = require('./board/BoardsList');
 const DayPhases = require('./DayPhases');
 const dayPhaseCycle = [
     DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day,
@@ -331,6 +331,6 @@ const world = {
 module.exports = world;
 
 // Import these AFTER the world is exported.
-const Board = require('./Board');
+const Board = require('./board/Board');
 const EntitiesList = require('./EntitiesList');
 const Exit = require('./entities/statics/interactables/exits/Exit');

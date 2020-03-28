@@ -6,4 +6,4 @@ module.exports = Ruler;
 
 Ruler.prototype.registerEntityType();
 Ruler.prototype.faction = Merchant.prototype.Factions.Citizens;
-//Ruler.prototype.shop = new (require('./../../../../../../Shops')).Ruler();
+//Ruler.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Ruler();

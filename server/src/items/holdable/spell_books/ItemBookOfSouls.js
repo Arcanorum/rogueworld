@@ -120,7 +120,7 @@ class ItemBookOfSouls extends SpellBook {
 module.exports = ItemBookOfSouls;
 
 const ProjDeathbind = require('../../../entities/destroyables/movables/projectiles/ProjDeathbind');
-const ModHitPointConfigs = require('../../../ModHitPointConfigs');
+const ModHitPointConfigs = require('../../../gameplay/ModHitPointConfigs');
 
 ItemBookOfSouls.prototype.registerItemType();
 ItemBookOfSouls.prototype.idName = "Book of souls";

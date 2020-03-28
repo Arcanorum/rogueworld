@@ -13,7 +13,7 @@ class ItemCurePotion extends Item {
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemCurePotion;
 
-const Cured = require('./../StatusEffects').Cured;
+const Cured = require('./../gameplay/StatusEffects').Cured;
 
 ItemCurePotion.prototype.registerItemType();
 ItemCurePotion.prototype.idName = "Cure potion";

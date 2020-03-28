@@ -32,7 +32,7 @@ ItemArmorOfIre.prototype.PickupType = require('../../entities/destroyables/picku
 ItemArmorOfIre.prototype.iconSource = "icon-dungium-armour";
 ItemArmorOfIre.prototype.useGloryCost = 12;
 ItemArmorOfIre.prototype.category = Clothes.prototype.categories.Clothing;
-ItemArmorOfIre.prototype.defenceBonus = 0.50;
+ItemArmorOfIre.prototype.defenceBonus = 100;
 ItemArmorOfIre.prototype.statBonuses = {
     [StatNames.Melee]: 2
 };

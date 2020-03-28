@@ -14,7 +14,7 @@ ItemCopperArmour.prototype.iconSource = "icon-copper-armour";
 ItemCopperArmour.prototype.baseValue = 10;
 ItemCopperArmour.prototype.category = Clothes.prototype.categories.Clothing;
 ItemCopperArmour.prototype.baseDurability = 100;
-ItemCopperArmour.prototype.defenceBonus = 0.3;
+ItemCopperArmour.prototype.defenceBonus = 40;
 ItemCopperArmour.prototype.statBonuses = {
     [StatNames.Melee]: 1
 };

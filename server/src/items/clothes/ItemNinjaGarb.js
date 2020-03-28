@@ -14,7 +14,7 @@ ItemNinjaGarb.prototype.iconSource = "icon-ninja-garb";
 ItemNinjaGarb.prototype.baseValue = 10;
 ItemNinjaGarb.prototype.category = Clothes.prototype.categories.Clothing;
 ItemNinjaGarb.prototype.baseDurability = 100;
-ItemNinjaGarb.prototype.defenceBonus = 0.3;
+ItemNinjaGarb.prototype.defenceBonus = 30;
 ItemNinjaGarb.prototype.statBonuses = {
     [StatNames.Melee]: 1,
     [StatNames.Ranged]: 1,

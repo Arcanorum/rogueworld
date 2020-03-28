@@ -242,7 +242,7 @@ Character.prototype.damageTypeImmunities = [];
  * 
  * Defence does not block damage outright, but instead follows an curve that
  * gives more effective HP with each point.
- * @see Character.onDamage
+ * @see Character.onDamage for damage formula.
  * @type {Number}
  * @example
  * Defence:     Damage taken:   Reduction:

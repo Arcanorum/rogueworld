@@ -38,7 +38,7 @@ ItemEtherweave.prototype.PickupType = require('../../entities/destroyables/picku
 ItemEtherweave.prototype.iconSource = "icon-mage-robe";
 ItemEtherweave.prototype.useGloryCost = 10;
 ItemEtherweave.prototype.category = Clothes.prototype.categories.Clothing;
-ItemEtherweave.prototype.defenceBonus = 0.2;
+ItemEtherweave.prototype.defenceBonus = 20;
 ItemEtherweave.prototype.statBonuses = {
     [StatNames.Magic]: 2
 };

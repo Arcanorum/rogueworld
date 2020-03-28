@@ -14,7 +14,7 @@ ItemMageRobe.prototype.iconSource = "icon-mage-robe";
 ItemMageRobe.prototype.baseValue = 10;
 ItemMageRobe.prototype.category = Clothes.prototype.categories.Clothing;
 ItemMageRobe.prototype.baseDurability = 100;
-ItemMageRobe.prototype.defenceBonus = 0.2;
+ItemMageRobe.prototype.defenceBonus = 20;
 ItemMageRobe.prototype.statBonuses = {
     [StatNames.Magic]: 1
 };

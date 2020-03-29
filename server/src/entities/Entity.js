@@ -296,6 +296,13 @@ Entity.prototype.OppositeDirections = {
     'l': 'r'
 };
 
+/**
+ * How often (in ms) this entity type takes to respawn from the spawner it is from.
+ * This is just for entity spawners. Do not confuse with player respawns.
+ * @type {Number}
+ */
+Entity.prototype.spawnRate = 60000;
+
 Entity.prototype.maxHitPoints = null;
 Entity.prototype.hitPoints = null;
 

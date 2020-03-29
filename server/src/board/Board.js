@@ -9,6 +9,13 @@ const EntitiesList =            require('../EntitiesList');
 const Player =                  require('../entities/destroyables/movables/characters/Player');
 const DayPhases =               require('../DayPhases');
 
+// A recent version of Tiled changed the tileset.tiles property to be an array.
+// Map the values back to an object by ID.
+staticsTileset.tiles = staticsTileset.tiles.reduce((map, obj) => {
+    map[obj.id] = obj;
+    return map;
+}, {});
+
 const playerViewRange =         EntitiesList["Player"].viewRange;
 // Need this so that the loops in the functions that emit to players around the player view range go all the way to
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
@@ -220,7 +227,7 @@ class Board {
         let type;
         let row;
         let col;
-
+        
         // Initialise an empty grid, with a board tile instance for each column in each row.
         for(i=0; i<mapData.height; i+=1){
             // Add a new row.
@@ -394,8 +401,8 @@ class Board {
             }
         }
 
-        layer = findLayer('Configurables');
         // Check that the configurables layer exists in the map data.
+        layer = findLayer('Configurables');
         if(layer){
             // This is a object layer, not a tile one, so get the objects data.
             objectsData = layer.objects;

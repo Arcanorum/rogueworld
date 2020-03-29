@@ -65,6 +65,8 @@ Pickup.prototype.spawner = null;
  */
 Pickup.prototype.dropRate = 20;
 
+Pickup.prototype.spawnRate = 20000;
+
 module.exports = Pickup;
 
 const Utils = require('../../../Utils');

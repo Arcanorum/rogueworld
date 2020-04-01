@@ -1,5 +1,8 @@
-var idCounter = 1;
-var typeNumberCounter = 1;
+const Utils = require('./../Utils');
+const Damage = require('../gameplay/Damage');
+const Heal = require('../gameplay/Heal');
+
+const idCounter = new Utils.Counter();
 
 class Entity {
 
@@ -10,8 +13,7 @@ class Entity {
      * @param {Board} config.board
      */
     constructor (config) {
-        this.id = idCounter;
-        idCounter+=1;
+        this.id = idCounter.getNext();
 
         this.row = config.row;
         this.col = config.col;
@@ -246,10 +248,6 @@ class Entity {
 }
 module.exports = Entity;
 
-const Utils = require('./../Utils');
-const Damage = require('../gameplay/Damage');
-const Heal = require('../gameplay/Heal');
-
 // Give each entity easy access to the events list.
 Entity.prototype.EventsList = require('../EventsList');
 
@@ -258,11 +256,11 @@ Entity.prototype.EventsList = require('../EventsList');
 // All entities that appear on the client must be registered with ENTITY.prototype.registerEntityType().
 Entity.prototype.typeNumber = 'Type not registered.';
 
+const typeNumberCounter = new Utils.Counter();
+
 Entity.prototype.registerEntityType = function () {
 
-    this.typeNumber = typeNumberCounter;
-
-    typeNumberCounter+=1;
+    this.typeNumber = typeNumberCounter.getNext();
 
     //console.log("* Registering entity type: ", this);
 };

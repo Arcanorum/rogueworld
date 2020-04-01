@@ -3,6 +3,22 @@ const fs = require('fs');
 
 class Utils {
     /**
+     * @class Creates a counter that will track it's own 
+     * count and allow the next count to be retrieved.
+     * Useful for creating unique IDs.
+     */
+    Counter = class Counter {
+        constructor () {
+            this._count = 0;
+        }
+    
+        getNext () {
+            this._count += 1;
+            return this._count;
+        }
+    }
+
+    /**
      * Gets a random number between, and including, min and max.
      * @param {Number} min
      * @param {Number} max

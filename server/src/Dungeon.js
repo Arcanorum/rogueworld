@@ -1,4 +1,3 @@
-
 const Utils = require('./Utils');
 
 const Difficulties = {};
@@ -18,30 +17,29 @@ Difficulties.Advanced = new Difficulty("Advanced", 500);
 Difficulties.Expert =   new Difficulty("Expert", 1000);
 Difficulties.Master =   new Difficulty("Master", 5000);
 
-let idCounter = 1;
+const idCounter = new Utils.Counter();
 
 class Dungeon {
     /**
-     *
-     * @param {String} name - What this dungeon is called. Used in Tiled to define what dungeon a dungeon door leads to.
-     * @param {String} nameDefinitionID - The ID of the text definition to use for the name of this dungeon.
-     * @param {String} [difficulty=Difficulties.Beginner] - Roughly how difficult this dungeon is relative to most others.
+     * @param {Object} config
+     * @param {String} config.name - What this dungeon is called. Used in Tiled to define what dungeon a dungeon door leads to.
+     * @param {String} config.nameDefinitionID - The ID of the text definition to use for the name of this dungeon.
+     * @param {String} [config.difficultyName=Difficulties.Beginner] - Roughly how difficult this dungeon is relative to most others.
      */
-    constructor (name, nameDefinitionID, difficultyName) {
-        this.id = idCounter;
-        idCounter+=1;
+    constructor (config) {
+        this.id = idCounter.getNext();
 
-        this.name = name;
+        this.name = config.name;
 
         let difficulty = Difficulties.Beginner;
         // Use the given difficulty name map setting if given.
-        if(difficultyName){
-            difficulty = Difficulties[difficultyName];
+        if(config.difficultyName){
+            difficulty = Difficulties[config.difficultyName];
             // Check the given difficulty name is valid.
             if(!difficulty) Utils.error(
                 "Dungeon difficulty name is invalid.",
-                "Difficulty name: ", difficultyName +
-                ". On map:", name,
+                "Difficulty name: ", config.difficultyName +
+                ". On map:", config.name,
                 '\nValid difficulties:\n', Difficulties
             );
         }
@@ -56,7 +54,7 @@ class Dungeon {
          * Written to client to show the dungeon name on the dungeon prompt.
          * @type {String}
          */
-        this.nameDefinitionID = "Dungeon name: " + nameDefinitionID;
+        this.nameDefinitionID = "Dungeon name: " + config.nameDefinitionID;
 
         /**
          * How much glory a player must pay to enter.

@@ -546,7 +546,6 @@ eventResponses.player_respawn = function () {
     _this.GUI.respawnPanel.hide();
     _this.GUI.updateHitPointCounters();
     _this.GUI.updateEnergyCounters();
-    window.startPreRoll();
 };
 
 eventResponses.add_entity = function (data) {

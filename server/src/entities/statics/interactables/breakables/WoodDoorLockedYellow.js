@@ -12,10 +12,10 @@ class WoodDoorLockedYellow extends Breakable {
     constructor (config) {
         super(config);
 
-        if(this.board.isDungeon === true){
-            DungeonsList.ByName[this.board.name].lockedDoors.push(this);
-            this.reactivationRate = null;
-        }
+        // if(this.board.isDungeon === true){
+        //     DungeonManagersList.ByName[this.board.name].lockedDoors.push(this);
+        //     this.reactivationRate = null;
+        // }
     }
 
     interaction (interactedBy, toolUsed) {
@@ -53,7 +53,7 @@ class WoodDoorLockedYellow extends Breakable {
 }
 module.exports = WoodDoorLockedYellow;
 
-const DungeonsList = require('../../../../DungeonsList');
+const DungeonManagersList = require('../../../../dungeon/DungeonManagersList');
 
 WoodDoorLockedYellow.prototype.registerEntityType();
 

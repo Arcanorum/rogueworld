@@ -33,9 +33,9 @@ class Board {
     /**
      * A board for entities to exist on. The game world is made up of boards. Boards are made up of tiles.
      * @param {*} mapData
-     * @param {String} name
-     * @param {Boolean} alwaysNight - Whether this board will ignore changes in the time of day outside.
-     * @param {Boolean} isDungeon - Whether this board is for a dungeon.
+     * @param {String} [name="Unnamed board"]
+     * @param {Boolean} [alwaysNight=false] - Whether this board will ignore changes in the time of day outside.
+     * @param {Boolean} [isDungeon=false] - Whether this board is for a dungeon.
      */
     constructor (mapData, name, alwaysNight, isDungeon) {
         /**
@@ -61,7 +61,7 @@ class Board {
         this.clientStaticsData = [];
 
         // How many Tiled units each grid cell is wide/high. Used to divide the x/y of an object to get the col/row.
-        this.tileSize = 16;
+        this.tileSize = Board.tileSize;
 
         // How many rows this board has.
         this.rows = 0;
@@ -97,17 +97,16 @@ class Board {
         // Build the map.
         this.createBoard();
 
-        this.createClientBoardData();
-
         // No longer need the map data for this zone.
         this.mapData = undefined;
         // Or the client data.
-        this.clientGroundData = undefined;
-        this.clientStaticsData = undefined;
+        //this.clientGroundData = undefined;
+        //this.clientStaticsData = undefined;
     }
 
     createBoard () {
-
+        // TODO: remove the client data specific shit
+        
         const mapData = this.mapData;
 
         this.rows = this.mapData.height;
@@ -140,12 +139,12 @@ class Board {
         let mapTile;
         // An object layer tile on the tilemap data.
         let mapObject;
-        let tileID;
         let entity;
         let relativeID;
         let type;
         let row;
         let col;
+        let dungeonStartEntranceFound = false;
         
         // Initialise an empty grid, with a board tile instance for each column in each row.
         for(i=0; i<mapData.height; i+=1){
@@ -156,9 +155,6 @@ class Board {
                 // Add a board tile to the grid.
                 this.grid[i].push(new BoardTile());
             }
-            // Add the same amount of rows to the map data to write to the clients.
-            this.clientGroundData[i] = [];
-            this.clientStaticsData[i] = [];
         }
 
         // Check that the boundaries layer exists in the map data.
@@ -218,8 +214,6 @@ class Board {
                     col = 0;
                     row += 1;
                 }
-                // Keep the tile number to create the client map data later.
-                this.clientGroundData[row][col] = mapTile;
                 // Check that the type of this tile is a valid one.
                 if(GroundTypes[type]){
                     // Assign it to the matching ground type object of the type of this tile.
@@ -230,18 +224,6 @@ class Board {
                 }
                 // Move to the next column.
                 col += 1;
-            }
-        }
-
-        const board = this;
-        class StaticTile extends Array {
-            constructor (row, col, tileID, data) {
-                super();
-                this.push(tileID);
-                if(data !== undefined) this.push(data);
-
-                // Add the tile data to the client map data to save.
-                board.clientStaticsData[row][col] = this;
             }
         }
 
@@ -267,8 +249,6 @@ class Board {
 
                 // Relative IDs lower than 0 are for empty grid spaces.
                 if(relativeID < 0){
-                    // Still need to put something in the statics data for the client.
-                    new StaticTile(row, col, 0);
                     // Still need to move the column along.
                     col += 1;
                     // Skip this tile.
@@ -277,7 +257,6 @@ class Board {
 
                 // Skip empty tiles.
                 if(mapTile < 0){
-                    //console.log("* * * Skipping empty tile:", mapTile);
                     // Still need to move the column along.
                     col += 1;
                     // Skip this tile.
@@ -288,8 +267,6 @@ class Board {
                 // All entities need to be created from a type.
                 // Check a type is set.
                 if(staticsTileset.tiles[relativeID] === undefined){
-                    // Keep the tile number to create the client map data later.
-                    new StaticTile(row, col, relativeID);
                     // Still need to move the column along.
                     col += 1;
                     // Skip this tile.
@@ -302,18 +279,11 @@ class Board {
 
                 // Check that the type of this tile is a valid one.
                 if(EntitiesList[type]){
-                    // Create the data to store in the client map data.
-                    // This can have additional data added to it with .push().
-                    const staticTile = new StaticTile(row, col, relativeID);
                     // Create a new entity of the type of this tile.
-                    entity = new EntitiesList[type]({row: row, col: col, board: this});
-                    // If it is a crafting station, add the type number to the data so the client knows what kind of station this is.
-                    if(entity instanceof EntitiesList.CraftingStation) staticTile.push(entity.typeNumber);
+                    new EntitiesList[type]({row: row, col: col, board: this});
                 }
                 else {
                     //Utils.warning("Entity type doesn't exist for static mapTile type: " + type);
-                    // Still need to put something in the statics data for the client.
-                    new StaticTile(row, col, relativeID);
                 }
                 // Move to the next column.
                 col += 1;
@@ -382,14 +352,12 @@ class Board {
                         case 'DungeonPortal':
                             // Check the dungeon portal properties are valid.
                             if(mapObject.properties === undefined){
-                                Utils.warning("No properties set on dungeon portal in map data:", mapObject);
+                                Utils.error("No properties set on dungeon portal in map data:", mapObject);
                                 continue;
                             }
-                            config.targetBoard = mapObject.properties['TargetBoard'];
-                            config.targetEntranceName = mapObject.properties['TargetEntranceName'];
-                            // Check the dungeon portal properties are valid.
-                            if(config.targetBoard === undefined){
-                                Utils.warning("Dungeon portal in map data with invalid property:", mapObject);
+                            config.dungeonName = mapObject.properties['DungeonName'];
+                            if(config.dungeonName === undefined){
+                                Utils.error(`Dungeon portal on map "${this.name}" is missing property "DungeonName". Map object:`, mapObject);
                                 continue;
                             }
                             break;
@@ -402,54 +370,33 @@ class Board {
                             config.width = mapObject.width / this.tileSize;
                             config.height = mapObject.height / this.tileSize;
                             config.entranceName = mapObject.properties['EntranceName'];
+                            if(config.entranceName === "dungeon-start"){
+                                dungeonStartEntranceFound = true;
+                            }
                             break;
                     }
 
                     // Create a new entity of the type of this tile.
-                    entity = new EntitiesList[type](config);
-
-                    // If this configurable is meant to be seen on the client, create the data to store in the client map data.
-                    // This can have additional data added to it with .push().
-
-                    // If a dungeon portal, add the dungeon ID to the data.
-                    if(entity instanceof EntitiesList.DungeonPortal){
-                        new StaticTile(row, col, objectID, entity.dungeon.id);
-                    }
-                    // If a overworld portal, just add the tile ID.
-                    if(entity instanceof EntitiesList.OverworldPortal){
-                        new StaticTile(row, col, objectID);
-                    }
-
+                    new EntitiesList[type](config);
                 }
                 else {
-                    // If a GUI trigger, just write the data to the client. No server entity needed.
-                    if(type === 'GUITrigger'){
-                        // Add it to all of the slots this object covers.
-                        const objectRows = mapObject.height / 16;
-                        const objectCols = mapObject.width / 16;
-                        for(let rowOffset=0; rowOffset<objectRows; rowOffset+=1){
-                            for(let colOffset=0; colOffset<objectCols; colOffset+=1){
-                                new StaticTile(row + rowOffset, col + colOffset, objectID, {
-                                    name: mapObject.properties['Name'],
-                                    panelName: mapObject.properties['PanelName'],
-                                    panelNameTextDefID: mapObject.properties['PanelNameTextDefID'],
-                                    contentFileName: mapObject.properties['ContentFileName'],
-                                    contentTextDefID: mapObject.properties['ContentTextDefID'],
-                                });
-                            }
-                        }
-                    }
-                    else {
-                        Utils.warning("Entity type doesn't exist for configurable object type: " + type);
-                    }
+                    //Utils.warning("Entity type doesn't exist for configurable object type: " + type);
                 }
             }
+        }
+
+        // Dungeon maps must have an entrance named "dungeon-start".
+        if(this.isDungeon){
+            if(dungeonStartEntranceFound === false) Utils.error('Dungeon map does not have an entrance named "dungeon-start". Map name:', this.name);
         }
 
     }
 
     destroy () {
-        // Remove all current entities from the board.
+        // If there are any players still on this board, move them to the overworld.
+
+
+        // Destroy all current entities on the board.
 
         this.grid.forEach((row) => {
             row.forEach((boardTile) => {
@@ -458,24 +405,6 @@ class Board {
                 
             })
         })
-    }
-
-    createClientBoardData () {
-
-        let clientData = {
-            name: this.name,
-            groundGrid: this.clientGroundData,
-            staticsGrid: this.clientStaticsData
-        };
-
-        const json = JSON.stringify(clientData);
-
-        Utils.checkDirectoryExists('../client/assets/map');
-
-        // Write the data to the file in the client files.
-        fs.writeFileSync("../client/assets/map/" + this.name + ".json", json, "utf8");
-
-        //console.log("* Board data written to client: " + this.name);
     }
 
     /**
@@ -1079,7 +1008,6 @@ class Board {
     isTileBuildable (row, col) {
         // Check this board is the overworld. Can only build on the overworld.
         if(this !== boardsObject['overworld']){
-            //console.log("  this board is NOT the overworld");
             return false;
         }
 
@@ -1114,6 +1042,289 @@ class Board {
 
 }
 
+Board.tileSize = 16;
+
+/**
+* Build the client data for a map.
+* @param {String} dataFileName
+*/
+Board.createClientBoardData = (dataFileName) => {
+    const mapData = require('../../map/' + dataFileName + '.json');
+    const mapProperties = Utils.arrayToObject(mapData.properties, 'name', 'value');
+ 
+    // Skip disabled maps.
+    if(mapProperties['Disabled'] === true) {
+        console.log("* Skipping disabled map:", dataFileName);
+        return;
+    }
+
+    // Load the map objects.
+    // Check that there is some map data for the map of this board.
+    if(mapData === undefined){
+        Utils.error("No map data found for this board when creating board:", dataFileName);
+        return;
+    }
+
+    var i = 0,
+        j = 0,
+        len = 0,
+        layer,
+        findLayer = function (layerName) {
+            for(var i=0; i<mapData.layers.length; i+=1){
+                if(mapData.layers[i].name === layerName){
+                    return mapData.layers[i];
+                }
+            }
+            Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + '.');
+            return false;
+        };
+
+    let clientData = {
+        name: dataFileName,
+        groundGrid: [],
+        staticsGrid: []
+    };
+
+    let tilesData;
+    let objectsData;
+    // A tile layer tile on the tilemap data.
+    let mapTile;
+    // An object layer tile on the tilemap data.
+    let mapObject;
+    let relativeID;
+    let type;
+    let row;
+    let col;
+   
+    // Initialise an empty grid, with a board tile instance for each column in each row.
+    for(i=0; i<mapData.height; i+=1){
+        // Add the same amount of rows to the map data to write to the clients.
+        clientData.groundGrid[i] = [];
+        clientData.staticsGrid[i] = [];
+    }
+
+    // Check that the ground layer exists in the map data.
+    layer = findLayer('Ground');
+    if(layer){
+        tilesData = layer.data;
+        row = 0;
+        col = 0;
+
+        // Add the tiles to the grid.
+        for(i=0, len=tilesData.length; i<len; i+=1){
+            mapTile = tilesData[i] - 1;
+
+            if(groundTileset.tiles[mapTile] === undefined){
+                Utils.error("Invalid/empty map tile found while creating client board data: " + this.name + " at row: " + row + ", col: " + col);
+            }
+            // Get and separate the type from the prefix using the tile GID.
+            type = groundTileset.tiles[mapTile].type;
+            // Move to the next row when at the width of the map.
+            if(col === mapData.width){
+                col = 0;
+                row += 1;
+            }
+            // Keep the tile number to create the client map data.
+            clientData.groundGrid[row][col] = mapTile;
+            // Check that the type of this tile is a valid one.
+            if(!GroundTypes[type]){
+                Utils.warning("Invalid ground mapTile type: " + type);   
+            }
+            // Move to the next column.
+            col += 1;
+        }
+    }
+
+    class ClientStaticTile extends Array {
+        /**
+         * A standard format to use for each cell in the statics grid client data.
+         * Each cell that the client expects should be of [tileID, data], where tileID
+         * is the ID of the tile on the texture to render, and data is any other
+         * optional config that the client tile might expect.
+         * @param {Number} row 
+         * @param {Number} col 
+         * @param {Number} tileID 
+         * @param {*} [data]
+         */
+        constructor (row, col, tileID, data) {
+            super();
+            this.push(tileID);
+            if(data !== undefined) this.push(data);
+
+            // Add the tile data to the client map data to save.
+            clientData.staticsGrid[row][col] = this;
+        }
+    }
+
+    // Check that the statics layer exists in the map data.
+    layer = findLayer('Statics');
+    if(layer){
+        tilesData = layer.data;
+        row = 0;
+        col = 0;
+
+        // Add the tiles to the grid.
+        for(i=0, len=tilesData.length; i<len; i+=1){
+            mapTile = tilesData[i] - 1;
+
+            // Move to the next row when at the width of the map.
+            if(col === mapData.width){
+                col = 0;
+                row += 1;
+            }
+
+            // Get the ID of the tile relative to the tileset it belongs to.
+            relativeID = mapTile - staticsStartGID;
+
+            // Relative IDs lower than 0 are for empty grid spaces.
+            if(relativeID < 0){
+                new ClientStaticTile(row, col, 0);
+                // Still need to move the column along.
+                col += 1;
+                // Skip this tile.
+                continue;
+            }
+
+            // Skip empty tiles.
+            if(mapTile < 0){
+                // Still need to move the column along.
+                col += 1;
+                continue;
+            }
+
+            // A tile might have been placed on the map, but not have a type set.
+            // All entities need to be created from a type.
+            // Check a type is set.
+            if(staticsTileset.tiles[relativeID] === undefined){
+                // Keep the tile number to create the client map data.
+                new ClientStaticTile(row, col, relativeID);
+                // Still need to move the column along.
+                col += 1;
+                // Skip this tile.
+                continue;
+            }
+            // A type is set. Create an entity.
+
+            // Get and separate the type from the prefix using the tile GID.
+            type = staticsTileset.tiles[relativeID].type;
+
+            // If it is a crafting station, add the type number to the data so the client knows what kind of station this is.
+            if(EntitiesList[type] === EntitiesList.CraftingStation){
+                new ClientStaticTile(row, col, EntitiesList[type].prototype.typeNumber);
+            }
+            else {
+                // Still need to put something in the statics data for the client.
+                new ClientStaticTile(row, col, relativeID);
+            }
+            // Move to the next column.
+            col += 1;
+        }
+    }
+
+    // Check that the configurables layer exists in the map data.
+    layer = findLayer('Configurables');
+    if(layer){
+        // This is a object layer, not a tile one, so get the objects data.
+        objectsData = layer.objects;
+
+        // Add the entities to the world.
+        for(i=0, len=objectsData.length; i<len; i+=1){
+            mapObject = objectsData[i];
+
+            // If this entity is a text object, skip it.
+            if(mapObject.text !== undefined){
+                continue;
+            }
+
+            // Reset this in case an invalid type was found below, otherwise this would still be the previous valid type.
+            type = null;
+
+            // Convert the object position in Tiled into a row and column.
+            col = mapObject.x / Board.tileSize;
+            row = (mapObject.y / Board.tileSize) - (mapObject.height / Board.tileSize);
+
+            // The ID of this tile on the statics tileset.
+            const objectID = mapObject.gid - staticsStartGID - 1;
+
+            // Get and separate the type from the prefix using the tile GID.
+            type = staticsTileset.tiles[objectID].type;
+
+            // Check that the type of this tile is a valid one.
+            if(EntitiesList[type]){
+                const config = {};
+
+                if(mapObject.properties['Disabled']){
+                    Utils.warning("Map object is disabled in map data:", mapObject);
+                    continue;
+                }
+
+                switch (type){
+                    case 'DungeonPortal':
+                        // Check the dungeon portal properties are valid.
+                        if(mapObject.properties === undefined){
+                            Utils.error("No properties set on dungeon portal in map data:", mapObject);
+                            continue;
+                        }
+                        config.dungeonName = mapObject.properties['DungeonName'];
+                        break;
+                }
+
+                // Create a new entity of the type of this tile.
+                const EntityType = EntitiesList[type];
+
+                // If this configurable is meant to be seen on the client, create the data to store in the client map data.
+                // This can have additional data added to it with .push().
+
+                // If a dungeon portal, add the dungeon ID to the data.
+                if(EntityType === EntitiesList.DungeonPortal){
+                    // Get the ID of the dungeon manager this dungeon portal links to.
+                    new ClientStaticTile(row, col, objectID, DungeonManagersList.ByName["dungeon-" + config.dungeonName].id);
+                }
+                // If a overworld portal, just add the tile ID.
+                if(EntityType === EntitiesList.OverworldPortal){
+                    new ClientStaticTile(row, col, objectID);
+                }
+
+            }
+            else {
+                // If a GUI trigger, just write the data to the client. No server entity needed.
+                if(type === 'GUITrigger'){
+                    // Add it to all of the slots this object covers.
+                    const objectRows = mapObject.height / Board.tileSize;
+                    const objectCols = mapObject.width / Board.tileSize;
+                    for(let rowOffset=0; rowOffset<objectRows; rowOffset+=1){
+                        for(let colOffset=0; colOffset<objectCols; colOffset+=1){
+                            new ClientStaticTile(row + rowOffset, col + colOffset, objectID, {
+                                name: mapObject.properties['Name'],
+                                panelName: mapObject.properties['PanelName'],
+                                panelNameTextDefID: mapObject.properties['PanelNameTextDefID'],
+                                contentFileName: mapObject.properties['ContentFileName'],
+                                contentTextDefID: mapObject.properties['ContentTextDefID'],
+                            });
+                        }
+                    }
+                }
+                else {
+                    //Utils.warning("Entity type doesn't exist for configurable object type: " + type);
+                }
+            }
+        }
+    }
+
+    // Save the client map data that was extracted.
+    const json = JSON.stringify(clientData);
+
+    //console.log("client data to save:", json);
+
+    Utils.checkDirectoryExists('../client/assets/map');
+
+    // Write the data to the file in the client files.
+    fs.writeFileSync("../client/assets/map/" + dataFileName + ".json", json, "utf8");
+
+    console.log("* Map data written to client: " + dataFileName);
+};
+
 module.exports = Board;
 
 const boardsObject = require('./BoardsList').boardsObject;
+const DungeonManagersList = require('../dungeon/DungeonManagersList');

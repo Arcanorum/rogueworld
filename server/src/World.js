@@ -3,35 +3,43 @@ const wss = require('./Server');
 const Utils = require('./Utils');
 const AccountManager = require('./AccountManager');
 const clanManager = require('./gameplay/ClanManager');
-const Dungeon = require('./Dungeon');
+const Dungeon = require('./dungeon/Dungeon');
+const DungeonManager = require('./dungeon/DungeonManager');
+const DungeonManagersList = require('./dungeon/DungeonManagersList');
 const EventsList = require('./EventsList');
 const BoardsList = require('./board/BoardsList');
 const DayPhases = require('./DayPhases');
-const dayPhaseCycle = [
-    DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day, DayPhases.Day,
-    DayPhases.Dusk,
-    DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night, DayPhases.Night,
-    DayPhases.Dawn
-];
+
+// Set up the day phase cycle.
+const dayPhaseCycle = [];
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 12);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 1);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 12);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
+// Keep the length of a whole day the same, regarless of how many cycle phases each day has.
 const dayPhaseRate = (60000 * 24) / dayPhaseCycle.length;
 
 const world = {
 
     accountManager: AccountManager,
 
+    /** @type {Number} How many players are currently in the game. */
     playerCount: 0,
 
+    /** @type {Number} How many players can be in the game at once. */
     maxPlayers: 1000,
 
-    /** @type {Board[]} */
+    /** @type {Array.<Board>} A list of board in the world, by index. */
     boardsArray: BoardsList.boardsArray,
 
+    /** @type {Object.<Board>} A list of boards in the world, by their ID. */
     boardsObject: BoardsList.boardsObject,
 
-    // Gameplay stuff.
+    /** @type {Number} The time of day. Dawn, night, etc. */
     dayPhase: DayPhases.Day,
 
     init() {
+        // Read each of the map data files in the map directory and load them.
         const fs = require('fs');
         const dirs = fs.readdirSync('map', {encoding: 'utf-8', withFileTypes: true});
         const path = require('path');
@@ -43,7 +51,10 @@ const world = {
             
             // Only load JSON map data.
             if(parsed.ext === ".json"){
-                this.loadBoard(parsed.name);
+                this.createBoard(parsed.name);
+                // Do this after the board/dungeon manager is created, or the client board data won't
+                // have the dungeon manager ID to use for any dungeon portals that need that ID.
+                Board.createClientBoardData(parsed.name);
             }
 
         });
@@ -62,9 +73,10 @@ const world = {
     },
 
     /**
+     * Create an instance of a board.
      * @param {String} dataFileName - The end part of the URL to the map data file.
      */
-    loadBoard(dataFileName) {
+    createBoard(dataFileName) {
         const data = require('../map/' + dataFileName + '.json');
 
         const mapProperties = Utils.arrayToObject(data.properties, 'name', 'value');
@@ -79,22 +91,43 @@ const world = {
         if(mapProperties['AlwaysNight'] == undefined) Utils.warning("Map data is missing property: 'AlwaysNight'. On map: " + dataFileName);
         if(mapProperties['AlwaysNight'] === true) alwaysNight = true;
 
-        let isDungeon = false;
         if(mapProperties['IsDungeon'] == undefined) Utils.warning("Map data is missing property: 'IsDungeon'. On map: " + dataFileName);
         if(mapProperties['IsDungeon'] === true){
             if(!mapProperties['Difficulty']) Utils.warning("Dungeon map is missing property: 'Difficulty'. Using default. On map: " + dataFileName);
             if(!mapProperties['NameDefinitionID']) Utils.warning("Dungeon map is missing property: 'NameDefinitionID'. Using default. On map: " + dataFileName);
-            isDungeon = true;
+            if(!mapProperties['MaxPlayers']) Utils.warning("Dungeon map is missing property: 'MaxPlayers'. Using default. On map: " + dataFileName);
+            if(!mapProperties['TimeLimitMinutes']) Utils.warning("Dungeon map is missing property: 'TimeLimitMinutes'. Using default. On map: " + dataFileName);
+
+            // new Dungeon({
+            //     name: dataFileName,
+            //     nameDefinitionID: mapProperties['NameDefinitionID'],
+            //     difficultyName: mapProperties['Difficulty']
+            // });
+
+            new DungeonManager({
+                name: dataFileName,
+                nameDefinitionID: mapProperties['NameDefinitionID'],
+                mapData: data,
+                alwaysNight,
+                maxPlayers: mapProperties['MaxPlayers'],
+                timeLimitMinutes: mapProperties['TimeLimitMinutes'],
+                difficultyName: mapProperties['Difficulty']
+            });
             
-            new Dungeon(dataFileName, mapProperties['NameDefinitionID'], mapProperties['Difficulty']);
+            // Stop here. Don't create a board for a dungeon map, as they are created
+            // dynamically when a dungeon instance is created by the dungeon manager.
+            return;
         }
-        const board = new Board(data, dataFileName, alwaysNight, isDungeon);
+
+        const board = new Board(data, dataFileName, alwaysNight);
         if(board.alwaysNight === false){
             board.dayPhase = this.dayPhase;
         }
 
         this.boardsArray.push(board);
         this.boardsObject[dataFileName] = board;
+
+        // TODO: do the logic here to build the map data for the client, separate from building the actual board instances
     },
 
     linkExits() {
@@ -105,6 +138,7 @@ const world = {
             colLen,
             exit;
 
+        // TODO: refactor to use forEach
         // For each board.
         for(let i=0, boardsLen=this.boardsArray.length; i<boardsLen; i+=1){
             board = this.boardsArray[i];

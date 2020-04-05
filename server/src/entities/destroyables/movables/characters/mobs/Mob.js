@@ -45,6 +45,10 @@ class Mob extends Character {
         clearTimeout(this.attackLoop);
         clearTimeout(this.lifespanTimeout);
 
+        super.onDestroy();
+    }
+
+    onAllHitPointsLost () {
         // Give all nearby players the glory value of this mob.
         const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
         for(let i=0; i<nearbyPlayers.length; i+=1){
@@ -54,7 +58,7 @@ class Mob extends Character {
 
         this.dropItems();
 
-        super.onDestroy();
+        super.onAllHitPointsLost();
     }
 
     onMove () {

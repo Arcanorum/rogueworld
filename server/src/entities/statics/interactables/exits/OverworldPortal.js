@@ -15,9 +15,9 @@ class OverworldPortal extends Exit {
         super(config);
 
         // If this portal is in a dungeon, set it as the exit portal when the boss dies.
-        if(DungeonsList.ByName[this.board.name] !== undefined){
-            DungeonsList.ByName[this.board.name].overworldPortal = this;
-        }
+        // if(DungeonManagersList.ByName[this.board.name] !== undefined){
+        //     DungeonManagersList.ByName[this.board.name].overworldPortal = this;
+        // }
     }
 
     /**
@@ -43,6 +43,6 @@ class OverworldPortal extends Exit {
 }
 module.exports = OverworldPortal;
 
-const DungeonsList = require('../../../../DungeonsList');
+const DungeonManagersList = require('../../../../dungeon/DungeonManagersList');
 
 OverworldPortal.prototype.registerEntityType();

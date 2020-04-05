@@ -1,23 +1,23 @@
+const Interactable = require('../Interactable');
 
-const Exit = require('./Exit');
-
-class DungeonPortal extends Exit {
+class DungeonPortal extends Interactable {
     /**
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
-     * @param {Board} config.targetBoard
-     * @param {String} config.targetEntranceName
+     * @param {Board} config.dungeonName
      */
     constructor (config) {
         super(config);
+        
+        // Link this portal to the dungeon manager.
+        /** @type {dungeonManager} A reference to the dungeon instance. */
+        this.dungeonManager = DungeonManagersList.ByName["dungeon-" + config.dungeonName];
 
-        // Link this portal to the dungeon.
-        /** @type {Dungeon} A reference to the dungeon instance. */
-        this.dungeon = DungeonsList.ByName[config.targetBoard];
-        if(this.dungeon === undefined) Utils.error("Cannot create dungeon portal entity, the target board is not in the dungeons list. Config:", config);
-        this.dungeon.dungeonPortal = this;
+        if(!this.dungeonManager){
+            Utils.error("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Config:", config);
+        }
     }
 
     /**
@@ -33,16 +33,10 @@ class DungeonPortal extends Exit {
      * @param {Player} player
      */
     enter (player) {
+        if(interactedBy instanceof Player === false) return;
+
         // Check they are adjacent to the door. Might have moved away from it since being shown the dungeon prompt.
-        if(this.isAdjacentToEntity(player) === false) return false;
-        // Check they have enough glory.
-        if(player.glory < this.dungeon.gloryCost) return false;
-        // Check the dungeon is active. The boss might be dead.
-        if(this.activeState === false) return false;
-        // Move them to the dungeon board.
-        super.interaction(player);
-        // Reduce their glory by the entry cost.
-        player.modGlory(-this.dungeon.gloryCost);
+        if(this.isAdjacentToEntity(player) === false) return false;        
     }
 
 }
@@ -50,6 +44,6 @@ module.exports = DungeonPortal;
 
 const Utils = require('../../../../Utils');
 const Player = require('../../../destroyables/movables/characters/Player');
-const DungeonsList = require('../../../../DungeonsList');
+const DungeonManagersList = require('../../../../dungeon/DungeonManagersList');
 
 DungeonPortal.prototype.registerEntityType();

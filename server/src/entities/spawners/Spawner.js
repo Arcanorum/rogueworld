@@ -25,10 +25,10 @@ class Spawner extends Entity {
         this.currentlySpawned = 0;
         this.testing = config.testing;
         this.dropList = null;
-        this.isInDungeon = config.board.isDungeon;
-        if(this.isInDungeon === true){
-            this.dungeon = DungeonsList.ByName[config.board.name];
-        }
+        // this.isInDungeon = config.board.isDungeon;
+        // if(this.isInDungeon === true){
+        //     this.dungeon = DungeonManagersList.ByName[config.board.name];
+        // }
 
         if(config.dropList){
             const splitList = config.dropList.split(',\n');
@@ -99,9 +99,9 @@ class Spawner extends Entity {
 
                 // If they are spawned into a dungeon, add them to the dungeon key holders list, so they can
                 // be killed when the dungeon resets, in case they would be locked out of their intended room.
-                if(this.isInDungeon === true){
-                    this.dungeon.keyHolders[entity.id] = entity;
-                }
+                // if(this.isInDungeon === true){
+                //     this.dungeon.keyHolders[entity.id] = entity;
+                // }
             }
         }
 
@@ -142,4 +142,4 @@ module.exports = Spawner;
 const Utils = require('./../../Utils');
 const World = require('./../../World');
 const Drop = require('../../gameplay/Drop');
-const DungeonsList = require('./../../DungeonsList');
+const DungeonManagersList = require('./../../dungeon/DungeonManagersList');

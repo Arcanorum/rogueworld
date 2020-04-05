@@ -3,7 +3,7 @@ const Utils = require('./Utils');
 const wss = require('./Server');
 const world = require('./World');
 const SpellBook = require('./items/holdable/spell_books/SpellBook');
-const DungeonsList = require('./DungeonsList');
+const DungeonManagersList = require('./dungeon/DungeonManagersList');
 const EventsList = require('./EventsList');
 const ValidDirections = require('./EntitiesList').Entity.prototype.OppositeDirections;
 const CraftingManager = require('./crafting/CraftingManager');
@@ -470,18 +470,22 @@ eventResponses.bank_swap_slots = function (clientSocket, data) {
     clientSocket.entity.bankAccount.swapItems(data.fromSlotIndex, data.toSlotIndex);
 };
 
+eventResponses.create_dungeon_party = () => {
+    
+}
+
 /**
  * @param clientSocket
  * @param {Number} data - The unique ID number of the dungeon instance to join.
  */
-eventResponses.enter_dungeon = function (clientSocket, data) {
+eventResponses.start_dungeon = function (clientSocket, data) {
     if(Number.isInteger(data) === false) return;
-    if(DungeonsList.ByID[data] === undefined) return;
+    if(DungeonManagersList.ByID[data] === undefined) return;
     if(clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if(clientSocket.entity.hitPoints <= 0) return;
 
-    DungeonsList.ByID[data].dungeonPortal.enter(clientSocket.entity);
+    DungeonManagersList.ByID[data].start(clientSocket.entity);
 };
 
 /**

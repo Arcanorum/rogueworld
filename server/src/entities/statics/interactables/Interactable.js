@@ -8,7 +8,7 @@ class Interactable extends Static {
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
-     * @param {Number} [config.activeState = true] - Whether this entity is already active when created.
+     * @param {Number} [config.activeState=true] - Whether this entity is already active when created.
      */
     constructor (config) {
         super(config);

@@ -54,6 +54,18 @@ class Utils {
     }
 
     /**
+     * Push an item into an array multiple times.
+     * @param {Array} array - The array to push into.
+     * @param {*} item - The item to add.
+     * @param {Number} number - How many times the item should be added.
+     */
+    arrayMultiPush = (array, item, amount) => {
+        for(let i=0; i<amount; i+=1){
+            array.push(item);
+        }
+    }
+
+    /**
      * Checks the location to write to exists. If not, creates it.
      * @param {String} directory The directory to check for.
      */

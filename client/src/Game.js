@@ -32,12 +32,6 @@ dungeonz.Game.prototype = {
 
         this.boardAlwaysNight = data.boardAlwaysNight;
 
-        /**
-         * The ID number of the dungeon that this player is standing next to the entrance of. Each dungeon instance has a unique id, as well as a separate unique name.
-         * @type {Number}
-         */
-        this.adjacentDungeonID = null;
-
         this.player = {
             /** @type {Boolean}
              * Whether the user is logged into an account. */

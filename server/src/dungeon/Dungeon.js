@@ -18,8 +18,6 @@ class Dungeon {
         // is that it should evict any players it has to.
         this.exitEntranceName = null;
 
-        // TODO: give dungeons the ID of the board they are in charge of, just the ID
-
         // Create a board instance from the map data.
         this.board = new Board(config.mapData, config.name, config.alwaysNight, true);
 
@@ -62,7 +60,7 @@ class Dungeon {
 
     evictAllPlayers () {
         // Send all players on the board to the entrance that this dungeon exits to.
-        this.board
+        //this.board
     }
 
 }

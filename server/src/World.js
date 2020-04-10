@@ -98,12 +98,6 @@ const world = {
             if(!mapProperties['MaxPlayers']) Utils.warning("Dungeon map is missing property: 'MaxPlayers'. Using default. On map: " + dataFileName);
             if(!mapProperties['TimeLimitMinutes']) Utils.warning("Dungeon map is missing property: 'TimeLimitMinutes'. Using default. On map: " + dataFileName);
 
-            // new Dungeon({
-            //     name: dataFileName,
-            //     nameDefinitionID: mapProperties['NameDefinitionID'],
-            //     difficultyName: mapProperties['Difficulty']
-            // });
-
             new DungeonManager({
                 name: dataFileName,
                 nameDefinitionID: mapProperties['NameDefinitionID'],
@@ -126,8 +120,6 @@ const world = {
 
         this.boardsArray.push(board);
         this.boardsObject[dataFileName] = board;
-
-        // TODO: do the logic here to build the map data for the client, separate from building the actual board instances
     },
 
     linkExits() {

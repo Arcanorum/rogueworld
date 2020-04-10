@@ -4,16 +4,14 @@
 }
 
 #dungeon_inner_cont {
-    background-color: $colourDB32VeryDarkPurple;
     height: 100%;
     display: grid;
-    grid-template-rows: 10% auto 10%;
-    grid-gap: 12px;
+    grid-template-rows: 11% 3% 15% 3% auto;
     text-align: center;
 }
 
 #dungeon_name {
-    background-color: $colourDB32IronGrey;
+    background-color: $colourDB32IronGreyOpacity80;
     height: 100%;
     width: 100%;
     display: grid;
@@ -23,23 +21,19 @@
     font-size: 16px;
 }
 
-#dungeon_info_cont {
-    height: 100%;
+#dungeon_details_cont {
     display: grid;
-    grid-template-columns: 50% auto;
-    grid-gap: 12px;
+    grid-template-columns: auto 3% auto 3% auto;
 }
 
-#dungeon_details_cont {
-    background-color: $colourDB32SteelGrey;
-    display: grid;
-    grid-template-rows: repeat(6, 20%);
-    align-items: center;
+.dungeon_details_cont_item {
+    background-color: $colourDB32SteelGreyOpacity80;
+    padding: 4px;
 }
 
 .dungeon_details_heading {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 10px;
     align-self: end;
 }
 
@@ -55,25 +49,14 @@
 
 #dungeon_cost_icon {
     width: 100%;
-    padding-left: 40px;
-}
-
-#dungeon_warning_cont {
-    display: grid;
-    background-color: $colourDB32Rose;
-}
-
-#dungeon_warning_heading {
-    font-weight: bold;
-    font-size: 18px;
-    align-self: center;
+    padding-left: 14px;
 }
 
 #dungeon_bottom_cont {
     position: relative;
 }
 
-#dungeon_enter_button_cont {
+#dungeon_create_button_cont {
     height: 120%;
     left: 50%;
     top: 50%;
@@ -85,15 +68,26 @@
     }
 }
 
-#dungeon_enter_button {
+#dungeon_create_button {
     height: 100%;
     left: 50%;
     top: 50%;
 }
 
-#dungeon_enter_text {
+.dungeon_button_text {
     left: 50%;
     top: 50%;
     font-size: 16px;
     color: $colourDB32VeryDarkPurple;
+}
+
+#dungeon_party_selection_cont {
+    display: grid;
+    grid-template-rows: 6% auto 12%;
+    background-color: $colourDB32SteelGreyOpacity80;
+    height: 100%;
+}
+
+#dungeon_parties_cont {
+    overflow: auto;
 }

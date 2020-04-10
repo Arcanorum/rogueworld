@@ -15,7 +15,7 @@ class DungeonManager {
      * @param {String} [config.difficultyName=Difficulties.Beginner] - Roughly how difficult this dungeon is relative to most others.
      */
     constructor (config) {
-        console.log("creating dungeon manager:", config);
+        console.log("creating dungeon manager:", config.name);
 
         /**
          * A generic unique ID for this dungeon manager.
@@ -42,6 +42,9 @@ class DungeonManager {
          * @type {Object.<Dungeon>}
          */
         this.instances = {};
+
+
+        this.parties = {};
 
         // Easy to access references to this instance.
         DungeonManagersList.ByID[this.id] = this;
@@ -78,6 +81,15 @@ class DungeonManager {
          * @type {Number}
          */
         this.gloryCost = difficulty.gloryCost || 0;
+    }
+
+    createParty (player) {
+        const party = new Party(this, player);
+        this.parties[party.id] = party;
+    }
+
+    removeParty (party) {
+        delete this.parties[party.id];
     }
 
     /**
@@ -143,3 +155,4 @@ module.exports = DungeonManager;
 
 const Dungeon = require('./Dungeon');
 const DungeonManagersList = require('./DungeonManagersList');
+const Party = require('./Party');

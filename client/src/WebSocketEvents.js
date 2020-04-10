@@ -742,6 +742,10 @@ eventResponses.stat_levelled = function (data) {
     _this.player.stats.list[data.statName].levelUp(data.level, data.nextLevelExpRequirement);
 };
 
+eventResponses.parties = function (data) {
+    _this.GUI.dungeonPanel.updateParties(data);
+};
+
 eventResponses.shop_prices = function (data) {
     //console.log("shop prices, data:", data);
     _this.GUI.shopPanel.updatePrices(data);

@@ -123,11 +123,15 @@ class Portal extends Static {
 class DungeonPortal extends Portal {
     constructor (row, col, tileID, data) {
         super(row, col, tileID, data);
-        this.dungeonID = data;
+        /**
+         * The ID number of the dungeon manager that this portal is linked to.
+         * Each dungeon manager has a unique id, as well as a separate unique name.
+         * @type {Number}
+         */
+        this.dungeonManagerID = data;
     }
     interactedByPlayer () {
-        _this.adjacentDungeonID = this.dungeonID;
-        _this.GUI.dungeonPanel.show();
+        _this.GUI.dungeonPanel.show(this);
     }
 }
 

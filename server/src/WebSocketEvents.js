@@ -470,13 +470,40 @@ eventResponses.bank_swap_slots = function (clientSocket, data) {
     clientSocket.entity.bankAccount.swapItems(data.fromSlotIndex, data.toSlotIndex);
 };
 
-eventResponses.create_dungeon_party = () => {
-    
-}
+/**
+ * @param clientSocket
+ * @param {Object} data - The ID of a dungeon manager.
+ */
+eventResponses.get_parties = (clientSocket, data) => {
+    console.log("get_parties:", data);
+    if(clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    if(clientSocket.entity.hitPoints <= 0) return;
+    if(data === undefined) return;
+
+    const dungeonManager = DungeonManagersList.ByID[data];
+
+    if(dungeonManager === undefined) return;
+
+    console.log("found dung mngr:", dungeonManager.name);
+
+    clientSocket.sendEvent(EventsList.parties, dungeonManager.parties);
+};
 
 /**
  * @param clientSocket
- * @param {Number} data - The unique ID number of the dungeon instance to join.
+ * @param {Number} data - The ID of a dungeon portal entity.
+ */
+eventResponses.create_dungeon_party = (clientSocket, data) => {
+    console.log("create_dungeon_party:", data);
+    
+};
+
+/**
+ * @param clientSocket
+ * @param {Object} data.dungeonID - The ID of a dungeon manager.
+ * @param {Number} data.row - The row of the dungeon portal that was interacted with.
+ * @param {Number} data.col - The col of the dungeon portal that was interacted with.
  */
 eventResponses.start_dungeon = function (clientSocket, data) {
     if(Number.isInteger(data) === false) return;

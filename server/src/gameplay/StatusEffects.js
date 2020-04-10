@@ -109,12 +109,10 @@ class StatusEffect {
 StatusEffect.prototype.effectName = '';
 /** @type {Boolean} Should the effect by activated on start. */
 StatusEffect.prototype._effectOnStart = false;
-// TODO: docs
 /** @type {Number} How much to modify the hitpoints of the thing it is applied to by each effect. */
 StatusEffect.prototype._damageAmount = 0;
 StatusEffect.prototype._damageTypes = [];
 StatusEffect.prototype._damageArmourPiercing = 0;
-// TODO: docs
 StatusEffect.prototype._healAmount = 0;
 /** @type {Number} How many more times will this effect happen before stopping. */
 StatusEffect.prototype._effectsRemaining = 0;

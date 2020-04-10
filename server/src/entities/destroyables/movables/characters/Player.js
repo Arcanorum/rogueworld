@@ -255,7 +255,7 @@ class Player extends Character {
         // Damage any clothes being worn.
         if(this.clothing !== null){
             // Clothing only takes 25% of damage taken from the wearer.
-            this.clothing.damage( //TODO: test this, was just being passed in amount before, not the whole damage config
+            this.clothing.damage(
                 new Damage({
                     amount: Math.floor(damage.amount * 0.25),
                     types: damage.types,

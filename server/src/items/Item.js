@@ -59,7 +59,7 @@ class Item {
         // Check if this item should lose durability when used.
         if(this.useDurabilityCost > 0){
             if(this.expGivenStatName !== null){
-                // TODO: dunno about this, seems a bit lame now
+                // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
                 // Check if the durability cost should be waived based on stat level chance.
                 const waiveChance = getRandomIntInclusive(0, 99);
                 if(waiveChance <= this.owner.stats[this.expGivenStatName].level){

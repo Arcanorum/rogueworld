@@ -76,6 +76,7 @@ const EventsList = {
     inventory_full:             registerEventName(),
     join_world_success:         registerEventName(),
     key_needed:                 registerEventName(),
+    parties:                    registerEventName(),
     pickaxe_needed:             registerEventName(),
     player_died:                registerEventName(),
     player_respawn:             registerEventName(),

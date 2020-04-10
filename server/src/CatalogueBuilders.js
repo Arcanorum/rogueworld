@@ -11,16 +11,17 @@ module.exports = {
                 
         let dataToWrite = {};
 
-        for(let dungeonID in DungeonManagersList.ByID){
+        for(let dungeonManagerID in DungeonManagersList.ByID){
             // Don't check prototype properties.
-            if(DungeonManagersList.ByID.hasOwnProperty(dungeonID) === false) continue;
+            if(DungeonManagersList.ByID.hasOwnProperty(dungeonManagerID) === false) continue;
             // Add this dungeon info to the catalogue.
-            let dungeon = DungeonManagersList.ByID[dungeonID];
-            dataToWrite[DungeonManagersList.ByID[dungeonID].id] = {
-                id: dungeon.id,
-                nameDefinitionID: dungeon.nameDefinitionID,
-                difficulty: dungeon.difficultyName,
-                gloryCost: dungeon.gloryCost
+            let dungeonManager = DungeonManagersList.ByID[dungeonManagerID];
+            dataToWrite[DungeonManagersList.ByID[dungeonManagerID].id] = {
+                id: dungeonManager.id,
+                nameDefinitionID: dungeonManager.nameDefinitionID,
+                difficulty: dungeonManager.difficultyName,
+                gloryCost: dungeonManager.gloryCost,
+                maxPlayers: dungeonManager.maxPlayers
             };
         }
 

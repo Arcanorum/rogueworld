@@ -232,7 +232,7 @@ class Projectile extends Movable {
         }
 
         if(this.canDamageTypeCollideWithTarget(collidee) === false){
-            // TODO: test this
+            // TODO: test this with other damage types, havent tried with immunities
             console.log("projectile.js damagecollidee, immune to all damage types, take no damage");
             damageAmount = 0;
         }

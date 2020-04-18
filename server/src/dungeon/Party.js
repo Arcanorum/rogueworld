@@ -5,12 +5,12 @@ class Party {
     /**
      * @param {Player} player - The player that created this party, who will be the leader.
      */
-    constructor (dungeonManager, player) {
+    constructor(dungeonManager, player) {
 
         this.id = idCounter.getNext();
 
         this.dungeonManager = dungeonManager;
-        
+
         /**
          * @type {Array.<Player>} A list of players in this party. [0] is the party leader.
          */
@@ -27,10 +27,18 @@ class Party {
         this.clanOnly = false;
     }
 
-    addPlayer (player) {
-        if(this.kickedList.includes(player.id)) return;
+    destroy() {
+        delete this.dungeonManager;
+        delete this.members;
+    }
 
-        if(this.clanOnly){
+    addPlayer(player) {
+        // Don't add them if they have previously been kicked.
+        if (this.kickedList.includes(player.id)) return;
+        // Don't add them if they are already in the party.
+        if (this.members.some((member) => member === player)) return;
+
+        if (this.clanOnly) {
             // Check they are in the same clan as the party leader.
             // TODO: when clans are added
             //if(player.clan.id !== this.members[0].clan.id) return;
@@ -39,9 +47,9 @@ class Party {
         this.members.push(player);
     }
 
-    removePlayer (player) {
+    removePlayer(player) {
         // If the player to remove is the leader, disband the party.
-        if(player === this.members[0]){
+        if (player === this.members[0]) {
             // Tell all members that the party has been disbanded.
             // TODO
 
@@ -55,9 +63,9 @@ class Party {
         }
     }
 
-    kickPlayer (kickedBy, player) {
+    kickPlayer(kickedBy, player) {
         // Only allow the party leader to kick.
-        if(kickedBy !== this.members[0]) return;
+        if (kickedBy !== this.members[0]) return;
 
         this.removePlayer(player);
 

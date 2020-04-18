@@ -1,13 +1,13 @@
-const fs =                  require('fs');
-const Utils =               require('../Utils');
-const GroundTypes =         require('./GroundTypes');
-const groundTileset =       require('../../map/tilesets/ground');
-const boundariesTileset =   require('../../map/tilesets/boundaries');
-const staticsTileset =      require('../../map/tilesets/statics');
-const BoardTile =           require('./BoardTile');
-const EntitiesList =        require('../EntitiesList');
-const Player =              require('../entities/destroyables/movables/characters/Player');
-const DayPhases =           require('../DayPhases');
+const fs = require('fs');
+const Utils = require('../Utils');
+const GroundTypes = require('./GroundTypes');
+const groundTileset = require('../../map/tilesets/ground');
+const boundariesTileset = require('../../map/tilesets/boundaries');
+const staticsTileset = require('../../map/tilesets/statics');
+const BoardTile = require('./BoardTile');
+const EntitiesList = require('../EntitiesList');
+const Player = require('../entities/destroyables/movables/characters/Player');
+const DayPhases = require('../DayPhases');
 
 // A recent version of Tiled changed the tileset.tiles property to be an array.
 // Map the values back to an object by ID.
@@ -37,7 +37,7 @@ class Board {
      * @param {Boolean} [alwaysNight=false] - Whether this board will ignore changes in the time of day outside.
      * @param {Boolean} [isDungeon=false] - Whether this board is for a dungeon.
      */
-    constructor (mapData, name, alwaysNight, isDungeon) {
+    constructor(mapData, name, alwaysNight, isDungeon) {
         /**
          * A generic unique ID for this board.
          * @type {Number}
@@ -55,10 +55,6 @@ class Board {
          * @type {Array}
          */
         this.grid = [];
-
-        // The parts of the board data to create the client map files from.
-        this.clientGroundData = [];
-        this.clientStaticsData = [];
 
         // How many Tiled units each grid cell is wide/high. Used to divide the x/y of an object to get the col/row.
         this.tileSize = Board.tileSize;
@@ -86,7 +82,7 @@ class Board {
          */
         this.alwaysNight = alwaysNight || false;
         // If always night, then set time to night.
-        if(this.alwaysNight === true) this.dayPhase = DayPhases.Night;
+        if (this.alwaysNight === true) this.dayPhase = DayPhases.Night;
 
         /** @type {Boolean} Whether this board is for a dungeon, and any breakables inside it will not be breakable. */
         this.isDungeon = isDungeon || false;
@@ -99,14 +95,9 @@ class Board {
 
         // No longer need the map data for this zone.
         this.mapData = undefined;
-        // Or the client data.
-        //this.clientGroundData = undefined;
-        //this.clientStaticsData = undefined;
     }
 
-    createBoard () {
-        // TODO: remove the client data specific shit
-        
+    createBoard() {
         const mapData = this.mapData;
 
         this.rows = this.mapData.height;
@@ -114,7 +105,7 @@ class Board {
 
         // Load the map objects.
         // Check that there is some map data for the map of this board.
-        if(mapData === undefined){
+        if (mapData === undefined) {
             Utils.error("No map data found for this board when creating board " + this.name);
             return;
         }
@@ -124,8 +115,8 @@ class Board {
             len = 0,
             layer,
             findLayer = function (layerName) {
-                for(var i=0; i<mapData.layers.length; i+=1){
-                    if(mapData.layers[i].name === layerName){
+                for (var i = 0; i < mapData.layers.length; i += 1) {
+                    if (mapData.layers[i].name === layerName) {
                         return mapData.layers[i];
                     }
                 }
@@ -145,13 +136,13 @@ class Board {
         let row;
         let col;
         let dungeonStartEntranceFound = false;
-        
+
         // Initialise an empty grid, with a board tile instance for each column in each row.
-        for(i=0; i<mapData.height; i+=1){
+        for (i = 0; i < mapData.height; i += 1) {
             // Add a new row.
             this.grid[i] = [];
 
-            for(j=0; j<mapData.width; j+=1){
+            for (j = 0; j < mapData.width; j += 1) {
                 // Add a board tile to the grid.
                 this.grid[i].push(new BoardTile());
             }
@@ -159,17 +150,17 @@ class Board {
 
         // Check that the boundaries layer exists in the map data.
         layer = findLayer('Boundaries');
-        if(layer){
+        if (layer) {
             tilesData = layer.data;
             row = 0;
             col = 0;
 
             // Add the boundary properties to the grid.
-            for(i=0, len=tilesData.length; i<len; i+=1){
+            for (i = 0, len = tilesData.length; i < len; i += 1) {
                 mapTile = tilesData[i] - 1;
 
                 // Move to the next row when at the width of the map.
-                if(col === mapData.width){
+                if (col === mapData.width) {
                     col = 0;
                     row += 1;
                 }
@@ -177,12 +168,12 @@ class Board {
                 // Get the ID of the tile relative to the tileset it belongs to.
                 relativeID = mapTile - boundariesStartGID;
 
-                if(boundariesTileset.tiles[relativeID] !== undefined){
+                if (boundariesTileset.tiles[relativeID] !== undefined) {
                     // Get and separate the type from the prefix using the tile GID.
                     type = boundariesTileset.tiles[relativeID].type;
 
                     // Check that the type of this tile is a valid one.
-                    if(type === 'SafeZone'){
+                    if (type === 'SafeZone') {
                         // Make this tile a safe zone.
                         this.grid[row][col].safeZone = true;
                     }
@@ -195,27 +186,27 @@ class Board {
 
         // Check that the ground layer exists in the map data.
         layer = findLayer('Ground');
-        if(layer){
+        if (layer) {
             tilesData = layer.data;
             row = 0;
             col = 0;
 
             // Add the tiles to the grid.
-            for(i=0, len=tilesData.length; i<len; i+=1){
+            for (i = 0, len = tilesData.length; i < len; i += 1) {
                 mapTile = tilesData[i] - 1;
 
-                if(groundTileset.tiles[mapTile] === undefined){
+                if (groundTileset.tiles[mapTile] === undefined) {
                     Utils.error("Invalid/empty map tile found while creating board: " + this.name + " at row: " + row + ", col: " + col);
                 }
                 // Get and separate the type from the prefix using the tile GID.
                 type = groundTileset.tiles[mapTile].type;
                 // Move to the next row when at the width of the map.
-                if(col === mapData.width){
+                if (col === mapData.width) {
                     col = 0;
                     row += 1;
                 }
                 // Check that the type of this tile is a valid one.
-                if(GroundTypes[type]){
+                if (GroundTypes[type]) {
                     // Assign it to the matching ground type object of the type of this tile.
                     this.grid[row][col].groundType = GroundTypes[type];
                 }
@@ -229,17 +220,17 @@ class Board {
 
         // Check that the statics layer exists in the map data.
         layer = findLayer('Statics');
-        if(layer){
+        if (layer) {
             tilesData = layer.data;
             row = 0;
             col = 0;
 
             // Add the tiles to the grid.
-            for(i=0, len=tilesData.length; i<len; i+=1){
+            for (i = 0, len = tilesData.length; i < len; i += 1) {
                 mapTile = tilesData[i] - 1;
 
                 // Move to the next row when at the width of the map.
-                if(col === mapData.width){
+                if (col === mapData.width) {
                     col = 0;
                     row += 1;
                 }
@@ -248,7 +239,7 @@ class Board {
                 relativeID = mapTile - staticsStartGID;
 
                 // Relative IDs lower than 0 are for empty grid spaces.
-                if(relativeID < 0){
+                if (relativeID < 0) {
                     // Still need to move the column along.
                     col += 1;
                     // Skip this tile.
@@ -256,7 +247,7 @@ class Board {
                 }
 
                 // Skip empty tiles.
-                if(mapTile < 0){
+                if (mapTile < 0) {
                     // Still need to move the column along.
                     col += 1;
                     // Skip this tile.
@@ -266,7 +257,7 @@ class Board {
                 // A tile might have been placed on the map, but not have a type set.
                 // All entities need to be created from a type.
                 // Check a type is set.
-                if(staticsTileset.tiles[relativeID] === undefined){
+                if (staticsTileset.tiles[relativeID] === undefined) {
                     // Still need to move the column along.
                     col += 1;
                     // Skip this tile.
@@ -278,9 +269,9 @@ class Board {
                 type = staticsTileset.tiles[relativeID].type;
 
                 // Check that the type of this tile is a valid one.
-                if(EntitiesList[type]){
+                if (EntitiesList[type]) {
                     // Create a new entity of the type of this tile.
-                    new EntitiesList[type]({row: row, col: col, board: this});
+                    new EntitiesList[type]({ row: row, col: col, board: this });
                 }
                 else {
                     //Utils.warning("Entity type doesn't exist for static mapTile type: " + type);
@@ -292,16 +283,16 @@ class Board {
 
         // Check that the configurables layer exists in the map data.
         layer = findLayer('Configurables');
-        if(layer){
+        if (layer) {
             // This is a object layer, not a tile one, so get the objects data.
             objectsData = layer.objects;
 
             // Add the entities to the world.
-            for(i=0, len=objectsData.length; i<len; i+=1){
+            for (i = 0, len = objectsData.length; i < len; i += 1) {
                 mapObject = objectsData[i];
 
                 // If this entity is a text object, skip it.
-                if(mapObject.text !== undefined){
+                if (mapObject.text !== undefined) {
                     continue;
                 }
 
@@ -319,7 +310,7 @@ class Board {
                 type = staticsTileset.tiles[objectID].type;
 
                 // Check that the type of this tile is a valid one.
-                if(EntitiesList[type]){
+                if (EntitiesList[type]) {
                     const config = {
                         row: row,
                         col: col,
@@ -328,12 +319,12 @@ class Board {
 
                     mapObject.properties = Utils.arrayToObject(mapObject.properties, 'name', 'value');
 
-                    if(mapObject.properties['Disabled']){
+                    if (mapObject.properties['Disabled']) {
                         Utils.warning("Map object is disabled in map data:", mapObject);
                         continue;
                     }
 
-                    switch (type){
+                    switch (type) {
                         case 'SpawnerArea':
                             config.width = mapObject.width / this.tileSize;
                             config.height = mapObject.height / this.tileSize;
@@ -343,7 +334,7 @@ class Board {
                             config.testing = mapObject.properties['Testing'];
                             config.dropList = mapObject.properties['DropList'];
                             // Check the entity type to create is valid.
-                            if(config.entityType === undefined) continue;
+                            if (config.entityType === undefined) continue;
                             break;
                         case 'Exit':
                             config.targetBoard = mapObject.properties['TargetBoard'];
@@ -351,12 +342,12 @@ class Board {
                             break;
                         case 'DungeonPortal':
                             // Check the dungeon portal properties are valid.
-                            if(mapObject.properties === undefined){
+                            if (mapObject.properties === undefined) {
                                 Utils.error("No properties set on dungeon portal in map data:", mapObject);
                                 continue;
                             }
                             config.dungeonName = mapObject.properties['DungeonName'];
-                            if(config.dungeonName === undefined){
+                            if (config.dungeonName === undefined) {
                                 Utils.error(`Dungeon portal on map "${this.name}" is missing property "DungeonName". Map object:`, mapObject);
                                 continue;
                             }
@@ -370,7 +361,7 @@ class Board {
                             config.width = mapObject.width / this.tileSize;
                             config.height = mapObject.height / this.tileSize;
                             config.entranceName = mapObject.properties['EntranceName'];
-                            if(config.entranceName === "dungeon-start"){
+                            if (config.entranceName === "dungeon-start") {
                                 dungeonStartEntranceFound = true;
                             }
                             break;
@@ -386,13 +377,13 @@ class Board {
         }
 
         // Dungeon maps must have an entrance named "dungeon-start".
-        if(this.isDungeon){
-            if(dungeonStartEntranceFound === false) Utils.error('Dungeon map does not have an entrance named "dungeon-start". Map name:', this.name);
+        if (this.isDungeon) {
+            if (dungeonStartEntranceFound === false) Utils.error('Dungeon map does not have an entrance named "dungeon-start". Map name:', this.name);
         }
 
     }
 
-    destroy () {
+    destroy() {
         // If there are any players still on this board, move them to the overworld.
 
 
@@ -402,7 +393,7 @@ class Board {
             row.forEach((boardTile) => {
                 /** @type {BoardTile} */
                 delete boardTile.static;
-                
+
             })
         })
     }
@@ -410,21 +401,21 @@ class Board {
     /**
      * @param {Destroyable} entity
      */
-    addDestroyable (entity) {
+    addDestroyable(entity) {
         this.grid[entity.row][entity.col].destroyables[entity.id] = entity;
     }
 
     /**
      * @param {Destroyable} entity
      */
-    removeDestroyable (entity) {
+    removeDestroyable(entity) {
         delete this.grid[entity.row][entity.col].destroyables[entity.id];
     }
 
     /**
      * @param {Player} player
      */
-    addPlayer (player) {
+    addPlayer(player) {
         this.grid[player.row][player.col].players[player.id] = player;
         // Players are also added to the destroyables list, in the constructor of Destroyable.
     }
@@ -432,7 +423,7 @@ class Board {
     /**
      * @param {Player} player
      */
-    removePlayer (player) {
+    removePlayer(player) {
         delete this.grid[player.row][player.col].players[player.id];
         // Players are also removed from the destroyables list, in the onDestroy of Destroyable.
     }
@@ -440,7 +431,7 @@ class Board {
     /**
      * @param {Static} entity
      */
-    addStatic (entity) {
+    addStatic(entity) {
         this.grid[entity.row][entity.col].static = entity;
     }
 
@@ -449,21 +440,21 @@ class Board {
      * Entrances occupy the static slots of the whole area they cover, so all of it won't be cleaned up if removed.
      * @param entity
      */
-    removeStatic (entity) {
+    removeStatic(entity) {
         this.grid[entity.row][entity.col].static = null;
     }
 
     /**
      * @param {Pickup} entity
      */
-    addPickup (entity) {
+    addPickup(entity) {
         this.grid[entity.row][entity.col].pickups[entity.id] = entity;
     }
 
     /**
      * @param {Pickup} entity
      */
-    removePickup (entity) {
+    removePickup(entity) {
         delete this.grid[entity.row][entity.col].pickups[entity.id];
     }
 
@@ -473,7 +464,7 @@ class Board {
      * @param {Number} col
      * @return {Array} Returns an array containing the entities found.
      */
-    getNearbyDynamicsData (row, col) {
+    getNearbyDynamicsData(row, col) {
         /** @type {Array} */
         const nearbyDynamics = [];
 
@@ -491,19 +482,19 @@ class Board {
             /** @type {Interactable} */
             interactable;
 
-        for(; rowOffset<playerViewRangePlusOne; rowOffset+=1){
-            for(colOffset=-playerViewRange; colOffset<playerViewRangePlusOne; colOffset+=1){
+        for (; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
+            for (colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
 
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
-                if(currentRow === undefined) continue;
+                if (currentRow === undefined) continue;
                 currentTile = currentRow[col + colOffset];
-                if(currentTile === undefined) continue;
+                if (currentTile === undefined) continue;
 
                 destroyables = currentTile.destroyables;
                 // Get all of the destroyable entities on this board tile.
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey)){
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         nearbyDynamics.push(
                             destroyables[entityKey].getEmittableProperties({})
@@ -514,10 +505,10 @@ class Board {
                 // Now get the state of the interactable if it isn't in its default state.
                 interactable = currentTile.static;
                 // Check there is actually one there.
-                if(interactable !== null){
+                if (interactable !== null) {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
-                    if(interactable.activeState === false){
+                    if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         nearbyDynamics.push(
                             interactable.getEmittableProperties({})
@@ -537,7 +528,7 @@ class Board {
      * @param {String} direction
      * @return {Array|Boolean} Returns an array containing the entities found, or false if none found.
      */
-    getDynamicsAtViewRangeData (row, col, direction) {
+    getDynamicsAtViewRangeData(row, col, direction) {
         /** @type {Array} */
         const edgeDynamics = [];
 
@@ -550,19 +541,19 @@ class Board {
             /** @type {Interactable} */
             interactable;
 
-        if(direction === Directions.LEFT){
+        if (direction === Directions.LEFT) {
             // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
-            for(let i=-playerViewRange; i<playerViewRangePlusOne; i+=1){
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
 
                 // Check for invalid array index access.
-                if(this.grid[row + i] === undefined) continue;
+                if (this.grid[row + i] === undefined) continue;
                 currentTile = this.grid[row + i][col - playerViewRange];
-                if(currentTile === undefined) continue;
+                if (currentTile === undefined) continue;
 
                 destroyables = currentTile.destroyables;
                 // Get all of the destroyable entities on this board tile.
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey)){
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             destroyables[entityKey].getEmittableProperties({})
@@ -573,10 +564,10 @@ class Board {
                 // Now get the state of the interactable if it isn't in its default state.
                 interactable = currentTile.static;
                 // Check there is actually one there.
-                if(interactable !== null){
+                if (interactable !== null) {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
-                    if(interactable.activeState === false){
+                    if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -585,19 +576,19 @@ class Board {
                 }
             }
         }
-        else if(direction === Directions.RIGHT){
+        else if (direction === Directions.RIGHT) {
             // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
-            for(let i=-playerViewRange; i<playerViewRangePlusOne; i+=1){
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
 
                 // Check for invalid array index access.
-                if(this.grid[row + i] === undefined) continue;
+                if (this.grid[row + i] === undefined) continue;
                 currentTile = this.grid[row + i][col + playerViewRange];
-                if(currentTile === undefined) continue;
+                if (currentTile === undefined) continue;
 
                 destroyables = currentTile.destroyables;
                 // Get all of the destroyable entities on this board tile.
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey)){
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             destroyables[entityKey].getEmittableProperties({})
@@ -608,10 +599,10 @@ class Board {
                 // Now get the state of the interactable if it isn't in its default state.
                 interactable = currentTile.static;
                 // Check there is actually one there.
-                if(interactable !== null){
+                if (interactable !== null) {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
-                    if(interactable.activeState === false){
+                    if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -620,19 +611,19 @@ class Board {
                 }
             }
         }
-        else if(direction === Directions.UP){
+        else if (direction === Directions.UP) {
             // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
-            for(let i=-playerViewRange; i<playerViewRangePlusOne; i+=1){
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
 
                 // Check for invalid array index access.
-                if(this.grid[row - playerViewRange] === undefined) continue;
+                if (this.grid[row - playerViewRange] === undefined) continue;
                 currentTile = this.grid[row - playerViewRange][col + i];
-                if(currentTile === undefined) continue;
+                if (currentTile === undefined) continue;
 
                 destroyables = currentTile.destroyables;
                 // Get all of the destroyable entities on this board tile.
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey)){
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             destroyables[entityKey].getEmittableProperties({})
@@ -643,10 +634,10 @@ class Board {
                 // Now get the state of the interactable if it isn't in its default state.
                 interactable = currentTile.static;
                 // Check there is actually one there.
-                if(interactable !== null){
+                if (interactable !== null) {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
-                    if(interactable.activeState === false){
+                    if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -657,17 +648,17 @@ class Board {
         }
         else {
             // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
-            for(let i=-playerViewRange; i<playerViewRangePlusOne; i+=1){
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
 
                 // Check for invalid array index access.
-                if(this.grid[row + playerViewRange] === undefined) continue;
+                if (this.grid[row + playerViewRange] === undefined) continue;
                 currentTile = this.grid[row + playerViewRange][col + i];
-                if(currentTile === undefined) continue;
+                if (currentTile === undefined) continue;
 
                 destroyables = currentTile.destroyables;
                 // Get all of the destroyable entities on this board tile.
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey)){
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             destroyables[entityKey].getEmittableProperties({})
@@ -678,10 +669,10 @@ class Board {
                 // Now get the state of the interactable if it isn't in its default state.
                 interactable = currentTile.static;
                 // Check there is actually one there.
-                if(interactable !== null){
+                if (interactable !== null) {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
-                    if(interactable.activeState === false){
+                    if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
                             interactable.getEmittableProperties({})
@@ -692,7 +683,7 @@ class Board {
         }
 
         // If there were no dynamics at the edge of the view range, return false.
-        if(edgeDynamics.length === 0) return false;
+        if (edgeDynamics.length === 0) return false;
 
         return edgeDynamics;
     }
@@ -704,7 +695,7 @@ class Board {
      * @param {Number} range
      * @returns {Array} An array of Player entities.
      */
-    getNearbyPlayers (row, col, range) {
+    getNearbyPlayers(row, col, range) {
         const nearbyPlayers = [],
             grid = this.grid,
             rangePlusOne = range + 1;
@@ -716,18 +707,18 @@ class Board {
             playerKey,
             players;
 
-        for(; rowOffset<rangePlusOne; rowOffset+=1){
-            for(colOffset=-range; colOffset<rangePlusOne; colOffset+=1){
+        for (; rowOffset < rangePlusOne; rowOffset += 1) {
+            for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
                 targetRow = rowOffset + row;
                 // Check the grid element being accessed is valid.
-                if(grid[targetRow] === undefined) continue;
+                if (grid[targetRow] === undefined) continue;
                 targetCol = colOffset + col;
-                if(grid[targetRow][targetCol] === undefined) continue;
+                if (grid[targetRow][targetCol] === undefined) continue;
 
                 players = grid[targetRow][targetCol].players;
 
-                for(playerKey in players){
-                    if(players.hasOwnProperty(playerKey) === false) continue;
+                for (playerKey in players) {
+                    if (players.hasOwnProperty(playerKey) === false) continue;
 
                     nearbyPlayers.push(players[playerKey]);
                 }
@@ -745,11 +736,11 @@ class Board {
      * @param {*} [data] - Any optional data to send with the event.
      * @param {Number} [range=playerViewRangePlusOne] - A specific range to define 'nearby' to be, otherwise uses the player view range + 1.
      */
-    emitToNearbyPlayers (row, col, eventNameID, data, range) {
+    emitToNearbyPlayers(row, col, eventNameID, data, range) {
         let nearbyRange = playerViewRange,
             nearbyRangePlusOne = playerViewRangePlusOne;
 
-        if(range !== undefined){
+        if (range !== undefined) {
             nearbyRange = range;
             nearbyRangePlusOne = range + 1;
         }
@@ -765,22 +756,22 @@ class Board {
             ownPropNames,
             socket;
 
-        for(; rowOffset<nearbyRangePlusOne; rowOffset+=1){
-            for(colOffset=-nearbyRange; colOffset<nearbyRangePlusOne; colOffset+=1){
+        for (; rowOffset < nearbyRangePlusOne; rowOffset += 1) {
+            for (colOffset = -nearbyRange; colOffset < nearbyRangePlusOne; colOffset += 1) {
                 targetRow = rowOffset + row;
                 // Check the grid element being accessed is valid.
-                if(grid[targetRow] === undefined) continue;
+                if (grid[targetRow] === undefined) continue;
                 targetCol = colOffset + col;
-                if(grid[targetRow][targetCol] === undefined) continue;
+                if (grid[targetRow][targetCol] === undefined) continue;
 
                 players = grid[targetRow][targetCol].players;
 
                 ownPropNames = Object.getOwnPropertyNames(players);
 
-                for(propIndex=0; propIndex<ownPropNames.length; propIndex+=1){
+                for (propIndex = 0; propIndex < ownPropNames.length; propIndex += 1) {
                     socket = players[ownPropNames[propIndex]].socket;
                     // Make sure this socket connection is in a ready state. Might have just closed or be closing.
-                    if(socket.readyState === 1){
+                    if (socket.readyState === 1) {
                         socket.sendEvent(eventNameID, data);
                     }
                 }
@@ -794,13 +785,13 @@ class Board {
      * @param {String} eventNameID - Use one of the valid event names from EventsList.js.
      * @param {*} [data] - Any optional data to send with the event.
      */
-    emitToPlayers (players, eventNameID, data) {
+    emitToPlayers(players, eventNameID, data) {
         let playerKey;
         // Find all of the player entities on this board tile.
-        for (playerKey in players){
-            if(players.hasOwnProperty(playerKey)){
+        for (playerKey in players) {
+            if (players.hasOwnProperty(playerKey)) {
                 // Make sure this socket connection is in a ready state. Might have just closed or be closing.
-                if(players[playerKey].socket.readyState === 1){
+                if (players[playerKey].socket.readyState === 1) {
                     players[playerKey].socket.sendEvent(eventNameID, data);
                 }
             }
@@ -815,53 +806,53 @@ class Board {
      * @param {String} eventNameID - Use one of the valid event names from EventsList.js.
      * @param [data] - Any optional data to send with the event.
      */
-    emitToPlayersAtViewRange (row, col, direction, eventNameID, data) {
+    emitToPlayersAtViewRange(row, col, direction, eventNameID, data) {
         let currentRow;
 
-        if(direction === Directions.LEFT){
+        if (direction === Directions.LEFT) {
             // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
-            for(let rowOffset=-playerViewRange; rowOffset<playerViewRangePlusOne; rowOffset+=1) {
+            for (let rowOffset = -playerViewRange; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
 
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
-                if(currentRow === undefined) continue;
-                if(currentRow[col - playerViewRange] === undefined) continue;
+                if (currentRow === undefined) continue;
+                if (currentRow[col - playerViewRange] === undefined) continue;
 
                 this.emitToPlayers(currentRow[col - playerViewRange].players, eventNameID, data);
             }
         }
-        else if(direction === Directions.RIGHT) {
+        else if (direction === Directions.RIGHT) {
             // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
-            for(let rowOffset=-playerViewRange; rowOffset<playerViewRangePlusOne; rowOffset+=1){
+            for (let rowOffset = -playerViewRange; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
 
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
-                if(currentRow === undefined) continue;
-                if(currentRow[col + playerViewRange] === undefined) continue;
+                if (currentRow === undefined) continue;
+                if (currentRow[col + playerViewRange] === undefined) continue;
 
                 this.emitToPlayers(currentRow[col + playerViewRange].players, eventNameID, data);
             }
         }
-        else if(direction === Directions.UP) {
+        else if (direction === Directions.UP) {
             // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
-            for(let colOffset=-playerViewRange; colOffset<playerViewRangePlusOne; colOffset+=1){
+            for (let colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
 
                 currentRow = this.grid[row - playerViewRange];
                 // Check for invalid array index access.
-                if(currentRow === undefined) continue;
-                if(currentRow[col + colOffset] === undefined) continue;
+                if (currentRow === undefined) continue;
+                if (currentRow[col + colOffset] === undefined) continue;
 
                 this.emitToPlayers(currentRow[col + colOffset].players, eventNameID, data);
             }
         }
         else {
             // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
-            for(let colOffset=-playerViewRange; colOffset<playerViewRangePlusOne; colOffset+=1){
+            for (let colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
 
                 currentRow = this.grid[row + playerViewRange];
                 // Check for invalid array index access.
-                if(currentRow === undefined) continue;
-                if(currentRow[col + colOffset] === undefined) continue;
+                if (currentRow === undefined) continue;
+                if (currentRow[col + colOffset] === undefined) continue;
 
                 this.emitToPlayers(currentRow[col + colOffset].players, eventNameID, data);
             }
@@ -875,16 +866,16 @@ class Board {
      * @param {Number} colOffset
      * @return {String} The direction of the offset. One of Entity.Directions.
      */
-    rowColOffsetToDirection (rowOffset, colOffset) {
-        if(rowOffset < 0) return Directions.UP;
+    rowColOffsetToDirection(rowOffset, colOffset) {
+        if (rowOffset < 0) return Directions.UP;
 
-        if(rowOffset > 0) return Directions.DOWN;
+        if (rowOffset > 0) return Directions.DOWN;
 
-        if(colOffset < 0) return Directions.LEFT;
+        if (colOffset < 0) return Directions.LEFT;
 
-        if(colOffset > 0) return Directions.RIGHT;
+        if (colOffset > 0) return Directions.RIGHT;
 
-        if(rowOffset === 0 && colOffset === 0) return Directions.UP;
+        if (rowOffset === 0 && colOffset === 0) return Directions.UP;
 
         Utils.error("A valid offset wasn't given to Board.rowColOffsetToDirection, row: " + rowOffset + ", col: " + colOffset);
     }
@@ -894,43 +885,43 @@ class Board {
      * @param {String} direction
      * @return {Object} The offset of the direction. An object of {row: Number, col: Number}.
      */
-    directionToRowColOffset (direction) {
+    directionToRowColOffset(direction) {
         const offset = {
             row: 0,
             col: 0
         };
 
-        if(direction === Directions.UP){
+        if (direction === Directions.UP) {
             offset.row = -1;
             return offset;
         }
-        if(direction === Directions.DOWN){
+        if (direction === Directions.DOWN) {
             offset.row = 1;
             return offset;
         }
-        if(direction === Directions.LEFT){
+        if (direction === Directions.LEFT) {
             offset.col = -1;
             return offset;
         }
-        if(direction === Directions.RIGHT){
+        if (direction === Directions.RIGHT) {
             offset.col = 1;
             return offset;
         }
         Utils.error("A valid direction wasn't given to Board.directionToRowColOffset, direction: " + direction);
     }
 
-    getRowColsToSides (direction, row, col) {
-        if(direction === Directions.UP || direction === Directions.DOWN){
+    getRowColsToSides(direction, row, col) {
+        if (direction === Directions.UP || direction === Directions.DOWN) {
             return [
-                {row: row, col: col - 1},
-                {row: row, col: col + 1}
+                { row: row, col: col - 1 },
+                { row: row, col: col + 1 }
             ];
         }
         // If it is not up or down, it must be left or right.
         else {
             return [
-                {row: row - 1, col: col},
-                {row: row + 1, col: col}
+                { row: row - 1, col: col },
+                { row: row + 1, col: col }
             ];
         }
     }
@@ -942,11 +933,11 @@ class Board {
      * @param {Number} fromCol
      * @return {Object} The row and col of the tile in front. An object of {row: Number, col: Number}.
      */
-    getRowColInFront (direction, fromRow, fromCol) {
-        if(Number.isInteger(fromRow) === false) {
+    getRowColInFront(direction, fromRow, fromCol) {
+        if (Number.isInteger(fromRow) === false) {
             Utils.error("A valid number wasn't given to Board.getRowColInFront, fromRow: " + fromRow);
         }
-        if(Number.isInteger(fromCol) === false) {
+        if (Number.isInteger(fromCol) === false) {
             Utils.error("A valid number wasn't given to Board.getRowColInFront, fromCol: " + fromCol);
         }
 
@@ -955,19 +946,19 @@ class Board {
             col: fromCol
         };
 
-        if(direction === Directions.UP){
+        if (direction === Directions.UP) {
             front.row -= 1;
             return front;
         }
-        if(direction === Directions.DOWN){
+        if (direction === Directions.DOWN) {
             front.row += 1;
             return front;
         }
-        if(direction === Directions.LEFT){
+        if (direction === Directions.LEFT) {
             front.col -= 1;
             return front;
         }
-        if(direction === Directions.RIGHT){
+        if (direction === Directions.RIGHT) {
             front.col += 1;
             return front;
         }
@@ -983,17 +974,17 @@ class Board {
      * @param {Number} fromCol
      * @return {Object} The row and col of the tile opposite the position from. An object of {row: Number, col: Number}.
      */
-    getRowColOnOppositeSide (midRow, midCol, fromRow, fromCol) {
+    getRowColOnOppositeSide(midRow, midCol, fromRow, fromCol) {
         const opposite = {
             row: midRow,
             col: midCol
         };
         // On the same row, so could be a column difference.
-        if(fromRow === midRow){
+        if (fromRow === midRow) {
             opposite.col = midCol + (midCol - fromCol);
         }
         // On the same column, so could be a row difference.
-        else if(fromCol === midCol){
+        else if (fromCol === midCol) {
             opposite.col = midRow + (midRow - fromRow);
         }
         return opposite;
@@ -1005,32 +996,32 @@ class Board {
      * @param {Number} col
      * @returns {Boolean} Whether the tile is buildable or not.
      */
-    isTileBuildable (row, col) {
+    isTileBuildable(row, col) {
         // Check this board is the overworld. Can only build on the overworld.
-        if(this !== boardsObject['overworld']){
+        if (this !== boardsObject['overworld']) {
             return false;
         }
 
         // Check there is nothing in the way.
         const grid = this.grid;
-        if(grid[row] === undefined) return false;
+        if (grid[row] === undefined) return false;
         /** @type {BoardTile} */
         const boardTile = grid[row][col];
-        if(boardTile === undefined) return false;
+        if (boardTile === undefined) return false;
         // Breakables can be occupied (moved over) if broken, but they should never be able to be built on.
-        if(boardTile.static !== null) {
+        if (boardTile.static !== null) {
             //console.log("  has a static");
             return false;
         }
-        if(boardTile.safeZone === true) {
+        if (boardTile.safeZone === true) {
             //console.log("  is a safe zone");
             return false;
         }
-        if(boardTile.groundType.canBeBuiltOn === false){
+        if (boardTile.groundType.canBeBuiltOn === false) {
             //console.log("  ground type can not be built on");
             return false;
         }
-        if(boardTile.containsAnyDestroyables() === true){
+        if (boardTile.containsAnyDestroyables() === true) {
             //console.log("  has a destroyable");
             return false;
         }
@@ -1051,16 +1042,16 @@ Board.tileSize = 16;
 Board.createClientBoardData = (dataFileName) => {
     const mapData = require('../../map/' + dataFileName + '.json');
     const mapProperties = Utils.arrayToObject(mapData.properties, 'name', 'value');
- 
+
     // Skip disabled maps.
-    if(mapProperties['Disabled'] === true) {
+    if (mapProperties['Disabled'] === true) {
         console.log("* Skipping disabled map:", dataFileName);
         return;
     }
 
     // Load the map objects.
     // Check that there is some map data for the map of this board.
-    if(mapData === undefined){
+    if (mapData === undefined) {
         Utils.error("No map data found for this board when creating board:", dataFileName);
         return;
     }
@@ -1070,8 +1061,8 @@ Board.createClientBoardData = (dataFileName) => {
         len = 0,
         layer,
         findLayer = function (layerName) {
-            for(var i=0; i<mapData.layers.length; i+=1){
-                if(mapData.layers[i].name === layerName){
+            for (var i = 0; i < mapData.layers.length; i += 1) {
+                if (mapData.layers[i].name === layerName) {
                     return mapData.layers[i];
                 }
             }
@@ -1095,9 +1086,9 @@ Board.createClientBoardData = (dataFileName) => {
     let type;
     let row;
     let col;
-   
+
     // Initialise an empty grid, with a board tile instance for each column in each row.
-    for(i=0; i<mapData.height; i+=1){
+    for (i = 0; i < mapData.height; i += 1) {
         // Add the same amount of rows to the map data to write to the clients.
         clientData.groundGrid[i] = [];
         clientData.staticsGrid[i] = [];
@@ -1105,30 +1096,30 @@ Board.createClientBoardData = (dataFileName) => {
 
     // Check that the ground layer exists in the map data.
     layer = findLayer('Ground');
-    if(layer){
+    if (layer) {
         tilesData = layer.data;
         row = 0;
         col = 0;
 
         // Add the tiles to the grid.
-        for(i=0, len=tilesData.length; i<len; i+=1){
+        for (i = 0, len = tilesData.length; i < len; i += 1) {
             mapTile = tilesData[i] - 1;
 
-            if(groundTileset.tiles[mapTile] === undefined){
+            if (groundTileset.tiles[mapTile] === undefined) {
                 Utils.error("Invalid/empty map tile found while creating client board data: " + this.name + " at row: " + row + ", col: " + col);
             }
             // Get and separate the type from the prefix using the tile GID.
             type = groundTileset.tiles[mapTile].type;
             // Move to the next row when at the width of the map.
-            if(col === mapData.width){
+            if (col === mapData.width) {
                 col = 0;
                 row += 1;
             }
             // Keep the tile number to create the client map data.
             clientData.groundGrid[row][col] = mapTile;
             // Check that the type of this tile is a valid one.
-            if(!GroundTypes[type]){
-                Utils.warning("Invalid ground mapTile type: " + type);   
+            if (!GroundTypes[type]) {
+                Utils.warning("Invalid ground mapTile type: " + type);
             }
             // Move to the next column.
             col += 1;
@@ -1146,10 +1137,10 @@ Board.createClientBoardData = (dataFileName) => {
          * @param {Number} tileID 
          * @param {*} [data]
          */
-        constructor (row, col, tileID, data) {
+        constructor(row, col, tileID, data) {
             super();
             this.push(tileID);
-            if(data !== undefined) this.push(data);
+            if (data !== undefined) this.push(data);
 
             // Add the tile data to the client map data to save.
             clientData.staticsGrid[row][col] = this;
@@ -1158,17 +1149,17 @@ Board.createClientBoardData = (dataFileName) => {
 
     // Check that the statics layer exists in the map data.
     layer = findLayer('Statics');
-    if(layer){
+    if (layer) {
         tilesData = layer.data;
         row = 0;
         col = 0;
 
         // Add the tiles to the grid.
-        for(i=0, len=tilesData.length; i<len; i+=1){
+        for (i = 0, len = tilesData.length; i < len; i += 1) {
             mapTile = tilesData[i] - 1;
 
             // Move to the next row when at the width of the map.
-            if(col === mapData.width){
+            if (col === mapData.width) {
                 col = 0;
                 row += 1;
             }
@@ -1177,7 +1168,7 @@ Board.createClientBoardData = (dataFileName) => {
             relativeID = mapTile - staticsStartGID;
 
             // Relative IDs lower than 0 are for empty grid spaces.
-            if(relativeID < 0){
+            if (relativeID < 0) {
                 new ClientStaticTile(row, col, 0);
                 // Still need to move the column along.
                 col += 1;
@@ -1186,7 +1177,7 @@ Board.createClientBoardData = (dataFileName) => {
             }
 
             // Skip empty tiles.
-            if(mapTile < 0){
+            if (mapTile < 0) {
                 // Still need to move the column along.
                 col += 1;
                 continue;
@@ -1195,7 +1186,7 @@ Board.createClientBoardData = (dataFileName) => {
             // A tile might have been placed on the map, but not have a type set.
             // All entities need to be created from a type.
             // Check a type is set.
-            if(staticsTileset.tiles[relativeID] === undefined){
+            if (staticsTileset.tiles[relativeID] === undefined) {
                 // Keep the tile number to create the client map data.
                 new ClientStaticTile(row, col, relativeID);
                 // Still need to move the column along.
@@ -1209,7 +1200,7 @@ Board.createClientBoardData = (dataFileName) => {
             type = staticsTileset.tiles[relativeID].type;
 
             // If it is a crafting station, add the type number to the data so the client knows what kind of station this is.
-            if(EntitiesList[type] === EntitiesList.CraftingStation){
+            if (EntitiesList[type] === EntitiesList.CraftingStation) {
                 new ClientStaticTile(row, col, EntitiesList[type].prototype.typeNumber);
             }
             else {
@@ -1223,16 +1214,16 @@ Board.createClientBoardData = (dataFileName) => {
 
     // Check that the configurables layer exists in the map data.
     layer = findLayer('Configurables');
-    if(layer){
+    if (layer) {
         // This is a object layer, not a tile one, so get the objects data.
         objectsData = layer.objects;
 
         // Add the entities to the world.
-        for(i=0, len=objectsData.length; i<len; i+=1){
+        for (i = 0, len = objectsData.length; i < len; i += 1) {
             mapObject = objectsData[i];
 
             // If this entity is a text object, skip it.
-            if(mapObject.text !== undefined){
+            if (mapObject.text !== undefined) {
                 continue;
             }
 
@@ -1250,18 +1241,18 @@ Board.createClientBoardData = (dataFileName) => {
             type = staticsTileset.tiles[objectID].type;
 
             // Check that the type of this tile is a valid one.
-            if(EntitiesList[type]){
+            if (EntitiesList[type]) {
                 const config = {};
 
-                if(mapObject.properties['Disabled']){
+                if (mapObject.properties['Disabled']) {
                     Utils.warning("Map object is disabled in map data:", mapObject);
                     continue;
                 }
 
-                switch (type){
+                switch (type) {
                     case 'DungeonPortal':
                         // Check the dungeon portal properties are valid.
-                        if(mapObject.properties === undefined){
+                        if (mapObject.properties === undefined) {
                             Utils.error("No properties set on dungeon portal in map data:", mapObject);
                             continue;
                         }
@@ -1276,24 +1267,24 @@ Board.createClientBoardData = (dataFileName) => {
                 // This can have additional data added to it with .push().
 
                 // If a dungeon portal, add the dungeon ID to the data.
-                if(EntityType === EntitiesList.DungeonPortal){
+                if (EntityType === EntitiesList.DungeonPortal) {
                     // Get the ID of the dungeon manager this dungeon portal links to.
                     new ClientStaticTile(row, col, objectID, DungeonManagersList.ByName["dungeon-" + config.dungeonName].id);
                 }
                 // If a overworld portal, just add the tile ID.
-                if(EntityType === EntitiesList.OverworldPortal){
+                if (EntityType === EntitiesList.OverworldPortal) {
                     new ClientStaticTile(row, col, objectID);
                 }
 
             }
             else {
                 // If a GUI trigger, just write the data to the client. No server entity needed.
-                if(type === 'GUITrigger'){
+                if (type === 'GUITrigger') {
                     // Add it to all of the slots this object covers.
                     const objectRows = mapObject.height / Board.tileSize;
                     const objectCols = mapObject.width / Board.tileSize;
-                    for(let rowOffset=0; rowOffset<objectRows; rowOffset+=1){
-                        for(let colOffset=0; colOffset<objectCols; colOffset+=1){
+                    for (let rowOffset = 0; rowOffset < objectRows; rowOffset += 1) {
+                        for (let colOffset = 0; colOffset < objectCols; colOffset += 1) {
                             new ClientStaticTile(row + rowOffset, col + colOffset, objectID, {
                                 name: mapObject.properties['Name'],
                                 panelName: mapObject.properties['PanelName'],

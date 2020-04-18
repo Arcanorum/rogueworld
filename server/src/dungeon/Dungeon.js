@@ -10,8 +10,8 @@ class Dungeon {
      * @param {Object} config.alwaysNight
      * @param {Object} config.timeLimitMinutes
      */
-    constructor (config) {
-        
+    constructor(config) {
+
         this.id = idCounter.getNext();
 
         // The dungeon itself needs to know where the exit 
@@ -25,13 +25,13 @@ class Dungeon {
          * Locked doors in dungeons stay open when unlocked, but are closed when the boss respawns.
          * @type {Array.<Interactable>}
          */
-        this.lockedDoors = [];
+        //this.lockedDoors = [];
 
         /**
          * A list of the mobs that have keys in their drop lists, so they can be killed and respawned in their correct areas.
          * @type {Object}
          */
-        this.keyHolders = {};
+        //this.keyHolders = {};
 
         /**
          * Whether the completion criteria for this dungeon has been met.
@@ -43,22 +43,28 @@ class Dungeon {
          * 
          * @type {Number}
          */
-        this.timeRemaining = 0;
+        this.timeRemaining = config.timeLimitMinutes * 1000 * 60;
 
         this.timeUpTimeout = setTimeout(() => {
             // Time is up, end the dungeon.
-        }, timeout);
+            console.log("dungeon instance time is up!");
+
+            this.evictAllPlayers();
+
+            this.timeUpTimeout = null;
+        }, this.timeRemaining);
 
     }
 
-    setCompleted () {
+    setCompleted() {
         this.completed = true;
 
         // Tell the players in this dungeon that it is completed.
 
     }
 
-    evictAllPlayers () {
+    evictAllPlayers() {
+        console.log("evicting all players");
         // Send all players on the board to the entrance that this dungeon exits to.
         //this.board
     }

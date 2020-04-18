@@ -1,8 +1,55 @@
-
 import PanelTemplate from "./PanelTemplate";
 
+class PartySlot {
+    constructor(panel, partyID, leaderDisplayName, dungeonID) {
+        this.container = document.createElement('div');
+        this.container.className = 'dungeon_party_member_slot_cont dungeon_party_slot_cont';
+        this.container.onclick = () => {
+            ws.sendEvent('join_dungeon_party', {
+                dungeonID,
+                partyID
+            });
+        };
+
+        this.leaderName = document.createElement('div');
+        this.leaderName.className = 'task_slot_cell task_slot_task_name';
+        this.leaderName.innerText = leaderDisplayName;
+
+        this.container.appendChild(this.leaderName);
+
+        panel.partiesContainer.appendChild(this.container);
+    }
+}
+
+class PartyMemberSlot {
+    constructor(panel, index, member) {
+        this.container = document.createElement('div');
+        this.container.className = 'dungeon_party_member_slot_cont';
+
+        this.memberName = document.createElement('div');
+        this.memberName.className = 'task_slot_cell task_slot_task_name';
+        this.memberName.innerText = member.displayName;
+        this.container.appendChild(this.memberName);
+
+        // Only show the kick button to the party leader,
+        // and don't show them a kick button for themself.
+        if (index === 0 && member.id !== _this.player.entityId) {
+            this.kickButtonCont = document.createElement('div');
+            this.kickButtonCont.className = 'dungeon_party_kick_member_button_cont';
+
+            this.kickButton = document.createElement('img');
+            this.kickButton.className = 'dungeon_party_kick_member_button';
+            this.kickButton.src = 'assets/img/gui/panels/panel-close-button.png';
+            this.kickButtonCont.appendChild(this.kickButton);
+            this.container.appendChild(this.kickButtonCont);
+        }
+
+        panel.partyMembersContainer.appendChild(this.container);
+    }
+}
+
 class DungeonPanel extends PanelTemplate {
-    constructor () {
+    constructor() {
         super(document.getElementById('dungeon_panel'), 440, 420, dungeonz.getTextDef('Dungeon'), 'gui/panels/dungeon-portal');
 
         const innerContainer = document.createElement('div');
@@ -11,7 +58,6 @@ class DungeonPanel extends PanelTemplate {
 
         this.dungeonName = document.createElement('div');
         this.dungeonName.id = 'dungeon_name';
-        this.dungeonName.innerText = "";
         innerContainer.appendChild(this.dungeonName);
 
         let spacer = document.createElement('div');
@@ -34,7 +80,6 @@ class DungeonPanel extends PanelTemplate {
 
         this.difficultyText = document.createElement('div');
         this.difficultyText.className = 'dungeon_details_text';
-        this.difficultyText.innerText = 'Hardcore';
         difficultyContainer.appendChild(this.difficultyText);
 
         spacer = document.createElement('div');
@@ -62,7 +107,6 @@ class DungeonPanel extends PanelTemplate {
 
         this.costText = document.createElement('div');
         this.costText.className = 'dungeon_details_text';
-        this.costText.innerText = "1234";
         costInnerContainer.appendChild(this.costText);
 
         spacer = document.createElement('div');
@@ -78,16 +122,15 @@ class DungeonPanel extends PanelTemplate {
         maxPlayersHeading.className = 'dungeon_details_heading';
         maxPlayersHeading.innerText = "Max players:"; //dungeonz.getTextDef('Max players') + ":";
         maxPlayersContainer.appendChild(maxPlayersHeading);
-        
+
         this.maxPlayersText = document.createElement('div');
         this.maxPlayersText.className = 'dungeon_details_text';
-        this.maxPlayersText.innerText = "6";
         maxPlayersContainer.appendChild(this.maxPlayersText);
 
         spacer = document.createElement('div');
         spacer.className = 'panel_template_spacer';
         innerContainer.appendChild(spacer);
-        
+
         // The contextual lists of parties or members.
         this.listsContainer = document.createElement('div');
         this.listsContainer.classList = 'dungeon_lists_cont';
@@ -97,9 +140,52 @@ class DungeonPanel extends PanelTemplate {
 
         this.addPartyContainer(this.listsContainer);
 
+        this.partySlots = {};
+        this.partyMemberSlots = {};
+
     }
 
-    addPartySelectionContainer (container) {
+    /**
+     * @param {DungeonPortal} dungeonPortal - The static tile entity of the dungeon portal that was interacted with.
+     */
+    show(dungeonPortal) {
+        super.show();
+        _this.GUI.isAnyPanelOpen = true;
+        this.dungeonPortal = dungeonPortal;
+        const prompt = dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID];
+        this.dungeonName.innerText = dungeonz.getTextDef(prompt.nameDefinitionID);
+        this.difficultyText.innerText = dungeonz.getTextDef(prompt.difficulty);
+        this.costText.innerText = prompt.gloryCost;
+        this.maxPlayersText.innerText = prompt.maxPlayers;
+
+        this.partySelectionContainer.style.display = "grid";
+        this.partyContainer.style.display = "none";
+
+        // Request the current list of available parties for this dungeon.
+        ws.sendEvent('get_dungeon_parties', dungeonPortal.dungeonManagerID);
+
+        // this.getPartiesLoop = setInterval(function () {
+        //     ws.sendEvent('get_dungeon_parties', dungeonPortal.dungeonManagerID);
+        // }, 5000);
+
+        // If they have the entry cost, show the button as valid.
+        if (_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost) {
+            this.createButton.src = 'assets/img/gui/panels/buy-button-border-valid.png';
+        }
+    }
+
+    hide() {
+        super.hide();
+        _this.GUI.isAnyPanelOpen = false;
+
+        this.leaveParty();
+
+        this.dungeonPortal = null;
+
+        clearInterval(this.getPartiesLoop);
+    }
+
+    addPartySelectionContainer(container) {
         // The list of available parties to join.
         this.partySelectionContainer = document.createElement('div');
         this.partySelectionContainer.id = 'dungeon_party_selection_cont';
@@ -114,12 +200,11 @@ class DungeonPanel extends PanelTemplate {
         this.partySelectionContainer.appendChild(this.partiesContainer)
 
         const bottomContainer = document.createElement('div');
-        bottomContainer.id = 'dungeon_bottom_cont';
+        bottomContainer.className = 'dungeon_bottom_cont';
         this.partySelectionContainer.appendChild(bottomContainer);
 
         const createButtonContainer = document.createElement('div');
-        createButtonContainer.id = 'dungeon_create_button_cont';
-        createButtonContainer.className = 'centered';
+        createButtonContainer.className = 'dungeon_create_button_cont centered';
         createButtonContainer.onclick = this.createPressed;
         bottomContainer.appendChild(createButtonContainer);
 
@@ -135,110 +220,179 @@ class DungeonPanel extends PanelTemplate {
         createButtonContainer.appendChild(createText);
     }
 
-    addPartyContainer (container) {
+    addPartyContainer(container) {
         // The party the player is currently in.
         this.partyContainer = document.createElement('div');
+        this.partyContainer.id = "dungeon_party_cont";
         container.appendChild(this.partyContainer);
 
         this.partyPlayerCountText = document.createElement('div');
         this.partyPlayerCountText.className = "dungeon_party_player_count_text";
         this.partyPlayerCountText.innerText = "Party: 2/6";
         this.partyContainer.appendChild(this.partyPlayerCountText);
-        
+
         this.partyMembersContainer = document.createElement('div');
+        this.partyMembersContainer.id = "dungeon_party_members";
         this.partyContainer.appendChild(this.partyMembersContainer);
 
         const bottomContainer = document.createElement('div');
-        bottomContainer.id = 'dungeon_bottom_cont';
+        bottomContainer.className = 'dungeon_party_bottom_cont';
         this.partyContainer.appendChild(bottomContainer);
 
-        const enterButtonContainer = document.createElement('div');
-        enterButtonContainer.id = 'dungeon_enter_button_cont';
-        enterButtonContainer.className = 'centered';
-        enterButtonContainer.onclick = this.enterPressed;
-        bottomContainer.appendChild(enterButtonContainer);
+        const leaveButtonContainer = document.createElement('div');
+        leaveButtonContainer.className = 'dungeon_party_button_cont';
+        leaveButtonContainer.onclick = this.leavePressed;
+        bottomContainer.appendChild(leaveButtonContainer);
 
-        this.enterButton = document.createElement('img');
-        this.enterButton.id = 'dungeon_enter_button';
-        this.enterButton.className = 'centered';
-        this.enterButton.src = 'assets/img/gui/panels/buy-button-border-invalid.png';
-        enterButtonContainer.appendChild(this.enterButton);
+        const leaveButton = document.createElement('img');
+        leaveButton.className = 'dungeon_party_button';
+        leaveButton.src = 'assets/img/gui/panels/leave-party-button-border.png';
+        leaveButtonContainer.appendChild(leaveButton);
 
-        const enterText = document.createElement('div');
-        enterText.id = 'dungeon_enter_text';
-        enterText.className = 'centered';
-        enterText.innerText = dungeonz.getTextDef('Enter');
-        enterButtonContainer.appendChild(enterText);
+        const leaveText = document.createElement('div');
+        leaveText.className = 'dungeon_party_button_text';
+        leaveText.innerText = "Leave";// dungeonz.getTextDef('start');
+        leaveButtonContainer.appendChild(leaveText);
+
+        this.startButtonContainer = document.createElement('div');
+        this.startButtonContainer.className = 'dungeon_party_button_cont';
+        this.startButtonContainer.onclick = this.startPressed;
+        bottomContainer.appendChild(this.startButtonContainer);
+
+        const startButton = document.createElement('img');
+        startButton.className = 'dungeon_party_button';
+        startButton.src = 'assets/img/gui/panels/buy-button-border-valid.png';
+        this.startButtonContainer.appendChild(startButton);
+
+        const startText = document.createElement('div');
+        startText.className = 'dungeon_party_button_text';
+        startText.innerText = "Start";// dungeonz.getTextDef('start');
+        this.startButtonContainer.appendChild(startText);
     }
 
-    /**
-     * @param {DungeonPortal} dungeonPortal - The static tile entity of the dungeon portal that was interacted with.
-     */
-    show (dungeonPortal) {
-        console.log("dung port:", dungeonPortal);
-        super.show();
-        _this.GUI.isAnyPanelOpen = true;
-        const prompt = dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID];
-        this.dungeonName.innerText = dungeonz.getTextDef(prompt.nameDefinitionID);
-        this.difficultyText.innerText = dungeonz.getTextDef(prompt.difficulty);
-        this.costText.innerText = prompt.gloryCost;
-        this.maxPlayersText.innerText = prompt.maxPlayers;
+    addParty(party) {
+        // TODO: add logic for clan membership, don't continue if not in same clan
 
-        this.partySelectionContainer.style.visibility = "visible";
-        this.partyContainer.style.visibility = "hidden";
+        this.partySlots[party.id] = new PartySlot(
+            this,
+            party.id,
+            party.members[0].displayName,
+            this.dungeonPortal.dungeonManagerID
+        );
+    }
 
-        // Request the current list of available parties for this dungeon.
-        ws.sendEvent('get_parties', dungeonPortal.dungeonManagerID);
+    addPartyMember(index, member) {
+        this.partyMemberSlots[index] = new PartyMemberSlot(this, index, member);
+    }
 
-        this.getPartiesLoop = setInterval(function () {
-            ws.sendEvent('get_parties', dungeonPortal.dungeonManagerID);
-        }, 5000);
-
-        // If they have the entry cost, show the button as valid.
-        if(_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost){
-            this.enterButton.src = 'assets/img/gui/panels/buy-button-border-valid.png';
+    removeParties() {
+        for (let key in this.partySlots) {
+            this.partySlots[key].container.remove();
+            delete this.partySlots[key];
         }
     }
 
-    hide () {
-        super.hide();
-        _this.GUI.isAnyPanelOpen = false;
-
-        clearInterval(this.getPartiesLoop);
+    removePartyMembers() {
+        for (let key in this.partyMemberSlots) {
+            this.partyMemberSlots[key].container.remove();
+            delete this.partyMemberSlots[key];
+        }
     }
 
-    updateParties (parties) {
-        console.log("update dung panel parties:", parties);
-    }
+    updateParties(parties) {
+        console.log("parties:", parties);
+        // If this player is in any of the parties, show the party screen.
+        const party = parties.find((party) => {
+            return party.members.some((member) => {
+                return member.id === _this.player.entityId;
+            });
+        });
 
-    createPressed () {
-        // Check if the player has enough glory.
-        if(_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost){
-            // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
-            window.ws.sendEvent('start_dungeon', {
-                dungeonID: dungeonPortal.dungeonManagerID,
-                row: dungeonPortal.row,
-                col: dungeonPortal.col
+        if (party) {
+            // Show the party members list.
+            this.partySelectionContainer.style.display = "none";
+            this.partyContainer.style.display = "grid";
+
+            // Update the member count.
+            this.partyPlayerCountText.innerText = `Party: ${party.members.length}/${this.maxPlayersText.innerText}`;
+
+            // If this player is the party leader, show the start button.
+            if (party.members[0].id === _this.player.entityId) {
+                this.startButtonContainer.style.visibility = "visible";
+            }
+            else {
+                this.startButtonContainer.style.visibility = "hidden";
+            }
+
+            // Clear all of the existing member slots.
+            this.removePartyMembers();
+
+            // Add a slot for each member.
+            party.members.forEach((member, index) => {
+                this.addPartyMember(index, member);
             });
         }
-    }
+        else {
+            // Show the party selection list.
+            this.partySelectionContainer.style.display = "grid";
+            this.partyContainer.style.display = "none";
 
-    enterPressed (dungeonPortal) {
-        // Check if the player has enough glory.
-        if(_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost){
-            // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
-            window.ws.sendEvent('start_dungeon', {
-                dungeonID: dungeonPortal.dungeonManagerID,
-                row: dungeonPortal.row,
-                col: dungeonPortal.col
+            // Clear all of the existing party slots.
+            this.removeParties();
+
+            // Add a slot for each party.
+            parties.forEach((party) => {
+                this.addParty(party);
             });
         }
+
+    }
+
+    createPressed() {
+        const panel = _this.GUI.dungeonPanel;
+        const dungeonPortal = panel.dungeonPortal;
+
+        // Check if the player has enough glory.
+        //if(_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost){
+        // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
+        window.ws.sendEvent('create_dungeon_party', {
+            dungeonID: dungeonPortal.dungeonManagerID,
+            row: dungeonPortal.row,
+            col: dungeonPortal.col
+        });
+
+        //}
+    }
+
+    startPressed() {
+        const panel = _this.GUI.dungeonPanel;
+        const dungeonPortal = panel.dungeonPortal;
+
+        // Check if the player has enough glory.
+        //if(_this.player.glory >= dungeonz.DungeonPrompts[panel.dungeonPortal.dungeonManagerID].gloryCost){
+        // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
+        window.ws.sendEvent('start_dungeon', {
+            dungeonID: dungeonPortal.dungeonManagerID,
+            row: dungeonPortal.row,
+            col: dungeonPortal.col
+        });
+        //}
 
         // Hide the panel.
-        _this.GUI.dungeonPanel.hide();
+        //panel.hide();
     }
 
-    
+    leavePressed() {
+        const panel = _this.GUI.dungeonPanel;
+        panel.leaveParty();
+    }
+
+    leaveParty() {
+        window.ws.sendEvent('leave_dungeon_party', {
+            dungeonID: _this.GUI.dungeonPanel.dungeonPortal.dungeonManagerID
+        });
+    }
+
 }
 
 export default DungeonPanel;

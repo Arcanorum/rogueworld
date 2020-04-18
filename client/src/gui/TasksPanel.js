@@ -201,7 +201,7 @@ class TasksPanel extends PanelTemplate {
         this.tooltip.id = "tasks_panel_tooltip";
 
         /**
-         * @type {Object<TaskSlot>} Each task slot instance, accessed by the task ID of the task it is for.
+         * @type {Object.<TaskSlot>} Each task slot instance, accessed by the task ID of the task it is for.
          */
         this.taskSlots = {};
 

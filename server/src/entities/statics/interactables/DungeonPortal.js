@@ -12,7 +12,7 @@ class DungeonPortal extends Interactable {
         super(config);
 
         // Link this portal to the dungeon manager.
-        /** @type {dungeonManager} A reference to the dungeon instance. */
+        /** @type {DungeonManager} A reference to the dungeon instance. */
         this.dungeonManager = DungeonManagersList.ByName["dungeon-" + config.dungeonName];
 
         if (!this.dungeonManager) {
@@ -34,7 +34,6 @@ class DungeonPortal extends Interactable {
      */
     enter(player) {
         if (player instanceof Player === false) return;
-        console.log("enter dungeon portal:", this.id);
 
         this.dungeonManager.start(player, this);
     }

@@ -11,7 +11,7 @@ class Exit extends Interactable {
      * @param {Board} config.targetBoard
      * @param {String} config.targetEntranceName
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         /**
@@ -25,9 +25,10 @@ class Exit extends Interactable {
          * @type {Entrance}
          */
         this.targetEntrance = config.targetEntranceName;
+
         // If the board that this exit links to already exists, then link to it.
         // Otherwise the link will be set up after all boards have been created.
-        if(config.targetBoard.entrances !== undefined){
+        if (config.targetBoard.entrances !== undefined) {
             this.targetEntrance = config.targetBoard.entrances[config.targetEntranceName];
         }
     }
@@ -36,8 +37,8 @@ class Exit extends Interactable {
      * @param {Player} interactedBy - Only players can use exits (including dungeon portals).
      * @return {Boolean} Whether this entity was interacted with or not.
      */
-    interaction (interactedBy) {
-        if(interactedBy instanceof Player === false) return;
+    interaction(interactedBy) {
+        if (interactedBy instanceof Player === false) return;
 
         // Reposition them to somewhere within the entrance bounds.
         let position = this.targetEntrance.getRandomPosition();

@@ -317,7 +317,13 @@ class Board {
                         board: this
                     };
 
-                    mapObject.properties = Utils.arrayToObject(mapObject.properties, 'name', 'value');
+                    // Check if the properties are already an array, as the map data object might have already
+                    // been passed through createBoard and each of the properties converted to an object, such
+                    // as another dungeon instance board being made from the same map data.
+                    // TODO: do this on all map objects in the all map datas beforehand, so it isnt done every time a board instance is made.
+                    if (Array.isArray(mapObject.properties)) {
+                        mapObject.properties = Utils.arrayToObject(mapObject.properties, 'name', 'value');
+                    }
 
                     if (mapObject.properties['Disabled']) {
                         Utils.warning("Map object is disabled in map data:", mapObject);

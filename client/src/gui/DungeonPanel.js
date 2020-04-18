@@ -300,7 +300,6 @@ class DungeonPanel extends PanelTemplate {
     }
 
     updateParties(parties) {
-        console.log("parties:", parties);
         // If this player is in any of the parties, show the party screen.
         const party = parties.find((party) => {
             return party.members.some((member) => {
@@ -388,6 +387,9 @@ class DungeonPanel extends PanelTemplate {
     }
 
     leaveParty() {
+        // Don't bother if they aren't interacting with a dungeon portal.
+        if (!_this.GUI.dungeonPanel.dungeonPortal) return;
+
         window.ws.sendEvent('leave_dungeon_party', {
             dungeonID: _this.GUI.dungeonPanel.dungeonPortal.dungeonManagerID
         });

@@ -1,6 +1,6 @@
-
+const Utils = require("../Utils");
 const StatNames = require('../stats/Statset').prototype.StatNames;
-const getRandomIntInclusive = require('../Utils').getRandomIntInclusive;
+const getRandomIntInclusive = Utils.getRandomIntInclusive;
 
 class Item {
 
@@ -8,7 +8,7 @@ class Item {
      * @param {Number} [config.durability = null]
      * @param {Number} [config.maxDurability = null]
      */
-    constructor (config) {
+    constructor(config) {
 
         const durability = parseInt(config.durability);
         const maxDurability = parseInt(config.maxDurability);
@@ -42,27 +42,27 @@ class Item {
     /**
      * Activate the effect of this item. i.e. Restore energy, equip armour, use tool.
      */
-    use () {
+    use() {
         this.onUsed();
     }
 
-    onUsed (direction) {
+    onUsed(direction) {
         // Something might have happened to the owner of this item when it was used by them.
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
-        if(this.owner === null) return;
+        if (this.owner === null) return;
 
         // Check if this item gives any stat exp when used.
-        if(this.owner.stats[this.expGivenStatName] !== undefined){
+        if (this.owner.stats[this.expGivenStatName] !== undefined) {
             this.owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
         }
 
         // Check if this item should lose durability when used.
-        if(this.useDurabilityCost > 0){
-            if(this.expGivenStatName !== null){
+        if (this.useDurabilityCost > 0) {
+            if (this.expGivenStatName !== null) {
                 // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
                 // Check if the durability cost should be waived based on stat level chance.
                 const waiveChance = getRandomIntInclusive(0, 99);
-                if(waiveChance <= this.owner.stats[this.expGivenStatName].level){
+                if (waiveChance <= this.owner.stats[this.expGivenStatName].level) {
                     return;
                 }
             }
@@ -70,29 +70,25 @@ class Item {
         }
     }
 
-    equip () {
+    equip() {    }
 
-    }
+    unequip() {    }
 
-    unequip () {
-
-    }
-
-    drop () {
+    drop() {
         // If no pickup type set, destroy the item without leaving a pickup on the ground.
-        if(this.PickupType === null){
+        if (this.PickupType === null) {
             this.destroy();
             return;
         }
 
         const owner = this.owner;
         // Add a pickup entity of that item to the board.
-        new this.PickupType({row: owner.row, col: owner.col, board: owner.board, durability: this.durability, maxDurability: this.maxDurability}).emitToNearbyPlayers();
+        new this.PickupType({ row: owner.row, col: owner.col, board: owner.board, durability: this.durability, maxDurability: this.maxDurability }).emitToNearbyPlayers();
 
         this.destroy();
     }
 
-    useGatheringTool () {
+    useGatheringTool() {
         // Get position of the grid tile in front of the owner of this item.
         const directionOffset = this.owner.board.directionToRowColOffset(this.owner.direction);
 
@@ -100,18 +96,18 @@ class Item {
         const interactable = this.owner.board.grid[this.owner.row + directionOffset.row][this.owner.col + directionOffset.col].static;
 
         // Check the tile actually has a static on it.
-        if(interactable === null) return;
+        if (interactable === null) return;
 
         // Check it is an interactable.
-        if(interactable.interaction === undefined) return;
+        if (interactable.interaction === undefined) return;
 
         // This item is used on resource nodes, which are interactables.
         interactable.interaction(this.owner, this);
     }
 
-    destroy () {
+    destroy() {
         // Prevent multiple destruction of items.
-        if(this._destroyed === true) return;
+        if (this._destroyed === true) return;
         this._destroyed = true;
 
         // Remove the item from the character.
@@ -126,20 +122,20 @@ class Item {
      *
      * @param {Number} amount
      */
-    modDurability (amount) {
+    modDurability(amount) {
         // Check a valid value was given.
-        if(!amount) return;
+        if (!amount) return;
 
         this.durability += amount;
         this.durability = Math.floor(this.durability);
 
         // Make sure it doesn't go above max durability if repaired.
-        if(this.durability > this.maxDurability){
+        if (this.durability > this.maxDurability) {
             this.durability = this.maxDurability;
         }
 
         // Check if the item is now broken.
-        if(this.durability < 1){
+        if (this.durability < 1) {
             // Tell the player their item broke.
             this.owner.socket.sendEvent(this.owner.EventsList.item_broken);
             // Destroy this broken item.
@@ -147,7 +143,7 @@ class Item {
         }
         else {
             // Tell the player the new durability.
-            this.owner.socket.sendEvent(this.owner.EventsList.durability_value, {durability: this.durability, slotKey: this.slotKey});
+            this.owner.socket.sendEvent(this.owner.EventsList.durability_value, { durability: this.durability, slotKey: this.slotKey });
         }
     }
 
@@ -232,13 +228,11 @@ Item.prototype.category = null;
 Item.prototype.PickupType = null;
 
 Item.prototype.registerItemType = function () {
-
     this.typeNumber = typeNumberCounter;
 
-    typeNumberCounter+=1;
+    typeNumberCounter += 1;
 
-    //console.log("* Registering item type: ", this);
-
+    //Utils.message("Registering item type: ", this);
 };
 
 module.exports = Item;

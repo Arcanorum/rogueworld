@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 
 class Utils {
@@ -8,11 +7,11 @@ class Utils {
      * Useful for creating unique IDs.
      */
     Counter = class Counter {
-        constructor () {
+        constructor() {
             this._count = 0;
         }
-    
-        getNext () {
+
+        getNext() {
             this._count += 1;
             return this._count;
         }
@@ -24,7 +23,7 @@ class Utils {
      * @param {Number} max
      * @returns {*}
      */
-    getRandomIntInclusive (min, max) {
+    getRandomIntInclusive(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -35,7 +34,7 @@ class Utils {
      * @param {Array} array
      * @returns {*}
      */
-    getRandomElement (array) {
+    getRandomElement(array) {
         return array[Math.floor(Math.random() * array.length)];
     }
 
@@ -44,9 +43,9 @@ class Utils {
      * @param {String} nameKey - The name of each propety key on the result object.
      * @param {String} valueKey - The name of the property to use as each propety value.
      */
-    arrayToObject (array, nameKey, valueKey) {
-        if(Array.isArray(array) === false) return {};
-        
+    arrayToObject(array, nameKey, valueKey) {
+        if (Array.isArray(array) === false) return {};
+
         return array.reduce((obj, item) => {
             obj[item[nameKey]] = item[valueKey];
             return obj;
@@ -60,7 +59,7 @@ class Utils {
      * @param {Number} number - How many times the item should be added.
      */
     arrayMultiPush = (array, item, amount) => {
-        for(let i=0; i<amount; i+=1){
+        for (let i = 0; i < amount; i += 1) {
             array.push(item);
         }
     }
@@ -69,7 +68,7 @@ class Utils {
      * Checks the location to write to exists. If not, creates it.
      * @param {String} directory The directory to check for.
      */
-    checkDirectoryExists (directory) {
+    checkDirectoryExists(directory) {
         if (fs.existsSync(directory) === false) {
             fs.mkdirSync(directory);
         }
@@ -78,15 +77,25 @@ class Utils {
     /**
      * Checks the client catalogues directory exists. If not, creates it.
      */
-    checkClientCataloguesExists () {
+    checkClientCataloguesExists() {
         this.checkDirectoryExists('../client/src/catalogues');
+    }
+
+    /**
+     * Prints a system message in the project format.
+     * Wrapper for console.log.
+     * @param {*} message
+     */
+    message(...args) {
+        args.unshift("*");
+        console.log.apply(console, args);
     }
 
     /**
      * Prints a warning message.
      * @param {*} message
      */
-    warning (...args) {
+    warning(...args) {
         args.unshift("* WARNING:");
         console.log.apply(console, args);
     }
@@ -95,7 +104,7 @@ class Utils {
      * Stops the process and prints an error message.
      * @param {*} message
      */
-    error (...args) {
+    error(...args) {
         args.unshift("* ERROR: ");
         console.error.apply(console, args);
         console.trace();

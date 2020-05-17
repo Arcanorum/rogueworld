@@ -10,7 +10,7 @@ class Player extends Character {
      * @param {Board} config.board
      * @param {Object} config.socket
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         config.board.addPlayer(this);
@@ -49,13 +49,13 @@ class Player extends Character {
 
         this.nextMoveTime = 0;
         this.isMovePending = false;
-        this.pendingMove = {byRows: 0, byCols: 0};
+        this.pendingMove = { byRows: 0, byCols: 0 };
 
         /** @type {Number} The time after which this player can perform another action. */
         this.nextActionTime = 0;
 
         // Start the energy regen loop.
-        if(this.energyRegenRate !== false){
+        if (this.energyRegenRate !== false) {
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
         }
 
@@ -63,41 +63,41 @@ class Player extends Character {
 
     }
 
-    checkWebsocketConnectionIsAlive () {
-        if(this.socket === undefined){
+    checkWebsocketConnectionIsAlive() {
+        if (this.socket === undefined) {
             Utils.warning("Checking player entity websocket connection, is undefined.");
             this.destroy();
             return;
         }
-        if(this.socket === null){
+        if (this.socket === null) {
             Utils.warning("Checking player entity websocket connection, is null.");
             this.destroy();
             return;
         }
-        if(this.socket.entity !== this){
+        if (this.socket.entity !== this) {
             Utils.warning("Checking player entity websocket connection, entity is not this.");
             this.destroy();
             return;
         }
         // Only print for entities that have been around for a while.
-        if(this.bornTime > Date.now() + wsCheckAge){
-            console.log("* Connection is still alive for:", this.id, ", dn:", this.displayName);
+        if (this.bornTime > Date.now() + wsCheckAge) {
+            Utils.message("Connection is still alive for:", this.id, ", dn:", this.displayName);
         }
         this.connectionCheckTimeout = setTimeout(this.checkWebsocketConnectionIsAlive.bind(this), checkWebsocketConnectionIsAliveRate);
     }
 
-    onDestroy () {
+    onDestroy() {
         /** @type {Item} */
         let item;
 
         // Drop all items in inventory.
         // Don't need to check the board tile to drop on, as
         // if they player is already stood on it, it is valid.
-        for(let slotKey in this.inventory){
-            if(this.inventory.hasOwnProperty(slotKey) === false) continue;
+        for (let slotKey in this.inventory) {
+            if (this.inventory.hasOwnProperty(slotKey) === false) continue;
             item = this.inventory[slotKey];
             // Check the item slot is valid, and not empty.
-            if(item === null) continue;
+            if (item === null) continue;
             // Add a pickup entity of that item to the board.
             item.drop();
         }
@@ -111,10 +111,10 @@ class Player extends Character {
      * Special function for players, so the inventory isn't dropped when they close the game, otherwise the inventory would be saved and also dropped so would duplicate items.
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
-    remove () {
+    remove() {
         this.board.removePlayer(this);
 
-        if(this.clan !== null){
+        if (this.clan !== null) {
             this.clan.memberLeft(this);
             this.clan = null;
         }
@@ -126,8 +126,8 @@ class Player extends Character {
         super.onDestroy();
     }
 
-    getEmittableProperties (properties) {
-        if(this.clothing !== null) properties.clothingTypeNumber = this.clothing.typeNumber;
+    getEmittableProperties(properties) {
+        if (this.clothing !== null) properties.clothingTypeNumber = this.clothing.typeNumber;
         return super.getEmittableProperties(properties);
     }
 
@@ -135,22 +135,22 @@ class Player extends Character {
      * Returns all of the items in the player's inventory, in a form that is ready to be emitted.
      * @returns {Array}
      */
-    getEmittableInventory () {
+    getEmittableInventory() {
         let emittableInventory = [];
         let item;
 
-        for(let slotKey in this.inventory){
-            if(this.inventory.hasOwnProperty(slotKey) === false) continue;
+        for (let slotKey in this.inventory) {
+            if (this.inventory.hasOwnProperty(slotKey) === false) continue;
             // Skip empty slots.
-            if(this.inventory[slotKey] === null) continue;
+            if (this.inventory[slotKey] === null) continue;
             item = this.inventory[slotKey];
-            emittableInventory.push({typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability});
+            emittableInventory.push({ typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability });
         }
 
         return emittableInventory;
     }
 
-    respawn () {
+    respawn() {
         this.hitPoints = this.maxHitPoints;
         this.energy = this.maxEnergy;
         // Players are a special case that can be undestroyed.
@@ -164,23 +164,23 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.player_respawn);
     }
 
-    regenEnergy () {
-        if(this.energy < this.maxEnergy){
+    regenEnergy() {
+        if (this.energy < this.maxEnergy) {
             this.modEnergy(+1);
         }
         this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
     }
 
-    reposition (toRow, toCol) {
+    reposition(toRow, toCol) {
         this.board.removePlayer(this);
         super.reposition(toRow, toCol);
         this.board.addPlayer(this);
     }
 
-    move (byRows, byCols) {
+    move(byRows, byCols) {
 
         // Check if this player can move yet.
-        if(Date.now() < this.nextMoveTime){
+        if (Date.now() < this.nextMoveTime) {
             // Can't move yet. Make this move command be pending, so it happens as soon as it can.
 
             clearTimeout(this.pendingMove);
@@ -193,12 +193,12 @@ class Player extends Character {
         this.nextMoveTime = Date.now() + this.moveDelay;
 
         // Check if the entity can move as a character.
-        if(super.move(byRows, byCols) === true){
+        if (super.move(byRows, byCols) === true) {
 
             let dynamicsAtViewRangeData = this.board.getDynamicsAtViewRangeData(this.row, this.col, this.direction);
 
             // Don't bother sending the event if no dynamics were found.
-            if(dynamicsAtViewRangeData !== false){
+            if (dynamicsAtViewRangeData !== false) {
                 // Tell the player any dynamics that they can now see in the direction they moved.
                 this.socket.sendEvent(
                     this.EventsList.add_entities,
@@ -209,9 +209,9 @@ class Player extends Character {
         }
     }
 
-    push (byRows, byCols) {
+    push(byRows, byCols) {
         // Don't let this player be pushed if they are in a safe zone.
-        if(this.isInSafeZone() === false){
+        if (this.isInSafeZone() === false) {
             super.push(byRows, byCols);
         }
     }
@@ -220,7 +220,7 @@ class Player extends Character {
      * Gets whether this player is in a safe zone.
      * @returns {Boolean}
      */
-    isInSafeZone () {
+    isInSafeZone() {
         return this.board.grid[this.row][this.col].safeZone;
     }
 
@@ -230,8 +230,8 @@ class Player extends Character {
      * @param {Object} context - The context to run the action in. Usually an entity or item.
      * @param {Object} config - Any additional inputs that the action requires.
      */
-    performAction (action, context, config) {
-        if(Date.now() > this.nextActionTime){
+    performAction(action, context, config) {
+        if (Date.now() > this.nextActionTime) {
             this.nextActionTime = Date.now() + 500;
             action.call(context, config);
         }
@@ -241,19 +241,19 @@ class Player extends Character {
      * @param {Damage} damage
      * @param {Entity} damagedBy
      */
-    damage (damage, damagedBy) {
-        if(damagedBy !== undefined && damagedBy !== null){
+    damage(damage, damagedBy) {
+        if (damagedBy !== undefined && damagedBy !== null) {
             // If damaged by another player in a safe zone, ignore the damage.
-            if(damagedBy instanceof Player){
-                if(this.isInSafeZone() === true) return;
+            if (damagedBy instanceof Player) {
+                if (this.isInSafeZone() === true) return;
             }
             // If damaged by something that has a player controlling it in a safe zone, ignore the damage.
-            if(damagedBy.master instanceof Player){
-                if(this.isInSafeZone() === true) return;
+            if (damagedBy.master instanceof Player) {
+                if (this.isInSafeZone() === true) return;
             }
         }
         // Damage any clothes being worn.
-        if(this.clothing !== null){
+        if (this.clothing !== null) {
             // Clothing only takes 25% of damage taken from the wearer.
             this.clothing.damage(
                 new Damage({
@@ -274,7 +274,7 @@ class Player extends Character {
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
-    changeBoard (toBoard, toRow, toCol) {
+    changeBoard(toBoard, toRow, toCol) {
 
         this.board.removePlayer(this);
 
@@ -286,28 +286,29 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.change_board, {
             boardName: this.board.name,
             boardAlwaysNight: this.board.alwaysNight,
+            boardIsDungeon: this.board.isDungeon,
             playerRow: this.row,
             playerCol: this.col,
             dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col)
         });
     }
 
-    modGlory (amount) {
+    modGlory(amount) {
         this.glory += amount;
         this.glory = Math.floor(this.glory);
 
-        if(this.glory < 0) {
+        if (this.glory < 0) {
             this.glory = 0;
         }
-        
+
         // Tell the player their new glory amount.
         this.socket.sendEvent(this.EventsList.glory_value, this.glory);
     }
 
-    modHitPoints (amount, source) {
+    modHitPoints(amount, source) {
         // If damaged by another player in a safe zone, ignore the damage.
-        if(source instanceof Player){
-            if(this.board.grid[this.row][this.col].safeZone === true){
+        if (source instanceof Player) {
+            if (this.board.grid[this.row][this.col].safeZone === true) {
                 return;
             }
         }
@@ -316,12 +317,12 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.hit_point_value, this.hitPoints);
     }
 
-    modEnergy (amount) {
+    modEnergy(amount) {
         this.energy += amount;
         this.energy = Math.floor(this.energy);
 
         // Make sure they can't go above max energy.
-        if(this.energy > this.maxEnergy){
+        if (this.energy > this.maxEnergy) {
             this.energy = this.maxEnergy;
         }
 
@@ -329,7 +330,7 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.energy_value, this.energy);
     }
 
-    modDefence (amount) {
+    modDefence(amount) {
         super.modDefence(amount);
         // Tell the player their new defence amount.
         this.socket.sendEvent(this.EventsList.defence_value, this.defence);
@@ -338,13 +339,13 @@ class Player extends Character {
     /**
      * @param {Clothes} clothing
      */
-    modClothing (clothing) {
-        if(clothing === null){
+    modClothing(clothing) {
+        if (clothing === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(this.EventsList.deactivate_clothing, this.clothing.slotKey);
 
-            for(let statKey in this.clothing.statBonuses){
-                if(this.clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
+            for (let statKey in this.clothing.statBonuses) {
+                if (this.clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
 
                 this.stats[statKey].levelModifier -= this.clothing.statBonuses[statKey];
             }
@@ -353,8 +354,8 @@ class Player extends Character {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent(this.EventsList.activate_clothing, clothing.slotKey);
 
-            for(let statKey in clothing.statBonuses){
-                if(clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
+            for (let statKey in clothing.statBonuses) {
+                if (clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
 
                 this.stats[statKey].levelModifier += clothing.statBonuses[statKey];
             }
@@ -366,8 +367,8 @@ class Player extends Character {
     /**
      * @param {Holdable} holding
      */
-    modHolding (holding) {
-        if(holding === null){
+    modHolding(holding) {
+        if (holding === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(this.EventsList.deactivate_holding, this.holding.slotKey);
         }
@@ -382,8 +383,8 @@ class Player extends Character {
     /**
      * @param {Ammunition} ammunition
      */
-    modAmmunition (ammunition) {
-        if(ammunition === null){
+    modAmmunition(ammunition) {
+        if (ammunition === null) {
             // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(this.EventsList.deactivate_ammunition, this.ammunition.slotKey);
         }
@@ -400,11 +401,11 @@ class Player extends Character {
      * @param {Item} item - The item instance to add to the inventory.
      * @param {String} [slotKey] - A specific slot to add the item at. Must be an empty (null) slot or throws error. Should be used after Player.isInventoryFull. Leave undefined to use the first empty slot.
      */
-    addToInventory (item, slotKey) {
+    addToInventory(item, slotKey) {
         // If a slot key to add at was given, use it.
-        if(slotKey !== undefined){
+        if (slotKey !== undefined) {
             // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. 'abcd').
-            if(this.inventory[slotKey] !== null){
+            if (this.inventory[slotKey] !== null) {
                 Utils.error("Attempt to add item to character inventory at already occupied slot: " + slotKey + ", item: " + item.constructor.name);
             }
         }
@@ -423,14 +424,14 @@ class Player extends Character {
         item.slotKey = slotKey;
 
         // Tell the player an item was added to their inventory.
-        this.socket.sendEvent(this.EventsList.add_item, {typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability});
+        this.socket.sendEvent(this.EventsList.add_item, { typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability });
     }
 
     /**
      * Clears an inventory slot with a given key.
      * @param {String} slotKey
      */
-    removeFromInventoryBySlotKey (slotKey) {
+    removeFromInventoryBySlotKey(slotKey) {
         this.inventory[slotKey] = null;
         // Tell the player to remove this item.
         this.socket.sendEvent(this.EventsList.remove_item, slotKey);
@@ -441,9 +442,9 @@ class Player extends Character {
      * @param {String} slotKeyFrom
      * @param {String} slotKeyTo
      */
-    swapInventorySlots (slotKeyFrom, slotKeyTo) {
-        if(this.inventory[slotKeyFrom] === undefined) return;
-        if(this.inventory[slotKeyTo] === undefined) return;
+    swapInventorySlots(slotKeyFrom, slotKeyTo) {
+        if (this.inventory[slotKeyFrom] === undefined) return;
+        if (this.inventory[slotKeyTo] === undefined) return;
 
         const slotFrom = this.inventory[slotKeyFrom];
 
@@ -451,10 +452,10 @@ class Player extends Character {
 
         this.inventory[slotKeyTo] = slotFrom;
 
-        if(this.inventory[slotKeyTo] !== null){
+        if (this.inventory[slotKeyTo] !== null) {
             this.inventory[slotKeyTo].slotKey = slotKeyTo;
         }
-        if(this.inventory[slotKeyFrom] !== null){
+        if (this.inventory[slotKeyFrom] !== null) {
             this.inventory[slotKeyFrom].slotKey = slotKeyFrom;
         }
     }
@@ -463,9 +464,9 @@ class Player extends Character {
      * Use the item at the given slot.
      * @param {String} slotKey
      */
-    useItem (slotKey) {
+    useItem(slotKey) {
         // Check that slot is valid.
-        if(this.inventory[slotKey] === undefined) return false;
+        if (this.inventory[slotKey] === undefined) return false;
 
         this.inventory[slotKey].use();
     }
@@ -473,27 +474,27 @@ class Player extends Character {
     /**
      * @static
      */
-    pickUpItem () {
+    pickUpItem() {
         // Get the tile the character is standing on.
         const boardTile = this.board.grid[this.row][this.col];
 
         let pickup = null;
 
         // Get the first entity in the pickups list.
-        for(let pickupKey in boardTile.pickups){
-            if(boardTile.pickups[pickupKey] === undefined) continue;
+        for (let pickupKey in boardTile.pickups) {
+            if (boardTile.pickups[pickupKey] === undefined) continue;
             pickup = boardTile.pickups[pickupKey];
             break;
         }
 
         // Check it has a pickup item on it.
-        if(pickup === null) return;
+        if (pickup === null) return;
 
         // Check the inventory isn't full.
-        if(this.isInventoryFull() === true) return;
+        if (this.isInventoryFull() === true) return;
 
         // Get the first empty inventory slot.
-        this.addToInventory(new pickup.ItemType({durability: pickup.durability, maxDurability: pickup.maxDurability}));
+        this.addToInventory(new pickup.ItemType({ durability: pickup.durability, maxDurability: pickup.maxDurability }));
 
         pickup.destroy();
     }
@@ -503,11 +504,11 @@ class Player extends Character {
      * Throws an error if no slots are empty. Should be used after Player.isInventoryFull.
      * @return {String}
      */
-    getEmptyInventorySlotKey () {
-        for(let slotKey in this.inventory){
-            if(this.inventory.hasOwnProperty(slotKey) === false) continue;
+    getEmptyInventorySlotKey() {
+        for (let slotKey in this.inventory) {
+            if (this.inventory.hasOwnProperty(slotKey) === false) continue;
             // If an empty slot is found, return the key for it.
-            if(this.inventory[slotKey] === null) {
+            if (this.inventory[slotKey] === null) {
                 return slotKey;
             }
         }
@@ -519,12 +520,12 @@ class Player extends Character {
      * Returns whether the inventory is full (all slots occupied).
      * @return {Boolean}
      */
-    isInventoryFull () {
+    isInventoryFull() {
         // Check that the character that interacted with this node has space in their inventory.
-        for(let slot in this.inventory){
-            if(this.inventory.hasOwnProperty(slot) === false) continue;
+        for (let slot in this.inventory) {
+            if (this.inventory.hasOwnProperty(slot) === false) continue;
             // If an empty slot is found, stop looping.
-            if(this.inventory[slot] === null) return false;
+            if (this.inventory[slot] === null) return false;
         }
         // All slot are occupied. Inventory is full.
         // Tell the player.
@@ -537,10 +538,10 @@ class Player extends Character {
      * Clears the first inventory slot found that contains an instance of the specified class.
      * @param {Function} Item - The class to check for instances of. NOT an instance of the class.
      */
-    removeFromInventoryByItemType (Item) {
-        for(let slot in this.inventory){
-            if(this.inventory.hasOwnProperty(slot) === false) continue;
-            if(this.inventory[slot] instanceof Item){
+    removeFromInventoryByItemType(Item) {
+        for (let slot in this.inventory) {
+            if (this.inventory.hasOwnProperty(slot) === false) continue;
+            if (this.inventory[slot] instanceof Item) {
                 this.inventory[slot].destroy();
                 // Item type was found and removed.
                 return true;

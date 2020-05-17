@@ -1,4 +1,6 @@
-console.log("* Start of index");
+const Utils = require("./src/Utils");
+
+Utils.message("Start of index");
 
 require('./src/AccountManager').setup()
     .then(init);
@@ -23,15 +25,15 @@ async function init() {
 
     const fs = require('fs');
 
-    function cleanUp () {
-        console.log("* index.js cleanup");
+    function cleanUp() {
+        Utils.message("index.js cleanup");
         // Attempt to save the player data to local storage.
         world.accountManager.saveAllPlayersData(wss);
 
         // Save the clans data.
         //clanManager.saveDataToFile();
 
-        console.log("* Exitting");
+        Utils.message("Exitting");
 
         process.exit();
     }
@@ -40,7 +42,7 @@ async function init() {
 
     // Do cleaning before exiting.
     process.on('exit', async () => {
-        console.log("* Server exit");
+        Utils.message("Server exit");
 
         cleanUp();
 
@@ -49,18 +51,18 @@ async function init() {
 
     // Catch Ctrl+C event and exit normally.
     process.on('SIGINT', () => {
-        console.log("* Server SIGINT");
-        console.log('* * * * Ctrl-C');
+        Utils.message("Server SIGINT");
+        Utils.message("* * * Ctrl-C");
         process.exit();
     });
 
     process.on('SIGTERM', () => {
-        console.log("* Server SIGTERM");
+        Utils.message("Server SIGTERM");
         process.exit();
     });
 
     process.on('SIGHUP', () => {
-        console.log("* Server SIGKILL");
+        Utils.message("Server SIGKILL");
         process.exit();
     });
 
@@ -68,7 +70,7 @@ async function init() {
      * Catch any uncaught exceptions (which will be most of them), then exit normally.
      */
     process.on('uncaughtException', (error) => {
-        console.log("* * * * Caught exception!:", error);
+        Utils.message("* * * Caught exception!:", error);
         process.exit();
     });
 
@@ -81,7 +83,8 @@ async function init() {
     fs.createReadStream('./map/tilesets/ground.png').pipe(fs.createWriteStream('../client/assets/img/ground.png'));
     fs.createReadStream('./map/tilesets/statics.png').pipe(fs.createWriteStream('../client/assets/img/statics.png'));
 
-    console.log("* Tilesets copied to client assets.");
+    Utils.message("Tilesets copied to client assets.");
 
-    console.log("* End of index. Server is good to go :)");
+    Utils.message("End of index. Server is good to go. :)");
+    Utils.message("Game can be played at http://localhost/.");
 }

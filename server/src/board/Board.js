@@ -1051,7 +1051,7 @@ Board.createClientBoardData = (dataFileName) => {
 
     // Skip disabled maps.
     if (mapProperties['Disabled'] === true) {
-        console.log("* Skipping disabled map:", dataFileName);
+        Utils.message("Skipping disabled map:", dataFileName);
         return;
     }
 
@@ -1318,7 +1318,7 @@ Board.createClientBoardData = (dataFileName) => {
     // Write the data to the file in the client files.
     fs.writeFileSync("../client/assets/map/" + dataFileName + ".json", json, "utf8");
 
-    console.log("* Map data written to client: " + dataFileName);
+    Utils.message("Map data written to client: " + dataFileName);
 };
 
 module.exports = Board;

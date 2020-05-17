@@ -1,21 +1,20 @@
-
+const fs = require('fs');
+const Utils = require("../../../Utils");
 const SpellBookList = {
     ItemBookOfLight: require('./ItemBookOfLight'),
     ItemBookOfSouls: require('./ItemBookOfSouls'),
 };
 
-
 // Write the registered spell book types to the client, so the client knows what spell book data to use for each type number.
-const fs = require('fs');
 let dataToWrite = {};
 
-for(let itemTypeKey in SpellBookList){
+for (let itemTypeKey in SpellBookList) {
     // Don't check prototype properties.
-    if(SpellBookList.hasOwnProperty(itemTypeKey) === false) continue;
+    if (SpellBookList.hasOwnProperty(itemTypeKey) === false) continue;
 
     const itemPrototype = SpellBookList[itemTypeKey].prototype;
     // Only add registered spell books.
-    if(itemPrototype.spellBookTypeNumber === 'Spell book type not registered.') continue;
+    if (itemPrototype.spellBookTypeNumber === 'Spell book type not registered.') continue;
     // Add this spell book type to the type catalogue.
     dataToWrite[itemPrototype.spellBookTypeNumber] = {
         spellBookTypeNumber: itemPrototype.spellBookTypeNumber,
@@ -33,9 +32,9 @@ for(let itemTypeKey in SpellBookList){
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);
 
-require('../../../Utils').checkClientCataloguesExists();
+Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
 fs.writeFileSync('../client/src/catalogues/SpellBookTypes.json', dataToWrite);
 
-console.log("* Spell book types catalogue written to file.");
+Utils.message("Spell book types catalogue written to file.");

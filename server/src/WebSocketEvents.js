@@ -1,4 +1,3 @@
-
 const Utils = require('./Utils');
 const wss = require('./Server');
 const world = require('./World');
@@ -25,7 +24,7 @@ function ping() {
 }
 
 function closeConnection(clientSocket) {
-    console.log("* Closing dead connection.");
+    Utils.message("Closing dead connection.");
 
     if (clientSocket.inGame === false) return;
 
@@ -115,7 +114,7 @@ wss.on('connection', function (clientSocket) {
     });
 
     clientSocket.on('close', function () {
-        console.log("* Client socket close event.");
+        Utils.message("Client socket close event.");
         if (clientSocket.inGame === false) return;
 
         world.removePlayer(clientSocket);

@@ -1,18 +1,17 @@
-const Utils = require('./../Utils');
+const Utils = require('../Utils');
 const Damage = require('../gameplay/Damage');
 const Heal = require('../gameplay/Heal');
 
 const idCounter = new Utils.Counter();
 
 class Entity {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
      */
-    constructor (config) {
+    constructor(config) {
         this.id = idCounter.getNext();
 
         this.row = config.row;
@@ -26,24 +25,24 @@ class Entity {
      * @param {Damage|Heal} hitPointModifier - How much to increase or decrease by.
      * @param {Entity} [source] - The entity that caused this change.
      */
-    modHitPoints (hitPointModifier, source) {
+    modHitPoints(hitPointModifier, source) {
         const amount = Math.floor(hitPointModifier.amount);
 
         // Catch non-integer values, or the HP will bug out.
-        if(Number.isInteger(amount) === false) return;
+        if (Number.isInteger(amount) === false) return;
 
         // Make it impossible to change the HP if this entity is destroyed.
-        if(this._destroyed === true) return;
+        if (this._destroyed === true) return;
 
         // Make sure this is a damagable entity.
-        if(this.hitPoints === null) return;
+        if (this.hitPoints === null) return;
 
         // If damaged.
-        if(hitPointModifier instanceof Damage){
+        if (hitPointModifier instanceof Damage) {
             this.onDamage(hitPointModifier, source);
         }
         // If healed.
-        else if(hitPointModifier instanceof Heal) {
+        else if (hitPointModifier instanceof Heal) {
             this.onHeal(hitPointModifier);
         }
         else {
@@ -53,7 +52,7 @@ class Entity {
         this.onModHitPoints();
 
         // Make sure they can't go above max HP.
-        if(this.hitPoints > this.maxHitPoints){
+        if (this.hitPoints > this.maxHitPoints) {
             this.hitPoints = this.maxHitPoints;
         }
     }
@@ -63,12 +62,12 @@ class Entity {
      * @param {Heal} heal 
      * @param {Entity} source 
      */
-    heal (heal, source) {
-        if((heal instanceof Heal) === false) {
+    heal(heal, source) {
+        if ((heal instanceof Heal) === false) {
             Utils.error("Entity.heal must be passed a Heal config object. Value of 'heal':", heal);
         }
         // Make sure the amount is valid.
-        if(heal.amount === null) return;
+        if (heal.amount === null) return;
         this.modHitPoints(heal, source);
     }
 
@@ -77,10 +76,10 @@ class Entity {
      * If overwritten, should still be chained from the caller up to this.
      * @param {Heal} heal - A heal config object.
      */
-    onHeal (heal) {
+    onHeal(heal) {
         const amount = Math.floor(heal.amount);
         this.hitPoints += amount;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, {id: this.id, amount: amount});
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, { id: this.id, amount: amount });
     }
 
     /**
@@ -88,8 +87,8 @@ class Entity {
      * @param {Damage} damage - A damage config object.
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    damage (damage, source) {
-        if((damage instanceof Damage) === false) {
+    damage(damage, source) {
+        if ((damage instanceof Damage) === false) {
             Utils.error("Entity.damage must be passed a Damage config object. Value of 'damage':", damage);
         }
 
@@ -104,17 +103,17 @@ class Entity {
      * @param {Damage} damage
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    onDamage (damage, source) {
+    onDamage(damage, source) {
         damage.amount = Math.floor(damage.amount);
         this.hitPoints -= damage.amount;
 
         // Check if this entity is destroyed.
-        if(this.hitPoints <= 0){
+        if (this.hitPoints <= 0) {
             this.onAllHitPointsLost();
         }
         // Entity is still alive. Tell nearby players.
         else {
-            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, {id: this.id, amount: -damage.amount});
+            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, { id: this.id, amount: -damage.amount });
         }
     }
 
@@ -122,13 +121,13 @@ class Entity {
      * This entity has been taken to or below 0 hitpoints.
      * If overwritten, should still be chained from the caller up to this.
      */
-    onAllHitPointsLost () {}
+    onAllHitPointsLost() { }
 
     /**
      * This entity has had its hitpoints changed.
      * If overwritten, should still be chained from the caller up to this.
      */
-    onModHitPoints () {}
+    onModHitPoints() { }
 
     /**
      * Get all of the properties of this entity that can be emitted to clients.
@@ -139,7 +138,7 @@ class Entity {
      * @param {Object} properties - The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
      * @return {{}}
      */
-    getEmittableProperties (properties) {
+    getEmittableProperties(properties) {
         return properties;
     }
 
@@ -147,7 +146,7 @@ class Entity {
      * Returns a random direction.
      * @returns {String}
      */
-    getRandomDirection () {
+    getRandomDirection() {
         const keys = Object.keys(this.Directions);
         return this.Directions[keys[keys.length * Math.random() << 0]];
     }
@@ -156,7 +155,7 @@ class Entity {
      * When finished constructing this entity, use this to tell the nearby players to add this entity.
      * @return {Entity}
      */
-    emitToNearbyPlayers () {
+    emitToNearbyPlayers() {
         // Tell all players around this one (including itself) that this one has joined.
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.add_entity, this.getEmittableProperties({}));
         return this;
@@ -167,15 +166,15 @@ class Entity {
      * @param {Entity} entity
      * @return {Boolean}
      */
-    isAdjacentToEntity (entity) {
+    isAdjacentToEntity(entity) {
         // Above.
-        if(entity.row === this.row-1 && entity.col === this.col) return true;
+        if (entity.row === this.row - 1 && entity.col === this.col) return true;
         // Below.
-        if(entity.row === this.row+1 && entity.col === this.col) return true;
+        if (entity.row === this.row + 1 && entity.col === this.col) return true;
         // Left.
-        if(entity.row === this.row && entity.col === this.col-1) return true;
+        if (entity.row === this.row && entity.col === this.col - 1) return true;
         // Right.
-        if(entity.row === this.row && entity.col === this.col+1) return true;
+        if (entity.row === this.row && entity.col === this.col + 1) return true;
         // Not adjacent.
         return false;
     }
@@ -186,29 +185,29 @@ class Entity {
      * @param {Number} typeNumber
      * @return {Boolean}
      */
-    isAdjacentToStaticType (typeNumber) {
+    isAdjacentToStaticType(typeNumber) {
         const grid = this.board.grid;
         // Above.
-        if(grid[this.row-1][this.col].static !== null){
-            if(grid[this.row-1][this.col].static.typeNumber === typeNumber){
+        if (grid[this.row - 1][this.col].static !== null) {
+            if (grid[this.row - 1][this.col].static.typeNumber === typeNumber) {
                 return true;
             }
         }
         // Below.
-        if(grid[this.row+1][this.col].static !== null){
-            if(grid[this.row+1][this.col].static.typeNumber === typeNumber){
+        if (grid[this.row + 1][this.col].static !== null) {
+            if (grid[this.row + 1][this.col].static.typeNumber === typeNumber) {
                 return true;
             }
         }
         // Left.
-        if(grid[this.row][this.col-1].static !== null){
-            if(grid[this.row][this.col-1].static.typeNumber === typeNumber){
+        if (grid[this.row][this.col - 1].static !== null) {
+            if (grid[this.row][this.col - 1].static.typeNumber === typeNumber) {
                 return true;
             }
         }
         // Right.
-        if(grid[this.row][this.col+1].static !== null){
-            if(grid[this.row][this.col+1].static.typeNumber === typeNumber){
+        if (grid[this.row][this.col + 1].static !== null) {
+            if (grid[this.row][this.col + 1].static.typeNumber === typeNumber) {
                 return true;
             }
         }
@@ -221,15 +220,15 @@ class Entity {
      * @param {Entity} entity
      * @return {Boolean}
      */
-    isDiagonalToEntity (entity) {
+    isDiagonalToEntity(entity) {
         // Above + left.
-        if(entity.row === this.row-1 && entity.col === this.col-1) return true;
+        if (entity.row === this.row - 1 && entity.col === this.col - 1) return true;
         // Above + right.
-        if(entity.row === this.row-1 && entity.col === this.col+1) return true;
+        if (entity.row === this.row - 1 && entity.col === this.col + 1) return true;
         // Below + left.
-        if(entity.row === this.row+1 && entity.col === this.col-1) return true;
+        if (entity.row === this.row + 1 && entity.col === this.col - 1) return true;
         // Below + right.
-        if(entity.row === this.row+1 && entity.col === this.col+1) return true;
+        if (entity.row === this.row + 1 && entity.col === this.col + 1) return true;
         // Not adjacent.
         return false;
     }
@@ -241,7 +240,7 @@ class Entity {
      * @param {Number} dayPhase - The time of day that the world is currently on.
      * @returns {Boolean}
      */
-    checkSpawnCriteria (boardTile, dayPhase) {
+    checkSpawnCriteria(boardTile, dayPhase) {
         return true;
     }
 
@@ -262,7 +261,7 @@ Entity.prototype.registerEntityType = function () {
 
     this.typeNumber = typeNumberCounter.getNext();
 
-    //console.log("* Registering entity type: ", this);
+    //Utils.message("Registering entity type: ", this);
 };
 
 /**

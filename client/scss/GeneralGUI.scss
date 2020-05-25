@@ -172,3 +172,20 @@
     bottom: 10px;
     right: 50px;
 }
+
+#dungeon_timer_cont {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 20px;
+    -webkit-text-stroke: 1px #222034;
+}
+
+#dungeon_timer_value {
+    font-size: 30px;
+}

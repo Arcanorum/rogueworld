@@ -66,11 +66,9 @@ dungeonz.Game.prototype = {
         };
 
         //console.log("nearby dynamics: data", this.dynamicsData);
-
     },
 
     create() {
-
         console.log("* In game create");
 
         // Make this state globally accessible.

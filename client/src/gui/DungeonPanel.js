@@ -300,9 +300,12 @@ class DungeonPanel extends PanelTemplate {
     }
 
     updateParties(parties) {
+        console.log("parties?:", parties);
         // If this player is in any of the parties, show the party screen.
         const party = parties.find((party) => {
+            console.log("party?:", party);
             return party.members.some((member) => {
+                console.log("member?:", member);
                 return member.id === _this.player.entityId;
             });
         });

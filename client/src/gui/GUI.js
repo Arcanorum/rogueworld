@@ -85,6 +85,9 @@ class GUI {
         this.itemTooltipDescription = document.getElementById('item_description');
         this.itemTooltipDurability = document.getElementById('item_durability');
 
+        this.dungeonTimerContainer = document.getElementById('dungeon_timer_cont');
+        this.dungeonTimerValue = document.getElementById('dungeon_timer_value');
+
         this.chatInput = document.getElementById('chat_input');
 
         this.panels = [];
@@ -200,6 +203,8 @@ class GUI {
 
         this.addHitPointCounters(20);
         this.addEnergyCounters(this.game.player.maxEnergy);
+
+        this.stopDungeonTimer();
 
         // Set the values for the text based counters (glory, coins).
         this.gloryCounter.innerText = this.game.player.glory;
@@ -371,6 +376,34 @@ class GUI {
         }
         this.game.player.glory = value;
         this.gloryCounter.innerText = value;
+    }
+
+    startDungeonTimer(timeRemainingMinutes) {
+        this.dungeonTimerContainer.style.visibility = "visible";
+
+        this.timeRemainingSeconds = timeRemainingMinutes * 60;
+
+        this.dungeonTimerValue.innerText = this.timeRemainingSeconds;
+
+        // Add one so they don't lose one second immediately.
+        this.timeRemainingSeconds += 1;
+
+        const timer = () => {
+            this.timeRemainingSeconds -= 1;
+            this.dungeonTimerValue.innerText = this.timeRemainingSeconds;
+
+            if (this.timeRemainingSeconds > 0) {
+                this.dungeonTimerCounter = setTimeout(timer, 1000);
+            }
+        }
+
+        // Start a countdown that ticks every second.
+        timer();
+    }
+
+    stopDungeonTimer() {
+        clearTimeout(this.dungeonTimerCounter);
+        this.dungeonTimerContainer.style.visibility = "hidden";
     }
 
     makeElementDraggable(handle, container) {

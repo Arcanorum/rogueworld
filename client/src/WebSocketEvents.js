@@ -388,12 +388,21 @@ window.addGameStateEventResponses = function () {
         _this.dynamicsGroup.sort('y', Phaser.Group.SORT_ASCENDING);
     };
 
+    eventResponses.start_dungeon = (data) => {
+        _this.GUI.startDungeonTimer(data.timeLimitMinutes);
+    };
+
     eventResponses.change_board = function (data) {
         //console.log("change board, data:", data);
         _this.dynamicsData = data.dynamicsData;
         _this.boardAlwaysNight = data.boardAlwaysNight;
         _this.player.row = data.playerRow;
         _this.player.col = data.playerCol;
+
+        // They might be leaving a dungeon, so stop the dungeon timer if it is running.
+        if (!data.boardIsDungeon) {
+            _this.GUI.stopDungeonTimer();
+        }
 
         /* TODO if(_this.boardAlwaysNight === false){
             // Make the darkness layer invisible during day time.

@@ -35,9 +35,9 @@ class Board {
      * @param {*} mapData
      * @param {String} [name="Unnamed board"]
      * @param {Boolean} [alwaysNight=false] - Whether this board will ignore changes in the time of day outside.
-     * @param {Boolean} [isDungeon=false] - Whether this board is for a dungeon.
+     * @param {Dungeon} [dungeon=null] - The dungeon instance that this board is for, if at all.
      */
-    constructor(mapData, name, alwaysNight, isDungeon) {
+    constructor(mapData, name, alwaysNight, dungeon) {
         /**
          * A generic unique ID for this board.
          * @type {Number}
@@ -68,7 +68,7 @@ class Board {
         this.entrances = {};
 
         // The area bounds of where new entities will be spawned into a zone. Accessed by their entity id.
-        //this.spawners = {}; <-- TODO: what is this being used for? maybe for resetting dungeon spawners in the future.
+        this.spawners = {};
 
         /**
          * What phase of the day it is, i.e. Dawn, Day, Dusk, Night. Updated from World when the time changes.
@@ -84,17 +84,14 @@ class Board {
         // If always night, then set time to night.
         if (this.alwaysNight === true) this.dayPhase = DayPhases.Night;
 
-        /** @type {Boolean} Whether this board is for a dungeon, and any breakables inside it will not be breakable. */
-        this.isDungeon = isDungeon || false;
+        /** @type {Dungeon|null} Whether this board is for a dungeon, and any breakables inside it will not be breakable. */
+        this.dungeon = dungeon || null;
 
         // The data to use to build the map.
         this.mapData = mapData;
 
         // Build the map.
         this.createBoard();
-
-        // No longer need the map data for this zone.
-        this.mapData = undefined;
     }
 
     createBoard() {
@@ -383,25 +380,39 @@ class Board {
         }
 
         // Dungeon maps must have an entrance named "dungeon-start".
-        if (this.isDungeon) {
+        if (this.dungeon) {
             if (dungeonStartEntranceFound === false) Utils.error('Dungeon map does not have an entrance named "dungeon-start". Map name:', this.name);
         }
 
+        // No longer need the map data.
+        this.mapData = undefined;
     }
 
     destroy() {
-        // If there are any players still on this board, move them to the overworld.
+        console.log("board destroy:", this.id);
 
+        // Need to remove all references from the board to
+        // the entity, and also the entity to the board.
 
         // Destroy all current entities on the board.
-
         this.grid.forEach((row) => {
             row.forEach((boardTile) => {
-                /** @type {BoardTile} */
-                delete boardTile.static;
+                // Not all tiles might have a static on them.
+                if (boardTile.static) {
+                    boardTile.static.destroy();
+                }
 
+                Object.values(boardTile.destroyables).forEach((pickup) => pickup.destroy());
             })
-        })
+        });
+
+        this.entrances = null;
+
+        Object.values(this.spawners).forEach((spawner) => spawner.destroy());
+
+        this.spawners = null;
+
+        console.log("end of board destroy, entities destroyed");
     }
 
     /**
@@ -442,12 +453,12 @@ class Board {
     }
 
     /**
-     * ONLY use to remove buildables (clan structures).
+     * Used to remove buildables (clan structures), and all statics when a board is destroyed.
      * Entrances occupy the static slots of the whole area they cover, so all of it won't be cleaned up if removed.
-     * @param entity
+     * @param {Static} entity
      */
     removeStatic(entity) {
-        this.grid[entity.row][entity.col].static = null;
+        delete this.grid[entity.row][entity.col].static;
     }
 
     /**

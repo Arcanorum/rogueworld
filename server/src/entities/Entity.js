@@ -20,6 +20,28 @@ class Entity {
     }
 
     /**
+     * Remove this entity from the game world completely, and allow it to be GCed.
+     * Any specific destruction functionality should be added to onDestroy, which is called from this method.
+     */
+    destroy() {
+        // Prevent multiple destruction of entities.
+        if (this._destroyed === true) return;
+
+        this._destroyed = true;
+
+        this.onDestroy();
+    }
+
+    /**
+     * Specific destruction functionality. If overwritten, should still be chained from the overwriter up to this.
+     */
+    onDestroy() {
+        // Remove the reference to the board it was on (that every entity
+        // has), so it can be cleaned up if the board is to be destroyed.
+        this.board = null;
+    }
+
+    /**
      * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
      * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
      * @param {Damage|Heal} hitPointModifier - How much to increase or decrease by.
@@ -73,7 +95,7 @@ class Entity {
 
     /**
      * Hitpoints are to be added to this entity.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      * @param {Heal} heal - A heal config object.
      */
     onHeal(heal) {
@@ -99,7 +121,7 @@ class Entity {
      * Hitpoints are to be subtracted from this entity.
      * If HP goes <0, then onAllHitPointsLost is called.
      * This method does NOT destroy directly.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      * @param {Damage} damage
      * @param {Entity} [source] - The entity that caused this damage.
      */
@@ -119,13 +141,13 @@ class Entity {
 
     /**
      * This entity has been taken to or below 0 hitpoints.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      */
     onAllHitPointsLost() { }
 
     /**
      * This entity has had its hitpoints changed.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      */
     onModHitPoints() { }
 

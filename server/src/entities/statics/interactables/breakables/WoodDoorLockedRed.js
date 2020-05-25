@@ -9,24 +9,24 @@ class WoodDoorLockedRed extends Breakable {
      * @param {Number} config.col
      * @param {Board} config.board
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
-        // if(this.board.isDungeon === true){
+        // if(this.board.dungeon === true){
         //     DungeonManagersList.ByName[this.board.name].lockedDoors.push(this);
         //     this.reactivationRate = null;
         // }
     }
 
-    interaction (interactedBy, toolUsed) {
+    interaction(interactedBy, toolUsed) {
         // Don't do anything to this door if it is not active.
-        if(this.activeState === false) return;
+        if (this.activeState === false) return;
 
         // Don't do anything if no tool was used. Might have been walked into.
-        if(toolUsed === undefined) return;
+        if (toolUsed === undefined) return;
 
         // Don't do anything to this node if the wrong tool has been used on it.
-        if(toolUsed.category !== this.requiredToolCategory) {
+        if (toolUsed.category !== this.requiredToolCategory) {
             // Tell the player if they are using the wrong tool.
             interactedBy.socket.sendEvent(this.warningEvent);
             return;
@@ -44,10 +44,10 @@ class WoodDoorLockedRed extends Breakable {
         this.blocking = false;
     }
 
-    activate () {
+    activate() {
         super.activate();
         // If the door was successfully activated (nothing standing on the open door), make it block things.
-        if(this.activeState === true) this.blocking = true;
+        if (this.activeState === true) this.blocking = true;
     }
 
 }

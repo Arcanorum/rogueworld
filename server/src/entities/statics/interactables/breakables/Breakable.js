@@ -1,7 +1,7 @@
 
 const Interactable = require('../Interactable');
 
-function nothing () {}
+function nothing() { }
 
 class Breakable extends Interactable {
 
@@ -12,11 +12,11 @@ class Breakable extends Interactable {
      * @param {Board} config.board
      * @param {Number} [config.activeState = true] - Whether this entity is already active when created.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         // If this breakable is in a dungeon or a safe zone, remove all of the hitpoints related properties so it cannot be broken.
-        //if(this.board.isDungeon === true){ TODO uncomment this when buildings are made damagable again
+        //if(this.board.dungeon === true){ TODO uncomment this when buildings are made damagable again
         //    this.hitPoints = null;
         //    this.maxHitPoints = null;
         //    this.onModHitPoints = nothing;
@@ -26,19 +26,19 @@ class Breakable extends Interactable {
         //}
     }
 
-    isLowBlocked () {
-        if(this.blocking === false) return false;
+    isLowBlocked() {
+        if (this.blocking === false) return false;
         //if((this.hitPoints > 0) === true) return true;
-        if(this._lowBlocked === true) return true;
+        if (this._lowBlocked === true) return true;
 
         return false;
     }
 
-    isHighBlocked () {
-        if(this.blocking === false) return false;
+    isHighBlocked() {
+        if (this.blocking === false) return false;
         // Don't use <=, as null <= 0 is true for some reason... JS...
         //if((this.hitPoints > 0) === true) return true;
-        if(this._highBlocked === true) return true;
+        if (this._highBlocked === true) return true;
 
         return false;
     }
@@ -97,7 +97,7 @@ class Breakable extends Interactable {
      * @param {Character} interactedBy
      * @param {Item} toolUsed
      */
-    interaction (interactedBy, toolUsed) {
+    interaction(interactedBy, toolUsed) {
         //console.log("* WARNING: Breakable entity type defined without overriding Breakable.interaction:", this.typeNumber);
     }
 

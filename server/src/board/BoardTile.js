@@ -18,15 +18,16 @@ class BoardTile {
         /**
          * Entities that never move or change boards. Can be interacted with and state changed only if interactable.
          * Max one per tile.
-         * @type {Static}
+         * @type {Static|null}
          */
         this.static = null;
 
         /**
          * A sepearate list of destroyables that can be picked up by players and added to their inventory.
-         * Also added to the destroyables list.
+         * Anything in here should also be in the destroyables list.
          * They don't interact with anything else, so less filtering other entities when being picked up.
-         * Should NOT occupy a tile that has an active blocking static. Accessed by their entity ID.
+         * Should NOT occupy a tile that has an active blocking static.
+         * Accessed by their entity ID.
          * @type {Object}
          */
         this.pickups = {};
@@ -34,15 +35,17 @@ class BoardTile {
         /**
          * Entities that do not have a definite existence, and so must be sent dynamically to the player.
          * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
-         * Should NOT occupy a tile that has an active blocking static. Accessed by their entity ID.
-         * @type {{}}
+         * Should NOT occupy a tile that has an active blocking static.
+         * Accessed by their entity ID.
+         * @type {Object}
          */
         this.destroyables = {};
 
         /**
          * A separate list of destroyables just for Players, mainly for emitting events, less messing around filtering other entities.
          * Anything in here should also be in the destroyables list.
-         * @type {{}}
+         * Accessed by their entity ID.
+         * @type {Object}
          */
         this.players = {};
     }

@@ -2,7 +2,6 @@
 const Static = require('../Static');
 
 class Interactable extends Static {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -10,14 +9,20 @@ class Interactable extends Static {
      * @param {Board} config.board
      * @param {Number} [config.activeState=true] - Whether this entity is already active when created.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         this.activeState = true;
-        if(config.activeState === false) this.activeState = false;
+        if (config.activeState === false) this.activeState = false;
     }
 
-    getEmittableProperties (properties) {
+    onDestroy() {
+        clearTimeout(this.reactivationTimer);
+
+        super.onDestroy();
+    }
+
+    getEmittableProperties(properties) {
         properties.row = this.row;
         properties.col = this.col;
         return properties;
@@ -27,16 +32,16 @@ class Interactable extends Static {
      * @param {Character} interactedBy
      * @param {Item} toolUsed
      */
-    interaction (interactedBy, toolUsed) {
+    interaction(interactedBy, toolUsed) {
         //console.log("* WARNING: Interactable entity type defined without overriding Interactable.interaction:", this.typeNumber);
     }
 
     /**
      * Activate this interactable.
      */
-    activate () {
+    activate() {
         // Check there are no obstructions on the object before activating it.
-        if(this.board.grid[this.row][this.col].containsAnyDestroyables() === false){
+        if (this.board.grid[this.row][this.col].containsAnyDestroyables() === false) {
             // Nothing in the way. Reactivate this object.
             this.activeState = true;
 
@@ -53,11 +58,11 @@ class Interactable extends Static {
     /**
      * Deactivate this interactable.
      */
-    deactivate () {
+    deactivate() {
         this.activeState = false;
 
         // If a reactivation rate is set, start a timer to reactivate this object.
-        if(this.reactivationRate !== null){
+        if (this.reactivationRate !== null) {
             this.reactivationTimer = setTimeout(this.activate.bind(this), this.reactivationRate);
         }
 

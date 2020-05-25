@@ -5,26 +5,37 @@ const idCounter = new Utils.Counter();
 class Dungeon {
     /**
      * @param {Object} config
-     * @param {Object} config.name
+     * @param {Party} config.party
+     * @param {String} config.name
      * @param {Object} config.mapData
-     * @param {Object} config.alwaysNight
-     * @param {Object} config.timeLimitMinutes
+     * @param {Boolean} config.alwaysNight
+     * @param {Number} config.timeLimitMinutes
+     * @param {String} config.evictionBoard
+     * @param {String} config.evictionEntrance
      */
     constructor(config) {
 
         this.id = idCounter.getNext();
 
-        // The dungeon itself needs to know where the exit 
-        // is that it should evict any players it has to.
-        this.exitEntranceName = null;
+        // The board that players will be evicted to.
+        this.evictionBoard = config.evictionBoard;
 
-        //console.log("new dungeon, config?:", config);
+        // The entrance on the eviction board that players will be evicted to.
+        this.evictionEntrance = config.evictionEntrance;
+
+        this.dungeonManager = config.dungeonManager;
+
+        // The party that has been transfered to this dungeon from the dungeon manager.
+        // It is now up to the dungeon itself to manage the party.
+        this.party = config.party;
 
         // Create a board instance from the map data.
-        this.board = new Board(config.mapData, config.name, config.alwaysNight, true);
+        this.board = new Board(config.mapData, config.name, config.alwaysNight, this);
 
         // Link the board exits/overworld portals in the dungeon to the ones outside of the dungeon map.
         this.linkExits();
+
+        this.addPlayers(config.party.members, config.timeLimitMinutes);
 
         /**
          * Locked doors in dungeons stay open when unlocked, but are closed when the boss respawns.
@@ -45,7 +56,7 @@ class Dungeon {
         this.completed = false;
 
         /**
-         * 
+         * How much longer before the dungeon is over.
          * @type {Number}
          */
         this.timeRemaining = config.timeLimitMinutes * 1000 * 60;
@@ -54,11 +65,26 @@ class Dungeon {
             // Time is up, end the dungeon.
             console.log("dungeon instance time is up!");
 
+            this.timeUpTimeout = null;
+
             this.evictAllPlayers();
 
-            this.timeUpTimeout = null;
+            this.destroy();
+
         }, this.timeRemaining);
 
+    }
+
+    destroy() {
+        this.board.destroy();
+
+        this.dungeonManager = null;
+        this.party = null;
+    }
+
+    removePlayerFromParty(player) {
+        console.log("dungeon removeplayerfromparty");
+        this.dungeonManager.removePlayerFromParty(player);
     }
 
     linkExits() {
@@ -86,6 +112,22 @@ class Dungeon {
         });
     }
 
+    addPlayers(players, timeLimitMinutes) {
+        // Move the party members into a dungeon instance.
+        players.forEach((player) => {
+            // Reposition them to somewhere within the entrance bounds.
+            let position = this.board.entrances["dungeon-start"].getRandomPosition();
+
+            // Move the player to the board instance that was created.
+            player.changeBoard(this.board, position.row, position.col);
+
+            // Tell them the dungeon has started.
+            player.socket.sendEvent(EventsList.start_dungeon, {
+                timeLimitMinutes
+            })
+        });
+    }
+
     setCompleted() {
         this.completed = true;
 
@@ -94,9 +136,20 @@ class Dungeon {
     }
 
     evictAllPlayers() {
-        console.log("evicting all players");
+        console.log("evicting all players, party:", this.party.id);
+
         // Send all players on the board to the entrance that this dungeon exits to.
-        //this.board
+        this.party.members.forEach((player) => {
+            // Reposition them to somewhere within the entrance bounds.
+            let position = this.evictionEntrance.getRandomPosition();
+
+            // Move them out of this dungeon board.
+            player.changeBoard(this.evictionBoard, position.row, position.col);
+            console.log("player moved:", player.id);
+        });
+
+        this.dungeonManager.removeParty(this.party);
+        //this.party.destroy();
     }
 
 }
@@ -106,3 +159,4 @@ module.exports = Dungeon;
 const Board = require('../board/Board');
 const BoardsList = require('../board/BoardsList');
 const Exit = require('../entities/statics/interactables/exits/Exit');
+const EventsList = require('../EventsList');

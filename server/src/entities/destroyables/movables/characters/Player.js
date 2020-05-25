@@ -275,6 +275,11 @@ class Player extends Character {
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
     changeBoard(toBoard, toRow, toCol) {
+        // If the player is currently in a dungeon, remove 
+        // them from it before leaving that dungeon board.
+        if (this.board.dungeon) {
+            this.board.dungeon.removePlayerFromParty(this);
+        }
 
         this.board.removePlayer(this);
 
@@ -286,7 +291,7 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.change_board, {
             boardName: this.board.name,
             boardAlwaysNight: this.board.alwaysNight,
-            boardIsDungeon: this.board.isDungeon,
+            boardIsDungeon: this.board.dungeon ? true : false,
             playerRow: this.row,
             playerCol: this.col,
             dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col)

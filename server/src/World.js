@@ -4,6 +4,7 @@ const Utils = require('./Utils');
 const AccountManager = require('./AccountManager');
 //const clanManager = require('./gameplay/ClanManager');
 const DungeonManager = require('./dungeon/DungeonManager');
+const DungeonManagersList = require('./dungeon/DungeonManagersList');
 const EventsList = require('./EventsList');
 const BoardsList = require('./board/BoardsList');
 const DayPhases = require('./DayPhases');
@@ -66,6 +67,8 @@ const world = {
         // there might be nothing to link to while the exits are being created.
         this.linkExits();
 
+        this.linkDungeonManagerEvictionBoards();
+
         // Start the day/night cycle loop.
         //setTimeout(world.progressTime, dayPhaseRate);
     },
@@ -82,7 +85,7 @@ const world = {
 
         // Skip disabled maps.
         if (mapProperties['Disabled'] === true) {
-            console.log("* Skipping disabled map:", dataFileName);
+            Utils.message("Skipping disabled map:", dataFileName);
             return;
         }
 
@@ -96,6 +99,8 @@ const world = {
             if (!mapProperties['NameDefinitionID']) Utils.warning("Dungeon map is missing property: 'NameDefinitionID'. Using default. On map: " + dataFileName);
             if (!mapProperties['MaxPlayers']) Utils.warning("Dungeon map is missing property: 'MaxPlayers'. Using default. On map: " + dataFileName);
             if (!mapProperties['TimeLimitMinutes']) Utils.warning("Dungeon map is missing property: 'TimeLimitMinutes'. Using default. On map: " + dataFileName);
+            if (!mapProperties['EvictionMapName']) Utils.warning("Dungeon map is missing property: 'EvictionMapName'. Using default. On map: " + dataFileName);
+            if (!mapProperties['EvictionEntranceName']) Utils.warning("Dungeon map is missing property: 'EvictionEntranceName'. Using default. On map: " + dataFileName);
 
             new DungeonManager({
                 name: dataFileName,
@@ -104,7 +109,9 @@ const world = {
                 alwaysNight,
                 maxPlayers: mapProperties['MaxPlayers'],
                 timeLimitMinutes: mapProperties['TimeLimitMinutes'],
-                difficultyName: mapProperties['Difficulty']
+                difficultyName: mapProperties['Difficulty'],
+                evictionMapName: mapProperties['EvictionMapName'],
+                evictionEntranceName: mapProperties['EvictionEntranceName']
             });
 
             // Stop here. Don't create a board for a dungeon map, as they are created
@@ -159,6 +166,22 @@ const world = {
         }
     },
 
+    linkDungeonManagerEvictionBoards() {
+        Object.values(DungeonManagersList.ByID).forEach((dungeonManager) => {
+            const evictionBoard = BoardsList.boardsObject[dungeonManager.evictionBoard];
+            if (!evictionBoard) {
+                Utils.error(`Cannot link dungeon manager eviction board for "${dungeonManager.name}".\nA board does not exist of given name: ${dungeonManager.evictionBoard}`);
+            }
+            dungeonManager.evictionBoard = evictionBoard;
+
+            const evictionEntrance = evictionBoard.entrances[dungeonManager.evictionEntrance];
+            if (!evictionEntrance) {
+                Utils.error(`Cannot link dungeon manager eviction entrance for "${dungeonManager.name}".\nAn entrance on the eviction board does not exist of given name: ${dungeonManager.evictionEntrance}`);
+            }
+            dungeonManager.evictionEntrance = evictionEntrance;
+        });
+    },
+
     /**
      * Add a player entity to the game world from an existing player account.
      * @param {Object} clientSocket
@@ -166,7 +189,7 @@ const world = {
      */
     addExistingPlayer(clientSocket, account) {
 
-        console.log("* World add existing player:", account.displayName);
+        Utils.message("World add existing player:", account.displayName);
 
         if (clientSocket.entity !== undefined) {
             // Weird bug... :S
@@ -241,7 +264,7 @@ const world = {
             Utils.warning("* * * * adding new player, but client socket already has an entity");
         }
 
-        console.log("* World add new player:", displayName);
+        Utils.message("World add new player:", displayName);
 
         // Don't let too many players in the world.
         if (world.playerCount < world.maxPlayers) {
@@ -320,7 +343,7 @@ const world = {
         // Reduce the player count.
         this.playerCount -= 1;
 
-        console.log("* World remove player, player count:", this.playerCount);
+        Utils.message("World remove player, player count:", this.playerCount);
     },
 
     /**
@@ -330,7 +353,7 @@ const world = {
         // Shuffle the time along to the next period.
         dayPhaseCycle.push(dayPhaseCycle.shift());
 
-        //console.log("* Day phase progressed:", dayPhaseCycle[0]);
+        //Utils.message("Day phase progressed:", dayPhaseCycle[0]);
 
         // Check if the period is different than last. Don't bother updating the boards/players if it is the same. i.e. day and night last more than one phase.
         if (dayPhaseCycle[0] !== world.dayPhase) {

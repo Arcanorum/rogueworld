@@ -1,4 +1,3 @@
-
 const Entity = require('../Entity');
 
 class Spawner extends Entity {
@@ -25,7 +24,7 @@ class Spawner extends Entity {
         this.currentlySpawned = 0;
         this.testing = config.testing;
         this.dropList = null;
-        // this.isInDungeon = config.board.isDungeon;
+        // this.isInDungeon = config.board.dungeon ? true : false;
         // if(this.isInDungeon === true){
         //     this.dungeon = DungeonManagersList.ByName[config.board.name];
         // }
@@ -45,16 +44,51 @@ class Spawner extends Entity {
             });
         }
 
-        //config.board.spawners[this.id] = this;
+        // Add this spawner to the list of spawners on the board it is on.
+        config.board.spawners[this.id] = this;
+
+        /**
+         * A list of pending timeouts to call spawn.
+         * Need to keep these so they can be cleaned up if the spawner is destroyed,
+         * such as when a dungeon instance (and its map) is destroyed.
+         * @type {Object}
+         */
+        this.spawnTimeouts = {};
 
         // Start the spawner.
         for (let i = 0; i < this.maxAtOnce; i += 1) {
-            setTimeout(this.spawn.bind(this), this.spawnRate);
+            this.addSpawnTimeout();
         }
-
     }
 
-    spawn() {
+    destroy() {
+        // Prevent multiple destruction.
+        if (this._destroyed === true) return;
+
+        this._destroyed = true;
+
+        this.board = null;
+
+        Object.entries(this.spawnTimeouts).forEach((timeoutID) => {
+            clearTimeout(timeoutID);
+            delete this.spawnTimeouts[timeoutID];
+        });
+    }
+
+    /**
+     * Creates a timeout that will spawn an entity after the length of the spawn rate.
+     * Tracks this timeout in the timeouts list.
+     */
+    addSpawnTimeout() {
+        const timeoutID = setTimeout(() => {
+            this.spawn.bind(this, timeoutID)
+        }, this.spawnRate);
+        this.spawnTimeouts[timeoutID] = timeoutID;
+    }
+
+    spawn(timeoutID) {
+        delete this.spawnTimeouts[timeoutID];
+
         // Check there can be any more.
         if (this.currentlySpawned >= this.maxAtOnce) return false;
 
@@ -66,13 +100,13 @@ class Spawner extends Entity {
         // Check if the tile is blocked by a blocking static.
         if (boardTile.isLowBlocked() === true) {
             // Restart the spawn.
-            setTimeout(this.spawn.bind(this), this.spawnRate);
+            this.addSpawnTimeout();
             return false;
         }
 
         if (this.EntityType.prototype.checkSpawnCriteria(boardTile, World.dayPhase) === false) {
             // Restart the spawn.
-            setTimeout(this.spawn.bind(this), this.spawnRate);
+            this.addSpawnTimeout();
             return false;
         }
 
@@ -134,12 +168,16 @@ class Spawner extends Entity {
         //     }
         // }
 
-        setTimeout(this.spawn.bind(this), this.spawnRate);
+        this.addSpawnTimeout();
     }
+
+    /**
+     * Overwrite with specific functionality, such as with a bounds or next to a position
+     */
+    getRandomPosition() { }
 }
 module.exports = Spawner;
 
-const Utils = require('./../../Utils');
-const World = require('./../../World');
+const Utils = require('../../Utils');
+const World = require('../../World');
 const Drop = require('../../gameplay/Drop');
-const DungeonManagersList = require('./../../dungeon/DungeonManagersList');

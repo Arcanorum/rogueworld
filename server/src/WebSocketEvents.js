@@ -485,6 +485,8 @@ eventResponses.leave_dungeon_party = (clientSocket, data) => {
     if (clientSocket.inGame === false) return;
     if (clientSocket.entity.hitPoints <= 0) return;
     if (data === undefined) return;
+    // Only allow this event to remove them from a party if they are not yet in the dungeon.
+    if (clientSocket.entity.board.dungeon) return;
 
     /** @type {DungeonManager} */
     const dungeonManager = DungeonManagersList.ByID[data.dungeonID];

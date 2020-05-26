@@ -155,14 +155,8 @@ class DungeonManager {
         if (!party) return;
 
         if (party.inDungeon) {
-            console.log("removing player that is in a dungeon");
-
-            //console.log("bef party members:", party.members);
-
             // The dungeon has already started, so just remove that player, don't disband the party.
             party.members = party.members.filter((member) => member !== player);
-
-            //console.log("aft party members:", party.members);
 
             if (party.members.length > 0) {
                 // Tell the other party members that someone has left.
@@ -172,7 +166,6 @@ class DungeonManager {
             }
             // No players left in the party, and therefore the dungeon is empty. Destroy them both.
             else {
-                console.log("no more players, remove party");
                 this.removeParty(party);
                 //TODO: destroy dungeon instance the party is in
             }
@@ -207,7 +200,7 @@ class DungeonManager {
      * @returns {Array}
      */
     getPartiesData() {
-        const data = Object
+        return Object
             .values(this.parties)
             .filter((party) => {
                 // Ignore parties that are in a dungeon already.
@@ -228,8 +221,6 @@ class DungeonManager {
                     clanOnly: party.clanOnly
                 }
             });
-        console.log("getPartiesData:", data);
-        return data;
     }
 
     /**
@@ -275,7 +266,6 @@ class DungeonManager {
      * @param {Number} instanceID 
      */
     destroyInstance(instanceID) {
-        console.log("dm, destroy instance:", instanceID);
         const instance = this.instances[instanceID];
 
         instance.destroy();

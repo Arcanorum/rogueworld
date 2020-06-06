@@ -21,13 +21,13 @@ class Spawner extends Entity {
         if (this.spawnRate < 1) {
             Utils.error("Spawner with invalid spawnRate. Config:", config);
         }
+
+        // Spawn dungeon entities immediately.
+        if (this.board.dungeon) this.spawnRate = 1;
+
         this.currentlySpawned = 0;
         this.testing = config.testing;
         this.dropList = null;
-        // this.isInDungeon = config.board.dungeon ? true : false;
-        // if(this.isInDungeon === true){
-        //     this.dungeon = DungeonManagersList.ByName[config.board.name];
-        // }
 
         if (config.dropList) {
             const splitList = config.dropList.split(',\n');
@@ -81,7 +81,7 @@ class Spawner extends Entity {
      */
     addSpawnTimeout() {
         const timeoutID = setTimeout(() => {
-            this.spawn.bind(this, timeoutID)
+            this.spawn.bind(this, timeoutID)();
         }, this.spawnRate);
         this.spawnTimeouts[timeoutID] = timeoutID;
     }
@@ -168,7 +168,10 @@ class Spawner extends Entity {
         //     }
         // }
 
-        this.addSpawnTimeout();
+        // Only spawn dungeon entities once.
+        if (!this.board.dungeon) {
+            this.addSpawnTimeout();
+        }
     }
 
     /**

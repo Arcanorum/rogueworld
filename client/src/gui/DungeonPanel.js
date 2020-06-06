@@ -182,6 +182,8 @@ class DungeonPanel extends PanelTemplate {
 
         this.dungeonPortal = null;
 
+        this.startButtonContainer.style.visibility = "hidden";
+
         clearInterval(this.getPartiesLoop);
     }
 
@@ -272,7 +274,6 @@ class DungeonPanel extends PanelTemplate {
 
     addParty(party) {
         // TODO: add logic for clan membership, don't continue if not in same clan
-
         this.partySlots[party.id] = new PartySlot(
             this,
             party.id,
@@ -300,12 +301,12 @@ class DungeonPanel extends PanelTemplate {
     }
 
     updateParties(parties) {
-        console.log("parties?:", parties);
+        //console.log("parties?:", parties);
         // If this player is in any of the parties, show the party screen.
         const party = parties.find((party) => {
-            console.log("party?:", party);
+            //console.log("party?:", party);
             return party.members.some((member) => {
-                console.log("member?:", member);
+                //console.log("member?:", member);
                 return member.id === _this.player.entityId;
             });
         });

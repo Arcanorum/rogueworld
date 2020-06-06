@@ -34,7 +34,7 @@ class DungeonManager {
         };
 
         this.maxPlayers = config.maxPlayers || 6;
-        this.timeLimitMinutes = config.timeLimitMinutes || 0.1;//30;
+        this.timeLimitMinutes = config.timeLimitMinutes || 30;
         this.difficultyName = config.difficultyName || "";
 
         /**
@@ -153,6 +153,9 @@ class DungeonManager {
         });
         // Not in a party.
         if (!party) return;
+
+        // Remove this DM from the player.
+        player.focusedDungeonManager = null;
 
         if (party.inDungeon) {
             // The dungeon has already started, so just remove that player, don't disband the party.

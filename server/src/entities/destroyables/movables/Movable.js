@@ -1,23 +1,21 @@
-
 const Destroyable = require('../Destroyable');
 
 class Movable extends Destroyable {
-
     /**
      * Moves this entity along the board relative to its current position. To directly change the position of an entity, use Entity.reposition.
      * @param {Number} byRows - How many rows to move along by. +1 to move down, -1 to move up.
      * @param {Number} byCols - How many cols to move along by. +1 to move right, -1 to move left.
      */
-    move (byRows, byCols) {
+    move(byRows, byCols) {
         const origRow = this.row;
         const origCol = this.col;
 
         // Only let an entity move along a row OR a col, not both at the same time or they can move diagonally through things.
-        if(byRows)      this.reposition(this.row + byRows, this.col);
-        else if(byCols) this.reposition(this.row, this.col + byCols);
+        if (byRows) this.reposition(this.row + byRows, this.col);
+        else if (byCols) this.reposition(this.row, this.col + byCols);
 
         // Tell the players in this zone that this dynamic has moved.
-        this.board.emitToNearbyPlayers(origRow, origCol, this.EventsList.moved, {id: this.id, row: this.row, col: this.col});
+        this.board.emitToNearbyPlayers(origRow, origCol, this.EventsList.moved, { id: this.id, row: this.row, col: this.col });
 
         // Only the players that can already see this dynamic will move it, but for ones that this has just come in range of, they will
         // need to be told to add this entity, so tell any players at the edge of the view range in the direction this entity moved.
@@ -33,14 +31,14 @@ class Movable extends Destroyable {
         this.postMove();
     }
 
-    postMove () {}
+    postMove() { }
 
     /**
      * Changes the position of this entity on the board it is on.
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
-    reposition (toRow, toCol) {
+    reposition(toRow, toCol) {
         // Remove this entity from the tile it currently occupies on the board.
         this.board.removeDestroyable(this);
 
@@ -59,12 +57,12 @@ class Movable extends Destroyable {
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
-    repositionAndEmitToNearbyPlayers (toRow, toCol) {
+    repositionAndEmitToNearbyPlayers(toRow, toCol) {
         const origRow = this.row;
         const origCol = this.col;
 
         // Tell the players in this zone that this dynamic has moved.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.moved, {id: this.id, row: toRow, col: toCol});
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.moved, { id: this.id, row: toRow, col: toCol });
 
         // Do the movement.
         this.reposition(toRow, toCol);
@@ -80,7 +78,7 @@ class Movable extends Destroyable {
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
-    changeBoard (toBoard, toRow, toCol) {
+    changeBoard(toBoard, toRow, toCol) {
         // Tell players around this entity on the previous board to remove it.
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.remove_entity, this.id);
 
@@ -101,9 +99,9 @@ class Movable extends Destroyable {
     /**
      * @param {String} direction
      */
-    modDirection (direction) {
+    modDirection(direction) {
         this.direction = direction;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, {id: this.id, direction: this.direction});
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, { id: this.id, direction: this.direction });
     }
 
 }

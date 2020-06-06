@@ -59,6 +59,13 @@ class Player extends Character {
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
         }
 
+        /**
+         * The dungeon manager instance that this player is either looking at or that is
+         * managing the dungeon instance that this player is in, if they are in one.
+         * @type {DungeonManager}
+         */
+        this.focusedDungeonManager = null;
+
         this.connectionCheckTimeout = setTimeout(this.checkWebsocketConnectionIsAlive.bind(this), checkWebsocketConnectionIsAliveRate);
 
     }
@@ -112,6 +119,10 @@ class Player extends Character {
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
     remove() {
+        if (this.focusedDungeonManager) {
+            this.focusedDungeonManager.removePlayerFromParty(this);
+        }
+
         this.board.removePlayer(this);
 
         if (this.clan !== null) {
@@ -275,6 +286,8 @@ class Player extends Character {
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
     changeBoard(toBoard, toRow, toCol) {
+        if (!this.board) return;
+
         // If the player is currently in a dungeon, remove 
         // them from it before leaving that dungeon board.
         if (this.board.dungeon) {

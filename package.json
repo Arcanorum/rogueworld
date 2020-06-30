@@ -7,7 +7,7 @@
     "client": "cd client && npx sass scss/Main.scss:main.css && npm start",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
-  "dependencies": {
+  "devDependencies": {
     "better-docs": "^1.4.7",
     "jsdoc": "^3.6.3"
   }

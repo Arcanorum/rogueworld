@@ -12,10 +12,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^4.29.6",
-    "webpack-cli": "^2.0.15"
-  },
-  "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.7.5",
     "node-webhooks": "^1.4.2",

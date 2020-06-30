@@ -181,12 +181,17 @@ class DungeonManager {
         else {
             // If the player to remove is the leader, disband the party.
             if (player === party.members[0]) {
-                // TODO: Tell all members that the party has been disbanded.
+                const members = party.members;
 
                 // Tell the dungeon manager to remove this party.
                 this.removeParty(party);
 
                 party.members = [];
+
+                // Tell the members from before that this part no longer exists.
+                members.forEach((member) => {
+                    member.socket.sendEvent(EventsList.parties, this.getPartiesData());
+                });
             }
             // Not the leader, just remove the member that left.
             else {

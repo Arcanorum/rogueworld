@@ -40,42 +40,6 @@ class Party {
         delete this.kickedList;
     }
 
-    // addPlayer(player) {
-    //     // Don't add them if they have previously been kicked.
-    //     if (this.kickedList.includes(player.id)) return;
-    //     // Don't add them if they are already in the party.
-    //     if (this.members.some((member) => member === player)) return;
-
-    //     if (this.clanOnly) {
-    //         // Check they are in the same clan as the party leader.
-    //         // TODO: when clans are added
-    //         //if(player.clan.id !== this.members[0].clan.id) return;
-    //     }
-
-    //     this.members.push(player);
-    // }
-
-    // removePlayer(player) {
-    //     // If the player to remove is the leader, disband the party.
-    //     if (player === this.members[0]) {
-    //         // Tell all members that the party has been disbanded.
-    //         // TODO
-
-    //         if(this.inDungeon){
-    //             this.dungeonManager
-    //         }
-    //         else {
-    //             // Tell the dungeon manager to remove this party.
-    //             this.dungeonManager.removeParty(this);
-    //         }
-
-    //         this.members = [];
-    //     }
-    //     else {
-    //         this.members = this.members.filter((member) => member === player);
-    //     }
-    // }
-
     kickPlayer(kickedBy, player) {
         // Only allow the party leader to kick.
         if (kickedBy !== this.members[0]) return;

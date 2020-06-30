@@ -42,6 +42,7 @@ class Utils {
      * @param {Array} array
      * @param {String} nameKey - The name of each propety key on the result object.
      * @param {String} valueKey - The name of the property to use as each propety value.
+     * @returns {Object} The array as an object.
      */
     arrayToObject(array, nameKey, valueKey) {
         if (Array.isArray(array) === false) return {};

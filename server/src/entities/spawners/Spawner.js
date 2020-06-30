@@ -130,12 +130,6 @@ class Spawner extends Entity {
                 entity.dropList = this.dropList;
                 // Make sure they can only drop one item, in case they are a key holder.
                 entity.dropAmount = 1;
-
-                // If they are spawned into a dungeon, add them to the dungeon key holders list, so they can
-                // be killed when the dungeon resets, in case they would be locked out of their intended room.
-                // if(this.isInDungeon === true){
-                //     this.dungeon.keyHolders[entity.id] = entity;
-                // }
             }
         }
 
@@ -160,13 +154,6 @@ class Spawner extends Entity {
      */
     childDestroyed(entityID) {
         this.currentlySpawned -= 1;
-
-        // If the destroyed child was in a dungeon, and has a drop list (probably for keys), then remove them from the key holder list.
-        // if(this.isInDungeon === true){
-        //     if(this.dropList !== null){
-        //         delete this.dungeon.keyHolders[entityID];
-        //     }
-        // }
 
         // Only spawn dungeon entities once.
         if (!this.board.dungeon) {

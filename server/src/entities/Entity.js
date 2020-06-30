@@ -158,10 +158,18 @@ class Entity {
      * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
      * adds from Character, and so on until Entity, then returns the result back down the stack.
      * @param {Object} properties - The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
-     * @return {{}}
+     * @returns {{}}
      */
     getEmittableProperties(properties) {
         return properties;
+    }
+
+    /**
+     * Returns the board tile this entity is currently occupying.
+     * @returns {BoardTile}
+     */
+    getBoardTile() {
+        return this.board.grid[this.row][this.col];
     }
 
     /**
@@ -175,7 +183,7 @@ class Entity {
 
     /**
      * When finished constructing this entity, use this to tell the nearby players to add this entity.
-     * @return {Entity}
+     * @returns {Entity}
      */
     emitToNearbyPlayers() {
         // Tell all players around this one (including itself) that this one has joined.
@@ -186,7 +194,7 @@ class Entity {
     /**
      * Checks if another entity is cardinally adjacent to this one. Does NOT include if they are in the same position.
      * @param {Entity} entity
-     * @return {Boolean}
+     * @returns {Boolean}
      */
     isAdjacentToEntity(entity) {
         // Above.
@@ -205,7 +213,7 @@ class Entity {
      * Checks if any entity of the given type is cardinally adjacent to this one. Does NOT include if they are in the same position.
      * Useful for checking if a player is next to a bank chest, crafting station, etc. when attempting to bank/craft.
      * @param {Number} typeNumber
-     * @return {Boolean}
+     * @returns {Boolean}
      */
     isAdjacentToStaticType(typeNumber) {
         const grid = this.board.grid;
@@ -240,7 +248,7 @@ class Entity {
     /**
      * Checks if another entity is diagonally adjacent to this one. Does NOT include if they are in the same position.
      * @param {Entity} entity
-     * @return {Boolean}
+     * @returns {Boolean}
      */
     isDiagonalToEntity(entity) {
         // Above + left.

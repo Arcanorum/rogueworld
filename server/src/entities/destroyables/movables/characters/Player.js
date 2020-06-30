@@ -170,6 +170,7 @@ class Player extends Character {
 
         // Reposition them to somewhere within the respawn entrance bounds.
         let position = this.respawnEntrance.getRandomPosition();
+
         this.changeBoard(this.respawnEntrance.board, position.row, position.col);
 
         this.socket.sendEvent(this.EventsList.player_respawn);
@@ -205,6 +206,8 @@ class Player extends Character {
 
         // Check if the entity can move as a character.
         if (super.move(byRows, byCols) === true) {
+            // Don't move if dead.
+            if (this.hitPoints < 1) return false;
 
             let dynamicsAtViewRangeData = this.board.getDynamicsAtViewRangeData(this.row, this.col, this.direction);
 
@@ -286,15 +289,16 @@ class Player extends Character {
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
     changeBoard(toBoard, toRow, toCol) {
-        if (!this.board) return;
+        // Need to check if there is a board, as the board will be nulled if the player dies, but they can be revived.
+        if (this.board) {
+            // If the player is currently in a dungeon, remove 
+            // them from it before leaving that dungeon board.
+            if (this.board.dungeon) {
+                this.board.dungeon.removePlayerFromParty(this);
+            }
 
-        // If the player is currently in a dungeon, remove 
-        // them from it before leaving that dungeon board.
-        if (this.board.dungeon) {
-            this.board.dungeon.removePlayerFromParty(this);
-        }
-
-        this.board.removePlayer(this);
+            this.board.removePlayer(this);
+        };
 
         super.changeBoard(toBoard, toRow, toCol);
 

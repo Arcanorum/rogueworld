@@ -118,7 +118,11 @@ class DungeonManager {
     addPlayerToParty(player, partyID) {
         if (!player) return;
         const party = this.parties[partyID];
-        if (!party) return;
+        if (!party) {
+            // Give them the most recent parties data, which shouldn't have the requested party.
+            player.socket.sendEvent(EventsList.parties, this.getPartiesData());
+            return;
+        }
 
         // Don't add them if they have previously been kicked.
         if (party.kickedList.includes(player.id)) return;

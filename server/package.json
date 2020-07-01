@@ -5,12 +5,20 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "dev": "nodemon --exec npm start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules",
+      "PlayerDataDump.json"
+    ],
+    "ext": "js,json,css,scss,html,txt",
+    "verbose": true
+  },
   "devDependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.7.5",

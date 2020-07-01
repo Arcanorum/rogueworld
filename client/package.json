@@ -4,14 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development",
-    "prod": "webpack --mode production"
+    "start": "npx sass scss/Main.scss:main.css && webpack --mode development",
+    "dev": "nodemon --exec npm start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules",
+      "dist",
+      "main.css"
+    ],
+    "ext": "js,json,css,scss,html,txt"
+  },
   "devDependencies": {
     "sass": "^1.23.7",
     "webpack": "4.32.2",

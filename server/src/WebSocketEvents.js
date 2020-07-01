@@ -452,15 +452,15 @@ eventResponses.bank_swap_slots = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {Object} data - The ID of a dungeon manager.
  */
 eventResponses.get_dungeon_parties = (clientSocket, data) => {
     //console.log("get_parties:", data);
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (!data) return;
 
     const dungeonManager = DungeonManagersList.ByID[data];
     if (dungeonManager === undefined) return;
@@ -469,7 +469,7 @@ eventResponses.get_dungeon_parties = (clientSocket, data) => {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {Number} data.dungeonID - The ID of a dungeon manager.
  * @param {Number} data.row - The row of the dungeon portal that was interacted with.
  * @param {Number} data.col - The col of the dungeon portal that was interacted with.
@@ -502,7 +502,7 @@ eventResponses.focus_dungeon = (clientSocket, data) => {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {Number} data - The ID of a dungeon portal entity.
  */
 eventResponses.create_dungeon_party = (clientSocket, data) => {
@@ -518,6 +518,10 @@ eventResponses.create_dungeon_party = (clientSocket, data) => {
     dungeonManager.createParty(clientSocket.entity);
 };
 
+/**
+ * @param {*} clientSocket 
+ * @param {Number} data.dungeonID
+ */
 eventResponses.join_dungeon_party = (clientSocket, data) => {
     if (!data) return;
     if (clientSocket.inGame === false) return;
@@ -531,8 +535,8 @@ eventResponses.join_dungeon_party = (clientSocket, data) => {
 };
 
 /**
- * @param clientSocket
- * @param {String} data.dungeonID
+ * @param {*} clientSocket
+ * @param {String} data.dungeonID - The ID of a dungeon manager.
  */
 eventResponses.leave_dungeon_party = (clientSocket, data) => {
     if (!data) return;
@@ -548,8 +552,22 @@ eventResponses.leave_dungeon_party = (clientSocket, data) => {
     dungeonManager.removePlayerFromParty(clientSocket.entity);
 };
 
+
+eventResponses.kick_dungeon_party_member = (clientSocket, data) => {
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+    if (clientSocket.entity.hitPoints <= 0) return;
+    // Only allow this event to remove them from a party if they are not yet in the dungeon.
+    if (clientSocket.entity.board.dungeon) return;
+
+    const dungeonManager = DungeonManagersList.ByID[data.dungeonID];
+    if (dungeonManager === undefined) return;
+
+    dungeonManager.kickPartyMember(clientSocket.entity, data.memberID);
+};
+
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {Number} data.dungeonID - The ID of a dungeon manager.
  * @param {Number} data.row - The row of the dungeon portal that was interacted with.
  * @param {Number} data.col - The col of the dungeon portal that was interacted with.
@@ -575,7 +593,7 @@ eventResponses.start_dungeon = (clientSocket, data) => {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  */
 eventResponses.respawn = function (clientSocket) {
     if (clientSocket.inGame === false) return;
@@ -586,7 +604,7 @@ eventResponses.respawn = function (clientSocket) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {Number} data.traderID - The ID of a trader entity.
  * @param {Number} data.row - The row of the trader that was interacted with.
  * @param {Number} data.col - The col of the trader that was interacted with.
@@ -611,7 +629,7 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {Number} data.traderID - The ID of a trader entity.
  * @param {Number} data.row - The row of the trader that was interacted with.
  * @param {Number} data.col - The col of the trader that was interacted with.
@@ -658,7 +676,7 @@ eventResponses.clan_join = function (clientSocket) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  */
 eventResponses.clan_leave = function (clientSocket) {
     if (clientSocket.inGame === false) return;
@@ -686,7 +704,7 @@ eventResponses.clan_promote = function (clientSocket, data) {
 
 /**
  * While they have the clan panel open, the client will periodically request updates of the current values of their clan details.
- * @param clientSocket
+ * @param {*} clientSocket
  */
 eventResponses.get_clan_values = function (clientSocket) {
     if (clientSocket.inGame === false) return;

@@ -22,7 +22,7 @@ class PartySlot {
 }
 
 class PartyMemberSlot {
-    constructor(panel, index, member) {
+    constructor(panel, index, member, isLeader) {
         this.container = document.createElement('div');
         this.container.className = 'dungeon_party_member_slot_cont';
 
@@ -31,18 +31,24 @@ class PartyMemberSlot {
         this.memberName.innerText = member.displayName;
         this.container.appendChild(this.memberName);
 
-        // Only show the kick button to the party leader,
+        // Only show the kick buttons to the party leader,
         // and don't show them a kick button for themself.
-        //console.log("partymemberslot:", index, member, _this.player.entityId);
-        if (index === 0 && member.id !== _this.player.entityId) {
-            this.kickButtonCont = document.createElement('div');
-            this.kickButtonCont.className = 'dungeon_party_kick_member_button_cont';
-
-            this.kickButton = document.createElement('img');
-            this.kickButton.className = 'dungeon_party_kick_member_button';
-            this.kickButton.src = 'assets/img/gui/panels/panel-close-button.png';
-            this.kickButtonCont.appendChild(this.kickButton);
-            this.container.appendChild(this.kickButtonCont);
+        if (isLeader) {
+            if (index !== 0) {
+                this.kickButtonCont = document.createElement('div');
+                this.kickButtonCont.className = 'dungeon_party_kick_member_button_cont';
+                this.kickButton = document.createElement('img');
+                this.kickButton.className = 'dungeon_party_kick_member_button';
+                this.kickButton.src = 'assets/img/gui/panels/panel-close-button.png';
+                this.kickButtonCont.onclick = () => {
+                    ws.sendEvent('kick_dungeon_party_member', {
+                        dungeonID: panel.dungeonPortal.dungeonManagerID,
+                        memberID: member.id
+                    });
+                };
+                this.kickButtonCont.appendChild(this.kickButton);
+                this.container.appendChild(this.kickButtonCont);
+            }
         }
 
         panel.partyMembersContainer.appendChild(this.container);
@@ -273,6 +279,8 @@ class DungeonPanel extends PanelTemplate {
     }
 
     addParty(party) {
+        // Don't add the party if this player is in the kicked list.
+        if (party.kickedList.some((kickedID) => kickedID === _this.player.entityId)) return;
         // TODO: add logic for clan membership, don't continue if not in same clan
         this.partySlots[party.id] = new PartySlot(
             this,
@@ -282,8 +290,8 @@ class DungeonPanel extends PanelTemplate {
         );
     }
 
-    addPartyMember(index, member) {
-        this.partyMemberSlots[index] = new PartyMemberSlot(this, index, member);
+    addPartyMember(index, member, isLeader) {
+        this.partyMemberSlots[index] = new PartyMemberSlot(this, index, member, isLeader);
     }
 
     removeParties() {
@@ -330,9 +338,10 @@ class DungeonPanel extends PanelTemplate {
             // Clear all of the existing member slots.
             this.removePartyMembers();
 
+            const isLeader = party.members[0].id === _this.player.entityId;
             // Add a slot for each member.
             party.members.forEach((member, index) => {
-                this.addPartyMember(index, member);
+                this.addPartyMember(index, member, isLeader);
             });
         }
         else {

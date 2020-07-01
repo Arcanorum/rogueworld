@@ -40,15 +40,6 @@ class Party {
         delete this.kickedList;
     }
 
-    kickPlayer(kickedBy, player) {
-        // Only allow the party leader to kick.
-        if (kickedBy !== this.members[0]) return;
-
-        this.removePlayer(player);
-
-        // Add them to the kicked list so they can't rejoin.
-        this.kickedList.push(player.id);
-    }
 }
 
 module.exports = Party;

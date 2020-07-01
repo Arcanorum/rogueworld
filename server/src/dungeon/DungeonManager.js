@@ -207,6 +207,7 @@ class DungeonManager {
 
             if (party.members.length > 0) {
                 // Tell the other party members that someone has left.
+                // TODO:
                 // party.members.forEach((member) => {
                 //     member.socket.sendEvent(EventsList.member_left, player.id);
                 // });
@@ -214,7 +215,6 @@ class DungeonManager {
             // No players left in the party, and therefore the dungeon is empty. Destroy them both.
             else {
                 this.removeParty(party);
-                //TODO: destroy dungeon instance the party is in
             }
         }
         // Not yet in a dungeon, still waiting outside.
@@ -232,6 +232,31 @@ class DungeonManager {
             this.updateNearbyFocusedPlayers();
         }
 
+    }
+
+    kickPartyMember(leader, memberID) {
+        // Don't let the leader kick themself.
+        if (leader.id === memberID) return;
+
+        // Find the party the leader is in.
+        const party = Object.values(this.parties).find((party) => {
+            return party.members.some((member) => member === leader);
+        });
+        // Not in a party.
+        if (!party) return;
+
+        // Check the leader entity is actually the party leader.
+        if (party.members[0] !== leader) return;
+
+        // Find the member to kick, by their ID.
+        const toKick = party.members.find((member) => member.id === memberID);
+        // The member to kick is not in the same party as the leader.
+        if (!toKick) return;
+
+        // Add them to the kicked list so they can't rejoin.
+        party.kickedList.push(memberID);
+
+        this.removePlayerFromParty(toKick);
     }
 
     /**
@@ -258,6 +283,7 @@ class DungeonManager {
                             displayName: member.displayName
                         }
                     }),
+                    kickedList: party.kickedList,
                     clanOnly: party.clanOnly
                 }
             });

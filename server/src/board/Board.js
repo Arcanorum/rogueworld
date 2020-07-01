@@ -946,21 +946,21 @@ class Board {
     /**
      * Gets the row and column of the board tile in front of the direction from a given row/col.
      * @param {String} direction
-     * @param {Number} fromRow
-     * @param {Number} fromCol
+     * @param {Number} row - The row to start from.
+     * @param {Number} col - The col to start from.
      * @return {Object} The row and col of the tile in front. An object of {row: Number, col: Number}.
      */
-    getRowColInFront(direction, fromRow, fromCol) {
-        if (Number.isInteger(fromRow) === false) {
-            Utils.error("A valid number wasn't given to Board.getRowColInFront, fromRow: " + fromRow);
+    getRowColInFront(direction, row, col) {
+        if (Number.isInteger(row) === false) {
+            Utils.error("A valid number wasn't given to Board.getRowColInFront, row: " + row);
         }
-        if (Number.isInteger(fromCol) === false) {
-            Utils.error("A valid number wasn't given to Board.getRowColInFront, fromCol: " + fromCol);
+        if (Number.isInteger(col) === false) {
+            Utils.error("A valid number wasn't given to Board.getRowColInFront, col: " + col);
         }
 
         const front = {
-            row: fromRow,
-            col: fromCol
+            row,
+            col
         };
 
         if (direction === Directions.UP) {
@@ -1005,6 +1005,16 @@ class Board {
             opposite.col = midRow + (midRow - fromRow);
         }
         return opposite;
+    }
+
+    getTileInFront(direction, row, col) {
+        const front = this.getRowColInFront(direction, row, col);
+
+        if (this.grid[front.row] === undefined) return false;
+        const tile = this.grid[front.row][front.col];
+        if (tile === undefined) return false;
+
+        return tile;
     }
 
     /**

@@ -122,8 +122,13 @@ wss.on('connection', function (clientSocket) {
 
 });
 
+/**
+ * @param {*} clientSocket
+ * @param {String} data.username
+ * @param {String} data.password
+ */
 eventResponses.log_in = (clientSocket, data) => {
-    console.log("log in:", data);
+    //console.log("log in:", data);
     if (!data) return;
     if (!data.username) return;
     if (!data.password) return;
@@ -139,13 +144,12 @@ eventResponses.log_in = (clientSocket, data) => {
 
 /**
  * Create a new character to use, but that is NOT an account yet.
- * @param clientSocket
- * @param data
- * @param data.displayName
+ * @param {*} clientSocket
+ * @param {String} data.displayName
  */
 eventResponses.new_char = function (clientSocket, data) {
     //console.log("new char:", data);
-    if (data === undefined) return;
+    if (!data) return;
     // Don't let them join a world if they are already in one.
     if (clientSocket.inGame === true) return;
 
@@ -168,6 +172,12 @@ eventResponses.new_char = function (clientSocket, data) {
     world.addNewPlayer(clientSocket, displayName);
 };
 
+/**
+ * Create a new account.
+ * @param {*} clientSocket 
+ * @param {String} data.username
+ * @param {String} data.password
+ */
 eventResponses.create_account = (clientSocket, data) => {
     console.log("create_account:", data);
     if (!data) return;
@@ -235,11 +245,11 @@ eventResponses.mv_r = function (clientSocket) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {String} data
  */
 eventResponses.chat = function (clientSocket, data) {
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
 
     const entity = clientSocket.entity;
@@ -251,12 +261,12 @@ eventResponses.chat = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {String} data - The key of the inventory slot of the item to equip.
  */
 eventResponses.use_item = function (clientSocket, data) {
     //console.log("use item, data:", data);
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
 
     // Ignore this event if they are dead.
@@ -272,12 +282,12 @@ eventResponses.use_item = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {String} data - The direction to use the selected holdable item in.
  */
 eventResponses.use_held_item = function (clientSocket, data) {
     //console.log("use item, data:", data);
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Check the data is a valid direction.
     if (ValidDirections[data] === undefined) return;
@@ -302,11 +312,11 @@ eventResponses.use_held_item = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {String|Number} data - The spell number to select.
  */
 eventResponses.spell_selected = function (clientSocket, data) {
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -319,12 +329,12 @@ eventResponses.spell_selected = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
+ * @param {*} clientSocket
  * @param {String} data - The key of the inventory slot of the item to drop.
  */
 eventResponses.drop_item = function (clientSocket, data) {
     //console.log("drop item event:", data);
-    if (data === undefined) return;
+    if (!data) return;
 
     if (clientSocket.inGame === false) return;
 
@@ -351,23 +361,25 @@ eventResponses.drop_item = function (clientSocket, data) {
     item.drop();
 };
 
+/**
+ * Pick up an item pickup from the tile the player is on.
+ * @param {*} clientSocket 
+ */
 eventResponses.pick_up_item = function (clientSocket) {
-    const entity = clientSocket.entity;
-
+    if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
-    if (entity.hitPoints <= 0) return;
+    if (clientSocket.entity.hitPoints <= 0) return;
 
-    entity.pickUpItem();
+    clientSocket.entity.pickUpItem();
 };
 
 /**
- * @param clientSocket
- * @param {Object} data - The slots to swap.
+ * @param {*} clientSocket
  * @param {String} data.slotKeyFrom - The key of the slot to swap from.
  * @param {String} data.slotKeyTo - The key of the slot to swap to.
  */
 eventResponses.swap_inventory_slots = function (clientSocket, data) {
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -381,14 +393,13 @@ eventResponses.swap_inventory_slots = function (clientSocket, data) {
 };
 
 /**
- * @param clientSocket
- * @param {Object} data
+ * @param {*} clientSocket
  * @param {Number} data.stationTypeNumber - The type number of the crafting station to use.
  * @param {Array} data.inventorySlotKeys - An array of the inventory slot names of the items to use.
  */
 eventResponses.craft = function (clientSocket, data) {
     //console.log("craft, data:", data);
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -396,9 +407,14 @@ eventResponses.craft = function (clientSocket, data) {
     CraftingManager.craft(clientSocket.entity, data.stationTypeNumber, data.inventorySlotKeys);
 };
 
+/**
+ * @param {*} clientSocket
+ * @param {String} data.inventorySlotKey
+ * @param {Number} data.bankSlotIndex
+ */
 eventResponses.bank_deposit_item = function (clientSocket, data) {
     //console.log("bank_deposit_item, data:", data);
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -406,9 +422,14 @@ eventResponses.bank_deposit_item = function (clientSocket, data) {
     clientSocket.entity.bankAccount.depositItem(data.inventorySlotKey, data.bankSlotIndex);
 };
 
+/**
+ * @param {*} clientSocket
+ * @param {String} data.inventorySlotKey
+ * @param {Number} data.bankSlotIndex
+ */
 eventResponses.bank_withdraw_item = function (clientSocket, data) {
     //console.log("bank_withdraw_item, data:", data);
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -416,8 +437,13 @@ eventResponses.bank_withdraw_item = function (clientSocket, data) {
     clientSocket.entity.bankAccount.withdrawItem(data.bankSlotIndex, data.inventorySlotKey);
 };
 
+/**
+ * @param {*} clientSocket
+ * @param {Number} data.fromSlotIndex
+ * @param {Number} data.toSlotIndex
+ */
 eventResponses.bank_swap_slots = function (clientSocket, data) {
-    if (data === undefined) return;
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -434,7 +460,7 @@ eventResponses.get_dungeon_parties = (clientSocket, data) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (data === undefined) return;
+    if (!data) return;
 
     const dungeonManager = DungeonManagersList.ByID[data];
     if (dungeonManager === undefined) return;
@@ -444,31 +470,58 @@ eventResponses.get_dungeon_parties = (clientSocket, data) => {
 
 /**
  * @param clientSocket
+ * @param {Number} data.dungeonID - The ID of a dungeon manager.
+ * @param {Number} data.row - The row of the dungeon portal that was interacted with.
+ * @param {Number} data.col - The col of the dungeon portal that was interacted with.
+ */
+eventResponses.focus_dungeon = (clientSocket, data) => {
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+    if (clientSocket.entity.hitPoints <= 0) return;
+
+    const dungeonManager = DungeonManagersList.ByID[data.dungeonID];
+    if (dungeonManager === undefined) return;
+
+    // Find the dungeon portal entity.
+    const player = clientSocket.entity;
+    const grid = player.board.grid;
+    const gridRow = grid[data.row];
+    if (gridRow === undefined) return;
+    const boardTile = gridRow[data.col];
+    if (boardTile === undefined) return;
+    const dungeonPortal = boardTile.static;
+    if (dungeonPortal instanceof DungeonPortal === false) return;
+    // Check they are adjacent to it.
+    if (player.isAdjacentToEntity(dungeonPortal) === false) return;
+
+    // Focus on the target dungeon manager.
+    clientSocket.entity.focusedDungeonManager = dungeonManager;
+
+    // Send the the parties data straight away.
+    clientSocket.sendEvent(EventsList.parties, dungeonManager.getPartiesData());
+};
+
+/**
+ * @param clientSocket
  * @param {Number} data - The ID of a dungeon portal entity.
  */
 eventResponses.create_dungeon_party = (clientSocket, data) => {
     //console.log("create_dungeon_party:", data);
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (data === undefined) return;
-
-    // TODO: check they have enough glory to start the dungeon before creating the party.
 
     /** @type {DungeonManager} */
     const dungeonManager = DungeonManagersList.ByID[data.dungeonID];
     if (dungeonManager === undefined) return;
 
     dungeonManager.createParty(clientSocket.entity);
-
-    // Immediately return the parties data, so the client doesn't
-    // have to wait for the next time it would request it.
-    clientSocket.sendEvent(EventsList.parties, dungeonManager.getPartiesData());
 };
 
 eventResponses.join_dungeon_party = (clientSocket, data) => {
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (data === undefined) return;
 
     /** @type {DungeonManager} */
     const dungeonManager = DungeonManagersList.ByID[data.dungeonID];
@@ -479,12 +532,12 @@ eventResponses.join_dungeon_party = (clientSocket, data) => {
 
 /**
  * @param clientSocket
- * @param {Object} data
+ * @param {String} data.dungeonID
  */
 eventResponses.leave_dungeon_party = (clientSocket, data) => {
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (data === undefined) return;
     // Only allow this event to remove them from a party if they are not yet in the dungeon.
     if (clientSocket.entity.board.dungeon) return;
 
@@ -493,19 +546,16 @@ eventResponses.leave_dungeon_party = (clientSocket, data) => {
     if (dungeonManager === undefined) return;
 
     dungeonManager.removePlayerFromParty(clientSocket.entity);
-
-    // Immediately return the parties data, so the client doesn't
-    // have to wait for the next time it would request it.
-    clientSocket.sendEvent(EventsList.parties, dungeonManager.getPartiesData());
 };
 
 /**
  * @param clientSocket
- * @param {Object} data.dungeonID - The ID of a dungeon manager.
+ * @param {Number} data.dungeonID - The ID of a dungeon manager.
  * @param {Number} data.row - The row of the dungeon portal that was interacted with.
  * @param {Number} data.col - The col of the dungeon portal that was interacted with.
  */
 eventResponses.start_dungeon = (clientSocket, data) => {
+    if (!data) return;
     if (DungeonManagersList.ByID[data.dungeonID] === undefined) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -535,11 +585,17 @@ eventResponses.respawn = function (clientSocket) {
     clientSocket.entity.respawn();
 };
 
+/**
+ * @param clientSocket
+ * @param {Number} data.traderID - The ID of a trader entity.
+ * @param {Number} data.row - The row of the trader that was interacted with.
+ * @param {Number} data.col - The col of the trader that was interacted with.
+ */
 eventResponses.get_shop_prices = function (clientSocket, data) {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (data === undefined) return;
+    if (!data) return;
 
     // Make sure the board tile the client says the trader is on is valid.
     const grid = clientSocket.entity.board.grid;
@@ -554,12 +610,18 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
     clientSocket.sendEvent(EventsList.shop_prices, entity.shop.prices);
 };
 
+/**
+ * @param clientSocket
+ * @param {Number} data.traderID - The ID of a trader entity.
+ * @param {Number} data.row - The row of the trader that was interacted with.
+ * @param {Number} data.col - The col of the trader that was interacted with.
+ */
 eventResponses.shop_buy_item = function (clientSocket, data) {
     //console.log("shop buy item event, data:", data);
+    if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
-    if (data === undefined) return;
 
     // Make sure the board tile the client says the trader is on is valid.
     const grid = clientSocket.entity.board.grid;

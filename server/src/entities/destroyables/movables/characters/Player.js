@@ -115,10 +115,13 @@ class Player extends Character {
     }
 
     /**
-     * Special function for players, so the inventory isn't dropped when they close the game, otherwise the inventory would be saved and also dropped so would duplicate items.
+     * Special function for players, so the inventory isn't dropped when they close the game,
+     * otherwise the inventory would be saved and also dropped so would duplicate items.
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
     remove() {
+        // If the player is looking at a dungeon interface, they 
+        // might be in a party, so they need removing from that.
         if (this.focusedDungeonManager) {
             this.focusedDungeonManager.removePlayerFromParty(this);
         }
@@ -190,7 +193,6 @@ class Player extends Character {
     }
 
     move(byRows, byCols) {
-
         // Check if this player can move yet.
         if (Date.now() < this.nextMoveTime) {
             // Can't move yet. Make this move command be pending, so it happens as soon as it can.

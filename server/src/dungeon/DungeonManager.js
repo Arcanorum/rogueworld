@@ -87,6 +87,38 @@ class DungeonManager {
          * @type {Number}
          */
         this.gloryCost = difficulty.gloryCost || 0;
+
+        /**
+         * A list of portals that use this manager for their dungeon.
+         * There may be multiple portals that link to the same dungeon type.
+         * @type {Array.<DungeonPortal>}
+         */
+        this.portals = [];
+    }
+
+    updateNearbyFocusedPlayers() {
+        const partiesData = this.getPartiesData();
+
+        // Update players around every portal that uses this dungeon manager.
+        this.portals.forEach((portal) => {
+            const directions = Object.values(portal.Directions);
+            const row = portal.row;
+            const col = portal.col;
+            // Check the board tiles in each direction from this portal.
+            directions.forEach((direction) => {
+                // Get every player stood next to this portal.
+                const boardTile = portal.board.getTileInFront(direction, row, col);
+                if (!boardTile) return;
+
+                const players = Object.values(boardTile.players);
+                players.forEach((player) => {
+                    // Only send to players that are focusing on this DM.
+                    if (player.focusedDungeonManager === this) {
+                        player.socket.sendEvent(EventsList.parties, partiesData);
+                    }
+                });
+            });
+        });
     }
 
     /**
@@ -95,8 +127,19 @@ class DungeonManager {
      */
     createParty(player) {
         if (!player) return;
+        // Check they have enough glory to start this dungeon.
+        if (player.glory < this.gloryCost) return;
+        // Check they are not already in a party.
+        const currentParty = Object.values(this.parties).find((party) => {
+            return party.members.some((member) => member === player);
+        });
+        if (currentParty) return;
+
         const party = new Party(this, player);
         this.parties[party.id] = party;
+
+        // Immediately return the new parties data.
+        this.updateNearbyFocusedPlayers();
     }
 
     /**
@@ -158,9 +201,6 @@ class DungeonManager {
         // Not in a party.
         if (!party) return;
 
-        // Remove this DM from the player.
-        player.focusedDungeonManager = null;
-
         if (party.inDungeon) {
             // The dungeon has already started, so just remove that player, don't disband the party.
             party.members = party.members.filter((member) => member !== player);
@@ -181,29 +221,17 @@ class DungeonManager {
         else {
             // If the player to remove is the leader, disband the party.
             if (player === party.members[0]) {
-                const members = party.members;
-
                 // Tell the dungeon manager to remove this party.
                 this.removeParty(party);
-
-                party.members = [];
-
-                // Tell the members from before that this part no longer exists.
-                members.forEach((member) => {
-                    member.socket.sendEvent(EventsList.parties, this.getPartiesData());
-                });
             }
             // Not the leader, just remove the member that left.
             else {
                 party.members = party.members.filter((member) => member !== player);
-
-                const partiesData = this.getPartiesData();
-                // Update the party data of all of the party members, so they remove the member.
-                party.members.forEach((member) => {
-                    member.socket.sendEvent(EventsList.parties, partiesData);
-                });
             }
+
+            this.updateNearbyFocusedPlayers();
         }
+
     }
 
     /**

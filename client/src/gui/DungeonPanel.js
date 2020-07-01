@@ -33,6 +33,7 @@ class PartyMemberSlot {
 
         // Only show the kick button to the party leader,
         // and don't show them a kick button for themself.
+        //console.log("partymemberslot:", index, member, _this.player.entityId);
         if (index === 0 && member.id !== _this.player.entityId) {
             this.kickButtonCont = document.createElement('div');
             this.kickButtonCont.className = 'dungeon_party_kick_member_button_cont';
@@ -142,7 +143,6 @@ class DungeonPanel extends PanelTemplate {
 
         this.partySlots = {};
         this.partyMemberSlots = {};
-
     }
 
     /**
@@ -161,12 +161,12 @@ class DungeonPanel extends PanelTemplate {
         this.partySelectionContainer.style.display = "grid";
         this.partyContainer.style.display = "none";
 
-        // Request the current list of available parties for this dungeon.
-        ws.sendEvent('get_dungeon_parties', dungeonPortal.dungeonManagerID);
-
-        // this.getPartiesLoop = setInterval(function () {
-        //     ws.sendEvent('get_dungeon_parties', dungeonPortal.dungeonManagerID);
-        // }, 5000);
+        // Tell the server this player is looking at the interface for this dungeon, so they can receive updates for it.
+        ws.sendEvent("focus_dungeon", {
+            dungeonID: dungeonPortal.dungeonManagerID,
+            row: dungeonPortal.row,
+            col: dungeonPortal.col
+        });
 
         // If they have the entry cost, show the button as valid.
         if (_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost) {
@@ -253,7 +253,7 @@ class DungeonPanel extends PanelTemplate {
 
         const leaveText = document.createElement('div');
         leaveText.className = 'dungeon_party_button_text';
-        leaveText.innerText = "Leave";// dungeonz.getTextDef('start');
+        leaveText.innerText = "Leave";// dungeonz.getTextDef('leave');
         leaveButtonContainer.appendChild(leaveText);
 
         this.startButtonContainer = document.createElement('div');
@@ -356,15 +356,14 @@ class DungeonPanel extends PanelTemplate {
         const dungeonPortal = panel.dungeonPortal;
 
         // Check if the player has enough glory.
-        //if(_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost){
-        // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
-        window.ws.sendEvent('create_dungeon_party', {
-            dungeonID: dungeonPortal.dungeonManagerID,
-            row: dungeonPortal.row,
-            col: dungeonPortal.col
-        });
-
-        //}
+        if (_this.player.glory >= dungeonz.DungeonPrompts[dungeonPortal.dungeonManagerID].gloryCost) {
+            // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
+            window.ws.sendEvent('create_dungeon_party', {
+                dungeonID: dungeonPortal.dungeonManagerID,
+                row: dungeonPortal.row,
+                col: dungeonPortal.col
+            });
+        }
     }
 
     startPressed() {
@@ -372,17 +371,14 @@ class DungeonPanel extends PanelTemplate {
         const dungeonPortal = panel.dungeonPortal;
 
         // Check if the player has enough glory.
-        //if(_this.player.glory >= dungeonz.DungeonPrompts[panel.dungeonPortal.dungeonManagerID].gloryCost){
-        // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
-        window.ws.sendEvent('start_dungeon', {
-            dungeonID: dungeonPortal.dungeonManagerID,
-            row: dungeonPortal.row,
-            col: dungeonPortal.col
-        });
-        //}
-
-        // Hide the panel.
-        //panel.hide();
+        if (_this.player.glory >= dungeonz.DungeonPrompts[panel.dungeonPortal.dungeonManagerID].gloryCost) {
+            // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
+            window.ws.sendEvent('start_dungeon', {
+                dungeonID: dungeonPortal.dungeonManagerID,
+                row: dungeonPortal.row,
+                col: dungeonPortal.col
+            });
+        }
     }
 
     leavePressed() {

@@ -12,7 +12,7 @@ class Projectile extends Movable {
      * @param {Number} [config.direction="d"]
      * @param {Entity} [config.source=null] An entity that created this projectile. i.e. the character that shot an arrow.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         /**
@@ -43,12 +43,12 @@ class Projectile extends Movable {
         this.canMove = true;
     }
 
-    modDirection (direction) {
+    modDirection(direction) {
         this.direction = direction;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, {id: this.id, direction: this.direction});
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, { id: this.id, direction: this.direction });
     }
 
-    onDestroy () {
+    onDestroy() {
         this.canMove = false;
 
         clearTimeout(this.moveLoop);
@@ -56,17 +56,17 @@ class Projectile extends Movable {
         super.onDestroy();
     }
 
-    getEmittableProperties (properties) {
+    getEmittableProperties(properties) {
         properties.direction = this.direction;
         return super.getEmittableProperties(properties);
     }
 
-    move () {
+    move() {
         this.canMove = true;
 
-        this.checkCollisions();
+        if (!this.checkCollisions()) return;
 
-        if(this.canMove === false){
+        if (this.canMove === false) {
             this.destroy();
             return;
         }
@@ -74,13 +74,13 @@ class Projectile extends Movable {
         const offset = this.board.directionToRowColOffset(this.direction);
 
         // Check the grid row element being accessed is valid.
-        if(this.board.grid[this.row + offset.row] === undefined){
+        if (this.board.grid[this.row + offset.row] === undefined) {
             this.destroy();
             return;
         }
 
         // Check the grid col element (the tile itself) being accessed is valid.
-        if(this.board.grid[this.row + offset.row][this.col + offset.col] === undefined){
+        if (this.board.grid[this.row + offset.row][this.col + offset.col] === undefined) {
             this.destroy();
             return;
         }
@@ -88,7 +88,7 @@ class Projectile extends Movable {
         // Increase the amount of tiles this entity has moved.
         this.tilesTravelled += 1;
 
-        if(this.tilesTravelled >= this.range){
+        if (this.tilesTravelled >= this.range) {
             this.destroy();
             return;
         }
@@ -103,70 +103,79 @@ class Projectile extends Movable {
      * Checks if the entity collided with can be hit by any of the damage types this projectile deals.
      * @param {Entity} entity 
      */
-    canDamageTypeCollideWithTarget (entity) {
+    canDamageTypeCollideWithTarget(entity) {
         // Check the entity is immune to anything.
-       if(entity.damageTypeImmunities){
-           // Check every type of this damage.
-           for(let type of this.damageTypes){
-               // If the entity is immune to the current type, check the net one.
-               if(entity.damageTypeImmunities.includes(type)){
-                   continue;
-               }
-               // Entity is not immune to this damage type, they can be affected.
-               return true;
-           }
-       }
-       else {
-           return true;
-       }
-       return false;
-   }
+        if (entity.damageTypeImmunities) {
+            // Check every type of this damage.
+            for (let type of this.damageTypes) {
+                // If the entity is immune to the current type, check the net one.
+                if (entity.damageTypeImmunities.includes(type)) {
+                    continue;
+                }
+                // Entity is not immune to this damage type, they can be affected.
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Check for collisions between high blocking statics, and destroyables.
      */
-    checkCollisions () {
+    checkCollisions() {
         /** @type {BoardTile} */
         const currentBoardTile = this.board.grid[this.row][this.col];
 
         // Check if it is over any other destroyables.
         let destroyable;
-        for(let dynamicKey in currentBoardTile.destroyables){
-            if(currentBoardTile.destroyables.hasOwnProperty(dynamicKey) === false) continue;
+        for (let dynamicKey in currentBoardTile.destroyables) {
+            if (currentBoardTile.destroyables.hasOwnProperty(dynamicKey) === false) continue;
 
             destroyable = currentBoardTile.destroyables[dynamicKey];
 
             // Don't check against itself.
-            if(destroyable === this) continue;
+            if (destroyable === this) continue;
             // Don't check against source.
-            if(destroyable === this.source) continue;
+            if (destroyable === this.source) continue;
 
             // Pass through if none of the damage applies to this entity.
-            if(this.canDamageTypeCollideWithTarget(destroyable) === false) continue;
+            if (this.canDamageTypeCollideWithTarget(destroyable) === false) continue;
 
-            this.handleCollision(destroyable);
+            // Check both entities are still on the board, as they might have been removed in the
+            // previous handleCollision if there are multiple destroyables stacked on the same tile.
+            // They shouldn't be able to interact with each other if one of them isn't on the board (i.e. destroyed).
+            if (!this.board) break;
+            if (destroyable.board) this.handleCollision(destroyable);
         }
 
         // Check if it is over an interactable.
-        if(currentBoardTile.static !== null){
-            if(currentBoardTile.static.activeState !== undefined){
+        if (currentBoardTile.static !== null) {
+            if (currentBoardTile.static.activeState !== undefined) {
                 this.handleCollision(currentBoardTile.static);
             }
         }
 
         // Check if this projectile is currently over something that blocks high things, including interactables, solids, walls, etc.
-        if(currentBoardTile.isHighBlocked() === true){
+        if (currentBoardTile.isHighBlocked() === true) {
             this.destroy();
-            return;
         }
 
+        return this.shouldContinueCheckCollisionsChain();
+    }
+
+    shouldContinueCheckCollisionsChain() {
+        // Should the chain of checkCollisions calls be continued.
+        return this.board !== null;
     }
 
     /**
      * Called when this projectile hits something.
      * @param {Entity} collidee - The entity that this projectile collided with.
      */
-    handleCollision (collidee) {
+    handleCollision(collidee) {
         Utils.warning("Projectile type defined without overriding Projectile.handleCollision:", this.constructor.name);
     }
 
@@ -174,13 +183,13 @@ class Projectile extends Movable {
      * Check any conditions that should always be checked when this projectile hits something.
      * @param {Entity} collidee - The entity that this projectile collided with.
      */
-    mandatoryCollideeChecks (collidee) {
+    mandatoryCollideeChecks(collidee) {
         // Add this to the default checks that get done when any projectile moves, as
         // the case where a wind moves into a projectile is covered by the wind itself,
         // but not when the other projectile is the one moving into the wind during its own move.
-        if(collidee instanceof ProjWind){
+        if (collidee instanceof ProjWind) {
             // If 2 winds collide, destroy them both.
-            if(this instanceof ProjWind){
+            if (this instanceof ProjWind) {
                 this.destroy();
                 collidee.destroy();
             }
@@ -189,8 +198,8 @@ class Projectile extends Movable {
             }
         }
 
-        if(collidee instanceof Static){
-            if(collidee.isHighBlocked() === true) this.destroy();
+        if (collidee instanceof Static) {
+            if (collidee.isHighBlocked() === true) this.destroy();
         }
     }
 
@@ -198,7 +207,7 @@ class Projectile extends Movable {
      * Called when this projectile hits something.
      * @param {Entity} collidee - The entity that this projectile collided with.
      */
-    damageCollidee (collidee) {
+    damageCollidee(collidee) {
         // Check any of the conditions that should always be checked.
         this.mandatoryCollideeChecks(collidee);
 
@@ -207,39 +216,39 @@ class Projectile extends Movable {
         let damageAmount = this.damageAmount;
 
         // Can the collidee be damaged.
-        if(collidee.hitPoints === null) dealDamage = false;
+        if (collidee.hitPoints === null) dealDamage = false;
         // Does this projectile deal any damage.
-        if(damageAmount === 0) dealDamage = false;
+        if (damageAmount === 0) dealDamage = false;
         // Does this projectile hit low blocking statics?
-        if(this.collisionType === this.CollisionTypes.Melee){
-            if(collidee instanceof Static){
+        if (this.collisionType === this.CollisionTypes.Melee) {
+            if (collidee instanceof Static) {
                 // Only damage the static (if it is an interactable) and destroy this projectile when it hits a blocking static,
                 // as it might hit a non-blocking one such as an open door or cut down tree, but it should still pass through them.
-                if(collidee.isLowBlocked() === false) dealDamage = false;
+                if (collidee.isLowBlocked() === false) dealDamage = false;
             }
         }
         else {
-            if(collidee instanceof Static){
-                if(collidee.isHighBlocked() === false) dealDamage = false;
-            }
-        }
-        
-        if(this.hasBackStabBonus === true){
-            if(collidee instanceof Character){
-                // If attacked from behind, apply bonus damage.
-                if(collidee.direction === this.direction) damageAmount = this.damageAmount * 3;
+            if (collidee instanceof Static) {
+                if (collidee.isHighBlocked() === false) dealDamage = false;
             }
         }
 
-        if(this.canDamageTypeCollideWithTarget(collidee) === false){
+        if (this.hasBackStabBonus === true) {
+            if (collidee instanceof Character) {
+                // If attacked from behind, apply bonus damage.
+                if (collidee.direction === this.direction) damageAmount = this.damageAmount * 3;
+            }
+        }
+
+        if (this.canDamageTypeCollideWithTarget(collidee) === false) {
             // TODO: test this with other damage types, havent tried with immunities
             console.log("projectile.js damagecollidee, immune to all damage types, take no damage");
             damageAmount = 0;
         }
 
-        if(dealDamage === true){
+        if (dealDamage === true) {
             // Don't cause self-damage for whoever created this projectile.
-            if(collidee === this.source) return;
+            if (collidee === this.source) return;
 
             collidee.damage(
                 new Damage({
@@ -249,7 +258,7 @@ class Projectile extends Movable {
                 }),
                 this.source
             );
-            
+
             this.destroy();
         }
 
@@ -259,18 +268,21 @@ class Projectile extends Movable {
      * Push back the thing that this entity collided with.
      * @param {Entity} collidee
      */
-    pushBackCollidee (collidee, tileCount) {
+    pushBackCollidee(collidee, tileCount) {
         // Check any of the conditions that should always be checked.
         this.mandatoryCollideeChecks(collidee);
 
-        if(collidee instanceof Character){
+        if (!this.board) return;
+        if (!collidee.board) return;
+
+        if (collidee instanceof Character) {
             const offset = this.board.directionToRowColOffset(this.direction);
             collidee.modDirection(this.direction);
             // Clear their current move loop so they don't end up with 2 loops after doing this direct movement. Only affects mobs.
             clearTimeout(collidee.moveLoop);
-            
-            if(tileCount > 1) {
-                for(let i=0; i<tileCount; i+=1){
+
+            if (tileCount > 1) {
+                for (let i = 0; i < tileCount; i += 1) {
                     collidee.push(offset.row, offset.col);
                 }
             }
@@ -280,7 +292,7 @@ class Projectile extends Movable {
             this.destroy();
             return;
         }
-        if(collidee instanceof Projectile){
+        if (collidee instanceof Projectile) {
             collidee.modDirection(this.direction);
             // Reset the amount of tiles the other projectile has travelled, so it can go it's max distance again in the other direction.
             collidee.tilesTravelled = 0;
@@ -295,15 +307,15 @@ class Projectile extends Movable {
      * Assigns the damage and heal values for this projectile type from the mob hitpoint values list.
      * @param {String} specificValuesName - Set to use a specific set of values instead of whatever matches the name of this entity class.
      */
-    assignModHitPointConfigs (specificValuesName) {
+    assignModHitPointConfigs(specificValuesName) {
         const valuesName = this.constructor.name
         const modHitPointConfig = ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName];
-        if(modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
+        if (modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
 
-        if(modHitPointConfig.damageAmount) this.damageAmount = modHitPointConfig.damageAmount;
-        if(modHitPointConfig.damageTypes) this.damageTypes = modHitPointConfig.damageTypes;
-        if(modHitPointConfig.damageArmourPiercing) this.damageArmourPiercing = modHitPointConfig.damageArmourPiercing;
-        if(modHitPointConfig.healAmount) this.healAmount = modHitPointConfig.healAmount;
+        if (modHitPointConfig.damageAmount) this.damageAmount = modHitPointConfig.damageAmount;
+        if (modHitPointConfig.damageTypes) this.damageTypes = modHitPointConfig.damageTypes;
+        if (modHitPointConfig.damageArmourPiercing) this.damageArmourPiercing = modHitPointConfig.damageArmourPiercing;
+        if (modHitPointConfig.healAmount) this.healAmount = modHitPointConfig.healAmount;
     }
 
 }

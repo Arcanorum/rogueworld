@@ -237,6 +237,9 @@ class Player extends Character {
      * @returns {Boolean}
      */
     isInSafeZone() {
+        // Disable PvP in dungeon instances, as they are in a party together.
+        if (this.board.dungeon) return true;
+
         return this.board.grid[this.row][this.col].safeZone;
     }
 

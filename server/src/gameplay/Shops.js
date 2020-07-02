@@ -220,6 +220,8 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.ItemSuperFireStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemWindStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemSuperWindStaff, 0));
+        this.addStock(new StockItem(ItemsList.ItemBloodStaff, 0));
+        this.addStock(new StockItem(ItemsList.ItemSuperBloodStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemBookOfLight, 0));
         this.addStock(new StockItem(ItemsList.ItemBookOfSouls, 0));
         this.addStock(new StockItem(ItemsList.ItemPlainRobe, 0));

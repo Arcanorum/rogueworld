@@ -3,9 +3,12 @@ const Weapon = require('./Weapon');
 
 class ItemSuperBloodStaff extends Weapon {
 
-    onUsed () {
+    onUsed() {
         // Blood bolt consumes HP on use.
-        this.owner.modHitPoints(-ModHitPointConfigs.ProjBloodBoltDamage * 0.5);
+        this.owner.damage(new Damage({
+            amount: ModHitPointConfigs.ProjBloodBolt.damageAmount * 0.5,
+            types: ModHitPointConfigs.ProjBloodBolt.damageTypes
+        }));
 
         super.onUsed();
     }
@@ -16,6 +19,7 @@ module.exports = ItemSuperBloodStaff;
 
 const ProjectileType = require('../../../entities/destroyables/movables/projectiles/ProjSuperBloodBolt');
 const ModHitPointConfigs = require('../../../gameplay/ModHitPointConfigs');
+const Damage = require('../../../gameplay/Damage');
 
 ItemSuperBloodStaff.prototype.registerItemType();
 ItemSuperBloodStaff.prototype.idName = "Super blood staff";

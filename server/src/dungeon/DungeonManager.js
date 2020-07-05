@@ -34,7 +34,7 @@ class DungeonManager {
         };
 
         this.maxPlayers = config.maxPlayers || 6;
-        this.timeLimitMinutes = config.timeLimitMinutes || 30;
+        this.timeLimitMinutes = config.timeLimitMinutes || 20;
         this.difficultyName = config.difficultyName || "";
 
         /**
@@ -215,6 +215,13 @@ class DungeonManager {
             // No players left in the party, and therefore the dungeon is empty. Destroy them both.
             else {
                 this.removeParty(party);
+
+                // Find the dungeon instance they are in.
+                const instance = Object.values(this.instances).find((instance) => instance.party === party);
+
+                if (instance) {
+                    this.destroyInstance(instance);
+                }
             }
         }
         // Not yet in a dungeon, still waiting outside.
@@ -329,12 +336,11 @@ class DungeonManager {
 
     /**
      * Destroy a dungeon instance that belongs to this dungeon manager.
-     * @param {Number} instanceID 
+     * @param {Dungeon} instance 
      */
-    destroyInstance(instanceID) {
-        const instance = this.instances[instanceID];
-
+    destroyInstance(instance) {
         instance.destroy();
+        delete this.instances[instance.id];
     }
 
     /**

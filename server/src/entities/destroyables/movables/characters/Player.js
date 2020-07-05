@@ -109,6 +109,12 @@ class Player extends Character {
             item.drop();
         }
 
+        // If the player is currently in a dungeon, remove 
+        // them from it before leaving that dungeon board.
+        if (this.board.dungeon) {
+            this.board.dungeon.removePlayerFromParty(this);
+        }
+
         this.board.removePlayer(this);
 
         super.onDestroy();
@@ -126,8 +132,6 @@ class Player extends Character {
             this.focusedDungeonManager.removePlayerFromParty(this);
         }
 
-        this.board.removePlayer(this);
-
         if (this.clan !== null) {
             this.clan.memberLeft(this);
             this.clan = null;
@@ -135,9 +139,15 @@ class Player extends Character {
 
         clearTimeout(this.connectionCheckTimeout);
 
-        // Call Destroyable.onDestroy directly, without going through the whole
-        // onDestroy chain, so skips Player.onDestroy (no duplicate dropped items).
-        super.onDestroy();
+        // They might be dead when they disconnect, and so will already be removed from the board.
+        // Check they are on the board/alive first.
+        if (this.board) {
+            this.board.removePlayer(this);
+
+            // Call Destroyable.onDestroy directly, without going through the whole
+            // onDestroy chain, so skips Player.onDestroy (no duplicate dropped items).
+            super.onDestroy();
+        }
     }
 
     getEmittableProperties(properties) {
@@ -174,7 +184,7 @@ class Player extends Character {
         // Reposition them to somewhere within the respawn entrance bounds.
         let position = this.respawnEntrance.getRandomPosition();
 
-        this.changeBoard(this.respawnEntrance.board, position.row, position.col);
+        this.changeBoard(this.board, this.respawnEntrance.board, position.row, position.col);
 
         this.socket.sendEvent(this.EventsList.player_respawn);
     }
@@ -293,19 +303,22 @@ class Player extends Character {
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
-    changeBoard(toBoard, toRow, toCol) {
+    changeBoard(fromBoard, toBoard, toRow, toCol) {
         // Need to check if there is a board, as the board will be nulled if the player dies, but they can be revived.
-        if (this.board) {
-            // If the player is currently in a dungeon, remove 
-            // them from it before leaving that dungeon board.
-            if (this.board.dungeon) {
-                this.board.dungeon.removePlayerFromParty(this);
-            }
-
-            this.board.removePlayer(this);
+        if (fromBoard) {
+            fromBoard.removePlayer(this);
         };
 
-        super.changeBoard(toBoard, toRow, toCol);
+        super.changeBoard(fromBoard, toBoard, toRow, toCol);
+
+        // If the player is currently in a dungeon, remove 
+        // them from it before leaving that dungeon board.
+        // If they are respawning after dying as the last 
+        // person in the dungeon, then the dungeon would have
+        // already been destroyed, so check the board exists too.
+        if (fromBoard && fromBoard.dungeon) {
+            fromBoard.dungeon.removePlayerFromParty(this);
+        }
 
         this.board.addPlayer(this);
 

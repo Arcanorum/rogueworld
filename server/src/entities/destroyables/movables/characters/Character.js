@@ -119,6 +119,8 @@ class Character extends Movable {
      * @returns {Boolean}
      */
     move(byRows, byCols) {
+        if (!this.board) return;
+
         // Get the direction from the move offset.
         const direction = this.board.rowColOffsetToDirection(byRows, byCols);
 
@@ -128,11 +130,13 @@ class Character extends Movable {
             //return false;
         }
 
+        const currentBoard = this.board;
+
         // Check the grid row element being accessed is valid.
-        if (this.board.grid[this.row + byRows] === undefined) return false;
+        if (currentBoard.grid[this.row + byRows] === undefined) return false;
 
         /** @type {BoardTile} */
-        const boardTile = this.board.grid[this.row + byRows][this.col + byCols];
+        const boardTile = currentBoard.grid[this.row + byRows][this.col + byCols];
 
         // Check the grid col element (the tile itself) being accessed is valid.
         if (boardTile === undefined) return false;
@@ -141,6 +145,13 @@ class Character extends Movable {
         if (boardTile.static !== null) {
             if (boardTile.static.interaction !== undefined) {
                 boardTile.static.interaction(this);
+
+                // Might have interacted with a portal or 
+                // something which could have changed the board.
+                // Check if we are still on the same board.
+                if (currentBoard !== this.board) {
+                    return false;
+                }
             }
         }
 
@@ -162,8 +173,6 @@ class Character extends Movable {
 
         // Move the entity.
         super.move(byRows, byCols);
-
-        //status effect not being removed from entity when it dies from moving into a tile that causes status effect with immediate damage
 
         return true;
     }

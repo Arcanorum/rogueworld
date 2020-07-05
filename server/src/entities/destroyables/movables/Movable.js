@@ -78,15 +78,15 @@ class Movable extends Destroyable {
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
-    changeBoard(toBoard, toRow, toCol) {
+    changeBoard(fromBoard, toBoard, toRow, toCol) {
         // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
-        if (this.board) {
+        if (fromBoard) {
             // Tell players around this entity on the previous board to remove it.
-            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.remove_entity, this.id);
+            fromBoard.emitToNearbyPlayers(this.row, this.col, this.EventsList.remove_entity, this.id);
 
             // Remove this entity from the board it is currently in before adding to the next board.
             // Don't use Movable.reposition as that would only move it around on the same board, not between boards.
-            this.board.removeDestroyable(this);
+            fromBoard.removeDestroyable(this);
         }
 
         this.board = toBoard;

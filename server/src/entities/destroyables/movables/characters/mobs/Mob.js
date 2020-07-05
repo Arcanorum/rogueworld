@@ -11,7 +11,7 @@ class Mob extends Character {
      * @param {Board} config.board
      * @param {Number} [config.lifespan] - How long (in ms) this mob should be alive for.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         /**
@@ -21,7 +21,7 @@ class Mob extends Character {
         this.target = null;
 
         // If they are holding a weapon, use the attack range of that instead.
-        if(this.projectileAttackType === null){
+        if (this.projectileAttackType === null) {
             this.attackRange = 1;
             this.attackFunction = this.attackMelee;
         }
@@ -31,14 +31,14 @@ class Mob extends Character {
         }
 
         // Start the loops. Loops are disabled if their rate is 0.
-        if(this.moveRate > 0)           this.moveLoop = setTimeout(this.move.bind(this), this.moveRate + Utils.getRandomIntInclusive(0, this.moveRate));
-        if(this.wanderRate > 0)         this.wanderLoop = setTimeout(this.wander.bind(this), this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate));
-        if(this.targetSearchRate > 0)   this.targetSearchLoop = setTimeout(this.getNearestHostileInLOS.bind(this), this.targetSearchRate + Utils.getRandomIntInclusive(0, this.targetSearchRate));
-        if(this.attackRate > 0)         this.attackLoop = setTimeout(this.attack.bind(this), this.attackRate + Utils.getRandomIntInclusive(0, this.attackRate));
-        if(Number.isInteger(config.lifespan) === true) this.lifespanTimeout = setTimeout(this.destroy.bind(this), config.lifespan);
+        if (this.moveRate > 0) this.moveLoop = setTimeout(this.move.bind(this), this.moveRate + Utils.getRandomIntInclusive(0, this.moveRate));
+        if (this.wanderRate > 0) this.wanderLoop = setTimeout(this.wander.bind(this), this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate));
+        if (this.targetSearchRate > 0) this.targetSearchLoop = setTimeout(this.getNearestHostileInLOS.bind(this), this.targetSearchRate + Utils.getRandomIntInclusive(0, this.targetSearchRate));
+        if (this.attackRate > 0) this.attackLoop = setTimeout(this.attack.bind(this), this.attackRate + Utils.getRandomIntInclusive(0, this.attackRate));
+        if (Number.isInteger(config.lifespan) === true) this.lifespanTimeout = setTimeout(this.destroy.bind(this), config.lifespan);
     }
 
-    onDestroy () {
+    onDestroy() {
         clearTimeout(this.moveLoop);
         clearTimeout(this.wanderLoop);
         clearTimeout(this.targetSearchLoop);
@@ -48,28 +48,36 @@ class Mob extends Character {
         super.onDestroy();
     }
 
-    onAllHitPointsLost () {
+    onAllHitPointsLost() {
         // Give all nearby players the glory value of this mob.
         const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
-        for(let i=0; i<nearbyPlayers.length; i+=1){
+        for (let i = 0; i < nearbyPlayers.length; i += 1) {
             nearbyPlayers[i].modGlory(+this.gloryValue);
             nearbyPlayers[i].tasks.progressTask(this.taskIDKilled);
         }
 
         this.dropItems();
 
+        if (this.board && this.board.dungeon && this.dungeonKeys) {
+            Object.keys(this.dungeonKeys).forEach((keyColour) => {
+                this.board.dungeon.doorKeys[keyColour] += this.dungeonKeys[keyColour];
+            });
+
+            this.board.dungeon.emitDoorKeysToParty();
+        }
+
         super.onAllHitPointsLost();
     }
 
-    onMove () {
-        if(this.target === null){
-            if(this.wanderOffset !== null){
-                if(this.wanderDistance > 0){
+    onMove() {
+        if (this.target === null) {
+            if (this.wanderOffset !== null) {
+                if (this.wanderDistance > 0) {
                     this.wanderDistance -= 1;
                     // Move in the current direction.
                     let offset = this.board.directionToRowColOffset(this.direction);
                     // Check if there is a damaging tile in front.
-                    if(this.checkForMoveHazards(offset.row, offset.col) === false) return false;
+                    if (this.checkForMoveHazards(offset.row, offset.col) === false) return false;
                     super.move(offset.row, offset.col);
                 }
                 else {
@@ -79,18 +87,18 @@ class Mob extends Character {
         }
         else {
             // If the target is out of view range, forget about them.
-            if(this.isEntityWithinViewRange(this.target) === false){
+            if (this.isEntityWithinViewRange(this.target) === false) {
                 this.target = null;
                 return;
             }
             // If they are on the same tile, try to move apart.
-            if(this.row === this.target.row && this.col === this.target.col){
+            if (this.row === this.target.row && this.col === this.target.col) {
                 this.moveAwayFromCurrentTile();
                 return;
             }
 
             // If the target is out of the attack line, move closer.
-            if(this.isEntityWithinAttackLine(this.target) === false){
+            if (this.isEntityWithinAttackLine(this.target) === false) {
                 this.moveTowardsEntity(this.target);
                 return;
             }
@@ -104,11 +112,11 @@ class Mob extends Character {
     dropItems() {
         this.dropList.forEach((dropConfig) => {
             // Roll for this drop as many times as it is configured to.
-            for(let roll=0; roll<dropConfig.rolls; roll+=1){
+            for (let roll = 0; roll < dropConfig.rolls; roll += 1) {
                 // Do the roll.
-                if(dropConfig.dropRate >= Utils.getRandomIntInclusive(1, 100)){
+                if (dropConfig.dropRate >= Utils.getRandomIntInclusive(1, 100)) {
                     // Create a new pickup which will be added to the board.
-                    new dropConfig.pickupType({row: this.row, col: this.col, board: this.board}).emitToNearbyPlayers();
+                    new dropConfig.pickupType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
                 }
             }
         });
@@ -117,15 +125,15 @@ class Mob extends Character {
     /**
      * Empty method so interactables can call modEnergy without issue, as it assumes it is a Player, but might be a Mob.
      */
-    modEnergy () {}
+    modEnergy() { }
 
-    move (byRows, byCols) {
+    move(byRows, byCols) {
         // Prevent multiple move loops from being created if this move function is called again.
         clearTimeout(this.moveLoop);
         this.moveLoop = setTimeout(this.move.bind(this), this.moveRate);
 
         // If being told to move directly by some external input, do it.
-        if(byRows !== undefined && byCols !== undefined){
+        if (byRows !== undefined && byCols !== undefined) {
             super.move(byRows, byCols);
         }
         // Not being told to move, so decide for itself.
@@ -135,7 +143,7 @@ class Mob extends Character {
 
     }
 
-    moveTowardsEntity (entity) {
+    moveTowardsEntity(entity) {
         const
             col = this.col,
             row = this.row,
@@ -148,24 +156,24 @@ class Mob extends Character {
         // TODO: also stop them from targetting if the line of sight is broken to the target (stops them bumming walls all day)
 
         // If the target is in the next space, don't move on top of them.
-        if(horiDist + vertDist === 1){
+        if (horiDist + vertDist === 1) {
             return;
         }
 
         // If target is further away horizontally than vertically, attempt to get row aligned first, then move horizontally towards.
-        if(horiDist > vertDist){
+        if (horiDist > vertDist) {
             // Is target above mob.
-            if(targetRow < row){
+            if (targetRow < row) {
                 // Can this mob move up at all.
-                if(grid[row-1][col].isLowBlocked() === false){
+                if (grid[row - 1][col].isLowBlocked() === false) {
                     super.move(-1, 0);
                 }
                 // Up is blocked. Try going left or right from this spot.
                 else {
                     // Is target to left of mob.
-                    if(targetCol < col){
+                    if (targetCol < col) {
                         // Can this mob move left at all.
-                        if(grid[row][col-1].isLowBlocked() === false){
+                        if (grid[row][col - 1].isLowBlocked() === false) {
                             super.move(0, -1);
                         }
                         // Can't move left, try going right.
@@ -176,7 +184,7 @@ class Mob extends Character {
                     // Must be to the right.
                     else {
                         // Can this mob move right at all.
-                        if(grid[row][col+1].isLowBlocked() === false){
+                        if (grid[row][col + 1].isLowBlocked() === false) {
                             super.move(0, +1);
                         }
                         // Can't move right, try going left.
@@ -187,17 +195,17 @@ class Mob extends Character {
                 }
             }
             // Is target below mob.
-            else if(targetRow > row){
+            else if (targetRow > row) {
                 // Can this mob move down at all.
-                if(grid[row+1][col].isLowBlocked() === false){
+                if (grid[row + 1][col].isLowBlocked() === false) {
                     super.move(+1, 0);
                 }
                 // Down is blocked. Try going left or right from this spot.
                 else {
                     // Is target to left of mob.
-                    if(targetCol < col){
+                    if (targetCol < col) {
                         // Can this mob move left at all.
-                        if(grid[row][col-1].isLowBlocked() === false){
+                        if (grid[row][col - 1].isLowBlocked() === false) {
                             super.move(0, -1);
                         }
                         // Can't move left, try going right.
@@ -208,7 +216,7 @@ class Mob extends Character {
                     // Must be to the right.
                     else {
                         // Can this mob move right at all.
-                        if(grid[row][col+1].isLowBlocked() === false){
+                        if (grid[row][col + 1].isLowBlocked() === false) {
                             super.move(0, +1);
                         }
                         // Can't move left, try going left.
@@ -221,9 +229,9 @@ class Mob extends Character {
             // They are row aligned. Move left or right.
             else {
                 // Is target to left of mob.
-                if(targetCol < col){
+                if (targetCol < col) {
                     // Can this mob move left at all.
-                    if(grid[row][col-1].isLowBlocked() === false){
+                    if (grid[row][col - 1].isLowBlocked() === false) {
                         super.move(0, -1);
                     }
                     // Can't move left, try going up or down.
@@ -234,7 +242,7 @@ class Mob extends Character {
                 // Must be to the right.
                 else {
                     // Can this mob move right at all.
-                    if(grid[row][col+1].isLowBlocked() === false){
+                    if (grid[row][col + 1].isLowBlocked() === false) {
                         super.move(0, +1);
                     }
                     // Can't move right, try going up or down.
@@ -247,17 +255,17 @@ class Mob extends Character {
         // Target must be further away vertically than horizontally, attempt to get col aligned first, then move vertically towards.
         else {
             // Is target to left of mob.
-            if(targetCol < col){
+            if (targetCol < col) {
                 // Can this mob move to the left at all.
-                if(grid[row][col-1].isLowBlocked() === false){
+                if (grid[row][col - 1].isLowBlocked() === false) {
                     super.move(0, -1);
                 }
                 // Left is blocked. Try going up or down from this spot.
                 else {
                     // Is target above mob.
-                    if(targetRow < row){
+                    if (targetRow < row) {
                         // Can this mob move up at all.
-                        if(grid[row-1][col].isLowBlocked() === false){
+                        if (grid[row - 1][col].isLowBlocked() === false) {
                             super.move(-1, 0);
                         }
                         // Can't move up, try going down.
@@ -268,7 +276,7 @@ class Mob extends Character {
                     // Must be below.
                     else {
                         // Can this mob move down at all.
-                        if(grid[row+1][col].isLowBlocked() === false){
+                        if (grid[row + 1][col].isLowBlocked() === false) {
                             super.move(+1, 0);
                         }
                         // Can't move down, try going up.
@@ -279,17 +287,17 @@ class Mob extends Character {
                 }
             }
             // Is target to right of mob.
-            else if(targetCol > col){
+            else if (targetCol > col) {
                 // Can this mob move to the right at all.
-                if(grid[row][col+1].isLowBlocked() === false){
+                if (grid[row][col + 1].isLowBlocked() === false) {
                     super.move(0, +1);
                 }
                 // Right is blocked. Try going up or down from this spot.
                 else {
                     // Is target above mob.
-                    if(targetRow < row){
+                    if (targetRow < row) {
                         // Can this mob move up at all.
-                        if(grid[row-1][col].isLowBlocked() === false){
+                        if (grid[row - 1][col].isLowBlocked() === false) {
                             super.move(-1, 0);
                         }
                         // Can't move up, try going down.
@@ -300,7 +308,7 @@ class Mob extends Character {
                     // Must be below.
                     else {
                         // Can this mob move down at all.
-                        if(grid[row+1][col].isLowBlocked() === false){
+                        if (grid[row + 1][col].isLowBlocked() === false) {
                             super.move(+1, 0);
                         }
                         // Can't move down, try going up.
@@ -313,9 +321,9 @@ class Mob extends Character {
             // They are col aligned. Move up or down.
             else {
                 // Is target above mob.
-                if(targetRow < row){
+                if (targetRow < row) {
                     // Can this mob move up at all.
-                    if(grid[row-1][col].isLowBlocked() === false){
+                    if (grid[row - 1][col].isLowBlocked() === false) {
                         super.move(-1, 0);
                     }
                     // Can't move up, try going left or right.
@@ -326,7 +334,7 @@ class Mob extends Character {
                 // Must be below.
                 else {
                     // Can this mob move down at all.
-                    if(grid[row+1][col].isLowBlocked() === false){
+                    if (grid[row + 1][col].isLowBlocked() === false) {
                         super.move(+1, 0);
                     }
                     // Can't move down, try going left or right.
@@ -343,36 +351,36 @@ class Mob extends Character {
     /**
      * Move this entity away from the tile it is on. Tries to go up, down, left, then right.
      */
-    moveAwayFromCurrentTile () {
+    moveAwayFromCurrentTile() {
         const col = this.col,
             row = this.row,
             grid = this.board.grid;
 
         // If above isn't blocked, move there.
         /** @type {BoardTile} */
-        if(grid[row - 1][col].isLowBlocked() === false){
+        if (grid[row - 1][col].isLowBlocked() === false) {
             super.move(-1, 0);
             return;
         }
         // Below.
-        if(grid[row + 1][col].isLowBlocked() === false){
+        if (grid[row + 1][col].isLowBlocked() === false) {
             super.move(+1, 0);
             return;
         }
         // Left.
-        if(grid[row][col - 1].isLowBlocked() === false){
+        if (grid[row][col - 1].isLowBlocked() === false) {
             super.move(0, -1);
             return;
         }
         // Right.
-        if(grid[row][col + 1].isLowBlocked() === false){
+        if (grid[row][col + 1].isLowBlocked() === false) {
             super.move(0, +1);
             return;
         }
 
     }
 
-    moveAwayFromTarget () {
+    moveAwayFromTarget() {
         const
             col = this.col,
             row = this.row,
@@ -383,19 +391,19 @@ class Mob extends Character {
             grid = this.board.grid;
 
         // If target is further away horizontally than vertically, attempt to move away them horizontally.
-        if(horiDist > vertDist){
+        if (horiDist > vertDist) {
             // Is target to right of mob.
-            if(targetCol > col){
+            if (targetCol > col) {
                 // Can this mob move to the left at all.
-                if(grid[row][col-1].isLowBlocked() === false){
+                if (grid[row][col - 1].isLowBlocked() === false) {
                     super.move(0, -1);
                 }
                 // Left is blocked. Try going up or down from this spot and then try going left again.
                 else {
                     // Is target below mob.
-                    if(targetRow > row){
+                    if (targetRow > row) {
                         // Can this mob move up at all.
-                        if(grid[row-1][col].isLowBlocked() === false){
+                        if (grid[row - 1][col].isLowBlocked() === false) {
                             super.move(-1, 0);
                         }
                         // Can't move up, try going down.
@@ -406,7 +414,7 @@ class Mob extends Character {
                     // Probably is above (or aligned with).
                     else {
                         // Can this mob move down at all.
-                        if(grid[row+1][col].isLowBlocked() === false){
+                        if (grid[row + 1][col].isLowBlocked() === false) {
                             super.move(+1, 0);
                         }
                         // Can't move down, try going up.
@@ -417,17 +425,17 @@ class Mob extends Character {
                 }
             }
             // Is target to left of mob.
-            else if(targetCol < col){
+            else if (targetCol < col) {
                 // Can this mob move to the right at all.
-                if(grid[row][col+1].isLowBlocked() === false){
+                if (grid[row][col + 1].isLowBlocked() === false) {
                     super.move(0, +1);
                 }
                 // Right is blocked. Try going up or down from this spot and then try going right again.
                 else {
                     // Is target below mob.
-                    if(targetRow > row){
+                    if (targetRow > row) {
                         // Can this mob move up at all.
-                        if(grid[row-1][col].isLowBlocked() === false){
+                        if (grid[row - 1][col].isLowBlocked() === false) {
                             super.move(-1, 0);
                         }
                         // Can't move up, try going down.
@@ -438,7 +446,7 @@ class Mob extends Character {
                     // Probably is above (or aligned with).
                     else {
                         // Can this mob move down at all.
-                        if(grid[row+1][col].isLowBlocked() === false){
+                        if (grid[row + 1][col].isLowBlocked() === false) {
                             super.move(+1, 0);
                         }
                         // Can't move down, try going up.
@@ -453,17 +461,17 @@ class Mob extends Character {
         // Target must be further away vertically than horizontally (or the same), attempt to run away horizontally.
         else {
             // Is target below mob.
-            if(targetRow > row){
+            if (targetRow > row) {
                 // Can this mob move up at all.
-                if(grid[row-1][col].isLowBlocked() === false){
+                if (grid[row - 1][col].isLowBlocked() === false) {
                     super.move(-1, 0);
                 }
                 // Up is blocked. Try going left or right from this spot and then try going up again.
                 else {
                     // Is target to right of mob.
-                    if(targetCol > col){
+                    if (targetCol > col) {
                         // Can this mob move left at all.
-                        if(grid[row][col-1].isLowBlocked() === false){
+                        if (grid[row][col - 1].isLowBlocked() === false) {
                             super.move(0, -1);
                         }
                         // Can't move left, try going right.
@@ -474,7 +482,7 @@ class Mob extends Character {
                     // Probably is left (or aligned with).
                     else {
                         // Can this mob move left at all.
-                        if(grid[row][col-1].isLowBlocked() === false){
+                        if (grid[row][col - 1].isLowBlocked() === false) {
                             super.move(0, -1);
                         }
                         // Can't move left, try going right.
@@ -487,15 +495,15 @@ class Mob extends Character {
             // Is target above mob.
             else {
                 // Can this mob move down at all.
-                if(grid[row+1][col].isLowBlocked() === false){
+                if (grid[row + 1][col].isLowBlocked() === false) {
                     super.move(+1, 0);
                 }
                 // Down is blocked. Try going left or right from this spot and then try going down again.
                 else {
                     // Is target to right of mob.
-                    if(targetCol > col){
+                    if (targetCol > col) {
                         // Can this mob move left at all.
-                        if(grid[row][col-1].isLowBlocked() === false){
+                        if (grid[row][col - 1].isLowBlocked() === false) {
                             super.move(0, -1);
                         }
                         // Can't move left, try going right.
@@ -506,7 +514,7 @@ class Mob extends Character {
                     // Probably is left (or aligned with).
                     else {
                         // Can this mob move left at all.
-                        if(grid[row][col-1].isLowBlocked() === false){
+                        if (grid[row][col - 1].isLowBlocked() === false) {
                             super.move(0, -1);
                         }
                         // Can't move left, try going right.
@@ -519,22 +527,22 @@ class Mob extends Character {
         }
 
         // If the target is too far away after this mob has moved, stop targeting them.
-        if(horiDist > this.viewRange || vertDist > this.viewRange){
+        if (horiDist > this.viewRange || vertDist > this.viewRange) {
             this.target = null;
         }
     }
 
-    checkForMoveHazards (byRows, byCols) {
+    checkForMoveHazards(byRows, byCols) {
         // Check the grid row element being accessed is valid.
-        if(this.board.grid[this.row + byRows] === undefined) return false;
+        if (this.board.grid[this.row + byRows] === undefined) return false;
 
         /** @type {BoardTile} */
         const boardTile = this.board.grid[this.row + byRows][this.col + byCols];
 
         // Check the grid col element (the tile itself) being accessed is valid.
-        if(boardTile === undefined) return false;
+        if (boardTile === undefined) return false;
 
-        if(boardTile.groundType.hazardous === true) return false;
+        if (boardTile.groundType.hazardous === true) return false;
 
         return true;
     }
@@ -543,11 +551,11 @@ class Mob extends Character {
      * Find somewhere else for this mob to move to.
      * Changes to a random direction, and sets a random distance to travel.
      */
-    wander () {
+    wander() {
         this.wanderLoop = setTimeout(this.wander.bind(this), this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate));
 
         // Don't wander if a target is set.
-        if(this.target !== null) return;
+        if (this.target !== null) return;
 
         this.modDirection(this.getRandomDirection());
         this.wanderDistance = Utils.getRandomIntInclusive(1, this.viewRange);
@@ -558,14 +566,14 @@ class Mob extends Character {
      * @param {Damage} damage
      * @param {Entity} damagedBy
      */
-    onDamage (damage, damagedBy) {
-        if(damagedBy instanceof Player){
+    onDamage(damage, damagedBy) {
+        if (damagedBy instanceof Player) {
             this.target = damagedBy;
         }
-        else if(damagedBy instanceof Mob){
+        else if (damagedBy instanceof Mob) {
             // Check the faction relationship for if to target the attacker or not.
             // If damaged by a friendly mob, ignore the damage.
-            if(this.Factions.getRelationship(this.faction, damagedBy.faction) === this.Factions.RelationshipStatuses.Friendly){
+            if (this.Factions.getRelationship(this.faction, damagedBy.faction) === this.Factions.RelationshipStatuses.Friendly) {
                 return;
             }
             // Damaged by a hostile or neutral mob, target it.
@@ -581,20 +589,20 @@ class Mob extends Character {
      * The attack it does depends on if this mob is melee, or uses a projectile.
      * If the target is found to be dead, stops targeting.
      */
-    attack () {
+    attack() {
         this.attackLoop = setTimeout(this.attack.bind(this), this.attackRate);
         // Don't attack if no target is set.
-        if(this.target === null) return;
+        if (this.target === null) return;
 
         // Don't let them attack if a curse forbids it.
-        if(this.curse !== null){
-            if(this.curse.onCharacterAttack() === false){
+        if (this.curse !== null) {
+            if (this.curse.onCharacterAttack() === false) {
                 return;
             }
         }
 
         // Stop attacking if the target is dead.
-        if(this.target.hitPoints <= 0){
+        if (this.target.hitPoints <= 0) {
             this.target = null;
             return;
         }
@@ -603,14 +611,14 @@ class Mob extends Character {
 
     }
 
-    onAttackSuccess () {};
+    onAttackSuccess() { };
 
     /**
      * Hit the target if they are in an adjacent tile.
      */
-    attackMelee () {
+    attackMelee() {
         // Only melee attack target if it is adjacent.
-        if(this.isAdjacentToEntity(this.target) === false) return;
+        if (this.isAdjacentToEntity(this.target) === false) return;
 
         // Face the target if not already doing so.
         this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
@@ -626,12 +634,12 @@ class Mob extends Character {
     /**
      * Attempt to launch a projectile at the target of this mob.
      */
-    attackProjectile () {
+    attackProjectile() {
         // Only attack target if it is within the range of the projectile to be used.
-        if(this.isEntityWithinAttackLine(this.target) === false) return;
+        if (this.isEntityWithinAttackLine(this.target) === false) return;
 
         // If they are standing on top of each other, don't attack.
-        if(this.target.row - this.row + this.target.col - this.col === 0) return;
+        if (this.target.row - this.row + this.target.col - this.col === 0) return;
 
         // Face the target if not already doing so.
         this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
@@ -642,16 +650,16 @@ class Mob extends Character {
             thisCol = this.col,
             targetRow = this.target.row,
             targetCol = this.target.col,
-            attackRange = this.attackRange+1; // +1 as the tile this entity is currently on counts as one space.
+            attackRange = this.attackRange + 1; // +1 as the tile this entity is currently on counts as one space.
         let boardTile;
 
         // Check there is nothing blocking the line of sight, such as a wall.
-        for(let i=0; i<attackRange; i+=1){
+        for (let i = 0; i < attackRange; i += 1) {
             boardTile = grid[thisRow + (offset.row * i)][thisCol + (offset.col * i)];
-            if(boardTile.isHighBlocked() === true) return;
-            if(targetRow === thisRow + (offset.row * i)){
-                if(targetCol === thisCol + (offset.col * i)){
-                    new this.projectileAttackType({row: thisRow + offset.row, col: thisCol + offset.col, board: this.board, direction: this.direction, source: this}).emitToNearbyPlayers({});
+            if (boardTile.isHighBlocked() === true) return;
+            if (targetRow === thisRow + (offset.row * i)) {
+                if (targetCol === thisCol + (offset.col * i)) {
+                    new this.projectileAttackType({ row: thisRow + offset.row, col: thisCol + offset.col, board: this.board, direction: this.direction, source: this }).emitToNearbyPlayers({});
                     this.onAttackSuccess();
                     return;
                 }
@@ -663,8 +671,8 @@ class Mob extends Character {
      * Changes the projectile type this mob attacks with.
      * @param {Function} ProjectileType - The projectile entity class itself, not an instance.
      */
-    changeAttackProjectile (ProjectileType) {
-        if(ProjectileType){
+    changeAttackProjectile(ProjectileType) {
+        if (ProjectileType) {
             this.projectileAttackType = ProjectileType;
             // Get the attack range from the projectile.
             this.attackRange = this.projectileAttackType.prototype.range;
@@ -676,17 +684,17 @@ class Mob extends Character {
     /**
      * Looks for an entity (that this entity considers hostile) to target, in the direction this entity is facing.
      */
-    getNearestHostileInLOS () {
+    getNearestHostileInLOS() {
         this.targetSearchLoop = setTimeout(this.getNearestHostileInLOS.bind(this), this.targetSearchRate);
-        if(this.target !== null) return;
+        if (this.target !== null) return;
 
-        if(this.direction === this.Directions.UP) this.target = this.getNearestHostileInLOSUp();
-        else if(this.direction === this.Directions.DOWN) this.target = this.getNearestHostileInLOSDown();
-        else if(this.direction === this.Directions.LEFT) this.target = this.getNearestHostileInLOSLeft();
+        if (this.direction === this.Directions.UP) this.target = this.getNearestHostileInLOSUp();
+        else if (this.direction === this.Directions.DOWN) this.target = this.getNearestHostileInLOSDown();
+        else if (this.direction === this.Directions.LEFT) this.target = this.getNearestHostileInLOSLeft();
         else this.target = this.getNearestHostileInLOSRight();
     }
 
-    getNearestHostileInLOSUp () {
+    getNearestHostileInLOSUp() {
         const viewRange = this.viewRange,
             row = this.row,
             col = this.col,
@@ -711,67 +719,108 @@ class Mob extends Character {
 
         // Check down the middle.
         outerLoop:
-            for(rowOffset=0; rowOffset<viewRange; rowOffset+=1){
-                // Check the row is valid.
-                if(grid[row - rowOffset] === undefined) break;
-                // Minus rowOffset to go up.
-                boardTile = grid[row - rowOffset][col];
-                // Check the row+col is valid.
-                if(boardTile === undefined){
-                    // Update the visible range.
-                    forwardVisibleRange = rowOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
-                // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true){
-                    // Update the visible range.
-                    forwardVisibleRange = rowOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
+        for (rowOffset = 0; rowOffset < viewRange; rowOffset += 1) {
+            // Check the row is valid.
+            if (grid[row - rowOffset] === undefined) break;
+            // Minus rowOffset to go up.
+            boardTile = grid[row - rowOffset][col];
+            // Check the row+col is valid.
+            if (boardTile === undefined) {
+                // Update the visible range.
+                forwardVisibleRange = rowOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) {
+                // Update the visible range.
+                forwardVisibleRange = rowOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
 
-                destroyables = boardTile.destroyables;
+            destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                    destroyable = destroyables[entityKey];
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
-                        distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                        // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
-                            nearestDist = distBetween;
-                            nearestEntity = destroyable;
-                            // Stop checking other dynamics in this area, as a nearest has already been found
-                            // here, and any other hostiles found would be the same distance or further away.
-                            break outerLoop;
-                        }
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
                     }
                 }
             }
+        }
         // Set the side visible range for the first side.
         sideVisibleRange = forwardVisibleRange;
         // Go along left, scanning up the rows each time.
         outerLoop:
-            for(colOffset=1; colOffset<viewRange; colOffset+=1){
-                // Check directly left of this mob before going down.
+        for (colOffset = 1; colOffset < viewRange; colOffset += 1) {
+            // Check directly left of this mob before going down.
+            // Minus colOffset to go left.
+            boardTile = grid[row][col - colOffset];
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // The left is blocked, so stop searching left.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly left is clear, now search down from there, as far as the side visible range.
+            for (rowOffset = 1; rowOffset < sideVisibleRange; rowOffset += 1) {
+                // Check the row is valid.
+                if (grid[row - rowOffset] === undefined) break;
+                // Minus rowOffset to go up.
                 // Minus colOffset to go left.
-                boardTile = grid[row][col - colOffset];
-                if(boardTile === undefined) break;
+                boardTile = grid[row - rowOffset][col - colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // The left is blocked, so stop searching left.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -780,71 +829,71 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly left is clear, now search down from there, as far as the side visible range.
-                for(rowOffset=1; rowOffset<sideVisibleRange; rowOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row - rowOffset] === undefined) break;
-                    // Minus rowOffset to go up.
-                    // Minus colOffset to go left.
-                    boardTile = grid[row - rowOffset][col - colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
         // Reset the side visible range for the other side.
         sideVisibleRange = forwardVisibleRange;
         // Go along right, scanning up the rows each time.
         outerLoop:
-            for(colOffset=1; colOffset<viewRange; colOffset+=1){
-                // Check directly right of this mob before going down.
+        for (colOffset = 1; colOffset < viewRange; colOffset += 1) {
+            // Check directly right of this mob before going down.
+            // Plus colOffset to go right.
+            boardTile = grid[row][col + colOffset];
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // The right is blocked, so stop searching right.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly right is clear, now search up from there, as far as the side visible range.
+            for (rowOffset = 1; rowOffset < sideVisibleRange; rowOffset += 1) {
+                // Check the row is valid.
+                if (grid[row - rowOffset] === undefined) break;
+                // Minus rowOffset to go up.
                 // Plus colOffset to go right.
-                boardTile = grid[row][col + colOffset];
-                if(boardTile === undefined) break;
+                boardTile = grid[row - rowOffset][col + colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // The right is blocked, so stop searching right.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -853,54 +902,13 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly right is clear, now search up from there, as far as the side visible range.
-                for(rowOffset=1; rowOffset<sideVisibleRange; rowOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row - rowOffset] === undefined) break;
-                    // Minus rowOffset to go up.
-                    // Plus colOffset to go right.
-                    boardTile = grid[row - rowOffset][col + colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
 
         return nearestEntity;
     }
 
-    getNearestHostileInLOSDown () {
+    getNearestHostileInLOSDown() {
         const viewRange = this.viewRange,
             row = this.row,
             col = this.col,
@@ -925,67 +933,108 @@ class Mob extends Character {
 
         // Check down the middle.
         outerLoop:
-            for(rowOffset=0; rowOffset<viewRange; rowOffset+=1){
-                // Check the row is valid.
-                if(grid[row + rowOffset] === undefined) break;
-                // Plus rowOffset to go down.
-                boardTile = grid[row + rowOffset][col];
-                // Check the row+col is valid.
-                if(boardTile === undefined){
-                    // Update the visible range.
-                    forwardVisibleRange = rowOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
-                // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true){
-                    // Update the visible range.
-                    forwardVisibleRange = rowOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
+        for (rowOffset = 0; rowOffset < viewRange; rowOffset += 1) {
+            // Check the row is valid.
+            if (grid[row + rowOffset] === undefined) break;
+            // Plus rowOffset to go down.
+            boardTile = grid[row + rowOffset][col];
+            // Check the row+col is valid.
+            if (boardTile === undefined) {
+                // Update the visible range.
+                forwardVisibleRange = rowOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) {
+                // Update the visible range.
+                forwardVisibleRange = rowOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
 
-                destroyables = boardTile.destroyables;
+            destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                    destroyable = destroyables[entityKey];
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
-                        distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                        // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
-                            nearestDist = distBetween;
-                            nearestEntity = destroyable;
-                            // Stop checking other dynamics in this area, as a nearest has already been found
-                            // here, and any other hostiles found would be the same distance or further away.
-                            break outerLoop;
-                        }
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
                     }
                 }
             }
+        }
         // Set the side visible range for the first side.
         sideVisibleRange = forwardVisibleRange;
         // Go along left, scanning down the rows each time.
         outerLoop:
-            for(colOffset=1; colOffset<viewRange; colOffset+=1){
-                // Check directly left of this mob before going down.
+        for (colOffset = 1; colOffset < viewRange; colOffset += 1) {
+            // Check directly left of this mob before going down.
+            // Minus colOffset to go left.
+            boardTile = grid[row][col - colOffset];
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // The left is blocked, so stop searching left.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly left is clear, now search down from there, as far as the side visible range.
+            for (rowOffset = 1; rowOffset < sideVisibleRange; rowOffset += 1) {
+                // Check the row is valid.
+                if (grid[row + rowOffset] === undefined) break;
+                // Plus rowOffset to go down.
                 // Minus colOffset to go left.
-                boardTile = grid[row][col - colOffset];
-                if(boardTile === undefined) break;
+                boardTile = grid[row + rowOffset][col - colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // The left is blocked, so stop searching left.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -994,71 +1043,71 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly left is clear, now search down from there, as far as the side visible range.
-                for(rowOffset=1; rowOffset<sideVisibleRange; rowOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row + rowOffset] === undefined) break;
-                    // Plus rowOffset to go down.
-                    // Minus colOffset to go left.
-                    boardTile = grid[row + rowOffset][col - colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
         // Reset the side visible range for the other side.
         sideVisibleRange = forwardVisibleRange;
         // Go along right, scanning down the rows each time.
         outerLoop:
-            for(colOffset=1; colOffset<viewRange; colOffset+=1){
-                // Check directly right of this mob before going down.
+        for (colOffset = 1; colOffset < viewRange; colOffset += 1) {
+            // Check directly right of this mob before going down.
+            // Plus colOffset to go right.
+            boardTile = grid[row][col + colOffset];
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // The right is blocked, so stop searching right.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly right is clear, now search up from there, as far as the side visible range.
+            for (rowOffset = 1; rowOffset < sideVisibleRange; rowOffset += 1) {
+                // Check the row is valid.
+                if (grid[row + rowOffset] === undefined) break;
+                // Plus rowOffset to go down.
                 // Plus colOffset to go right.
-                boardTile = grid[row][col + colOffset];
-                if(boardTile === undefined) break;
+                boardTile = grid[row + rowOffset][col + colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // The right is blocked, so stop searching right.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -1067,55 +1116,14 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly right is clear, now search up from there, as far as the side visible range.
-                for(rowOffset=1; rowOffset<sideVisibleRange; rowOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row + rowOffset] === undefined) break;
-                    // Plus rowOffset to go down.
-                    // Plus colOffset to go right.
-                    boardTile = grid[row + rowOffset][col + colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
 
         return nearestEntity;
 
     }
 
-    getNearestHostileInLOSLeft () {
+    getNearestHostileInLOSLeft() {
         const viewRange = this.viewRange,
             row = this.row,
             col = this.col,
@@ -1140,68 +1148,109 @@ class Mob extends Character {
 
         // Check down the middle.
         outerLoop:
-            for(colOffset=0; colOffset<viewRange; colOffset+=1){
-                // Minus colOffset to go left.
-                boardTile = grid[row][col - colOffset];
-                // Check the row+col is valid.
-                if(boardTile === undefined){
-                    // Update the visible range.
-                    forwardVisibleRange = colOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
-                // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true){
-                    // Update the visible range.
-                    forwardVisibleRange = colOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
+        for (colOffset = 0; colOffset < viewRange; colOffset += 1) {
+            // Minus colOffset to go left.
+            boardTile = grid[row][col - colOffset];
+            // Check the row+col is valid.
+            if (boardTile === undefined) {
+                // Update the visible range.
+                forwardVisibleRange = colOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) {
+                // Update the visible range.
+                forwardVisibleRange = colOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
 
-                destroyables = boardTile.destroyables;
+            destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                    destroyable = destroyables[entityKey];
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
-                        distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                        // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
-                            nearestDist = distBetween;
-                            nearestEntity = destroyable;
-                            // Stop checking other dynamics in this area, as a nearest has already been found
-                            // here, and any other hostiles found would be the same distance or further away.
-                            break outerLoop;
-                        }
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
                     }
                 }
             }
+        }
         // Set the side visible range for the first side.
         sideVisibleRange = forwardVisibleRange;
         // Go along upwards, scanning left the columns each time.
         outerLoop:
-            for(rowOffset=1; rowOffset<viewRange; rowOffset+=1){
-                // Check directly above this mob before going left.
-                // Check the row is valid.
-                if(grid[row - rowOffset] === undefined) break;
-                // Minus rowOffset to go up.
-                boardTile = grid[row - rowOffset][col];
+        for (rowOffset = 1; rowOffset < viewRange; rowOffset += 1) {
+            // Check directly above this mob before going left.
+            // Check the row is valid.
+            if (grid[row - rowOffset] === undefined) break;
+            // Minus rowOffset to go up.
+            boardTile = grid[row - rowOffset][col];
 
-                if(boardTile === undefined) break;
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // Up is blocked, so stop searching up.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly above is clear, now search left from there, as far as the side visible range.
+            for (colOffset = 1; colOffset < sideVisibleRange; colOffset += 1) {
+                // Check the row is valid.
+                if (grid[row - rowOffset] === undefined) break;
+                // Minus rowOffset to go up.
+                // Minus colOffset to go left.
+                boardTile = grid[row - rowOffset][col - colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // Up is blocked, so stop searching up.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -1210,75 +1259,75 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly above is clear, now search left from there, as far as the side visible range.
-                for(colOffset=1; colOffset<sideVisibleRange; colOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row - rowOffset] === undefined) break;
-                    // Minus rowOffset to go up.
-                    // Minus colOffset to go left.
-                    boardTile = grid[row - rowOffset][col - colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
         // Reset the side visible range for the other side.
         sideVisibleRange = forwardVisibleRange;
         // Go along downwards, scanning left the rows each time.
         outerLoop:
-            for(rowOffset=1; rowOffset<viewRange; rowOffset+=1){
-                // Check directly below this mob before going left.
+        for (rowOffset = 1; rowOffset < viewRange; rowOffset += 1) {
+            // Check directly below this mob before going left.
+            // Check the row is valid.
+            if (grid[row + rowOffset] === undefined) break;
+
+            // Plus rowOffset to go down.
+            boardTile = grid[row + rowOffset][col];
+
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // Down is blocked, so stop searching down.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly below is clear, now search left from there, as far as the side visible range.
+            for (colOffset = 1; colOffset < sideVisibleRange; colOffset += 1) {
                 // Check the row is valid.
-                if(grid[row + rowOffset] === undefined) break;
-
+                if (grid[row + rowOffset] === undefined) break;
                 // Plus rowOffset to go down.
-                boardTile = grid[row + rowOffset][col];
-
-                if(boardTile === undefined) break;
+                // Minus colOffset to go left.
+                boardTile = grid[row + rowOffset][col - colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // Down is blocked, so stop searching down.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -1287,54 +1336,13 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly below is clear, now search left from there, as far as the side visible range.
-                for(colOffset=1; colOffset<sideVisibleRange; colOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row + rowOffset] === undefined) break;
-                    // Plus rowOffset to go down.
-                    // Minus colOffset to go left.
-                    boardTile = grid[row + rowOffset][col - colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
 
         return nearestEntity;
     }
 
-    getNearestHostileInLOSRight () {
+    getNearestHostileInLOSRight() {
         const viewRange = this.viewRange,
             row = this.row,
             col = this.col,
@@ -1359,68 +1367,109 @@ class Mob extends Character {
 
         // Check down the middle.
         outerLoop:
-            for(colOffset=0; colOffset<viewRange; colOffset+=1){
-                // Plus colOffset to go right.
-                boardTile = grid[row][col + colOffset];
-                // Check the row+col is valid.
-                if(boardTile === undefined){
-                    // Update the visible range.
-                    forwardVisibleRange = colOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
-                // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true){
-                    // Update the visible range.
-                    forwardVisibleRange = colOffset;
-                    // Can't see any further. End the loop.
-                    break;
-                }
+        for (colOffset = 0; colOffset < viewRange; colOffset += 1) {
+            // Plus colOffset to go right.
+            boardTile = grid[row][col + colOffset];
+            // Check the row+col is valid.
+            if (boardTile === undefined) {
+                // Update the visible range.
+                forwardVisibleRange = colOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) {
+                // Update the visible range.
+                forwardVisibleRange = colOffset;
+                // Can't see any further. End the loop.
+                break;
+            }
 
-                destroyables = boardTile.destroyables;
+            destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                    destroyable = destroyables[entityKey];
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
-                        distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                        // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
-                            nearestDist = distBetween;
-                            nearestEntity = destroyable;
-                            // Stop checking other dynamics in this area, as a nearest has already been found
-                            // here, and any other hostiles found would be the same distance or further away.
-                            break outerLoop;
-                        }
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
                     }
                 }
             }
+        }
         // Set the side visible range for the first side.
         sideVisibleRange = forwardVisibleRange;
         // Go along upwards, scanning right the columns each time.
         outerLoop:
-            for(rowOffset=1; rowOffset<viewRange; rowOffset+=1){
-                // Check directly above this mob before going right.
-                // Check the row is valid.
-                if(grid[row - rowOffset] === undefined) break;
-                // Minus rowOffset to go up.
-                boardTile = grid[row - rowOffset][col];
+        for (rowOffset = 1; rowOffset < viewRange; rowOffset += 1) {
+            // Check directly above this mob before going right.
+            // Check the row is valid.
+            if (grid[row - rowOffset] === undefined) break;
+            // Minus rowOffset to go up.
+            boardTile = grid[row - rowOffset][col];
 
-                if(boardTile === undefined) break;
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // Up is blocked, so stop searching up.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly above is clear, now search right from there, as far as the side visible range.
+            for (colOffset = 1; colOffset < sideVisibleRange; colOffset += 1) {
+                // Check the row is valid.
+                if (grid[row - rowOffset] === undefined) break;
+                // Minus rowOffset to go up.
+                // Plus colOffset to go right.
+                boardTile = grid[row - rowOffset][col + colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // Up is blocked, so stop searching up.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -1429,74 +1478,74 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly above is clear, now search right from there, as far as the side visible range.
-                for(colOffset=1; colOffset<sideVisibleRange; colOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row - rowOffset] === undefined) break;
-                    // Minus rowOffset to go up.
-                    // Plus colOffset to go right.
-                    boardTile = grid[row - rowOffset][col + colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
         // Reset the side visible range for the other side.
         sideVisibleRange = forwardVisibleRange;
         // Go along downwards, scanning right the rows each time.
         outerLoop:
-            for(rowOffset=1; rowOffset<viewRange; rowOffset+=1){
-                // Check directly below this mob before going right.
-                // Check the row is valid.
-                if(grid[row + rowOffset] === undefined) break;
-                // Plus rowOffset to go down.
-                boardTile = grid[row + rowOffset][col];
+        for (rowOffset = 1; rowOffset < viewRange; rowOffset += 1) {
+            // Check directly below this mob before going right.
+            // Check the row is valid.
+            if (grid[row + rowOffset] === undefined) break;
+            // Plus rowOffset to go down.
+            boardTile = grid[row + rowOffset][col];
 
-                if(boardTile === undefined) break;
+            if (boardTile === undefined) break;
+            // Check if there is anything blocking the LOS.
+            if (boardTile.isHighBlocked() === true) break; // Down is blocked, so stop searching down.
+
+            destroyables = boardTile.destroyables;
+
+            for (entityKey in destroyables) {
+                if (destroyables.hasOwnProperty(entityKey) === false) continue;
+                destroyable = destroyables[entityKey];
+
+                if (this.isHostileTowardsCharacter(destroyable) === true) {
+                    distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
+                    // If it is closer than any other hostile found so far, make it the new closest.
+                    if (distBetween < nearestDist) {
+                        nearestDist = distBetween;
+                        nearestEntity = destroyable;
+                        // Stop checking other dynamics in this area, as a nearest has already been found
+                        // here, and any other hostiles found would be the same distance or further away.
+                        break outerLoop;
+                    }
+                }
+            }
+
+            // Directly below is clear, now search right from there, as far as the side visible range.
+            for (colOffset = 1; colOffset < sideVisibleRange; colOffset += 1) {
+                // Check the row is valid.
+                if (grid[row + rowOffset] === undefined) break;
+                // Plus rowOffset to go down.
+                // Plus colOffset to go right.
+                boardTile = grid[row + rowOffset][col + colOffset];
+                // Check the row+col is valid.
+                if (boardTile === undefined) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
                 // Check if there is anything blocking the LOS.
-                if(boardTile.isHighBlocked() === true) break; // Down is blocked, so stop searching down.
+                if (boardTile.isHighBlocked() === true) {
+                    // Update the side visible range.
+                    sideVisibleRange = rowOffset;
+                    // Can't see any further. End the loop.
+                    break;
+                }
 
                 destroyables = boardTile.destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];
 
-                    if(this.isHostileTowardsCharacter(destroyable) === true){
+                    if (this.isHostileTowardsCharacter(destroyable) === true) {
                         distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this area, as a nearest has already been found
@@ -1505,49 +1554,8 @@ class Mob extends Character {
                         }
                     }
                 }
-
-                // Directly below is clear, now search right from there, as far as the side visible range.
-                for(colOffset=1; colOffset<sideVisibleRange; colOffset+=1){
-                    // Check the row is valid.
-                    if(grid[row + rowOffset] === undefined) break;
-                    // Plus rowOffset to go down.
-                    // Plus colOffset to go right.
-                    boardTile = grid[row + rowOffset][col + colOffset];
-                    // Check the row+col is valid.
-                    if(boardTile === undefined){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-                    // Check if there is anything blocking the LOS.
-                    if(boardTile.isHighBlocked() === true){
-                        // Update the side visible range.
-                        sideVisibleRange = rowOffset;
-                        // Can't see any further. End the loop.
-                        break;
-                    }
-
-                    destroyables = boardTile.destroyables;
-
-                    for(entityKey in destroyables){
-                        if(destroyables.hasOwnProperty(entityKey) === false) continue;
-                        destroyable = destroyables[entityKey];
-
-                        if(this.isHostileTowardsCharacter(destroyable) === true){
-                            distBetween = Math.abs(col - destroyable.col) + Math.abs(row - destroyable.row);
-                            // If it is closer than any other hostile found so far, make it the new closest.
-                            if(distBetween < nearestDist){
-                                nearestDist = distBetween;
-                                nearestEntity = destroyable;
-                                // Stop checking other dynamics in this area, as a nearest has already been found
-                                // here, and any other hostiles found would be the same distance or further away.
-                                break outerLoop;
-                            }
-                        }
-                    }
-                }
             }
+        }
 
         return nearestEntity;
     }
@@ -1556,7 +1564,7 @@ class Mob extends Character {
      * TODO: Could do with removing??? Might need it for non-LOS based mobs.
      * Gets the nearest entity to this mob that it considers hostile, according to its faction status.
      */
-    getNearestHostile () {
+    getNearestHostile() {
         let rowOffset = -this.viewRange,
             colOffset = -this.viewRange,
             viewRange = this.viewRange,
@@ -1575,31 +1583,31 @@ class Mob extends Character {
             nearestEntity = null;
 
         // Search all tiles within the view range to find a target.
-        for(; rowOffset<viewRangePlusOne; rowOffset+=1){
+        for (; rowOffset < viewRangePlusOne; rowOffset += 1) {
 
             gridRow = this.board.grid[this.row + rowOffset];
 
             // Check the row is valid.
-            if(gridRow === undefined) continue;
+            if (gridRow === undefined) continue;
 
-            for(colOffset=-viewRange; colOffset<viewRangePlusOne; colOffset+=1){
+            for (colOffset = -viewRange; colOffset < viewRangePlusOne; colOffset += 1) {
 
                 // Check the col is valid.
-                if(gridRow[this.col + colOffset] === undefined) continue;
+                if (gridRow[this.col + colOffset] === undefined) continue;
 
                 destroyables = gridRow[this.col + colOffset].destroyables;
 
-                for(entityKey in destroyables){
-                    if(destroyables.hasOwnProperty(entityKey) === false) continue;
+                for (entityKey in destroyables) {
+                    if (destroyables.hasOwnProperty(entityKey) === false) continue;
                     destroyable = destroyables[entityKey];//TODO: if using this function again, check the isHostileToCharacter faction.
 
                     // Ignore anything that isn't a character.
-                    if(destroyable instanceof Character === false) continue;
+                    if (destroyable instanceof Character === false) continue;
                     // Check this mob is hostile towards the other character.
-                    if(this.Factions.getRelationship(this.faction, destroyable.faction) === this.Factions.RelationshipStatuses.Hostile){
+                    if (this.Factions.getRelationship(this.faction, destroyable.faction) === this.Factions.RelationshipStatuses.Hostile) {
                         distBetween = Math.abs(this.col - destroyable.col) + Math.abs(this.row - destroyable.row);
                         // If it is closer than any other hostile found so far, make it the new closest.
-                        if(distBetween < nearestDist){
+                        if (distBetween < nearestDist) {
                             nearestDist = distBetween;
                             nearestEntity = destroyable;
                             // Stop checking other dynamics in this board tile, as a nearest has already
@@ -1619,9 +1627,9 @@ class Mob extends Character {
      * @param {Entity} entity
      * @returns {Boolean}
      */
-    isEntityWithinViewRange (entity) {
-        if(Math.abs(this.col - entity.col) >= this.viewRange) return false;
-        if(Math.abs(this.row - entity.row) >= this.viewRange) return false;
+    isEntityWithinViewRange(entity) {
+        if (Math.abs(this.col - entity.col) >= this.viewRange) return false;
+        if (Math.abs(this.row - entity.row) >= this.viewRange) return false;
 
         return true;
     }
@@ -1631,14 +1639,14 @@ class Mob extends Character {
      * @param {Entity} entity
      * @returns {Boolean}
      */
-    isEntityWithinAttackLine (entity) {
-        if(this.row === entity.row){
-            if(Math.abs(this.col - entity.col) <= this.attackRange){
+    isEntityWithinAttackLine(entity) {
+        if (this.row === entity.row) {
+            if (Math.abs(this.col - entity.col) <= this.attackRange) {
                 return true;
             }
         }
-        if(this.col === entity.col){
-            if(Math.abs(this.row - entity.row) <= this.attackRange){
+        if (this.col === entity.col) {
+            if (Math.abs(this.row - entity.row) <= this.attackRange) {
                 return true;
             }
         }
@@ -1650,12 +1658,12 @@ class Mob extends Character {
      * @param {Character} character
      * @returns {Boolean}
      */
-    isHostileTowardsCharacter (character) {
+    isHostileTowardsCharacter(character) {
         // Ignore anything that isn't a character.
-        if(character instanceof Character === false) return false;
+        if (character instanceof Character === false) return false;
 
         // Check this mob is hostile towards the other character.
-        if(this.Factions.getRelationship(this.faction, character.faction) === this.Factions.RelationshipStatuses.Hostile) return true;
+        if (this.Factions.getRelationship(this.faction, character.faction) === this.Factions.RelationshipStatuses.Hostile) return true;
 
         return false;
     }
@@ -1663,26 +1671,26 @@ class Mob extends Character {
     /**
      * Assigns the property values for this mob type from the mob values data list.
      */
-    assignMobValues () {
+    assignMobValues() {
         const valuesTypeName = this.constructor.name
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
-        if(statValues === undefined) Utils.error("No mob stat values defined for type name:", valuesTypeName);
+        if (statValues === undefined) Utils.error("No mob stat values defined for type name:", valuesTypeName);
         this.gloryValue = statValues.gloryValue;
         this.maxHitPoints = statValues.maxHitPoints;
         this.defence = statValues.defence;
         this.viewRange = statValues.viewRange;
         this.moveRate = statValues.moveRate;
-        if(this.moveRate === 0){
+        if (this.moveRate === 0) {
             // If the move rate is 0, make them unable to move, or 
             // they will have unlimited move speed/teleport to target.
-            this.move = () => {}
+            this.move = () => { }
         }
         this.wanderRate = statValues.wanderRate;
         this.targetSearchRate = statValues.targetSearchRate;
         this.attackRate = statValues.attackRate;
         this.meleeDamageAmount = statValues.meleeDamageAmount;
-        if(statValues.projectileAttackType !== null) this.projectileAttackType = require('./../../' + statValues.projectileAttackType);
+        if (statValues.projectileAttackType !== null) this.projectileAttackType = require('./../../' + statValues.projectileAttackType);
         this.CorpseType = statValues.corpseType;
         this.faction = statValues.faction;
         this.behaviour = statValues.behaviour;

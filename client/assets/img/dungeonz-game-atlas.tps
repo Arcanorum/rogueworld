@@ -263,6 +263,18 @@
             <key type="filename">entities/characters/crypt warden/crypt-warden-up-1.png</key>
             <key type="filename">entities/characters/crypt warden/crypt-warden-up-2.png</key>
             <key type="filename">entities/characters/crypt warden/crypt-warden-up-3.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-down-1.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-down-2.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-down-3.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-left-1.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-left-2.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-left-3.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-right-1.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-right-2.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-right-3.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-up-1.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-up-2.png</key>
+            <key type="filename">entities/characters/dwarf/dwarf-up-3.png</key>
             <key type="filename">entities/characters/effects/burn-effect-1.png</key>
             <key type="filename">entities/characters/effects/burn-effect-2.png</key>
             <key type="filename">entities/characters/effects/cured-effect-1.png</key>
@@ -765,30 +777,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">entities/pickups/pickup-blue-key.png</key>
-            <key type="filename">entities/pickups/pickup-cure-potion.png</key>
-            <key type="filename">entities/pickups/pickup-energy-potion.png</key>
-            <key type="filename">entities/pickups/pickup-fighter-key.png</key>
-            <key type="filename">entities/pickups/pickup-green-key.png</key>
-            <key type="filename">entities/pickups/pickup-health-potion.png</key>
-            <key type="filename">entities/pickups/pickup-pit-key.png</key>
-            <key type="filename">entities/pickups/pickup-red-key.png</key>
-            <key type="filename">entities/pickups/pickup-vampire-fang.png</key>
-            <key type="filename">entities/pickups/pickup-yellow-key.png</key>
-            <key type="filename">entities/projectiles/proj-dungium-sword.png</key>
-            <key type="filename">entities/projectiles/proj-noctis-sword.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>4,4,7,7</rect>
-                <key>scale9Paddings</key>
-                <rect>4,4,7,7</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">entities/pickups/pickup-book-of-light.png</key>
             <key type="filename">entities/pickups/pickup-book-of-souls.png</key>
             <key type="filename">entities/pickups/pickup-charter.png</key>
@@ -819,6 +807,26 @@
                 <rect>5,5,9,9</rect>
                 <key>scale9Paddings</key>
                 <rect>5,5,9,9</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">entities/pickups/pickup-cure-potion.png</key>
+            <key type="filename">entities/pickups/pickup-energy-potion.png</key>
+            <key type="filename">entities/pickups/pickup-fighter-key.png</key>
+            <key type="filename">entities/pickups/pickup-health-potion.png</key>
+            <key type="filename">entities/pickups/pickup-pit-key.png</key>
+            <key type="filename">entities/pickups/pickup-vampire-fang.png</key>
+            <key type="filename">entities/projectiles/proj-dungium-sword.png</key>
+            <key type="filename">entities/projectiles/proj-noctis-sword.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,7,7</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,7,7</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -937,6 +945,7 @@
             <filename>entities/characters/gnarl</filename>
             <filename>entities/characters/grass scamp</filename>
             <filename>entities/characters/mage</filename>
+            <filename>entities/characters/dwarf</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -29,6 +29,14 @@ class Dungeon {
         // It is now up to the dungeon itself to manage the party.
         this.party = config.party;
 
+        this.doorKeys = {
+            red: 0,
+            green: 0,
+            blue: 0,
+            yellow: 0,
+            brown: 0
+        };
+
         // Create a board instance from the map data.
         this.board = new Board(config.mapData, config.name, config.alwaysNight, this);
 
@@ -36,18 +44,6 @@ class Dungeon {
         this.linkExits();
 
         this.addPlayers(config.party.members, config.timeLimitMinutes);
-
-        /**
-         * Locked doors in dungeons stay open when unlocked, but are closed when the boss respawns.
-         * @type {Array.<Interactable>}
-         */
-        //this.lockedDoors = [];
-
-        /**
-         * A list of the mobs that have keys in their drop lists, so they can be killed and respawned in their correct areas.
-         * @type {Object}
-         */
-        //this.keyHolders = {};
 
         /**
          * Whether the completion criteria for this dungeon has been met.
@@ -63,19 +59,17 @@ class Dungeon {
 
         this.timeUpTimeout = setTimeout(() => {
             // Time is up, end the dungeon.
-            console.log("dungeon instance time is up!");
-
             this.timeUpTimeout = null;
 
             this.evictAllPlayers();
-
-            this.destroy();
 
         }, this.timeRemaining);
 
     }
 
     destroy() {
+        clearTimeout(this.timeUpTimeout);
+
         this.board.destroy();
 
         this.dungeonManager = null;
@@ -83,7 +77,6 @@ class Dungeon {
     }
 
     removePlayerFromParty(player) {
-        console.log("dungeon removeplayerfromparty");
         this.dungeonManager.removePlayerFromParty(player);
     }
 
@@ -119,7 +112,7 @@ class Dungeon {
             let position = this.board.entrances["dungeon-start"].getRandomPosition();
 
             // Move the player to the board instance that was created.
-            player.changeBoard(this.board, position.row, position.col);
+            player.changeBoard(player.board, this.board, position.row, position.col);
 
             // Tell them the dungeon has started.
             player.socket.sendEvent(EventsList.start_dungeon, {
@@ -132,24 +125,23 @@ class Dungeon {
         this.completed = true;
 
         // Tell the players in this dungeon that it is completed.
-
     }
 
     evictAllPlayers() {
-        console.log("evicting all players, party:", this.party.id);
-
         // Send all players on the board to the entrance that this dungeon exits to.
         this.party.members.forEach((player) => {
             // Reposition them to somewhere within the entrance bounds.
             let position = this.evictionEntrance.getRandomPosition();
 
             // Move them out of this dungeon board.
-            player.changeBoard(this.evictionBoard, position.row, position.col);
-            console.log("player moved:", player.id);
+            player.changeBoard(this.board, this.evictionBoard, position.row, position.col);
         });
+    }
 
-        this.dungeonManager.removeParty(this.party);
-        //this.party.destroy();
+    emitDoorKeysToParty() {
+        this.party.members.forEach((member) => {
+            member.socket.sendEvent(EventsList.dungeon_door_keys, this.doorKeys);
+        })
     }
 
 }

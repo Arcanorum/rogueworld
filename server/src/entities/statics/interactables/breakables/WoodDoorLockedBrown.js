@@ -1,6 +1,6 @@
 const Breakable = require('./Breakable');
 
-class WoodDoorLockedGreen extends Breakable {
+class WoodDoorLockedBrown extends Breakable {
 
     interaction(interactedBy) {
         // Don't do anything to this door if it is not active.
@@ -8,8 +8,8 @@ class WoodDoorLockedGreen extends Breakable {
 
         // Check they are a player. Only players can use the keys to open locked doors.
         if (interactedBy.socket && this.board.dungeon) {
-            if (this.board.dungeon.doorKeys.green > 0) {
-                this.board.dungeon.doorKeys.green -= 1;
+            if (this.board.dungeon.doorKeys.brown > 0) {
+                this.board.dungeon.doorKeys.brown -= 1;
                 this.board.dungeon.emitDoorKeysToParty();
 
                 // The door is now open, so stop it from blocking players.
@@ -31,8 +31,8 @@ class WoodDoorLockedGreen extends Breakable {
     }
 
 }
-module.exports = WoodDoorLockedGreen;
+module.exports = WoodDoorLockedBrown;
 
-WoodDoorLockedGreen.prototype.registerEntityType();
+WoodDoorLockedBrown.prototype.registerEntityType();
 
-WoodDoorLockedGreen.prototype.warningEvent = WoodDoorLockedGreen.prototype.EventsList.key_needed;
+WoodDoorLockedBrown.prototype.warningEvent = WoodDoorLockedBrown.prototype.EventsList.key_needed;

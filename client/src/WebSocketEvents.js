@@ -402,6 +402,7 @@ window.addGameStateEventResponses = function () {
         // They might be leaving a dungeon, so stop the dungeon timer if it is running.
         if (!data.boardIsDungeon) {
             _this.GUI.stopDungeonTimer();
+            _this.GUI.updateDungeonKeysList({});
         }
 
         /* TODO if(_this.boardAlwaysNight === false){
@@ -756,6 +757,10 @@ window.addGameStateEventResponses = function () {
 
     eventResponses.parties = function (data) {
         _this.GUI.dungeonPanel.updateParties(data);
+    };
+
+    eventResponses.dungeon_door_keys = (data) => {
+        _this.GUI.updateDungeonKeysList(data);
     };
 
     eventResponses.shop_prices = function (data) {

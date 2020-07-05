@@ -46,6 +46,7 @@ const EventsList = {
     defence_value: registerEventName(),
     drop_item: registerEventName(),
     durability_value: registerEventName(),
+    dungeon_door_keys: registerEventName(),
     dungeon_prompt: registerEventName(),
     effect_start_burn: registerEventName(),
     effect_stop_burn: registerEventName(),

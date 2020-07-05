@@ -88,6 +88,9 @@ class GUI {
         this.dungeonTimerContainer = document.getElementById('dungeon_timer_cont');
         this.dungeonTimerValue = document.getElementById('dungeon_timer_value');
 
+        this.dungeonKeysContainer = document.getElementById('dungeon_keys_cont');
+        this.dungeonKeysList = document.getElementById('dungeon_keys_list');
+
         this.chatInput = document.getElementById('chat_input');
 
         this.panels = [];
@@ -211,6 +214,8 @@ class GUI {
         this.gloryCounterTransition.addEventListener('webkitAnimationEnd', this.textCounterWebkitAnimationEnd, false);
 
         this.dragData = null;
+
+        this.updateDungeonKeysList({});
 
         this.gui.ondragenter = function (event) {
             event.preventDefault();
@@ -404,6 +409,31 @@ class GUI {
     stopDungeonTimer() {
         clearTimeout(this.dungeonTimerCounter);
         this.dungeonTimerContainer.style.visibility = "hidden";
+    }
+
+    updateDungeonKeysList(keys) {
+        // Remove all current key icons.
+        while (this.dungeonKeysList.firstChild) {
+            this.dungeonKeysList.firstChild.remove();
+        }
+
+        // Add an icon for each key.
+        Object.entries(keys).forEach(([colour, amount]) => {
+            for (let i = 0; i < amount; i += 1) {
+                const element = document.createElement('img');
+                element.src = 'assets/img/gui/hud/' + colour + '-key.png';
+                element.draggable = false;
+                element.className = "dungeon_key_icon";
+                this.dungeonKeysList.appendChild(element);
+            }
+        });
+
+        if (this.dungeonKeysList.childElementCount > 0) {
+            this.dungeonKeysList.style.visibility = "visible";
+        }
+        else {
+            this.dungeonKeysList.style.visibility = "hidden";
+        }
     }
 
     makeElementDraggable(handle, container) {

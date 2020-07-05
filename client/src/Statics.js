@@ -8,7 +8,7 @@ class Static {
      * @param {Number} tileID
      * @param {*} [data]
      */
-    constructor (row, col, tileID, data) {
+    constructor(row, col, tileID, data) {
         this.id = row + "-" + col;
         this.row = row;
         this.col = col;
@@ -25,7 +25,7 @@ class Static {
         /** @type {Number} The frame on the statics tileset to use for drawing to the bitmap data when this static is inactive. */
         this.inactiveFrame = 0;
 
-        if(TileIDInactiveFrames[tileID] === undefined){
+        if (TileIDInactiveFrames[tileID] === undefined) {
             this.inactiveFrame = TileIDInactiveFrames["0"];
         }
         else {
@@ -33,7 +33,7 @@ class Static {
         }
 
         // Add this static to the statics list.
-        if(_this.statics[this.id] === undefined){
+        if (_this.statics[this.id] === undefined) {
             _this.statics[this.id] = this;
         }
         else {
@@ -42,16 +42,16 @@ class Static {
 
     }
 
-    destroy () {
+    destroy() {
         delete _this.statics[this.id];
 
-        if(_this.lightSources[this.id] !== undefined){
+        if (_this.lightSources[this.id] !== undefined) {
             delete _this.lightSources[this.id];
             _this.tilemap.updateDarknessGrid();
         }
     }
 
-    interactedByPlayer () {}
+    interactedByPlayer() { }
 
 }
 
@@ -62,7 +62,7 @@ class Static {
 const GUITriggers = {};
 
 class GUITrigger extends Static {
-    constructor (row, col, tileID, data) {
+    constructor(row, col, tileID, data) {
         super(row, col, tileID, data);
 
         this.triggerName = data.name;
@@ -73,37 +73,37 @@ class GUITrigger extends Static {
         // Don't show the yellow square.
         this.tileID = 0;
 
-        if(this.panel === undefined){
+        if (this.panel === undefined) {
             console.log("WARNING: Trigger cannot open invalid GUI panel:", data.panelName);
         }
 
-        if(GUITriggers[this.triggerName] === undefined){
+        if (GUITriggers[this.triggerName] === undefined) {
             GUITriggers[this.triggerName] = {};
         }
 
         GUITriggers[this.triggerName][this.id] = this;
     }
 
-    static removeTriggerGroup (triggerName) {
+    static removeTriggerGroup(triggerName) {
         const triggerGroup = GUITriggers[triggerName];
         // Remove all of the other triggers in this group.
-        for(let triggerKey in triggerGroup){
-            if(triggerGroup.hasOwnProperty(triggerKey) === false) continue;
+        for (let triggerKey in triggerGroup) {
+            if (triggerGroup.hasOwnProperty(triggerKey) === false) continue;
             triggerGroup[triggerKey].destroy();
         }
         // Remove the group.
         delete GUITriggers[triggerName];
     }
 
-    destroy () {
+    destroy() {
         delete GUITriggers[this.triggerName][this.id];
 
         super.destroy();
     }
 
-    interactedByPlayer () {
+    interactedByPlayer() {
         // Check the panel is valid. Might have been given the wrong panel name.
-        if(this.panel !== undefined){
+        if (this.panel !== undefined) {
             // Show the GUI panel this trigger opens.
             this.panel.show(this.panelNameTextDefID, this.contentTextDefID, this.contentFileName);
         }
@@ -114,14 +114,14 @@ class GUITrigger extends Static {
 }
 
 class Portal extends Static {
-    constructor (row, col, tileID, data) {
+    constructor(row, col, tileID, data) {
         super(row, col, tileID, data);
         this.sprite.lightDistance = 6;
     }
 }
 
 class DungeonPortal extends Portal {
-    constructor (row, col, tileID, data) {
+    constructor(row, col, tileID, data) {
         super(row, col, tileID, data);
         /**
          * The ID number of the dungeon manager that this portal is linked to.
@@ -130,37 +130,37 @@ class DungeonPortal extends Portal {
          */
         this.dungeonManagerID = data;
     }
-    interactedByPlayer () {
+    interactedByPlayer() {
         _this.GUI.dungeonPanel.show(this);
     }
 }
 
 class Torch extends Static {
-    constructor (row, col, tileID, data) {
+    constructor(row, col, tileID, data) {
         super(row, col, tileID, data);
         this.sprite.lightDistance = 4;
     }
 }
 
 class CraftingStation extends Static {
-    constructor (row, col, tileID, data) {
+    constructor(row, col, tileID, data) {
         super(row, col, tileID, data);
 
         this.stationTypeNumber = data;
     }
 
-    interactedByPlayer () {}
+    interactedByPlayer() { }
 }
 
 class Anvil extends CraftingStation {
-    interactedByPlayer () {
+    interactedByPlayer() {
         _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
         _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
     }
 }
 
 class Furnace extends CraftingStation {
-    interactedByPlayer () {
+    interactedByPlayer() {
         _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
         _this.GUI.craftingPanel.show(dungeonz.getTextDef("Furnace"), 'assets/img/gui/panels/furnace.png');
         this.sprite.lightDistance = 4;
@@ -168,21 +168,21 @@ class Furnace extends CraftingStation {
 }
 
 class Laboratory extends CraftingStation {
-    interactedByPlayer () {
+    interactedByPlayer() {
         _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
         _this.GUI.craftingPanel.show(dungeonz.getTextDef("Laboratory"), 'assets/img/gui/panels/laboratory.png');
     }
 }
 
 class Workbench extends CraftingStation {
-    interactedByPlayer () {
+    interactedByPlayer() {
         _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
         _this.GUI.craftingPanel.show(dungeonz.getTextDef("Workbench"), 'assets/img/gui/panels/workbench.png');
     }
 }
 
 class BankChest extends Static {
-    interactedByPlayer () {
+    interactedByPlayer() {
         _this.GUI.bankPanel.show();
     }
 }
@@ -228,12 +228,14 @@ const TileIDInactiveFrames = {
     2770: 2766, // Wood door locked green
     2771: 2766, // Wood door locked blue
     2772: 2766, // Wood door locked yellow
+    2773: 2766, // Wood door locked brown
     2831: 2830, // Metal door
     2832: 2830, // Metal door padlocked
     2833: 2830, // Metal door locked red
     2834: 2830, // Metal door locked green
     2835: 2830, // Metal door locked blue
     2836: 2830, // Metal door locked yellow
+    2837: 2830, // Metal door locked brown
     2894: 2766, // Door locked fighter
     2895: 2766, // Door locked pit
 };
@@ -359,16 +361,16 @@ const StaticClasses = {
  * @param {Number} col
  * @param {Array} tileData
  */
-function addStaticTile (row, col, tileData) {
+function addStaticTile(row, col, tileData) {
     // If there is no specific class to use for this static tile, use the generic one.
-    if(StaticClasses[tileData[0]] === undefined){
+    if (StaticClasses[tileData[0]] === undefined) {
         return new Static(row, col, tileData[0], tileData[1]);
     }
     // Use the specific class.
     else {
         const staticTile = new StaticClasses[tileData[0]](row, col, tileData[0], tileData[1]);
         // If this static type emits light, add it to the light sources list.
-        if(staticTile.sprite.lightDistance > 0){
+        if (staticTile.sprite.lightDistance > 0) {
             _this.lightSources[staticTile.id] = staticTile;
             _this.tilemap.updateDarknessGrid();
         }

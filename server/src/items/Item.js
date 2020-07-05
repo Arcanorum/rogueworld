@@ -211,10 +211,6 @@ Item.prototype.categories = {
     Pickaxe: "Pickaxe",
     Weapon: "Weapon",
     Clothing: "Clothing",
-    RedKey: "RedKey",
-    BlueKey: "BlueKey",
-    GreenKey: "GreenKey",
-    YellowKey: "YellowKey",
     FighterKey: "FighterKey",
     PitKey: "PitKey",
 };

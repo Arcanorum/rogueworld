@@ -336,8 +336,25 @@ class Board {
                             config.spawnRate = mapObject.properties['SpawnRate'];
                             config.testing = mapObject.properties['Testing'];
                             config.dropList = mapObject.properties['DropList'];
+                            if (
+                                mapObject.properties['RedKeys'] ||
+                                mapObject.properties['GreenKeys'] ||
+                                mapObject.properties['BlueKeys'] ||
+                                mapObject.properties['YellowKeys'] ||
+                                mapObject.properties['BrownKeys']
+                            ) {
+                                config.dungeonKeys = {}
+                                if (mapObject.properties['RedKeys']) config.dungeonKeys.red = mapObject.properties['RedKeys'];
+                                if (mapObject.properties['GreenKeys']) config.dungeonKeys.green = mapObject.properties['GreenKeys'];
+                                if (mapObject.properties['BlueKeys']) config.dungeonKeys.blue = mapObject.properties['BlueKeys'];
+                                if (mapObject.properties['YellowKeys']) config.dungeonKeys.yellow = mapObject.properties['YellowKeys'];
+                                if (mapObject.properties['BrownKeys']) config.dungeonKeys.brown = mapObject.properties['BrownKeys'];
+                            }
                             // Check the entity type to create is valid.
-                            if (config.entityType === undefined) continue;
+                            if (config.entityType === undefined) {
+                                Utils.warning("Spawner invalid configuration. Entity type to spawn doesn't exist:", mapObject.properties['EntityClassName']);
+                                continue;
+                            }
                             break;
                         case 'Exit':
                             config.targetBoard = mapObject.properties['TargetBoard'];
@@ -391,8 +408,8 @@ class Board {
     destroy() {
         console.log("board destroy:", this.id);
 
-        // Need to remove all references from the board to
-        // the entity, and also the entity to the board.
+        // Need to remove all references from the board to the entity,
+        // and also the entity to the board (done in Entity.onDestroy.
 
         // Destroy all current entities on the board.
         this.grid.forEach((row) => {
@@ -402,7 +419,7 @@ class Board {
                     boardTile.static.destroy();
                 }
 
-                Object.values(boardTile.destroyables).forEach((pickup) => pickup.destroy());
+                Object.values(boardTile.destroyables).forEach((destroyable) => destroyable.destroy());
             })
         });
 
@@ -411,8 +428,6 @@ class Board {
         Object.values(this.spawners).forEach((spawner) => spawner.destroy());
 
         this.spawners = null;
-
-        console.log("end of board destroy, entities destroyed");
     }
 
     /**

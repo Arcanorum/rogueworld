@@ -10,7 +10,7 @@ class Spawner extends Entity {
      * @param {Number} [config.maxAtOnce=1] - The maximum amount of entities this spawner can have at once.
      * @param {Number} [config.spawnRate=20000] - How often this spawner creates a new entity, in ms.
      * @param {Boolean} [config.testing=undefined] - Is this spawner being used to spawn test entities. Useful for not having a spam of console logs for all of an entity type.
-     * @param {String} [config.dropList=undefined] - Any special item drop list that the entities spawned should use instead of their class one, such as keys.
+     * @param {String} [config.dropList=undefined] - Any special item drop list that the entities spawned should use instead of their class one.
      */
     constructor(config) {
         super(config);
@@ -22,8 +22,13 @@ class Spawner extends Entity {
             Utils.error("Spawner with invalid spawnRate. Config:", config);
         }
 
-        // Spawn dungeon entities immediately.
-        if (this.board.dungeon) this.spawnRate = 1;
+        if (this.board.dungeon) {
+            // Spawn dungeon entities immediately.
+            this.spawnRate = 1;
+
+            // Only add this property to entities in dungeons.
+            this.dungeonKeys = config.dungeonKeys || null;
+        }
 
         this.currentlySpawned = 0;
         this.testing = config.testing;
@@ -132,6 +137,8 @@ class Spawner extends Entity {
                 entity.dropAmount = 1;
             }
         }
+
+        if (this.dungeonKeys) entity.dungeonKeys = this.dungeonKeys;
 
         // Make sure this is a spawnable type of entity.
         if (entity.spawner === undefined) {

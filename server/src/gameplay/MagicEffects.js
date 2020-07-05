@@ -3,14 +3,14 @@ class MagicEffect {
     /**
      * @param {Character} character - What this magic effect will affect.
      */
-    constructor (character) {
+    constructor(character) {
         /** @type {Character} The character entity that this magic effect is affecting. */
         this.character = character;
 
         this.timeout = setTimeout(this.onTimeUp.bind(this), this.duration);
     }
 
-    remove () {
+    remove() {
         this.character = null;
 
         clearTimeout(this.timeout);
@@ -19,19 +19,19 @@ class MagicEffect {
     /**
      * @returns {Boolean} - Whether the caller should continue processing.
      */
-    onCharacterDamaged () {}
+    onCharacterDamaged() { }
 
     /**
      * @returns {Boolean} - Whether the caller should continue processing.
      */
-    onCharacterDeath () {}
+    onCharacterDeath() { }
 
     /**
      * @returns {Boolean} - Whether the caller should continue processing.
      */
-    onCharacterAttack () {}
+    onCharacterAttack() { }
 
-    onTimeUp () {
+    onTimeUp() {
         this.remove();
     }
 
@@ -39,17 +39,17 @@ class MagicEffect {
 MagicEffect.prototype.duration = 10000;
 
 class Curse extends MagicEffect {
-    constructor (character) {
+    constructor(character) {
         super(character);
 
-        if(this.character.curse === null){
+        if (this.character.curse === null) {
             // The character didn't already have a curse, so tell all nearby players this now has one.
             this.character.board.emitToNearbyPlayers(this.character.row, this.character.col, this.character.EventsList.curse_set, this.character.id);
         }
         this.character.curse = this;
     }
 
-    remove () {
+    remove() {
         this.character.curse = null;
         this.character.board.emitToNearbyPlayers(this.character.row, this.character.col, this.character.EventsList.curse_removed, this.character.id);
         super.remove();
@@ -57,17 +57,17 @@ class Curse extends MagicEffect {
 }
 
 class Enchantment extends MagicEffect {
-    constructor (character) {
+    constructor(character) {
         super(character);
 
-        if(this.character.enchantment === null){
+        if (this.character.enchantment === null) {
             // The character didn't already have an enchantment, so tell all nearby players this now has one.
             this.character.board.emitToNearbyPlayers(this.character.row, this.character.col, this.character.EventsList.enchantment_set, this.character.id);
         }
         this.character.enchantment = this;
     }
 
-    remove () {
+    remove() {
         this.character.enchantment = null;
         this.character.board.emitToNearbyPlayers(this.character.row, this.character.col, this.character.EventsList.enchantment_removed, this.character.id);
         super.remove();
@@ -76,11 +76,11 @@ class Enchantment extends MagicEffect {
 }
 
 class Ward extends Enchantment {
-    constructor (character) {
+    constructor(character) {
         super(character);
     }
 
-    onCharacterDamaged () {
+    onCharacterDamaged() {
         this.remove();
         return false;
     }
@@ -88,22 +88,22 @@ class Ward extends Enchantment {
 Ward.prototype.duration = 300000; // 5 mins.
 
 class Pacify extends Curse {
-    constructor (character) {
-        super (character);
+    constructor(character) {
+        super(character);
     }
 
-    onCharacterAttack () {
+    onCharacterAttack() {
         return false;
     }
 }
 
 class Deathbind extends Curse {
-    constructor (character) {
+    constructor(character) {
         super(character);
     }
 
-    onCharacterDeath () {
-        if(this.character.CorpseType !== null) new this.character.CorpseType.prototype.ZombieType({row: this.character.row, col: this.character.col, board: this.character.board}).emitToNearbyPlayers();
+    onCharacterDeath() {
+        if (this.character.CorpseType !== null) new this.character.CorpseType.prototype.ZombieType({ row: this.character.row, col: this.character.col, board: this.character.board }).emitToNearbyPlayers();
         this.remove();
         return false;
     }

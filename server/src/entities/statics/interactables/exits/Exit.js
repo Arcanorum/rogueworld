@@ -44,7 +44,7 @@ class Exit extends Interactable {
         let position = this.targetEntrance.getRandomPosition();
 
         // Move the character to the board that this exit leads to.
-        interactedBy.changeBoard(this.targetBoard, position.row, position.col);
+        interactedBy.changeBoard(this.board, this.targetBoard, position.row, position.col);
     }
 
 }

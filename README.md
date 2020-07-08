@@ -175,7 +175,7 @@ Features are divided into two rough categories:
 
 ### **Mechanics:**
 
-Things like movement, collision, creating entities, AI, etc. that affects the fundamental flow of the game. Due to how they are often intricately tied to many other things, these are mostly handled by me, with input from the community.
+Things like movement, collision, creating entities, AI, etc. that affects the fundamental flow of the game. Due to how they are often intricately tied to many other things, these are mostly handled by me (Arcan), with input from the community.
 
 ### **Content:**
 

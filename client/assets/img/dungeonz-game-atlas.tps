@@ -263,6 +263,18 @@
             <key type="filename">entities/characters/crypt warden/crypt-warden-up-1.png</key>
             <key type="filename">entities/characters/crypt warden/crypt-warden-up-2.png</key>
             <key type="filename">entities/characters/crypt warden/crypt-warden-up-3.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-down-1.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-down-2.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-down-3.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-left-1.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-left-2.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-left-3.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-right-1.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-right-2.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-right-3.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-up-1.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-up-2.png</key>
+            <key type="filename">entities/characters/dwarf warrior/dwarf-warrior-up-3.png</key>
             <key type="filename">entities/characters/dwarf/dwarf-down-1.png</key>
             <key type="filename">entities/characters/dwarf/dwarf-down-2.png</key>
             <key type="filename">entities/characters/dwarf/dwarf-down-3.png</key>
@@ -946,6 +958,7 @@
             <filename>entities/characters/grass scamp</filename>
             <filename>entities/characters/mage</filename>
             <filename>entities/characters/dwarf</filename>
+            <filename>entities/characters/dwarf warrior</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

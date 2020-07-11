@@ -776,5 +776,33 @@
                 "itemName": "IronPickaxe"
             }
         ]
+    },
+    {
+        "name": "DwarfWarrior",
+        "viewRange": 7,
+        "moveRate": 650,
+        "defence": 50,
+        "projectileAttackType": "DungiumHammer",
+        "dropList": [
+            {
+                "itemName": "Redcap"
+            },
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "DungiumOre"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "DungiumHammer",
+                "dropRate": 10
+            }
+        ]
     }
 ]

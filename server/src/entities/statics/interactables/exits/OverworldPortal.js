@@ -1,38 +1,19 @@
-
 const Exit = require('./Exit');
 
 class OverworldPortal extends Exit {
-
-    /**
-     * @param {Object} config
-     * @param {Number} config.row
-     * @param {Number} config.col
-     * @param {Board} config.board
-     * @param {Board} config.targetBoard
-     * @param {String} config.targetEntranceName
-     */
-    constructor (config) {
-        super(config);
-
-        // If this portal is in a dungeon, set it as the exit portal when the boss dies.
-        // if(DungeonManagersList.ByName[this.board.name] !== undefined){
-        //     DungeonManagersList.ByName[this.board.name].overworldPortal = this;
-        // }
-    }
-
     /**
      * @param {Player} interactedBy
      * @return {Boolean} Whether this entity was interacted with or not.
      */
-    interaction (interactedBy) {
+    interaction(interactedBy) {
         // Only let them use the portal if it is active.
-        if(this.activeState === false) return;
+        if (this.activeState === false) return;
 
         // Call the Exit interaction.
         super.interaction(interactedBy);
     }
 
-    activate () {
+    activate() {
         // Reactivate this portal.
         this.activeState = true;
 

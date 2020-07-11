@@ -1,8 +1,6 @@
-
 const Interactable = require('../Interactable');
 
 class Exit extends Interactable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row

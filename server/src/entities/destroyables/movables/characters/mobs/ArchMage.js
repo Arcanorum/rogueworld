@@ -1,4 +1,3 @@
-
 const Boss = require('./Boss');
 const Utils = require('../../../../../Utils');
 

@@ -809,14 +809,34 @@
          "value":"Expert"
         }, 
         {
+         "name":"EvictionEntranceName",
+         "type":"string",
+         "value":"blood-halls"
+        }, 
+        {
+         "name":"EvictionMapName",
+         "type":"string",
+         "value":"overworld"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
         }, 
         {
+         "name":"MaxPlayers",
+         "type":"int",
+         "value":5
+        }, 
+        {
          "name":"NameDefinitionID",
          "type":"string",
          "value":"Blood halls"
+        }, 
+        {
+         "name":"TimeLimitMinutes",
+         "type":"string",
+         "value":"15"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

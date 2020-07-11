@@ -599,14 +599,34 @@
          "value":"Advanced"
         }, 
         {
+         "name":"EvictionEntranceName",
+         "type":"string",
+         "value":"west-pyramid"
+        }, 
+        {
+         "name":"EvictionMapName",
+         "type":"string",
+         "value":"overworld"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
         }, 
         {
+         "name":"MaxPlayers",
+         "type":"int",
+         "value":4
+        }, 
+        {
          "name":"NameDefinitionID",
          "type":"string",
          "value":"West pyramid"
+        }, 
+        {
+         "name":"TimeLimitMinutes",
+         "type":"int",
+         "value":15
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

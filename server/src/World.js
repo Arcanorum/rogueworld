@@ -90,10 +90,10 @@ const world = {
         }
 
         let alwaysNight = false;
-        if (mapProperties['AlwaysNight'] == undefined) Utils.warning("Map data is missing property: 'AlwaysNight'. On map: " + dataFileName);
+        if (mapProperties['AlwaysNight'] == undefined) Utils.warning("Map data is missing property: 'AlwaysNight'. Using default (false). On map: " + dataFileName);
         if (mapProperties['AlwaysNight'] === true) alwaysNight = true;
 
-        if (mapProperties['IsDungeon'] == undefined) Utils.warning("Map data is missing property: 'IsDungeon'. On map: " + dataFileName);
+        if (mapProperties['IsDungeon'] == undefined) Utils.warning("Map data is missing property: 'IsDungeon'. Using default (false). On map: " + dataFileName);
         if (mapProperties['IsDungeon'] === true) {
             if (!mapProperties['Difficulty']) Utils.warning("Dungeon map is missing property: 'Difficulty'. Using default. On map: " + dataFileName);
             if (!mapProperties['NameDefinitionID']) Utils.warning("Dungeon map is missing property: 'NameDefinitionID'. Using default. On map: " + dataFileName);

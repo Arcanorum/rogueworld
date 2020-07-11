@@ -245,9 +245,24 @@
  "orientation":"orthogonal",
  "properties":[
         {
+         "name":"AlwaysNight",
+         "type":"bool",
+         "value":false
+        }, 
+        {
          "name":"Difficulty",
          "type":"string",
          "value":"Expert"
+        }, 
+        {
+         "name":"EvictionEntranceName",
+         "type":"string",
+         "value":"north-stairs"
+        }, 
+        {
+         "name":"EvictionMapName",
+         "type":"string",
+         "value":"mage-tower-library"
         }, 
         {
          "name":"IsDungeon",
@@ -255,9 +270,19 @@
          "value":true
         }, 
         {
+         "name":"MaxPlayers",
+         "type":"int",
+         "value":1
+        }, 
+        {
          "name":"NameDefinitionID",
          "type":"string",
          "value":"Mage training arena"
+        }, 
+        {
+         "name":"TimeLimitMinutes",
+         "type":"int",
+         "value":5
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

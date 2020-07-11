@@ -313,14 +313,34 @@
          "value":"Beginner"
         }, 
         {
+         "name":"EvictionEntranceName",
+         "type":"string",
+         "value":"knight-training-arena"
+        }, 
+        {
+         "name":"EvictionMapName",
+         "type":"string",
+         "value":"overworld"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
         }, 
         {
+         "name":"MaxPlayers",
+         "type":"int",
+         "value":3
+        }, 
+        {
          "name":"NameDefinitionID",
          "type":"string",
          "value":"Knight training arena"
+        }, 
+        {
+         "name":"TimeLimitMinutes",
+         "type":"int",
+         "value":8
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

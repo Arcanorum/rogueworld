@@ -656,14 +656,34 @@
          "value":"Beginner"
         }, 
         {
+         "name":"EvictionEntranceName",
+         "type":"string",
+         "value":"city-sewers"
+        }, 
+        {
+         "name":"EvictionMapName",
+         "type":"string",
+         "value":"overworld"
+        }, 
+        {
          "name":"IsDungeon",
          "type":"bool",
          "value":true
         }, 
         {
+         "name":"MaxPlayers",
+         "type":"int",
+         "value":4
+        }, 
+        {
          "name":"NameDefinitionID",
          "type":"string",
          "value":"City sewers"
+        }, 
+        {
+         "name":"TimeLimitMinutes",
+         "type":"int",
+         "value":15
         }],
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

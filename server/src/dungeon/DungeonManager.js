@@ -11,7 +11,7 @@ class DungeonManager {
      * @param {Object} config.mapData
      * @param {Boolean} [config.alwaysNight=true]
      * @param {Number} [config.maxPlayers=6] - How many players can enter this instance.
-     * @param {Number} [config.timeLimitMinutes=30] - How many minutes the players have to leave the dungeon before they are evicted.
+     * @param {Number} [config.timeLimitMinutes=20] - How many minutes the players have to leave the dungeon before they are evicted.
      * @param {String} [config.difficultyName=Difficulties.Beginner] - Roughly how difficult this dungeon is relative to most others.
      * @param {String} [config.evictionMapName] - The name of the map/board the players will be evicted to.
      * @param {String} [config.evictionEntranceName] - The name of the entrance the players will be evicted to.
@@ -60,8 +60,7 @@ class DungeonManager {
             // Check the given difficulty name is valid.
             if (!difficulty) Utils.error(
                 "Dungeon difficulty name is invalid.",
-                "Difficulty name: ", config.difficultyName +
-            ". On map:", config.name,
+                "Difficulty name: ", config.difficultyName + ". On map:", config.name,
                 '\nValid difficulties:\n', Difficulties
             );
         }
@@ -166,6 +165,9 @@ class DungeonManager {
             player.socket.sendEvent(EventsList.parties, this.getPartiesData());
             return;
         }
+
+        // Don't add them if the party is already full.
+        if (party.members.length === this.maxPlayers) return;
 
         // Don't add them if they have previously been kicked.
         if (party.kickedList.includes(player.id)) return;
@@ -362,17 +364,17 @@ class DungeonManager {
         }
 
         // Check the party leader has enough glory.
-        //if (members[0].glory < this.gloryCost) return false;
+        if (members[0].glory < this.gloryCost) return false;
 
-        // TODO check all of the members are in the same clan
+        // TODO: clans; check all of the members are in the same clan if clan only
 
         // Check all of the party members are next to the portal for this dungeon.
         for (let i = 0; i < members.length; i += 1) {
             if (members[i].isAdjacentToEntity(dungeonPortal) === false) return false;
         }
 
-        // Reduce the party leaders glory by the entry cost.
-        //members[0].modGlory(-this.gloryCost);
+        // Reduce the party leader's glory by the entry cost.
+        members[0].modGlory(-this.gloryCost);
     }
 }
 

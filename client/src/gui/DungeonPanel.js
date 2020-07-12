@@ -281,6 +281,13 @@ class DungeonPanel extends PanelTemplate {
     addParty(party) {
         // Don't add the party if this player is in the kicked list.
         if (party.kickedList.some((kickedID) => kickedID === _this.player.entityId)) return;
+
+        // Don't add the party if it is full (unless this player is in it).
+        if (party.members.length === dungeonz.DungeonPrompts[this.dungeonPortal.dungeonManagerID].maxPlayers) {
+            // Check the player is in the full party. If not, don't add it.
+            if (party.members.includes((member) => member.id === _this.player.entityId) === false) return;
+        }
+
         // TODO: add logic for clan membership, don't continue if not in same clan
         this.partySlots[party.id] = new PartySlot(
             this,

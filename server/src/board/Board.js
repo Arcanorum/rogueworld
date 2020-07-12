@@ -1242,8 +1242,8 @@ Board.createClientBoardData = (dataFileName) => {
             type = staticsTileset.tiles[relativeID].type;
 
             // If it is a crafting station, add the type number to the data so the client knows what kind of station this is.
-            if (EntitiesList[type] === EntitiesList.CraftingStation) {
-                new ClientStaticTile(row, col, EntitiesList[type].prototype.typeNumber);
+            if (EntitiesList[type] && EntitiesList[type].prototype instanceof EntitiesList.CraftingStation) {
+                new ClientStaticTile(row, col, relativeID, EntitiesList[type].prototype.typeNumber);
             }
             else {
                 // Still need to put something in the statics data for the client.

@@ -1,4 +1,3 @@
-
 const Mob = require('./Mob');
 
 class Berserker extends Mob {

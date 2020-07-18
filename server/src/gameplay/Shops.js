@@ -1,8 +1,8 @@
-
+const Utils = require("../Utils");
 const ItemsList = require('../ItemsList');
 
 class StockItem {
-    constructor (itemType, basePrice, price) {
+    constructor(itemType, basePrice, price) {
         /** @type {Function} */
         this.ItemType = itemType || ItemsList.ItemOakLogs;
         /** The minimum price of this item.
@@ -15,7 +15,7 @@ class StockItem {
 }
 
 class Shop {
-    constructor () {
+    constructor() {
         /** @type {Number} How many items can this shop have in stock max. */
         this.maxStock = 9999;
         /** @type {Array} The types of items this shop is selling. */
@@ -27,24 +27,20 @@ class Shop {
         this.prices = [];
     }
 
-    destroy () {
-
-    }
+    destroy() { }
 
     /**
      * @param {StockItem} stockItem
      */
-    addStock (stockItem) {
-        if(this.stock.length === this.maxStock) return;
+    addStock(stockItem) {
+        if (this.stock.length === this.maxStock) return;
         this.stock.push(stockItem);
         this.prices.push(stockItem.price);
     }
 
-    stockSold () {
+    stockSold() { }
 
-    }
-
-    checkStock (index, itemTypeName, price) {
+    checkStock(index, itemTypeName, price) {
         return true;
     }
 
@@ -55,15 +51,15 @@ class Shop {
      * @param {String} itemTypeNumber - The item on display.
      * @param {Number} price - How much it is on display for.
      */
-    sellStock (buyer, index, itemTypeNumber, price) {
+    sellStock(buyer, index, itemTypeNumber, price) {
         // Check the stock index is valid.
-        if(this.stock[index] === undefined) return;
+        if (this.stock[index] === undefined) return;
 
-        if(this.checkStock(index, itemTypeNumber, price) === false) return;
+        if (this.checkStock(index, itemTypeNumber, price) === false) return;
         // Check they can afford the item.
-        if(buyer.glory < price) return;
+        if (buyer.glory < price) return;
         // Check they have inventory space.
-        if(buyer.isInventoryFull() === true) return;
+        if (buyer.isInventoryFull() === true) return;
 
         // Create a new item and give it to the entity.
         buyer.addToInventory(new this.stock[index].ItemType({}));
@@ -79,17 +75,15 @@ class Shop {
  * Clan shops have only the amount of items that they add to the shop, and the price doesn't change.
  */
 class ShopClan extends Shop {
-    constructor () {
+    constructor() {
         super();
 
         this.maxStock = 20;
     }
 
-    destroy () {
+    destroy() { }
 
-    }
-
-    addStock (stockItem) {
+    addStock(stockItem) {
         // Make sure the price isn't set. Only use the base price.
         stockItem.price = stockItem.basePrice;
         super.addStock(stockItem);
@@ -107,20 +101,18 @@ class ShopClan extends Shop {
      * @param {Number} price - How much it is on display for.
      * @returns {Boolean} Whether the stock is valid.
      */
-    checkStock (index, itemTypeNumber, price) {
+    checkStock(index, itemTypeNumber, price) {
         const stockItem = this.stock[index];
-        if(stockItem === undefined) return false;
-        if(stockItem.ItemType.prototype.typeNumber !== itemTypeNumber) return false;
-        if(stockItem.price !== price) return false;
+        if (stockItem === undefined) return false;
+        if (stockItem.ItemType.prototype.typeNumber !== itemTypeNumber) return false;
+        if (stockItem.price !== price) return false;
 
         return true;
     }
 
-    removeStock () {
+    removeStock() { }
 
-    }
-
-    stockSold () {
+    stockSold() {
         // Remove the item from the stock, as it is no longer available to buy.
 
     }
@@ -130,28 +122,28 @@ class ShopClan extends Shop {
  * NPC shops have an infinite amount of the items that they stock, and the price changes.
  */
 class ShopNPC extends Shop {
-    constructor () {
+    constructor() {
         super();
 
         // Create a loop to constantly depreciate the stock.
         this.depreciateLoop = setInterval(this.depreciateStock.bind(this), 20000);
     }
 
-    destroy () {
+    destroy() {
         clearInterval(this.depreciateLoop);
     }
 
     /**
      * If the price for an item is higher than the base price, make it lose value over time.
      */
-    depreciateStock () {
+    depreciateStock() {
         // For every item that is above its base price, reduce its price.
-        for(let i=0; i<this.stock.length; i+=1){
+        for (let i = 0; i < this.stock.length; i += 1) {
             const item = this.stock[i];
-            if(item.price > item.basePrice){
+            if (item.price > item.basePrice) {
                 item.price -= 5;
                 // Make sure it doesn't go below the base price.
-                if(item.price < item.basePrice){
+                if (item.price < item.basePrice) {
                     item.price = item.basePrice;
                 }
                 // Update the price list.
@@ -160,7 +152,7 @@ class ShopNPC extends Shop {
         }
     }
 
-    stockSold (stockIndex) {
+    stockSold(stockIndex) {
         // Increase the price of the item, so it becomes harder to buy if in high demand.
         // Round up so clients don't get crazy long decimal values.
         this.stock[stockIndex].price = Math.ceil(this.stock[stockIndex].price * 1.05);
@@ -171,7 +163,7 @@ class ShopNPC extends Shop {
 
 // Basic stuff for the tutorial zone.
 class ShopTutorial extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemIronHatchet, 0));
@@ -181,7 +173,7 @@ class ShopTutorial extends ShopNPC {
 
 // Everything, for nothing. Tester.
 class ShopOmni extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemOakLogs, 0));
@@ -228,6 +220,8 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.ItemSuperFireStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemWindStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemSuperWindStaff, 0));
+        this.addStock(new StockItem(ItemsList.ItemBloodStaff, 0));
+        this.addStock(new StockItem(ItemsList.ItemSuperBloodStaff, 0));
         this.addStock(new StockItem(ItemsList.ItemBookOfLight, 0));
         this.addStock(new StockItem(ItemsList.ItemBookOfSouls, 0));
         this.addStock(new StockItem(ItemsList.ItemPlainRobe, 0));
@@ -261,7 +255,7 @@ class ShopOmni extends ShopNPC {
 
 // Gathering tools
 class ShopTools extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemIronHatchet, 100));
@@ -273,7 +267,7 @@ class ShopTools extends ShopNPC {
 
 // Melee combat gear
 class ShopMelee extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemIronDagger, 100));
@@ -285,7 +279,7 @@ class ShopMelee extends ShopNPC {
 
 // Ranged combat gear
 class ShopRanged extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemFeathers, 50));
@@ -298,7 +292,7 @@ class ShopRanged extends ShopNPC {
 
 // Magic combat gear
 class ShopMagic extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemFireStaff, 500));
@@ -311,7 +305,7 @@ class ShopMagic extends ShopNPC {
 
 // Inn/bar
 class ShopInn extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemHealthPotion, 200));
@@ -321,7 +315,7 @@ class ShopInn extends ShopNPC {
 
 // PvP arena
 class ShopArena extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemFighterKey, 1000));
@@ -330,7 +324,7 @@ class ShopArena extends ShopNPC {
 
 // Raw materials
 class ShopMaterials extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemIronOre, 50));
@@ -342,7 +336,7 @@ class ShopMaterials extends ShopNPC {
 
 // Dwarf weapons
 class ShopDwarfWeapons extends ShopNPC {
-    constructor () {
+    constructor() {
         super();
 
         this.addStock(new StockItem(ItemsList.ItemIronHatchet, 400));
@@ -377,11 +371,11 @@ const ShopTypes = {
 const fs = require('fs');
 let dataToWrite = {};
 
-for(let shopKey in ShopTypes){
+for (let shopKey in ShopTypes) {
     // Don't check prototype properties.
-    if(ShopTypes.hasOwnProperty(shopKey) === false) continue;
+    if (ShopTypes.hasOwnProperty(shopKey) === false) continue;
     // Only add NPC shop types.
-    if(ShopTypes[shopKey].prototype instanceof ShopNPC === false) continue;
+    if (ShopTypes[shopKey].prototype instanceof ShopNPC === false) continue;
     // Create an instance of each shop type, so it will be given an actual stock to save.
     const shop = new ShopTypes[shopKey]();
 
@@ -392,9 +386,9 @@ for(let shopKey in ShopTypes){
 
     const stock = shop.stock;
     // For every item in the stock.
-    for(let i=0; i<stock.length; i+=1){
-        if(!stock[i].ItemType.prototype){
-            console.log("* Invalid item type on shop. Check all items defined in ItemsList are valid.");
+    for (let i = 0; i < stock.length; i += 1) {
+        if (!stock[i].ItemType.prototype) {
+            Utils.message("Invalid item type on shop. Check all items defined in ItemsList are valid.");
         }
 
         dataToWrite[shopKey][i] = stock[i].ItemType.prototype.typeNumber;
@@ -405,11 +399,11 @@ for(let shopKey in ShopTypes){
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);
 
-require('../Utils').checkClientCataloguesExists();
+Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
 fs.writeFileSync('../client/src/catalogues/NPCShopTypes.json', dataToWrite);
 
-console.log("* NPC shop types catalogue written to file.");
+Utils.message("NPC shop types catalogue written to file.");
 
 module.exports = ShopTypes;

@@ -3,8 +3,10 @@ const Item = require('./Item');
 
 class ItemRedcap extends Item {
 
-    onUsed () {
-        this.owner.modHitPoints(1);
+    onUsed() {
+        this.owner.heal(
+            new Heal(5)
+        );
 
         super.onUsed();
     }
@@ -12,6 +14,8 @@ class ItemRedcap extends Item {
 }
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemRedcap;
+
+const Heal = require('../gameplay/Heal');
 
 ItemRedcap.prototype.registerItemType();
 ItemRedcap.prototype.idName = "Redcap";

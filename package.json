@@ -4,11 +4,16 @@
   "scripts": {
     "postinstall": "cd server && npm install && cd ../client && npm install",
     "server": "cd server && node index",
-    "client": "cd client && npx sass scss/Main.scss:main.css && npm start",
+    "client": "cd client && npm start",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
-  "dependencies": {
+  "devDependencies": {
     "better-docs": "^1.4.7",
     "jsdoc": "^3.6.3"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.4"
   }
 }

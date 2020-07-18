@@ -10,3 +10,4 @@ client/src/catalogues/
 
 server/node_modules/
 server/PlayerDataDump.json
+server/test.js

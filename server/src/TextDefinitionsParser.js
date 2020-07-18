@@ -1,9 +1,9 @@
-
 // Parse and convert the text translations file into easily accessible JSON.
 // Text definitions are defined at https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0
 
 const XLSX = require('xlsx');
 const fs = require('fs');
+const Utils = require("./Utils");
 
 const workbook = XLSX.readFile('Dungeonz.io translations.xlsx');
 
@@ -32,9 +32,9 @@ let currentLanguageDefs;
 // Add an object for the current language.
 defsAsJSON[currentLanguageName] = {};
 
-while(true){
+while (true) {
     // Check if this language is valid. The previous one might have been the last one, in which case end.
-    if(currentLanguageName === undefined) break;
+    if (currentLanguageName === undefined) break;
 
     // Shorthand.
     currentLanguageDefs = defsAsJSON[currentLanguageName];
@@ -43,7 +43,7 @@ while(true){
     currentLanguageDefs[worksheet[idNameCol + currentDefRow].v] = null;
 
     // Check there is a value at this row for the current language.
-    if(worksheet[currentLanguageCol + currentDefRow] !== undefined){
+    if (worksheet[currentLanguageCol + currentDefRow] !== undefined) {
         // Add the value.
         currentLanguageDefs[worksheet[idNameCol + currentDefRow].v] = worksheet[currentLanguageCol + currentDefRow].v;
     }
@@ -52,7 +52,7 @@ while(true){
     currentDefRow += 1;
 
     // Check there is another ID to add at the next field.
-    if(worksheet[idNameCol + currentDefRow] === undefined){
+    if (worksheet[idNameCol + currentDefRow] === undefined) {
         // At the end of the definitions, so try the next language.
 
         // Get the language column character along.
@@ -60,7 +60,7 @@ while(true){
         currentLanguageCol = chars[currentLanguageCharIndex];
 
         // Check if there is another language. The previous one might have been the last one, in which case end.
-        if(worksheet[currentLanguageCol + languageNameRow] === undefined) break;
+        if (worksheet[currentLanguageCol + languageNameRow] === undefined) break;
 
         // Get the name of the language.
         currentLanguageName = worksheet[currentLanguageCol + languageNameRow].v;
@@ -80,9 +80,9 @@ let dataToWrite = {};
 // Turn the data into a string.
 dataToWrite = JSON.stringify(defsAsJSON);
 
-require('./Utils').checkClientCataloguesExists();
+Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
 fs.writeFileSync('../client/src/catalogues/TextDefinitions.json', dataToWrite);
 
-console.log("* Text definitions catalogue written to file.");
+Utils.message("Text definitions catalogue written to file.");

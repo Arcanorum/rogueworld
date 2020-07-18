@@ -1,3 +1,38 @@
+18/07/2020 - Update 6 - Dungeon instances
+New:
+- Dungeon instances
+    - Every dungeon that you enter is now separate from all others of that same dungeon, meaning it will be for only you and whoever you enter with. Other players cannot enter that instance after the dungeon has started.
+    - The dungeon interface now allows you to create a party for other players to join.
+    - Only the party creator must pay the entry cost.
+    - Creatures and item pickups in dungeons do not respawn.
+    - Dropped items in dungeons do not disappear after a while.
+    - Added a max players limit.
+    - Added a time limit to leave the dungeon.
+    - Removed key pickups for locked doors. Now all keys found from killing the key holders are added to a shared set of party keys, that can be used by anyone in the party.
+    - Adjusted each dungeon to work with this new party key system.
+    - Disabled PvP in dungeons.
+- Defence rework
+    - The damage reduction percentage is now based on a how many defence points you have (from wearing armour, etc.). Each defence point gives you +1% effective HP. So with 100 you can take 2x the damage before dying.
+    - Some weapons can now deal armour piercing type damage, which will ignore a percentage of the defence points of the target.
+- Damage types
+    - Each source of damage now comes in types. The types of damage that something deals determines how/if it can interact with the target. Certain creatures can be immune to some types of damage, such as ghosts being immune to physical attacks.
+    - Physical: Solid objects, such as swords, arrows and melee attacks.
+    - Magical: Magic related things, like fireballs, wind blasts, curses.
+    - Biological: Organic related things, like disease and poison effects, and possibly environmental effects like heat and cold.
+- Added dwarfs
+- Some bosses can now also be found on the overworld, outside of dungeons.
+
+Other:
+- Removed Widgetbot
+
+Also changed a while ago, forgot to do release notes for it.
+- Added mage tower area
+- Added mage training arena dungeon
+- Added Mage mobs.
+- Fixed various GUI display sizing issues on Firefox.
+- Removed the continue code system. Replaced it with an actual permanent account system with username and password. Accounts/characters no longer "expire" after not being played for a while.
+
+
 20/05/2019 - Update 5 - Forest maze
 New:
 - Forest maze

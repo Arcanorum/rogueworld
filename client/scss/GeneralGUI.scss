@@ -172,3 +172,45 @@
     bottom: 10px;
     right: 50px;
 }
+
+#dungeon_timer_cont {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 20px;
+    -webkit-text-stroke: 1px #222034;
+}
+
+#dungeon_timer_value {
+    font-size: 30px;
+}
+
+#dungeon_keys_cont {
+    position: absolute;
+    left: 50%;
+    top: 70px;
+    transform: translateX(-50%);
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 20px;
+    -webkit-text-stroke: 1px #222034;
+}
+
+#dungeon_keys_list {
+    display: inline-flex;
+    background-color: #ffffff40;
+    border: 2px black solid;
+    padding: 4px;
+}
+
+.dungeon_key_icon {
+    width: 48px;
+    height: 48px;
+}

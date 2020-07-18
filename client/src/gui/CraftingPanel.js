@@ -8,20 +8,20 @@ class ComponentSlot {
      * @param {CraftingPanel} panel
      * @param {Number} slotNumber
      */
-    constructor (panel, slotNumber) {
+    constructor(panel, slotNumber) {
         this.container = document.createElement('div');
         this.container.id = 'component_slot_' + slotNumber + '_cont';
         this.container.className = 'crafting_component_slot_cont';
         this.container.draggable = false;
         // Remove the component when it is clicked on.
-        this.container.onclick =        panel.slotClick;
+        this.container.onclick = panel.slotClick;
         // Show and update the item tooltip info text when mouse is over a slot.
-        this.container.onmouseover =    panel.slotMouseOver;
+        this.container.onmouseover = panel.slotMouseOver;
         // Hide the item tooltip when mouse is not over a slot.
-        this.container.onmouseout =     panel.slotMouseOut;
+        this.container.onmouseout = panel.slotMouseOut;
         // Drag and drop.
-        this.container.ondragstart =    panel.slotDragStart;
-        this.container.ondragenter =    panel.slotDragEnter;
+        this.container.ondragstart = panel.slotDragStart;
+        this.container.ondragenter = panel.slotDragEnter;
         // Store the key of this slot on the slot itself.
         this.container.setAttribute('slotKey', 'slot' + slotNumber);
         panel.innerContainer.appendChild(this.container);
@@ -34,9 +34,9 @@ class ComponentSlot {
         this.container.appendChild(this.icon);
     }
 
-    refreshBackground () {
+    refreshBackground() {
         // Only give a white background back to the component slots that have something in them.
-        if(_this.craftingManager.components[this.container.getAttribute('slotKey')].occupiedBy === null){
+        if (_this.craftingManager.components[this.container.getAttribute('slotKey')].occupiedBy === null) {
             this.container.style.backgroundColor = _this.GUI.GUIColours.bankSlotEmpty;
         }
         else {
@@ -49,7 +49,7 @@ class CraftingPanel extends PanelTemplate {
     /**
      * @param {GUI} gui - A reference to the GUI object.
      */
-    constructor (gui) {
+    constructor(gui) {
         super(document.getElementById('crafting_panel'), 500, 180, "Crafting", 'gui/panels/anvil');
 
         const panel = this;
@@ -57,14 +57,14 @@ class CraftingPanel extends PanelTemplate {
         this.innerContainer = document.createElement('div');
         this.innerContainer.id = 'crafting_inner_cont';
         this.innerContainer.ondragenter = panel.componentsBarDragEnter;
-        this.innerContainer.ondragover =  panel.componentsBarDragOver;
-        this.innerContainer.ondrop =      panel.componentsBarDrop;
+        this.innerContainer.ondragover = panel.componentsBarDragOver;
+        this.innerContainer.ondrop = panel.componentsBarDrop;
         this.contentsContainer.appendChild(this.innerContainer);
 
         this.mainContainer.style.backgroundColor = gui.GUIColours.colourDB32SteelGreyOpacity50;
 
         this.components = {};
-        for(let i=1; i<6; i+=1){
+        for (let i = 1; i < 6; i += 1) {
             this.components['slot' + i] = new ComponentSlot(this, i);
         }
 
@@ -90,8 +90,7 @@ class CraftingPanel extends PanelTemplate {
         resultContainer.appendChild(resultIcon);
 
         // Add the remove buttons.
-        //this.removeButtons = {};
-        for(let i=1; i<6; i+=1){
+        for (let i = 1; i < 6; i += 1) {
             const removeButton = this.components['slot' + i].remove = document.createElement('img');
             //removeButton.id = 'component_slot_' + i + '_icon';
             removeButton.src = 'assets/img/gui/panels/crafting-remove-button.png';
@@ -109,7 +108,6 @@ class CraftingPanel extends PanelTemplate {
         this.innerContainer.appendChild(emptySpace);
 
         const acceptButton = document.createElement('img');
-        //acceptButton.id = 'crafting_accept_button';
         acceptButton.src = 'assets/img/gui/panels/crafting-accept-button.png';
         acceptButton.className = 'crafting_button';
         acceptButton.draggable = false;
@@ -120,9 +118,9 @@ class CraftingPanel extends PanelTemplate {
         this.tooltip.id = 'crafting_tooltip';
 
         this.result = {
-            container:      resultContainer,
-            icon:           resultIcon,
-            accept:         acceptButton,
+            container: resultContainer,
+            icon: resultIcon,
+            accept: acceptButton,
             itemName: ''
         };
 
@@ -133,14 +131,14 @@ class CraftingPanel extends PanelTemplate {
      * @param {String} stationName - The display name of this crafting station. "Anvil", "Workbench", etc.
      * @param {String} panelIconURL - The URL of the image to change the panel icon to.
      */
-    show (stationName, panelIconURL) {
+    show(stationName, panelIconURL) {
         super.show();
 
         _this.GUI.isAnyPanelOpen = true;
 
         this.changeName(stationName);
 
-        if(panelIconURL){
+        if (panelIconURL) {
             // Update the top left icon to show the crafting station sprite.
             this.icon.src = panelIconURL;
         }
@@ -152,7 +150,7 @@ class CraftingPanel extends PanelTemplate {
         _this.GUI.inventoryBar.updateCraftingPanelAddButtons();
     }
 
-    hide () {
+    hide() {
         super.hide();
 
         this.tooltip.style.visibility = 'hidden';
@@ -167,17 +165,17 @@ class CraftingPanel extends PanelTemplate {
         _this.GUI.inventoryBar.hideAddButtons();
     }
 
-    slotClick () {
+    slotClick() {
         const slotKey = this.getAttribute('slotKey');
         //console.log("slot clicked:", slotKey);
         _this.craftingManager.removeComponent(slotKey[4]);
     }
 
-    slotMouseOver () {
+    slotMouseOver() {
         const slotKey = this.getAttribute('slotKey');
         //console.log("slot mouse over, slotkey:", slotKey);
         // If the slot is empty, don't show the tooltip.
-        if(_this.craftingManager.components[slotKey].occupiedBy === null) return;
+        if (_this.craftingManager.components[slotKey].occupiedBy === null) return;
 
         const craftingPanel = _this.GUI.craftingPanel;
 
@@ -187,41 +185,41 @@ class CraftingPanel extends PanelTemplate {
         this.appendChild(craftingPanel.tooltip);
     }
 
-    slotMouseOut () {
+    slotMouseOut() {
         _this.GUI.craftingPanel.tooltip.style.visibility = 'hidden';
     }
 
-    slotDragStart (event) {
+    slotDragStart(event) {
         // Prevent the GUI from firing it's own drag and drop stuff from this slot.
         event.stopPropagation();
         event.preventDefault();
     }
 
-    slotDragEnter (event) {
+    slotDragEnter(event) {
         // Prevent the GUI from firing it's own drag and drop stuff from this slot.
         event.stopPropagation();
     }
 
-    componentsBarDragEnter (event) {
+    componentsBarDragEnter(event) {
         event.preventDefault();
     }
 
-    componentsBarDragOver (event) {
+    componentsBarDragOver(event) {
         event.preventDefault();
     }
 
-    componentsBarDrop (event) {
+    componentsBarDrop(event) {
         event.preventDefault();
         event.stopPropagation();
 
-        if(_this.GUI.dragData.dragOrigin === _this.GUI.inventoryBar.slotContainer){
+        if (_this.GUI.dragData.dragOrigin === _this.GUI.inventoryBar.slotContainer) {
             _this.craftingManager.addComponent(_this.GUI.dragData.inventorySlot.slotKey);
         }
     }
 
-    resultMouseOver () {
+    resultMouseOver() {
         const craftingPanel = _this.GUI.craftingPanel;
-        if(craftingPanel.result.itemName === '') return;
+        if (craftingPanel.result.itemName === '') return;
 
         craftingPanel.tooltip.innerText = craftingPanel.result.itemName;
         craftingPanel.tooltip.style.visibility = 'visible';

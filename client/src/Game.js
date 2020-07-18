@@ -16,9 +16,9 @@ dungeonz.Game = function () {
 
 dungeonz.Game.prototype = {
 
-    init: function () {
+    init() {
         console.log("* In game init");
-        
+
         const data = window.joinWorldData;
         // Game has loaded ok. Clear the backup timeouts.
         clearTimeout(window.joinWorldStartTimeout);
@@ -31,12 +31,6 @@ dungeonz.Game.prototype = {
         this.currentBoardName = data.boardName;
 
         this.boardAlwaysNight = data.boardAlwaysNight;
-
-        /**
-         * The ID number of the dungeon that this player is standing next to the entrance of. Each dungeon instance has a unique id, as well as a separate unique name.
-         * @type {Number}
-         */
-        this.adjacentDungeonID = null;
 
         this.player = {
             /** @type {Boolean}
@@ -72,15 +66,9 @@ dungeonz.Game.prototype = {
         };
 
         //console.log("nearby dynamics: data", this.dynamicsData);
-
     },
 
-    preload: function () {
-
-    },
-
-    create: function () {
-
+    create() {
         console.log("* In game create");
 
         // Make this state globally accessible.
@@ -153,17 +141,17 @@ dungeonz.Game.prototype = {
         this.pseudoInteractables = {};
 
         // Make sure the inventory slots are showing the right items.
-        for(let slotKey in _this.player.inventory){
-            if(_this.player.inventory.hasOwnProperty(slotKey) === false) continue;
+        for (let slotKey in _this.player.inventory) {
+            if (_this.player.inventory.hasOwnProperty(slotKey) === false) continue;
             _this.player.inventory.swapInventorySlots(slotKey, slotKey);
         }
 
         // Load the bank items.
         const items = _this.player.bankManager.items;
         // Make sure the bank slots are showing the right items.
-        for(let slotIndex=0, len=items.length; slotIndex<len; slotIndex+=1){
+        for (let slotIndex = 0, len = items.length; slotIndex < len; slotIndex += 1) {
             // Skip empty items slots.
-            if(items[slotIndex].catalogueEntry === null) continue;
+            if (items[slotIndex].catalogueEntry === null) continue;
             _this.player.bankManager.addItemToContents(slotIndex, items[slotIndex].catalogueEntry, items[slotIndex].durability, items[slotIndex].maxDurability);
         }
         // Hide the panel, as if any of the slots were filled with existing items, they will be shown.
@@ -174,8 +162,8 @@ dungeonz.Game.prototype = {
 
         // Load the tasks.
         const tasks = _this.player.tasks;
-        for(let taskID in tasks){
-            if(tasks.hasOwnProperty(taskID) === false) continue;
+        for (let taskID in tasks) {
+            if (tasks.hasOwnProperty(taskID) === false) continue;
             _this.GUI.tasksPanel.addTask(tasks[taskID]);
         }
         // Make sure the item icons are hidden. They aren't after being added at first.
@@ -185,7 +173,7 @@ dungeonz.Game.prototype = {
         _this.GUI.statsPanel.changeStatInfo(_this.player.stats.list.Melee);
 
         // Add the entities that are visible on start.
-        for(let i=0; i<this.dynamicsData.length; i+=1){
+        for (let i = 0; i < this.dynamicsData.length; i += 1) {
             this.addEntity(this.dynamicsData[i]);
         }
 
@@ -215,24 +203,24 @@ dungeonz.Game.prototype = {
         window.addGameStateEventResponses();
     },
 
-    update: function () {
-        if(this.nextMoveTime < Date.now()){
+    update() {
+        if (this.nextMoveTime < Date.now()) {
             this.nextMoveTime = Date.now() + this.moveDelay;
 
             // Allow continuous movement if a move key is held down.
-            if(this.moveUpIsDown === true){
+            if (this.moveUpIsDown === true) {
                 this.checkPseudoInteractables('u');
                 ws.sendEvent('mv_u');
             }
-            if(this.moveDownIsDown === true){
+            if (this.moveDownIsDown === true) {
                 this.checkPseudoInteractables('d');
                 ws.sendEvent('mv_d');
             }
-            if(this.moveLeftIsDown === true){
+            if (this.moveLeftIsDown === true) {
                 this.checkPseudoInteractables('l');
                 ws.sendEvent('mv_l');
             }
-            if(this.moveRightIsDown === true){
+            if (this.moveRightIsDown === true) {
                 this.checkPseudoInteractables('r');
                 ws.sendEvent('mv_r');
             }
@@ -240,12 +228,12 @@ dungeonz.Game.prototype = {
         }
     },
 
-    render: function () {
+    render() {
         // Show an FPS counter.
         this.game.debug.text(this.game.time.fps, 10, this.game.height / 2, "#00ff00", '24px Courier');
     },
 
-    shutdown: function () {
+    shutdown() {
         // Show the background GIF.
         document.getElementById('background_img').style.visibility = "visible";
 
@@ -262,7 +250,7 @@ dungeonz.Game.prototype = {
         this.GUI.removeExistingDOMElements(this.GUI.hitPointCounters);
         this.GUI.removeExistingDOMElements(this.GUI.energyCounters);
 
-        for(let elemKey in this.GUI.inventoryBar.slots){
+        for (let elemKey in this.GUI.inventoryBar.slots) {
             this.GUI.inventoryBar.slots[elemKey].container.remove();
         }
 
@@ -280,7 +268,7 @@ dungeonz.Game.prototype = {
         this.GUI.settingsBar.hide();
 
         // Hide all the panels.
-        for(let i=0; i<this.GUI.panels.length; i+=1){
+        for (let i = 0; i < this.GUI.panels.length; i += 1) {
             this.GUI.panels[i].hide();
         }
     },
@@ -289,18 +277,16 @@ dungeonz.Game.prototype = {
      * Attempt to move the player in a direction.
      * @param {String} direction
      */
-    move (direction) {
+    move(direction) {
         // Hide all panels, in case they are just moving away from the item for it.
-        if(this.GUI && this.GUI.isAnyPanelOpen === true){
+        if (this.GUI && this.GUI.isAnyPanelOpen === true) {
             // Hide all the panels.
-            for(let i=0; i<this.GUI.panels.length; i+=1){
-                this.GUI.panels[i].hide();
-            }
+            this.GUI.hideAllPanels();
         }
 
         this.checkPseudoInteractables(direction);
 
-        if(this.player.hitPoints <= 0) return;
+        if (this.player.hitPoints <= 0) return;
         ws.sendEvent('mv_' + direction);
         /*if(dungeonz.quickTurnEnabled === true){ // TODO allow to disable quick turn to make placing clan structures easier
             if(this.dynamics[this.player.entityId].sprite.direction !== direction){
@@ -314,19 +300,19 @@ dungeonz.Game.prototype = {
      * Check any dynamics and statics that do anything when interacted with, such as opening a panel.
      * @param {String} direction
      */
-    checkPseudoInteractables (direction) {
+    checkPseudoInteractables(direction) {
         // Check if any interactables that cause this client only to do something are about
         // to be walked into, such as showing the crafting panel for crafting stations.
-        if(direction === 'u'){
+        if (direction === 'u') {
             const playerNextRow = this.player.row - 1;
             const playerCol = this.player.col;
             let key,
                 dynamic;
-            for(key in this.pseudoInteractables){
-                if(this.pseudoInteractables.hasOwnProperty(key) === false) continue;
+            for (key in this.pseudoInteractables) {
+                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
                 dynamic = this.pseudoInteractables[key];
-                if(dynamic.row === playerNextRow){
-                    if(dynamic.col === playerCol){
+                if (dynamic.row === playerNextRow) {
+                    if (dynamic.col === playerCol) {
                         dynamic.sprite.interactedByPlayer();
                         return;
                     }
@@ -334,20 +320,20 @@ dungeonz.Game.prototype = {
             }
             const staticEntity = this.statics[playerNextRow + "-" + playerCol];
             // Check there is a static there.
-            if(staticEntity !== undefined){
+            if (staticEntity !== undefined) {
                 staticEntity.interactedByPlayer();
             }
         }
-        else if(direction === 'd'){
+        else if (direction === 'd') {
             const playerNextRow = this.player.row + 1;
             const playerCol = this.player.col;
             let key,
                 dynamic;
-            for(key in this.pseudoInteractables){
-                if(this.pseudoInteractables.hasOwnProperty(key) === false) continue;
+            for (key in this.pseudoInteractables) {
+                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
                 dynamic = this.pseudoInteractables[key];
-                if(dynamic.row === playerNextRow){
-                    if(dynamic.col === playerCol){
+                if (dynamic.row === playerNextRow) {
+                    if (dynamic.col === playerCol) {
                         dynamic.sprite.interactedByPlayer();
                         return;
                     }
@@ -355,20 +341,20 @@ dungeonz.Game.prototype = {
             }
             const staticEntity = this.statics[playerNextRow + "-" + playerCol];
             // Check there is a static there.
-            if(staticEntity !== undefined){
+            if (staticEntity !== undefined) {
                 staticEntity.interactedByPlayer();
             }
         }
-        else if(direction === 'l'){
+        else if (direction === 'l') {
             const playerNextCol = this.player.col - 1;
             const playerRow = this.player.row;
             let key,
                 dynamic;
-            for(key in this.pseudoInteractables){
-                if(this.pseudoInteractables.hasOwnProperty(key) === false) continue;
+            for (key in this.pseudoInteractables) {
+                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
                 dynamic = this.pseudoInteractables[key];
-                if(dynamic.row === playerRow){
-                    if(dynamic.col === playerNextCol){
+                if (dynamic.row === playerRow) {
+                    if (dynamic.col === playerNextCol) {
                         dynamic.sprite.interactedByPlayer();
                         return;
                     }
@@ -376,7 +362,7 @@ dungeonz.Game.prototype = {
             }
             const staticEntity = this.statics[playerRow + "-" + playerNextCol];
             // Check there is a static there.
-            if(staticEntity !== undefined){
+            if (staticEntity !== undefined) {
                 staticEntity.interactedByPlayer();
             }
         }
@@ -385,11 +371,11 @@ dungeonz.Game.prototype = {
             const playerRow = this.player.row;
             let key,
                 dynamic;
-            for(key in this.pseudoInteractables){
-                if(this.pseudoInteractables.hasOwnProperty(key) === false) continue;
+            for (key in this.pseudoInteractables) {
+                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
                 dynamic = this.pseudoInteractables[key];
-                if(dynamic.row === playerRow){
-                    if(dynamic.col === playerNextCol){
+                if (dynamic.row === playerRow) {
+                    if (dynamic.col === playerNextCol) {
                         dynamic.sprite.interactedByPlayer();
                         return;
                     }
@@ -397,7 +383,7 @@ dungeonz.Game.prototype = {
             }
             const staticEntity = this.statics[playerRow + "-" + playerNextCol];
             // Check there is a static there.
-            if(staticEntity !== undefined){
+            if (staticEntity !== undefined) {
                 staticEntity.interactedByPlayer();
             }
         }
@@ -410,61 +396,61 @@ dungeonz.Game.prototype = {
      * @param pointer
      * @returns {Number}
      */
-    distanceBetween (baseSprite, pointer) {
+    distanceBetween(baseSprite, pointer) {
         return Math.abs(baseSprite.worldPosition.x - pointer.clientX) + Math.abs(baseSprite.worldPosition.y - pointer.clientY);
     },
 
-    pointerDownHandler (event) {
+    pointerDownHandler(event) {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         //event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
-        if(event.target === _this.GUI.gui){
+        if (event.target === _this.GUI.gui) {
 
             // If the user pressed on their character sprite, pick up item.
-            if(_this.distanceBetween(_this.dynamics[_this.player.entityId].sprite.baseSprite, event) < 32){
+            if (_this.distanceBetween(_this.dynamics[_this.player.entityId].sprite.baseSprite, event) < 32) {
                 ws.sendEvent('pick_up_item');
                 return;
             }
 
             // Check if any of the dynamics were pressed on that have onInputDown handlers.
-            for(let dynamicKey in _this.dynamics){
-                if(_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
-                if(_this.dynamics[dynamicKey].sprite.baseSprite === undefined) continue;
-                if(_this.dynamics[dynamicKey].sprite.onInputDown === undefined) continue;
+            for (let dynamicKey in _this.dynamics) {
+                if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
+                if (_this.dynamics[dynamicKey].sprite.baseSprite === undefined) continue;
+                if (_this.dynamics[dynamicKey].sprite.onInputDown === undefined) continue;
                 // Check the distance between the cursor and the sprite.
-                if(_this.distanceBetween(_this.dynamics[dynamicKey].sprite.baseSprite, event) < 32){
+                if (_this.distanceBetween(_this.dynamics[dynamicKey].sprite.baseSprite, event) < 32) {
                     _this.dynamics[dynamicKey].sprite.onInputDown();
                     return;
                 }
             }
 
             // Don't try to use the held item if one isn't selected.
-            if(_this.player.holdingItem === false) return;
+            if (_this.player.holdingItem === false) return;
 
             const midX = window.innerWidth / 2;
             const midY = window.innerHeight / 2;
             const targetX = event.clientX - midX;
             const targetY = event.clientY - midY;
 
-            if(Math.abs(targetX) > Math.abs(targetY)){
-                if(targetX > 0) _this.player.inventory.useHeldItem('r');
-                else            _this.player.inventory.useHeldItem('l');
+            if (Math.abs(targetX) > Math.abs(targetY)) {
+                if (targetX > 0) _this.player.inventory.useHeldItem('r');
+                else _this.player.inventory.useHeldItem('l');
             }
             else {
-                if(targetY > 0) _this.player.inventory.useHeldItem('d');
-                else            _this.player.inventory.useHeldItem('u');
+                if (targetY > 0) _this.player.inventory.useHeldItem('d');
+                else _this.player.inventory.useHeldItem('u');
             }
         }
 
     },
 
-    pointerMoveHandler (event) {
+    pointerMoveHandler(event) {
         let sprite;
-        for(let dynamicKey in _this.dynamics){
-            if(_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
+        for (let dynamicKey in _this.dynamics) {
+            if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
             sprite = _this.dynamics[dynamicKey].sprite;
-            if(sprite.baseSprite === undefined) continue;
-            if(_this.distanceBetween(sprite.baseSprite, event) < 32){
+            if (sprite.baseSprite === undefined) continue;
+            if (_this.distanceBetween(sprite.baseSprite, event) < 32) {
                 sprite.onInputOver();
             }
             else {
@@ -474,96 +460,94 @@ dungeonz.Game.prototype = {
     },
 
     checkKeyFilters() {
-        if(_this.GUI){
+        if (_this.GUI) {
             // Don't move while the chat input is open.
-            if(_this.GUI.chatInput.isActive === true) return true;
+            if (_this.GUI.chatInput.isActive === true) return true;
             // Or the create account panel.
-            if(_this.GUI.createAccountPanel.isOpen === true) return true;
+            if (_this.GUI.createAccountPanel.isOpen === true) return true;
             // Or the account panel.
-            if(_this.GUI.accountPanel.isOpen === true) return true;
+            if (_this.GUI.accountPanel.isOpen === true) return true;
         }
         return false;
     },
 
-    moveUpPressed () {
-        if(_this.checkKeyFilters()) return;
+    moveUpPressed() {
+        if (_this.checkKeyFilters()) return;
         _this.move('u');
         _this.moveUpIsDown = true;
     },
 
-    moveDownPressed () {
-        if(_this.checkKeyFilters()) return;
+    moveDownPressed() {
+        if (_this.checkKeyFilters()) return;
         _this.move('d');
         _this.moveDownIsDown = true;
     },
 
-    moveLeftPressed () {
-        if(_this.checkKeyFilters()) return;
+    moveLeftPressed() {
+        if (_this.checkKeyFilters()) return;
         _this.move('l');
         _this.moveLeftIsDown = true;
     },
 
-    moveRightPressed () {
-        if(_this.checkKeyFilters()) return;
+    moveRightPressed() {
+        if (_this.checkKeyFilters()) return;
         _this.move('r');
         _this.moveRightIsDown = true;
     },
 
-    moveUpReleased () {
+    moveUpReleased() {
         _this.moveUpIsDown = false;
     },
 
-    moveDownReleased () {
+    moveDownReleased() {
         _this.moveDownIsDown = false;
     },
 
-    moveLeftReleased () {
+    moveLeftReleased() {
         _this.moveLeftIsDown = false;
     },
 
-    moveRightReleased () {
+    moveRightReleased() {
         _this.moveRightIsDown = false;
     },
 
-    keyDownHandler (event) {
-        //console.log("key event:", event);
+    keyDownHandler(event) {
+        if (_this.checkKeyFilters()) return;
 
-        if(_this.checkKeyFilters()) return;
-
-        const codeNumber = event.code[5];
+        const key = event.key;
 
         // Get the 0 - 9 keys.
-        if(codeNumber > -1
-            && codeNumber < 10){
+        if (key > -1
+            && key < 10) {
             //console.log("num key pressed:", codeNumber);
             // Add the "slot" part of the key to the inventory slot number.
-            _this.player.inventory.useItem("slot" + codeNumber);
+            _this.player.inventory.useItem("slot" + key);
         }
 
-        if(event.code === 'KeyE'){
+        if (event.code === 'KeyE') {
             ws.sendEvent('pick_up_item');
         }
     },
 
-    setupKeyboardControls () {
+    setupKeyboardControls() {
         // Add the handler for keyboard events.
         document.addEventListener('keydown', this.keyDownHandler);
 
         this.keyboardKeys = this.input.keyboard.addKeys(
             {
-                arrowUp:    Phaser.KeyCode.UP,
-                arrowDown:  Phaser.KeyCode.DOWN,
-                arrowLeft:  Phaser.KeyCode.LEFT,
+                arrowUp: Phaser.KeyCode.UP,
+                arrowDown: Phaser.KeyCode.DOWN,
+                arrowLeft: Phaser.KeyCode.LEFT,
                 arrowRight: Phaser.KeyCode.RIGHT,
 
-                w:          Phaser.KeyCode.W,
-                s:          Phaser.KeyCode.S,
-                a:          Phaser.KeyCode.A,
-                d:          Phaser.KeyCode.D,
+                w: Phaser.KeyCode.W,
+                s: Phaser.KeyCode.S,
+                a: Phaser.KeyCode.A,
+                d: Phaser.KeyCode.D,
 
-                shift:      Phaser.KeyCode.SHIFT,
+                shift: Phaser.KeyCode.SHIFT,
 
-                enterChat:  Phaser.KeyCode.ENTER
+                enterChat: Phaser.KeyCode.ENTER
             }
         );
         // Stop the key press events from being captured by Phaser, so they
@@ -599,7 +583,7 @@ dungeonz.Game.prototype = {
         this.keyboardKeys.d.onUp.add(this.moveRightReleased, this, 0);
 
         this.keyboardKeys.enterChat.onDown.add(function () {
-            if(this.player.hitPoints <= 0){
+            if (this.player.hitPoints <= 0) {
                 // Close the box. Can't chat while dead.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
@@ -607,13 +591,13 @@ dungeonz.Game.prototype = {
                 return;
             }
             // Check if the chat input box is open.
-            if(this.GUI.chatInput.isActive === true){
+            if (this.GUI.chatInput.isActive === true) {
                 // Close the box, and submit the message.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
 
                 // Don't bother sending empty messages.
-                if(this.GUI.chatInput.value !== ''){
+                if (this.GUI.chatInput.value !== '') {
                     // Send the message to the server.
                     ws.sendEvent('chat', this.GUI.chatInput.value);
 
@@ -634,9 +618,9 @@ dungeonz.Game.prototype = {
      * Used to add any kind of entity to the game world, such as dynamics, or updating the state of any newly added statics.
      * @param {*} data
      */
-    addEntity (data) {
+    addEntity(data) {
         // Sort the statics from the dynamics. Statics don't have an ID.
-        if(data.id === undefined){
+        if (data.id === undefined) {
             this.updateStatic(data);
         }
         else {
@@ -651,8 +635,8 @@ dungeonz.Game.prototype = {
      * @param {Number} data.row
      * @param {Number} data.col
      */
-    updateStatic (data) {
-        if(_this.statics[data.row + "-" + data.col] === undefined){
+    updateStatic(data) {
+        if (_this.statics[data.row + "-" + data.col] === undefined) {
             // The static is not yet added to the grid. Wait a bit for the current player tween to
             // finish and the edge is loaded, by which point the static tile should have been added.
             setTimeout(this.tilemap.updateStaticTile.bind(this.tilemap), 500, data.row + "-" + data.col, false);
@@ -671,7 +655,7 @@ dungeonz.Game.prototype = {
      * @param {Number} data.row
      * @param {Number} data.col
      */
-    addDynamic (data) {
+    addDynamic(data) {
         const id = data.id;
         const typeNumber = data.typeNumber;
         const row = data.row;
@@ -680,13 +664,13 @@ dungeonz.Game.prototype = {
         //console.log("adding dynamic entity type:", typeNumber, "at row:", row, ", col:", col, ", config:", data);
 
         // Don't add another entity if the one with this ID already exists.
-        if(this.dynamics[id] !== undefined) {
+        if (this.dynamics[id] !== undefined) {
             //console.log("* * * * * skipping add entity, already exists:", id);
             return;
         }
 
         // Check that an entity type exists with the type name that corresponds to the given type number.
-        if(EntitiesList[EntityTypes[typeNumber]] === undefined){
+        if (EntitiesList[EntityTypes[typeNumber]] === undefined) {
             console.log("* Invalid entity type number:", typeNumber, ", entity types:", EntityTypes);
             return;
         }
@@ -708,20 +692,20 @@ dungeonz.Game.prototype = {
         // overwrites the constructor so doesn't get added automatically.
         _this.add.existing(dynamicSprite);
 
-        if(dynamicSprite.centered === true){
+        if (dynamicSprite.centered === true) {
             dynamicSprite.anchor.setTo(0.5);
             dynamicSprite.x += dungeonz.CENTER_OFFSET;
             dynamicSprite.y += dungeonz.CENTER_OFFSET;
         }
 
         // If the entity has a light distance, add it to the light sources list.
-        if(dynamicSprite.lightDistance !== undefined){
+        if (dynamicSprite.lightDistance !== undefined) {
             this.lightSources[id] = this.dynamics[id];
             this.tilemap.updateDarknessGrid();
         }
 
         // If this entity does anything on the client when interacted with, add it to the pseudo interactables list.
-        if(dynamicSprite.pseudoInteractable !== undefined){
+        if (dynamicSprite.pseudoInteractable !== undefined) {
             this.pseudoInteractables[id] = this.dynamics[id];
         }
 
@@ -734,19 +718,19 @@ dungeonz.Game.prototype = {
      * Remove the dynamic with the given ID from the game.
      * @param {Number|String} id
      */
-    removeDynamic (id) {
+    removeDynamic(id) {
         // Don't try to remove an entity that doesn't exist.
-        if(this.dynamics[id] === undefined) {
+        if (this.dynamics[id] === undefined) {
             //console.log("skipping remove entity, doesn't exist:", id);
             return;
         }
 
-        if(this.lightSources[id] !== undefined){
+        if (this.lightSources[id] !== undefined) {
             delete this.lightSources[id];
             this.tilemap.updateDarknessGrid();
         }
 
-        if(this.pseudoInteractables[id] !== undefined){
+        if (this.pseudoInteractables[id] !== undefined) {
             delete this.pseudoInteractables[id];
         }
 
@@ -760,7 +744,7 @@ dungeonz.Game.prototype = {
      * @param {Number} rowOffset
      * @param {Number} colOffset
      */
-    checkDynamicsInViewRange (rowOffset, colOffset) {
+    checkDynamicsInViewRange(rowOffset, colOffset) {
         const dynamics = this.dynamics,
             playerEntityID = this.player.entityId;
         let dynamic;
@@ -770,32 +754,32 @@ dungeonz.Game.prototype = {
         let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
         let playerColRightViewRange = _this.player.col + dungeonz.VIEW_RANGE;
 
-        for(let key in dynamics){
+        for (let key in dynamics) {
 
-            if(dynamics.hasOwnProperty(key) === false) continue;
+            if (dynamics.hasOwnProperty(key) === false) continue;
 
             dynamic = dynamics[key];
             dynamicSprite = dynamic.sprite;
 
             // Skip the player entity's sprite.
-            if(dynamic.id === playerEntityID) continue;
+            if (dynamic.id === playerEntityID) continue;
 
             // Check if it is within the player view range.
-            if(dynamic.row < playerRowTopViewRange
-            || dynamic.row > playerRowBotViewRange
-            || dynamic.col < playerColLeftViewRange
-            || dynamic.col > playerColRightViewRange){
+            if (dynamic.row < playerRowTopViewRange
+                || dynamic.row > playerRowBotViewRange
+                || dynamic.col < playerColLeftViewRange
+                || dynamic.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
                 dynamicSprite.destroy();
                 delete this.dynamics[key];
-                if(dynamicSprite.lightDistance !== undefined){
+                if (dynamicSprite.lightDistance !== undefined) {
                     delete this.lightSources[key];
                     this.tilemap.updateDarknessGrid();
                 }
                 continue;
             }
 
-            if(dynamicSprite.onMove !== undefined) dynamicSprite.onMove();
+            if (dynamicSprite.onMove !== undefined) dynamicSprite.onMove();
         }
     },
 
@@ -804,7 +788,7 @@ dungeonz.Game.prototype = {
      * @param {Number} rowOffset
      * @param {Number} colOffset
      */
-    checkStaticTilesInViewRange (rowOffset, colOffset) {
+    checkStaticTilesInViewRange(rowOffset, colOffset) {
         const statics = this.statics;
         let staticTile;
         let playerRowTopViewRange = _this.player.row - dungeonz.VIEW_RANGE;
@@ -812,22 +796,22 @@ dungeonz.Game.prototype = {
         let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
         let playerColRightViewRange = _this.player.col + dungeonz.VIEW_RANGE;
 
-        for(let key in statics){
+        for (let key in statics) {
 
-            if(statics.hasOwnProperty(key) === false) continue;
+            if (statics.hasOwnProperty(key) === false) continue;
 
             staticTile = statics[key];
 
             // Check if it is within the player view range.
-            if(staticTile.row < playerRowTopViewRange
-            || staticTile.row > playerRowBotViewRange
-            || staticTile.col < playerColLeftViewRange
-            || staticTile.col > playerColRightViewRange){
+            if (staticTile.row < playerRowTopViewRange
+                || staticTile.row > playerRowBotViewRange
+                || staticTile.col < playerColLeftViewRange
+                || staticTile.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
                 staticTile.destroy();
                 // Should have been removed above in destroy, but make sure.
                 delete statics[key];
-                if(staticTile.sprite.lightDistance !== 0){
+                if (staticTile.sprite.lightDistance !== 0) {
                     //console.log("ld !== 0, oob, st:", staticTile);
                     delete this.lightSources[key];
                     _this.tilemap.updateDarknessGrid();
@@ -835,7 +819,7 @@ dungeonz.Game.prototype = {
                 continue;
             }
 
-            if(staticTile.sprite.lightDistance !== 0){
+            if (staticTile.sprite.lightDistance !== 0) {
                 //console.log("ld !== 0:", staticTile);
                 _this.tilemap.updateDarknessGrid();
             }
@@ -848,7 +832,7 @@ dungeonz.Game.prototype = {
      * @param {String} message
      * @param {String} [fillColour="#f5f5f5"]
      */
-    chat (entityID, message, fillColour) {
+    chat(entityID, message, fillColour) {
         //console.log("chat");
         // Check an entity ID was given. If not, use this player.
         entityID = entityID || _this.player.entityId;
@@ -858,7 +842,7 @@ dungeonz.Game.prototype = {
 
         let dynamic = _this.dynamics[entityID];
         // Check the entity id is valid.
-        if(dynamic === undefined) return;
+        if (dynamic === undefined) return;
 
         const style = {
             font: "20px Press Start 2P",
@@ -871,20 +855,20 @@ dungeonz.Game.prototype = {
         };
 
         // Check if the message was a command.
-        if(message[0] === '/'){
+        if (message[0] === '/') {
             const command = message[1];
             // Remove the command part of the message.
             message = message.slice(2);
             // Check which command it is.
-            if      (command === 'r')    style.fill = "#ff7066";
-            else if (command === 'g')    style.fill = "#73ff66";
-            else if (command === 'b')    style.fill = "#66b3ff";
-            else if (command === 'y')    style.fill = "#ffde66";
+            if (command === 'r') style.fill = "#ff7066";
+            else if (command === 'g') style.fill = "#73ff66";
+            else if (command === 'b') style.fill = "#66b3ff";
+            else if (command === 'y') style.fill = "#ffde66";
             // Invalid command.
             else {
                 style.fill = "#ffa54f";
                 // If the message was from this client, tell them a warning message.
-                if(entityID === _this.player.entityId){
+                if (entityID === _this.player.entityId) {
                     message = dungeonz.getTextDef("Invalid command warning");
                 }
                 // Someone else's message, so don't show it.

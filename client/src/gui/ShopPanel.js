@@ -111,10 +111,18 @@ class ShopPanel extends PanelTemplate {
         //this.name.innerText = shopName;
 
         // Request the prices of items in this shop.
-        ws.sendEvent('get_shop_prices', {traderID: traderID, row: _this.dynamics[traderID].row, col: _this.dynamics[traderID].col});
+        ws.sendEvent('get_shop_prices', {
+            traderID: traderID,
+            row: _this.dynamics[traderID].row,
+            col: _this.dynamics[traderID].col
+        });
 
         this.getPricesLoop = setInterval(function () {
-            ws.sendEvent('get_shop_prices', {traderID: traderID, row: _this.dynamics[traderID].row, col: _this.dynamics[traderID].col});
+            ws.sendEvent('get_shop_prices', {
+                traderID: traderID,
+                row: _this.dynamics[traderID].row,
+                col: _this.dynamics[traderID].col
+            });
         }, 5000);
 
         for(let i=0; i<shopStock.length; i+=1){

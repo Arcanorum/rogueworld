@@ -466,30 +466,3 @@
     width: 35%;
     padding: 20px;
 }
-
-#home_ad_banner {
-  position: absolute;
-  width: 300px;
-  height: 250px;
-  bottom: 1%;
-  left: 50%;
-  transform: translate(-50%);
-  border: 12px solid $colourDB32WhiteOpacity80;
-}
-
-#preroll_cont {
-  position: absolute;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: $colourDB32Black;
-}
-
-#adblock_warning {
-    position: absolute;
-    z-index: -1;
-}

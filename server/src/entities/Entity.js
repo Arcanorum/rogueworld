@@ -1,21 +1,44 @@
-var idCounter = 1;
-var typeNumberCounter = 1;
+const Utils = require('../Utils');
+const Damage = require('../gameplay/Damage');
+const Heal = require('../gameplay/Heal');
+
+const idCounter = new Utils.Counter();
 
 class Entity {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
      */
-    constructor (config) {
-        this.id = idCounter;
-        idCounter+=1;
+    constructor(config) {
+        this.id = idCounter.getNext();
 
         this.row = config.row;
         this.col = config.col;
         this.board = config.board;
+    }
+
+    /**
+     * Remove this entity from the game world completely, and allow it to be GCed.
+     * Any specific destruction functionality should be added to onDestroy, which is called from this method.
+     */
+    destroy() {
+        // Prevent multiple destruction of entities.
+        if (this._destroyed === true) return;
+
+        this._destroyed = true;
+
+        this.onDestroy();
+    }
+
+    /**
+     * Specific destruction functionality. If overwritten, should still be chained from the overwriter up to this.
+     */
+    onDestroy() {
+        // Remove the reference to the board it was on (that every entity
+        // has), so it can be cleaned up if the board is to be destroyed.
+        this.board = null;
     }
 
     /**
@@ -24,24 +47,24 @@ class Entity {
      * @param {Damage|Heal} hitPointModifier - How much to increase or decrease by.
      * @param {Entity} [source] - The entity that caused this change.
      */
-    modHitPoints (hitPointModifier, source) {
+    modHitPoints(hitPointModifier, source) {
         const amount = Math.floor(hitPointModifier.amount);
 
         // Catch non-integer values, or the HP will bug out.
-        if(Number.isInteger(amount) === false) return;
+        if (Number.isInteger(amount) === false) return;
 
         // Make it impossible to change the HP if this entity is destroyed.
-        if(this._destroyed === true) return;
+        if (this._destroyed === true) return;
 
         // Make sure this is a damagable entity.
-        if(this.hitPoints === null) return;
+        if (this.hitPoints === null) return;
 
         // If damaged.
-        if(hitPointModifier instanceof Damage){
+        if (hitPointModifier instanceof Damage) {
             this.onDamage(hitPointModifier, source);
         }
         // If healed.
-        else if(hitPointModifier instanceof Heal) {
+        else if (hitPointModifier instanceof Heal) {
             this.onHeal(hitPointModifier);
         }
         else {
@@ -51,7 +74,7 @@ class Entity {
         this.onModHitPoints();
 
         // Make sure they can't go above max HP.
-        if(this.hitPoints > this.maxHitPoints){
+        if (this.hitPoints > this.maxHitPoints) {
             this.hitPoints = this.maxHitPoints;
         }
     }
@@ -61,24 +84,24 @@ class Entity {
      * @param {Heal} heal 
      * @param {Entity} source 
      */
-    heal (heal, source) {
-        if((heal instanceof Heal) === false) {
+    heal(heal, source) {
+        if ((heal instanceof Heal) === false) {
             Utils.error("Entity.heal must be passed a Heal config object. Value of 'heal':", heal);
         }
         // Make sure the amount is valid.
-        if(heal.amount === null) return;
+        if (heal.amount === null) return;
         this.modHitPoints(heal, source);
     }
 
     /**
      * Hitpoints are to be added to this entity.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      * @param {Heal} heal - A heal config object.
      */
-    onHeal (heal) {
+    onHeal(heal) {
         const amount = Math.floor(heal.amount);
         this.hitPoints += amount;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, {id: this.id, amount: amount});
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, { id: this.id, amount: amount });
     }
 
     /**
@@ -86,8 +109,8 @@ class Entity {
      * @param {Damage} damage - A damage config object.
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    damage (damage, source) {
-        if((damage instanceof Damage) === false) {
+    damage(damage, source) {
+        if ((damage instanceof Damage) === false) {
             Utils.error("Entity.damage must be passed a Damage config object. Value of 'damage':", damage);
         }
 
@@ -98,35 +121,35 @@ class Entity {
      * Hitpoints are to be subtracted from this entity.
      * If HP goes <0, then onAllHitPointsLost is called.
      * This method does NOT destroy directly.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      * @param {Damage} damage
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    onDamage (damage, source) {
+    onDamage(damage, source) {
         damage.amount = Math.floor(damage.amount);
         this.hitPoints -= damage.amount;
 
         // Check if this entity is destroyed.
-        if(this.hitPoints <= 0){
+        if (this.hitPoints <= 0) {
             this.onAllHitPointsLost();
         }
         // Entity is still alive. Tell nearby players.
         else {
-            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, {id: this.id, amount: -damage.amount});
+            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, { id: this.id, amount: -damage.amount });
         }
     }
 
     /**
      * This entity has been taken to or below 0 hitpoints.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      */
-    onAllHitPointsLost () {}
+    onAllHitPointsLost() { }
 
     /**
      * This entity has had its hitpoints changed.
-     * If overwritten, should still be chained from the caller up to this.
+     * If overwritten, should still be chained from the overwriter up to this.
      */
-    onModHitPoints () {}
+    onModHitPoints() { }
 
     /**
      * Get all of the properties of this entity that can be emitted to clients.
@@ -135,26 +158,34 @@ class Entity {
      * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
      * adds from Character, and so on until Entity, then returns the result back down the stack.
      * @param {Object} properties - The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
-     * @return {{}}
+     * @returns {{}}
      */
-    getEmittableProperties (properties) {
+    getEmittableProperties(properties) {
         return properties;
+    }
+
+    /**
+     * Returns the board tile this entity is currently occupying.
+     * @returns {BoardTile}
+     */
+    getBoardTile() {
+        return this.board.grid[this.row][this.col];
     }
 
     /**
      * Returns a random direction.
      * @returns {String}
      */
-    getRandomDirection () {
+    getRandomDirection() {
         const keys = Object.keys(this.Directions);
         return this.Directions[keys[keys.length * Math.random() << 0]];
     }
 
     /**
      * When finished constructing this entity, use this to tell the nearby players to add this entity.
-     * @return {Entity}
+     * @returns {Entity}
      */
-    emitToNearbyPlayers () {
+    emitToNearbyPlayers() {
         // Tell all players around this one (including itself) that this one has joined.
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.add_entity, this.getEmittableProperties({}));
         return this;
@@ -163,17 +194,17 @@ class Entity {
     /**
      * Checks if another entity is cardinally adjacent to this one. Does NOT include if they are in the same position.
      * @param {Entity} entity
-     * @return {Boolean}
+     * @returns {Boolean}
      */
-    isAdjacentToEntity (entity) {
+    isAdjacentToEntity(entity) {
         // Above.
-        if(entity.row === this.row-1 && entity.col === this.col) return true;
+        if (entity.row === this.row - 1 && entity.col === this.col) return true;
         // Below.
-        if(entity.row === this.row+1 && entity.col === this.col) return true;
+        if (entity.row === this.row + 1 && entity.col === this.col) return true;
         // Left.
-        if(entity.row === this.row && entity.col === this.col-1) return true;
+        if (entity.row === this.row && entity.col === this.col - 1) return true;
         // Right.
-        if(entity.row === this.row && entity.col === this.col+1) return true;
+        if (entity.row === this.row && entity.col === this.col + 1) return true;
         // Not adjacent.
         return false;
     }
@@ -182,31 +213,31 @@ class Entity {
      * Checks if any entity of the given type is cardinally adjacent to this one. Does NOT include if they are in the same position.
      * Useful for checking if a player is next to a bank chest, crafting station, etc. when attempting to bank/craft.
      * @param {Number} typeNumber
-     * @return {Boolean}
+     * @returns {Boolean}
      */
-    isAdjacentToStaticType (typeNumber) {
+    isAdjacentToStaticType(typeNumber) {
         const grid = this.board.grid;
         // Above.
-        if(grid[this.row-1][this.col].static !== null){
-            if(grid[this.row-1][this.col].static.typeNumber === typeNumber){
+        if (grid[this.row - 1][this.col].static !== null) {
+            if (grid[this.row - 1][this.col].static.typeNumber === typeNumber) {
                 return true;
             }
         }
         // Below.
-        if(grid[this.row+1][this.col].static !== null){
-            if(grid[this.row+1][this.col].static.typeNumber === typeNumber){
+        if (grid[this.row + 1][this.col].static !== null) {
+            if (grid[this.row + 1][this.col].static.typeNumber === typeNumber) {
                 return true;
             }
         }
         // Left.
-        if(grid[this.row][this.col-1].static !== null){
-            if(grid[this.row][this.col-1].static.typeNumber === typeNumber){
+        if (grid[this.row][this.col - 1].static !== null) {
+            if (grid[this.row][this.col - 1].static.typeNumber === typeNumber) {
                 return true;
             }
         }
         // Right.
-        if(grid[this.row][this.col+1].static !== null){
-            if(grid[this.row][this.col+1].static.typeNumber === typeNumber){
+        if (grid[this.row][this.col + 1].static !== null) {
+            if (grid[this.row][this.col + 1].static.typeNumber === typeNumber) {
                 return true;
             }
         }
@@ -217,17 +248,17 @@ class Entity {
     /**
      * Checks if another entity is diagonally adjacent to this one. Does NOT include if they are in the same position.
      * @param {Entity} entity
-     * @return {Boolean}
+     * @returns {Boolean}
      */
-    isDiagonalToEntity (entity) {
+    isDiagonalToEntity(entity) {
         // Above + left.
-        if(entity.row === this.row-1 && entity.col === this.col-1) return true;
+        if (entity.row === this.row - 1 && entity.col === this.col - 1) return true;
         // Above + right.
-        if(entity.row === this.row-1 && entity.col === this.col+1) return true;
+        if (entity.row === this.row - 1 && entity.col === this.col + 1) return true;
         // Below + left.
-        if(entity.row === this.row+1 && entity.col === this.col-1) return true;
+        if (entity.row === this.row + 1 && entity.col === this.col - 1) return true;
         // Below + right.
-        if(entity.row === this.row+1 && entity.col === this.col+1) return true;
+        if (entity.row === this.row + 1 && entity.col === this.col + 1) return true;
         // Not adjacent.
         return false;
     }
@@ -239,16 +270,12 @@ class Entity {
      * @param {Number} dayPhase - The time of day that the world is currently on.
      * @returns {Boolean}
      */
-    checkSpawnCriteria (boardTile, dayPhase) {
+    checkSpawnCriteria(boardTile, dayPhase) {
         return true;
     }
 
 }
 module.exports = Entity;
-
-const Utils = require('./../Utils');
-const Damage = require('../gameplay/Damage');
-const Heal = require('../gameplay/Heal');
 
 // Give each entity easy access to the events list.
 Entity.prototype.EventsList = require('../EventsList');
@@ -258,13 +285,13 @@ Entity.prototype.EventsList = require('../EventsList');
 // All entities that appear on the client must be registered with ENTITY.prototype.registerEntityType().
 Entity.prototype.typeNumber = 'Type not registered.';
 
+const typeNumberCounter = new Utils.Counter();
+
 Entity.prototype.registerEntityType = function () {
 
-    this.typeNumber = typeNumberCounter;
+    this.typeNumber = typeNumberCounter.getNext();
 
-    typeNumberCounter+=1;
-
-    //console.log("* Registering entity type: ", this);
+    //Utils.message("Registering entity type: ", this);
 };
 
 /**

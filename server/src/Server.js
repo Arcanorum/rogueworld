@@ -1,5 +1,5 @@
-
 const fs = require('fs');
+const Utils = require("./Utils");
 const pathToKeys = '../../../etc/letsencrypt/live/dungeonz.io/';
 
 // Express config.
@@ -22,15 +22,15 @@ let wss;
 
 // SSL check.
 // If a certificate can be found, load it and use SSL.
-if(fs.existsSync(pathToKeys + 'fullchain.pem')){
+if (fs.existsSync(pathToKeys + 'fullchain.pem')) {
 
     const https = require('https');
     httpServer = https.createServer({
-       cert:   fs.readFileSync(pathToKeys + 'fullchain.pem'),
-       key:    fs.readFileSync(pathToKeys + 'privkey.pem'),
+        cert: fs.readFileSync(pathToKeys + 'fullchain.pem'),
+        key: fs.readFileSync(pathToKeys + 'privkey.pem'),
     }, app).listen(443);
 
-    console.log("* Started HTTPS and WS servers on port", 443);
+    Utils.message("Started HTTPS and WS servers on port", 443);
 
     const redirectApp = express();
     // Redirect all requests to the HTTP (port 80) server to the HTTPS server.
@@ -47,8 +47,8 @@ else {
     const http = require('http');
     httpServer = http.createServer(app).listen(80);
 
-    console.log("* Could not locate SSL certificate.");
-    console.log("* Started unsecure HTTP and WS servers on port", 80);
+    Utils.message("Could not locate SSL certificate.");
+    Utils.message("Started unsecure HTTP and WS servers on port", 80);
 }
 
 wss = new WebSocket.Server({

@@ -2,7 +2,7 @@ import RecipeCatalogue from './catalogues/CraftingRecipes'
 import ItemTypes from '../src/catalogues/ItemTypes'
 
 class CraftingComponent {
-    constructor (number) {
+    constructor(number) {
         /**
          * The position of this component slot along the bar. [1] [2]...
          * @type {Number}
@@ -23,14 +23,14 @@ class CraftingComponent {
 
 class CraftingManager {
 
-    constructor () {
+    constructor() {
 
         this.stationTypeNumber = null;
 
         this.recipeCode = '';
 
         this.components = {};
-        for(let i=1; i<6; i+=1){
+        for (let i = 1; i < 6; i += 1) {
             this.components['slot' + i] = new CraftingComponent(i);
         }
 
@@ -42,22 +42,22 @@ class CraftingManager {
      * Add an item from the inventory to the crafting recipe.
      * @param {Number|String} inventorySlotKey - The slot key of the inventory item to add.
      */
-    addComponent (inventorySlotKey) {
+    addComponent(inventorySlotKey) {
         //console.log("adding component, key:", inventorySlotKey);
 
         const inventory = _this.player.inventory;
 
         // Don't try to add this item if it is already being used as a component.
-        if(inventory[inventorySlotKey].craftingComponent !== null) return;
+        if (inventory[inventorySlotKey].craftingComponent !== null) return;
         // Don't try to add this item if there is nothing in that inventory slot.
-        if(inventory[inventorySlotKey].catalogueEntry === null) return;
+        if (inventory[inventorySlotKey].catalogueEntry === null) return;
 
         let component;
         // Get the first empty component slot.
-        for(let slotKey in this.components){
-            if(this.components.hasOwnProperty(slotKey) === false) continue;
+        for (let slotKey in this.components) {
+            if (this.components.hasOwnProperty(slotKey) === false) continue;
             component = this.components[slotKey];
-            if(component.occupiedBy === null){
+            if (component.occupiedBy === null) {
                 component.occupiedBy = inventorySlotKey;
                 component.guiSlot.container.style.backgroundColor = _this.GUI.GUIColours.bankSlotOccupied;
                 component.guiSlot.remove.style.visibility = "visible";
@@ -80,11 +80,11 @@ class CraftingManager {
 
     }
 
-    removeComponent (componentNumber) {
+    removeComponent(componentNumber) {
         //console.log("remove component:", componentNumber);
         let component = this.components['slot' + componentNumber];
-        if(component === undefined) return;
-        if(component.occupiedBy === null) return;
+        if (component === undefined) return;
+        if (component.occupiedBy === null) return;
         let guiSlot = component.guiSlot;
         guiSlot.remove.style.visibility = "hidden";
         guiSlot.icon.style.visibility = "hidden";
@@ -100,9 +100,9 @@ class CraftingManager {
 
         // Remake the recipe code.
         this.recipeCode = '';
-        for(let slotKey in this.components){
-            if(this.components.hasOwnProperty(slotKey) === false) continue;
-            if(this.components[slotKey].occupiedBy === null) break;
+        for (let slotKey in this.components) {
+            if (this.components.hasOwnProperty(slotKey) === false) continue;
+            if (this.components[slotKey].occupiedBy === null) break;
             this.recipeCode += _this.player.inventory[this.components[slotKey].occupiedBy].catalogueEntry.typeNumber + '-';
         }
 
@@ -111,12 +111,12 @@ class CraftingManager {
         _this.GUI.inventoryBar.updateCraftingPanelAddButtons();
     }
 
-    checkRecipeCode () {
+    checkRecipeCode() {
         //console.log("checking recipe code", this.recipeCode);
         // Check if the recipe code matches a valid recipe.
-        if(RecipeCatalogue[this.stationTypeNumber] !== undefined){
+        if (RecipeCatalogue[this.stationTypeNumber] !== undefined) {
             //console.log("  station is valid, result:", RecipeCatalogue[this.stationTypeNumber]);
-            if(RecipeCatalogue[this.stationTypeNumber][this.recipeCode] !== undefined){
+            if (RecipeCatalogue[this.stationTypeNumber][this.recipeCode] !== undefined) {
                 //console.log("  recipe found for this crafting station:", RecipeCatalogue[this.stationTypeNumber][this.recipeCode]);
                 this.guiResult.container.style.backgroundColor = _this.GUI.GUIColours.bankSlotOccupied;
                 this.guiResult.icon.style.visibility = "visible";
@@ -134,18 +134,18 @@ class CraftingManager {
         }
     }
 
-    shiftEmptyComponentsLeft () {
+    shiftEmptyComponentsLeft() {
         // Move the remaining components to the left to fill any gaps.
         const componentKeys = Object.keys(this.components);
         let currentComponent,
             nextComponent;
-        for(let i=0; i<componentKeys.length; i+=1){
+        for (let i = 0; i < componentKeys.length; i += 1) {
             currentComponent = this.components[componentKeys[i]];
-            if(currentComponent.occupiedBy === null){
+            if (currentComponent.occupiedBy === null) {
                 // An empty slot found. Find the next non-empty slot and move it to this one.
-                for(let j=i+1; j<componentKeys.length; j+=1){
+                for (let j = i + 1; j < componentKeys.length; j += 1) {
                     nextComponent = this.components[componentKeys[j]];
-                    if(nextComponent.occupiedBy === null) continue;
+                    if (nextComponent.occupiedBy === null) continue;
 
                     currentComponent.occupiedBy = nextComponent.occupiedBy;
                     nextComponent.occupiedBy = null;
@@ -166,25 +166,25 @@ class CraftingManager {
         }
     }
 
-    static accept () {
+    static accept() {
         const inventorySlotKeys = [];
         const components = _this.craftingManager.components;
-        for(let slotKey in components){
-            if(components.hasOwnProperty(slotKey) === false) continue;
-            if(components[slotKey].occupiedBy === null) break;
+        for (let slotKey in components) {
+            if (components.hasOwnProperty(slotKey) === false) continue;
+            if (components[slotKey].occupiedBy === null) break;
             inventorySlotKeys.push(components[slotKey].occupiedBy);
         }
 
-        for(let slotKey in components){
-            if(components.hasOwnProperty(slotKey) === false) continue;
+        for (let slotKey in components) {
+            if (components.hasOwnProperty(slotKey) === false) continue;
             _this.craftingManager.removeComponent(components.slot1.number);
         }
 
-        window.ws.sendEvent("craft", {stationTypeNumber: _this.craftingManager.stationTypeNumber, inventorySlotKeys: inventorySlotKeys});
+        window.ws.sendEvent("craft", { stationTypeNumber: _this.craftingManager.stationTypeNumber, inventorySlotKeys: inventorySlotKeys });
     }
 
-    empty () {
-        for(let i=0; i<5; i+=1){
+    empty() {
+        for (let i = 0; i < 5; i += 1) {
             this.removeComponent(1);
         }
     }

@@ -8,10 +8,6 @@ class ItemEtherweave extends Clothes {
         // TODO: change this to be propery check based on Item proto.
     }
 
-    damage (amount, source) { //TODO why is this here? does nothing that the parent doesnt already do
-        super.damage(amount, source);
-    }
-
     onDamaged (amount, source) {
         // Check the entity can be damaged.
         if(source.damage){

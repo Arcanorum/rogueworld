@@ -87,9 +87,9 @@ const ModHitPointConfigs = {
     },
 
     ProjBloodBolt: {
-        damageAmount: 30,
+        damageAmount: 20,
         damageTypes: [Magical, Biological],
-        healAmount: 10
+        healAmount: 20
     },
     ProjWind: {
         damageAmount: 6,

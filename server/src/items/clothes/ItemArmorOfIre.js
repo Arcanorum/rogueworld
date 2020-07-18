@@ -5,7 +5,6 @@ class ItemArmorOfIre extends Clothes {
 
     modDurability(){
         // Overwrite this with nothing so it doesn't lose durability.
-        // TODO: change this to be propery check based on Item proto.
     }
 
     onDamaged (damage, source) {

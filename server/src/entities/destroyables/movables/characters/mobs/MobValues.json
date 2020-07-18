@@ -10,7 +10,9 @@
         "targetSearchRate": 4000,
         "attackRate": 1500,
         "meleeDamageAmount": 0,
-        "meleeDamageTypes": ["Physical"],
+        "meleeDamageTypes": [
+            "Physical"
+        ],
         "meleeDamageArmourPiercing": 0,
         "projectileAttackType": null,
         "faction": "Citizens",
@@ -25,9 +27,15 @@
         "meleeDamageAmount": 10,
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "Fabric"},
-            {"itemName": "OakLogs"},
-            {"itemName": "Redcap"}
+            {
+                "itemName": "Fabric"
+            },
+            {
+                "itemName": "OakLogs"
+            },
+            {
+                "itemName": "Redcap"
+            }
         ]
     },
     {
@@ -40,10 +48,19 @@
         "faction": "CityGuards",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "HealthPotion"},
-            {"itemName": "IronBar"},
-            {"itemName": "IronSword"},
-            {"itemName": "DungiumSheet", "dropRate": 10}
+            {
+                "itemName": "HealthPotion"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "IronSword"
+            },
+            {
+                "itemName": "DungiumSheet",
+                "dropRate": 10
+            }
         ]
     },
     {
@@ -57,13 +74,35 @@
         "faction": "CityGuards",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "ExpOrbMelee", "dropRate": 100, "rolls": 2},
-            {"itemName": "DungiumSword", "dropRate": 100},
-            {"itemName": "DungiumArmour", "dropRate": 100},
-            {"itemName": "DungiumBar", "rolls": 4},
-            {"itemName": "DungiumSword", "rolls": 3},
-            {"itemName": "DungiumArmour", "rolls": 2},
-            {"itemName": "ExpOrbMelee", "rolls": 4}
+            {
+                "itemName": "ExpOrbMelee",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "DungiumSword",
+                "dropRate": 100
+            },
+            {
+                "itemName": "DungiumArmour",
+                "dropRate": 100
+            },
+            {
+                "itemName": "DungiumBar",
+                "rolls": 4
+            },
+            {
+                "itemName": "DungiumSword",
+                "rolls": 3
+            },
+            {
+                "itemName": "DungiumArmour",
+                "rolls": 2
+            },
+            {
+                "itemName": "ExpOrbMelee",
+                "rolls": 4
+            }
         ]
     },
     {
@@ -76,10 +115,18 @@
         "faction": "Barbarians",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "IronOre"},
-            {"itemName": "IronBar"},
-            {"itemName": "IronSword"},
-            {"itemName": "Redcap"}
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "IronSword"
+            },
+            {
+                "itemName": "Redcap"
+            }
         ]
     },
     {
@@ -92,10 +139,18 @@
         "faction": "Barbarians",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "IronOre"},
-            {"itemName": "IronBar"},
-            {"itemName": "IronSword"},
-            {"itemName": "Redcap"}
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "IronSword"
+            },
+            {
+                "itemName": "Redcap"
+            }
         ]
     },
     {
@@ -103,13 +158,29 @@
         "corpseType": "Human",
         "projectileAttackType": "Fire",
         "dropList": [
-            {"itemName": "Fabric", "rolls": 2},
-            {"itemName": "Bluecap", "rolls": 2},
-            {"itemName": "EnergyPotion"},
-            {"itemName": "MageRobe"},
-            {"itemName": "FireGem"},
-            {"itemName": "WindGem"},
-            {"itemName": "FireStaff"}
+            {
+                "itemName": "Fabric",
+                "rolls": 2
+            },
+            {
+                "itemName": "Bluecap",
+                "rolls": 2
+            },
+            {
+                "itemName": "EnergyPotion"
+            },
+            {
+                "itemName": "MageRobe"
+            },
+            {
+                "itemName": "FireGem"
+            },
+            {
+                "itemName": "WindGem"
+            },
+            {
+                "itemName": "FireStaff"
+            }
         ]
     },
     {
@@ -117,14 +188,39 @@
         "corpseType": "Human",
         "projectileAttackType": "SuperFire",
         "dropList": [
-            {"itemName": "SuperFireStaff", "dropRate": 100},
-            {"itemName": "BookOfLight", "dropRate": 100},
-            {"itemName": "MageRobe", "dropRate": 100},
-            {"itemName": "FireGem", "dropRate": 100, "rolls": 2},
-            {"itemName": "FireGem", "rolls": 2},
-            {"itemName": "FireStaff", "rolls": 2},
-            {"itemName": "SuperFireStaff", "rolls": 2},
-            {"itemName": "BookOfLight", "rolls": 2}
+            {
+                "itemName": "SuperFireStaff",
+                "dropRate": 100
+            },
+            {
+                "itemName": "BookOfLight",
+                "dropRate": 100
+            },
+            {
+                "itemName": "MageRobe",
+                "dropRate": 100
+            },
+            {
+                "itemName": "FireGem",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "FireGem",
+                "rolls": 2
+            },
+            {
+                "itemName": "FireStaff",
+                "rolls": 2
+            },
+            {
+                "itemName": "SuperFireStaff",
+                "rolls": 2
+            },
+            {
+                "itemName": "BookOfLight",
+                "rolls": 2
+            }
         ]
     },
     {
@@ -136,9 +232,18 @@
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "Cotton", "rolls": 2},
-            {"itemName": "Fabric", "rolls": 2},
-            {"itemName": "IronOre", "rolls": 2}
+            {
+                "itemName": "Cotton",
+                "rolls": 2
+            },
+            {
+                "itemName": "Fabric",
+                "rolls": 2
+            },
+            {
+                "itemName": "IronOre",
+                "rolls": 2
+            }
         ]
     },
     {
@@ -152,10 +257,20 @@
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "Fabric", "rolls": 2},
-            {"itemName": "IronOre", "rolls": 2},
-            {"itemName": "IronArrows"},
-            {"itemName": "IronDagger"}
+            {
+                "itemName": "Fabric",
+                "rolls": 2
+            },
+            {
+                "itemName": "IronOre",
+                "rolls": 2
+            },
+            {
+                "itemName": "IronArrows"
+            },
+            {
+                "itemName": "IronDagger"
+            }
         ]
     },
     {
@@ -169,15 +284,43 @@
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "ExpOrbMelee", "dropRate": 100, "rolls": 2},
-            {"itemName": "Cloak", "dropRate": 100},
-            {"itemName": "IronArrows", "dropRate": 100},
-            {"itemName": "DungiumDagger", "dropRate": 100},
-            {"itemName": "NinjaGarb", "dropRate": 50, "rolls": 2},
-            {"itemName": "DungiumBar", "rolls": 2},
-            {"itemName": "DungiumSword", "rolls": 2},
-            {"itemName": "IronArrows", "rolls": 2},
-            {"itemName": "IronDagger"}
+            {
+                "itemName": "ExpOrbMelee",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "Cloak",
+                "dropRate": 100
+            },
+            {
+                "itemName": "IronArrows",
+                "dropRate": 100
+            },
+            {
+                "itemName": "DungiumDagger",
+                "dropRate": 100
+            },
+            {
+                "itemName": "NinjaGarb",
+                "dropRate": 50,
+                "rolls": 2
+            },
+            {
+                "itemName": "DungiumBar",
+                "rolls": 2
+            },
+            {
+                "itemName": "DungiumSword",
+                "rolls": 2
+            },
+            {
+                "itemName": "IronArrows",
+                "rolls": 2
+            },
+            {
+                "itemName": "IronDagger"
+            }
         ]
     },
     {
@@ -192,11 +335,21 @@
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "NinjaGarb"},
-            {"itemName": "Shuriken"},
-            {"itemName": "NoctisDagger"},
-            {"itemName": "NoctisBar"},
-            {"itemName": "Fabric"}
+            {
+                "itemName": "NinjaGarb"
+            },
+            {
+                "itemName": "Shuriken"
+            },
+            {
+                "itemName": "NoctisDagger"
+            },
+            {
+                "itemName": "NoctisBar"
+            },
+            {
+                "itemName": "Fabric"
+            }
         ]
     },
     {
@@ -211,13 +364,38 @@
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [
-            {"itemName": "ExpOrbMelee", "dropRate": 100, "rolls": 2},
-            {"itemName": "ExpOrbRanged", "dropRate": 100, "rolls": 2},
-            {"itemName": "Shuriken", "dropRate": 100, "rolls": 2},
-            {"itemName": "NinjaGarb", "dropRate": 100},
-            {"itemName": "NoctisDagger", "dropRate": 100, "rolls": 2},
-            {"itemName": "NoctisBar", "rolls": 3},
-            {"itemName": "BloodGem", "rolls": 2}
+            {
+                "itemName": "ExpOrbMelee",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "ExpOrbRanged",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "Shuriken",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "NinjaGarb",
+                "dropRate": 100
+            },
+            {
+                "itemName": "NoctisDagger",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "NoctisBar",
+                "rolls": 3
+            },
+            {
+                "itemName": "BloodGem",
+                "rolls": 2
+            }
         ]
     },
     {
@@ -247,7 +425,9 @@
         "meleeDamageAmount": 8,
         "faction": "HostileAnimals",
         "dropList": [
-            {"itemName": "Feathers"}
+            {
+                "itemName": "Feathers"
+            }
         ]
     },
     {
@@ -259,8 +439,12 @@
         "meleeDamageAmount": 15,
         "faction": "HostileAnimals",
         "dropList": [
-            {"itemName": "DungiumOre"},
-            {"itemName": "Redcap"}
+            {
+                "itemName": "DungiumOre"
+            },
+            {
+                "itemName": "Redcap"
+            }
         ]
     },
     {
@@ -272,8 +456,12 @@
         "meleeDamageAmount": 15,
         "faction": "HostileAnimals",
         "dropList": [
-            {"itemName": "OakLogs"},
-            {"itemName": "Greencap"}
+            {
+                "itemName": "OakLogs"
+            },
+            {
+                "itemName": "Greencap"
+            }
         ]
     },
     {
@@ -295,13 +483,35 @@
         "projectileAttackType": "Acorn",
         "faction": "HostileAnimals",
         "dropList": [
-            {"itemName": "ExpOrbMelee", "dropRate": 100},
-            {"itemName": "ExpOrbRanged", "dropRate": 100},
-            {"itemName": "ExpOrbMagic", "dropRate": 100},
-            {"itemName": "ExpOrbGathering", "dropRate": 100},
-            {"itemName": "SuperWindStaff", "dropRate": 100},
-            {"itemName": "WindGem", "dropRate": 100, "rolls": 2},
-            {"itemName": "OakLogs", "rolls": 6}
+            {
+                "itemName": "ExpOrbMelee",
+                "dropRate": 100
+            },
+            {
+                "itemName": "ExpOrbRanged",
+                "dropRate": 100
+            },
+            {
+                "itemName": "ExpOrbMagic",
+                "dropRate": 100
+            },
+            {
+                "itemName": "ExpOrbGathering",
+                "dropRate": 100
+            },
+            {
+                "itemName": "SuperWindStaff",
+                "dropRate": 100
+            },
+            {
+                "itemName": "WindGem",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "OakLogs",
+                "rolls": 6
+            }
         ]
     },
     {
@@ -315,14 +525,30 @@
         "projectileAttackType": "IronDagger",
         "faction": "Goblins",
         "dropList": [
-            {"itemName": "Cotton"},
-            {"itemName": "Fabric"},
-            {"itemName": "IronOre"},
-            {"itemName": "Redcap"},
-            {"itemName": "Greencap"},
-            {"itemName": "IronDagger"},
-            {"itemName": "OakBow"},
-            {"itemName": "IronArrows"}
+            {
+                "itemName": "Cotton"
+            },
+            {
+                "itemName": "Fabric"
+            },
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "Redcap"
+            },
+            {
+                "itemName": "Greencap"
+            },
+            {
+                "itemName": "IronDagger"
+            },
+            {
+                "itemName": "OakBow"
+            },
+            {
+                "itemName": "IronArrows"
+            }
         ]
     },
     {
@@ -351,11 +577,21 @@
         "meleeDamageAmount": 25,
         "faction": "Zombies",
         "dropList": [
-            {"itemName": "OakLogs"},
-            {"itemName": "Cotton"},
-            {"itemName": "String"},
-            {"itemName": "Fabric"},
-            {"itemName": "Redcap"}
+            {
+                "itemName": "OakLogs"
+            },
+            {
+                "itemName": "Cotton"
+            },
+            {
+                "itemName": "String"
+            },
+            {
+                "itemName": "Fabric"
+            },
+            {
+                "itemName": "Redcap"
+            }
         ]
     },
     {
@@ -369,10 +605,20 @@
         "projectileAttackType": "DungiumSword",
         "faction": "Zombies",
         "dropList": [
-            {"itemName": "IronBar", "dropRate": 30},
-            {"itemName": "DungiumBar", "dropRate": 30},
-            {"itemName": "IronSword"},
-            {"itemName": "Fabric"}
+            {
+                "itemName": "IronBar",
+                "dropRate": 30
+            },
+            {
+                "itemName": "DungiumBar",
+                "dropRate": 30
+            },
+            {
+                "itemName": "IronSword"
+            },
+            {
+                "itemName": "Fabric"
+            }
         ]
     },
     {
@@ -385,12 +631,31 @@
         "projectileAttackType": "SuperFire",
         "faction": "Zombies",
         "dropList": [
-            {"itemName": "ExpOrbMagic", "dropRate": 100, "rolls": 2},
-            {"itemName": "BookOfSouls", "dropRate": 100},
-            {"itemName": "NecromancerRobe", "dropRate": 100},
-            {"itemName": "SuperFireStaff", "dropRate": 100},
-            {"itemName": "FireGem", "rolls": 3},
-            {"itemName": "DungiumBar", "rolls": 3}
+            {
+                "itemName": "ExpOrbMagic",
+                "dropRate": 100,
+                "rolls": 2
+            },
+            {
+                "itemName": "BookOfSouls",
+                "dropRate": 100
+            },
+            {
+                "itemName": "NecromancerRobe",
+                "dropRate": 100
+            },
+            {
+                "itemName": "SuperFireStaff",
+                "dropRate": 100
+            },
+            {
+                "itemName": "FireGem",
+                "rolls": 3
+            },
+            {
+                "itemName": "DungiumBar",
+                "rolls": 3
+            }
         ]
     },
     {
@@ -402,13 +667,22 @@
         "moveRate": 400,
         "attackRate": 1000,
         "meleeDamageAmount": 20,
-        "meleeDamageTypes": ["Physical", "Biological"],
+        "meleeDamageTypes": [
+            "Physical",
+            "Biological"
+        ],
         "meleeDamageArmourPiercing": 20,
         "faction": "Vampires",
         "dropList": [
-            {"itemName": "Fabric"},
-            {"itemName": "IronOre"},
-            {"itemName": "VampireFang"}
+            {
+                "itemName": "Fabric"
+            },
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "VampireFang"
+            }
         ]
     },
     {
@@ -421,11 +695,22 @@
         "projectileAttackType": "BloodBolt",
         "faction": "Vampires",
         "dropList": [
-            {"itemName": "BloodStaff", "dropRate": 10},
-            {"itemName": "Fabric"},
-            {"itemName": "BloodGem"},
-            {"itemName": "NecromancerRobe"},
-            {"itemName": "VampireFang"}
+            {
+                "itemName": "BloodStaff",
+                "dropRate": 10
+            },
+            {
+                "itemName": "Fabric"
+            },
+            {
+                "itemName": "BloodGem"
+            },
+            {
+                "itemName": "NecromancerRobe"
+            },
+            {
+                "itemName": "VampireFang"
+            }
         ]
     },
     {
@@ -439,13 +724,85 @@
         "meleeDamageAmount": 30,
         "faction": "Vampires",
         "dropList": [
-            {"itemName": "ExpOrbMelee", "dropRate": 100},
-            {"itemName": "ExpOrbMagic", "dropRate": 100},
-            {"itemName": "BookOfSouls", "dropRate": 100},
-            {"itemName": "NoctisArmour", "dropRate": 100},
-            {"itemName": "SuperBloodStaff", "dropRate": 100},
-            {"itemName": "BloodGem", "rolls": 4},
-            {"itemName": "VampireFang", "rolls": 3}
+            {
+                "itemName": "ExpOrbMelee",
+                "dropRate": 100
+            },
+            {
+                "itemName": "ExpOrbMagic",
+                "dropRate": 100
+            },
+            {
+                "itemName": "BookOfSouls",
+                "dropRate": 100
+            },
+            {
+                "itemName": "NoctisArmour",
+                "dropRate": 100
+            },
+            {
+                "itemName": "SuperBloodStaff",
+                "dropRate": 100
+            },
+            {
+                "itemName": "BloodGem",
+                "rolls": 4
+            },
+            {
+                "itemName": "VampireFang",
+                "rolls": 3
+            }
+        ]
+    },
+    {
+        "name": "Dwarf",
+        "viewRange": 7,
+        "moveRate": 750,
+        "meleeDamageAmount": 15,
+        "dropList": [
+            {
+                "itemName": "Fabric"
+            },
+            {
+                "itemName": "Redcap"
+            },
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "IronPickaxe"
+            }
+        ]
+    },
+    {
+        "name": "DwarfWarrior",
+        "viewRange": 7,
+        "moveRate": 650,
+        "defence": 50,
+        "projectileAttackType": "DungiumHammer",
+        "dropList": [
+            {
+                "itemName": "Redcap"
+            },
+            {
+                "itemName": "IronOre"
+            },
+            {
+                "itemName": "DungiumOre"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "IronBar"
+            },
+            {
+                "itemName": "DungiumHammer",
+                "dropRate": 10
+            }
         ]
     }
 ]

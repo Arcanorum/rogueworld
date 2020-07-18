@@ -1,4 +1,4 @@
-
+const Utils = require("../Utils");
 const CraftingManager = require('./CraftingManager');
 
 require('./crafting recipes/ClanStructures');
@@ -16,15 +16,15 @@ let dataToWrite = {};
 
 let station;
 
-for(let stationKey in CraftingManager.StationRecipes){
+for (let stationKey in CraftingManager.StationRecipes) {
     // Don't check prototype properties.
-    if(CraftingManager.StationRecipes.hasOwnProperty(stationKey) === false) continue;
+    if (CraftingManager.StationRecipes.hasOwnProperty(stationKey) === false) continue;
     station = CraftingManager.StationRecipes[stationKey];
 
     dataToWrite[stationKey] = {};
 
-    for(let recipeKey in station){
-        if(station.hasOwnProperty(recipeKey) === false) continue;
+    for (let recipeKey in station) {
+        if (station.hasOwnProperty(recipeKey) === false) continue;
 
         // Add this recipe to the catalogue.
         dataToWrite[stationKey][recipeKey] = {
@@ -37,9 +37,9 @@ for(let stationKey in CraftingManager.StationRecipes){
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);
 
-require('../Utils').checkClientCataloguesExists();
+Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
 fs.writeFileSync('../client/src/catalogues/CraftingRecipes.json', dataToWrite);
 
-console.log("* Crafting recipes catalogue written to file.");
+Utils.message("Crafting recipes catalogue written to file.");

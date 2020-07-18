@@ -1,5 +1,5 @@
 18/07/2020 - Update 6 - Dungeon instances
-New
+New:
 - Dungeon instances
     - Every dungeon that you enter is now separate from all others of that same dungeon, meaning it will be for only you and whoever you enter with. Other players cannot enter that instance after the dungeon has started.
     - The dungeon interface now allows you to create a party for other players to join.
@@ -19,6 +19,11 @@ New
     - Physical: Solid objects, such as swords, arrows and melee attacks.
     - Magical: Magic related things, like fireballs, wind blasts, curses.
     - Biological: Organic related things, like disease and poison effects, and possibly environmental effects like heat and cold.
+- Added dwarfs
+- Some bosses can now also be found on the overworld, outside of dungeons.
+
+Other:
+- Removed Widgetbot
 
 Also changed a while ago, forgot to do release notes for it.
 - Added mage tower area

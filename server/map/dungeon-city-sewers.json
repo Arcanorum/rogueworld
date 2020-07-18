@@ -622,6 +622,34 @@
                  "width":32,
                  "x":688,
                  "y":1152
+                }, 
+                {
+                 "gid":909,
+                 "height":32,
+                 "id":54,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"EntityClassName",
+                         "type":"string",
+                         "value":"Bandit"
+                        }, 
+                        {
+                         "name":"GreenKeys",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"MaxAtOnce",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":560,
+                 "y":1200
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -642,7 +670,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":54,
+ "nextobjectid":55,
  "orientation":"orthogonal",
  "properties":[
         {

@@ -12,11 +12,11 @@ assignees: ''
 
 *If suggesting an addition to an existing game system, what main category does your request fall under? Delete anything that does not apply.*
 **Category:**
-- UI (graphics, animations, icons, text, etc.)
-- Creature (monster, merchant, minion, etc.)
-- Item (weapon, armor, consumable, resource, crafting recipe, etc.)
-- Map (dungeon, overworld location)
-- Balance (damage amount, crafting recipe ingredients, task rewards)
+- UI *(graphics, animations, icons, text, etc.)*
+- Creature *(monster, merchant, minion, etc.)*
+- Item *(weapon, armor, consumable, resource, crafting recipe, etc.)*
+- Map *(dungeon, overworld location)*
+- Balance *(damage amount, crafting recipe ingredients, task rewards)*
 - Other
 
 **Feature description**

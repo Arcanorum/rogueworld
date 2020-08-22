@@ -23,7 +23,7 @@ window.dungeonz = {
     VIEW_RANGE: 15,
     /** @type {Number}
      * The edge to edge view distance. x2 for both sides, and +1 for the middle (where this player is). */
-    VIEW_DIAMETER: (1+15*2),
+    VIEW_DIAMETER: (1 + 15 * 2),
     /** @type {Number}
      * Minimum amount of time (in ms) for how long any chat messages should stay for. */
     CHAT_BASE_LIFESPAN: 4000,
@@ -62,13 +62,13 @@ window.dungeonz = {
     getTextDef: function (definitionID) {
         let text = dungeonz.TextDefs[dungeonz.language][definitionID];
         // Check if definition is defined for selected language.
-        if(text === null){
+        if (text === null) {
             // Use English instead.
             return dungeonz.TextDefs['English'][definitionID];
         }
         else {
             // Check if the text def is even defined.
-            if(text === undefined) return '???';
+            if (text === undefined) return '???';
             // Return the text, in the selected language.
             else return text;
         }
@@ -102,13 +102,13 @@ window.windowResize = function () {
 
 // Import the data for each map.
 function requireAll(r) {
-    r.keys().forEach((fileName)=>{
+    r.keys().forEach((fileName) => {
         // Remove the './' from the start.
         fileName = fileName.substring(2);
         // Remove the '.json' from the end.
         fileName = fileName.slice(0, -5);
 
-        if(fileName === 'BLANK') return;
+        if (fileName === 'BLANK') return;
 
         dungeonz.mapsData[fileName] = require('../assets/map/' + fileName + '.json');
     });
@@ -116,7 +116,7 @@ function requireAll(r) {
 requireAll(require.context('../assets/map/', true, /\.json$/));
 
 dungeonz.Boot = function () {
-    
+
 };
 
 dungeonz.Boot.prototype = {
@@ -125,7 +125,7 @@ dungeonz.Boot.prototype = {
 
         console.log("* In boot preload");
 
-        this.load.atlasJSONArray('game-atlas',  'assets/img/game-atlas.png',    'assets/img/game-atlas.json');
+        this.load.atlasJSONArray('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
         this.load.spritesheet('ground-tileset', 'assets/img/ground.png', 16, 16);
         this.load.spritesheet('statics-tileset', 'assets/img/statics.png', 16, 16);
 
@@ -160,13 +160,18 @@ dungeonz.Boot.prototype = {
         dungeonz.virtualDPadEnabled = !_this.game.device.desktop;
 
         // If the debug mode flag is in local storage, start in debug mode.
-        if(localStorage.getItem('debug_mode') === "true"){
+        if (localStorage.getItem('debug_mode') === "true") {
             this.game.add.plugin(Phaser.Plugin.Debug);
             console.log("* Starting in debug mode.");
         }
 
         // Enable advanced timing for the FPS counter.
         this.game.time.advancedTiming = true;
+
+        if (window.devMove === false) {
+            // Disable the right click context menu on the game in prod.
+            document.getElementById('game_cont').addEventListener('contextmenu', event => event.preventDefault());
+        }
 
     },
 

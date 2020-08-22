@@ -1,7 +1,7 @@
-
 const Character = require('./Character');
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
+const playerMeleeModHitPointConfig = require('../../../../gameplay/ModHitPointConfigs').PlayerMelee;
 
 class Player extends Character {
     /**
@@ -498,6 +498,33 @@ class Player extends Character {
         if (this.inventory[slotKeyFrom] !== null) {
             this.inventory[slotKeyFrom].slotKey = slotKeyFrom;
         }
+    }
+
+    attackMelee(direction) {
+        // Check the direction is valid.
+        if (this.OppositeDirections[direction] === undefined) return;
+
+        // Face the direction.
+        this.modDirection(direction);
+
+        // Get the first damagable entity in that direction.
+        const boardTile = this.board.getTileInFront(direction, this.row, this.col);
+        if (!boardTile) return;
+
+        let target;
+        for (let key in boardTile.destroyables) {
+            const entity = boardTile.destroyables[key];
+            if (entity.hitPoints) {
+                target = entity;
+                break;
+            }
+        }
+        if (!target) return;
+
+        target.damage(new Damage({
+            amount: playerMeleeModHitPointConfig.damageAmount,
+            types: playerMeleeModHitPointConfig.damageTypes
+        }), this);
     }
 
     /**

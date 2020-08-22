@@ -124,10 +124,9 @@ class Character extends Movable {
         // Get the direction from the move offset.
         const direction = this.board.rowColOffsetToDirection(byRows, byCols);
 
-        // Update and tell any nearby players the new direction if it is different than the previous direction, but don't move this entity.
+        // Update and tell any nearby players the new direction if it is different than the previous direction.
         if (direction !== this.direction) {
             this.modDirection(direction);
-            //return false;
         }
 
         const currentBoard = this.board;

@@ -262,13 +262,26 @@ eventResponses.chat = function (clientSocket, data) {
 
 /**
  * @param {*} clientSocket
+ * @param {String} data - The direction to attack in.
+ */
+eventResponses.melee_attack = (clientSocket, data) => {
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    const player = clientSocket.entity;
+    if (player.hitPoints <= 0) return;
+
+    clientSocket.entity.performAction(player.attackMelee, player, data);
+};
+
+/**
+ * @param {*} clientSocket
  * @param {String} data - The key of the inventory slot of the item to equip.
  */
 eventResponses.use_item = function (clientSocket, data) {
     //console.log("use item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
-
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
 

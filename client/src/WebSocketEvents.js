@@ -1,4 +1,3 @@
-
 // Default websocket object state. Used to detect if there is already a connection.
 window.ws = false;
 

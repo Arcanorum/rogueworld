@@ -230,7 +230,9 @@ dungeonz.Game.prototype = {
 
     render() {
         // Show an FPS counter.
-        this.game.debug.text(this.game.time.fps, 10, this.game.height / 2, "#00ff00", '24px Courier');
+        if (window.devMode) {
+            this.game.debug.text(this.game.time.fps, 10, this.game.height / 2, "#00ff00", '24px Courier');
+        }
     },
 
     shutdown() {
@@ -424,21 +426,27 @@ dungeonz.Game.prototype = {
                 }
             }
 
-            // Don't try to use the held item if one isn't selected.
-            if (_this.player.holdingItem === false) return;
-
             const midX = window.innerWidth / 2;
             const midY = window.innerHeight / 2;
             const targetX = event.clientX - midX;
             const targetY = event.clientY - midY;
-
+            let direction = "u";
             if (Math.abs(targetX) > Math.abs(targetY)) {
-                if (targetX > 0) _this.player.inventory.useHeldItem('r');
-                else _this.player.inventory.useHeldItem('l');
+                if (targetX > 0) direction = "r";
+                else direction = "l";
             }
             else {
-                if (targetY > 0) _this.player.inventory.useHeldItem('d');
-                else _this.player.inventory.useHeldItem('u');
+                if (targetY > 0) direction = "d";
+                else direction = "u";
+            }
+
+            // Try to use the held item if one is selected.
+            if (_this.player.holdingItem) {
+                _this.player.inventory.useHeldItem(direction);
+            }
+            // Do a melee attack.
+            else {
+                ws.sendEvent("melee_attack", direction);
             }
         }
 

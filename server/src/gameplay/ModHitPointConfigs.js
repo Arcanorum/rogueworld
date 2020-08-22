@@ -5,6 +5,10 @@ const Magical = Damage.Types.Magical;
 const Biological = Damage.Types.Biological;
 
 const ModHitPointConfigs = {
+    PlayerMelee: {
+        damageAmount: 10,
+        damageTypes: [Physical]
+    },
 
     ProjIronArrow: {
         damageAmount: 14,
@@ -127,7 +131,6 @@ const ModHitPointConfigs = {
     HealthRegen: {
         healAmount: 10
     }
-
 };
 
 module.exports = ModHitPointConfigs;

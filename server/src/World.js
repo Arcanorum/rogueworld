@@ -1,5 +1,4 @@
-
-const wss = require('./Server');
+const { wss } = require('./Server');
 const Utils = require('./Utils');
 const AccountManager = require('./AccountManager');
 //const clanManager = require('./gameplay/ClanManager');

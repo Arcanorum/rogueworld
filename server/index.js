@@ -6,7 +6,7 @@ require('./src/AccountManager').setup()
     .then(init);
 
 async function init() {
-    const wss = require('./src/Server');
+    const { wss } = require('./src/Server');
     require('./src/WebSocketEvents');
     require('./src/TextDefinitionsParser');
     require('./src/items/holdable/spell_books/SpellBooksList');

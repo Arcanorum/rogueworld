@@ -3,7 +3,7 @@ import ItemTypes from '../src/catalogues/ItemTypes'
 
 class Inventory {
 
-    constructor (inventory) {
+    constructor(inventory) {
         this.slot1 = new InventorySlot("slot1");
         this.slot2 = new InventorySlot("slot2");
         this.slot3 = new InventorySlot("slot3");
@@ -16,20 +16,18 @@ class Inventory {
         this.slot0 = new InventorySlot("slot0");
 
         // If a list of existing items on this player was given, fill the client inventory.
-        if(inventory !== undefined){
-            let item = {};
-            for(let i=0, len=inventory.length; i<len; i+=1){
-                item = inventory[i];
+        if (inventory) {
+            inventory.forEach(item => {
                 // Set the properties here. The GUI will handle showing them when it is created.
                 this[item.slotKey].catalogueEntry = ItemTypes[item.typeNumber];
                 this[item.slotKey].durability = item.durability;
                 this[item.slotKey].maxDurability = item.maxDurability;
-            }
+            });
         }
     }
 
-    useHeldItem (direction) {
-        if(direction === undefined){
+    useHeldItem(direction) {
+        if (direction === undefined) {
             // Tell the game server this player wants to use this item.
             ws.sendEvent('use_held_item');
         }
@@ -39,14 +37,14 @@ class Inventory {
         }
     }
 
-    useItem (slotNumber) {
+    useItem(slotNumber) {
         // Check there is an item in that inventory slot.
-        if(this[slotNumber].catalogueEntry === null){
+        if (this[slotNumber].catalogueEntry === null) {
             return;
         }
 
         // Check if they want to drop the item.
-        if(_this.keyboardKeys.shift.isDown === true){
+        if (_this.keyboardKeys.shift.isDown === true) {
             // Tell the game server this player wants to drop this item.
             window.ws.sendEvent('drop_item', slotNumber);
             return;
@@ -56,7 +54,7 @@ class Inventory {
         window.ws.sendEvent('use_item', slotNumber);
     }
 
-    swapInventorySlots(slotKeyFrom, slotKeyTo){
+    swapInventorySlots(slotKeyFrom, slotKeyTo) {
         //console.log("swapping inventory slots: from", slotKeyFrom, "to", slotKeyTo);
 
         const GUIslots = _this.GUI.inventoryBar.slots;
@@ -86,16 +84,16 @@ class Inventory {
         this[slotKeyTo].fill(fromSlotData.catalogueEntry, fromSlotData.durability, fromSlotData.maxDurability);
 
         // When the slots were emptied, the equipped icon was hidden. Reshow it for items that were equipped.
-        if(fromSlotData.equippedVisibility === "visible"){
+        if (fromSlotData.equippedVisibility === "visible") {
             GUIslots[slotKeyTo].equipped.style.visibility = "visible";
             GUIslots[slotKeyTo].equipped.src = fromSlotData.equippedSource;
         }
-        if(toSlotData.equippedVisibility === "visible"){
+        if (toSlotData.equippedVisibility === "visible") {
             GUIslots[slotKeyFrom].equipped.style.visibility = "visible";
             GUIslots[slotKeyFrom].equipped.src = toSlotData.equippedSource;
         }
 
-        window.ws.sendEvent('swap_inventory_slots', {slotKeyFrom: slotKeyFrom, slotKeyTo: slotKeyTo});
+        window.ws.sendEvent('swap_inventory_slots', { slotKeyFrom: slotKeyFrom, slotKeyTo: slotKeyTo });
 
     }
 

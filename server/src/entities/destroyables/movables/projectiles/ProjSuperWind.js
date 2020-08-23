@@ -1,8 +1,6 @@
-
 const ProjWind = require('./ProjWind');
 
 class ProjSuperWind extends ProjWind {
-
     /**
      * Custom collision checker to check tile in advance, otherwise the extra projectile this makes can go through walls.
      */
@@ -41,9 +39,9 @@ class ProjSuperWind extends ProjWind {
 
         collidee.damage(
             new Damage({
-                amount: this.meleeDamageAmount,
-                types: this.meleeDamageTypes,
-                armourPiercing: this.meleeDamageArmourPiercing
+                amount: this.damageAmount,
+                types: this.damageTypes,
+                armourPiercing: this.damageArmourPiercing
             }),
             this.source
         );

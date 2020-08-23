@@ -24,7 +24,7 @@
         "name": "Citizen",
         "viewRange": 8,
         "moveRate": 850,
-        "meleeDamageAmount": 10,
+        "meleeDamageAmount": 5,
         "corpseType": "Human",
         "dropList": [
             {
@@ -228,7 +228,7 @@
         "gloryValue": 10,
         "viewRange": 5,
         "moveRate": 700,
-        "meleeDamageAmount": 15,
+        "meleeDamageAmount": 7,
         "faction": "Outlaws",
         "corpseType": "Human",
         "dropList": [

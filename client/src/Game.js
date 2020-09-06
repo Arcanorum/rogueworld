@@ -290,11 +290,7 @@ dungeonz.Game.prototype = {
 
         if (this.player.hitPoints <= 0) return;
         ws.sendEvent('mv_' + direction);
-        /*if(dungeonz.quickTurnEnabled === true){ // TODO allow to disable quick turn to make placing clan structures easier
-            if(this.dynamics[this.player.entityId].sprite.direction !== direction){
-                ws.sendEvent('mv_' + direction);
-            }
-        }*/
+
         this.nextMoveTime = Date.now() + this.moveDelay;
     },
 

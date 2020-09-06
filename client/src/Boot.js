@@ -33,9 +33,6 @@ window.dungeonz = {
     /** @type {String}
      * What language to use from the text defs. */
     language: 'English',
-    /** @type {Boolean}
-     * What language to use from the text defs. */
-    quickTurnEnabled: true,
     /** @type {Boolean} Whether audio is enabled. */
     audioEnabled: true,
     /** @type {Number}

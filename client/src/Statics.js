@@ -1,34 +1,38 @@
 class Static extends Phaser.GameObjects.Container {
-    constructor(row, col, tileID, highLight) {
-        super(_this, col * dungeonz.SCALED_TILE_SIZE, row * dungeonz.SCALED_TILE_SIZE);
+    constructor(config) {
+        super(_this, config.col * dungeonz.SCALED_TILE_SIZE, config.row * dungeonz.SCALED_TILE_SIZE);
 
-        this.addTileSprite(tileID);
+        this.addTileSprite(config.tileID);
 
-        if (highLight) {
+        if (config.interactable) {
             this.addHighlightSprite();
-        }
 
+            this.tileSprite.setInteractive({
+                cursor: "url(./assets/img/gui/hud/hand-cursor.png) 8 0, auto"
+            });
+        }
 
         this.setScale(GAME_SCALE);
 
-        this.id = row + "-" + col; // TODO: not needed anymore?
-        this.row = row;
-        this.col = col;
+        this.row = config.row;
+        this.col = config.col;
+        this.id = this.row + "-" + this.col; // TODO: not needed anymore?
+
         // Holder for the light distance property. Tilemap.updateDarknessGrid passes it in as a property of a sprite...
         this.sprite = {};
         /** @type {Number} Does this static emit light. 0 = disabled */
         this.sprite.lightDistance = 0;
 
         /** @type {Number} The frame on the statics tileset to use when this static is active. */
-        this.tileID = tileID; // TODO: rename?
+        this.tileID = config.tileID;
         /** @type {Number} The frame on the statics tileset to use when this static is inactive. */
         this.inactiveFrame = 0;
 
-        if (TileIDInactiveFrames[tileID] === undefined) {
+        if (TileIDInactiveFrames[this.tileID] === undefined) {
             this.inactiveFrame = TileIDInactiveFrames["0"];
         }
         else {
-            this.inactiveFrame = TileIDInactiveFrames[tileID];
+            this.inactiveFrame = TileIDInactiveFrames[this.tileID];
         }
 
         // Add this static to the statics list.
@@ -37,16 +41,16 @@ class Static extends Phaser.GameObjects.Container {
         }
 
         // Add them to the scene here as this doesn't happen automatically when extending a gameobject class.
-        _this.sys.displayList.add(this);
-        _this.sys.updateList.add(this);
+        _this.add.existing(this);
 
         this.on("destroy", () => {
+            console.log("static container destroy event");
             delete _this.statics[this.id];
 
             // If this was a light source, need to update the darkness grid.
             if (_this.lightSources[this.id] !== undefined) {
                 delete _this.lightSources[this.id];
-                _this.tilemap.updateDarknessGrid();
+                // _this.tilemap.updateDarknessGrid();
             }
         });
     }
@@ -63,7 +67,9 @@ class Static extends Phaser.GameObjects.Container {
         this.add(this.highlightSprite);
     }
 
-    interactedByPlayer() { }
+    interactedByPlayer() {
+
+    }
 
     activate() {
 
@@ -135,21 +141,21 @@ class Static extends Phaser.GameObjects.Container {
 // }
 
 class Portal extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+    constructor(config) {
+        super(config);
         this.sprite.lightDistance = 6;
     }
 }
 
 class DungeonPortal extends Portal {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+    constructor(config) {
+        super(config);
         /**
          * The ID number of the dungeon manager that this portal is linked to.
          * Each dungeon manager has a unique id, as well as a separate unique name.
          * @type {Number}
          */
-        this.dungeonManagerID = data;
+        this.dungeonManagerID = config.data;
     }
 
     interactedByPlayer() {
@@ -158,40 +164,26 @@ class DungeonPortal extends Portal {
 }
 
 class Torch extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+    constructor(config) {
+        super(config);
         this.sprite.lightDistance = 4;
     }
 }
 
 class CraftingStation extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+    constructor(config) {
+        config.interactable = true;
+        super(config);
 
-        this.stationTypeNumber = data;
+        this.stationTypeNumber = config.data;
+
+        this.tileSprite.on('pointerdown', this.interactedByPlayer);
     }
 
     interactedByPlayer() { }
 }
 
 class Anvil extends CraftingStation {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
-
-        this.setInteractive({
-            cursor: "url(./assets/img/gui/hud/hand-cursor.png) 8 0, auto"
-        });
-
-        this.on('pointerover', () => {
-            console.log("sprite pointerover");
-            this.angle -= 10;
-        });
-
-        this.on('pointerdown', () => {
-            console.log("sprite pointerdown");
-            this.angle += 10;
-        });
-    }
     interactedByPlayer() {
         _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
         _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
@@ -199,10 +191,14 @@ class Anvil extends CraftingStation {
 }
 
 class Furnace extends CraftingStation {
+    constructor(config) {
+        super(config);
+        this.sprite.lightDistance = 4;
+    }
+
     interactedByPlayer() {
         _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
         _this.GUI.craftingPanel.show(dungeonz.getTextDef("Furnace"), 'assets/img/gui/panels/furnace.png');
-        this.sprite.lightDistance = 4;
     }
 }
 
@@ -403,11 +399,21 @@ const StaticClasses = {
 function addStaticTile(row, col, tileData) {
     // If there is no specific class to use for this static tile, use the generic one.
     if (StaticClasses[tileData[0]] === undefined) {
-        return new Static(row, col, tileData[0], tileData[1]);
+        return new Static({
+            row,
+            col,
+            tileID: tileData[0],
+            data: tileData[1]
+        });
     }
     // Use the specific class.
     else {
-        const staticTile = new StaticClasses[tileData[0]](row, col, tileData[0], tileData[1]);
+        const staticTile = new StaticClasses[tileData[0]]({
+            row,
+            col,
+            tileID: tileData[0],
+            data: tileData[1]
+        });
         // If this static type emits light, add it to the light sources list.
         if (staticTile.sprite.lightDistance > 0) {
             _this.lightSources[staticTile.id] = staticTile;

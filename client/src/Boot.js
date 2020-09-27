@@ -127,7 +127,7 @@ class Boot extends Phaser.Scene {
     preload() {
         Utils.message("Boot preload")
 
-        this.load.image('test-img', 'assets/img/misc/dmp-icon.png');
+        this.load.image('highlight', 'assets/img/gui/hud/highlight.png');
         this.load.atlas('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
         this.load.spritesheet('ground-tileset', 'assets/img/ground.png', {
             frameWidth: 16,
@@ -163,7 +163,7 @@ class Boot extends Phaser.Scene {
         }, false);
 
         // If not on desktop, enable the virtual D-pad.
-        dungeonz.virtualDPadEnabled = !_this.game.device.desktop;
+        dungeonz.virtualDPadEnabled = !_this.sys.game.device.os.desktop;
 
         if (window.devMove === false) {
             // Disable the right click context menu on the game in prod.

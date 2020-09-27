@@ -227,6 +227,7 @@ const world = {
                 displayName: playerEntity.displayName,
                 maxHitPoints: playerEntity.maxHitPoints,
                 maxEnergy: playerEntity.maxEnergy,
+                defence: playerEntity.defence,
                 glory: playerEntity.glory,
                 stats: playerEntity.stats.getEmittableStats(),
                 tasks: playerEntity.tasks.getEmittableTasks(),

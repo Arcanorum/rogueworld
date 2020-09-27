@@ -1,8 +1,9 @@
+import Utils from "./Utils";
 import TextDefs from '../src/catalogues/TextDefinitions';
 import DungeonPrompts from '../src/catalogues/DungeonPrompts';
 
-/** @type {Phaser.State}
- * A global reference to the currently running Phaser state. */
+/** @type {Phaser.Scene}
+ * A global reference to the currently running Phaser scene. */
 window._this = {};
 
 /** @type {Object}
@@ -72,8 +73,10 @@ window.dungeonz = {
     }
 };
 /** @type {Number}
- * Tile scale * game scale */
-window.dungeonz.TILE_SCALE = dungeonz.TILE_SIZE * GAME_SCALE;
+ * The pixel size of a tile at the current game scale.
+ * Tile size * game scale.
+ */
+window.dungeonz.SCALED_TILE_SIZE = dungeonz.TILE_SIZE * GAME_SCALE;
 
 /**
  * @type {Number}
@@ -85,17 +88,21 @@ window.dungeonz.CENTER_OFFSET = dungeonz.TILE_SIZE * GAME_SCALE * 0.5;
 /**
  * Called when the window is resized.
  */
-window.windowResize = function () {
-    const tilemap = _this.tilemap;
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
+// window.windowResize = function () {
+//     const tilemap = _this.tilemap;
+//     const windowWidth = window.innerWidth;
+//     const windowHeight = window.innerHeight;
 
-    // TODO: Removed until darkness is added back in.
-    //tilemap.darknessGridGroup.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessGridGroup.width * 0.5);
-    //tilemap.darknessGridGroup.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessGridGroup.height * 0.5);
+//     // Changes the size of the game renderer to match the size of the window.
 
-    tilemap.updateBorders();
-};
+//     // TODO: Removed until darkness is added back in.
+//     //tilemap.darknessGridGroup.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessGridGroup.width * 0.5);
+//     //tilemap.darknessGridGroup.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessGridGroup.height * 0.5);
+
+//     // tilemap.updateBorders();
+
+//     //_this.scale.resize(windowWidth, windowHeight);
+// };
 
 // Import the data for each map.
 function requireAll(r) {
@@ -112,36 +119,42 @@ function requireAll(r) {
 }
 requireAll(require.context('../assets/map/', true, /\.json$/));
 
-dungeonz.Boot = function () {
+class Boot extends Phaser.Scene {
+    constructor() {
+        super("Boot");
+    }
 
-};
+    preload() {
+        Utils.message("Boot preload")
 
-dungeonz.Boot.prototype = {
+        this.load.image('test-img', 'assets/img/misc/dmp-icon.png');
+        this.load.atlas('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
+        this.load.spritesheet('ground-tileset', 'assets/img/ground.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        });
+        this.load.spritesheet('statics-tileset', 'assets/img/statics.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        });
+    }
 
-    preload: function () {
-
-        console.log("* In boot preload");
-
-        this.load.atlasJSONArray('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
-        this.load.spritesheet('ground-tileset', 'assets/img/ground.png', 16, 16);
-        this.load.spritesheet('statics-tileset', 'assets/img/statics.png', 16, 16);
-
-    },
-
-    create: function () {
-
-        console.log("* In boot create");
+    create() {
+        Utils.message("Boot create")
 
         window._this = this;
 
-        // If this boot state is started again for whatever reason, make sure the home container is shown, as it is hidden during the game state.
+        // If this boot scene is started again for whatever reason, make sure the home container is shown, as it is hidden during the game scene.
         document.getElementById("home_cont").style.display = "block";
 
         // Keep the game running even when the window loses focus.
-        this.stage.disableVisibilityChange = true;
+        this.events.on('hidden', function () {
+            console.log('hidden');
+        }, this);
 
-        // Round pixels so text doesn't appear blurry/anti-aliased.
-        this.game.renderer.renderSession.roundPixels = true;
+        this.events.on('visible', function () {
+            console.log('visible');
+        }, this);
 
         // Make sure the window always has focus when clicked on. Fixes not detecting input when iframed.
         window.addEventListener("click", function () {
@@ -149,35 +162,15 @@ dungeonz.Boot.prototype = {
             window.focus();
         }, false);
 
-        // Changes the size of the game renderer to match the size of the window.
-        this.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-        this.scale.fullScreenScaleMode = Phaser.ScaleManager.RESIZE;
-
         // If not on desktop, enable the virtual D-pad.
         dungeonz.virtualDPadEnabled = !_this.game.device.desktop;
-
-        // If the debug mode flag is in local storage, start in debug mode.
-        if (localStorage.getItem('debug_mode') === "true") {
-            this.game.add.plugin(Phaser.Plugin.Debug);
-            console.log("* Starting in debug mode.");
-        }
-
-        // Enable advanced timing for the FPS counter.
-        this.game.time.advancedTiming = true;
 
         if (window.devMove === false) {
             // Disable the right click context menu on the game in prod.
             document.getElementById('game_cont').addEventListener('contextmenu', event => event.preventDefault());
         }
 
-    },
-
-    update: function () {
-
-    },
-
-    render: function () {
-
     }
-
 };
+
+dungeonz.Boot = Boot;

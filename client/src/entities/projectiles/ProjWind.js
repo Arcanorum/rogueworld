@@ -1,15 +1,14 @@
-
 const Sprite = function (x, y, config) {
-    Phaser.Sprite.call(this, _this.game, x, y, 'game-atlas', 'proj-wind');
+    Phaser.GameObjects.Sprite.call(this, _this, x, y, 'game-atlas', 'proj-wind');
 
     this.centered = true;
 
     this.angle = this.directionAngles[config.direction] || this.directionAngles.l;
-    this.scale.setTo(GAME_SCALE);
+    this.setScale(GAME_SCALE);
     this.alpha = 0.5;
 };
 
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
+Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
 Sprite.prototype.constructor = Sprite;
 
 Sprite.prototype.directionAngles = {

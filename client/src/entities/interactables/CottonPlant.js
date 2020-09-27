@@ -4,20 +4,20 @@ const Sprite = function (x, y, config) {
     this.activeStateFrame = 'cotton';
     this.inactiveStateFrame = 'cotton-inactive';
 
-    Phaser.Sprite.call(this, _this.game, x, y, 'game-atlas', this.activeStateFrame);
+    Phaser.GameObjects.Sprite.call(this, _this, x, y, 'game-atlas', this.activeStateFrame);
 
-    if(config.activeState === true){
-        this.frameName = this.activeStateFrame;
+    if (config.activeState === true) {
+        this.setFrame(this.activeStateFrame);
     }
     else {
-        this.frameName = this.inactiveStateFrame;
+        this.setFrame(this.inactiveStateFrame);
     }
 
-    this.scale.setTo(GAME_SCALE);
+    this.setScale(GAME_SCALE);
 
 };
 
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
+Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
 Sprite.prototype.constructor = Sprite;
 
 module.exports = Sprite;

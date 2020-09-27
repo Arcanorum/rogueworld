@@ -1,13 +1,13 @@
 
 const Sprite = function (x, y, config) {
-    Phaser.Sprite.call(this, _this.game, x, y, 'game-atlas', 'pickup-fabric');
+    Phaser.GameObjects.Sprite.call(this, _this, x, y, 'game-atlas', 'pickup-fabric');
 
-    this.scale.setTo(GAME_SCALE * 0.8);
+    this.setScale(GAME_SCALE * 0.8);
 
     this.tweenPickupFromCenter();
 };
 
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
+Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
 Sprite.prototype.constructor = Sprite;
 
 module.exports = Sprite;

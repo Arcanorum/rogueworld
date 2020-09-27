@@ -1,12 +1,12 @@
 
 const Sprite = function (x, y, config) {
-    Phaser.Sprite.call(this, _this.game, x, y, 'game-atlas', 'wood-wall');
-    this.scale.setTo(GAME_SCALE);
+    Phaser.GameObjects.Sprite.call(this, _this, x, y, 'game-atlas', 'wood-wall');
+    this.setScale(GAME_SCALE);
 
     this.addDamageMarker();
 };
 
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
+Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
 Sprite.prototype.constructor = Sprite;
 
 module.exports = Sprite;

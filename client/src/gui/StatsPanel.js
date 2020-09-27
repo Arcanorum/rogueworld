@@ -2,7 +2,7 @@
 import PanelTemplate from "./PanelTemplate";
 
 class StatIcon {
-    constructor (iconsContainer, iconFileName, onClickFunction) {
+    constructor(iconsContainer, iconFileName, onClickFunction) {
         const contCont = document.createElement('div');
         contCont.className = "stat_icon_cont_cont";
         iconsContainer.appendChild(contCont);
@@ -20,7 +20,7 @@ class StatIcon {
 }
 
 class StatsPanel extends PanelTemplate {
-    constructor () {
+    constructor() {
         super(document.getElementById('stats_panel'), 540, 380, dungeonz.getTextDef('Stats panel: name'), 'gui/hud/stats-icon');
 
         // Which stat is currently selected.
@@ -66,28 +66,28 @@ class StatsPanel extends PanelTemplate {
         const stats = _this.player.stats.list;
 
         this.icons = {
-            Melee:      new StatIcon(this.statIconsContainer, 'melee', function(){ statsPanel.changeStatInfo(stats.Melee) }),
-            Ranged:     new StatIcon(this.statIconsContainer, 'ranged', function(){ statsPanel.changeStatInfo(stats.Ranged) }),
-            Magic:      new StatIcon(this.statIconsContainer, 'magic', function(){ statsPanel.changeStatInfo(stats.Magic) }),
-            Gathering:  new StatIcon(this.statIconsContainer, 'gathering', function(){ statsPanel.changeStatInfo(stats.Gathering) }),
-            Weaponry:   new StatIcon(this.statIconsContainer, 'weaponry', function(){ statsPanel.changeStatInfo(stats.Weaponry) }),
-            Armoury:    new StatIcon(this.statIconsContainer, 'armoury', function(){ statsPanel.changeStatInfo(stats.Armoury) }),
-            Toolery:    new StatIcon(this.statIconsContainer, 'toolery', function(){ statsPanel.changeStatInfo(stats.Toolery) }),
-            Potionry:   new StatIcon(this.statIconsContainer, 'potionry', function(){ statsPanel.changeStatInfo(stats.Potionry) }),
-            Clanship:   new StatIcon(this.statIconsContainer, 'clanship', function(){ statsPanel.changeStatInfo(stats.Clanship) }),
+            Melee: new StatIcon(this.statIconsContainer, 'melee', function () { statsPanel.changeStatInfo(stats.Melee) }),
+            Ranged: new StatIcon(this.statIconsContainer, 'ranged', function () { statsPanel.changeStatInfo(stats.Ranged) }),
+            Magic: new StatIcon(this.statIconsContainer, 'magic', function () { statsPanel.changeStatInfo(stats.Magic) }),
+            Gathering: new StatIcon(this.statIconsContainer, 'gathering', function () { statsPanel.changeStatInfo(stats.Gathering) }),
+            Weaponry: new StatIcon(this.statIconsContainer, 'weaponry', function () { statsPanel.changeStatInfo(stats.Weaponry) }),
+            Armoury: new StatIcon(this.statIconsContainer, 'armoury', function () { statsPanel.changeStatInfo(stats.Armoury) }),
+            Toolery: new StatIcon(this.statIconsContainer, 'toolery', function () { statsPanel.changeStatInfo(stats.Toolery) }),
+            Potionry: new StatIcon(this.statIconsContainer, 'potionry', function () { statsPanel.changeStatInfo(stats.Potionry) }),
+            Clanship: new StatIcon(this.statIconsContainer, 'clanship', function () { statsPanel.changeStatInfo(stats.Clanship) }),
         };
     }
 
-    updateSelectedStat () {
+    updateSelectedStat() {
         this.changeStatInfo(this.selectedStat);
     }
 
-    changeStatInfo (stat) {
+    changeStatInfo(stat) {
         this.selectedStat = stat;
 
         // Un-highlight all other icons.
-        for(let key in this.icons){
-            if(this.icons.hasOwnProperty(key) === false) continue;
+        for (let key in this.icons) {
+            if (this.icons.hasOwnProperty(key) === false) continue;
             this.icons[key].container.style.backgroundColor = _this.GUI.GUIColours.taskSlotDefault;
         }
 
@@ -98,13 +98,13 @@ class StatsPanel extends PanelTemplate {
         this.statExpCounter.innerText = dungeonz.getTextDef("Exp") + ": " + stat.exp + " / " + stat.nextLevelExpRequirement;
     }
 
-    show () {
+    show() {
         super.show();
         _this.GUI.isAnyPanelOpen = true;
         this.updateSelectedStat();
     }
 
-    hide () {
+    hide() {
         super.hide();
         _this.GUI.isAnyPanelOpen = false;
     }

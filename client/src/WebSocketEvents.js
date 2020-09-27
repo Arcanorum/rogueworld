@@ -12,6 +12,7 @@ import EventNames from '../src/catalogues/EventNames'
 import ItemTypes from '../src/catalogues/ItemTypes'
 import SpellBookTypes from '../src/catalogues/SpellBookTypes'
 import ChatWarnings from './catalogues/ChatWarnings'
+import Utils from './Utils';
 
 /**
  * Attempt to create a new websocket connection to the game server.
@@ -155,16 +156,16 @@ eventResponses.character_in_use = function () {
 };
 
 eventResponses.join_world_success = function (data) {
-    console.log("* Join world success, data:");
-    console.log(data);
+    Utils.message("Join world success, data:");
+    Utils.message(data);
 
     // Hide the home screen container.
     document.getElementById("home_cont").style.display = "none";
 
     // If somehow the state is not valid, close the connection.
     // Weird bug... :/
-    if (!_this.state) {
-        console.log("* WARNING: _this.state is invalid. Closing WS connection. _this:", _this);
+    if (!_this) {
+        Utils.warning("_this is invalid. Closing WS connection. _this:", _this);
         setTimeout(function () {
             ws.close();
         }, 10000);
@@ -175,75 +176,47 @@ eventResponses.join_world_success = function (data) {
     window.joinWorldData = data;
 
     // Start the game state.
-    _this.state.start('Game', true, false);
+    _this.scene.start('Game', true, false);
 
     // Really rare and annoying bug with Phaser where states aren't changing...
     // Set a timeout just in case the state refuses to start.
     // If it does start, the timeout is removed.
     window.joinWorldStartTimeout = setTimeout(function () {
-        console.log("* Backup game start starter timeout called.");
-        _this.state.start('Game', true, false);
+        Utils.message("Backup game start starter timeout called.");
+        _this.scene.start('Game', true, false);
     }, 2000);
     // Set another timeout for if even that timeout doesn't start the game state. Reload the page...
     window.joinWorldReloadTimeout = setTimeout(function () {
         location.reload(true);
     }, 5000);
 
-    console.log("* End of join world success");
+    Utils.message("End of join world success");
 };
 
 eventResponses.world_full = function () {
-    console.log("* World is full.");
+    Utils.message("World is full.");
 };
 
 function tweenCompleteLeft() {
-    _this.tilemap.groundGridBitmapData.move(dungeonz.TILE_SIZE, 0);
-    _this.tilemap.staticsGridBitmapData.move(dungeonz.TILE_SIZE, 0);
-    _this.tilemap.groundGridGraphic.x -= dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.staticsGridGraphic.x -= dungeonz.TILE_SIZE * GAME_SCALE;
-    //_this.tilemap.darknessGridGroup.x -= dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.updateGroundGridEdgeLeft();
-    _this.tilemap.updateStaticsGridEdgeLeft();
-    //_this.tilemap.updateDarknessGrid();
+    _this.tilemap.shiftMapLeft();
     _this.playerTween = null;
     _this.playerTweenDirections.l = false;
 }
 
 function tweenCompleteRight() {
-    _this.tilemap.groundGridBitmapData.move(-dungeonz.TILE_SIZE, 0);
-    _this.tilemap.staticsGridBitmapData.move(-dungeonz.TILE_SIZE, 0);
-    _this.tilemap.groundGridGraphic.x += dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.staticsGridGraphic.x += dungeonz.TILE_SIZE * GAME_SCALE;
-    //_this.tilemap.darknessGridGroup.x += dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.updateGroundGridEdgeRight();
-    _this.tilemap.updateStaticsGridEdgeRight();
-    //_this.tilemap.updateDarknessGrid();
+    _this.tilemap.shiftMapRight();
     _this.playerTween = null;
     _this.playerTweenDirections.r = false;
 }
 
 function tweenCompleteUp() {
-    _this.tilemap.groundGridBitmapData.move(0, dungeonz.TILE_SIZE);
-    _this.tilemap.staticsGridBitmapData.move(0, dungeonz.TILE_SIZE);
-    _this.tilemap.groundGridGraphic.y -= dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.staticsGridGraphic.y -= dungeonz.TILE_SIZE * GAME_SCALE;
-    //_this.tilemap.darknessGridGroup.y -= dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.updateGroundGridEdgeTop();
-    _this.tilemap.updateStaticsGridEdgeTop();
-    //_this.tilemap.updateDarknessGrid();
+    _this.tilemap.shiftMapUp();
     _this.playerTween = null;
     _this.playerTweenDirections.u = false;
 }
 
 function tweenCompleteDown() {
-    _this.tilemap.groundGridBitmapData.move(0, -dungeonz.TILE_SIZE);
-    _this.tilemap.staticsGridBitmapData.move(0, -dungeonz.TILE_SIZE);
-    _this.tilemap.groundGridGraphic.y += dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.staticsGridGraphic.y += dungeonz.TILE_SIZE * GAME_SCALE;
-    //_this.tilemap.darknessGridGroup.y += dungeonz.TILE_SIZE * GAME_SCALE;
-    _this.tilemap.updateGroundGridEdgeBottom();
-    _this.tilemap.updateStaticsGridEdgeBottom();
-    //_this.tilemap.updateDarknessGrid();
+    _this.tilemap.shiftMapDown();
     _this.playerTween = null;
     _this.playerTweenDirections.d = false;
 }
@@ -252,7 +225,7 @@ function tweenCompleteDown() {
  * Adds the event responses that relate to gameplay only once the game state has started.
  */
 window.addGameStateEventResponses = function () {
-    console.log("* Adding game state event responses");
+    Utils.message("Adding game state event responses");
 
     eventResponses.create_account_success = (data) => {
         console.log("create_account_success");
@@ -279,7 +252,7 @@ window.addGameStateEventResponses = function () {
         // Check the entity id is valid.
         if (dynamic === undefined) return;
 
-        const dynamicSprite = dynamic.sprite;
+        const dynamicSpriteContainer = dynamic.spriteContainer;
 
         // The client player moved.
         if (data.id === _this.player.entityId) {
@@ -288,7 +261,7 @@ window.addGameStateEventResponses = function () {
 
             // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
             if (_this.playerTween !== null) {
-                _this.playerTween.stop(true);
+                _this.playerTween.stop();
                 //_this.tilemap.checkPendingStaticTileChanges();
             }
 
@@ -300,17 +273,15 @@ window.addGameStateEventResponses = function () {
             dynamic.row = data.row;
             dynamic.col = data.col;
 
-            // Tween the player sprite to the target row/col.
-            _this.playerTween = _this.add.tween(dynamicSprite).to({
-                x: data.col * dungeonz.TILE_SCALE,
-                y: data.row * dungeonz.TILE_SCALE
-            }, _this.moveDelay, null, true);
+
+
+            let tweenOnCompleteFunction;
 
             // Right.
             if (data.col > origCol) {
                 _this.checkDynamicsInViewRange(0, -1);
                 _this.checkStaticTilesInViewRange(0, -1);
-                _this.playerTween.onComplete.add(tweenCompleteRight);
+                tweenOnCompleteFunction = tweenCompleteRight;
                 _this.playerTweenDirections.r = true;
                 // TODO _this.tilemap.darknessGridGroup.x += dungeonz.TILE_SIZE * GAME_SCALE;
             }
@@ -318,7 +289,7 @@ window.addGameStateEventResponses = function () {
             else if (data.col < origCol) {
                 _this.checkDynamicsInViewRange(0, +1);
                 _this.checkStaticTilesInViewRange(0, +1);
-                _this.playerTween.onComplete.add(tweenCompleteLeft);
+                tweenOnCompleteFunction = tweenCompleteLeft;
                 _this.playerTweenDirections.l = true;
                 //_this.tilemap.darknessGridGroup.x -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
@@ -326,7 +297,7 @@ window.addGameStateEventResponses = function () {
             if (data.row > origRow) {
                 _this.checkDynamicsInViewRange(+1, 0);
                 _this.checkStaticTilesInViewRange(+1, 0);
-                _this.playerTween.onComplete.add(tweenCompleteDown);
+                tweenOnCompleteFunction = tweenCompleteDown;
                 _this.playerTweenDirections.d = true;
                 //_this.tilemap.darknessGridGroup.y += dungeonz.TILE_SIZE * GAME_SCALE;
             }
@@ -334,10 +305,22 @@ window.addGameStateEventResponses = function () {
             else if (data.row < origRow) {
                 _this.checkDynamicsInViewRange(-1, 0);
                 _this.checkStaticTilesInViewRange(-1, 0);
-                _this.playerTween.onComplete.add(tweenCompleteUp);
+                tweenOnCompleteFunction = tweenCompleteUp;
                 _this.playerTweenDirections.u = true;
                 //_this.tilemap.darknessGridGroup.y -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
+
+            // Tween the player sprite to the target row/col.
+            _this.playerTween = _this.tweens.add({
+                targets: dynamicSpriteContainer,
+                duration: _this.moveDelay,
+                x: data.col * dungeonz.SCALED_TILE_SIZE,
+                y: data.row * dungeonz.SCALED_TILE_SIZE,
+                onComplete: tweenOnCompleteFunction,
+                // Need to do stop callback too in case the tween hasn't finished
+                // yet, as calling Tween.stop() then doesn't call onComplete.
+                onStop: tweenOnCompleteFunction
+            });
 
         }
         // Another entity moved.
@@ -359,32 +342,38 @@ window.addGameStateEventResponses = function () {
                 || dynamic.col < playerColLeftViewRange
                 || dynamic.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
-                dynamicSprite.destroy();
+                dynamicSpriteContainer.destroy();
                 // Remove the reference to it.
                 delete _this.dynamics[dynamic.id];
                 return;
             }
 
             // Tween to the new location.
-            if (dynamicSprite.centered === true) {
-                _this.add.tween(dynamicSprite).to({
-                    x: (data.col * dungeonz.TILE_SCALE) + dungeonz.CENTER_OFFSET,
-                    y: (data.row * dungeonz.TILE_SCALE) + dungeonz.CENTER_OFFSET
-                }, 250, null, true);//TODO: get the move rate of each dynamic, and use this here (250) for smoother timing
+            if (dynamicSpriteContainer.centered === true) {
+                _this.tweens.add({
+                    targets: dynamicSpriteContainer,
+                    duration: 250, //TODO: get the move rate of each dynamic, and use this here (250) for smoother timing
+                    x: (data.col * dungeonz.SCALED_TILE_SIZE) + dungeonz.CENTER_OFFSET,
+                    y: (data.row * dungeonz.SCALED_TILE_SIZE) + dungeonz.CENTER_OFFSET,
+                });
             }
             else {
-                _this.add.tween(dynamicSprite).to({
-                    x: data.col * dungeonz.TILE_SCALE,
-                    y: data.row * dungeonz.TILE_SCALE
-                }, 250, null, true);
+                _this.tweens.add({
+                    targets: dynamicSpriteContainer,
+                    duration: 250,
+                    x: data.col * dungeonz.SCALED_TILE_SIZE,
+                    y: data.row * dungeonz.SCALED_TILE_SIZE
+                });
             }
         }
 
         // If the dynamic does something extra when it moves, do it.
-        if (dynamicSprite.onMove !== undefined) dynamicSprite.onMove(true);
+        if (dynamicSpriteContainer.onMove !== undefined) dynamicSpriteContainer.onMove(true);
 
         // Move sprites further down the screen above ones further up.
-        _this.dynamicsGroup.sort('y', Phaser.Group.SORT_ASCENDING);
+        _this.dynamicsGroup.children.each((dynamicSpriteContainer) => {
+            dynamicSpriteContainer.z = dynamicSpriteContainer.y;
+        });
     };
 
     eventResponses.start_dungeon = (data) => {
@@ -436,7 +425,7 @@ window.addGameStateEventResponses = function () {
         }
 
         // Lock the camera to the player sprite.
-        _this.camera.follow(_this.dynamics[_this.player.entityId].sprite.baseSprite);
+        _this.cameras.main.startFollow(_this.dynamics[_this.player.entityId].spriteContainer);
 
         // Refresh the darkness grid.
         _this.tilemap.updateDarknessGrid();
@@ -495,61 +484,61 @@ window.addGameStateEventResponses = function () {
     };
 
     eventResponses.heal = function (data) {
-        _this.dynamics[data.id].sprite.onHitPointsModified(data.amount);
+        _this.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
     };
 
     eventResponses.damage = function (data) {
-        _this.dynamics[data.id].sprite.onHitPointsModified(data.amount);
+        _this.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
     };
 
     eventResponses.effect_start_burn = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onBurnStart();
+        _this.dynamics[data].spriteContainer.onBurnStart();
     };
 
     eventResponses.effect_stop_burn = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onBurnStop();
+        _this.dynamics[data].spriteContainer.onBurnStop();
     };
 
     eventResponses.effect_start_poison = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onPoisonStart();
+        _this.dynamics[data].spriteContainer.onPoisonStart();
     };
 
     eventResponses.effect_stop_poison = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onPoisonStop();
+        _this.dynamics[data].spriteContainer.onPoisonStop();
     };
 
     eventResponses.effect_start_health_regen = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onHealthRegenStart();
+        _this.dynamics[data].spriteContainer.onHealthRegenStart();
     };
 
     eventResponses.effect_stop_health_regen = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onHealthRegenStop();
+        _this.dynamics[data].spriteContainer.onHealthRegenStop();
     };
 
     eventResponses.effect_start_energy_regen = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onEnergyRegenStart();
+        _this.dynamics[data].spriteContainer.onEnergyRegenStart();
     };
 
     eventResponses.effect_stop_energy_regen = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onEnergyRegenStop();
+        _this.dynamics[data].spriteContainer.onEnergyRegenStop();
     };
 
     eventResponses.effect_start_cured = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onCuredStart();
+        _this.dynamics[data].spriteContainer.onCuredStart();
     };
 
     eventResponses.effect_stop_cured = function (data) {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].sprite.onCuredStop();
+        _this.dynamics[data].spriteContainer.onCuredStop();
     };
 
     eventResponses.player_respawn = function () {
@@ -589,15 +578,15 @@ window.addGameStateEventResponses = function () {
     };
 
     eventResponses.equip_clothes = function (data) {
-        const clothes = _this.dynamics[data.id].sprite.clothes;
+        const clothes = _this.dynamics[data.id].spriteContainer.clothes;
         clothes.visible = true;
         clothes.clothesName = ItemTypes[data.typeNumber].idName;
-        clothes.frameName = clothes.clothesFrames[clothes.clothesName][clothes.parent.direction];
+        clothes.setFrame(clothes.clothesFrames[clothes.clothesName][clothes.parent.direction]);
     };
 
     eventResponses.unequip_clothes = function (data) {
         //console.log("unequip clothes:", data);
-        _this.dynamics[data].sprite.clothes.visible = false;
+        _this.dynamics[data].spriteContainer.clothes.visible = false;
     };
 
     eventResponses.activate_ammunition = function (data) {
@@ -661,12 +650,12 @@ window.addGameStateEventResponses = function () {
 
     eventResponses.active_state = function (data) {
         //console.log("active state change:", data);
-        _this.tilemap.updateStaticTile(data, true);
+        // _this.tilemap.updateStaticTile(data, true);
     };
 
     eventResponses.inactive_state = function (data) {
         //console.log("inactive state change:", data);
-        _this.tilemap.updateStaticTile(data, false);
+        // _this.tilemap.updateStaticTile(data, false);
     };
 
     eventResponses.change_direction = function (data) {
@@ -675,44 +664,44 @@ window.addGameStateEventResponses = function () {
         const dynamic = _this.dynamics[data.id];
         if (dynamic === undefined) return;
 
-        const sprite = dynamic.sprite;
+        const spriteContainer = dynamic.spriteContainer;
         // Some sprites show their direction by having different frames, others by rotating.
-        if (sprite.baseFrames !== undefined) {
-            sprite.baseSprite.frameName = sprite.baseFrames[data.direction];
+        if (spriteContainer.baseFrames !== undefined) {
+            spriteContainer.baseSprite.setFrame(spriteContainer.baseFrames[data.direction]);
         }
-        if (sprite.directionAngles !== undefined) {
-            sprite.angle = sprite.directionAngles[data.direction];
+        if (spriteContainer.directionAngles !== undefined) {
+            spriteContainer.angle = spriteContainer.directionAngles[data.direction];
         }
-        if (sprite.clothes !== undefined) {
-            sprite.clothes.frameName = sprite.clothes.clothesFrames[sprite.clothes.clothesName][data.direction];
-            sprite.clothes.animations.stop();
+        if (spriteContainer.clothes !== undefined) {
+            spriteContainer.clothes.setFrame(spriteContainer.clothes.clothesFrames[spriteContainer.clothes.clothesName][data.direction]);
+            spriteContainer.clothes.anims.stop();
         }
-        sprite.direction = data.direction;
-        sprite.onChangeDirection();
+        spriteContainer.direction = data.direction;
+        spriteContainer.onChangeDirection();
     };
 
     eventResponses.curse_set = function (data) {
         const dynamic = _this.dynamics[data];
         if (dynamic === undefined) return;
-        dynamic.sprite.curseIcon.visible = true;
+        dynamic.spriteContainer.curseIcon.visible = true;
     };
 
     eventResponses.curse_removed = function (data) {
         const dynamic = _this.dynamics[data];
         if (dynamic === undefined) return;
-        dynamic.sprite.curseIcon.visible = false;
+        dynamic.spriteContainer.curseIcon.visible = false;
     };
 
     eventResponses.enchantment_set = function (data) {
         const dynamic = _this.dynamics[data];
         if (dynamic === undefined) return;
-        dynamic.sprite.enchantmentIcon.visible = true;
+        dynamic.spriteContainer.enchantmentIcon.visible = true;
     };
 
     eventResponses.enchantment_removed = function (data) {
         const dynamic = _this.dynamics[data];
         if (dynamic === undefined) return;
-        dynamic.sprite.enchantmentIcon.visible = false;
+        dynamic.spriteContainer.enchantmentIcon.visible = false;
     };
 
     eventResponses.chat = function (data) {

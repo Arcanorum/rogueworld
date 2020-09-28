@@ -14,6 +14,7 @@ class Static extends Phaser.GameObjects.Container {
 
         this.setScale(GAME_SCALE);
 
+        // The world position of this tile. NOT where it is in any display grids; it doesn't need updating.
         this.row = config.row;
         this.col = config.col;
         this.id = this.row + "-" + this.col; // TODO: not needed anymore?

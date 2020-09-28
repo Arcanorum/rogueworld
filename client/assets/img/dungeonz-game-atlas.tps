@@ -32,7 +32,7 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>phaser-json-array</string>
+        <string>phaser</string>
         <key>textureFileName</key>
         <filename>game-atlas.png</filename>
         <key>flipPVR</key>
@@ -129,7 +129,7 @@
         </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
-            <key>data</key>
+            <key>json</key>
             <struct type="DataFile">
                 <key>name</key>
                 <filename>game-atlas.json</filename>
@@ -169,7 +169,7 @@
             <key>trimMargin</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">None</enum>
+            <enum type="SpriteSettings::TrimMode">Trim</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>
@@ -858,7 +858,6 @@
                 <false/>
             </struct>
             <key type="filename">entities/pickups/pickup-exp-orb.png</key>
-            <key type="filename">entities/pickups/pickup-respawn-orb.png</key>
             <key type="filename">entities/projectiles/proj-vampire-fang.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

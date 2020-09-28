@@ -312,9 +312,7 @@
                     <img id="news_image" draggable="false" src="assets/img/misc/news-18-07-2020.PNG">
                 </div>
                 <div></div>
-                <div id="renderer_language_cont" class="bottom_texts">
-                    <span id="renderer_text" onclick="swapRenderer()">WebGL</span>
-                    |
+                <div id="language_cont" class="bottom_texts">
                     <span id="language_text">Language</span></div>
                 <ul id="language_list">
                     <li id="language_english" class="language_option">English</li>
@@ -501,15 +499,11 @@
                 document.getElementById('add_translation').innerText = dungeonz.getTextDef('Add translation');
                 document.getElementById('news_header').innerText = dungeonz.getTextDef('News');
                 document.getElementById('name_input').placeholder = dungeonz.getTextDef('Name input');
-                document.getElementById('username_input').placeholder = "Username"; //dungeonz.getTextDef('Continue code input');
-                document.getElementById('password_input').placeholder = "Password"; //dungeonz.getTextDef('Continue code input');
+                document.getElementById('username_input').placeholder = "Username";
+                document.getElementById('password_input').placeholder = "Password";
                 document.getElementById('new_character').innerText = dungeonz.getTextDef('New character');
                 document.getElementById('continue').innerText = dungeonz.getTextDef('Continue');
                 document.getElementById('center_text').innerText = dungeonz.getTextDef('Play');
-                //document.getElementById('controls_move').innerText =        dungeonz.getTextDef('Controls: move');
-                //document.getElementById('controls_use_held_item').innerText=dungeonz.getTextDef('Controls: use held item');
-                //document.getElementById('controls_pick_up_item').innerText =dungeonz.getTextDef('Controls: pick up item');
-                //document.getElementById('controls_select_item').innerText = dungeonz.getTextDef('Controls: select item');
 
                 // General GUI tooltips.
                 document.getElementById('defence_tooltip').innerText = dungeonz.getTextDef('Defence tooltip');
@@ -548,29 +542,11 @@
             document.getElementById('language_polish').onclick = function () { changeLanguage('Polish') };
             document.getElementById('language_chinese').onclick = function () { changeLanguage('Chinese') };
 
-            //let hoverTooltip = document.getElementById('main_tooltip');
-            //console.log("ht:", hoverTooltip);
             // Changes the text displayed in the main tooltip.
             function changeHoverTooltip(textDef) {
                 let hoverTooltip = document.getElementById('main_tooltip');
                 hoverTooltip.innerText = dungeonz.getTextDef(textDef);
                 hoverTooltip.style.visibility = 'visible';
-            }
-
-            // Saved renderer preference already loaded in Main.js.
-            if (window.renderer === 'canvas') {
-                document.getElementById('renderer_text').innerText = 'Canvas';
-            }
-
-            function swapRenderer() {
-                if (window.renderer === 'canvas') {
-                    localStorage.setItem('renderer', 'webgl');
-                }
-                else {
-                    localStorage.setItem('renderer', 'canvas');
-                }
-
-                location.reload();
             }
 
             // Load the changelog contents into the news section.

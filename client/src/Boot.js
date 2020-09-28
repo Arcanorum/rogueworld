@@ -125,7 +125,7 @@ class Boot extends Phaser.Scene {
     }
 
     preload() {
-        Utils.message("Boot preload")
+        Utils.message("Boot preload");
 
         this.load.image('highlight', 'assets/img/gui/hud/highlight.png');
         this.load.atlas('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
@@ -140,7 +140,7 @@ class Boot extends Phaser.Scene {
     }
 
     create() {
-        Utils.message("Boot create")
+        Utils.message("Boot create");
 
         window._this = this;
 

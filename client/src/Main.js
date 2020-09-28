@@ -1,14 +1,4 @@
-
-"use strict";
-
 (function () {
-    // Load the saved renderer preference.
-    window.renderer = localStorage.getItem('renderer') || 'webgl';
-    let renderer = Phaser.WEBGL;
-    if (window.renderer === 'canvas') {
-        renderer = Phaser.CANVAS;
-    }
-
     const game = new Phaser.Game({
         type: Phaser.WEBGL,
         parent: "",
@@ -33,5 +23,4 @@
         console.log("* Running in prod mode.");
         window.devMode = false;
     }
-
 })();

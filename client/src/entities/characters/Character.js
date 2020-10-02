@@ -13,7 +13,7 @@ const Sprite = function (x, y, config) {
     if (this.baseFrames !== undefined) {
         frame = this.baseFrames[config.direction] || this.baseFrames.d;
     }
-    this.baseSprite = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', frame);
+    this.baseSprite = _this.add.sprite(0, 0, 'game-atlas', frame);
     //this.baseSprite.baseFrames = baseFrames;
     this.baseSprite.setFrame(frame);
     this.baseSprite.setOrigin(0.5);

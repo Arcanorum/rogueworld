@@ -183,10 +183,9 @@ class Tilemap {
 
         // Reposition to around where the player is now.
         const
-            halfScaledTileSize = scaledTileSize * 0.5,
             viewRangePixels = viewRange * scaledTileSize,
-            playerX = this.scene.player.col * scaledTileSize + halfScaledTileSize - viewRangePixels,
-            playerY = this.scene.player.row * scaledTileSize + halfScaledTileSize - viewRangePixels;
+            playerX = this.scene.player.col * scaledTileSize - viewRangePixels,
+            playerY = this.scene.player.row * scaledTileSize - viewRangePixels;
 
         groundSpritesGrid.forEach((row, rowIndex) => {
             row.forEach((tileSprite, colIndex) => {
@@ -210,7 +209,7 @@ class Tilemap {
             scaledTileSize = dungeonz.SCALED_TILE_SIZE,
             halfScaledTileSize = scaledTileSize * 0.5,
             viewRangePixels = viewRange * scaledTileSize,
-            playerY = this.scene.player.row * scaledTileSize + halfScaledTileSize,
+            playerY = this.scene.player.row * scaledTileSize,
             topRow = groundSpritesGrid[0],
             mapRow = currentMapGroundGrid[playerRow - viewRange];
         let
@@ -244,7 +243,7 @@ class Tilemap {
             scaledTileSize = dungeonz.SCALED_TILE_SIZE,
             halfScaledTileSize = scaledTileSize * 0.5,
             viewRangePixels = viewRange * scaledTileSize,
-            playerY = this.scene.player.row * scaledTileSize + halfScaledTileSize,
+            playerY = this.scene.player.row * scaledTileSize,
             bottomRow = groundSpritesGrid[groundSpritesGrid.length - 1],
             mapRow = currentMapGroundGrid[playerRow + viewRange];
         let
@@ -280,7 +279,7 @@ class Tilemap {
             scaledTileSize = dungeonz.SCALED_TILE_SIZE,
             halfScaledTileSize = scaledTileSize * 0.5,
             viewRangePixels = viewRange * scaledTileSize,
-            playerX = this.scene.player.col * scaledTileSize + halfScaledTileSize;
+            playerX = this.scene.player.col * scaledTileSize;
         let
             mapRow,
             tileSprite;
@@ -316,7 +315,7 @@ class Tilemap {
             scaledTileSize = dungeonz.SCALED_TILE_SIZE,
             halfScaledTileSize = scaledTileSize * 0.5,
             viewRangePixels = viewRange * scaledTileSize,
-            playerX = this.scene.player.col * scaledTileSize + halfScaledTileSize;
+            playerX = this.scene.player.col * scaledTileSize;
         let
             mapRow,
             tileSprite;
@@ -394,10 +393,9 @@ class Tilemap {
 
         // Reposition to around where the player is now.
         const
-            halfScaledTileSize = scaledTileSize * 0.5,
             viewRangePixels = viewRange * scaledTileSize,
-            playerX = (this.scene.player.col * scaledTileSize) + halfScaledTileSize - viewRangePixels,
-            playerY = (this.scene.player.row * scaledTileSize) + halfScaledTileSize - viewRangePixels;
+            playerX = (this.scene.player.col * scaledTileSize) - viewRangePixels,
+            playerY = (this.scene.player.row * scaledTileSize) - viewRangePixels;
 
         staticsSpritesGrid.forEach((row, rowIndex) => {
             row.forEach((tileSprite, colIndex) => {
@@ -491,7 +489,6 @@ class Tilemap {
             tileSprite;
 
         // Remove right edge tile sprites.
-        // The grid has already been shifted, so they are now They are 
         staticsSpritesGrid.forEach((row) => {
             tileSprite = row[startColIndex];
             if (tileSprite) {
@@ -504,7 +501,6 @@ class Tilemap {
         staticsSpritesGrid.forEach((row, rowIndex) => {
             targetRow = playerRow + rowIndex - viewRange;
             mapRow = currentMapStaticsGrid[targetRow];
-            tileSprite = row[startColIndex];
 
             // Check the cell to view is in the current map bounds.
             if (mapRow !== undefined) {
@@ -518,41 +514,50 @@ class Tilemap {
                 }
             }
         });
-
-        works ok, now other directions
     }
 
     updateStaticsGridEdgeRight() {
-        const col = dungeonz.VIEW_DIAMETER - 1,
-            playerRow = this.scene.player.row,
-            staticsGridBitmapData = this.staticsGridBitmapData,
-            staticsDrawingSprite = this.staticsDrawingSprite,
-            currentMapStaticsGrid = this.currentMapStaticsGrid,
-            tileSize = dungeonz.TILE_SIZE,
-            viewRange = dungeonz.VIEW_RANGE,
-            colPosition = col * tileSize,
-            targetCol = this.scene.player.col + col - dungeonz.VIEW_RANGE;
-        let row,
-            targetRow,
-            staticTile;
+        Utils.shiftMatrixLeft(this.staticsSpritesGrid);
 
-        for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
-            targetRow = playerRow + row - viewRange;
-            // Clear all spaces on the bitmap data where a static might go, so there isn't a previous one still shown there.
-            staticsGridBitmapData.clear(colPosition, row * tileSize, tileSize, tileSize);
-            // Check the cell row to view is in the current map bounds.
-            if (currentMapStaticsGrid[targetRow] === undefined) continue;
-            // Check the cell column to view is in the current map bounds.
-            if (currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
-            // Check it isn't an empty tile. i.e. no static entity there.
-            if (currentMapStaticsGrid[targetRow][targetCol][0] !== 0) {
-                // Add a static entity to the statics list, so it can have state changes applied.
-                staticTile = addStaticTile(targetRow, targetCol, currentMapStaticsGrid[targetRow][targetCol]);
-                // Show the sprite at this tile position.
-                staticsDrawingSprite.frame = staticTile.tileID;
-                staticsGridBitmapData.draw(staticsDrawingSprite, colPosition, row * tileSize);
+        const
+            staticsSpritesGrid = this.staticsSpritesGrid,
+            currentMapStaticsGrid = this.currentMapStaticsGrid,
+            viewRange = dungeonz.VIEW_RANGE,
+            endColIndex = staticsSpritesGrid[0].length - 1,
+            playerRow = this.scene.player.row,
+            targetCol = this.scene.player.col + viewRange;
+        let
+            mapRow,
+            targetRow,
+            tileSprite;
+
+        // Remove left edge tile sprites.
+        // The grid has already been shifted, so they are now They are 
+        staticsSpritesGrid.forEach((row) => {
+            tileSprite = row[endColIndex];
+            if (tileSprite) {
+                tileSprite.destroy();
+                row[endColIndex] = null;
             }
-        }
+        });
+
+        // Add right edge tile sprites.
+        staticsSpritesGrid.forEach((row, rowIndex) => {
+            targetRow = playerRow + rowIndex - viewRange;
+            mapRow = currentMapStaticsGrid[targetRow];
+
+            // Check the cell to view is in the current map bounds.
+            if (mapRow !== undefined) {
+                if (mapRow[targetCol] !== undefined) {
+                    // Empty static grid spaces in the map data are represented as [0].
+                    if (mapRow[targetCol][0] !== 0) {
+                        row[endColIndex] = addStaticTile(targetRow, targetCol, mapRow[targetCol]);
+                    }
+
+                    return;
+                }
+            }
+        });
     }
 
     /**
@@ -750,10 +755,8 @@ class Tilemap {
     }
 
     shiftMapRight() {
-        Utils.shiftMatrixLeft(this.staticsSpritesGrid);
-
         this.updateGroundGridEdgeRight();
-        // this.updateStaticsGridEdgeRight()
+        this.updateStaticsGridEdgeRight()
         // this.updateDarknessGrid();
     }
 

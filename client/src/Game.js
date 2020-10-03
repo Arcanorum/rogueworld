@@ -118,12 +118,6 @@ class Game extends Phaser.Scene {
         this.nextMoveTime = 0;
 
         this.playerTween = null;
-        this.playerTweenDirections = {
-            u: false,
-            d: false,
-            l: false,
-            r: false
-        };
 
         /**
          * A list of all static entities. Statics are display entities, whose data is already

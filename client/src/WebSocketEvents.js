@@ -200,25 +200,21 @@ eventResponses.world_full = function () {
 function tweenCompleteLeft() {
     _this.tilemap.shiftMapLeft();
     _this.playerTween = null;
-    _this.playerTweenDirections.l = false;
 }
 
 function tweenCompleteRight() {
     _this.tilemap.shiftMapRight();
     _this.playerTween = null;
-    _this.playerTweenDirections.r = false;
 }
 
 function tweenCompleteUp() {
     _this.tilemap.shiftMapUp();
     _this.playerTween = null;
-    _this.playerTweenDirections.u = false;
 }
 
 function tweenCompleteDown() {
     _this.tilemap.shiftMapDown();
     _this.playerTween = null;
-    _this.playerTweenDirections.d = false;
 }
 
 /**
@@ -282,7 +278,6 @@ window.addGameStateEventResponses = function () {
                 _this.checkDynamicsInViewRange(0, -1);
                 _this.checkStaticTilesInViewRange(0, -1);
                 tweenOnCompleteFunction = tweenCompleteRight;
-                _this.playerTweenDirections.r = true;
                 // TODO _this.tilemap.darknessGridGroup.x += dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Left.
@@ -290,7 +285,6 @@ window.addGameStateEventResponses = function () {
                 _this.checkDynamicsInViewRange(0, +1);
                 _this.checkStaticTilesInViewRange(0, +1);
                 tweenOnCompleteFunction = tweenCompleteLeft;
-                _this.playerTweenDirections.l = true;
                 //_this.tilemap.darknessGridGroup.x -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Down.
@@ -298,7 +292,6 @@ window.addGameStateEventResponses = function () {
                 _this.checkDynamicsInViewRange(+1, 0);
                 _this.checkStaticTilesInViewRange(+1, 0);
                 tweenOnCompleteFunction = tweenCompleteDown;
-                _this.playerTweenDirections.d = true;
                 //_this.tilemap.darknessGridGroup.y += dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Up.
@@ -306,7 +299,6 @@ window.addGameStateEventResponses = function () {
                 _this.checkDynamicsInViewRange(-1, 0);
                 _this.checkStaticTilesInViewRange(-1, 0);
                 tweenOnCompleteFunction = tweenCompleteUp;
-                _this.playerTweenDirections.u = true;
                 //_this.tilemap.darknessGridGroup.y -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
 
@@ -650,12 +642,12 @@ window.addGameStateEventResponses = function () {
 
     eventResponses.active_state = function (data) {
         //console.log("active state change:", data);
-        // _this.tilemap.updateStaticTile(data, true);
+        _this.tilemap.updateStaticTile(data, true);
     };
 
     eventResponses.inactive_state = function (data) {
         //console.log("inactive state change:", data);
-        // _this.tilemap.updateStaticTile(data, false);
+        _this.tilemap.updateStaticTile(data, false);
     };
 
     eventResponses.change_direction = function (data) {

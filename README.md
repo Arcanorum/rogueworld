@@ -2,7 +2,7 @@
 
 ## Everything for the game Dungeonz.
 
-Greetings! You have stumbled upon the work area for Dungeonz, the free, browser based, massively multiplayer online RPG.
+Greetings! You have stumbled upon the work area for Dungeonz, the free, open-source, browser based, massively multiplayer online RPG.
 
 ## *What is this?*
 This is the central code repository for Dungeonz.
@@ -171,7 +171,7 @@ Finally, to open the client and play the game, go to http://localhost/ in a web 
 
 ## *I want to add a...*
 
-Features are divided into two rough categories:
+Features are divided into two general categories:
 
 ### **Mechanics:**
 

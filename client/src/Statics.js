@@ -17,6 +17,8 @@ class Static extends Phaser.GameObjects.Container {
         // The world position of this tile. NOT where it is in any display grids; it doesn't need updating.
         this.row = config.row;
         this.col = config.col;
+        // The unique ID of this tile. Used to get and update a static tile from the statics
+        // list, such as when a door opens/closes and the frame needs to change.
         this.id = this.row + "-" + this.col; // TODO: not needed anymore?
 
         // Holder for the light distance property. Tilemap.updateDarknessGrid passes it in as a property of a sprite...
@@ -45,7 +47,6 @@ class Static extends Phaser.GameObjects.Container {
         _this.add.existing(this);
 
         this.on("destroy", () => {
-            console.log("static container destroy event");
             delete _this.statics[this.id];
 
             // If this was a light source, need to update the darkness grid.

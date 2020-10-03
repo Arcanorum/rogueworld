@@ -26,5 +26,8 @@
     "ws": "^5.2.2",
     "xlsx": "^0.13.5",
     "require-dir": "^1.2.0"
+  },
+  "dependencies": {
+    "tile-extruder": "^2.0.6"
   }
 }

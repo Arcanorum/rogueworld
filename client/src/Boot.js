@@ -131,11 +131,15 @@ class Boot extends Phaser.Scene {
         this.load.atlas('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
         this.load.spritesheet('ground-tileset', 'assets/img/ground.png', {
             frameWidth: 16,
-            frameHeight: 16
+            frameHeight: 16,
+            margin: 1,
+            spacing: 2
         });
         this.load.spritesheet('statics-tileset', 'assets/img/statics.png', {
             frameWidth: 16,
-            frameHeight: 16
+            frameHeight: 16,
+            margin: 1,
+            spacing: 2
         });
     }
 

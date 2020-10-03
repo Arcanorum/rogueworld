@@ -1,4 +1,5 @@
 const Utils = require("./src/Utils");
+const { extrudeTilesetToImage } = require("tile-extruder");
 
 Utils.message("Start of index");
 
@@ -80,8 +81,10 @@ async function init() {
     }
     // Copy the tileset image sources to the client, so they are the same as what the server is using.
     // Saves having to copy over the images when a change is made to the one used in Tiled.
-    fs.createReadStream('./map/tilesets/ground.png').pipe(fs.createWriteStream('../client/assets/img/ground.png'));
-    fs.createReadStream('./map/tilesets/statics.png').pipe(fs.createWriteStream('../client/assets/img/statics.png'));
+    // Also extrudes them by 1 pixel in each direction, as Phaser 3 has some issues with exact size tiles.
+    // https://phaser.io/news/2018/05/webgl-tile-extruder
+    await extrudeTilesetToImage(16, 16, "./map/tilesets/ground.png", "../client/assets/img/ground.png");
+    await extrudeTilesetToImage(16, 16, "./map/tilesets/statics.png", "../client/assets/img/statics.png");
 
     Utils.message("Tilesets copied to client assets.");
 

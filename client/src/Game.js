@@ -57,14 +57,24 @@ class Game extends Phaser.Scene {
 
         this.dynamicsData = data.dynamicsData;
 
-        this.dayPhase = data.dayPhase;
-
         this.DayPhases = {
             Dawn: 1,
             Day: 2,
             Dusk: 3,
             Night: 4
         };
+
+        // The Z depth of the various display containers, as set by .setDepth.
+        this.renderOrder = {
+            ground: 1,
+            statics: 2,
+            dynamics: 3,
+            darkness: 4,
+            fpsText: 5
+        }
+
+        // this.dayPhase = data.dayPhase || this.DayPhases.Day;
+        this.dayPhase = this.DayPhases.Night;
 
         //console.log("nearby dynamics: data", this.dynamicsData);
     }
@@ -97,8 +107,8 @@ class Game extends Phaser.Scene {
         //     const windowHeight = window.innerHeight;
 
         //     // TODO: Removed until darkness is added back in.
-        //     //tilemap.darknessGridGroup.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessGridGroup.width * 0.5);
-        //     //tilemap.darknessGridGroup.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessGridGroup.height * 0.5);
+        //     //tilemap.darknessSpritesContainer.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessSpritesContainer.width * 0.5);
+        //     //tilemap.darknessSpritesContainer.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessSpritesContainer.height * 0.5);
 
         //     // tilemap.updateBorders();
 
@@ -133,22 +143,21 @@ class Game extends Phaser.Scene {
          */
         this.dynamics = {};
 
+        // A containert to put all dynamics into, so they stay on the same layer relative to other things in the display order.
+        this.dynamicSpritesContainer = this.add.container();
+        this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
+
         /**
          * A list of all light sources, used to update the darkness grid. Light sources can be static or dynamic.
          * @type {Object}
          */
         this.lightSources = {};
 
-        // A group to put all dynamics into, so they stay on the same layer relative to other things in the display order.
-        this.dynamicsGroup = this.add.group();
-
         this.clanManager = new ClanManager();
         this.GUI = new GUI(this);
         this.craftingManager = new CraftingManager();
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
-
-        //this.children.bringToTop(this.dynamicsGroup);
 
         this.pseudoInteractables = {};
 
@@ -192,7 +201,7 @@ class Game extends Phaser.Scene {
         _this.GUI.accountPanel.hide();
         _this.GUI.createAccountPanel.hide();
 
-        //this.game.world.bringToTop(this.tilemap.darknessGridGroup);
+        //this.game.world.bringToTop(this.tilemap.darknessSpritesContainer);
         //this.game.world.bringToTop(this.tilemap.bordersGroup);
 
         this.tilemap.updateDarknessGrid();
@@ -221,6 +230,7 @@ class Game extends Phaser.Scene {
         });
         this.fpsText.fontSize = "64px";
         this.fpsText.setScrollFactor(0);
+        this.fpsText.setDepth(this.renderOrder.fpsText);
     }
 
     update() {
@@ -713,7 +723,7 @@ class Game extends Phaser.Scene {
 
         // Add the sprite to the world group, as it extends sprite but
         // overwrites the constructor so doesn't get added automatically.
-        _this.add.existing(dynamicSpriteContainer);
+        // _this.add.existing(dynamicSpriteContainer);
 
         if (dynamicSpriteContainer.centered === true) {
             dynamicSpriteContainer.anchor.setTo(0.5);
@@ -732,10 +742,10 @@ class Game extends Phaser.Scene {
             this.pseudoInteractables[id] = this.dynamics[id];
         }
 
-        this.dynamicsGroup.add(dynamicSpriteContainer);
+        this.dynamicSpritesContainer.add(dynamicSpriteContainer);
 
         // Move sprites further down the screen above ones further up.
-        this.dynamicsGroup.children.each((dynamicSpriteContainer) => {
+        this.dynamicSpritesContainer.list.forEach((dynamicSpriteContainer) => {
             dynamicSpriteContainer.z = dynamicSpriteContainer.y;
         });
     }

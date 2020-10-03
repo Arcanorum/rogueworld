@@ -52,7 +52,7 @@ class Static extends Phaser.GameObjects.Container {
             // If this was a light source, need to update the darkness grid.
             if (_this.lightSources[this.id] !== undefined) {
                 delete _this.lightSources[this.id];
-                // _this.tilemap.updateDarknessGrid();
+                _this.tilemap.updateDarknessGrid();
             }
         });
     }
@@ -419,7 +419,7 @@ function addStaticTile(row, col, tileData) {
         // If this static type emits light, add it to the light sources list.
         if (staticTile.sprite.lightDistance > 0) {
             _this.lightSources[staticTile.id] = staticTile;
-            // _this.tilemap.updateDarknessGrid();
+            _this.tilemap.updateDarknessGrid();
         }
 
         return staticTile;

@@ -269,37 +269,43 @@ window.addGameStateEventResponses = function () {
             dynamic.row = data.row;
             dynamic.col = data.col;
 
-
-
             let tweenOnCompleteFunction;
 
             // Right.
             if (data.col > origCol) {
                 _this.checkDynamicsInViewRange(0, -1);
                 _this.checkStaticTilesInViewRange(0, -1);
+                _this.tilemap.updateDarknessGrid();
+                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteRight;
-                // TODO _this.tilemap.darknessGridGroup.x += dungeonz.TILE_SIZE * GAME_SCALE;
+                // TODO _this.tilemap.darknessSpritesContainer.x += dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Left.
             else if (data.col < origCol) {
                 _this.checkDynamicsInViewRange(0, +1);
                 _this.checkStaticTilesInViewRange(0, +1);
+                _this.tilemap.updateDarknessGrid();
+                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteLeft;
-                //_this.tilemap.darknessGridGroup.x -= dungeonz.TILE_SIZE * GAME_SCALE;
+                //_this.tilemap.darknessSpritesContainer.x -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Down.
             if (data.row > origRow) {
                 _this.checkDynamicsInViewRange(+1, 0);
                 _this.checkStaticTilesInViewRange(+1, 0);
+                _this.tilemap.updateDarknessGrid();
+                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteDown;
-                //_this.tilemap.darknessGridGroup.y += dungeonz.TILE_SIZE * GAME_SCALE;
+                //_this.tilemap.darknessSpritesContainer.y += dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Up.
             else if (data.row < origRow) {
                 _this.checkDynamicsInViewRange(-1, 0);
                 _this.checkStaticTilesInViewRange(-1, 0);
+                _this.tilemap.updateDarknessGrid();
+                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteUp;
-                //_this.tilemap.darknessGridGroup.y -= dungeonz.TILE_SIZE * GAME_SCALE;
+                //_this.tilemap.darknessSpritesContainer.y -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
 
             // Tween the player sprite to the target row/col.
@@ -363,7 +369,7 @@ window.addGameStateEventResponses = function () {
         if (dynamicSpriteContainer.onMove !== undefined) dynamicSpriteContainer.onMove(true);
 
         // Move sprites further down the screen above ones further up.
-        _this.dynamicsGroup.children.each((dynamicSpriteContainer) => {
+        _this.dynamicSpritesContainer.list.forEach((dynamicSpriteContainer) => {
             dynamicSpriteContainer.z = dynamicSpriteContainer.y;
         });
     };
@@ -390,11 +396,11 @@ window.addGameStateEventResponses = function () {
             if(_this.dayPhase === _this.DayPhases.Day){
                 let row,
                     col,
-                    darknessGrid = _this.tilemap.darknessGrid;
+                    darknessSpritesGrid = _this.tilemap.darknessSpritesGrid;
     
                 for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
                     for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
-                        darknessGrid[row][col].alpha = 0;
+                        darknessSpritesGrid[row][col].alpha = 0;
                     }
                 }
             }
@@ -435,11 +441,11 @@ window.addGameStateEventResponses = function () {
             if (_this.dayPhase === _this.DayPhases.Day) {
                 let row,
                     col,
-                    darknessGrid = _this.tilemap.darknessGrid;
+                    darknessSpritesGrid = _this.tilemap.darknessSpritesGrid;
 
                 for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
                     for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
-                        darknessGrid[row][col].alpha = 0;
+                        darknessSpritesGrid[row][col].alpha = 0;
                     }
                 }
             }

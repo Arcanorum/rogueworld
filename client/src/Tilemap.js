@@ -15,7 +15,7 @@ class Tilemap {
 
         this.createGroundGrid();
         this.createStaticsGrid();
-        //this.createDarknessGrid();
+        this.createDarknessGrid();
 
         //this.createTestDarkness(); // Testing with new darkness methods.
 
@@ -29,7 +29,8 @@ class Tilemap {
             scene = this.scene;
 
         this.groundSpritesGrid = [];
-        this.groundSpritesContainer = _this.add.container();
+        this.groundSpritesContainer = this.scene.add.container();
+        this.groundSpritesContainer.setDepth(this.scene.renderOrder.ground);
 
         for (let row = 0; row < viewDiameter; row += 1) {
             this.groundSpritesGrid[row] = [];
@@ -48,7 +49,8 @@ class Tilemap {
             viewDiameter = dungeonz.VIEW_DIAMETER;
 
         this.staticsSpritesGrid = [];
-        this.staticsSpritesContainer = _this.add.container();
+        this.staticsSpritesContainer = this.scene.add.container();
+        this.staticsSpritesContainer.setDepth(this.scene.renderOrder.statics);
 
         // Just create the basic structure of the grid.
         // It gets populated during updateStaticsGrid.
@@ -61,15 +63,16 @@ class Tilemap {
     }
 
     createDarknessGrid() {
-        this.darknessGrid = [];
-        this.darknessGridGroup = this.scene.add.group();
-
-        //this.darknessGridGroup.fixedToCamera = true;
+        this.darknessSpritesGrid = [];
+        this.darknessSpritesContainer = this.scene.add.container();
+        this.darknessSpritesContainer.setDepth(this.scene.renderOrder.darkness);
 
         let row,
             col,
-            tile,
-            darknessValue = 1;
+            darknessValue = 1,
+            scene = this.scene,
+            viewRange = dungeonz.VIEW_RANGE,
+            scaledTileSize = dungeonz.SCALED_TILE_SIZE;
 
         if (this.scene.boardAlwaysNight === false) {
             if (this.scene.dayPhase === this.scene.DayPhases.Day) darknessValue = 0;
@@ -78,18 +81,29 @@ class Tilemap {
         }
 
         for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
-            this.darknessGrid.push([]);
+            this.darknessSpritesGrid[row] = [];
             for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
-                tile = this.scene.add.sprite(16 * GAME_SCALE * col, 16 * GAME_SCALE * row, 'ground-tileset', this.blackFrame);
-                tile.setScale(GAME_SCALE);
-                tile.alpha = darknessValue;
-                this.darknessGrid[row][col] = tile;
-                this.darknessGridGroup.add(tile);
+                const sprite = scene.add.sprite(col * scaledTileSize, row * scaledTileSize, "ground-tileset", this.blackFrame);
+                sprite.setScale(GAME_SCALE);
+                sprite.setOrigin(0.5);
+                sprite.alpha = 0.5;//darknessValue;
+                this.darknessSpritesGrid[row][col] = sprite;
+                this.darknessSpritesContainer.add(sprite);
             }
         }
 
-        this.darknessGridGroup.x = (this.scene.player.col * dungeonz.SCALED_TILE_SIZE + (dungeonz.SCALED_TILE_SIZE * 0.5)) - (this.darknessGridGroup.width * 0.5);
-        this.darknessGridGroup.y = (this.scene.player.row * dungeonz.SCALED_TILE_SIZE + (dungeonz.SCALED_TILE_SIZE * 0.5)) - (this.darknessGridGroup.height * 0.5);
+        // Reposition to around where the player is now.
+        const
+            viewRangePixels = viewRange * scaledTileSize,
+            playerX = (this.scene.player.col * scaledTileSize) - viewRangePixels,
+            playerY = (this.scene.player.row * scaledTileSize) - viewRangePixels;
+
+        this.darknessSpritesGrid.forEach((row, rowIndex) => {
+            row.forEach((tileSprite, colIndex) => {
+                tileSprite.x = playerX + (colIndex * scaledTileSize);
+                tileSprite.y = playerY + (rowIndex * scaledTileSize);
+            });
+        });
     }
 
     /**
@@ -592,7 +606,7 @@ class Tilemap {
      */
     updateStaticTile(tileID, active) {
         /** @type {Static} */
-        const staticTile = _this.statics[tileID];
+        const staticTile = this.scene.statics[tileID];
         // Cannot update if it doesn't exist.
         if (staticTile === undefined) return;
 
@@ -605,50 +619,63 @@ class Tilemap {
     }
 
     updateDarknessGrid() {
-        //console.log("update darkness grid");
-
-        // TODO add darkness back
-        /*let player = this.scene.dynamics[this.scene.player.entityId],
+        let player = this.scene.dynamics[this.scene.player.entityId],
             lightSources = this.scene.lightSources,
-            darknessGrid = this.darknessGrid,
+            darknessSpritesGrid = this.darknessSpritesGrid,
             darknessValue = 0,
             viewDiameter = dungeonz.VIEW_DIAMETER;
 
-        if(this.scene.boardAlwaysNight === true){
+        if (this.scene.boardAlwaysNight === true) {
             darknessValue = 1;
         }
         else {
             // Don't bother doing the rest if it is day.
-            if(this.scene.dayPhase === this.scene.DayPhases.Day) return;
-            else if(this.scene.dayPhase === this.scene.DayPhases.Dawn) darknessValue = 0.5;
-            else if(this.scene.dayPhase === this.scene.DayPhases.Dusk) darknessValue = 0.5;
+            if (this.scene.dayPhase === this.scene.DayPhases.Day) return;
+            else if (this.scene.dayPhase === this.scene.DayPhases.Dawn) darknessValue = 0.5;
+            else if (this.scene.dayPhase === this.scene.DayPhases.Dusk) darknessValue = 0.5;
             else darknessValue = 1;
         }
 
         // Make the whole thing completely dark.
         let row,
             col;
-        for(row=0; row<viewDiameter; row+=1){
-            for(col=0; col<viewDiameter; col+=1){
-                darknessGrid[row][col].alpha = darknessValue;
+        for (row = 0; row < viewDiameter; row += 1) {
+            for (col = 0; col < viewDiameter; col += 1) {
+                darknessSpritesGrid[row][col].alpha = darknessValue;
             }
         }
 
-        if(player !== undefined){
+        if (player !== undefined) {
             //this.revealDarkness(player.sprite.x, player.sprite.y, 10);
-            this.revealDarkness(_this.player.row, _this.player.col, 5);
+            this.revealDarkness(this.scene.player.row, this.scene.player.col, 5);
         }
 
         let key;
         let lightSource;
         // Lighten the area around each light source.
-        for(key in lightSources){
-            if(lightSources.hasOwnProperty(key)){
+        for (key in lightSources) {
+            if (lightSources.hasOwnProperty(key)) {
                 lightSource = lightSources[key];
                 //this.revealDarkness(lightSource.x, lightSource.y, lightSource.lightDistance);
                 this.revealDarkness(lightSource.row, lightSource.col, lightSource.sprite.lightDistance);
             }
-        }*/
+        }
+    }
+
+    updateDarknessGridPosition() {
+        // Reposition to around where the player is now.
+        const
+            scaledTileSize = dungeonz.SCALED_TILE_SIZE,
+            viewRangePixels = dungeonz.VIEW_RANGE * scaledTileSize,
+            playerX = (this.scene.player.col * scaledTileSize) - viewRangePixels,
+            playerY = (this.scene.player.row * scaledTileSize) - viewRangePixels;
+
+        this.darknessSpritesGrid.forEach((row, rowIndex) => {
+            row.forEach((tileSprite, colIndex) => {
+                tileSprite.x = playerX + (colIndex * scaledTileSize);
+                tileSprite.y = playerY + (rowIndex * scaledTileSize);
+            });
+        });
     }
 
     /**
@@ -659,13 +686,12 @@ class Tilemap {
      */
     revealDarkness(rowIn, colIn, radius) {
         // TODO: figure out daytime darkness for dark areas, caves etc.
-        // TODO add darkness back
-        /*const radiusPlusOne = radius + 1;
+        const radiusPlusOne = radius + 1;
         let rowOffset = -radius,
             colOffset = -radius,
-            row = (Math.floor(rowIn) + dungeonz.VIEW_RANGE) - _this.player.row,
-            col = (Math.floor(colIn) + dungeonz.VIEW_RANGE) - _this.player.col,
-            darknessGrid = this.darknessGrid,
+            row = (Math.floor(rowIn) + dungeonz.VIEW_RANGE) - this.scene.player.row,
+            col = (Math.floor(colIn) + dungeonz.VIEW_RANGE) - this.scene.player.col,
+            darknessSpritesGrid = this.darknessSpritesGrid,
             tile,
             rowDist,
             colDist,
@@ -673,27 +699,27 @@ class Tilemap {
             targetCol,
             distFromCenter;
 
-        for(; rowOffset<radiusPlusOne; rowOffset+=1){
-            for(colOffset=-radius; colOffset<radiusPlusOne; colOffset+=1){
+        for (; rowOffset < radiusPlusOne; rowOffset += 1) {
+            for (colOffset = -radius; colOffset < radiusPlusOne; colOffset += 1) {
                 targetRow = row + rowOffset;
                 targetCol = col + colOffset;
 
-                if(darknessGrid[targetRow] ===  undefined) continue;
-                tile = darknessGrid[targetRow][targetCol];
-                if(tile ===  undefined) continue;
+                if (darknessSpritesGrid[targetRow] === undefined) continue;
+                tile = darknessSpritesGrid[targetRow][targetCol];
+                if (tile === undefined) continue;
 
                 rowDist = Math.abs(row - targetRow);
                 colDist = Math.abs(col - targetCol);
                 distFromCenter = rowDist + colDist;
 
-                if(1 - (distFromCenter / radius) > 0){
+                if (1 - (distFromCenter / radius) > 0) {
                     tile.alpha -= 1 - (distFromCenter / radius);
-                    if(tile.alpha < 0){
+                    if (tile.alpha < 0) {
                         tile.alpha = 0;
                     }
                 }
             }
-        }*/
+        }
     }
 
     /**
@@ -706,7 +732,7 @@ class Tilemap {
         this.scene.currentBoardName = boardName;
 
         // Clear the statics object. This is the only reference to the statics from the previous map, so now they can be GCed.
-        _this.statics = {};
+        this.scene.statics = {};
 
         // Select the map data grids of the new map.
         this.currentMapGroundGrid = dungeonz.mapsData[boardName].groundGrid;
@@ -716,8 +742,8 @@ class Tilemap {
         this.mapCols = this.currentMapGroundGrid[0].length;
 
         // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
-        if (_this.playerTween !== null) {
-            _this.playerTween.stop();
+        if (this.scene.playerTween !== null) {
+            this.scene.playerTween.stop();
         }
 
         // Update the game world bounds. Affects how the camera bumps up against edges.
@@ -728,41 +754,38 @@ class Tilemap {
             this.mapRows * dungeonz.SCALED_TILE_SIZE + (dungeonz.VIEW_DIAMETER * dungeonz.SCALED_TILE_SIZE * 2)
         );
 
-        // Used to center on the player, as center is halfway across the player sprite, which is one tile wide/high.
-        // const halfScaledTileSize = dungeonz.SCALED_TILE_SIZE * 0.5;
-        // const viewRangePixels = dungeonz.VIEW_RANGE * dungeonz.SCALED_TILE_SIZE;
-        // const playerX = this.scene.player.col * dungeonz.SCALED_TILE_SIZE + halfScaledTileSize - viewRangePixels;
-        // const playerY = this.scene.player.row * dungeonz.SCALED_TILE_SIZE + halfScaledTileSize - viewRangePixels;
-
-        //TODO: add darkness back this.darknessGridGroup.x = (playerX) - (this.darknessGridGroup.width * 0.5);
-        //TODO: add darkness back this.darknessGridGroup.y = (playerY) - (this.darknessGridGroup.height * 0.5);
-
         this.updateGroundGrid();
         this.updateStaticsGrid();
+        this.updateDarknessGrid();
+        this.updateDarknessGridPosition();
     }
 
     shiftMapUp() {
         this.updateGroundGridEdgeTop();
-        this.updateStaticsGridEdgeTop()
-        // this.updateDarknessGrid();
+        this.updateStaticsGridEdgeTop();
+        this.updateDarknessGrid();
+        this.updateDarknessGridPosition();
     }
 
     shiftMapDown() {
         this.updateGroundGridEdgeBottom();
-        this.updateStaticsGridEdgeBottom()
-        // this.updateDarknessGrid();
+        this.updateStaticsGridEdgeBottom();
+        this.updateDarknessGrid();
+        this.updateDarknessGridPosition();
     }
 
     shiftMapLeft() {
         this.updateGroundGridEdgeLeft();
         this.updateStaticsGridEdgeLeft();
-        // this.updateDarknessGrid();
+        this.updateDarknessGrid();
+        this.updateDarknessGridPosition();
     }
 
     shiftMapRight() {
         this.updateGroundGridEdgeRight();
-        this.updateStaticsGridEdgeRight()
-        // this.updateDarknessGrid();
+        this.updateStaticsGridEdgeRight();
+        this.updateDarknessGrid();
+        this.updateDarknessGridPosition();
     }
 
 }

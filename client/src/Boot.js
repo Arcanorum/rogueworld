@@ -96,8 +96,8 @@ window.dungeonz.CENTER_OFFSET = dungeonz.TILE_SIZE * GAME_SCALE * 0.5;
 //     // Changes the size of the game renderer to match the size of the window.
 
 //     // TODO: Removed until darkness is added back in.
-//     //tilemap.darknessGridGroup.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessGridGroup.width * 0.5);
-//     //tilemap.darknessGridGroup.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessGridGroup.height * 0.5);
+//     //tilemap.darknessSpritesContainer.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessSpritesContainer.width * 0.5);
+//     //tilemap.darknessSpritesContainer.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessSpritesContainer.height * 0.5);
 
 //     // tilemap.updateBorders();
 

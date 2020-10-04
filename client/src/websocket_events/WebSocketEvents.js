@@ -8,11 +8,11 @@ window.ws = false;
  */
 const eventResponses = {};
 
-import EventNames from '../src/catalogues/EventNames'
-import ItemTypes from '../src/catalogues/ItemTypes'
-import SpellBookTypes from '../src/catalogues/SpellBookTypes'
-import ChatWarnings from './catalogues/ChatWarnings'
-import Utils from './Utils';
+import EventNames from '../catalogues/EventNames'
+import ItemTypes from '../catalogues/ItemTypes'
+import SpellBookTypes from '../catalogues/SpellBookTypes'
+import ChatWarnings from '../catalogues/ChatWarnings'
+import Utils from '../Utils';
 
 /**
  * Attempt to create a new websocket connection to the game server.

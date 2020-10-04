@@ -1,14 +1,14 @@
 const Utils = require("../Utils");
 const CraftingManager = require('./CraftingManager');
 
-require('./crafting recipes/ClanStructures');
-require('./crafting recipes/DungiumEquipment');
-require('./crafting recipes/IronEquipment');
-require('./crafting recipes/MageEquipment');
-require('./crafting recipes/Materials');
-require('./crafting recipes/NoctisEquipment');
-require('./crafting recipes/Potions');
-require('./crafting recipes/RangedEquipment');
+require('./crafting_recipes/ClanStructures');
+require('./crafting_recipes/DungiumEquipment');
+require('./crafting_recipes/IronEquipment');
+require('./crafting_recipes/MageEquipment');
+require('./crafting_recipes/Materials');
+require('./crafting_recipes/NoctisEquipment');
+require('./crafting_recipes/Potions');
+require('./crafting_recipes/RangedEquipment');
 
 // Write all of the recipes to the client, so the client knows when a valid recipe has been created from the crafting components.
 const fs = require('fs');

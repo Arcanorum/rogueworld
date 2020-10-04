@@ -1,25 +1,42 @@
+import { setDefaultCursor, setHandCursor } from "./Cursors";
+
 class Static extends Phaser.GameObjects.Container {
     constructor(config) {
         super(_this, config.col * dungeonz.SCALED_TILE_SIZE, config.row * dungeonz.SCALED_TILE_SIZE);
 
-        this.addTileSprite(config.tileID);
-
-        if (config.interactable) {
-            this.addHighlightSprite();
-
-            this.tileSprite.setInteractive({
-                cursor: "url(./assets/img/gui/hud/hand-cursor.png) 8 0, auto"
-            });
-        }
-
-        this.setScale(GAME_SCALE);
-
         // The world position of this tile. NOT where it is in any display grids; it doesn't need updating.
         this.row = config.row;
         this.col = config.col;
+
         // The unique ID of this tile. Used to get and update a static tile from the statics
-        // list, such as when a door opens/closes and the frame needs to change.
-        this.id = this.row + "-" + this.col; // TODO: not needed anymore?
+        // list, such as when a door opens/closes and thus the frame needs to change.
+        this.id = this.row + "-" + this.col;
+
+        this.addTileSprite(config.tileID);
+
+        if (config.pressableRange) {
+            this.pressableRange = config.pressableRange;
+
+            this.addHighlightSprite();
+
+            this.tileSprite.setInteractive();
+
+            this.tileSprite.on('pointerdown', this.onPressed, this);
+
+            this.tileSprite.on("pointerover", () => {
+                if (this.isWithinPressableRange()) {
+                    setHandCursor();
+                }
+            });
+
+            this.tileSprite.on("pointerout", () => {
+                setDefaultCursor();
+            });
+
+            _this.interactables[this.id] = this;
+        }
+
+        this.setScale(GAME_SCALE);
 
         // Holder for the light distance property. Tilemap.updateDarknessGrid passes it in as a property of a sprite...
         this.sprite = {};
@@ -50,9 +67,14 @@ class Static extends Phaser.GameObjects.Container {
             delete _this.statics[this.id];
 
             // If this was a light source, need to update the darkness grid.
-            if (_this.lightSources[this.id] !== undefined) {
+            if (_this.lightSources[this.id]) {
                 delete _this.lightSources[this.id];
                 _this.tilemap.updateDarknessGrid();
+            }
+
+            // If this was a light source, need to update the darkness grid.
+            if (_this.interactables[this.id]) {
+                delete _this.interactables[this.id];
             }
         });
     }
@@ -69,17 +91,22 @@ class Static extends Phaser.GameObjects.Container {
         this.add(this.highlightSprite);
     }
 
-    interactedByPlayer() {
+    onMovedInto() { }
 
+    onPressed() { }
+
+    isWithinPressableRange() {
+        const player = _this.dynamics[_this.player.entityId];
+        const distFromPlayer =
+            Math.abs(this.row - player.row) + // Row dist.
+            Math.abs(this.col - player.col); // Col dist.
+
+        return distFromPlayer <= this.pressableRange;
     }
 
-    activate() {
+    activate() { }
 
-    }
-
-    deactivate() {
-
-    }
+    deactivate() { }
 };
 
 /**
@@ -130,7 +157,7 @@ class Static extends Phaser.GameObjects.Container {
 //         super.destroy();
 //     }
 
-//     interactedByPlayer() {
+//     onMovedInto() {
 //         // Check the panel is valid. Might have been given the wrong panel name.
 //         if (this.panel !== undefined) {
 //             // Show the GUI panel this trigger opens.
@@ -160,8 +187,10 @@ class DungeonPortal extends Portal {
         this.dungeonManagerID = config.data;
     }
 
-    interactedByPlayer() {
-        _this.GUI.dungeonPanel.show(this);
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.GUI.dungeonPanel.show(this);
+        }
     }
 }
 
@@ -174,21 +203,19 @@ class Torch extends Static {
 
 class CraftingStation extends Static {
     constructor(config) {
-        config.interactable = true;
+        config.pressableRange = 1;
         super(config);
 
         this.stationTypeNumber = config.data;
-
-        this.tileSprite.on('pointerdown', this.interactedByPlayer);
     }
-
-    interactedByPlayer() { }
 }
 
 class Anvil extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
+        }
     }
 }
 
@@ -198,29 +225,42 @@ class Furnace extends CraftingStation {
         this.sprite.lightDistance = 4;
     }
 
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Furnace"), 'assets/img/gui/panels/furnace.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Furnace"), 'assets/img/gui/panels/furnace.png');
+        }
     }
 }
 
 class Laboratory extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Laboratory"), 'assets/img/gui/panels/laboratory.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Laboratory"), 'assets/img/gui/panels/laboratory.png');
+        }
     }
 }
 
 class Workbench extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Workbench"), 'assets/img/gui/panels/workbench.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Workbench"), 'assets/img/gui/panels/workbench.png');
+        }
     }
 }
 
 class BankChest extends Static {
-    interactedByPlayer() {
-        _this.GUI.bankPanel.show();
+    constructor(config) {
+        config.pressableRange = 1;
+        super(config);
+    }
+
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.GUI.bankPanel.show();
+        }
     }
 }
 

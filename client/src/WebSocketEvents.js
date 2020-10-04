@@ -176,14 +176,14 @@ eventResponses.join_world_success = function (data) {
     window.joinWorldData = data;
 
     // Start the game state.
-    _this.scene.start('Game', true, false);
+    _this.scene.start("Game", true, false);
 
     // Really rare and annoying bug with Phaser where states aren't changing...
     // Set a timeout just in case the state refuses to start.
     // If it does start, the timeout is removed.
     window.joinWorldStartTimeout = setTimeout(function () {
         Utils.message("Backup game start starter timeout called.");
-        _this.scene.start('Game', true, false);
+        _this.scene.start("Game", true, false);
     }, 2000);
     // Set another timeout for if even that timeout doesn't start the game state. Reload the page...
     window.joinWorldReloadTimeout = setTimeout(function () {
@@ -224,7 +224,7 @@ window.addGameStateEventResponses = function () {
     Utils.message("Adding game state event responses");
 
     eventResponses.create_account_success = (data) => {
-        console.log("create_account_success");
+        Utils.message("create_account_success");
         // Hide the create account panel.
         _this.GUI.createAccountPanel.hide();
 
@@ -258,7 +258,6 @@ window.addGameStateEventResponses = function () {
             // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
             if (_this.playerTween !== null) {
                 _this.playerTween.stop();
-                //_this.tilemap.checkPendingStaticTileChanges();
             }
 
             // Do this AFTER stopping the current player tween, so it can finish with the
@@ -273,40 +272,24 @@ window.addGameStateEventResponses = function () {
 
             // Right.
             if (data.col > origCol) {
-                _this.checkDynamicsInViewRange(0, -1);
-                _this.checkStaticTilesInViewRange(0, -1);
-                _this.tilemap.updateDarknessGrid();
-                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteRight;
-                // TODO _this.tilemap.darknessSpritesContainer.x += dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Left.
             else if (data.col < origCol) {
-                _this.checkDynamicsInViewRange(0, +1);
-                _this.checkStaticTilesInViewRange(0, +1);
-                _this.tilemap.updateDarknessGrid();
-                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteLeft;
-                //_this.tilemap.darknessSpritesContainer.x -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Down.
             if (data.row > origRow) {
-                _this.checkDynamicsInViewRange(+1, 0);
-                _this.checkStaticTilesInViewRange(+1, 0);
-                _this.tilemap.updateDarknessGrid();
-                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteDown;
-                //_this.tilemap.darknessSpritesContainer.y += dungeonz.TILE_SIZE * GAME_SCALE;
             }
             // Up.
             else if (data.row < origRow) {
-                _this.checkDynamicsInViewRange(-1, 0);
-                _this.checkStaticTilesInViewRange(-1, 0);
-                _this.tilemap.updateDarknessGrid();
-                _this.tilemap.updateDarknessGridPosition();
                 tweenOnCompleteFunction = tweenCompleteUp;
-                //_this.tilemap.darknessSpritesContainer.y -= dungeonz.TILE_SIZE * GAME_SCALE;
             }
+
+            _this.checkDynamicsInViewRange();
+            _this.tilemap.updateDarknessGrid();
+            _this.tilemap.updateDarknessGridPosition();
 
             // Tween the player sprite to the target row/col.
             _this.playerTween = _this.tweens.add({
@@ -319,6 +302,37 @@ window.addGameStateEventResponses = function () {
                 // yet, as calling Tween.stop() then doesn't call onComplete.
                 onStop: tweenOnCompleteFunction
             });
+
+            // Check for any interactables that are now in range to be interacted with.
+            const
+                interactables = _this.interactables,
+                interactionRange = 4;
+            let interactable;
+
+            for (let key in interactables) {
+                if (interactables.hasOwnProperty(key) === false) continue;
+                interactable = interactables[key];
+
+                const distFromPlayer =
+                    Math.abs(interactable.row - dynamic.row) +
+                    Math.abs(interactable.col - dynamic.col);
+
+                if (distFromPlayer <= interactionRange) {
+                    interactable.highlightSprite.setVisible(true);
+
+                    if (interactable.isWithinPressableRange()) {
+                        interactable.highlightSprite.setAlpha(1);
+                        interactable.highlightSprite.setScale(1.2);
+                    }
+                    else {
+                        interactable.highlightSprite.setAlpha(0.6);
+                        interactable.highlightSprite.setScale(1);
+                    }
+                }
+                else {
+                    interactable.highlightSprite.setVisible(true);
+                }
+            }
 
         }
         // Another entity moved.

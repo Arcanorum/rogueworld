@@ -137,6 +137,13 @@ class Game extends Phaser.Scene {
         this.statics = {};
 
         /**
+         * A list of any dynamics and statics that do anything when interacted 
+         * with (moved into/pressed), such as opening a panel.
+         * @type {Object}
+         */
+        this.interactables = {};
+
+        /**
          * A list of all dynamic entities. Dynamics are display entities that can be added
          * at any time, and cannot be loaded into the map data.
          * @type {Object}
@@ -158,8 +165,6 @@ class Game extends Phaser.Scene {
         this.craftingManager = new CraftingManager();
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
-
-        this.pseudoInteractables = {};
 
         // Make sure the inventory slots are showing the right items.
         for (let slotKey in _this.player.inventory) {
@@ -239,19 +244,19 @@ class Game extends Phaser.Scene {
 
             // Allow continuous movement if a move key is held down.
             if (this.moveUpIsDown === true) {
-                this.checkPseudoInteractables('u');
+                this.checkCollidables('u');
                 ws.sendEvent('mv_u');
             }
             if (this.moveDownIsDown === true) {
-                this.checkPseudoInteractables('d');
+                this.checkCollidables('d');
                 ws.sendEvent('mv_d');
             }
             if (this.moveLeftIsDown === true) {
-                this.checkPseudoInteractables('l');
+                this.checkCollidables('l');
                 ws.sendEvent('mv_l');
             }
             if (this.moveRightIsDown === true) {
-                this.checkPseudoInteractables('r');
+                this.checkCollidables('r');
                 ws.sendEvent('mv_r');
             }
         }
@@ -313,7 +318,7 @@ class Game extends Phaser.Scene {
             this.GUI.hideAllPanels();
         }
 
-        this.checkPseudoInteractables(direction);
+        this.checkCollidables(direction);
 
         if (this.player.hitPoints <= 0) return;
         ws.sendEvent('mv_' + direction);
@@ -322,97 +327,43 @@ class Game extends Phaser.Scene {
     }
 
     /**
-     * Check any dynamics and statics that do anything when interacted with, such as opening a panel.
+     * Check any dynamics and statics that do anything when the player tries to
+     * move/bump into them with, such as opening a panel.
      * @param {String} direction
      */
-    checkPseudoInteractables(direction) {
-        // Check if any interactables that cause this client only to do something are about
-        // to be walked into, such as showing the crafting panel for crafting stations.
-        if (direction === 'u') {
-            const playerNextRow = this.player.row - 1;
-            const playerCol = this.player.col;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerNextRow) {
-                    if (dynamic.col === playerCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerNextRow + "-" + playerCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
-        else if (direction === 'd') {
-            const playerNextRow = this.player.row + 1;
-            const playerCol = this.player.col;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerNextRow) {
-                    if (dynamic.col === playerCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerNextRow + "-" + playerCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
-        else if (direction === 'l') {
-            const playerNextCol = this.player.col - 1;
-            const playerRow = this.player.row;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerRow) {
-                    if (dynamic.col === playerNextCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerRow + "-" + playerNextCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
-        else {
-            const playerNextCol = this.player.col + 1;
-            const playerRow = this.player.row;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerRow) {
-                    if (dynamic.col === playerNextCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerRow + "-" + playerNextCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
+    checkCollidables(direction) {
+        // Check if any interactables that cause this client
+        // to do something are about to be walked into.
+        let
+            key,
+            interactable,
+            playerNextRow = this.player.row,
+            playerNextCol = this.player.col;
 
+        if (direction === 'u') playerNextRow -= 1;
+        else if (direction === 'd') playerNextRow += 1;
+        else if (direction === 'l') playerNextCol -= 1;
+        else playerNextCol += 1;
+
+        for (key in this.interactables) {
+            if (this.interactables.hasOwnProperty(key) === false) continue;
+            interactable = this.interactables[key];
+            if (
+                interactable.row === playerNextRow &&
+                interactable.col === playerNextCol
+            ) {
+                // If it is a static, which is just a sprite.
+                if (interactable.onMovedInto) {
+                    interactable.onMovedInto();
+                    return;
+                }
+                // If it is a dynamic, it has a sprite container.
+                if (interactable.spriteContainer && interactable.spriteContainer.onMovedInto) {
+                    interactable.spriteContainer.onMovedInto();
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -737,9 +688,9 @@ class Game extends Phaser.Scene {
             this.tilemap.updateDarknessGrid();
         }
 
-        // If this entity does anything on the client when interacted with, add it to the pseudo interactables list.
-        if (dynamicSpriteContainer.pseudoInteractable !== undefined) {
-            this.pseudoInteractables[id] = this.dynamics[id];
+        // If this entity does anything on the client when interacted with, add it to the interactables list.
+        if (dynamicSpriteContainer.interactable === true) {
+            this.interactables[id] = this.dynamics[id];
         }
 
         this.dynamicSpritesContainer.add(dynamicSpriteContainer);
@@ -761,13 +712,13 @@ class Game extends Phaser.Scene {
             return;
         }
 
-        if (this.lightSources[id] !== undefined) {
+        if (this.lightSources[id]) {
             delete this.lightSources[id];
             this.tilemap.updateDarknessGrid();
         }
 
-        if (this.pseudoInteractables[id] !== undefined) {
-            delete this.pseudoInteractables[id];
+        if (this.interactables[id]) {
+            delete this.interactables[id];
         }
 
         this.dynamics[id].spriteContainer.destroy();
@@ -777,10 +728,8 @@ class Game extends Phaser.Scene {
 
     /**
      * Check for and remove any dynamics that are outside of the player's view range.
-     * @param {Number} rowOffset
-     * @param {Number} colOffset
      */
-    checkDynamicsInViewRange(rowOffset, colOffset) {
+    checkDynamicsInViewRange() {
         const dynamics = this.dynamics,
             playerEntityID = this.player.entityId;
         let dynamic;
@@ -801,64 +750,21 @@ class Game extends Phaser.Scene {
             if (dynamic.id === playerEntityID) continue;
 
             // Check if it is within the player view range.
-            if (dynamic.row < playerRowTopViewRange
-                || dynamic.row > playerRowBotViewRange
-                || dynamic.col < playerColLeftViewRange
-                || dynamic.col > playerColRightViewRange) {
+            if (dynamic.row < playerRowTopViewRange ||
+                dynamic.row > playerRowBotViewRange ||
+                dynamic.col < playerColLeftViewRange ||
+                dynamic.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
                 dynamicSpriteContainer.destroy();
                 delete this.dynamics[key];
-                if (dynamicSpriteContainer.lightDistance !== undefined) {
+                if (dynamicSpriteContainer.lightDistance) {
                     delete this.lightSources[key];
                     this.tilemap.updateDarknessGrid();
                 }
                 continue;
             }
 
-            if (dynamicSpriteContainer.onMove !== undefined) dynamicSpriteContainer.onMove();
-        }
-    }
-
-    /**
-     * Check for and remove any static tiles that are outside of the player's view range.
-     * @param {Number} rowOffset
-     * @param {Number} colOffset
-     */
-    checkStaticTilesInViewRange(rowOffset, colOffset) {
-        const statics = this.statics;
-        let staticTile;
-        let playerRowTopViewRange = _this.player.row - dungeonz.VIEW_RANGE;
-        let playerColLeftViewRange = _this.player.col - dungeonz.VIEW_RANGE;
-        let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
-        let playerColRightViewRange = _this.player.col + dungeonz.VIEW_RANGE;
-
-        for (let key in statics) {
-
-            if (statics.hasOwnProperty(key) === false) continue;
-
-            staticTile = statics[key];
-
-            // Check if it is within the player view range.
-            if (staticTile.row < playerRowTopViewRange
-                || staticTile.row > playerRowBotViewRange
-                || staticTile.col < playerColLeftViewRange
-                || staticTile.col > playerColRightViewRange) {
-                // Out of view range. Remove it.
-                staticTile.destroy();
-                // Should have been removed above in destroy, but make sure.
-                delete statics[key];
-                if (staticTile.sprite.lightDistance !== 0) {
-                    //console.log("ld !== 0, oob, st:", staticTile);
-                    delete this.lightSources[key];
-                    _this.tilemap.updateDarknessGrid();
-                }
-                continue;
-            }
-
-            if (staticTile.sprite.lightDistance !== 0) {
-                //console.log("ld !== 0:", staticTile);
-                _this.tilemap.updateDarknessGrid();
-            }
+            if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove();
         }
     }
 

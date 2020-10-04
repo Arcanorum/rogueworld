@@ -86,7 +86,7 @@ class Tilemap {
                 const sprite = scene.add.sprite(col * scaledTileSize, row * scaledTileSize, "ground-tileset", this.blackFrame);
                 sprite.setScale(GAME_SCALE);
                 sprite.setOrigin(0.5);
-                sprite.alpha = 0.5;//darknessValue;
+                sprite.alpha = darknessValue;
                 this.darknessSpritesGrid[row][col] = sprite;
                 this.darknessSpritesContainer.add(sprite);
             }

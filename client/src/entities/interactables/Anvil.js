@@ -5,7 +5,7 @@ const Sprite = function (x, y, config) {
 
     this.stationTypeNumber = config.typeNumber;
 
-    this.pseudoInteractable = true;
+    this.interactable = true;
     this.addDamageMarker();
 };
 

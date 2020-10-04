@@ -3,7 +3,7 @@ const Sprite = function (x, y, config) {
     Phaser.GameObjects.Sprite.call(this, _this, x, y, 'game-atlas', 'bank-chest');
     this.setScale(GAME_SCALE);
 
-    this.pseudoInteractable = true;
+    this.interactable = true;
     this.addDamageMarker();
 };
 

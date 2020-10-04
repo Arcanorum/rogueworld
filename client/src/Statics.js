@@ -172,7 +172,7 @@ class Static extends Phaser.GameObjects.Container {
 
 class Portal extends Static {
     constructor(config) {
-        config.pressableRange = 2;
+        config.pressableRange = 1;
         super(config);
         this.sprite.lightDistance = 5;
     }

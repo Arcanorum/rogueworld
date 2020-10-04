@@ -62,7 +62,23 @@ class Tilemap {
         }
     }
 
+    flickerDarkness() {
+        const
+            darknessSprites = this.darknessSpritesContainer.list;
+
+        darknessSprites.forEach((tile) => {
+            if (tile.darknessValue < 1) {
+                let newAlpha = tile.darknessValue + Phaser.Math.FloatBetween(-(tile.darknessValue * 0.05), tile.darknessValue * 0.05);
+                if (newAlpha > 1) newAlpha = 1;
+                else if (newAlpha < 0) newAlpha = 0;
+                tile.alpha = newAlpha;
+            }
+        });
+    }
+
     createDarknessGrid() {
+        if (this.flickerLoop) clearInterval(this.flickerLoop);
+
         this.darknessSpritesGrid = [];
         this.darknessSpritesContainer = this.scene.add.container();
         this.darknessSpritesContainer.setDepth(this.scene.renderOrder.darkness);
@@ -87,6 +103,7 @@ class Tilemap {
                 sprite.setScale(GAME_SCALE);
                 sprite.setOrigin(0.5);
                 sprite.alpha = darknessValue;
+                sprite.darknessValue = darknessValue;
                 this.darknessSpritesGrid[row][col] = sprite;
                 this.darknessSpritesContainer.add(sprite);
             }
@@ -104,6 +121,8 @@ class Tilemap {
                 tileSprite.y = playerY + (rowIndex * scaledTileSize);
             });
         });
+
+        this.flickerLoop = setInterval(this.flickerDarkness.bind(this), 500);
     }
 
     /**
@@ -638,10 +657,13 @@ class Tilemap {
 
         // Make the whole thing completely dark.
         let row,
-            col;
+            col,
+            tile;
         for (row = 0; row < viewDiameter; row += 1) {
             for (col = 0; col < viewDiameter; col += 1) {
-                darknessSpritesGrid[row][col].alpha = darknessValue;
+                tile = darknessSpritesGrid[row][col];
+                tile.alpha = darknessValue;
+                tile.darknessValue = darknessValue;
             }
         }
 
@@ -717,6 +739,7 @@ class Tilemap {
                     if (tile.alpha < 0) {
                         tile.alpha = 0;
                     }
+                    tile.darknessValue = tile.alpha;
                 }
             }
         }

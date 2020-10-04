@@ -88,6 +88,7 @@ class Static extends Phaser.GameObjects.Container {
     addHighlightSprite() {
         this.highlightSprite = _this.add.sprite(0, 0, "highlight");
         this.highlightSprite.setOrigin(0.5);
+        this.highlightSprite.setVisible(false);
         this.add(this.highlightSprite);
     }
 
@@ -171,8 +172,9 @@ class Static extends Phaser.GameObjects.Container {
 
 class Portal extends Static {
     constructor(config) {
+        config.pressableRange = 2;
         super(config);
-        this.sprite.lightDistance = 6;
+        this.sprite.lightDistance = 5;
     }
 }
 

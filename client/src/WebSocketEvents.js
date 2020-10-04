@@ -330,7 +330,7 @@ window.addGameStateEventResponses = function () {
                     }
                 }
                 else {
-                    interactable.highlightSprite.setVisible(true);
+                    interactable.highlightSprite.setVisible(false);
                 }
             }
 

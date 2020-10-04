@@ -28,7 +28,7 @@ import Alerts from "./Alerts";
  * @param {String} url - The URL of the game server.
  * @returns {Boolean} Whether a connection already exists.
  */
-function makeWebSocketConnection(url) {
+const makeWebSocketConnection = (url) => {
     // Only connect if there isn't already a connection.
     if (ws === false) {
         // Connect to the game server.
@@ -50,7 +50,7 @@ function makeWebSocketConnection(url) {
     return true;
 }
 
-window.connectToGameServer = function () {
+window.connectToGameServer = () => {
 
     // If the game is running in dev mode (localhost), connect without SSL.
     if (window.devMode === true) {
@@ -70,17 +70,17 @@ window.connectToGameServer = function () {
      * @param {String} eventName
      * @param {Object} [data]
      */
-    ws.sendEvent = function (eventName, data) {
-        this.send(JSON.stringify({ eventName: eventName, data: data }));
+    ws.sendEvent = (eventName, data) => {
+        ws.send(JSON.stringify({ eventName: eventName, data: data }));
     };
 
     // Wait for the connection to have finished opening before attempting to join the world.
-    ws.onopen = function () {
+    ws.onopen = () => {
         // Attempt to join the world as soon as the connection is ready, so the user doesn't have to press 'Play' twice.
         playPressed();
     };
 
-    ws.onmessage = function (event) {
+    ws.onmessage = (event) => {
         // The data is JSON, so parse it.
         const parsedMessage = JSON.parse(event.data);
         // Every event received should have an event name ID, which is a number that represents an event name string.
@@ -100,17 +100,17 @@ window.connectToGameServer = function () {
 
     };
 
-    ws.onclose = function () {
+    ws.onclose = () => {
         console.log('* Disconnected from game server.');
         window.ws = false;
         // Make it reload after a few seconds.
-        setTimeout(function () {
+        setTimeout(() => {
             // Reload the page.
             location.reload();
         }, 6000);
     };
 
-    ws.onerror = function (error) {
+    ws.onerror = (error) => {
         // Get the warning text.
         let element = document.getElementById("center_text");
         // Show the server connect error message.
@@ -118,7 +118,7 @@ window.connectToGameServer = function () {
         // Show it.
         element.style.visibility = "visible";
         // Make it disappear after a few seconds.
-        setTimeout(function () {
+        setTimeout(() => {
             element.style.visibility = "hidden";
         }, 8000);
     }
@@ -130,8 +130,10 @@ Login(eventResponses);
 
 /**
  * Adds the event responses that relate to gameplay only once the game state has started.
+ * Allows the game scene to finish setting up and be in a state where it can do something
+ * with those events, otherwise the events might try to use things that aren't ready yet.
  */
-window.addGameStateEventResponses = function () {
+window.addGameStateEventResponses = () => {
     Utils.message("Adding game state event responses");
 
     Alerts(eventResponses);

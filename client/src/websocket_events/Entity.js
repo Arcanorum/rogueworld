@@ -39,7 +39,7 @@ export default (eventResponses) => {
     };
 
     eventResponses.moved = (data) => {
-        //console.log("moved: ", data);
+        // console.log("moved: ", data);
 
         if (_this.dynamics === undefined) {
             // Something went wrong... Reload the page.
@@ -167,7 +167,7 @@ export default (eventResponses) => {
             if (dynamicSpriteContainer.centered === true) {
                 _this.tweens.add({
                     targets: dynamicSpriteContainer,
-                    duration: 250, //TODO: get the move rate of each dynamic, and use this here (250) for smoother timing
+                    duration: dynamicSpriteContainer.moveRate || 250,
                     x: (data.col * dungeonz.SCALED_TILE_SIZE) + dungeonz.CENTER_OFFSET,
                     y: (data.row * dungeonz.SCALED_TILE_SIZE) + dungeonz.CENTER_OFFSET,
                 });
@@ -175,7 +175,7 @@ export default (eventResponses) => {
             else {
                 _this.tweens.add({
                     targets: dynamicSpriteContainer,
-                    duration: 250,
+                    duration: dynamicSpriteContainer.moveRate || 250,
                     x: data.col * dungeonz.SCALED_TILE_SIZE,
                     y: data.row * dungeonz.SCALED_TILE_SIZE
                 });
@@ -183,7 +183,7 @@ export default (eventResponses) => {
         }
 
         // If the dynamic does something extra when it moves, do it.
-        if (dynamicSpriteContainer.onMove !== undefined) dynamicSpriteContainer.onMove(true);
+        if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove(true);
 
         // Move sprites further down the screen above ones further up.
         _this.dynamicSpritesContainer.list.forEach((dynamicSpriteContainer) => {
@@ -216,18 +216,21 @@ export default (eventResponses) => {
         if (dynamic === undefined) return;
 
         const spriteContainer = dynamic.spriteContainer;
+        
+        spriteContainer.setDirection(data.direction);
+
         // Some sprites show their direction by having different frames, others by rotating.
         if (spriteContainer.baseFrames !== undefined) {
-            spriteContainer.baseSprite.setFrame(spriteContainer.baseFrames[data.direction]);
+            spriteContainer.baseSprite.setFrame(spriteContainer.baseFrames[spriteContainer.direction]);
         }
         if (spriteContainer.directionAngles !== undefined) {
-            spriteContainer.angle = spriteContainer.directionAngles[data.direction];
+            spriteContainer.angle = spriteContainer.directionAngles[spriteContainer.direction];
         }
         if (spriteContainer.clothes !== undefined) {
-            spriteContainer.clothes.setFrame(spriteContainer.clothes.clothesFrames[spriteContainer.clothes.clothesName][data.direction]);
+            spriteContainer.clothes.setFrame(spriteContainer.clothes.clothesFrames[spriteContainer.clothes.clothesName][spriteContainer.direction]);
             spriteContainer.clothes.anims.stop();
         }
-        spriteContainer.direction = data.direction;
+
         spriteContainer.onChangeDirection();
     };
 };

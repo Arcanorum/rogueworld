@@ -1,8 +1,6 @@
-
 const Movable = require('../Movable');
 
 class Character extends Movable {
-
     /**
      * @param {Number} config.row
      * @param {Number} config.col
@@ -103,6 +101,7 @@ class Character extends Movable {
     getEmittableProperties(properties) {
         properties.direction = this.direction;
         properties.displayName = this.displayName;
+        properties.moveRate = this.moveRate;
         return super.getEmittableProperties(properties);
     }
 

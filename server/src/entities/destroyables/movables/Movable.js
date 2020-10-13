@@ -112,3 +112,9 @@ class Movable extends Destroyable {
 module.exports = Movable;
 
 Movable.prototype.direction = Movable.prototype.Directions.DOWN;
+
+/**
+ * How often this entity moves, in ms.
+ * @type {Number}
+ */
+Movable.prototype.moveRate = 1000;

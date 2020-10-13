@@ -2,75 +2,71 @@ export default (eventResponses) => {
 
     eventResponses.effect_start_burn = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onBurnStart();
+        _this.dynamics[data].spriteContainer.burnEffect.anims.play("burn");
     };
 
     eventResponses.effect_stop_burn = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onBurnStop();
+        _this.dynamics[data].spriteContainer.burnEffect.anims.stop();
     };
 
     eventResponses.effect_start_poison = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onPoisonStart();
+        _this.dynamics[data].spriteContainer.poisonEffect.anims.play("poison");
     };
 
     eventResponses.effect_stop_poison = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onPoisonStop();
+        _this.dynamics[data].spriteContainer.poisonEffect.anims.stop();
     };
 
     eventResponses.effect_start_health_regen = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onHealthRegenStart();
+        _this.dynamics[data].spriteContainer.healthRegenEffect.anims.play("health-regen");
     };
 
     eventResponses.effect_stop_health_regen = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onHealthRegenStop();
+        _this.dynamics[data].spriteContainer.healthRegenEffect.anims.stop();
     };
 
     eventResponses.effect_start_energy_regen = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onEnergyRegenStart();
+        _this.dynamics[data].spriteContainer.energyRegenEffect.anims.play("energy-regen");
     };
 
     eventResponses.effect_stop_energy_regen = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onEnergyRegenStop();
+        _this.dynamics[data].spriteContainer.energyRegenEffect.anims.stop();
     };
 
     eventResponses.effect_start_cured = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onCuredStart();
+        _this.dynamics[data].spriteContainer.curedEffect.anims.play("cured");
     };
 
     eventResponses.effect_stop_cured = (data) => {
         if (_this.dynamics[data] === undefined) return;
-        _this.dynamics[data].spriteContainer.onCuredStop();
+        _this.dynamics[data].spriteContainer.curedEffect.anims.stop();
     };
 
     eventResponses.curse_set = (data) => {
-        const dynamic = _this.dynamics[data];
-        if (dynamic === undefined) return;
-        dynamic.spriteContainer.curseIcon.visible = true;
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].spriteContainer.curseIcon.visible = true;
     };
 
     eventResponses.curse_removed = (data) => {
-        const dynamic = _this.dynamics[data];
-        if (dynamic === undefined) return;
-        dynamic.spriteContainer.curseIcon.visible = false;
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].spriteContainer.curseIcon.visible = false;
     };
 
     eventResponses.enchantment_set = (data) => {
-        const dynamic = _this.dynamics[data];
-        if (dynamic === undefined) return;
-        dynamic.spriteContainer.enchantmentIcon.visible = true;
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].spriteContainer.enchantmentIcon.visible = true;
     };
 
     eventResponses.enchantment_removed = (data) => {
-        const dynamic = _this.dynamics[data];
-        if (dynamic === undefined) return;
-        dynamic.spriteContainer.enchantmentIcon.visible = false;
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].spriteContainer.enchantmentIcon.visible = false;
     };
 };

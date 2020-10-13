@@ -41,6 +41,8 @@ class GUI {
             colourDB32SteelGreyOpacity50: "rgba(155, 173, 183, 0.8)",
         };
 
+        this.gameCanvas = document.getElementById('game_canvas').childNodes[0];
+
         // References to the DOM elements for the icons and parents.
         this.gui = document.getElementById('gui_cont');
 
@@ -223,11 +225,11 @@ class GUI {
         this.gui.ondragover = (event) => {
             event.preventDefault();
         };
-        // If an inventory item is dropped onto the game canvas, drop it.
+        // If an inventory item is dropped onto the game GUI, drop it.
         this.gui.ondrop = (event) => {
             event.preventDefault();
 
-            if (_this.GUI.dragData === null) return;
+            if (_this.GUI.dragData === null) return; // TODO: this can just be `this` now with arrow funcs
             // If it was from the inventory bar, drop the item.
             if (_this.GUI.dragData.dragOrigin === _this.GUI.inventoryBar.slotContainer) {
                 window.ws.sendEvent('drop_item', _this.GUI.dragData.inventorySlot.slotKey);

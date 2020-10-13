@@ -1,22 +1,12 @@
+import Projectile from "./Projectile";
 
-const Sprite = function (x, y, config) {
-    Phaser.GameObjects.Sprite.call(this, _this, x, y, 'game-atlas', 'proj-wind');
-
-    this.centered = true;
-
-    this.angle = this.directionAngles[config.direction] || this.directionAngles.l;
-    this.setScale(GAME_SCALE * 1.2);
-    this.alpha = 0.9;
+class Entity extends Projectile {
+    constructor(x, y, config) {
+        super(x, y, config, "proj-wind");
+        this.setScale(GAME_SCALE * 1.2);
+        this.angle = this.CardinalDirectionAngles[config.direction] || this.CardinalDirectionAngles.l;
+        this.alpha = 0.5;
+    }
 };
 
-Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
-Sprite.prototype.constructor = Sprite;
-
-Sprite.prototype.directionAngles = {
-    u: 270,
-    d: 90,
-    l: 180,
-    r: 360
-};
-
-export default Sprite;
+export default Entity;

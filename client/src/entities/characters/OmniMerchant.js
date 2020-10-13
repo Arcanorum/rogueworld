@@ -30,4 +30,4 @@ Sprite.prototype.onInputDown = function () {
     }
 };
 
-module.exports = Sprite;
+export default Sprite;

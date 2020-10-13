@@ -22,4 +22,4 @@ Sprite.prototype.interactedByPlayer = function () {
     }
 };
 
-module.exports = Sprite;
+export default Sprite;

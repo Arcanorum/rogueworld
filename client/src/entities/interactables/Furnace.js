@@ -24,4 +24,4 @@ Sprite.prototype.onMove = function () {
 Sprite.prototype.defaultLightDistance = 4;
 Sprite.prototype.lightDistance = 4;
 
-module.exports = Sprite;
+export default Sprite;

@@ -14,4 +14,4 @@ Sprite.prototype.interactedByPlayer = function () {
     _this.GUI.bankPanel.show();
 };
 
-module.exports = Sprite;
+export default Sprite;

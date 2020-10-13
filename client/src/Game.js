@@ -85,6 +85,11 @@ class Game extends Phaser.Scene {
         // Make this state globally accessible.
         window._this = this;
 
+        // Setup animations for entity types that have them configured.
+        Object.values(EntitiesList).forEach((EntityType) => {
+            if(EntityType.setupAnimations) EntityType.setupAnimations();
+        });
+
         // TextMetrics.init();
 
         // Hide the distracting background gif while the game is running.
@@ -380,8 +385,7 @@ class Game extends Phaser.Scene {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         //event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
-        if (event.target === _this.GUI.gui) {
-
+        if (event.target === _this.GUI.gameCanvas) {
             // If the user pressed on their character sprite, pick up item.
             if (_this.distanceBetween(_this.dynamics[_this.player.entityId].spriteContainer.baseSprite, event) < 32) {
                 ws.sendEvent('pick_up_item');

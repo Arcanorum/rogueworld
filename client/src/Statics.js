@@ -4,6 +4,9 @@ class Static extends Phaser.GameObjects.Container {
     constructor(config) {
         super(_this, config.col * dungeonz.SCALED_TILE_SIZE, config.row * dungeonz.SCALED_TILE_SIZE);
 
+        // Add them to the scene here as this doesn't happen automatically when extending a gameobject class.
+        _this.add.existing(this);
+
         // The world position of this tile. NOT where it is in any display grids; it doesn't need updating.
         this.row = config.row;
         this.col = config.col;
@@ -59,9 +62,6 @@ class Static extends Phaser.GameObjects.Container {
         if (_this.statics[this.id] === undefined) {
             _this.statics[this.id] = this;
         }
-
-        // Add them to the scene here as this doesn't happen automatically when extending a gameobject class.
-        _this.add.existing(this);
 
         this.on("destroy", () => {
             delete _this.statics[this.id];

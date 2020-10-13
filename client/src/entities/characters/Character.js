@@ -1,138 +1,144 @@
-const Sprite = function (x, y, config) {
-    Phaser.GameObjects.Container.call(this, _this, x, y, undefined, undefined);
+class Character extends Phaser.GameObjects.Container {
+    constructor (x, y, config) {
+        super(_this, x, y);
 
-    this.setScale(GAME_SCALE);
+        _this.add.existing(this);
 
-    this.entityId = config.id;
-    this.direction = config.direction;
-    // Can be undefined or an object with an optional 'fill' and 'stroke'
-    // property to be set as any color string value Phaser can take.
-    // Used for differentiating clan members by name color.
-    this.displayNameColor = config.displayNameColor;
-    let frame = undefined;
-    if (this.baseFrames !== undefined) {
-        frame = this.baseFrames[config.direction] || this.baseFrames.d;
+        this.setScale(GAME_SCALE);
+
+        this.entityId = config.id;
+        this.setDirection(config.direction);
+        this.moveRate = config.moveRate;
+        // Can be undefined or an object with an optional 'fill' and 'stroke'
+        // property to be set as any color string value Phaser can take.
+        // Used for differentiating clan members by name color.
+        this.displayNameColor = config.displayNameColor;
+        let frame = undefined;
+        if (this.baseFrames !== undefined) {
+            frame = this.baseFrames[this.direction] || this.baseFrames.d;
+        }
+        this.baseSprite = _this.add.sprite(0, 0, "game-atlas", frame);
+        //this.baseSprite.baseFrames = baseFrames;
+        this.baseSprite.setFrame(frame);
+        this.baseSprite.setOrigin(0.5);
+        this.add(this.baseSprite);
+
+        this.addDisplayName(config.displayName);
+
+        this.energyRegenEffect = this.addEffect("energy-regen-effect-1");
+        this.healthRegenEffect = this.addEffect("health-regen-effect-1");
+        this.curedEffect = this.addEffect("cured-effect-1");
+        this.poisonEffect = this.addEffect("poison-effect-1");
+        this.burnEffect = this.addEffect("burn-effect-1");
+
+        this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, 'game-atlas', 'curse-icon');
+        this.curseIcon.setOrigin(0.5);
+        this.add(this.curseIcon);
+        this.curseIcon.visible = false;
+
+        this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, 'game-atlas', 'enchantment-icon');
+        this.enchantmentIcon.setOrigin(0.5);
+        this.add(this.enchantmentIcon);
+        this.enchantmentIcon.visible = false;
+
+        this.addDamageMarker();
+
+        this.baseSprite.on("animationcomplete", () => {
+            this.baseSprite.setFrame(this.baseFrames[this.direction]);
+        });
+    };
+
+    setDirection(direction){
+        switch(direction){
+            case "u":
+                this.direction = "up";
+                break;
+            case "d":
+                this.direction = "down";
+                break;
+            case "l":
+                this.direction = "left";
+                break;
+            default:
+                this.direction = "right";
+        }
     }
-    this.baseSprite = _this.add.sprite(0, 0, 'game-atlas', frame);
-    //this.baseSprite.baseFrames = baseFrames;
-    this.baseSprite.setFrame(frame);
-    this.baseSprite.setOrigin(0.5);
-    this.add(this.baseSprite);
 
-    this.addDisplayName(config.displayName);
-
-    //this.chatTexts = [];
-
-    // this.energyRegenEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'energy-regen-effect-1');
-    // this.energyRegenEffect.animations.add('effect', ['energy-regen-effect-1', 'energy-regen-effect-2'], 2, true);
-    // this.energyRegenEffect.setOrigin(0.5);
-    // this.add(this.energyRegenEffect);
-    // this.energyRegenEffect.visible = false;
-
-    // this.healthRegenEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'health-regen-effect-1');
-    // this.healthRegenEffect.animations.add('effect', ['health-regen-effect-1', 'health-regen-effect-2'], 2, true);
-    // this.healthRegenEffect.setOrigin(0.5);
-    // this.add(this.healthRegenEffect);
-    // this.healthRegenEffect.visible = false;
-
-    // this.curedEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'cured-effect-1');
-    // this.curedEffect.animations.add('effect', ['cured-effect-1', 'cured-effect-2'], 2, true);
-    // this.curedEffect.setOrigin(0.5);
-    // this.add(this.curedEffect);
-    // this.curedEffect.visible = false;
-
-    // this.poisonEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'poison-effect-1');
-    // this.poisonEffect.animations.add('effect', ['poison-effect-1', 'poison-effect-2'], 2, true);
-    // this.poisonEffect.setOrigin(0.5);
-    // this.add(this.poisonEffect);
-    // this.poisonEffect.visible = false;
-
-    // this.burnEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'burn-effect-1');
-    // this.burnEffect.animations.add('effect', ['burn-effect-1', 'burn-effect-2'], 2, true);
-    // this.burnEffect.setOrigin(0.5);
-    // this.add(this.burnEffect);
-    // this.burnEffect.visible = false;
-
-    this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, 'game-atlas', 'curse-icon');
-    this.curseIcon.setOrigin(0.5);
-    this.add(this.curseIcon);
-    this.curseIcon.visible = false;
-
-    this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, 'game-atlas', 'enchantment-icon');
-    this.enchantmentIcon.setOrigin(0.5);
-    this.add(this.enchantmentIcon);
-    this.enchantmentIcon.visible = false;
-
-    this.addDamageMarker();
-};
-
-Sprite.prototype = Object.create(Phaser.GameObjects.Container.prototype);
-Sprite.prototype.constructor = Sprite;
-
-Sprite.prototype.moveAnimCompleted = function () {
-    this.baseSprite.setFrame(this.baseFrames[this.direction]);
-};
-
-Sprite.prototype.onMove = function (playMoveAnim) {
-    if (playMoveAnim === true) {
-        // if (this.baseSprite.animations.currentAnim.isPlaying === false) {
-        //     // this.baseSprite.animations.play(this.direction);
-        // }
+    addEffect(frameName) {
+        const sprite = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, "game-atlas", frameName);
+        sprite.setOrigin(0.5);
+        sprite.visible = false;
+        this.add(sprite);
+        return sprite;
     }
-};
 
-Sprite.prototype.onChangeDirection = function () {
-    // this.baseSprite.animations.stop();
-};
+    moveAnimCompleted() {
+        this.baseSprite.setFrame(this.baseFrames[this.direction]);
+    };
 
-Sprite.prototype.onBurnStart = function () {
-    this.burnEffect.visible = true;
-    this.burnEffect.animations.play('effect');
-};
+    /**
+     * Should be called when the entity for this sprite moves.
+     * Move can be a normal move (like a running), or from a manual reposition (teleport/map change).
+     * @param {Boolean} playMoveAnim Whether the move animation should be played. Don't play on 
+     *      reposition as it looks weird when they teleport but still do a move animation.
+     */
+    onMove(playMoveAnim) {
+        if (playMoveAnim === true) {
+            // if (this.baseSprite.anims.isPlaying === false) {
+                if(this.constructor.animationBaseName){
+                    this.baseSprite.anims.play(this.constructor.animationBaseName + "-" + this.direction, true);
+                }
+            // }
+        }
+    };
 
-Sprite.prototype.onBurnStop = function () {
-    this.burnEffect.visible = false;
-    this.burnEffect.animations.stop();
-};
+    onChangeDirection() {
+        this.baseSprite.anims.stop();
+    };
 
-Sprite.prototype.onPoisonStart = function () {
-    this.poisonEffect.visible = true;
-    this.poisonEffect.animations.play('effect');
-};
+    static setupAnimations() {
 
-Sprite.prototype.onPoisonStop = function () {
-    this.poisonEffect.visible = false;
-    this.poisonEffect.animations.stop();
-};
+        _this.anims.create({
+            key: "energy-regen",
+            frames: ['energy-regen-effect-1', 'energy-regen-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onHealthRegenStart = function () {
-    this.healthRegenEffect.visible = true;
-    this.healthRegenEffect.animations.play('effect');
-};
+        _this.anims.create({
+            key: "health-regen",
+            frames: ['health-regen-effect-1', 'health-regen-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onHealthRegenStop = function () {
-    this.healthRegenEffect.visible = false;
-    this.healthRegenEffect.animations.stop();
-};
+        _this.anims.create({
+            key: "cured",
+            frames: ['cured-effect-1', 'cured-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onEnergyRegenStart = function () {
-    this.energyRegenEffect.visible = true;
-    this.energyRegenEffect.animations.play('effect');
-};
+        _this.anims.create({
+            key: "poison",
+            frames: ['poison-effect-1', 'poison-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onEnergyRegenStop = function () {
-    this.energyRegenEffect.visible = false;
-    this.energyRegenEffect.animations.stop();
-};
+        _this.anims.create({
+            key: "burn",
+            frames: ['burn-effect-1', 'burn-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onCuredStart = function () {
-    this.curedEffect.visible = true;
-    this.curedEffect.animations.play('effect');
-};
+    }
+}
 
-Sprite.prototype.onCuredStop = function () {
-    this.curedEffect.visible = false;
-    this.curedEffect.animations.stop();
-};
-
-module.exports = Sprite;
+export default Character;

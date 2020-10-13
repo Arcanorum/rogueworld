@@ -90,18 +90,7 @@ window.dungeonz.CENTER_OFFSET = dungeonz.TILE_SIZE * GAME_SCALE * 0.5;
  */
 // window.windowResize = function () {
 //     const tilemap = _this.tilemap;
-//     const windowWidth = window.innerWidth;
-//     const windowHeight = window.innerHeight;
-
-//     // Changes the size of the game renderer to match the size of the window.
-
-//     // TODO: Removed until darkness is added back in.
-//     //tilemap.darknessSpritesContainer.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessSpritesContainer.width * 0.5);
-//     //tilemap.darknessSpritesContainer.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessSpritesContainer.height * 0.5);
-
 //     // tilemap.updateBorders();
-
-//     //_this.scale.resize(windowWidth, windowHeight);
 // };
 
 // Import the data for each map.
@@ -111,7 +100,7 @@ function requireAll(r) {
         fileName = fileName.substring(2);
         // Remove the '.json' from the end.
         fileName = fileName.slice(0, -5);
-
+        // Skip the blank map that is used as a base/template when making new maps.
         if (fileName === 'BLANK') return;
 
         dungeonz.mapsData[fileName] = require('../assets/map/' + fileName + '.json');

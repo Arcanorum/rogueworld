@@ -101,7 +101,7 @@ export default (ctx => {
     let values = keys.map(ctx);
     return keys.reduce((object, key, index) => {
         key = key.split("/").pop().slice(0, -3);
-        object[key] = values[index];
+        object[key] = values[index].default;
         return object;
     }, {});
 })(require.context('./entities/', true, /.js$/));

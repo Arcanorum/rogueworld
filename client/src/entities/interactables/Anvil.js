@@ -17,4 +17,4 @@ Sprite.prototype.interactedByPlayer = function () {
     _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
 };
 
-module.exports = Sprite;
+export default Sprite;

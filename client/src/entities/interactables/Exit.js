@@ -9,4 +9,4 @@ const Sprite = function (x, y, config) {
 Sprite.prototype = Object.create(Phaser.GameObjects.Sprite.prototype);
 Sprite.prototype.constructor = Sprite;
 
-module.exports = Sprite;
+export default Sprite;

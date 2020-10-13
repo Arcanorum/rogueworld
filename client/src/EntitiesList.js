@@ -3,11 +3,12 @@
 /**
  * Starts this sprite doing a bobbing in-out effect, mostly for pickups.
  */
-Phaser.GameObjects.Container.prototype.tweenPickupFromCenter = function () {
-    this.anchor.setTo(0.5);
+Phaser.GameObjects.Sprite.prototype.tweenPickupFromCenter = function () {
+    this.setOrigin(0.5);
     this.x += dungeonz.CENTER_OFFSET;
     this.y += dungeonz.CENTER_OFFSET;
-    _this.add.tween(this.scale).to({ x: this.scale.x * 0.8, y: this.scale.y * 0.8 }, 1000, "Linear", true, 0, -1, true);
+    // When does this end? loops forever on nothing when pickup is removed? double check...
+    // _this.add.tween(this.scale).to({ x: this.scale.x * 0.8, y: this.scale.y * 0.8 }, 1000, "Linear", true, 0, -1, true);
 };
 
 Phaser.GameObjects.Sprite.prototype.onChangeDirection = function () {

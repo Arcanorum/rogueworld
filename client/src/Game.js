@@ -681,9 +681,7 @@ class Game extends Phaser.Scene {
         // _this.add.existing(dynamicSpriteContainer);
 
         if (dynamicSpriteContainer.centered === true) {
-            dynamicSpriteContainer.anchor.setTo(0.5);
-            dynamicSpriteContainer.x += dungeonz.CENTER_OFFSET;
-            dynamicSpriteContainer.y += dungeonz.CENTER_OFFSET;
+            dynamicSpriteContainer.setOrigin(0.5);
         }
 
         // If the entity has a light distance, add it to the light sources list.

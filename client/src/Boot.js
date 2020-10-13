@@ -83,7 +83,7 @@ window.dungeonz.SCALED_TILE_SIZE = dungeonz.TILE_SIZE * GAME_SCALE;
  * Used to center entity sprites that are centered, such as projectiles and pickups.
  * Declared after, so tile size is defined.
  */
-window.dungeonz.CENTER_OFFSET = dungeonz.TILE_SIZE * GAME_SCALE * 0.5;
+window.dungeonz.CENTER_OFFSET = dungeonz.SCALED_TILE_SIZE * 0.5;
 
 /**
  * Called when the window is resized.

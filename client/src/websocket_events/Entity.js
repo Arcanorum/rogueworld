@@ -164,22 +164,12 @@ export default (eventResponses) => {
             }
 
             // Tween to the new location.
-            if (dynamicSpriteContainer.centered === true) {
-                _this.tweens.add({
-                    targets: dynamicSpriteContainer,
-                    duration: dynamicSpriteContainer.moveRate || 250,
-                    x: (data.col * dungeonz.SCALED_TILE_SIZE) + dungeonz.CENTER_OFFSET,
-                    y: (data.row * dungeonz.SCALED_TILE_SIZE) + dungeonz.CENTER_OFFSET,
-                });
-            }
-            else {
-                _this.tweens.add({
-                    targets: dynamicSpriteContainer,
-                    duration: dynamicSpriteContainer.moveRate || 250,
-                    x: data.col * dungeonz.SCALED_TILE_SIZE,
-                    y: data.row * dungeonz.SCALED_TILE_SIZE
-                });
-            }
+            _this.tweens.add({
+                targets: dynamicSpriteContainer,
+                duration: dynamicSpriteContainer.moveRate || 250,
+                x: data.col * dungeonz.SCALED_TILE_SIZE,
+                y: data.row * dungeonz.SCALED_TILE_SIZE
+            });
         }
 
         // If the dynamic does something extra when it moves, do it.

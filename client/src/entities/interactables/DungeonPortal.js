@@ -24,7 +24,6 @@ Sprite.prototype.onMove = function () {
     _this.tilemap.updateDarknessGrid();
 };
 
-Sprite.prototype.defaultLightDistance = 6;
 Sprite.prototype.lightDistance = 6;
 
 export default Sprite;

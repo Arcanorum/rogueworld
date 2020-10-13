@@ -42,9 +42,9 @@ class Static extends Phaser.GameObjects.Container {
         this.setScale(GAME_SCALE);
 
         // Holder for the light distance property. Tilemap.updateDarknessGrid passes it in as a property of a sprite...
-        this.sprite = {};
+        this.spriteContainer = {};
         /** @type {Number} Does this static emit light. 0 = disabled */
-        this.sprite.lightDistance = 0;
+        this.spriteContainer.lightDistance = 0;
 
         /** @type {Number} The frame on the statics tileset to use when this static is active. */
         this.tileID = config.tileID;
@@ -174,7 +174,7 @@ class Portal extends Static {
     constructor(config) {
         config.pressableRange = 1;
         super(config);
-        this.sprite.lightDistance = 5;
+        this.spriteContainer.lightDistance = 5;
     }
 }
 
@@ -199,7 +199,7 @@ class DungeonPortal extends Portal {
 class Torch extends Static {
     constructor(config) {
         super(config);
-        this.sprite.lightDistance = 4;
+        this.spriteContainer.lightDistance = 4;
     }
 }
 
@@ -224,7 +224,7 @@ class Anvil extends CraftingStation {
 class Furnace extends CraftingStation {
     constructor(config) {
         super(config);
-        this.sprite.lightDistance = 4;
+        this.spriteContainer.lightDistance = 4;
     }
 
     onPressed() {
@@ -459,7 +459,7 @@ function addStaticTile(row, col, tileData) {
             data: tileData[1]
         });
         // If this static type emits light, add it to the light sources list.
-        if (staticTile.sprite.lightDistance > 0) {
+        if (staticTile.spriteContainer.lightDistance > 0) {
             _this.lightSources[staticTile.id] = staticTile;
             _this.tilemap.updateDarknessGrid();
         }

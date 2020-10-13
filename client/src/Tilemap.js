@@ -679,7 +679,11 @@ class Tilemap {
             if (lightSources.hasOwnProperty(key)) {
                 lightSource = lightSources[key];
                 //this.revealDarkness(lightSource.x, lightSource.y, lightSource.lightDistance);
-                this.revealDarkness(lightSource.row, lightSource.col, lightSource.sprite.lightDistance);
+                this.revealDarkness(
+                    lightSource.row,
+                    lightSource.col,
+                    lightSource.spriteContainer.lightDistance
+                );
             }
         }
     }

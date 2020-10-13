@@ -8,7 +8,6 @@ class Entity extends Projectile {
     }
 
     static setupAnimations() {
-        console.log("setting up proj acorn anims");
         _this.anims.create({
             key: "acorn-spin",
             defaultTextureKey: "game-atlas",

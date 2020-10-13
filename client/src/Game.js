@@ -685,6 +685,8 @@ class Game extends Phaser.Scene {
         }
 
         // If the entity has a light distance, add it to the light sources list.
+        // Even if it is 0, still add it if it is defined as it could be something like a
+        // extinguished torch that could be relit later, would still need to be in the list.
         if (dynamicSpriteContainer.lightDistance !== undefined) {
             this.lightSources[id] = this.dynamics[id];
             this.tilemap.updateDarknessGrid();

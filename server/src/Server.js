@@ -6,7 +6,7 @@ const pathToKeys = '../../../etc/letsencrypt/live/dungeonz.io/';
 const express = require('express');
 const path = require('path');
 const app = express();
-const httpPort = 80;
+const httpPort = 4567;
 const httpsPort = 443;
 
 app.use(express.static(path.join(__dirname, '../../client/')));
@@ -34,7 +34,7 @@ if (fs.existsSync(pathToKeys + 'fullchain.pem')) {
     Utils.message("Started HTTPS and WS servers on port", httpsPort);
 
     const redirectApp = express();
-    // Redirect all requests to the HTTP (port 80) server to the HTTPS server.
+    // Redirect all requests to the HTTP server to the HTTPS server.
     redirectApp.all('*', (req, res, next) => {
         res.redirect('https://dungeonz.io');
     });

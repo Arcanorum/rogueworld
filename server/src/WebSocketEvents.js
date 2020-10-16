@@ -1,14 +1,14 @@
-const Utils = require('./Utils');
-const { wss } = require('./Server');
-const world = require('./World');
-const SpellBook = require('./items/holdable/spell_books/SpellBook');
-const DungeonManagersList = require('./dungeon/DungeonManagersList');
-const EventsList = require('./EventsList');
-const ValidDirections = require('./EntitiesList').Entity.prototype.OppositeDirections;
-const CraftingManager = require('./crafting/CraftingManager');
-const Charter = undefined; //require('./entities/statics/interactables/breakables/crafting stations/Charter');
-const DungeonPortal = require('./entities/statics/interactables/DungeonPortal');
-const AccountManager = require('./AccountManager');
+const Utils = require("./Utils");
+const { wss } = require("./Server");
+const world = require("./World");
+const SpellBook = require("./items/holdable/spell_books/SpellBook");
+const DungeonManagersList = require("./dungeon/DungeonManagersList");
+const EventsList = require("./EventsList");
+const ValidDirections = require("./EntitiesList").Entity.prototype.OppositeDirections;
+const CraftingManager = require("./crafting/CraftingManager");
+const Charter = undefined; //require("./entities/statics/interactables/breakables/crafting stations/Charter");
+const DungeonPortal = require("./entities/statics/interactables/DungeonPortal");
+const AccountManager = require("./AccountManager");
 
 const eventResponses = {};
 
@@ -82,11 +82,11 @@ wss.broadcastToInGame = function broadcast(eventNameID, data) {
 };
 
 let conCount = 1;
-wss.on('connection', function (clientSocket) {
+wss.on("connection", function (clientSocket) {
     conCount += 1;
 
     clientSocket.isAlive = true;
-    clientSocket.on('pong', heartbeat);
+    clientSocket.on("pong", heartbeat);
 
     clientSocket.inGame = false;
 
@@ -94,13 +94,13 @@ wss.on('connection', function (clientSocket) {
     // Don't need to create an instance of the function for each socket, just refer to the same one.
     clientSocket.sendEvent = sendEvent;
 
-    clientSocket.on('message', function (payload) {
+    clientSocket.on("message", function (payload) {
         let parsedMessage;
         try {
             parsedMessage = JSON.parse(payload);
         }
         catch (e) {
-            Utils.warning('message event, invalid payload:', payload);
+            Utils.warning("message event, invalid payload:", payload);
             return;
         }
 
@@ -113,7 +113,7 @@ wss.on('connection', function (clientSocket) {
 
     });
 
-    clientSocket.on('close', function () {
+    clientSocket.on("close", function () {
         Utils.message("Client socket close event.");
         if (clientSocket.inGame === false) return;
 
@@ -153,14 +153,14 @@ eventResponses.new_char = function (clientSocket, data) {
     // Don't let them join a world if they are already in one.
     if (clientSocket.inGame === true) return;
 
-    let displayName = 'Savage';
+    let displayName = "Savage";
 
     // Check a display name was given.
     if (data.displayName !== undefined) {
         // Check it is a string.
-        if (typeof data.displayName === 'string') {
+        if (typeof data.displayName === "string") {
             // Check it isn't empty, or just a space.
-            if (data.displayName !== '' && data.displayName !== ' ') {
+            if (data.displayName !== "" && data.displayName !== " ") {
                 // Check it isn't too long.
                 if (data.displayName.length < 21) {
                     displayName = data.displayName;

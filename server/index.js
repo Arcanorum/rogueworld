@@ -3,28 +3,28 @@ const { extrudeTilesetToImage } = require("tile-extruder");
 
 Utils.message("Start of index");
 
-require('./src/AccountManager').setup()
+require("./src/AccountManager").setup()
     .then(init);
 
 async function init() {
-    const { wss } = require('./src/Server');
-    require('./src/WebSocketEvents');
-    require('./src/TextDefinitionsParser');
-    require('./src/items/holdable/spell_books/SpellBooksList');
-    require('./src/ChatWarnings');
+    const { wss } = require("./src/Server");
+    require("./src/WebSocketEvents");
+    require("./src/TextDefinitionsParser");
+    require("./src/items/holdable/spell_books/SpellBooksList");
+    require("./src/ChatWarnings");
 
-    //const clanManager = require('./src/ClanManager');
-    const world = require('./src/World');
+    //const clanManager = require("./src/ClanManager");
+    const world = require("./src/World");
     world.init();
 
-    require('./src/CatalogueBuilders').buildDungeonPrompts();
+    require("./src/CatalogueBuilders").buildDungeonPrompts();
 
     // Create a finished reference to the list of items. Mainly useful for the BankManager.
-    require('./src/ItemsList').LIST = require('./src/ItemsList');
+    require("./src/ItemsList").LIST = require("./src/ItemsList");
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
-    require('./src/items/Item').prototype.EntitiesList = require('./src/EntitiesList');
+    require("./src/items/Item").prototype.EntitiesList = require("./src/EntitiesList");
 
-    const fs = require('fs');
+    const fs = require("fs");
 
     function cleanUp() {
         Utils.message("index.js cleanup");
@@ -39,30 +39,30 @@ async function init() {
         process.exit();
     }
 
-    //process.on('cleanup', cleanUp);
+    //process.on("cleanup", cleanUp);
 
     // Do cleaning before exiting.
-    process.on('exit', async () => {
+    process.on("exit", async () => {
         Utils.message("Server exit");
 
         cleanUp();
 
-        //process.emit('cleanup');
+        //process.emit("cleanup");
     });
 
     // Catch Ctrl+C event and exit normally.
-    process.on('SIGINT', () => {
+    process.on("SIGINT", () => {
         Utils.message("Server SIGINT");
         Utils.message("* * * Ctrl-C");
         process.exit();
     });
 
-    process.on('SIGTERM', () => {
+    process.on("SIGTERM", () => {
         Utils.message("Server SIGTERM");
         process.exit();
     });
 
-    process.on('SIGHUP', () => {
+    process.on("SIGHUP", () => {
         Utils.message("Server SIGKILL");
         process.exit();
     });
@@ -70,14 +70,14 @@ async function init() {
     /**
      * Catch any uncaught exceptions (which will be most of them), then exit normally.
      */
-    process.on('uncaughtException', (error) => {
+    process.on("uncaughtException", (error) => {
         Utils.message("* * * Caught exception!:", error);
         process.exit();
     });
 
     // Check the location to write to exists. If not, create it.
-    if (fs.existsSync('../client/assets/img') === false) {
-        fs.mkdirSync('../client/assets/img');
+    if (fs.existsSync("../client/assets/img") === false) {
+        fs.mkdirSync("../client/assets/img");
     }
     // Copy the tileset image sources to the client, so they are the same as what the server is using.
     // Saves having to copy over the images when a change is made to the one used in Tiled.
@@ -89,5 +89,5 @@ async function init() {
     Utils.message("Tilesets copied to client assets.");
 
     Utils.message("End of index. Server is good to go. :)");
-    Utils.message("Game can be played at http://localhost/.");
+    Utils.message("Game can be played at http://localhost/4567");
 }

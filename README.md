@@ -26,7 +26,7 @@ Before you jump into the code and start adding cool new features, there are some
 
 **To run the project, you will need:**
 
-- [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.9.1)
+- [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.19.0)
 - [MongoDB](https://www.mongodb.com/download-center/community) installed (currently using v4.2.0)
 - [Git](https://git-scm.com/downloads) installed
 
@@ -165,7 +165,7 @@ C:\Users\User\dungeonz>
 
 <img src="guides/build-client.gif" width="50%"/>
 
-Finally, to open the client and play the game, go to http://localhost/ in a web browser.
+Finally, to open the client and play the game, go to http://localhost/4567 in a web browser.
 
 <img src="guides/client-served-locally.png" width="50%"/>
 

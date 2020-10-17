@@ -76,6 +76,16 @@ const Utils = {
      */
     shiftArrayRight(array) {
         array.unshift(array.pop());
+    },
+
+    /**
+     * Gets the distance in pixels between a sprite and a pointer.
+     * @param {Phaser.GameObject.Sprite} baseSprite
+     * @param pointer
+     * @returns {Number}
+     */
+    pixelDistanceBetween(baseSprite, pointer) {
+        // return Math.abs(baseSprite.worldPosition.x - pointer.clientX) + Math.abs(baseSprite.worldPosition.y - pointer.clientY);
     }
 };
 

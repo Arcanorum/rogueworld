@@ -1,11 +1,11 @@
-import EntityTypes from '../src/catalogues/EntityTypes'
-import EntitiesList from './EntitiesList';
-import Tilemap from './Tilemap'
-import GUI from './gui/GUI'
-import Stats from './Stats'
-import Inventory from './Inventory'
+import EntityTypes from "../src/catalogues/EntityTypes"
+import EntitiesList from "./EntitiesList";
+import Tilemap from "./Tilemap"
+import GUI from "./gui/GUI"
+import Stats from "./Stats"
+import Inventory from "./Inventory"
 import CraftingManager from "./CraftingManager";
-import Utils from './Utils';
+import Utils from "./Utils";
 import BankManager from "./BankManager";
 import ClanManager from "./ClanManager";
 // import TextMetrics from "./TextMetrics";
@@ -93,7 +93,7 @@ class Game extends Phaser.Scene {
         // TextMetrics.init();
 
         // Hide the distracting background gif while the game is running.
-        document.getElementById('background_img').style.visibility = "hidden";
+        document.getElementById("background_img").style.visibility = "hidden";
 
         this.canvasContainer = document.getElementById("game_canvas");
         this.canvasContainer.appendChild(this.game.canvas);
@@ -103,7 +103,7 @@ class Game extends Phaser.Scene {
         this.scale.fullScreenTarget = document.getElementById("game_cont");
 
         // Listen for the resize event so anything that needs to be updated can be.
-        // window.addEventListener('resize', window.windowResize);
+        // window.addEventListener("resize", window.windowResize);
 
         this.scale.on("resize", () => {
             this.fpsText.y = window.innerHeight - 30;
@@ -227,13 +227,12 @@ class Game extends Phaser.Scene {
         // Lock the camera to the player sprite.
         this.cameras.main.startFollow(this.dynamics[this.player.entityId].spriteContainer);
 
-        window.addEventListener('mousedown', this.pointerDownHandler);
-        window.addEventListener('mousemove', this.pointerMoveHandler);
+        window.addEventListener("mousedown", this.pointerDownHandler);
 
         // Add the websocket event responses after the game state is started.
         window.addGameStateEventResponses();
 
-        this.fpsText = this.add.text(10, window.innerHeight - 30, 'FPS:', {
+        this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
             fontFamily: '"Courier"',
             fontSize: "24px",
             color: "#00ff00"
@@ -249,20 +248,20 @@ class Game extends Phaser.Scene {
 
             // Allow continuous movement if a move key is held down.
             if (this.moveUpIsDown === true) {
-                this.checkCollidables('u');
-                ws.sendEvent('mv_u');
+                this.checkCollidables("u");
+                ws.sendEvent("mv_u");
             }
             if (this.moveDownIsDown === true) {
-                this.checkCollidables('d');
-                ws.sendEvent('mv_d');
+                this.checkCollidables("d");
+                ws.sendEvent("mv_d");
             }
             if (this.moveLeftIsDown === true) {
-                this.checkCollidables('l');
-                ws.sendEvent('mv_l');
+                this.checkCollidables("l");
+                ws.sendEvent("mv_l");
             }
             if (this.moveRightIsDown === true) {
-                this.checkCollidables('r');
-                ws.sendEvent('mv_r');
+                this.checkCollidables("r");
+                ws.sendEvent("mv_r");
             }
         }
 
@@ -274,16 +273,15 @@ class Game extends Phaser.Scene {
 
     shutdown() {
         // Show the background GIF.
-        document.getElementById('background_img').style.visibility = "visible";
+        document.getElementById("background_img").style.visibility = "visible";
 
         // Remove the handler for resize events, so it doesn't try to resize the sprite container groups that have been removed.
-        // window.removeEventListener('resize', window.windowResize);
+        // window.removeEventListener("resize", window.windowResize);
 
         // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
-        document.removeEventListener('keydown', this.keyDownHandler);
+        document.removeEventListener("keydown", this.keyDownHandler);
 
-        window.removeEventListener('mousedown', this.pointerDownHandler);
-        window.removeEventListener('mousemove', this.pointerMoveHandler);
+        window.removeEventListener("mousedown", this.pointerDownHandler);
 
         // Remove some of the DOM GUI elements so they aren't stacked when the game state starts again.
         this.GUI.removeExistingDOMElements(this.GUI.hitPointCounters);
@@ -326,7 +324,7 @@ class Game extends Phaser.Scene {
         this.checkCollidables(direction);
 
         if (this.player.hitPoints <= 0) return;
-        ws.sendEvent('mv_' + direction);
+        ws.sendEvent("mv_" + direction);
 
         this.nextMoveTime = Date.now() + this.moveDelay;
     }
@@ -345,9 +343,9 @@ class Game extends Phaser.Scene {
             playerNextRow = this.player.row,
             playerNextCol = this.player.col;
 
-        if (direction === 'u') playerNextRow -= 1;
-        else if (direction === 'd') playerNextRow += 1;
-        else if (direction === 'l') playerNextCol -= 1;
+        if (direction === "u") playerNextRow -= 1;
+        else if (direction === "d") playerNextRow += 1;
+        else if (direction === "l") playerNextCol -= 1;
         else playerNextCol += 1;
 
         for (key in this.interactables) {
@@ -371,38 +369,31 @@ class Game extends Phaser.Scene {
         }
     }
 
-    /**
-     * Gets the distance in pixels between a sprite and a pointer.
-     * @param baseSprite
-     * @param pointer
-     * @returns {Number}
-     */
-    distanceBetween(baseSprite, pointer) {
-        // return Math.abs(baseSprite.worldPosition.x - pointer.clientX) + Math.abs(baseSprite.worldPosition.y - pointer.clientY);
-    }
-
     pointerDownHandler(event) {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         //event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
         if (event.target === _this.GUI.gameCanvas) {
             // If the user pressed on their character sprite, pick up item.
-            if (_this.distanceBetween(_this.dynamics[_this.player.entityId].spriteContainer.baseSprite, event) < 32) {
-                ws.sendEvent('pick_up_item');
+            if (Utils.pixelDistanceBetween(_this.dynamics[_this.player.entityId].spriteContainer.baseSprite, event) < 32) {
+                ws.sendEvent("pick_up_item");
                 return;
             }
 
+            // TODO: figure out something else to use here using sprite pointer events.
+            // maybe listen on the ground layer for pointer events?
+            // need to check if it would still bubble down after higher sprites clicked on...
             // Check if any of the dynamics were pressed on that have onInputDown handlers.
-            for (let dynamicKey in _this.dynamics) {
-                if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
-                if (_this.dynamics[dynamicKey].spriteContainer.baseSprite === undefined) continue;
-                if (_this.dynamics[dynamicKey].spriteContainer.onInputDown === undefined) continue;
-                // Check the distance between the cursor and the sprite.
-                if (_this.distanceBetween(_this.dynamics[dynamicKey].spriteContainer.baseSprite, event) < 32) {
-                    _this.dynamics[dynamicKey].spriteContainer.onInputDown();
-                    return;
-                }
-            }
+            // for (let dynamicKey in _this.dynamics) {
+            //     if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
+            //     if (_this.dynamics[dynamicKey].spriteContainer.baseSprite === undefined) continue;
+            //     if (_this.dynamics[dynamicKey].spriteContainer.onInputDown === undefined) continue;
+            //     // Check the distance between the cursor and the sprite.
+            //     if (_this.distanceBetween(_this.dynamics[dynamicKey].spriteContainer.baseSprite, event) < 32) {
+            //         _this.dynamics[dynamicKey].spriteContainer.onInputDown();
+            //         return;
+            //     }
+            // }
 
             const midX = window.innerWidth / 2;
             const midY = window.innerHeight / 2;
@@ -427,22 +418,6 @@ class Game extends Phaser.Scene {
                 ws.sendEvent("melee_attack", direction);
             }
         }
-
-    }
-
-    pointerMoveHandler(event) {
-        let sprite;
-        for (let dynamicKey in _this.dynamics) {
-            if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
-            sprite = _this.dynamics[dynamicKey].spriteContainer;
-            if (sprite.baseSprite === undefined) continue;
-            if (_this.distanceBetween(sprite.baseSprite, event) < 32) {
-                sprite.onInputOver();
-            }
-            else {
-                sprite.onInputOut();
-            }
-        }
     }
 
     checkKeyFilters() {
@@ -459,25 +434,25 @@ class Game extends Phaser.Scene {
 
     moveUpPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('u');
+        _this.move("u");
         _this.moveUpIsDown = true;
     }
 
     moveDownPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('d');
+        _this.move("d");
         _this.moveDownIsDown = true;
     }
 
     moveLeftPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('l');
+        _this.move("l");
         _this.moveLeftIsDown = true;
     }
 
     moveRightPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('r');
+        _this.move("r");
         _this.moveRightIsDown = true;
     }
 
@@ -510,14 +485,14 @@ class Game extends Phaser.Scene {
             _this.player.inventory.useItem("slot" + key);
         }
 
-        if (event.code === 'KeyE') {
-            ws.sendEvent('pick_up_item');
+        if (event.code === "KeyE") {
+            ws.sendEvent("pick_up_item");
         }
     }
 
     setupKeyboardControls() {
         // Add the handler for keyboard events.
-        document.addEventListener('keydown', this.keyDownHandler);
+        document.addEventListener("keydown", this.keyDownHandler);
 
         this.keyboardKeys = this.input.keyboard.addKeys(
             {
@@ -585,9 +560,9 @@ class Game extends Phaser.Scene {
                 this.GUI.chatInput.style.visibility = "hidden";
 
                 // Don't bother sending empty messages.
-                if (this.GUI.chatInput.value !== '') {
+                if (this.GUI.chatInput.value !== "") {
                     // Send the message to the server.
-                    ws.sendEvent('chat', this.GUI.chatInput.value);
+                    ws.sendEvent("chat", this.GUI.chatInput.value);
 
                     // Empty the contents ready for the next chat.
                     this.GUI.chatInput.value = "";
@@ -801,15 +776,15 @@ class Game extends Phaser.Scene {
         };
 
         // Check if the message was a command.
-        if (message[0] === '/') {
+        if (message[0] === "/") {
             const command = message[1];
             // Remove the command part of the message.
             message = message.slice(2);
             // Check which command it is.
-            if (command === 'r') style.fill = "#ff7066";
-            else if (command === 'g') style.fill = "#73ff66";
-            else if (command === 'b') style.fill = "#66b3ff";
-            else if (command === 'y') style.fill = "#ffde66";
+            if (command === "r") style.fill = "#ff7066";
+            else if (command === "g") style.fill = "#73ff66";
+            else if (command === "b") style.fill = "#66b3ff";
+            else if (command === "y") style.fill = "#ffde66";
             // Invalid command.
             else {
                 style.fill = "#ffa54f";

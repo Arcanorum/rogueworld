@@ -1,11 +1,11 @@
-class Character extends Phaser.GameObjects.Container {
+import Container from "../Container";
+
+class Character extends Container {
     constructor (x, y, config) {
         super(_this, x, y);
-
         _this.add.existing(this);
 
         this.setScale(GAME_SCALE);
-
         this.entityId = config.id;
         this.setDirection(config.direction);
         this.moveRate = config.moveRate;
@@ -46,6 +46,11 @@ class Character extends Phaser.GameObjects.Container {
         this.baseSprite.on("animationcomplete", () => {
             this.baseSprite.setFrame(this.baseFrames[this.direction]);
         });
+
+        this.baseSprite.setInteractive();
+
+        this.baseSprite.on('pointerover', this.onPointerOver, this);
+        this.baseSprite.on('pointerout', this.onPointerOut, this);
     };
 
     setDirection(direction){
@@ -138,6 +143,10 @@ class Character extends Phaser.GameObjects.Container {
             hideOnComplete: true
         });
 
+    }
+
+    static addAnimationSet() {
+        
     }
 }
 

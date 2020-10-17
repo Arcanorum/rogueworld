@@ -1,6 +1,6 @@
 import Character from "./Character";
 
-class Sprite extends Character {
+class Entity extends Character {
     constructor(x, y, config){
         super(x, y, config);
         
@@ -13,11 +13,11 @@ class Sprite extends Character {
     // this.baseSprite.animations.add('r',    ['human-zombie-right-1',   'human-zombie-right-2',    'human-zombie-right-1',    'human-zombie-right-3'],   10).onComplete.add(this.moveAnimCompleted, this);
 };
 
-Sprite.prototype.baseFrames = {
+Entity.prototype.baseFrames = {
     u: 'human-zombie-up-1',
     d: 'human-zombie-down-1',
     l: 'human-zombie-left-1',
     r: 'human-zombie-right-1'
 };
 
-export default Sprite;
+export default Entity;

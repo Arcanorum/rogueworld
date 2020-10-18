@@ -71,7 +71,7 @@ export default {
     IronDagger: makeClass({ frameName: "iron-dagger" }),
     IronHammer: makeClass({ frameName: "iron-hammer" }),
     IronHatchet: makeClass({ frameName: "iron-hatchet" }),
-    IronOre: makeClass({ frameName: "iron-oore" }),
+    IronOre: makeClass({ frameName: "iron-ore" }),
     IronPickaxe: makeClass({ frameName: "iron-pickaxe" }),
     IronRod: makeClass({ frameName: "iron-rod" }),
     IronSheet: makeClass({ frameName: "iron-sheet" }),

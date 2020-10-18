@@ -1,7 +1,8 @@
+import Utils from "../../Utils";
 import Container from "../Container";
 
 class Character extends Container {
-    constructor (x, y, config) {
+    constructor(x, y, config) {
         super(x, y, config);
 
         this.setScale(GAME_SCALE);
@@ -13,8 +14,8 @@ class Character extends Container {
         // Used for differentiating clan members by name color.
         this.displayNameColor = config.displayNameColor;
         let frame = undefined;
-        if (this.baseFrames !== undefined) {
-            frame = this.baseFrames[this.direction] || this.baseFrames.d;
+        if (this.baseFrames) {
+            frame = this.baseFrames[this.direction] || this.baseFrames.down;
         }
         this.baseSprite = _this.add.sprite(0, 0, "game-atlas", frame);
         //this.baseSprite.baseFrames = baseFrames;
@@ -42,9 +43,7 @@ class Character extends Container {
 
         this.addDamageMarker();
 
-        this.baseSprite.on("animationcomplete", () => {
-            this.baseSprite.setFrame(this.baseFrames[this.direction]);
-        });
+        this.baseSprite.on("animationcomplete", this.moveAnimCompleted, this);
 
         this.baseSprite.setInteractive();
 
@@ -52,8 +51,8 @@ class Character extends Container {
         this.baseSprite.on('pointerout', this.onPointerOut, this);
     };
 
-    setDirection(direction){
-        switch(direction){
+    setDirection(direction) {
+        switch (direction) {
             case "u":
                 this.direction = "up";
                 break;
@@ -78,7 +77,7 @@ class Character extends Container {
 
     moveAnimCompleted() {
         this.baseSprite.setFrame(this.baseFrames[this.direction]);
-    };
+    }
 
     /**
      * Should be called when the entity for this sprite moves.
@@ -88,20 +87,23 @@ class Character extends Container {
      */
     onMove(playMoveAnim) {
         if (playMoveAnim === true) {
-            // if (this.baseSprite.anims.isPlaying === false) {
-                if(this.constructor.animationBaseName){
-                    this.baseSprite.anims.play(this.constructor.animationBaseName + "-" + this.direction, true);
-                }
-            // }
+            if (this.animationSetName) {
+                this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
+            }
         }
-    };
+    }
 
     onChangeDirection() {
-        this.baseSprite.anims.stop();
-    };
+        // Keep playing if the animation loops.
+        if(this.animationRepeats){
+            this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
+        }
+        else {
+            this.baseSprite.anims.stop();
+        }
+    }
 
     static setupAnimations() {
-
         _this.anims.create({
             key: "energy-regen",
             frames: ['energy-regen-effect-1', 'energy-regen-effect-2'],
@@ -141,12 +143,64 @@ class Character extends Container {
             showOnStart: true,
             hideOnComplete: true
         });
-
     }
 
+    /**
+     * Adds a set of animations to the animation manager, one for each direction for this entity.
+     * i.e. for a set name of "knight", animations called "knight-up", "knight-left", and so on, would be created.
+     * Uses the 1-2-1-3 pattern for frame sequence.
+     * @param {Object} config
+     * @param {String} config.setName - The base name of this set of animations
+     * @param {Number} [config.duration=500] - How long it should last, in ms.
+     */
     static addAnimationSet() {
-        
+        const
+            setName = this.prototype.animationSetName,
+            frameSequence = this.prototype.animationFrameSequence,
+            repeats = this.prototype.animationRepeats,
+            duration = 500,
+            defaultTextureKey = "game-atlas",
+            directions = ["up", "down", "left", "right"],
+            generateFrames = (direction) => {
+                const frames = [];
+                frameSequence.forEach((frameNumber) => {
+                    frames.push({ frame: `${setName}-${direction}-${frameNumber}` })
+                });
+                return frames;
+            };
+
+        if (!setName) {
+            // Skip the Character class itself. It has no animation set of it's own to add.
+            if (setName !== null) {
+                Utils.warning("Adding animation set. Missing set name on class prototype somewhere. Skipping.");
+            }
+            return;
+        }
+
+        directions.forEach((direction) => {
+            _this.anims.create({
+                // i.e. "knight-up"
+                key: `${setName}-${direction}`,
+                defaultTextureKey,
+                frames: generateFrames(direction),
+                duration,
+                repeat: repeats ? -1 : undefined
+            });
+        });
+
+        // Give them some default base frames, for when they are just standing still.
+        this.prototype.baseFrames = {
+            up: `${setName}-up-1`,
+            down: `${setName}-down-1`,
+            left: `${setName}-left-1`,
+            right: `${setName}-right-1`
+        };
     }
 }
+
+Character.prototype.baseFrames = {};
+Character.prototype.animationSetName = null;
+Character.prototype.animationFrameSequence = [1, 2, 1, 3];
+Character.prototype.animationRepeats = false;
 
 export default Character;

@@ -8,18 +8,8 @@ class Entity extends Character {
         this.displayName.addColor("#ff6b00", 0);
         this.baseSprite.setScale(1.2);
     }
+}
 
-    // this.baseSprite.animations.add('u',    ['blood-lord-up-1',      'blood-lord-up-2',       'blood-lord-up-1',       'blood-lord-up-3'],      10).onComplete.add(this.moveAnimCompleted, this);
-    // this.baseSprite.animations.add('d',    ['blood-lord-down-1',    'blood-lord-down-2',     'blood-lord-down-1',     'blood-lord-down-3'],    10).onComplete.add(this.moveAnimCompleted, this);
-    // this.baseSprite.animations.add('l',    ['blood-lord-left-1',    'blood-lord-left-2',     'blood-lord-left-1',     'blood-lord-left-3'],    10).onComplete.add(this.moveAnimCompleted, this);
-    // this.baseSprite.animations.add('r',    ['blood-lord-right-1',   'blood-lord-right-2',    'blood-lord-right-1',    'blood-lord-right-3'],   10).onComplete.add(this.moveAnimCompleted, this);
-};
-
-Entity.prototype.baseFrames = {
-    u: 'blood-lord-up-1',
-    d: 'blood-lord-down-1',
-    l: 'blood-lord-left-1',
-    r: 'blood-lord-right-1'
-};
+Entity.prototype.animationSetName = "blood-lord";
 
 export default Entity;

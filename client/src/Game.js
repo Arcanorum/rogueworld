@@ -88,6 +88,7 @@ class Game extends Phaser.Scene {
         // Setup animations for entity types that have them configured.
         Object.values(EntitiesList).forEach((EntityType) => {
             if(EntityType.setupAnimations) EntityType.setupAnimations();
+            if(EntityType.addAnimationSet) EntityType.addAnimationSet();
         });
 
         // TextMetrics.init();

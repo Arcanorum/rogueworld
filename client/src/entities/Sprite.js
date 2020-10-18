@@ -3,15 +3,9 @@
  * Avoids having to modify the Phaser sprite prototype.
  */
 class Sprite extends Phaser.GameObjects.Sprite {
-    /**
-     * Starts this sprite doing a bobbing in-out effect, mostly for pickups.
-     */
-    tweenPickupFromCenter() {
-        this.setOrigin(0.5);
-        this.x += dungeonz.CENTER_OFFSET;
-        this.y += dungeonz.CENTER_OFFSET;
-        // When does this end? does it loop forever on nothing when pickup is removed? double check...
-        // _this.add.tween(this.scale).to({ x: this.scale.x * 0.8, y: this.scale.y * 0.8 }, 1000, "Linear", true, 0, -1, true);
+    constructor(x, y, config) {
+        super(_this, x, y, "game-atlas");
+        _this.add.existing(this);
     }
 
     /**
@@ -19,7 +13,6 @@ class Sprite extends Phaser.GameObjects.Sprite {
      */
     onChangeDirection() {
     }
-
 }
 
 export default Sprite;

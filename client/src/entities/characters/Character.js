@@ -2,8 +2,7 @@ import Container from "../Container";
 
 class Character extends Container {
     constructor (x, y, config) {
-        super(_this, x, y);
-        _this.add.existing(this);
+        super(x, y, config);
 
         this.setScale(GAME_SCALE);
         this.entityId = config.id;

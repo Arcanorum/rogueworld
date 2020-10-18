@@ -3,6 +3,11 @@
  * Avoids having to modify the Phaser container prototype.
  */
 class Container extends Phaser.GameObjects.Container {
+    constructor(x, y, config) {
+        super(_this, x, y);
+        _this.add.existing(this);
+    }
+
     /**
      * Show the damage marker, with the amount of damage taken.
      * @param {String|Number} amount

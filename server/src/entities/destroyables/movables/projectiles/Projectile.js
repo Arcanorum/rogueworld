@@ -3,7 +3,6 @@ const Utils = require('../../../../Utils');
 const ModHitPointConfigs = require('../../../../gameplay/ModHitPointConfigs');
 
 class Projectile extends Movable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row

@@ -1,12 +1,10 @@
-import Character from "./Character";
+import Boss from "./Boss";
 
-class Entity extends Character {
+class Entity extends Boss {
     constructor(x, y, config){
         super(x, y, config);
 
         this.displayName.setText(dungeonz.getTextDef("Mob name: Great gnarl"));
-        this.displayName.addColor("#ff6b00", 0);
-        this.baseSprite.setScale(1.2);
     }
 }
 

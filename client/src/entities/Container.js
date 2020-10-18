@@ -14,13 +14,12 @@ class Container extends Phaser.GameObjects.Container {
      */
     onHitPointsModified(amount) {
         if (amount < 0) {
-            // TODO: add damage/heal colours back
             // JUICE IT! maybe change it to a particle instead?
             // and have them bounce out of entity when damaged, bounce into entity when healed.
-            // this.damageMarker.addColor('#ff2f00', 0);
+            this.damageMarker.setColor('#ff2f00');
         }
         else {
-            // this.damageMarker.addColor('#6abe30', 0);
+            this.damageMarker.setColor('#6abe30');
             amount = '+' + amount;
         }
 

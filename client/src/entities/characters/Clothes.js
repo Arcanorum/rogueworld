@@ -1,14 +1,9 @@
 import ItemTypes from "../../../src/catalogues/ItemTypes";
+import Sprite from "../Sprite";
 
-const moveAnimCompleted = function () {
-    this.setFrame(this.clothesFrames[this.clothesName][this.parent.direction]);
-};
-
-class Clothes extends Phaser.GameObjects.Sprite {
+class Clothes extends Sprite {
     constructor(config){
-        super(_this, 0, 0, "game-atlas");
-
-        _this.add.existing(this);
+        super(0, 0, config);
 
         this.direction = config.direction || 'd';
     
@@ -25,6 +20,8 @@ class Clothes extends Phaser.GameObjects.Sprite {
     
         // Set the sprite frame to use from the current texture atlas.
         this.setFrame(this.clothesFrames[this.clothesName][this.direction]);
+
+        this.on("animationcomplete", this.moveAnimCompleted);
     }
 
     static setupAnimations() {
@@ -32,12 +29,12 @@ class Clothes extends Phaser.GameObjects.Sprite {
             duration = 500,
             defaultTextureKey = "game-atlas",
             directions = ["up", "down", "left", "right"],
-            generateFrames = (baseFrameName) => {
+            generateFrames = (baseFrameName, direction) => {
                 return [
-                    { frame: `${baseFrameName}-up-1`},
-                    { frame: `${baseFrameName}-up-2`},
-                    { frame: `${baseFrameName}-up-1`},
-                    { frame: `${baseFrameName}-up-3`},
+                    { frame: `${baseFrameName}-${direction}-1`},
+                    { frame: `${baseFrameName}-${direction}-2`},
+                    { frame: `${baseFrameName}-${direction}-1`},
+                    { frame: `${baseFrameName}-${direction}-3`},
                 ];
             },
             addAnimationSet = (setName, baseFrameName) => {
@@ -45,7 +42,7 @@ class Clothes extends Phaser.GameObjects.Sprite {
                     _this.anims.create({
                         key: `${setName}-${direction}`,
                         defaultTextureKey,
-                        frames: generateFrames(baseFrameName),
+                        frames: generateFrames(baseFrameName, direction),
                         duration
                     });
                 });
@@ -55,15 +52,18 @@ class Clothes extends Phaser.GameObjects.Sprite {
         addAnimationSet("Mage robe", "mage-robe");
         addAnimationSet("Necromancer robe", "necromancer-robe");
         addAnimationSet("Cloak", "cloak");
-        addAnimationSet("Nina garb", "ninja-garb");
+        addAnimationSet("Ninja garb", "ninja-garb");
         addAnimationSet("Iron armour", "iron-armour");
         addAnimationSet("Dungium armour", "dungium-armour");
         addAnimationSet("Noctis armour", "noctis-armour");
-
     }
 
-};
+    moveAnimCompleted() {
+        this.setFrame(this.clothesFrames[this.clothesName][this.parentContainer.direction]);
+    }
+}
 
+// TODO: do these like the baseFrames in character, remove all this junk
 Clothes.prototype.clothesFrames = {
     ['Plain robe']: {
         up: 'plain-robe-up-1',

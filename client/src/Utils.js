@@ -15,7 +15,7 @@ const Utils = {
      */
     warning(...args) {
         args.unshift("* WARNING:");
-        console.log.apply(console, args);
+        console.warn.apply(console, args);
     },
 
     /**

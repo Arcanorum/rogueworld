@@ -648,8 +648,6 @@ Player.prototype.energyRegenRate = 1000;
 Player.prototype.energyRegenLoop = null;
 /** @type {Number} */
 Player.prototype.glory = 100;
-/** @type {Number} */
-Player.prototype.bounty = 0;
 /** @type {Function} */
 Player.prototype.CorpseType = require("../../corpses/CorpseHuman");
 

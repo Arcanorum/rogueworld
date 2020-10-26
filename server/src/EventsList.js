@@ -20,7 +20,6 @@ const EventsList = {
     add_item: registerEventName(),
     bank_item_deposited: registerEventName(),
     bank_item_withdrawn: registerEventName(),
-    bounty_value: registerEventName(),
     breakable_broken: registerEventName(),
     breakable_damaged: registerEventName(),
     breakable_repaired: registerEventName(),

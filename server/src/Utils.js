@@ -106,7 +106,7 @@ class Utils {
      * @param {*} message
      */
     error(...args) {
-        args.unshift("* ERROR: ");
+        args.unshift("* ERROR:");
         console.error.apply(console, args);
         console.trace();
         process.exit();

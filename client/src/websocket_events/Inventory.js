@@ -15,7 +15,7 @@ export default (eventResponses) => {
     eventResponses.equip_clothes = (data) => {
         const clothes = _this.dynamics[data.id].spriteContainer.clothes;
         clothes.visible = true;
-        clothes.clothesName = ItemTypes[data.typeNumber].idName;
+        clothes.clothesName = ItemTypes[data.typeNumber].translationID;
         clothes.setFrame(clothes.clothesFrames[clothes.clothesName][clothes.parentContainer.direction]);
     };
 

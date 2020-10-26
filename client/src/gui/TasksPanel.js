@@ -250,7 +250,7 @@ class TasksPanel extends PanelTemplate {
         // If there is an item in this reward slot, show the tooltip with its name.
         const itemNumber = this.getAttribute('itemNumber');
         if(ItemTypes[itemNumber]){
-            tooltip.innerText = dungeonz.getTextDef("Item name: " + ItemTypes[this.getAttribute('itemNumber')].idName);
+            tooltip.innerText = dungeonz.getTextDef("Item name: " + ItemTypes[this.getAttribute('itemNumber')].translationID);
             tooltip.style.visibility = 'visible';
             this.appendChild(tooltip);
         }

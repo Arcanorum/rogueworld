@@ -226,7 +226,7 @@ class BankPanel extends PanelTemplate {
 
         const bankPanel = _this.GUI.bankPanel;
 
-        bankPanel.tooltip.innerText = dungeonz.getTextDef("Item name: " + bankSlot.catalogueEntry.idName);
+        bankPanel.tooltip.innerText = dungeonz.getTextDef("Item name: " + bankSlot.catalogueEntry.translationID);
         bankPanel.tooltip.style.visibility = 'visible';
 
         bankPanel.slots[this.getAttribute('slotIndex')].container.appendChild(bankPanel.tooltip);

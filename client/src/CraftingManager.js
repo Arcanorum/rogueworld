@@ -122,7 +122,7 @@ class CraftingManager {
                 this.guiResult.icon.style.visibility = "visible";
                 this.guiResult.icon.src = 'assets/img/gui/items/' + ItemTypes[RecipeCatalogue[this.stationTypeNumber][this.recipeCode].resultTypeNumber].iconSource + ".png";
                 this.guiResult.accept.style.visibility = "visible";
-                this.guiResult.itemName = dungeonz.getTextDef("Item name: " + ItemTypes[RecipeCatalogue[this.stationTypeNumber][this.recipeCode].resultTypeNumber].idName);
+                this.guiResult.itemName = dungeonz.getTextDef("Item name: " + ItemTypes[RecipeCatalogue[this.stationTypeNumber][this.recipeCode].resultTypeNumber].translationID);
             }
             else {
                 //console.log("  recipe is NOT valid");

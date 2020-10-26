@@ -9,7 +9,7 @@ class Clothes extends Sprite {
     
         // If clothes were specified (a character came into range already wearing something), then use those clothes.
         if (config.clothingTypeNumber !== undefined) {
-            this.clothesName = ItemTypes[config.clothingTypeNumber].idName;
+            this.clothesName = ItemTypes[config.clothingTypeNumber].translationID;
         }
         // No clothes, don't show the clothes sprite.
         else {

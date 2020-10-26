@@ -1,4 +1,3 @@
-
 const Projectile = require('./Projectile');
 
 class ProjNoctisSword extends Projectile {
@@ -10,7 +9,6 @@ class ProjNoctisSword extends Projectile {
 }
 module.exports = ProjNoctisSword;
 
-ProjNoctisSword.prototype.registerEntityType();
 ProjNoctisSword.prototype.assignModHitPointConfigs();
 ProjNoctisSword.prototype.moveRate = 200;
 ProjNoctisSword.prototype.range = 3;

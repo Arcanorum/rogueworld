@@ -7,19 +7,19 @@ const ItemsList = require('../ItemsList');
  */
 const RewardsList = [];
 
-RewardsList.push(ItemsList.ItemExpOrbMelee);
-RewardsList.push(ItemsList.ItemExpOrbRanged);
-RewardsList.push(ItemsList.ItemExpOrbMagic);
-RewardsList.push(ItemsList.ItemExpOrbGathering);
-RewardsList.push(ItemsList.ItemExpOrbWeaponry);
-RewardsList.push(ItemsList.ItemExpOrbArmoury);
-RewardsList.push(ItemsList.ItemExpOrbToolery);
-RewardsList.push(ItemsList.ItemExpOrbPotionry);
-RewardsList.push(ItemsList.ItemWindGem);
-RewardsList.push(ItemsList.ItemFireGem);
-RewardsList.push(ItemsList.ItemBloodGem);
-RewardsList.push(ItemsList.ItemBookOfLight);
-RewardsList.push(ItemsList.ItemBookOfSouls);
-RewardsList.push(ItemsList.ItemVampireFang);
+RewardsList.push(ItemsList.ExpOrbMelee);
+RewardsList.push(ItemsList.ExpOrbRanged);
+RewardsList.push(ItemsList.ExpOrbMagic);
+RewardsList.push(ItemsList.ExpOrbGathering);
+RewardsList.push(ItemsList.ExpOrbWeaponry);
+RewardsList.push(ItemsList.ExpOrbArmoury);
+RewardsList.push(ItemsList.ExpOrbToolery);
+RewardsList.push(ItemsList.ExpOrbPotionry);
+RewardsList.push(ItemsList.WindGem);
+RewardsList.push(ItemsList.FireGem);
+RewardsList.push(ItemsList.BloodGem);
+RewardsList.push(ItemsList.BookOfLight);
+RewardsList.push(ItemsList.BookOfSouls);
+RewardsList.push(ItemsList.VampireFang);
 
 module.exports = RewardsList;

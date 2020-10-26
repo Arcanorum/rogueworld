@@ -17,7 +17,8 @@ const makeClass = (config) => {
  * A list of pickup items that have their class created on startup, instead of being in a dedicated class file.
  * Avoids having many class files that are exactly the same (apart from specifying the texture frame).
  * A pickup type can still have it's own class file if it needs to do something special.
- * Just make a JS file for it in /entities/pickups (it must be prefixed with "Pickup", i.e. "PickupIronSword") and extend the Pickup class in it.
+ * Just make a JS file for it in /entities/pickups (it must be prefixed with "Pickup", i.e. "PickupIronSword") 
+ * and then extend the Pickup class in it.
  */
 export default {
     Anvil: makeClass({ frameName: "anvil" }),

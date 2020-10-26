@@ -1,4 +1,3 @@
-
 const Mob = require('./Mob');
 
 class Vampire extends Mob {
@@ -31,6 +30,4 @@ module.exports = Vampire;
 const Damage = require('../../../../../gameplay/Damage');
 const Heal = require('../../../../../gameplay/Heal');
 
-Vampire.prototype.registerEntityType();
-Vampire.prototype.assignMobValues();
 Vampire.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillVampires.taskID;

@@ -1,4 +1,3 @@
-
 const Mob = require('../Mob');
 
 class Merchant extends Mob {
@@ -14,10 +13,13 @@ class Merchant extends Mob {
     modHitPoints () {}
 
 }
-module.exports = Merchant;
+
+Merchant.abstract = true;
 
 Merchant.prototype.maxHitPoints = 1;
 Merchant.prototype.gloryValue = 0;
 Merchant.prototype.wanderRate = 0;
 Merchant.prototype.faction = Mob.prototype.Factions.Citizens;
 Merchant.prototype.shop = undefined;
+
+module.exports = Merchant;

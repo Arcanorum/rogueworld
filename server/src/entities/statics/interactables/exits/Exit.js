@@ -49,5 +49,3 @@ class Exit extends Interactable {
 module.exports = Exit;
 
 const Player = require('../../../destroyables/movables/characters/Player');
-
-Exit.prototype.registerEntityType();

@@ -1,5 +1,5 @@
 
-const Item = require('../Item');
+const Item = require("../Item");
 
 class Holdable extends Item {
 
@@ -52,6 +52,8 @@ class Holdable extends Item {
     }
 
 }
+
+Holdable.abstract = true;
 
 /**
  * How much energy it costs for a character to use this item.

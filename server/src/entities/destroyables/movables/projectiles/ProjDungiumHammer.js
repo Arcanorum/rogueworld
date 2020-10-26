@@ -1,4 +1,3 @@
-
 const Projectile = require('./Projectile');
 
 class ProjDungiumHammer extends Projectile {
@@ -11,7 +10,6 @@ class ProjDungiumHammer extends Projectile {
 }
 module.exports = ProjDungiumHammer;
 
-ProjDungiumHammer.prototype.registerEntityType();
 ProjDungiumHammer.prototype.assignModHitPointConfigs();
 ProjDungiumHammer.prototype.moveRate = 200;
 ProjDungiumHammer.prototype.range = 2;

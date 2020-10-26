@@ -1,19 +1,21 @@
-const fs = require('fs');
-const Pickup = require('../entities/destroyables/pickups/Pickup');
-const Utils = require('../Utils');
+const fs = require("fs");
+const Pickup = require("../entities/destroyables/pickups/Pickup");
+const Utils = require("../Utils");
+const ItemsList = require("../ItemsList");
 
 class Drop {
     constructor (config) {
 
-        if(fs.existsSync("../server/src/entities/destroyables/pickups/Pickup" + config.itemName + ".js") === false) {
-            Utils.error("Cannot add to drop list, drop item name does not match any pickup class file name:", config.itemName);
+        if(!ItemsList[config.itemName]) {
+            Utils.error(`Cannot add to drop list. Drop item name "${config.itemName}" does not exist in the items list.
+         Check the name of the item to add is correct, and that it is in the items list.`);
         }
 
         /**
          * The item pickup entity to be created when this item is dropped.
          * @type {Function}
          */
-        this.pickupType = require("../entities/destroyables/pickups/Pickup" + config.itemName);
+        this.pickupType = ItemsList[config.itemName].prototype.PickupType;
 
         if(typeof this.pickupType !== "function"){
             Utils.error("Cannot add to drop list, pickup entity is not a function/class. Is it disabled?:", config.itemName);

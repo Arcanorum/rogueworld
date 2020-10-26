@@ -1,8 +1,9 @@
-const Utils = require('../Utils');
-const Damage = require('../gameplay/Damage');
-const Heal = require('../gameplay/Heal');
+const Utils = require("../Utils");
+const Damage = require("../gameplay/Damage");
+const Heal = require("../gameplay/Heal");
 
 const idCounter = new Utils.Counter();
+const typeNumberCounter = new Utils.Counter();
 
 class Entity {
     /**
@@ -18,6 +19,12 @@ class Entity {
         this.col = config.col;
         this.board = config.board;
     }
+
+    static registerEntityType() {
+        this.prototype.typeNumber = typeNumberCounter.getNext();
+    
+        // Utils.message("Registering entity type: ", this.prototype.typeNumber);
+    };
 
     /**
      * Remove this entity from the game world completely, and allow it to be GCed.
@@ -277,22 +284,15 @@ class Entity {
 }
 module.exports = Entity;
 
+Entity.abstract = true;
+
 // Give each entity easy access to the events list.
-Entity.prototype.EventsList = require('../EventsList');
+Entity.prototype.EventsList = require("../EventsList");
 
 // A type number is an ID for all entities that appear on the client, so the client knows which entity to add.
 // Used to send a number to get the entity name from the entity type catalogue, instead of a lengthy string of the entity name.
 // All entities that appear on the client must be registered with ENTITY.prototype.registerEntityType().
-Entity.prototype.typeNumber = 'Type not registered.';
-
-const typeNumberCounter = new Utils.Counter();
-
-Entity.prototype.registerEntityType = function () {
-
-    this.typeNumber = typeNumberCounter.getNext();
-
-    //Utils.message("Registering entity type: ", this);
-};
+Entity.prototype.typeNumber = "Type not registered.";
 
 /**
  * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
@@ -306,10 +306,10 @@ Entity.prototype._destroyed = false;
  * @type {{UP: string, DOWN: string, LEFT: string, RIGHT: string}}
  */
 Entity.prototype.Directions = {
-    UP: 'u',
-    DOWN: 'd',
-    LEFT: 'l',
-    RIGHT: 'r'
+    UP: "u",
+    DOWN: "d",
+    LEFT: "l",
+    RIGHT: "r"
 };
 
 /**
@@ -317,10 +317,10 @@ Entity.prototype.Directions = {
  * @type {{u: string, d: string, r: string, l: string}}
  */
 Entity.prototype.OppositeDirections = {
-    'u': 'd',
-    'd': 'u',
-    'r': 'l',
-    'l': 'r'
+    "u": "d",
+    "d": "u",
+    "r": "l",
+    "l": "r"
 };
 
 /**

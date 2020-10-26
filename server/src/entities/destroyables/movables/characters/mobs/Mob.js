@@ -1,9 +1,7 @@
-
 const Character = require('../Character');
 const Utils = require('../../../../../Utils');
 
 class Mob extends Character {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -1671,34 +1669,36 @@ class Mob extends Character {
     /**
      * Assigns the property values for this mob type from the mob values data list.
      */
-    assignMobValues() {
-        const valuesTypeName = this.constructor.name
+    static assignMobValues() {
+        const valuesTypeName = this.prototype.constructor.name;
         /** @type {MobStats} */
         const statValues = Mob.StatValues[valuesTypeName];
-        if (statValues === undefined) Utils.error("No mob stat values defined for type name:", valuesTypeName);
-        this.gloryValue = statValues.gloryValue;
-        this.maxHitPoints = statValues.maxHitPoints;
-        this.defence = statValues.defence;
-        this.viewRange = statValues.viewRange;
-        this.moveRate = statValues.moveRate;
-        if (this.moveRate === 0) {
+        if (statValues === undefined) Utils.warning("No mob stat values defined for type name:", valuesTypeName);
+        this.prototype.gloryValue = statValues.gloryValue;
+        this.prototype.maxHitPoints = statValues.maxHitPoints;
+        this.prototype.defence = statValues.defence;
+        this.prototype.viewRange = statValues.viewRange;
+        this.prototype.moveRate = statValues.moveRate;
+        if (this.prototype.moveRate === 0) {
             // If the move rate is 0, make them unable to move, or 
             // they will have unlimited move speed/teleport to target.
-            this.move = () => { }
+            this.prototype.move = () => { }
         }
-        this.wanderRate = statValues.wanderRate;
-        this.targetSearchRate = statValues.targetSearchRate;
-        this.attackRate = statValues.attackRate;
-        this.meleeDamageAmount = statValues.meleeDamageAmount;
-        if (statValues.projectileAttackType !== null) this.projectileAttackType = require('./../../' + statValues.projectileAttackType);
-        this.CorpseType = statValues.corpseType;
-        this.faction = statValues.faction;
-        this.behaviour = statValues.behaviour;
-        this.dropList = statValues.dropList;
+        this.prototype.wanderRate = statValues.wanderRate;
+        this.prototype.targetSearchRate = statValues.targetSearchRate;
+        this.prototype.attackRate = statValues.attackRate;
+        this.prototype.meleeDamageAmount = statValues.meleeDamageAmount;
+        if (statValues.projectileAttackType !== null) this.prototype.projectileAttackType = require('./../../' + statValues.projectileAttackType);
+        this.prototype.CorpseType = statValues.corpseType;
+        this.prototype.faction = statValues.faction;
+        this.prototype.behaviour = statValues.behaviour;
+        this.prototype.dropList = statValues.dropList;
     }
 
 }
 module.exports = Mob;
+
+Mob.abstract = true;
 
 const Player = require('../Player');
 const Damage = require('../../../../../gameplay/Damage');

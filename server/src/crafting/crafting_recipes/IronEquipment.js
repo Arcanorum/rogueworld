@@ -1,118 +1,117 @@
-
-const CraftingManager = require('./../CraftingManager');
-const EntitiesList = require('../../EntitiesList');
-const ItemsList = require('../../ItemsList');
-const StatNames = require('../../stats/Statset').prototype.StatNames;
-const TaskTypes = require('../../tasks/TaskTypes');
+const CraftingManager = require("./../CraftingManager");
+const EntitiesList = require("../../EntitiesList");
+const ItemsList = require("../../ItemsList");
+const StatNames = require("../../stats/Statset").prototype.StatNames;
+const TaskTypes = require("../../tasks/TaskTypes");
 
 CraftingManager.addRecipe({ // Iron bar
-    result:         ItemsList.ItemIronBar,
+    result:         ItemsList.IronBar,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Furnace,
-    comp1:          ItemsList.ItemIronOre
+    comp1:          ItemsList.IronOre
 });
 
 CraftingManager.addRecipe({ // Iron bar (recycle rod)
-    result:         ItemsList.ItemIronBar,
+    result:         ItemsList.IronBar,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Furnace,
-    comp1:          ItemsList.ItemIronRod,
+    comp1:          ItemsList.IronRod,
     statXPGiven:    0
 });
 
 CraftingManager.addRecipe({ // Iron bar (recycle sheet)
-    result:         ItemsList.ItemIronBar,
+    result:         ItemsList.IronBar,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Furnace,
-    comp1:          ItemsList.ItemIronSheet,
+    comp1:          ItemsList.IronSheet,
     statXPGiven:    0
 });
 
 CraftingManager.addRecipe({ // Iron rod
-    result:         ItemsList.ItemIronRod,
+    result:         ItemsList.IronRod,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemIronBar,
+    comp1:          ItemsList.IronBar,
     statXPGiven:    0
 });
 
 CraftingManager.addRecipe({ // Iron sheet
-    result:         ItemsList.ItemIronSheet,
+    result:         ItemsList.IronSheet,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemIronRod,
+    comp1:          ItemsList.IronRod,
     statXPGiven:    0
 });
 
 CraftingManager.addRecipe({ // Iron arrows
-    result:         ItemsList.ItemIronArrows,
+    result:         ItemsList.IronArrows,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemIronRod,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemFeathers,
+    comp1:          ItemsList.IronRod,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.Feathers,
     taskCrafted:    TaskTypes.CraftIronArrows
 });
 
 CraftingManager.addRecipe({ // Iron pickaxe
-    result:         ItemsList.ItemIronPickaxe,
+    result:         ItemsList.IronPickaxe,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemIronRod,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.IronRod,
     taskCrafted:    TaskTypes.CraftIronPickaxes
 });
 
 CraftingManager.addRecipe({ // Iron hatchet
-    result:         ItemsList.ItemIronHatchet,
+    result:         ItemsList.IronHatchet,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemIronSheet,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.IronSheet,
     taskCrafted:    TaskTypes.CraftIronHatchets
 });
 
 CraftingManager.addRecipe({ // Iron dagger
-    result:         ItemsList.ItemIronDagger,
+    result:         ItemsList.IronDagger,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemIronBar,
-    comp2:          ItemsList.ItemIronBar,
+    comp1:          ItemsList.IronBar,
+    comp2:          ItemsList.IronBar,
     taskCrafted:    TaskTypes.CraftIronDaggers
 });
 
 CraftingManager.addRecipe({ // Iron sword
-    result:         ItemsList.ItemIronSword,
+    result:         ItemsList.IronSword,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemIronBar,
-    comp2:          ItemsList.ItemIronBar,
-    comp3:          ItemsList.ItemIronBar,
+    comp1:          ItemsList.IronBar,
+    comp2:          ItemsList.IronBar,
+    comp3:          ItemsList.IronBar,
     taskCrafted:    TaskTypes.CraftIronSwords
 });
 
 CraftingManager.addRecipe({ // Iron hammer
-    result:         ItemsList.ItemIronHammer,
+    result:         ItemsList.IronHammer,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemIronBar,
-    comp4:          ItemsList.ItemIronBar,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.IronBar,
+    comp4:          ItemsList.IronBar,
     taskCrafted:    TaskTypes.CraftIronHammers
 });
 
 CraftingManager.addRecipe({ // Iron armour
-    result:         ItemsList.ItemIronArmour,
+    result:         ItemsList.IronArmour,
     craftingStat:   StatNames.Armoury,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemIronSheet,
-    comp2:          ItemsList.ItemIronSheet,
-    comp3:          ItemsList.ItemIronSheet,
-    comp4:          ItemsList.ItemIronSheet,
-    comp5:          ItemsList.ItemIronSheet,
+    comp1:          ItemsList.IronSheet,
+    comp2:          ItemsList.IronSheet,
+    comp3:          ItemsList.IronSheet,
+    comp4:          ItemsList.IronSheet,
+    comp5:          ItemsList.IronSheet,
     taskCrafted:    TaskTypes.CraftIronArmour
 });

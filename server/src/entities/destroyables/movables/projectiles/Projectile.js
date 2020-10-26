@@ -198,6 +198,8 @@ class Projectile extends Movable {
         }
 
         if (collidee instanceof Static) {
+            // Destroy if there is something like a wall in the way.
+            // Can still pass through things like gates and fences.
             if (collidee.isHighBlocked() === true) this.destroy();
         }
     }
@@ -319,6 +321,8 @@ class Projectile extends Movable {
 
 }
 module.exports = Projectile;
+
+Projectile.abstract = true;
 
 const Character = require('../characters/Character');
 const Static = require('../../../statics/Static');

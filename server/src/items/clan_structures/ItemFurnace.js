@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemFurnace extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemFurnace;
+// 
+ // module.exports = ItemFurnace;
 
 // const Furnace = require('../entities/interactables/crafting stations/Furnace');
 
 // ItemFurnace.prototype.registerItemType();
-// ItemFurnace.prototype.idName = "Furnace";
+// ItemFurnace.prototype.translationID = "Furnace";
 // ItemFurnace.prototype.PickupType = require('../entities/pickups/PickupFurnace');
 // //ItemFurnace.prototype.baseValue = 20;
 // ItemFurnace.prototype.iconSource = "icon-furnace";

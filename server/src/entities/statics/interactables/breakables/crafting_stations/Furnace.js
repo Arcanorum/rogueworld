@@ -1,4 +1,3 @@
-
 const CraftingStation = require('./CraftingStation');
 
 class Furnace extends CraftingStation {
@@ -24,5 +23,3 @@ class Furnace extends CraftingStation {
 
 }
 module.exports = Furnace;
-
-Furnace.prototype.registerEntityType();

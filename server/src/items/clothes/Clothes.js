@@ -1,5 +1,4 @@
-
-const Item = require('../Item');
+const Item = require("../Item");
 
 class Clothes extends Item {
 
@@ -72,6 +71,8 @@ class Clothes extends Item {
     onDamaged (damage, source) { }
 
 }
+
+Clothes.abstract = true;
 
 Clothes.prototype.defenceBonus = 0;
 Clothes.prototype.statBonuses = [];

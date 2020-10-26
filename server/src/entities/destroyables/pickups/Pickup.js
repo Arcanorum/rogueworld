@@ -1,4 +1,3 @@
-
 const Destroyable = require('../Destroyable');
 
 class Pickup extends Destroyable {
@@ -38,15 +37,9 @@ class Pickup extends Destroyable {
 
     onPickedUp (pickedUpBy) {}
 
-    setItemType (moduleName) {
-        this.ItemType = require('../../../items/' + moduleName);
-
-        if(typeof this.ItemType !== "function"){
-            Utils.error("Cannot set pickup item type, item type does not exist:", moduleName);
-        }
-    }
-
 }
+
+Pickup.abstract = true;
 
 /**
  * The type of item to be added to the inventory of the character that picks this pickup up. The class itself, NOT an instance of it.
@@ -71,5 +64,3 @@ Pickup.prototype.dropRate = 20;
 Pickup.prototype.spawnRate = 20000;
 
 module.exports = Pickup;
-
-const Utils = require('../../../Utils');

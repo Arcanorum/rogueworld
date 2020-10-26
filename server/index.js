@@ -8,17 +8,18 @@ require("./src/AccountManager").setup()
 
 async function init() {
     const { wss } = require("./src/Server");
+    require("./src/EntitiesLoader");
     require("./src/WebSocketEvents");
     require("./src/TextDefinitionsParser");
     require("./src/items/holdable/spell_books/SpellBooksList");
     require("./src/ChatWarnings");
-
+    
     //const clanManager = require("./src/ClanManager");
     const world = require("./src/World");
     world.init();
-
+    
     require("./src/CatalogueBuilders").buildDungeonPrompts();
-
+    
     // Create a finished reference to the list of items. Mainly useful for the BankManager.
     require("./src/ItemsList").LIST = require("./src/ItemsList");
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.

@@ -1,4 +1,3 @@
-
 const Interactable = require('../Interactable');
 
 class ResourceNode extends Interactable {

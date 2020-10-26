@@ -1,5 +1,4 @@
-
-const Item = require('../Item');
+const Item = require("../Item");
 
 class Ammunition extends Item {
     
@@ -43,6 +42,8 @@ class Ammunition extends Item {
     }
 
 }
+
+Ammunition.abstract = true;
 
 Ammunition.prototype.ProjectileType = null;
 

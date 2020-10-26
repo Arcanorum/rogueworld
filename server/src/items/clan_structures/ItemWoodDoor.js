@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemWoodDoor extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemWoodDoor;
+// 
+ // module.exports = ItemWoodDoor;
 
 // const WoodDoor = require('../entities/interactables/WoodDoor');
 
 // ItemWoodDoor.prototype.registerItemType();
-// ItemWoodDoor.prototype.idName = "Wood door";
+// ItemWoodDoor.prototype.translationID = "Wood door";
 // ItemWoodDoor.prototype.PickupType = require('../entities/pickups/PickupWoodDoor');
 // //ItemWoodDoor.prototype.baseValue = 20;
 // ItemWoodDoor.prototype.iconSource = "icon-wood-door";

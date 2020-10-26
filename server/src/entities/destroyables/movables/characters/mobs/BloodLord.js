@@ -1,4 +1,3 @@
-
 const Boss = require('./Boss');
 
 class BloodLord extends Boss {
@@ -15,6 +14,4 @@ module.exports = BloodLord;
 
 const Heal = require('../../../../../gameplay/Heal');
 
-BloodLord.prototype.registerEntityType();
-BloodLord.prototype.assignMobValues();
 BloodLord.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillVampires.taskID;

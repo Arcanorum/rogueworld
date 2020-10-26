@@ -1,4 +1,4 @@
-const Movable = require('../Movable');
+const Movable = require("../Movable");
 
 class Character extends Movable {
     /**
@@ -15,7 +15,7 @@ class Character extends Movable {
 
         this.hitPoints = this.maxHitPoints;
 
-        this.displayName = config.displayName || '';
+        this.displayName = config.displayName || "";
 
         this.statusEffects = {};
     }
@@ -225,11 +225,13 @@ class Character extends Movable {
 }
 module.exports = Character;
 
-const GroundTypes = require('../../../../board/GroundTypes');
-const Damage = require('../../../../gameplay/Damage');
+Character.abstract = true;
+
+const GroundTypes = require("../../../../board/GroundTypes");
+const Damage = require("../../../../gameplay/Damage");
 
 // Give each character easy access to the factions list.
-Character.prototype.Factions = require('../../../../gameplay/Factions');
+Character.prototype.Factions = require("../../../../gameplay/Factions");
 
 /**
  * The faction that this character is a member of. Mobs won't attack other mobs of the same faction.

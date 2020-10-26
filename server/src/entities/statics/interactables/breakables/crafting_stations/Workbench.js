@@ -1,4 +1,3 @@
-
 const CraftingStation = require('./CraftingStation');
 
 class Workbench extends CraftingStation {
@@ -23,5 +22,3 @@ class Workbench extends CraftingStation {
     }
 }
 module.exports = Workbench;
-
-Workbench.prototype.registerEntityType();

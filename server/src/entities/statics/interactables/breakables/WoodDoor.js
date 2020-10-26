@@ -51,6 +51,5 @@ class WoodDoor extends Breakable {
 }
 module.exports = WoodDoor;
 
-WoodDoor.prototype.registerEntityType();
 WoodDoor.prototype.interactionEnergyCost = 1;
 WoodDoor.prototype.reactivationRate = 5000;

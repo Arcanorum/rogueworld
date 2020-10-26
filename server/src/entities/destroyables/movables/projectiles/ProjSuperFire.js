@@ -54,5 +54,3 @@ module.exports = ProjSuperFire;
 const Static = require('../../../statics/Static');
 const { something_went_wrong } = require('../../../../EventsList');
 const Burn = require('./../../../../gameplay/StatusEffects').Burn;
-
-ProjSuperFire.prototype.registerEntityType();

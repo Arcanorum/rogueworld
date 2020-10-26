@@ -1,69 +1,68 @@
-
-const CraftingManager = require('../CraftingManager');
-const EntitiesList = require('../../EntitiesList');
-const ItemsList = require('../../ItemsList');
-const StatNames = require('../../stats/Statset').prototype.StatNames;
-const TaskTypes = require('../../tasks/TaskTypes');
+const CraftingManager = require("../CraftingManager");
+const EntitiesList = require("../../EntitiesList");
+const ItemsList = require("../../ItemsList");
+const StatNames = require("../../stats/Statset").prototype.StatNames;
+const TaskTypes = require("../../tasks/TaskTypes");
 
 /*CraftingManager.addRecipe({ // Workbench
-    result:         ItemsList.ItemWorkbench,
+    result:         ItemsList.Workbench,
     craftingStat:   StatNames.Clanship,
     stationType:    EntitiesList.Charter,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemOakLogs,
-    comp5:          ItemsList.ItemOakLogs
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.OakLogs,
+    comp5:          ItemsList.OakLogs
 });*/
 /*
 CraftingManager.addRecipe({ // Furnace
-    result:         ItemsList.ItemFurnace,
+    result:         ItemsList.Furnace,
     craftingStat:   StatNames.Clanship,
     stationType:    EntitiesList.Charter,
-    comp1:          ItemsList.ItemClay,
-    comp2:          ItemsList.ItemClay,
-    comp3:          ItemsList.ItemClay,
-    comp4:          ItemsList.ItemClay,
-    comp5:          ItemsList.ItemFireGem
+    comp1:          ItemsList.Clay,
+    comp2:          ItemsList.Clay,
+    comp3:          ItemsList.Clay,
+    comp4:          ItemsList.Clay,
+    comp5:          ItemsList.FireGem
 });
 */
 /*CraftingManager.addRecipe({ // Anvil
-    result:         ItemsList.ItemAnvil,
+    result:         ItemsList.Anvil,
     craftingStat:   StatNames.Clanship,
     stationType:    EntitiesList.Charter,
-    comp1:          ItemsList.ItemIronBar,
-    comp2:          ItemsList.ItemIronBar,
-    comp3:          ItemsList.ItemIronBar,
-    comp4:          ItemsList.ItemIronBar,
-    comp5:          ItemsList.ItemIronBar
+    comp1:          ItemsList.IronBar,
+    comp2:          ItemsList.IronBar,
+    comp3:          ItemsList.IronBar,
+    comp4:          ItemsList.IronBar,
+    comp5:          ItemsList.IronBar
 });*/
 /*
 CraftingManager.addRecipe({ // Bank chest
-    result:         ItemsList.ItemBankChest,
+    result:         ItemsList.BankChest,
     craftingStat:   StatNames.Clanship,
     stationType:    EntitiesList.Charter,
-    comp1:          ItemsList.ItemIronSheet,// <-- make this a chest TODO
-    comp2:          ItemsList.ItemIronSheet,
-    comp3:          ItemsList.ItemIronSheet,
-    comp4:          ItemsList.ItemIronSheet,
-    comp5:          ItemsList.ItemFireGem // <-- make this a void gem TODO
+    comp1:          ItemsList.IronSheet,// <-- make this a chest TODO
+    comp2:          ItemsList.IronSheet,
+    comp3:          ItemsList.IronSheet,
+    comp4:          ItemsList.IronSheet,
+    comp5:          ItemsList.FireGem // <-- make this a void gem TODO
 });*/
 /*
 CraftingManager.addRecipe({ // Wood wall
-    result:         ItemsList.ItemWoodWall,
+    result:         ItemsList.WoodWall,
     craftingStat:   StatNames.Clanship,
     stationType:    EntitiesList.Charter,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemOakLogs
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.OakLogs
 });*/
 /*
 CraftingManager.addRecipe({ // Wood door
-    result:         ItemsList.ItemWoodDoor,
+    result:         ItemsList.WoodDoor,
     craftingStat:   StatNames.Clanship,
     stationType:    EntitiesList.Charter,
-    comp1:          ItemsList.ItemWoodWall,
-    comp2:          ItemsList.ItemIronRod,
-    comp3:          ItemsList.ItemIronRod
+    comp1:          ItemsList.WoodWall,
+    comp2:          ItemsList.IronRod,
+    comp3:          ItemsList.IronRod
 });*/

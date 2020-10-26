@@ -27,4 +27,6 @@ class Bow extends Weapon {
 
 }
 
+Bow.abstract = true;
+
 module.exports = Bow;

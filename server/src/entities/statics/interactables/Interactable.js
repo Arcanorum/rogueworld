@@ -1,4 +1,3 @@
-
 const Static = require('../Static');
 
 class Interactable extends Static {

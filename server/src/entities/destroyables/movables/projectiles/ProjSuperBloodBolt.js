@@ -1,4 +1,3 @@
-
 const ProjBloodBolt = require('./ProjBloodBolt');
 
 class ProjSuperBloodBolt extends ProjBloodBolt {
@@ -67,5 +66,4 @@ const Character = require('../../../destroyables/movables/characters/Character')
 const Damage = require('../../../../gameplay/Damage');
 const Heal = require('../../../../gameplay/Heal');
 
-ProjSuperBloodBolt.prototype.registerEntityType();
 ProjSuperBloodBolt.prototype.assignModHitPointConfigs("ProjBloodBolt");

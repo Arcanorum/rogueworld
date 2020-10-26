@@ -1,4 +1,3 @@
-
 const Entity = require('../Entity');
 
 // TODO: rename destroyables to spawnables?
@@ -45,5 +44,7 @@ class Destroyable extends Entity {
     }
 
 }
+
+Destroyable.abstract = true;
 
 module.exports = Destroyable;

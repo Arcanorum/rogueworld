@@ -109,7 +109,7 @@ class Movable extends Destroyable {
 
 }
 
-module.exports = Movable;
+Movable.abstract = true;
 
 Movable.prototype.direction = Movable.prototype.Directions.DOWN;
 
@@ -118,3 +118,5 @@ Movable.prototype.direction = Movable.prototype.Directions.DOWN;
  * @type {Number}
  */
 Movable.prototype.moveRate = 1000;
+
+module.exports = Movable;

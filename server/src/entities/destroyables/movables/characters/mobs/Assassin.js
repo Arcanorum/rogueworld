@@ -1,4 +1,3 @@
-
 const Mob = require('./Mob');
 const Utils = require('../../../../../Utils');
 
@@ -59,6 +58,4 @@ module.exports = Assassin;
 
 const ProjShuriken = require('./../../projectiles/ProjShuriken');
 
-Assassin.prototype.registerEntityType();
-Assassin.prototype.assignMobValues();
 Assassin.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillOutlaws.taskID;

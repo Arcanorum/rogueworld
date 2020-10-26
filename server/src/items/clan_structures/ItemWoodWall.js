@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemWoodWall extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemWoodWall;
+// 
+ // module.exports = ItemWoodWall;
 
 // const ClanWoodWall = require('../entities/interactables/WoodWall');
 
 // ItemWoodWall.prototype.registerItemType();
-// ItemWoodWall.prototype.idName = "Wood wall";
+// ItemWoodWall.prototype.translationID = "Wood wall";
 // ItemWoodWall.prototype.PickupType = require('../entities/pickups/PickupWoodWall');
 // //ItemClanWoodWall.prototype.baseValue = 20;
 // ItemWoodWall.prototype.iconSource = "icon-wood-wall";

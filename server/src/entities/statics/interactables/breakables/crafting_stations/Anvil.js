@@ -1,4 +1,3 @@
-
 const CraftingStation = require('./CraftingStation');
 
 class Anvil extends CraftingStation {
@@ -24,5 +23,3 @@ class Anvil extends CraftingStation {
 
 }
 module.exports = Anvil;
-
-Anvil.prototype.registerEntityType();

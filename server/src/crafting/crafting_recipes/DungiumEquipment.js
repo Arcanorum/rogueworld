@@ -1,118 +1,129 @@
+const CraftingManager = require("./../CraftingManager");
+const EntitiesList = require("../../EntitiesList");
+const ItemsList = require("../../ItemsList");
+const StatNames = require("../../stats/Statset").prototype.StatNames;
+const TaskTypes = require("../../tasks/TaskTypes");
 
-const CraftingManager = require('./../CraftingManager');
-const EntitiesList = require('../../EntitiesList');
-const ItemsList = require('../../ItemsList');
-const StatNames = require('../../stats/Statset').prototype.StatNames;
-const TaskTypes = require('../../tasks/TaskTypes');
-
-CraftingManager.addRecipe({ // Dungium bar
-    result:         ItemsList.ItemDungiumBar,
+CraftingManager.addRecipe({
+    name:           "Dungium bar",
+    result:         ItemsList.DungiumBar,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Furnace,
-    comp1:          ItemsList.ItemDungiumOre
+    comp1:          ItemsList.DungiumOre
 });
 
-CraftingManager.addRecipe({ // Dungium bar (recycle rod)
-    result:         ItemsList.ItemDungiumBar,
+CraftingManager.addRecipe({
+    name:           "Dungium bar (recycle rod)",
+    result:         ItemsList.DungiumBar,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Furnace,
-    comp1:          ItemsList.ItemDungiumRod,
+    comp1:          ItemsList.DungiumRod,
     statXPGiven:    0
 });
 
-CraftingManager.addRecipe({ // Dungium bar (recycle sheet)
-    result:         ItemsList.ItemDungiumBar,
+CraftingManager.addRecipe({
+    name:           "Dungium bar (recycle sheet)",
+    result:         ItemsList.DungiumBar,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Furnace,
-    comp1:          ItemsList.ItemDungiumSheet,
+    comp1:          ItemsList.DungiumSheet,
     statXPGiven:    0
 });
 
-CraftingManager.addRecipe({ // Dungium rod
-    result:         ItemsList.ItemDungiumRod,
+CraftingManager.addRecipe({
+    name:           "Dungium rod",
+    result:         ItemsList.DungiumRod,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemDungiumBar,
+    comp1:          ItemsList.DungiumBar,
     statXPGiven:    0
 });
 
-CraftingManager.addRecipe({ // Dungium sheet
-    result:         ItemsList.ItemDungiumSheet,
+CraftingManager.addRecipe({
+    name:           "Dungium sheet",
+    result:         ItemsList.DungiumSheet,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemDungiumRod,
+    comp1:          ItemsList.DungiumRod,
     statXPGiven:    0
 });
 
-CraftingManager.addRecipe({ // Dungium arrows
-    result:         ItemsList.ItemDungiumArrows,
+CraftingManager.addRecipe({
+    name:           "Dungium arrows",
+    result:         ItemsList.DungiumArrows,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemDungiumRod,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemFeathers,
+    comp1:          ItemsList.DungiumRod,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.Feathers,
     taskCrafted:    TaskTypes.CraftDungiumArrows
 });
 
-CraftingManager.addRecipe({ // Dungium pickaxe
-    result:         ItemsList.ItemDungiumPickaxe,
+CraftingManager.addRecipe({
+    name:           "Dungium pickaxe",
+    result:         ItemsList.DungiumPickaxe,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemDungiumRod,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.DungiumRod,
     taskCrafted:    TaskTypes.CraftDungiumPickaxes
 });
 
-CraftingManager.addRecipe({ // Dungium hatchet
-    result:         ItemsList.ItemDungiumHatchet,
+CraftingManager.addRecipe({
+    name:           "Dungium hatchet",
+    result:         ItemsList.DungiumHatchet,
     craftingStat:   StatNames.Toolery,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemDungiumSheet,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.DungiumSheet,
     taskCrafted:    TaskTypes.CraftDungiumHatchets
 });
 
-CraftingManager.addRecipe({ // Dungium dagger
-    result:         ItemsList.ItemDungiumDagger,
+CraftingManager.addRecipe({
+    name:           "Dungium dagger",
+    result:         ItemsList.DungiumDagger,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemDungiumBar,
-    comp2:          ItemsList.ItemDungiumBar,
+    comp1:          ItemsList.DungiumBar,
+    comp2:          ItemsList.DungiumBar,
     taskCrafted:    TaskTypes.CraftDungiumDaggers
 });
 
-CraftingManager.addRecipe({ // Dungium sword
-    result:         ItemsList.ItemDungiumSword,
+CraftingManager.addRecipe({
+    name:           "Dungium sword",
+    result:         ItemsList.DungiumSword,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemDungiumBar,
-    comp2:          ItemsList.ItemDungiumBar,
-    comp3:          ItemsList.ItemDungiumBar,
+    comp1:          ItemsList.DungiumBar,
+    comp2:          ItemsList.DungiumBar,
+    comp3:          ItemsList.DungiumBar,
     taskCrafted:    TaskTypes.CraftDungiumSwords
 });
 
-CraftingManager.addRecipe({ // Dungium hammer
-    result:         ItemsList.ItemDungiumHammer,
+CraftingManager.addRecipe({
+    name:           "Dungium hammer",
+    result:         ItemsList.DungiumHammer,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemDungiumBar,
-    comp4:          ItemsList.ItemDungiumBar,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.DungiumBar,
+    comp4:          ItemsList.DungiumBar,
     taskCrafted:    TaskTypes.CraftDungiumHammers
 });
 
-CraftingManager.addRecipe({ // Dungium armour
-    result:         ItemsList.ItemDungiumArmour,
+CraftingManager.addRecipe({
+    name:           "Dungium armour",
+    result:         ItemsList.DungiumArmour,
     craftingStat:   StatNames.Armoury,
     stationType:    EntitiesList.Anvil,
-    comp1:          ItemsList.ItemDungiumSheet,
-    comp2:          ItemsList.ItemDungiumSheet,
-    comp3:          ItemsList.ItemDungiumSheet,
-    comp4:          ItemsList.ItemDungiumSheet,
-    comp5:          ItemsList.ItemDungiumSheet,
+    comp1:          ItemsList.DungiumSheet,
+    comp2:          ItemsList.DungiumSheet,
+    comp3:          ItemsList.DungiumSheet,
+    comp4:          ItemsList.DungiumSheet,
+    comp5:          ItemsList.DungiumSheet,
     taskCrafted:    TaskTypes.CraftDungiumArmour
 });

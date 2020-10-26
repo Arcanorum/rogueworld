@@ -1,7 +1,7 @@
-const Character = require('./Character');
+const Character = require("./Character");
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
-const playerMeleeModHitPointConfig = require('../../../../gameplay/ModHitPointConfigs').PlayerMelee;
+const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
 
 class Player extends Character {
     /**
@@ -444,7 +444,7 @@ class Player extends Character {
     addToInventory(item, slotKey) {
         // If a slot key to add at was given, use it.
         if (slotKey !== undefined) {
-            // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. 'abcd').
+            // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. "abcd").
             if (this.inventory[slotKey] !== null) {
                 Utils.error("Attempt to add item to character inventory at already occupied slot: " + slotKey + ", item: " + item.constructor.name);
             }
@@ -623,18 +623,15 @@ module.exports = Player;
 
 // Need to define the references to the sub-classes that are used by methods here AFTER the class is exported, otherwise the class doesn't exist yet for them to extend from.
 // Same reason for all other classes.
-const Utils = require('../../../../Utils');
-const BoardsList = require('../../../../board/BoardsList');
-const BankAccount = require('../../../../BankAccount');
-const Statset = require('../../../../stats/Statset');
-const Taskset = require('../../../../tasks/Taskset');
-const world = require('../../../../World');
-const Damage = require('../../../../gameplay/Damage');
-
-Player.prototype.registerEntityType();
+const Utils = require("../../../../Utils");
+const BoardsList = require("../../../../board/BoardsList");
+const BankAccount = require("../../../../BankAccount");
+const Statset = require("../../../../stats/Statset");
+const Taskset = require("../../../../tasks/Taskset");
+const Damage = require("../../../../gameplay/Damage");
 
 // Give each player easy access to the events list.
-Player.prototype.ChatWarnings = require('../../../../ChatWarnings');
+Player.prototype.ChatWarnings = require("../../../../ChatWarnings");
 /** @type {Number} How long between each move. */
 Player.prototype.moveDelay = 250;
 /** @type {Number} */
@@ -654,7 +651,7 @@ Player.prototype.glory = 100;
 /** @type {Number} */
 Player.prototype.bounty = 0;
 /** @type {Function} */
-Player.prototype.CorpseType = require('../../corpses/CorpseHuman');
+Player.prototype.CorpseType = require("../../corpses/CorpseHuman");
 
 /**
  * What this player is wearing. Such as armour, robes, cloak, disguise, apron.

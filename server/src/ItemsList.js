@@ -1,36 +1,92 @@
+const fs   = require("fs");
+const yaml = require("js-yaml");
 const Utils = require("./Utils");
+const Item = require("./items/Item");
 
 const ItemsList = {
     LIST: this
 };
 
-// Import all of the item files.
-require('require-dir')('items', {
+/**
+ * Creates a generic class for an item based on the Item class, or one of it's abstract subclasses.
+ * @param {Object} config
+ * @param {String} config.name
+ * @param {String} [config.extends]
+ */
+const makeClass = (config) => {
+    if(!config.name) {
+        Utils.error(`Cannot load item config, required property "name" is missing.`);
+    }
+
+    // Use the base Item class to extend from by default.
+    let SuperClass = Item;
+
+    // Use a more specific type (i.e. Ammunition, Clothes) to extend from if specified.
+    if(config.extends){
+        const pathToCheck = `${__dirname}/items/${config.extends}.js`;
+        if (fs.existsSync(pathToCheck)) {
+            SuperClass = require(`./items/${config.extends}`);
+        }
+        else {
+            Utils.error(`Failed to load item config from ItemValues.yml for "${config.name}".
+          The class to extend from cannot be found for given "extends" property "${config.extends}".
+          Full path being checked: "${pathToCheck}"`);
+        }
+    }
+
+    class GenericItem extends SuperClass { }
+
+    GenericItem.assignPickupType(config.name);
+
+    return GenericItem;
+};
+
+try {
+    // Load all of the pure config items from the item configs list.
+    const itemConfigs = yaml.safeLoad(fs.readFileSync(__dirname + "/items/ItemValues.yml", "utf8"));
+
+    itemConfigs.forEach((config) => {
+        ItemsList[config.name] = makeClass(config);
+    });
+} catch (error) {
+    Utils.error(error);
+}
+
+// Import all of the files for items that have their own file/custom class.
+require("require-dir")("items", {
     recurse: true,
     mapKey: (value, baseName) => {
         if (typeof value === "function") {
-            // Only add things that are actual items (has "Item" prefix), not superclasses.
-            // Also catch the "Item" class itself.
-            if (baseName.substring(0, 4) !== "Item" || baseName === "Item") return;
+            if(ItemsList[baseName]){
+                Utils.error(`Cannot load item "${baseName}", as it already exists in the items list. Each item can have an entry in the ItemValues.yml item config list, or a class file, but not both.`);
+            }
+            // Don't add abstract classes.
+            // Only bother with classes that are actually going to get instantiated.
+            if(value.hasOwnProperty("abstract")) return;
+
+            value.assignPickupType(baseName);
 
             ItemsList[baseName] = value;
         }
     }
 });
 
+// Items list is now complete. Finish any setup for the classes in it.
 // Check all of the items are valid. i.e. are a class/function.
-Object.keys(ItemsList).forEach((itemKey) => {
+Object.entries(ItemsList).forEach(([name, type]) => {
     // Skip the list itself.
-    if (itemKey === "LIST") return;
+    if (name === "LIST") return;
 
-    if (typeof ItemsList[itemKey] !== "function") {
-        console.error("* ERROR: Invalid item type added to ItemsList:", itemKey);
-        process.exit();
+    if (typeof type !== "function") {
+        Utils.error("Invalid item type added to ItemsList:", name);
     }
+
+    // Need to do the registering here, so both the items from the config list and the ones loaded from file are done.
+    type.registerItemType();
+
 });
 
 // Write the registered item types to the client, so the client knows what item to add for each type number.
-const fs = require('fs');
 let dataToWrite = {};
 
 for (let itemTypeKey in ItemsList) {
@@ -41,12 +97,11 @@ for (let itemTypeKey in ItemsList) {
     // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
     if (itemPrototype === undefined) continue;
     // Only add registered types.
-    if (itemPrototype.typeNumber === 'Type not registered.') continue;
+    if (itemPrototype.typeNumber === "Type not registered.") continue;
     // Add this item type to the type catalogue.
     dataToWrite[itemPrototype.typeNumber] = {
         typeNumber: itemPrototype.typeNumber,
-        idName: itemPrototype.idName,
-        baseValue: itemPrototype.baseValue,
+        translationID: itemPrototype.translationID,
         iconSource: itemPrototype.iconSource
     };
 }
@@ -57,7 +112,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/ItemTypes.json', dataToWrite);
+fs.writeFileSync("../client/src/catalogues/ItemTypes.json", dataToWrite);
 
 Utils.message("Item types catalogue written to file.");
 

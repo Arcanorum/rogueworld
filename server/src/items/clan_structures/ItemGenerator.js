@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemGenerator extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemGenerator;
+// 
+ // module.exports = ItemGenerator;
 
 // const Generator = require('../entities/interactables/Generator');
 
 // ItemGenerator.prototype.registerItemType();
-// ItemGenerator.prototype.idName = "Generator";
+// ItemGenerator.prototype.translationID = "Generator";
 // ItemGenerator.prototype.PickupType = require('../entities/pickups/PickupGenerator');
 // //ItemGenerator.prototype.baseValue = 20;
 // ItemGenerator.prototype.iconSource = "icon-generator";

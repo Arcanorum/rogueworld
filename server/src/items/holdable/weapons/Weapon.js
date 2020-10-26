@@ -32,6 +32,8 @@ class Weapon extends Holdable {
 
 }
 
+Weapon.abstract = true;
+
 /**
  * The type of entity to be added to the board when a weapon is used that created this projectile. The class itself, NOT an instance of it.
  * @type {Function}

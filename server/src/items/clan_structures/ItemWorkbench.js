@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemWorkbench extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemWorkbench;
+// 
+ // module.exports = ItemWorkbench;
 
 // const Workbench = require('../entities/interactables/crafting stations/Workbench');
 
 // ItemWorkbench.prototype.registerItemType();
-// ItemWorkbench.prototype.idName = "Workbench";
+// ItemWorkbench.prototype.translationID = "Workbench";
 // ItemWorkbench.prototype.PickupType = require('../entities/pickups/PickupWorkbench');
 // //ItemWorkbench.prototype.baseValue = 20;
 // ItemWorkbench.prototype.iconSource = "icon-workbench";

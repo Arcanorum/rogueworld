@@ -1,102 +1,101 @@
-
-const CraftingManager = require('./../CraftingManager');
-const EntitiesList = require('../../EntitiesList');
-const ItemsList = require('../../ItemsList');
-const StatNames = require('../../stats/Statset').prototype.StatNames;
-const TaskTypes = require('../../tasks/TaskTypes');
+const CraftingManager = require("./../CraftingManager");
+const EntitiesList = require("../../EntitiesList");
+const ItemsList = require("../../ItemsList");
+const StatNames = require("../../stats/Statset").prototype.StatNames;
+const TaskTypes = require("../../tasks/TaskTypes");
 
 CraftingManager.addRecipe({ // Fire staff
-    result:         ItemsList.ItemFireStaff,
+    result:         ItemsList.FireStaff,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemFireGem,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.FireGem,
     taskCrafted:    TaskTypes.CraftFireStaffs
 });
 
 CraftingManager.addRecipe({ // Super fire staff
-    result:         ItemsList.ItemSuperFireStaff,
+    result:         ItemsList.SuperFireStaff,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemFireGem,
-    comp5:          ItemsList.ItemFireGem,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.FireGem,
+    comp5:          ItemsList.FireGem,
     taskCrafted:    TaskTypes.CraftFireStaffs
 });
 
 CraftingManager.addRecipe({ // Wind staff
-    result:         ItemsList.ItemWindStaff,
+    result:         ItemsList.WindStaff,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemWindGem,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.WindGem,
     taskCrafted:    TaskTypes.CraftWindStaffs
 });
 
 CraftingManager.addRecipe({ // Super wind staff
-    result:         ItemsList.ItemSuperWindStaff,
+    result:         ItemsList.SuperWindStaff,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemWindGem,
-    comp5:          ItemsList.ItemWindGem,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.WindGem,
+    comp5:          ItemsList.WindGem,
     taskCrafted:    TaskTypes.CraftWindStaffs
 });
 
 CraftingManager.addRecipe({ // Blood staff
-    result:         ItemsList.ItemBloodStaff,
+    result:         ItemsList.BloodStaff,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemBloodGem,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.BloodGem,
     taskCrafted:    TaskTypes.CraftBloodStaffs
 });
 
 CraftingManager.addRecipe({ // Super blood staff
-    result:         ItemsList.ItemSuperBloodStaff,
+    result:         ItemsList.SuperBloodStaff,
     craftingStat:   StatNames.Weaponry,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemOakLogs,
-    comp2:          ItemsList.ItemOakLogs,
-    comp3:          ItemsList.ItemOakLogs,
-    comp4:          ItemsList.ItemBloodGem,
-    comp5:          ItemsList.ItemBloodGem,
+    comp1:          ItemsList.OakLogs,
+    comp2:          ItemsList.OakLogs,
+    comp3:          ItemsList.OakLogs,
+    comp4:          ItemsList.BloodGem,
+    comp5:          ItemsList.BloodGem,
     taskCrafted:    TaskTypes.CraftBloodStaffs
 });
 
 CraftingManager.addRecipe({ // Plain robe
-    result:         ItemsList.ItemPlainRobe,
+    result:         ItemsList.PlainRobe,
     craftingStat:   StatNames.Armoury,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemFabric,
-    comp2:          ItemsList.ItemFabric,
+    comp1:          ItemsList.Fabric,
+    comp2:          ItemsList.Fabric,
     taskCrafted:    TaskTypes.CraftPlainRobes
 });
 
 CraftingManager.addRecipe({ // Mage robe
-    result:         ItemsList.ItemMageRobe,
+    result:         ItemsList.MageRobe,
     craftingStat:   StatNames.Armoury,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemPlainRobe,
-    comp3:          ItemsList.ItemBluecap,
+    comp1:          ItemsList.PlainRobe,
+    comp3:          ItemsList.Bluecap,
     taskCrafted:    TaskTypes.CraftMageRobes
 });
 
 CraftingManager.addRecipe({ // Necromancer robe
-    result:         ItemsList.ItemNecromancerRobe,
+    result:         ItemsList.NecromancerRobe,
     craftingStat:   StatNames.Armoury,
     stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.ItemPlainRobe,
-    comp3:          ItemsList.ItemNoctisOre,
+    comp1:          ItemsList.PlainRobe,
+    comp3:          ItemsList.NoctisOre,
     taskCrafted:    TaskTypes.CraftNecromancerRobes
 });

@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemCharter extends Item {
 
@@ -25,11 +25,11 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemCharter;
+// 
+ // module.exports = ItemCharter;
 
 // ItemCharter.prototype.registerItemType();
-// ItemCharter.prototype.idName = "Charter";
+// ItemCharter.prototype.translationID = "Charter";
 // ItemCharter.prototype.PickupType = require('../entities/pickups/PickupCharter');
 // //ItemCharter.prototype.baseValue = 20;
 // ItemCharter.prototype.iconSource = "icon-charter";

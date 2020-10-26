@@ -20,6 +20,5 @@
 // }
 // module.exports = WoodWall;
 
-// WoodWall.prototype.registerEntityType();
 // WoodWall.prototype.hitPoints = 20;
 // WoodWall.prototype.maxHitPoints = WoodWall.prototype.hitPoints;

@@ -1,5 +1,5 @@
 
-// const Item = require('../Item');
+// const Item = require("../Item");
 
 // class ItemAnvil extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemAnvil;
+// 
+ // module.exports = ItemAnvil;
 
 // const Anvil = require('../entities/interactables/crafting stations/Anvil');
 
 // ItemAnvil.prototype.registerItemType();
-// ItemAnvil.prototype.idName = "Anvil";
+// ItemAnvil.prototype.translationID = "Anvil";
 // ItemAnvil.prototype.PickupType = require('../entities/pickups/PickupAnvil');
 // //ItemAnvil.prototype.baseValue = 20;
 // ItemAnvil.prototype.iconSource = "icon-anvil";

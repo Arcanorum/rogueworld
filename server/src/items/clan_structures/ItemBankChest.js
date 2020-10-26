@@ -1,5 +1,5 @@
 
-// const Item = require('./Item');
+// const Item = require("./Item");
 
 // class ItemBankChest extends Item {
 
@@ -24,13 +24,13 @@
 //     }
 
 // }
-// // This item needs to be exported before the pickup type that it is linked to accesses it.
-// module.exports = ItemBankChest;
+// 
+ // module.exports = ItemBankChest;
 
 // const BankChest = require('../entities/interactables/BankChest');
 
 // ItemBankChest.prototype.registerItemType();
-// ItemBankChest.prototype.idName = "Bank chest";
+// ItemBankChest.prototype.translationID = "Bank chest";
 // ItemBankChest.prototype.PickupType = require('../entities/pickups/PickupBankChest');
 // //ItemBankChest.prototype.baseValue = 20;
 // ItemBankChest.prototype.iconSource = "icon-bank-chest";

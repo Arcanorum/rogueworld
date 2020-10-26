@@ -1,4 +1,3 @@
-
 const CraftingStation = require('./CraftingStation');
 
 class Laboratory extends CraftingStation {
@@ -23,5 +22,3 @@ class Laboratory extends CraftingStation {
     }
 }
 module.exports = Laboratory;
-
-Laboratory.prototype.registerEntityType();

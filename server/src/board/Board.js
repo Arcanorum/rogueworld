@@ -1,13 +1,13 @@
-const fs = require('fs');
-const Utils = require('../Utils');
-const GroundTypes = require('./GroundTypes');
-const groundTileset = require('../../map/tilesets/ground');
-const boundariesTileset = require('../../map/tilesets/boundaries');
-const staticsTileset = require('../../map/tilesets/statics');
-const BoardTile = require('./BoardTile');
-const EntitiesList = require('../EntitiesList');
-const Player = require('../entities/destroyables/movables/characters/Player');
-const DayPhases = require('../DayPhases');
+const fs = require("fs");
+const Utils = require("../Utils");
+const GroundTypes = require("./GroundTypes");
+const groundTileset = require("../../map/tilesets/ground");
+const boundariesTileset = require("../../map/tilesets/boundaries");
+const staticsTileset = require("../../map/tilesets/statics");
+const BoardTile = require("./BoardTile");
+const EntitiesList = require("../EntitiesList");
+const Player = require("../entities/destroyables/movables/characters/Player");
+const DayPhases = require("../DayPhases");
 
 // A recent version of Tiled changed the tileset.tiles property to be an array.
 // Map the values back to an object by ID.
@@ -21,7 +21,7 @@ const playerViewRange = EntitiesList["Player"].viewRange;
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
 // Precomputed value to avoid having to do `i <= playerViewRange` (2 checks), or `i < playerViewRange + 1` (repeated calculation).
 const playerViewRangePlusOne = playerViewRange + 1;
-const Directions = require('../entities/Entity').prototype.Directions;
+const Directions = require("../entities/Entity").prototype.Directions;
 
 // Sum the amount of tiles in each previous tileset to get the start GID of each tileset.
 const boundariesStartGID = groundTileset.tilecount;
@@ -48,7 +48,7 @@ class Board {
          * The name of this board.
          * @type {String}
          */
-        this.name = name || 'Unnamed board';
+        this.name = name || "Unnamed board";
 
         /**
          * The container for all of the actual board tiles that make up the playable game space.
@@ -117,7 +117,7 @@ class Board {
                         return mapData.layers[i];
                     }
                 }
-                Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + '.');
+                Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + ".");
                 return false;
             };
 
@@ -146,7 +146,7 @@ class Board {
         }
 
         // Check that the boundaries layer exists in the map data.
-        layer = findLayer('Boundaries');
+        layer = findLayer("Boundaries");
         if (layer) {
             tilesData = layer.data;
             row = 0;
@@ -170,7 +170,7 @@ class Board {
                     type = boundariesTileset.tiles[relativeID].type;
 
                     // Check that the type of this tile is a valid one.
-                    if (type === 'SafeZone') {
+                    if (type === "SafeZone") {
                         // Make this tile a safe zone.
                         this.grid[row][col].safeZone = true;
                     }
@@ -182,7 +182,7 @@ class Board {
         }
 
         // Check that the ground layer exists in the map data.
-        layer = findLayer('Ground');
+        layer = findLayer("Ground");
         if (layer) {
             tilesData = layer.data;
             row = 0;
@@ -216,7 +216,7 @@ class Board {
         }
 
         // Check that the statics layer exists in the map data.
-        layer = findLayer('Statics');
+        layer = findLayer("Statics");
         if (layer) {
             tilesData = layer.data;
             row = 0;
@@ -279,7 +279,7 @@ class Board {
         }
 
         // Check that the configurables layer exists in the map data.
-        layer = findLayer('Configurables');
+        layer = findLayer("Configurables");
         if (layer) {
             // This is a object layer, not a tile one, so get the objects data.
             objectsData = layer.objects;
@@ -319,68 +319,68 @@ class Board {
                     // as another dungeon instance board being made from the same map data.
                     // TODO: do this on all map objects in the all map datas beforehand, so it isnt done every time a board instance is made.
                     if (Array.isArray(mapObject.properties)) {
-                        mapObject.properties = Utils.arrayToObject(mapObject.properties, 'name', 'value');
+                        mapObject.properties = Utils.arrayToObject(mapObject.properties, "name", "value");
                     }
 
-                    if (mapObject.properties['Disabled']) {
+                    if (mapObject.properties["Disabled"]) {
                         Utils.warning("Map object is disabled in map data:", mapObject);
                         continue;
                     }
 
                     switch (type) {
-                        case 'SpawnerArea':
+                        case "SpawnerArea":
                             config.width = mapObject.width / this.tileSize;
                             config.height = mapObject.height / this.tileSize;
-                            config.entityType = EntitiesList[mapObject.properties['EntityClassName']];
-                            config.maxAtOnce = mapObject.properties['MaxAtOnce'];
-                            config.spawnRate = mapObject.properties['SpawnRate'];
-                            config.testing = mapObject.properties['Testing'];
-                            config.dropList = mapObject.properties['DropList'];
+                            config.entityType = EntitiesList[mapObject.properties["EntityClassName"]];
+                            config.maxAtOnce = mapObject.properties["MaxAtOnce"];
+                            config.spawnRate = mapObject.properties["SpawnRate"];
+                            config.testing = mapObject.properties["Testing"];
+                            config.dropList = mapObject.properties["DropList"];
                             if (
-                                mapObject.properties['RedKeys'] ||
-                                mapObject.properties['GreenKeys'] ||
-                                mapObject.properties['BlueKeys'] ||
-                                mapObject.properties['YellowKeys'] ||
-                                mapObject.properties['BrownKeys']
+                                mapObject.properties["RedKeys"] ||
+                                mapObject.properties["GreenKeys"] ||
+                                mapObject.properties["BlueKeys"] ||
+                                mapObject.properties["YellowKeys"] ||
+                                mapObject.properties["BrownKeys"]
                             ) {
                                 config.dungeonKeys = {}
-                                if (mapObject.properties['RedKeys']) config.dungeonKeys.red = mapObject.properties['RedKeys'];
-                                if (mapObject.properties['GreenKeys']) config.dungeonKeys.green = mapObject.properties['GreenKeys'];
-                                if (mapObject.properties['BlueKeys']) config.dungeonKeys.blue = mapObject.properties['BlueKeys'];
-                                if (mapObject.properties['YellowKeys']) config.dungeonKeys.yellow = mapObject.properties['YellowKeys'];
-                                if (mapObject.properties['BrownKeys']) config.dungeonKeys.brown = mapObject.properties['BrownKeys'];
+                                if (mapObject.properties["RedKeys"]) config.dungeonKeys.red = mapObject.properties["RedKeys"];
+                                if (mapObject.properties["GreenKeys"]) config.dungeonKeys.green = mapObject.properties["GreenKeys"];
+                                if (mapObject.properties["BlueKeys"]) config.dungeonKeys.blue = mapObject.properties["BlueKeys"];
+                                if (mapObject.properties["YellowKeys"]) config.dungeonKeys.yellow = mapObject.properties["YellowKeys"];
+                                if (mapObject.properties["BrownKeys"]) config.dungeonKeys.brown = mapObject.properties["BrownKeys"];
                             }
                             // Check the entity type to create is valid.
                             if (config.entityType === undefined) {
-                                Utils.warning("Spawner invalid configuration. Entity type to spawn doesn't exist:", mapObject.properties['EntityClassName']);
+                                Utils.warning("Spawner invalid configuration. Entity type to spawn doesn't exist:", mapObject.properties["EntityClassName"]);
                                 continue;
                             }
                             break;
-                        case 'Exit':
-                            config.targetBoard = mapObject.properties['TargetBoard'];
-                            config.targetEntranceName = mapObject.properties['TargetEntranceName'];
+                        case "Exit":
+                            config.targetBoard = mapObject.properties["TargetBoard"];
+                            config.targetEntranceName = mapObject.properties["TargetEntranceName"];
                             break;
-                        case 'DungeonPortal':
+                        case "DungeonPortal":
                             // Check the dungeon portal properties are valid.
                             if (mapObject.properties === undefined) {
                                 Utils.error("No properties set on dungeon portal in map data:", mapObject);
                                 continue;
                             }
-                            config.dungeonName = mapObject.properties['DungeonName'];
+                            config.dungeonName = mapObject.properties["DungeonName"];
                             if (config.dungeonName === undefined) {
                                 Utils.error(`Dungeon portal on map "${this.name}" is missing property "DungeonName". Map object:`, mapObject);
                                 continue;
                             }
                             break;
-                        case 'OverworldPortal':
-                            config.targetBoard = mapObject.properties['TargetBoard'];
-                            config.targetEntranceName = mapObject.properties['TargetEntranceName'];
-                            config.activeState = mapObject.properties['ActiveState'];
+                        case "OverworldPortal":
+                            config.targetBoard = mapObject.properties["TargetBoard"];
+                            config.targetEntranceName = mapObject.properties["TargetEntranceName"];
+                            config.activeState = mapObject.properties["ActiveState"];
                             break;
-                        case 'Entrance':
+                        case "Entrance":
                             config.width = mapObject.width / this.tileSize;
                             config.height = mapObject.height / this.tileSize;
-                            config.entranceName = mapObject.properties['EntranceName'];
+                            config.entranceName = mapObject.properties["EntranceName"];
                             if (config.entranceName === "dungeon-start") {
                                 dungeonStartEntranceFound = true;
                             }
@@ -766,7 +766,7 @@ class Board {
      * @param {Number} col
      * @param {String} eventNameID - Use one of the valid event names from EventsList.js.
      * @param {*} [data] - Any optional data to send with the event.
-     * @param {Number} [range=playerViewRangePlusOne] - A specific range to define 'nearby' to be, otherwise uses the player view range + 1.
+     * @param {Number} [range=playerViewRangePlusOne] - A specific range to define "nearby" to be, otherwise uses the player view range + 1.
      */
     emitToNearbyPlayers(row, col, eventNameID, data, range) {
         let nearbyRange = playerViewRange,
@@ -1040,7 +1040,7 @@ class Board {
      */
     isTileBuildable(row, col) {
         // Check this board is the overworld. Can only build on the overworld.
-        if (this !== boardsObject['overworld']) {
+        if (this !== boardsObject["overworld"]) {
             return false;
         }
 
@@ -1082,11 +1082,11 @@ Board.tileSize = 16;
 * @param {String} dataFileName
 */
 Board.createClientBoardData = (dataFileName) => {
-    const mapData = require('../../map/' + dataFileName + '.json');
-    const mapProperties = Utils.arrayToObject(mapData.properties, 'name', 'value');
+    const mapData = require("../../map/" + dataFileName + ".json");
+    const mapProperties = Utils.arrayToObject(mapData.properties, "name", "value");
 
     // Skip disabled maps.
-    if (mapProperties['Disabled'] === true) {
+    if (mapProperties["Disabled"] === true) {
         Utils.message("Skipping disabled map:", dataFileName);
         return;
     }
@@ -1108,7 +1108,7 @@ Board.createClientBoardData = (dataFileName) => {
                     return mapData.layers[i];
                 }
             }
-            Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + '.');
+            Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + ".");
             return false;
         };
 
@@ -1137,7 +1137,7 @@ Board.createClientBoardData = (dataFileName) => {
     }
 
     // Check that the ground layer exists in the map data.
-    layer = findLayer('Ground');
+    layer = findLayer("Ground");
     if (layer) {
         tilesData = layer.data;
         row = 0;
@@ -1190,7 +1190,7 @@ Board.createClientBoardData = (dataFileName) => {
     }
 
     // Check that the statics layer exists in the map data.
-    layer = findLayer('Statics');
+    layer = findLayer("Statics");
     if (layer) {
         tilesData = layer.data;
         row = 0;
@@ -1255,7 +1255,7 @@ Board.createClientBoardData = (dataFileName) => {
     }
 
     // Check that the configurables layer exists in the map data.
-    layer = findLayer('Configurables');
+    layer = findLayer("Configurables");
     if (layer) {
         // This is a object layer, not a tile one, so get the objects data.
         objectsData = layer.objects;
@@ -1286,19 +1286,19 @@ Board.createClientBoardData = (dataFileName) => {
             if (EntitiesList[type]) {
                 const config = {};
 
-                if (mapObject.properties['Disabled']) {
+                if (mapObject.properties["Disabled"]) {
                     Utils.warning("Map object is disabled in map data:", mapObject);
                     continue;
                 }
 
                 switch (type) {
-                    case 'DungeonPortal':
+                    case "DungeonPortal":
                         // Check the dungeon portal properties are valid.
                         if (mapObject.properties === undefined) {
                             Utils.error("No properties set on dungeon portal in map data:", mapObject);
                             continue;
                         }
-                        config.dungeonName = mapObject.properties['DungeonName'];
+                        config.dungeonName = mapObject.properties["DungeonName"];
                         break;
                 }
 
@@ -1321,18 +1321,18 @@ Board.createClientBoardData = (dataFileName) => {
             }
             else {
                 // If a GUI trigger, just write the data to the client. No server entity needed.
-                if (type === 'GUITrigger') {
+                if (type === "GUITrigger") {
                     // Add it to all of the slots this object covers.
                     const objectRows = mapObject.height / Board.tileSize;
                     const objectCols = mapObject.width / Board.tileSize;
                     for (let rowOffset = 0; rowOffset < objectRows; rowOffset += 1) {
                         for (let colOffset = 0; colOffset < objectCols; colOffset += 1) {
                             new ClientStaticTile(row + rowOffset, col + colOffset, objectID, {
-                                name: mapObject.properties['Name'],
-                                panelName: mapObject.properties['PanelName'],
-                                panelNameTextDefID: mapObject.properties['PanelNameTextDefID'],
-                                contentFileName: mapObject.properties['ContentFileName'],
-                                contentTextDefID: mapObject.properties['ContentTextDefID'],
+                                name: mapObject.properties["Name"],
+                                panelName: mapObject.properties["PanelName"],
+                                panelNameTextDefID: mapObject.properties["PanelNameTextDefID"],
+                                contentFileName: mapObject.properties["ContentFileName"],
+                                contentTextDefID: mapObject.properties["ContentTextDefID"],
                             });
                         }
                     }
@@ -1349,7 +1349,7 @@ Board.createClientBoardData = (dataFileName) => {
 
     //console.log("client data to save:", json);
 
-    Utils.checkDirectoryExists('../client/assets/map');
+    Utils.checkDirectoryExists("../client/assets/map");
 
     // Write the data to the file in the client files.
     fs.writeFileSync("../client/assets/map/" + dataFileName + ".json", json, "utf8");
@@ -1359,5 +1359,5 @@ Board.createClientBoardData = (dataFileName) => {
 
 module.exports = Board;
 
-const boardsObject = require('./BoardsList').boardsObject;
-const DungeonManagersList = require('../dungeon/DungeonManagersList');
+const boardsObject = require("./BoardsList").boardsObject;
+const DungeonManagersList = require("../dungeon/DungeonManagersList");

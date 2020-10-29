@@ -1,4 +1,4 @@
-const Corpse = require('./Corpse');
+const Corpse = require("./Corpse");
 
 /**
  * @category Corpse
@@ -10,6 +10,6 @@ const Corpse = require('./Corpse');
  */
 class CorpseHuman extends Corpse {}
 
-CorpseHuman.prototype.ZombieType = require('../movables/characters/mobs/zombies/ZombieHuman');
-
 module.exports = CorpseHuman;
+
+CorpseHuman.prototype.ZombieType = require("../movables/characters/mobs/zombies/ZombieHuman");

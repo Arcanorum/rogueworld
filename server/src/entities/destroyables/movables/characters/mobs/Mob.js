@@ -1695,6 +1695,10 @@ class Mob extends Character {
         this.prototype.dropList = statValues.dropList;
     }
 
+    static loadMobStats() {
+        Mob.StatValues = require('./MobStats');
+    }
+
 }
 module.exports = Mob;
 
@@ -1703,7 +1707,7 @@ Mob.abstract = true;
 const Player = require('../Player');
 const Damage = require('../../../../../gameplay/Damage');
 
-Mob.StatValues = require('./MobStats');
+Mob.StatValues = null;
 
 // Give each mob easy access to the behaviours list.
 Mob.prototype.Behaviours = require('../../../../../gameplay/Behaviours');

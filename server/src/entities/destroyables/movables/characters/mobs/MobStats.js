@@ -5,6 +5,7 @@ const Factions = require("../../../../../gameplay/Factions");
 const Behaviours = require("../../../../../gameplay/Behaviours");
 const Drop = require("../../../../../gameplay/Drop");
 const Damage = require("../../../../../gameplay/Damage");
+const EntitiesList = require("../../../../../EntitiesList");
 
 /**
  * Gets the value to use for a mob for a given property.
@@ -61,7 +62,6 @@ class MobStats {
             }
         }
 
-
         // Use the default faction if undefined.
         if(config["faction"] === undefined) this.faction = defaultMobStats["faction"];
         else {
@@ -84,7 +84,7 @@ class MobStats {
                 Utils.error("Invalid corpse type given: " + config["corpseType"]);
             }
 
-            this.corpseType = require("../../../corpses/Corpse" + config["corpseType"]);
+            this.corpseType = EntitiesList["Corpse" + config["corpseType"]];
         }
 
         if(config["dropList"] === undefined) this.dropList = defaultMobStats["dropList"];
@@ -94,7 +94,7 @@ class MobStats {
             this.dropList = [];
             config["dropList"].forEach((dropConfig) => {
                 this.dropList.push(new Drop(dropConfig));
-            })
+            });
         }
 
     }

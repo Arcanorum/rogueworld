@@ -1,6 +1,7 @@
 const fs = require("fs");
 const Utils = require("./Utils");
 const EntitiesList = require("./EntitiesList");
+const Mob = require("./entities/destroyables/movables/characters/mobs/Mob");
 
 // Import all of the entity files.
 require("require-dir")("entities", {
@@ -12,12 +13,16 @@ require("require-dir")("entities", {
             if(value.hasOwnProperty("abstract")) return;
 
             value.registerEntityType();
-            
-            if(value.assignMobValues) value.assignMobValues();
 
             EntitiesList[baseName] = value;
         }
     }
+});
+
+Mob.loadMobStats();
+
+Object.values(EntitiesList).forEach((EntityType) => {
+    if(EntityType.assignMobValues) EntityType.assignMobValues();
 });
 
 // Write the registered entity types to the client, so the client knows what entity to add for each type number.

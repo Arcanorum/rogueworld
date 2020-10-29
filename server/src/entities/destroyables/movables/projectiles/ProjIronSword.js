@@ -1,4 +1,4 @@
-const Projectile = require('./Projectile');
+const Projectile = require("./Projectile");
 
 class ProjIronSword extends Projectile {
 

@@ -1,4 +1,4 @@
-const Entity = require('../Entity');
+const Entity = require("../Entity");
 
 class Spawner extends Entity {
     /**

@@ -128,17 +128,14 @@ const world = {
     },
 
     linkExits() {
-        let board,
+        let
             row,
             rowLen,
             col,
             colLen,
             exit;
 
-        // TODO: refactor to use forEach
-        // For each board.
-        for (let i = 0, boardsLen = this.boardsArray.length; i < boardsLen; i += 1) {
-            board = this.boardsArray[i];
+        this.boardsArray.forEach((board) => {
             // For each row in the board grid.
             for (row = 0, rowLen = board.grid.length; row < rowLen; row += 1) {
                 // For each column in that row.
@@ -162,7 +159,7 @@ const world = {
                     }
                 }
             }
-        }
+        });
     },
 
     linkDungeonManagerEvictionBoards() {

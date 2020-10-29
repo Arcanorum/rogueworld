@@ -1,8 +1,7 @@
-const Entity = require('../Entity');
+const Entity = require("../Entity");
 
 // TODO: rename destroyables to spawnables?
 class Destroyable extends Entity {
-
     /**
      * @param {Object} config
      * @param {Number} config.row

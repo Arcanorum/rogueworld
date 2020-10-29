@@ -17,8 +17,8 @@ class SuperBloodStaff extends Weapon {
 
 }
 
-SuperBloodStaff.prototype.translationID = "Super blood staff";
-SuperBloodStaff.prototype.iconSource = "icon-super-blood-staff";
+SuperBloodStaff.translationID = "Super blood staff";
+SuperBloodStaff.iconSource = "icon-super-blood-staff";
 SuperBloodStaff.prototype.ProjectileType = ProjectileType;
 SuperBloodStaff.prototype.category = Weapon.prototype.categories.Weapon;
 SuperBloodStaff.prototype.baseDurability = 30;

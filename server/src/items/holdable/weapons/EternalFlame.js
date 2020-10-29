@@ -24,8 +24,8 @@ class EternalFlame extends Weapon {
 
 }
 
-EternalFlame.prototype.translationID = "Eternal Flame";
-EternalFlame.prototype.iconSource = "icon-super-fire-staff";
+EternalFlame.translationID = "Eternal Flame";
+EternalFlame.iconSource = "icon-super-fire-staff";
 EternalFlame.prototype.ProjectileType = ProjectileType;
 EternalFlame.prototype.useGloryCost = 10;
 EternalFlame.prototype.category = Weapon.prototype.categories.Weapon;

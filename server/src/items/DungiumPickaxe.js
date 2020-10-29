@@ -8,8 +8,8 @@ class DungiumPickaxe extends Item {
 
 }
 
-DungiumPickaxe.prototype.translationID = "Dungium pickaxe";
-DungiumPickaxe.prototype.iconSource = "icon-dungium-pickaxe";
+DungiumPickaxe.translationID = "Dungium pickaxe";
+DungiumPickaxe.iconSource = "icon-dungium-pickaxe";
 DungiumPickaxe.prototype.category = Item.prototype.categories.Pickaxe;
 DungiumPickaxe.prototype.baseDurability = 50;
 DungiumPickaxe.prototype.expGivenStatName = DungiumPickaxe.prototype.StatNames.Gathering;

@@ -8,8 +8,8 @@ class PitKey extends Item {
 
 }
 
-PitKey.prototype.translationID = "Pit key";
-PitKey.prototype.iconSource = "icon-pit-key";
+PitKey.translationID = "Pit key";
+PitKey.iconSource = "icon-pit-key";
 PitKey.prototype.baseDurability = 1;
 PitKey.prototype.category = Item.prototype.categories.PitKey;
 

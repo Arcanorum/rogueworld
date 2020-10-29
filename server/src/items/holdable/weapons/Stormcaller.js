@@ -24,8 +24,8 @@ class Stormcaller extends Weapon {
     
 }
 
-Stormcaller.prototype.translationID = "Stormcaller";
-Stormcaller.prototype.iconSource = "icon-super-wind-staff";
+Stormcaller.translationID = "Stormcaller";
+Stormcaller.iconSource = "icon-super-wind-staff";
 Stormcaller.prototype.ProjectileType = ProjectileType;
 Stormcaller.prototype.useGloryCost = 10;
 Stormcaller.prototype.category = Weapon.prototype.categories.Weapon;

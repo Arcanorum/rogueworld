@@ -30,7 +30,7 @@
 // const Furnace = require('../entities/interactables/crafting stations/Furnace');
 
 // ItemFurnace.prototype.registerItemType();
-// ItemFurnace.prototype.translationID = "Furnace";
+// ItemFurnace.translationID = "Furnace";
 // ItemFurnace.prototype.PickupType = require('../entities/pickups/PickupFurnace');
 // //ItemFurnace.prototype.baseValue = 20;
-// ItemFurnace.prototype.iconSource = "icon-furnace";
+// ItemFurnace.iconSource = "icon-furnace";

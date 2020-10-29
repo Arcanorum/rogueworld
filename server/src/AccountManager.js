@@ -387,6 +387,7 @@ module.exports = {
             // Skip empty (null) slots.
             if (entity.inventory[slotKey] === null) continue;
             data.inventory[slotKey] = {
+                // TODO: save by unique/unchanging item codes here, instead of class name, too brittle
                 // Item type name.
                 itemTypeName: entity.inventory[slotKey].constructor.name,
                 // Durability.

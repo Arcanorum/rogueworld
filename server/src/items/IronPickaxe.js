@@ -8,8 +8,8 @@ class IronPickaxe extends Item {
 
 }
 
-IronPickaxe.prototype.translationID = "Iron pickaxe";
-IronPickaxe.prototype.iconSource = "icon-iron-pickaxe";
+IronPickaxe.translationID = "Iron pickaxe";
+IronPickaxe.iconSource = "icon-iron-pickaxe";
 IronPickaxe.prototype.category = Item.prototype.categories.Pickaxe;
 IronPickaxe.prototype.baseDurability = 40;
 IronPickaxe.prototype.expGivenStatName = IronPickaxe.prototype.StatNames.Gathering;

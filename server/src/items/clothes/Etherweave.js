@@ -24,8 +24,8 @@ class Etherweave extends Clothes {
 
 }
 
-Etherweave.prototype.translationID = "Mage robe";
-Etherweave.prototype.iconSource = "icon-mage-robe";
+Etherweave.translationID = "Mage robe";
+Etherweave.iconSource = "icon-mage-robe";
 Etherweave.prototype.useGloryCost = 10;
 Etherweave.prototype.category = Clothes.prototype.categories.Clothing;
 Etherweave.prototype.defenceBonus = 20;

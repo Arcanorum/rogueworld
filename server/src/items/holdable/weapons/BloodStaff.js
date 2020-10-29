@@ -17,8 +17,8 @@ class BloodStaff extends Weapon {
 
 }
 
-BloodStaff.prototype.translationID = "Blood staff";
-BloodStaff.prototype.iconSource = "icon-blood-staff";
+BloodStaff.translationID = "Blood staff";
+BloodStaff.iconSource = "icon-blood-staff";
 BloodStaff.prototype.ProjectileType = ProjectileType;
 BloodStaff.prototype.category = Weapon.prototype.categories.Weapon;
 BloodStaff.prototype.baseDurability = 30;

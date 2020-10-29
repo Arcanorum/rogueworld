@@ -161,7 +161,9 @@ class Item {
         // Don't bother having a pickup type file. Just create one for each item 
         // type, as it will always be 1-1 (except items that cannot be dropped).
         class GenericPickup extends Pickup { }
-        GenericPickup.prototype.ItemType = this.prototype;
+        GenericPickup.prototype.ItemType = this;
+
+        GenericPickup.registerEntityType();
 
         this.prototype.PickupType = GenericPickup;
 
@@ -172,11 +174,6 @@ class Item {
 }
 
 Item.abstract = true;
-
-Item.prototype.registerItemType = () => {
-
-    // TODO: Remove this, was only temp to stop error spam
-};
 
 // Give all Items easy access to the finished EntitiesList. Needs to be done when all entities are finished initing, or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};
@@ -198,7 +195,7 @@ Item.prototype._destroyed = false;
  * on the client to get the actual ID.
  * @type {String}
  */
-Item.prototype.translationID = "Translation ID name not set.";
+Item.translationID = "Translation ID name not set.";
 
 /**
  * The lowest durability this item can have at full durability.
@@ -213,7 +210,7 @@ Item.prototype.baseDurability = null;
  */
 Item.prototype.useDurabilityCost = 0;
 
-Item.prototype.iconSource = "Icon source not set.";
+Item.iconSource = "Icon source not set.";
 
 /**
  * How much crafting exp this item contributes to the recipe it is used in.

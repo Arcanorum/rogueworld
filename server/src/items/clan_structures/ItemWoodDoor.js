@@ -30,7 +30,7 @@
 // const WoodDoor = require('../entities/interactables/WoodDoor');
 
 // ItemWoodDoor.prototype.registerItemType();
-// ItemWoodDoor.prototype.translationID = "Wood door";
+// ItemWoodDoor.translationID = "Wood door";
 // ItemWoodDoor.prototype.PickupType = require('../entities/pickups/PickupWoodDoor');
 // //ItemWoodDoor.prototype.baseValue = 20;
-// ItemWoodDoor.prototype.iconSource = "icon-wood-door";
+// ItemWoodDoor.iconSource = "icon-wood-door";

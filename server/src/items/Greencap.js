@@ -17,8 +17,8 @@ class Greencap extends Item {
 
 }
 
-Greencap.prototype.translationID = "Greencap";
-Greencap.prototype.iconSource = "icon-greencap";
+Greencap.translationID = "Greencap";
+Greencap.iconSource = "icon-greencap";
 Greencap.prototype.expGivenStatName = Greencap.prototype.StatNames.Potionry;
 Greencap.prototype.expGivenOnUse = 5;
 Greencap.prototype.baseDurability = 1;

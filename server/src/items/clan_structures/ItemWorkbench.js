@@ -30,7 +30,7 @@
 // const Workbench = require('../entities/interactables/crafting stations/Workbench');
 
 // ItemWorkbench.prototype.registerItemType();
-// ItemWorkbench.prototype.translationID = "Workbench";
+// ItemWorkbench.translationID = "Workbench";
 // ItemWorkbench.prototype.PickupType = require('../entities/pickups/PickupWorkbench');
 // //ItemWorkbench.prototype.baseValue = 20;
-// ItemWorkbench.prototype.iconSource = "icon-workbench";
+// ItemWorkbench.iconSource = "icon-workbench";

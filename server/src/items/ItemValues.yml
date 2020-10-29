@@ -112,7 +112,7 @@
 - name: PlainRobe
   extends: clothes/Clothes
   translationID: Plain robe
-  iconSource: icon-Plain-robe
+  iconSource: icon-plain-robe
   category: Clothing
   baseDurability: 100
   defenceBonus: 20

@@ -30,7 +30,7 @@
 // const Anvil = require('../entities/interactables/crafting stations/Anvil');
 
 // ItemAnvil.prototype.registerItemType();
-// ItemAnvil.prototype.translationID = "Anvil";
+// ItemAnvil.translationID = "Anvil";
 // ItemAnvil.prototype.PickupType = require('../entities/pickups/PickupAnvil');
 // //ItemAnvil.prototype.baseValue = 20;
-// ItemAnvil.prototype.iconSource = "icon-anvil";
+// ItemAnvil.iconSource = "icon-anvil";

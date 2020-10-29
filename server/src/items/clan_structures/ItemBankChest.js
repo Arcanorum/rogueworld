@@ -30,7 +30,7 @@
 // const BankChest = require('../entities/interactables/BankChest');
 
 // ItemBankChest.prototype.registerItemType();
-// ItemBankChest.prototype.translationID = "Bank chest";
+// ItemBankChest.translationID = "Bank chest";
 // ItemBankChest.prototype.PickupType = require('../entities/pickups/PickupBankChest');
 // //ItemBankChest.prototype.baseValue = 20;
-// ItemBankChest.prototype.iconSource = "icon-bank-chest";
+// ItemBankChest.iconSource = "icon-bank-chest";

@@ -635,7 +635,7 @@ class Game extends Phaser.Scene {
 
         // Check that an entity type exists with the type name that corresponds to the given type number.
         if (EntitiesList[EntityTypes[typeNumber]] === undefined) {
-            Utils.warning("Invalid entity type number:", typeNumber, ", entity types:", EntityTypes);
+            Utils.warning(`Invalid entity type number: "${typeNumber}". Entity types:`, EntityTypes);
             return;
         }
 

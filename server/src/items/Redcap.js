@@ -13,8 +13,8 @@ class Redcap extends Item {
 
 }
 
-Redcap.prototype.translationID = "Redcap";
-Redcap.prototype.iconSource = "icon-redcap";
+Redcap.translationID = "Redcap";
+Redcap.iconSource = "icon-redcap";
 Redcap.prototype.craftingExpValue = 10;
 Redcap.prototype.expGivenStatName = Redcap.prototype.StatNames.Potionry;
 Redcap.prototype.expGivenOnUse = 5;

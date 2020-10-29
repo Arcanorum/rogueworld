@@ -10,8 +10,8 @@ class Bluecap extends Item {
 
 }
 
-Bluecap.prototype.translationID = "Bluecap";
-Bluecap.prototype.iconSource = "icon-bluecap";
+Bluecap.translationID = "Bluecap";
+Bluecap.iconSource = "icon-bluecap";
 Bluecap.prototype.craftingExpValue = 10;
 Bluecap.prototype.expGivenStatName = Bluecap.prototype.StatNames.Potionry;
 Bluecap.prototype.expGivenOnUse = 5;

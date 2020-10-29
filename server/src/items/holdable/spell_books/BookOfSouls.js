@@ -130,8 +130,8 @@ class BookOfSouls extends SpellBook {
 
 }
 
-BookOfSouls.prototype.translationID = "Book of souls";
-BookOfSouls.prototype.iconSource = "icon-book-of-souls";
+BookOfSouls.translationID = "Book of souls";
+BookOfSouls.iconSource = "icon-book-of-souls";
 BookOfSouls.prototype.baseDurability = 30;
 BookOfSouls.prototype.expGivenStatName = BookOfSouls.prototype.StatNames.Magic;
 BookOfSouls.prototype.expGivenOnUse = 10;

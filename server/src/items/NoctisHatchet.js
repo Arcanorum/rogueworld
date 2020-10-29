@@ -8,8 +8,8 @@ class NoctisHatchet extends Item {
 
 }
 
-NoctisHatchet.prototype.translationID = "Noctis hatchet";
-NoctisHatchet.prototype.iconSource = "icon-noctis-hatchet";
+NoctisHatchet.translationID = "Noctis hatchet";
+NoctisHatchet.iconSource = "icon-noctis-hatchet";
 NoctisHatchet.prototype.category = Item.prototype.categories.Hatchet;
 NoctisHatchet.prototype.baseDurability = 40;
 NoctisHatchet.prototype.expGivenStatName = NoctisHatchet.prototype.StatNames.Gathering;

@@ -119,8 +119,8 @@ class BookOfLight extends SpellBook {
 
 }
 
-BookOfLight.prototype.translationID = "Book of light";
-BookOfLight.prototype.iconSource = "icon-book-of-light";
+BookOfLight.translationID = "Book of light";
+BookOfLight.iconSource = "icon-book-of-light";
 BookOfLight.prototype.baseDurability = 30;
 BookOfLight.prototype.expGivenStatName = BookOfLight.prototype.StatNames.Magic;
 BookOfLight.prototype.expGivenOnUse = 10;

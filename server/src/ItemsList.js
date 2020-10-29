@@ -38,6 +38,9 @@ const makeClass = (config) => {
 
     GenericItem.assignPickupType(config.name);
 
+    GenericItem.translationID = config.translationID;
+    GenericItem.iconSource = config.iconSource;
+
     return GenericItem;
 };
 
@@ -83,7 +86,6 @@ Object.entries(ItemsList).forEach(([name, type]) => {
 
     // Need to do the registering here, so both the items from the config list and the ones loaded from file are done.
     type.registerItemType();
-
 });
 
 // Write the registered item types to the client, so the client knows what item to add for each type number.
@@ -93,7 +95,8 @@ for (let itemTypeKey in ItemsList) {
     // Don't check prototype properties.
     if (ItemsList.hasOwnProperty(itemTypeKey) === false) continue;
 
-    const itemPrototype = ItemsList[itemTypeKey].prototype;
+    const itemType = ItemsList[itemTypeKey];
+    const itemPrototype = itemType.prototype;
     // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
     if (itemPrototype === undefined) continue;
     // Only add registered types.
@@ -101,8 +104,8 @@ for (let itemTypeKey in ItemsList) {
     // Add this item type to the type catalogue.
     dataToWrite[itemPrototype.typeNumber] = {
         typeNumber: itemPrototype.typeNumber,
-        translationID: itemPrototype.translationID,
-        iconSource: itemPrototype.iconSource
+        translationID: itemType.translationID,
+        iconSource: itemType.iconSource
     };
 }
 

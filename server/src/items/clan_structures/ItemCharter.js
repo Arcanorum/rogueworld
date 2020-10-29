@@ -29,7 +29,7 @@
  // module.exports = ItemCharter;
 
 // ItemCharter.prototype.registerItemType();
-// ItemCharter.prototype.translationID = "Charter";
+// ItemCharter.translationID = "Charter";
 // ItemCharter.prototype.PickupType = require('../entities/pickups/PickupCharter');
 // //ItemCharter.prototype.baseValue = 20;
-// ItemCharter.prototype.iconSource = "icon-charter";
+// ItemCharter.iconSource = "icon-charter";

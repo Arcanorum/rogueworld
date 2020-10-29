@@ -8,8 +8,8 @@ class NoctisPickaxe extends Item {
 
 }
 
-NoctisPickaxe.prototype.translationID = "Noctis pickaxe";
-NoctisPickaxe.prototype.iconSource = "icon-noctis-pickaxe";
+NoctisPickaxe.translationID = "Noctis pickaxe";
+NoctisPickaxe.iconSource = "icon-noctis-pickaxe";
 NoctisPickaxe.prototype.category = Item.prototype.categories.Pickaxe;
 NoctisPickaxe.prototype.baseDurability = 40;
 NoctisPickaxe.prototype.expGivenStatName = NoctisPickaxe.prototype.StatNames.Gathering;

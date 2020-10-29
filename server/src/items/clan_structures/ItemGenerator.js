@@ -30,7 +30,7 @@
 // const Generator = require('../entities/interactables/Generator');
 
 // ItemGenerator.prototype.registerItemType();
-// ItemGenerator.prototype.translationID = "Generator";
+// ItemGenerator.translationID = "Generator";
 // ItemGenerator.prototype.PickupType = require('../entities/pickups/PickupGenerator');
 // //ItemGenerator.prototype.baseValue = 20;
-// ItemGenerator.prototype.iconSource = "icon-generator";
+// ItemGenerator.iconSource = "icon-generator";

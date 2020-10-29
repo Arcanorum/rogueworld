@@ -30,7 +30,7 @@
 // const ClanWoodWall = require('../entities/interactables/WoodWall');
 
 // ItemWoodWall.prototype.registerItemType();
-// ItemWoodWall.prototype.translationID = "Wood wall";
+// ItemWoodWall.translationID = "Wood wall";
 // ItemWoodWall.prototype.PickupType = require('../entities/pickups/PickupWoodWall');
 // //ItemClanWoodWall.prototype.baseValue = 20;
-// ItemWoodWall.prototype.iconSource = "icon-wood-wall";
+// ItemWoodWall.iconSource = "icon-wood-wall";

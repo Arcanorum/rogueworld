@@ -11,8 +11,8 @@ class CurePotion extends Item {
 
 }
 
-CurePotion.prototype.translationID = "Cure potion";
-CurePotion.prototype.iconSource = "icon-cure-potion";
+CurePotion.translationID = "Cure potion";
+CurePotion.iconSource = "icon-cure-potion";
 CurePotion.prototype.craftingExpValue = 40;
 CurePotion.prototype.baseDurability = 6;
 CurePotion.prototype.useDurabilityCost = 1;

@@ -21,8 +21,8 @@ class ArmorOfIre extends Clothes {
     }
 }
 
-ArmorOfIre.prototype.translationID = "Dungium armour";
-ArmorOfIre.prototype.iconSource = "icon-dungium-armour";
+ArmorOfIre.translationID = "Dungium armour";
+ArmorOfIre.iconSource = "icon-dungium-armour";
 ArmorOfIre.prototype.useGloryCost = 12;
 ArmorOfIre.prototype.category = Clothes.prototype.categories.Clothing;
 ArmorOfIre.prototype.defenceBonus = 100;

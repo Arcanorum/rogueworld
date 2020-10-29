@@ -8,8 +8,8 @@ class IronHatchet extends Item {
 
 }
 
-IronHatchet.prototype.translationID = "Iron hatchet";
-IronHatchet.prototype.iconSource = "icon-iron-hatchet";
+IronHatchet.translationID = "Iron hatchet";
+IronHatchet.iconSource = "icon-iron-hatchet";
 IronHatchet.prototype.category = Item.prototype.categories.Hatchet;
 IronHatchet.prototype.baseDurability = 40;
 IronHatchet.prototype.expGivenStatName = IronHatchet.prototype.StatNames.Gathering;

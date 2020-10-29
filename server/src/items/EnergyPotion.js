@@ -13,8 +13,8 @@ class EnergyPotion extends Item {
 
 }
 
-EnergyPotion.prototype.translationID = "Energy potion";
-EnergyPotion.prototype.iconSource = "icon-energy-potion";
+EnergyPotion.translationID = "Energy potion";
+EnergyPotion.iconSource = "icon-energy-potion";
 EnergyPotion.prototype.craftingExpValue = 20;
 EnergyPotion.prototype.baseDurability = 5;
 EnergyPotion.prototype.useDurabilityCost = 1;

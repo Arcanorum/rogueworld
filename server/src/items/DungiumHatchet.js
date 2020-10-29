@@ -8,8 +8,8 @@ class DungiumHatchet extends Item {
 
 }
 
-DungiumHatchet.prototype.translationID = "Dungium hatchet";
-DungiumHatchet.prototype.iconSource = "icon-dungium-hatchet";
+DungiumHatchet.translationID = "Dungium hatchet";
+DungiumHatchet.iconSource = "icon-dungium-hatchet";
 DungiumHatchet.prototype.category = Item.prototype.categories.Hatchet;
 DungiumHatchet.prototype.baseDurability = 50;
 DungiumHatchet.prototype.expGivenStatName = DungiumHatchet.prototype.StatNames.Gathering;

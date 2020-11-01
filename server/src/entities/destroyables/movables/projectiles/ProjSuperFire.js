@@ -1,8 +1,6 @@
-
-const ProjFire = require('./ProjFire');
+const ProjFire = require("./ProjFire");
 
 class ProjSuperFire extends ProjFire {
-
     /**
      * Custom collision checker to check tile in advance, otherwise the extra fire balls this makes can go through walls.
      */
@@ -26,6 +24,8 @@ class ProjSuperFire extends ProjFire {
         // Ignore other fire projectiles.
         if (collidee instanceof ProjFire) return;
         if (collidee instanceof ProjSuperFire) return;
+        // Ignore pickups.
+        if (collidee instanceof Pickup) return;
         // Ignore statics that are not high blocking.
         if (collidee instanceof Static) {
             if (collidee.isHighBlocked() === false) return;
@@ -51,6 +51,6 @@ class ProjSuperFire extends ProjFire {
 }
 module.exports = ProjSuperFire;
 
-const Static = require('../../../statics/Static');
-const { something_went_wrong } = require('../../../../EventsList');
-const Burn = require('./../../../../gameplay/StatusEffects').Burn;
+const Pickup = require("../../pickups/Pickup");
+const Static = require("../../../statics/Static");
+const Burn = require("./../../../../gameplay/StatusEffects").Burn;

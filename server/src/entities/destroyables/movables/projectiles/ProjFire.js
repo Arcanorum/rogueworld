@@ -15,7 +15,6 @@ class ProjFire extends Projectile {
 
             this.destroy();
         }
-
     }
 
 }

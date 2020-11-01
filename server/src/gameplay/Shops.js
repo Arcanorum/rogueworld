@@ -1,5 +1,5 @@
 const Utils = require("../Utils");
-const ItemsList = require('../ItemsList');
+const ItemsList = require("../ItemsList");
 
 class StockItem {
     constructor(itemType, basePrice, price) {
@@ -68,7 +68,6 @@ class Shop {
 
         this.stockSold(index);
     }
-
 }
 
 /**
@@ -368,7 +367,7 @@ const ShopTypes = {
 // Write the shops data to the client, so the client knows what items/prices to show for each shop ID name.
 // The shop ID name isn't sent to the client, it is a property of each entity type, so they already know
 // what shop data to show in the shop panel for each type of trader.
-const fs = require('fs');
+const fs = require("fs");
 let dataToWrite = {};
 
 for (let shopKey in ShopTypes) {
@@ -402,7 +401,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/NPCShopTypes.json', dataToWrite);
+fs.writeFileSync("../client/src/catalogues/NPCShopTypes.json", dataToWrite);
 
 Utils.message("NPC shop types catalogue written to file.");
 

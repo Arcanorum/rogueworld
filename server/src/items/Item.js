@@ -46,7 +46,7 @@ class Item {
     static registerItemType() {
         this.prototype.typeNumber = typeNumberCounter.getNext();
     
-        // Utils.message("Registering item type: ", this);
+        // Utils.message("Registering item type: ", this.prototype.typeNumber);
     }
 
     /**
@@ -171,9 +171,38 @@ class Item {
         EntitiesList["Pickup" + itemName] = GenericPickup;
     }
 
+    static loadConfig(config) {
+        // Load anything else that hasn't already been set by the loadConfig method of a subclass.
+        // console.log("item.loadconfig");
+
+        this.translationID = config.translationID;
+        this.iconSource = config.iconSource;
+
+        Object.entries(config).forEach(([key, value]) => {
+            if(key === "name") return;
+
+            // Only load properties that should actually exist on this class.
+            if(this.prototype[key] !== undefined){
+                // Check if the property has already been loaded by a subclass.
+                if(Object.getPrototypeOf(this).prototype[key] === this.prototype[key]) {
+                    this.prototype[key] = value;
+                }
+            }
+        });
+    }
 }
 
 Item.abstract = true;
+
+/**
+ * The ID of this item in the language text definitions file.
+ * Just the item name itself, which is added onto the "Item name: " prefix
+ * on the client to get the actual ID.
+ * @type {String}
+ */
+Item.translationID = "Translation ID name not set.";
+
+Item.iconSource = "Icon source not set.";
 
 // Give all Items easy access to the finished EntitiesList. Needs to be done when all entities are finished initing, or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};
@@ -190,14 +219,6 @@ Item.prototype.typeNumber = "Type not registered.";
 Item.prototype._destroyed = false;
 
 /**
- * The ID of this item in the language text definitions file.
- * Just the item name itself, which is added onto the "Item name: " prefix
- * on the client to get the actual ID.
- * @type {String}
- */
-Item.translationID = "Translation ID name not set.";
-
-/**
  * The lowest durability this item can have at full durability.
  * @type {Number}
  */
@@ -209,8 +230,6 @@ Item.prototype.baseDurability = null;
  * @type {Number}
  */
 Item.prototype.useDurabilityCost = 0;
-
-Item.iconSource = "Icon source not set.";
 
 /**
  * How much crafting exp this item contributes to the recipe it is used in.

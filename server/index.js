@@ -1,5 +1,8 @@
-const Utils = require("./src/Utils");
+const { exec } = require("child_process");
 const { extrudeTilesetToImage } = require("tile-extruder");
+const Utils = require("./src/Utils");
+const ItemsLoader = require("./src/ItemsLoader");
+const EntitiesLoader = require("./src/EntitiesLoader");
 
 Utils.message("Start of index");
 
@@ -8,7 +11,16 @@ require("./src/AccountManager").setup()
 
 async function init() {
     const { wss } = require("./src/Server");
-    require("./src/EntitiesLoader");
+    
+    ItemsLoader.populateList();
+    EntitiesLoader.populateList();
+
+    ItemsLoader.initialiseList();
+    EntitiesLoader.initialiseList();
+
+    ItemsLoader.createCatalogue();
+    EntitiesLoader.createCatalogue();
+
     require("./src/WebSocketEvents");
     require("./src/TextDefinitionsParser");
     require("./src/items/holdable/spell_books/SpellBooksList");
@@ -88,6 +100,17 @@ async function init() {
     await extrudeTilesetToImage(16, 16, "./map/tilesets/statics.png", "../client/assets/img/statics.png");
 
     Utils.message("Tilesets copied to client assets.");
+
+    // Rebuild the client as some of the resources it uses might have been updated by the server init.
+    exec("cd .. && npm run client", (error, stdout, stderr) => {
+        if(error || stderr) {
+            Utils.error(error || stderr);
+        }
+        // Uncomment to see the output logs of building the client.
+        // Utils.message(stdout);
+
+        Utils.message("Finished building client.");
+    });
 
     Utils.message("End of index. Server is good to go. :)");
     Utils.message("Game can be played at http://localhost/4567");

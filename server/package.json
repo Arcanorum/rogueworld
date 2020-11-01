@@ -16,7 +16,7 @@
       "node_modules/**/node_modules",
       "PlayerDataDump.json"
     ],
-    "ext": "js,json,css,scss,html,txt,png",
+    "ext": "js,json,yml,css,scss,html,txt,png",
     "verbose": true
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-const Merchant = require('./Merchant');
+const Merchant = require("./Merchant");
 
 class ToolMerchant extends Merchant {}
 module.exports = ToolMerchant;

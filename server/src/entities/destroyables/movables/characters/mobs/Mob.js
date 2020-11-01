@@ -1,5 +1,5 @@
-const Character = require('../Character');
-const Utils = require('../../../../../Utils');
+const Character = require("../Character");
+const Utils = require("../../../../../Utils");
 
 class Mob extends Character {
     /**
@@ -1688,7 +1688,7 @@ class Mob extends Character {
         this.prototype.targetSearchRate = statValues.targetSearchRate;
         this.prototype.attackRate = statValues.attackRate;
         this.prototype.meleeDamageAmount = statValues.meleeDamageAmount;
-        if (statValues.projectileAttackType !== null) this.prototype.projectileAttackType = require('./../../' + statValues.projectileAttackType);
+        if (statValues.projectileAttackType !== null) this.prototype.projectileAttackType = require("./../../" + statValues.projectileAttackType);
         this.prototype.CorpseType = statValues.corpseType;
         this.prototype.faction = statValues.faction;
         this.prototype.behaviour = statValues.behaviour;
@@ -1696,7 +1696,7 @@ class Mob extends Character {
     }
 
     static loadMobStats() {
-        Mob.StatValues = require('./MobStats');
+        Mob.StatValues = require("./MobStats");
     }
 
 }
@@ -1704,13 +1704,13 @@ module.exports = Mob;
 
 Mob.abstract = true;
 
-const Player = require('../Player');
-const Damage = require('../../../../../gameplay/Damage');
+const Player = require("../Player");
+const Damage = require("../../../../../gameplay/Damage");
 
 Mob.StatValues = null;
 
 // Give each mob easy access to the behaviours list.
-Mob.prototype.Behaviours = require('../../../../../gameplay/Behaviours');
+Mob.prototype.Behaviours = require("../../../../../gameplay/Behaviours");
 
 /**
  * How much glory is given out to all nearby players when this mob dies.

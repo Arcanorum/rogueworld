@@ -1,5 +1,4 @@
-
-const Projectile = require('./Projectile');
+const Projectile = require("./Projectile");
 
 class ProjFire extends Projectile {
 
@@ -16,7 +15,6 @@ class ProjFire extends Projectile {
 
             this.destroy();
         }
-
     }
 
 }
@@ -24,6 +22,5 @@ module.exports = ProjFire;
 
 const Burn = require('./../../../../gameplay/StatusEffects').Burn;
 
-ProjFire.prototype.registerEntityType();
 ProjFire.prototype.moveRate = 200;
 ProjFire.prototype.range = 10;

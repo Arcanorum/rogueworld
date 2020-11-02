@@ -1,9 +1,11 @@
-const fs = require('fs');
-const Utils = require('./../../../../../Utils');
-const Factions = require('../../../../../gameplay/Factions');
-const Behaviours = require('../../../../../gameplay/Behaviours');
-const Drop = require('../../../../../gameplay/Drop');
-const Damage = require('../../../../../gameplay/Damage');
+const fs = require("fs");
+const yaml = require("js-yaml");
+const Utils = require("./../../../../../Utils");
+const Factions = require("../../../../../gameplay/Factions");
+const Behaviours = require("../../../../../gameplay/Behaviours");
+const Drop = require("../../../../../gameplay/Drop");
+const Damage = require("../../../../../gameplay/Damage");
+const EntitiesList = require("../../../../../EntitiesList");
 
 /**
  * Gets the value to use for a mob for a given property.
@@ -55,11 +57,10 @@ class MobStats {
         // If a projectile attack type is defined, use it.
         if(config["projectileAttackType"] !== undefined){
             // Check a projectile file exists by the given name. Can't do a direct reference to it here, as it isn't defined yet.
-            if(fs.existsSync('./src/entities/destroyables/movables/projectiles/Proj' + config["projectileAttackType"] + '.js') === true){
-                this.projectileAttackType = 'projectiles/Proj' + config["projectileAttackType"];
+            if(fs.existsSync("./src/entities/destroyables/movables/projectiles/Proj" + config["projectileAttackType"] + ".js") === true){
+                this.projectileAttackType = "projectiles/Proj" + config["projectileAttackType"];
             }
         }
-
 
         // Use the default faction if undefined.
         if(config["faction"] === undefined) this.faction = defaultMobStats["faction"];
@@ -79,11 +80,11 @@ class MobStats {
         // Use null corpse type if undefined. Use null directly, otherwise this might be for the default mob stats itself.
         if(config["corpseType"] === undefined || config["corpseType"] === null) this.corpseType = null;
         else {
-            if(fs.existsSync('./src/entities/destroyables/corpses/Corpse' + config["corpseType"] + '.js') === false){
+            if(fs.existsSync("./src/entities/destroyables/corpses/Corpse" + config["corpseType"] + ".js") === false){
                 Utils.error("Invalid corpse type given: " + config["corpseType"]);
             }
 
-            this.corpseType = require('../../../corpses/Corpse' + config["corpseType"]);
+            this.corpseType = EntitiesList["Corpse" + config["corpseType"]];
         }
 
         if(config["dropList"] === undefined) this.dropList = defaultMobStats["dropList"];
@@ -93,7 +94,7 @@ class MobStats {
             this.dropList = [];
             config["dropList"].forEach((dropConfig) => {
                 this.dropList.push(new Drop(dropConfig));
-            })
+            });
         }
 
     }
@@ -113,26 +114,29 @@ class MobStats {
  * @type {Object.<MobStats>}
  */
 const MobStatsList = {};
-
-const MobValues = require('./MobValues.json');
-
 let defaultMobStats;
 
-MobValues.forEach((rawConfig) => {
-    if(rawConfig.name === "Default"){
-        const config = {};
-        for(const [key, value] of Object.entries(rawConfig)){
-            config[key] = value;
+try {
+    const MobValues = yaml.safeLoad(fs.readFileSync(__dirname + "/MobValues.yml", "utf8"));
+    
+    MobValues.forEach((rawConfig) => {
+        if(rawConfig.name === "Default"){
+            const config = {};
+            for(const [key, value] of Object.entries(rawConfig)){
+                config[key] = value;
+            }
+            defaultMobStats = new MobStats(config);
         }
-        defaultMobStats = new MobStats(config);
-    }
-    else {
-        const config = {};
-        for(const [key, value] of Object.entries(rawConfig)){
-            config[key] = value;
+        else {
+            const config = {};
+            for(const [key, value] of Object.entries(rawConfig)){
+                config[key] = value;
+            }
+            MobStatsList[config.name] = new MobStats(config);
         }
-        MobStatsList[config.name] = new MobStats(config);
-    }
-});
+    });
+} catch (error) {
+    Utils.error(error);
+}
 
 module.exports = MobStatsList;

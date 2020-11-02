@@ -1,7 +1,7 @@
 
-const EventsList = require('./../EventsList');
-const Utils = require('../Utils');
-const RewardsList = require('./RewardsList');
+const EventsList = require("./../EventsList");
+const Utils = require("../Utils");
+const RewardsList = require("./RewardsList");
 
 class Task {
     /**
@@ -105,6 +105,7 @@ class NewTask extends Task {
             taskTypeToUse = player.tasks.list[randomTaskType].getOtherTask();
         }
 
+        // The difficulty of the task, or how much stuff to do for it, and how many rewards are given.
         const length = Utils.getRandomIntInclusive(1, 3);
 
         const rewardItems = [];

@@ -41,6 +41,8 @@ class GUI {
             colourDB32SteelGreyOpacity50: "rgba(155, 173, 183, 0.8)",
         };
 
+        this.gameCanvas = document.getElementById('game_canvas').childNodes[0];
+
         // References to the DOM elements for the icons and parents.
         this.gui = document.getElementById('gui_cont');
 
@@ -124,50 +126,50 @@ class GUI {
         if (dungeonz.virtualDPadEnabled === true) this.virtualDPad.style.visibility = "visible";
 
         // Attach the events so the tooltips appear when the icons are hovered over.
-        this.defenceIcon.onmouseover = function () { game.GUI.defenceTooltip.style.visibility = "visible" };
-        this.defenceIcon.onmouseout = function () { game.GUI.defenceTooltip.style.visibility = "hidden" };
+        this.defenceIcon.onmouseover = () => { game.GUI.defenceTooltip.style.visibility = "visible" };
+        this.defenceIcon.onmouseout = () => { game.GUI.defenceTooltip.style.visibility = "hidden" };
 
-        this.hitPointIcon.onmouseover = function () { game.GUI.hitPointTooltip.style.visibility = "visible" };
-        this.hitPointIcon.onmouseout = function () { game.GUI.hitPointTooltip.style.visibility = "hidden" };
+        this.hitPointIcon.onmouseover = () => { game.GUI.hitPointTooltip.style.visibility = "visible" };
+        this.hitPointIcon.onmouseout = () => { game.GUI.hitPointTooltip.style.visibility = "hidden" };
 
-        this.energyIcon.onmouseover = function () { game.GUI.energyTooltip.style.visibility = "visible" };
-        this.energyIcon.onmouseout = function () { game.GUI.energyTooltip.style.visibility = "hidden" };
+        this.energyIcon.onmouseover = () => { game.GUI.energyTooltip.style.visibility = "visible" };
+        this.energyIcon.onmouseout = () => { game.GUI.energyTooltip.style.visibility = "hidden" };
 
-        this.gloryIcon.onmouseover = function () { game.GUI.gloryTooltip.style.visibility = "visible" };
-        this.gloryIcon.onmouseout = function () { game.GUI.gloryTooltip.style.visibility = "hidden" };
+        this.gloryIcon.onmouseover = () => { game.GUI.gloryTooltip.style.visibility = "visible" };
+        this.gloryIcon.onmouseout = () => { game.GUI.gloryTooltip.style.visibility = "hidden" };
 
-        this.avatarIcon.onmouseover = function () { game.GUI.avatarTooltip.style.visibility = "visible" };
-        this.avatarIcon.onmouseout = function () { game.GUI.avatarTooltip.style.visibility = "hidden" };
-        this.avatarIcon.onclick = function () {
+        this.avatarIcon.onmouseover = () => { game.GUI.avatarTooltip.style.visibility = "visible" };
+        this.avatarIcon.onmouseout = () => { game.GUI.avatarTooltip.style.visibility = "hidden" };
+        this.avatarIcon.onclick = () => {
             if (game.GUI.statsPanel.isOpen === true) game.GUI.statsPanel.hide();
             else game.GUI.statsPanel.show();
         };
 
-        this.tasksIcon.onmouseover = function () { game.GUI.tasksTooltip.style.visibility = "visible" };
-        this.tasksIcon.onmouseout = function () { game.GUI.tasksTooltip.style.visibility = "hidden" };
-        this.tasksIcon.onclick = function () {
+        this.tasksIcon.onmouseover = () => { game.GUI.tasksTooltip.style.visibility = "visible" };
+        this.tasksIcon.onmouseout = () => { game.GUI.tasksTooltip.style.visibility = "hidden" };
+        this.tasksIcon.onclick = () => {
             if (game.GUI.tasksPanel.isOpen === true) game.GUI.tasksPanel.hide();
             else game.GUI.tasksPanel.show();
         };
 
-        this.mapIcon.onmouseover = function () { game.GUI.mapTooltip.style.visibility = "visible" };
-        this.mapIcon.onmouseout = function () { game.GUI.mapTooltip.style.visibility = "hidden" };
+        this.mapIcon.onmouseover = () => { game.GUI.mapTooltip.style.visibility = "visible" };
+        this.mapIcon.onmouseout = () => { game.GUI.mapTooltip.style.visibility = "hidden" };
 
-        this.clanIcon.onmouseover = function () { game.GUI.clanTooltip.style.visibility = "visible" };
-        this.clanIcon.onmouseout = function () { game.GUI.clanTooltip.style.visibility = "hidden" };
-        this.clanIcon.onclick = function () {
+        this.clanIcon.onmouseover = () => { game.GUI.clanTooltip.style.visibility = "visible" };
+        this.clanIcon.onmouseout = () => { game.GUI.clanTooltip.style.visibility = "hidden" };
+        this.clanIcon.onclick = () => {
             if (game.GUI.clanPanel.isOpen === true) game.GUI.clanPanel.hide();
             else game.GUI.clanPanel.show();
         };
         this.clanIcon.style.visibility = "hidden";
 
-        this.inventoryIcon.onmouseover = function () { game.GUI.inventoryTooltip.style.visibility = "visible" };
-        this.inventoryIcon.onmouseout = function () { game.GUI.inventoryTooltip.style.visibility = "hidden" };
-        this.inventoryIcon.onclick = function () { window.ws.sendEvent('pick_up_item'); };
+        this.inventoryIcon.onmouseover = () => { game.GUI.inventoryTooltip.style.visibility = "visible" };
+        this.inventoryIcon.onmouseout = () => { game.GUI.inventoryTooltip.style.visibility = "hidden" };
+        this.inventoryIcon.onclick = () => { window.ws.sendEvent('pick_up_item'); };
 
-        this.exitIcon.onmouseover = function () { game.GUI.exitTooltip.style.visibility = "visible" };
-        this.exitIcon.onmouseout = function () { game.GUI.exitTooltip.style.visibility = "hidden" };
-        this.exitIcon.onclick = function () {
+        this.exitIcon.onmouseover = () => { game.GUI.exitTooltip.style.visibility = "visible" };
+        this.exitIcon.onmouseout = () => { game.GUI.exitTooltip.style.visibility = "hidden" };
+        this.exitIcon.onclick = () => {
             if (game.player.isLoggedIn) {
                 if (game.GUI.accountPanel.isOpen === true) game.GUI.accountPanel.hide();
                 else game.GUI.accountPanel.show();
@@ -178,11 +180,11 @@ class GUI {
             }
         };
 
-        this.discordIcon.onmouseover = function () { game.GUI.discordTooltip.style.visibility = "visible" };
-        this.discordIcon.onmouseout = function () { game.GUI.discordTooltip.style.visibility = "hidden" };
+        this.discordIcon.onmouseover = () => { game.GUI.discordTooltip.style.visibility = "visible" };
+        this.discordIcon.onmouseout = () => { game.GUI.discordTooltip.style.visibility = "hidden" };
 
-        this.wikiIcon.onmouseover = function () { game.GUI.wikiTooltip.style.visibility = "visible" };
-        this.wikiIcon.onmouseout = function () { game.GUI.wikiTooltip.style.visibility = "hidden" };
+        this.wikiIcon.onmouseover = () => { game.GUI.wikiTooltip.style.visibility = "visible" };
+        this.wikiIcon.onmouseout = () => { game.GUI.wikiTooltip.style.visibility = "hidden" };
 
         this.virtualDPadUp.onmousedown = game.moveUpPressed;
         this.virtualDPadUp.onmouseup = game.moveUpReleased;
@@ -217,17 +219,17 @@ class GUI {
 
         this.updateDungeonKeysList({});
 
-        this.gui.ondragenter = function (event) {
+        this.gui.ondragenter = (event) => {
             event.preventDefault();
         };
-        this.gui.ondragover = function (event) {
+        this.gui.ondragover = (event) => {
             event.preventDefault();
         };
-        // If an inventory item is dropped onto the game canvas, drop it.
-        this.gui.ondrop = function (event) {
+        // If an inventory item is dropped onto the game GUI, drop it.
+        this.gui.ondrop = (event) => {
             event.preventDefault();
 
-            if (_this.GUI.dragData === null) return;
+            if (_this.GUI.dragData === null) return; // TODO: this can just be `this` now with arrow funcs
             // If it was from the inventory bar, drop the item.
             if (_this.GUI.dragData.dragOrigin === _this.GUI.inventoryBar.slotContainer) {
                 window.ws.sendEvent('drop_item', _this.GUI.dragData.inventorySlot.slotKey);

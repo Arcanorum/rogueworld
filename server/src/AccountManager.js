@@ -1,4 +1,3 @@
-
 /**
  * @typedef {Function} AccountModel
  *
@@ -31,9 +30,9 @@ module.exports = {
             return;
         }
 
-        this.mongoose = require('mongoose');
+        this.mongoose = require("mongoose");
 
-        await this.mongoose.connect('mongodb://localhost/accounts', {
+        await this.mongoose.connect("mongodb://localhost/accounts", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
@@ -41,8 +40,8 @@ module.exports = {
             console.log("DB connect error:", err);
         });
 
-        this.mongoose.connection.on('error', (err) => {
-            console.error('DB connection error:', err);
+        this.mongoose.connection.on("error", (err) => {
+            console.error("DB connection error:", err);
             // Cannot connect to database, stop server init.
             process.exit();
         });
@@ -61,15 +60,15 @@ module.exports = {
             tasks: { type: Object, default: {} },
         });
         // Create a unique index in the DB for the account username.
-        accountSchema.index('username', { unique: true });
+        accountSchema.index("username", { unique: true });
 
-        AccountModel = this.mongoose.model('Account', accountSchema);
+        AccountModel = this.mongoose.model("Account", accountSchema);
 
         AccountModel.ensureIndexes(function (err) {
             if (err) return console.error(err);
         });
 
-        AccountModel.on('index', function (res, error) {
+        AccountModel.on("index", function (res, error) {
             // "_id index cannot be sparse"
             console.log("DB index res:", res);
             console.log("DB index error:", error);
@@ -275,7 +274,12 @@ module.exports = {
             for (let i = 0; i < taskData.rewardItemTypeNames.length; i += 1) {
                 // Check the item to add still exists.
                 // Might have been removed (or renamed) since this player last logged in.
-                if (ItemsList[taskData.rewardItemTypeNames[i] === undefined]) continue;
+                if (ItemsList[taskData.rewardItemTypeNames[i]] === undefined) {
+                    // Add something else instead to compensate.
+                    rewardItemTypes.push(Utils.getRandomElement(RewardsList));
+                    continue;
+                };
+                
                 rewardItemTypes.push(ItemsList[taskData.rewardItemTypeNames[i]]);
             }
 
@@ -328,11 +332,11 @@ module.exports = {
             // TODO: potential problem here where if there is a problem in PlayerDataDumpHandler
             //  and so the temp data isn't deleted, but then the server starts again and closes
             //  again, so will overwrite this existing temp file from last time.
-            fs.writeFileSync('./PlayerDataDump.json', JSON.stringify(dataToSave));
+            fs.writeFileSync("./PlayerDataDump.json", JSON.stringify(dataToSave));
 
             // Create a new process
-            const spawn = require('child_process').spawn;
-            const child = spawn('node', ['./PlayerDataDumpHandler.js'], {
+            const spawn = require("child_process").spawn;
+            const child = spawn("node", ["./PlayerDataDumpHandler.js"], {
                 shell: true,
                 detached: true // Decouple the new process from the this one, so it can keep running after this one closes.
             });
@@ -340,7 +344,7 @@ module.exports = {
             child.unref();
 
         } catch (err) {
-            console.log('Error writing PlayerDataDump.json:' + err.message);
+            console.log("Error writing PlayerDataDump.json:" + err.message);
         }
 
         Utils.message("Logged in players account data saved.");
@@ -358,7 +362,7 @@ module.exports = {
          */
         const data = {};
 
-        data.displayName = entity.displayName || 'Savage';
+        data.displayName = entity.displayName || "Savage";
 
         data.glory = entity.glory;
 
@@ -383,6 +387,7 @@ module.exports = {
             // Skip empty (null) slots.
             if (entity.inventory[slotKey] === null) continue;
             data.inventory[slotKey] = {
+                // TODO: save by unique/unchanging item codes here, instead of class name, too brittle
                 // Item type name.
                 itemTypeName: entity.inventory[slotKey].constructor.name,
                 // Durability.
@@ -424,9 +429,10 @@ module.exports = {
     }
 };
 
-const ItemsList = require('./ItemsList');
-const Task = require('./tasks/Task');
-const TaskTypes = require('./tasks/TaskTypes');
-const EventsList = require('./EventsList');
-const Utils = require('./Utils');
-const fs = require('fs');
+const ItemsList = require("./ItemsList");
+const Task = require("./tasks/Task");
+const TaskTypes = require("./tasks/TaskTypes");
+const RewardsList = require("./tasks/RewardsList");
+const EventsList = require("./EventsList");
+const Utils = require("./Utils");
+const fs = require("fs");

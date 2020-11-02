@@ -10,6 +10,9 @@
     width: 100%;
     height: 100%;
     visibility: hidden;
+    // For some reason absolute positioned elements prevent cursor
+    // events going deeper through to the game canvas...
+    pointer-events: none;
 }
 
 #chat_input {

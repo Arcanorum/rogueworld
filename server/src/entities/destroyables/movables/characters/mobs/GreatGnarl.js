@@ -1,4 +1,3 @@
-
 const Boss = require('./Boss');
 
 const specialAttack1Rate = 30000;
@@ -87,6 +86,4 @@ module.exports = GreatGnarl;
 const ProjAcorn = require('./../../projectiles/ProjAcorn');
 const GrassScamp = require('./../../characters/mobs/GrassScamp');
 
-GreatGnarl.prototype.registerEntityType();
-GreatGnarl.prototype.assignMobValues();
 GreatGnarl.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillGnarls.taskID;

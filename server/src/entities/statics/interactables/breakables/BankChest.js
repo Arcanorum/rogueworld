@@ -1,4 +1,3 @@
-
 const Breakable = require('./Breakable');
 
 class BankChest extends Breakable {
@@ -24,5 +23,3 @@ class BankChest extends Breakable {
 
 }
 module.exports = BankChest;
-
-BankChest.prototype.registerEntityType();

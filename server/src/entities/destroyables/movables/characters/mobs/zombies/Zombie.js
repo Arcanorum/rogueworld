@@ -1,4 +1,3 @@
-
 const Mob = require('../Mob');
 
 class Zombie extends Mob {
@@ -83,6 +82,8 @@ class Zombie extends Mob {
     }
 }
 module.exports = Zombie;
+
+Zombie.abstract = true;
 
 const Character = require('../../Character');
 

@@ -20,7 +20,6 @@ const EventsList = {
     add_item: registerEventName(),
     bank_item_deposited: registerEventName(),
     bank_item_withdrawn: registerEventName(),
-    bounty_value: registerEventName(),
     breakable_broken: registerEventName(),
     breakable_damaged: registerEventName(),
     breakable_repaired: registerEventName(),
@@ -95,7 +94,7 @@ const EventsList = {
 };
 
 // Write the event names to the client, so the client knows what event to fire for each event ID.
-const fs = require('fs');
+const fs = require("fs");
 let dataToWrite = {};
 
 for (let eventTypeKey in EventsList) {
@@ -112,7 +111,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/EventNames.json', dataToWrite);
+fs.writeFileSync("../client/src/catalogues/EventNames.json", dataToWrite);
 
 Utils.message("Event names catalogue written to file.");
 

@@ -33,6 +33,4 @@ class WoodDoorLockedBlue extends Breakable {
 }
 module.exports = WoodDoorLockedBlue;
 
-WoodDoorLockedBlue.prototype.registerEntityType();
-
 WoodDoorLockedBlue.prototype.warningEvent = WoodDoorLockedBlue.prototype.EventsList.key_needed;

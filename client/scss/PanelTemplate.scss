@@ -2,6 +2,7 @@
 .panel_template_cont {
     left: 50%;
     top: 50%;
+    pointer-events: auto;
 }
 
 // The container the other generic parts are positioned relative to, and gives the main background and side borders.

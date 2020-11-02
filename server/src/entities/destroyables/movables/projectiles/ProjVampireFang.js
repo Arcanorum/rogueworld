@@ -1,5 +1,4 @@
-
-const Projectile = require('./Projectile');
+const Projectile = require("./Projectile");
 
 class ProjVampireFang extends Projectile {
 
@@ -20,7 +19,6 @@ module.exports = ProjVampireFang;
 const Character = require('../characters/Character');
 const Heal = require('../../../../gameplay/Heal');
 
-ProjVampireFang.prototype.registerEntityType();
 ProjVampireFang.prototype.assignModHitPointConfigs();
 ProjVampireFang.prototype.moveRate = 200;
 ProjVampireFang.prototype.range = 1;

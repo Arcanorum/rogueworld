@@ -33,5 +33,4 @@
 // }
 // module.exports = WoodWallTorch;
 
-// WoodWallTorch.prototype.registerEntityType();
 // WoodWallTorch.prototype.interactionEnergyCost = 1;

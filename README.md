@@ -2,7 +2,7 @@
 
 ## Everything for the game Dungeonz.
 
-Greetings! You have stumbled upon the work area for Dungeonz, the free, browser based, massively multiplayer online RPG.
+Greetings! You have stumbled upon the work area for Dungeonz, the free, open-source, browser based, massively multiplayer online RPG.
 
 ## *What is this?*
 This is the central code repository for Dungeonz.
@@ -26,7 +26,7 @@ Before you jump into the code and start adding cool new features, there are some
 
 **To run the project, you will need:**
 
-- [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.9.1)
+- [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.19.0)
 - [MongoDB](https://www.mongodb.com/download-center/community) installed (currently using v4.2.0)
 - [Git](https://git-scm.com/downloads) installed
 
@@ -165,13 +165,13 @@ C:\Users\User\dungeonz>
 
 <img src="guides/build-client.gif" width="50%"/>
 
-Finally, to open the client and play the game, go to http://localhost/ in a web browser.
+Finally, to open the client and play the game, go to http://localhost/4567 in a web browser.
 
 <img src="guides/client-served-locally.png" width="50%"/>
 
 ## *I want to add a...*
 
-Features are divided into two rough categories:
+Features are divided into two general categories:
 
 ### **Mechanics:**
 
@@ -197,25 +197,3 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 
 For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B
-
-### Deployment notes
-
-If deploying to a remote Linux server where you want to run the game server in the background as a service, you might find the provided dungeonz service file useful.
-
-While in the project root directory in a terminal, copy the dungeonz service file to the services directory:
-
-`cp dungeonz.service ../../etc/systemd/system/dungeonz.service`
-
-Give it permissions:
-
-`chmod 644 ../../etc/systemd/system/dungeonz.service`
-
-And use the service with:
-
-`sudo systemctl start dungeonz`
-
-`sudo systemctl status dungeonz`
-
-`sudo systemctl restart dungeonz`
-
-`sudo systemctl stop dungeonz`

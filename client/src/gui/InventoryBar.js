@@ -212,8 +212,8 @@ class InventoryBar {
         // Show the container.
         _this.GUI.itemTooltipContainer.style.visibility = "visible";
         // Update the contents.
-        _this.GUI.itemTooltipName.innerHTML = dungeonz.getTextDef("Item name: " + inventorySlot.catalogueEntry.idName);
-        _this.GUI.itemTooltipDescription.innerHTML = dungeonz.getTextDef("Item description: " + inventorySlot.catalogueEntry.idName);
+        _this.GUI.itemTooltipName.innerHTML = dungeonz.getTextDef("Item name: " + inventorySlot.catalogueEntry.translationID);
+        _this.GUI.itemTooltipDescription.innerHTML = dungeonz.getTextDef("Item description: " + inventorySlot.catalogueEntry.translationID);
 
         if (inventorySlot.durability === null) _this.GUI.itemTooltipDurability.innerHTML = "";
         else _this.GUI.itemTooltipDurability.innerHTML = "(" + inventorySlot.durability + "/" + inventorySlot.maxDurability + ")";

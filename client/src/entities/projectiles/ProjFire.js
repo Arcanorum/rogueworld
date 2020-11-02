@@ -1,29 +1,17 @@
+import Projectile from "./Projectile";
 
-const Sprite = function (x, y, config) {
-    Phaser.Sprite.call(this, _this.game, x, y, 'game-atlas', 'proj-fire');
+class Entity extends Projectile {
+    constructor(x, y, config) {
+        super(x, y, config, "proj-fire");
+        this.angle = this.CardinalDirectionAngles[config.direction] || this.CardinalDirectionAngles.l;
+        this.alpha = 0.9;
+    }
 
-    this.centered = true;
-
-    this.angle = this.directionAngles[config.direction] || this.directionAngles.l;
-    this.scale.setTo(GAME_SCALE);
-    this.alpha = 0.9;
+    onMove() {
+        _this.tilemap.updateDarknessGrid();
+    }
 };
 
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
-Sprite.prototype.constructor = Sprite;
+Entity.prototype.lightDistance = 5;
 
-Sprite.prototype.directionAngles = {
-    u: 270,
-    d: 90,
-    l: 180,
-    r: 360
-};
-
-Sprite.prototype.onMove = function () {
-    _this.tilemap.updateDarknessGrid();
-};
-
-Sprite.prototype.defaultLightDistance = 5;
-Sprite.prototype.lightDistance = 5;
-
-module.exports = Sprite;
+export default Entity;

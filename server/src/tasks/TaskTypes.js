@@ -1,5 +1,4 @@
-
-const Utils = require('../Utils');
+const Utils = require("../Utils");
 
 const TaskCategories = {
     Kill: [],
@@ -16,7 +15,9 @@ class TaskType {
      * @param {Array} category
      */
     constructor (taskID, category) {
-        if(TaskTypes[taskID] !== undefined) Utils.error("Cannot create new task type, task name already exists in task types list: " + name);
+        if(TaskTypes[taskID] !== undefined) {
+            Utils.error("Cannot create new task type, task name already exists in task types list: " + name);
+        }
         this.taskID = taskID;
         this.otherTasks = [];
         this.category = category;

@@ -1,139 +1,206 @@
+import Utils from "../../Utils";
+import Container from "../Container";
 
-const Sprite = function (x, y, config) {
+class Character extends Container {
+    constructor(x, y, config) {
+        super(x, y, config);
 
-    Phaser.Sprite.call(this, _this.game, x, y, undefined, undefined);
+        this.setScale(GAME_SCALE);
+        this.entityId = config.id;
+        this.setDirection(config.direction);
+        this.moveRate = config.moveRate;
+        // Can be undefined or an object with an optional 'fill' and 'stroke'
+        // property to be set as any color string value Phaser can take.
+        // Used for differentiating clan members by name color.
+        this.displayNameColor = config.displayNameColor;
+        let frame = undefined;
+        if (this.baseFrames) {
+            frame = this.baseFrames[this.direction] || this.baseFrames.down;
+        }
+        this.baseSprite = _this.add.sprite(0, 0, "game-atlas", frame);
+        //this.baseSprite.baseFrames = baseFrames;
+        this.baseSprite.setFrame(frame);
+        this.baseSprite.setOrigin(0.5);
+        this.add(this.baseSprite);
 
-    //this.anchor.set(0.5);
-    this.scale.setTo(GAME_SCALE);
+        this.addDisplayName(config.displayName);
 
-    this.entityId = config.id;
-    this.direction = config.direction;
-    this.displayNameColor = config.displayNameColor;//can be undefined or an object with an optional 'fill' and 'stroke' property 
-                                                    //    to be set as any color string value Phaser can take 
-    let frame = undefined;
-    if(this.baseFrames !== undefined){
-        frame = this.baseFrames[config.direction] || this.baseFrames.d;
-    }
-    this.baseSprite = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', frame);
-    //this.baseSprite.baseFrames = baseFrames;
-    //this.baseSprite.frameName = frame;
-    this.baseSprite.anchor.set(0.5);
-    this.addChild(this.baseSprite);
+        this.energyRegenEffect = this.addEffect("energy-regen-effect-1");
+        this.healthRegenEffect = this.addEffect("health-regen-effect-1");
+        this.curedEffect = this.addEffect("cured-effect-1");
+        this.poisonEffect = this.addEffect("poison-effect-1");
+        this.burnEffect = this.addEffect("burn-effect-1");
 
-    this.addDisplayName(config.displayName);
+        this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, 'game-atlas', 'curse-icon');
+        this.curseIcon.setOrigin(0.5);
+        this.add(this.curseIcon);
+        this.curseIcon.visible = false;
 
-    //this.chatTexts = [];
+        this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, 'game-atlas', 'enchantment-icon');
+        this.enchantmentIcon.setOrigin(0.5);
+        this.add(this.enchantmentIcon);
+        this.enchantmentIcon.visible = false;
 
-    this.energyRegenEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'energy-regen-effect-1');
-    this.energyRegenEffect.animations.add('effect', ['energy-regen-effect-1', 'energy-regen-effect-2'], 2, true);
-    this.energyRegenEffect.anchor.set(0.5);
-    this.addChild(this.energyRegenEffect);
-    this.energyRegenEffect.visible = false;
+        this.addDamageMarker();
 
-    this.healthRegenEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'health-regen-effect-1');
-    this.healthRegenEffect.animations.add('effect', ['health-regen-effect-1', 'health-regen-effect-2'], 2, true);
-    this.healthRegenEffect.anchor.set(0.5);
-    this.addChild(this.healthRegenEffect);
-    this.healthRegenEffect.visible = false;
+        this.baseSprite.on("animationcomplete", this.moveAnimCompleted, this);
 
-    this.curedEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'cured-effect-1');
-    this.curedEffect.animations.add('effect', ['cured-effect-1', 'cured-effect-2'], 2, true);
-    this.curedEffect.anchor.set(0.5);
-    this.addChild(this.curedEffect);
-    this.curedEffect.visible = false;
+        this.baseSprite.setInteractive();
 
-    this.poisonEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'poison-effect-1');
-    this.poisonEffect.animations.add('effect', ['poison-effect-1', 'poison-effect-2'], 2, true);
-    this.poisonEffect.anchor.set(0.5);
-    this.addChild(this.poisonEffect);
-    this.poisonEffect.visible = false;
+        this.baseSprite.on('pointerover', this.onPointerOver, this);
+        this.baseSprite.on('pointerout', this.onPointerOut, this);
+    };
 
-    this.burnEffect = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, 'game-atlas', 'burn-effect-1');
-    this.burnEffect.animations.add('effect', ['burn-effect-1', 'burn-effect-2'], 2, true);
-    this.burnEffect.anchor.set(0.5);
-    this.addChild(this.burnEffect);
-    this.burnEffect.visible = false;
-
-    this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, 'game-atlas', 'curse-icon');
-    this.curseIcon.anchor.set(0.5);
-    this.addChild(this.curseIcon);
-    this.curseIcon.visible = false;
-
-    this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, 'game-atlas', 'enchantment-icon');
-    this.enchantmentIcon.anchor.set(0.5);
-    this.addChild(this.enchantmentIcon);
-    this.enchantmentIcon.visible = false;
-
-    this.addDamageMarker();
-};
-
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
-Sprite.prototype.constructor = Sprite;
-
-Sprite.prototype.moveAnimCompleted = function () {
-    this.baseSprite.frameName = this.baseFrames[this.direction];
-};
-
-Sprite.prototype.onMove = function (playMoveAnim) {
-    if(playMoveAnim === true){
-        if(this.baseSprite.animations.currentAnim.isPlaying === false){
-            this.baseSprite.animations.play(this.direction);
+    setDirection(direction) {
+        switch (direction) {
+            case "u":
+                this.direction = "up";
+                break;
+            case "d":
+                this.direction = "down";
+                break;
+            case "l":
+                this.direction = "left";
+                break;
+            default:
+                this.direction = "right";
         }
     }
-};
 
-Sprite.prototype.onChangeDirection = function () {
-    this.baseSprite.animations.stop();
-};
+    addEffect(frameName) {
+        const sprite = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, "game-atlas", frameName);
+        sprite.setOrigin(0.5);
+        sprite.visible = false;
+        this.add(sprite);
+        return sprite;
+    }
 
-Sprite.prototype.onBurnStart = function () {
-    this.burnEffect.visible = true;
-    this.burnEffect.animations.play('effect');
-};
+    moveAnimCompleted() {
+        this.baseSprite.setFrame(this.baseFrames[this.direction]);
+    }
 
-Sprite.prototype.onBurnStop = function () {
-    this.burnEffect.visible = false;
-    this.burnEffect.animations.stop(null, true);
-};
+    /**
+     * Should be called when the entity for this sprite moves.
+     * Move can be a normal move (like a running), or from a manual reposition (teleport/map change).
+     * @param {Boolean} playMoveAnim Whether the move animation should be played. Don't play on 
+     *      reposition as it looks weird when they teleport but still do a move animation.
+     */
+    onMove(playMoveAnim) {
+        if (playMoveAnim === true) {
+            if (this.animationSetName) {
+                this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
+            }
+        }
+    }
 
-Sprite.prototype.onPoisonStart = function () {
-    this.poisonEffect.visible = true;
-    this.poisonEffect.animations.play('effect');
-};
+    onChangeDirection() {
+        // Keep playing if the animation loops.
+        if(this.animationRepeats){
+            this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
+        }
+        else {
+            this.baseSprite.anims.stop();
+        }
+    }
 
-Sprite.prototype.onPoisonStop = function () {
-    this.poisonEffect.visible = false;
-    this.poisonEffect.animations.stop(null, true);
-};
+    static setupAnimations() {
+        _this.anims.create({
+            key: "energy-regen",
+            frames: ['energy-regen-effect-1', 'energy-regen-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onHealthRegenStart = function () {
-    this.healthRegenEffect.visible = true;
-    this.healthRegenEffect.animations.play('effect');
-};
+        _this.anims.create({
+            key: "health-regen",
+            frames: ['health-regen-effect-1', 'health-regen-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onHealthRegenStop = function () {
-    this.healthRegenEffect.visible = false;
-    this.healthRegenEffect.animations.stop(null, true);
-};
+        _this.anims.create({
+            key: "cured",
+            frames: ['cured-effect-1', 'cured-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onEnergyRegenStart = function () {
-    this.energyRegenEffect.visible = true;
-    this.energyRegenEffect.animations.play('effect');
-};
+        _this.anims.create({
+            key: "poison",
+            frames: ['poison-effect-1', 'poison-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
 
-Sprite.prototype.onEnergyRegenStop = function () {
-    this.energyRegenEffect.visible = false;
-    this.energyRegenEffect.animations.stop(null, true);
-};
+        _this.anims.create({
+            key: "burn",
+            frames: ['burn-effect-1', 'burn-effect-2'],
+            frameRate: 2,
+            showOnStart: true,
+            hideOnComplete: true
+        });
+    }
 
-Sprite.prototype.onCuredStart = function () {
-    this.curedEffect.visible = true;
-    this.curedEffect.animations.play('effect');
-};
+    /**
+     * Adds a set of animations to the animation manager, one for each direction for this entity.
+     * i.e. for a set name of "knight", animations called "knight-up", "knight-left", and so on, would be created.
+     * Uses the 1-2-1-3 pattern for frame sequence.
+     * @param {Object} config
+     * @param {String} config.setName - The base name of this set of animations
+     * @param {Number} [config.duration=500] - How long it should last, in ms.
+     */
+    static addAnimationSet() {
+        const
+            setName = this.prototype.animationSetName,
+            frameSequence = this.prototype.animationFrameSequence,
+            repeats = this.prototype.animationRepeats,
+            duration = 500,
+            defaultTextureKey = "game-atlas",
+            directions = ["up", "down", "left", "right"],
+            generateFrames = (direction) => {
+                const frames = [];
+                frameSequence.forEach((frameNumber) => {
+                    frames.push({ frame: `${setName}-${direction}-${frameNumber}` })
+                });
+                return frames;
+            };
 
-Sprite.prototype.onCuredStop = function () {
-    this.curedEffect.visible = false;
-    this.curedEffect.animations.stop(null, true);
-};
+        if (!setName) {
+            // Skip the Character class itself. It has no animation set of it's own to add.
+            if (setName !== null) {
+                Utils.warning("Adding animation set. Missing set name on class prototype somewhere. Skipping.");
+            }
+            return;
+        }
 
-module.exports = Sprite;
+        directions.forEach((direction) => {
+            _this.anims.create({
+                // i.e. "knight-up"
+                key: `${setName}-${direction}`,
+                defaultTextureKey,
+                frames: generateFrames(direction),
+                duration,
+                repeat: repeats ? -1 : undefined
+            });
+        });
+
+        // Give them some default base frames, for when they are just standing still.
+        this.prototype.baseFrames = {
+            up: `${setName}-up-1`,
+            down: `${setName}-down-1`,
+            left: `${setName}-left-1`,
+            right: `${setName}-right-1`
+        };
+    }
+}
+
+Character.prototype.baseFrames = {};
+Character.prototype.animationSetName = null;
+Character.prototype.animationFrameSequence = [1, 2, 1, 3];
+Character.prototype.animationRepeats = false;
+
+export default Character;

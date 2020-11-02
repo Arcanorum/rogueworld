@@ -1,17 +1,17 @@
+const fs = require("fs");
 const Utils = require("../Utils");
-const CraftingManager = require('./CraftingManager');
+const CraftingManager = require("./CraftingManager");
 
-require('./crafting recipes/ClanStructures');
-require('./crafting recipes/DungiumEquipment');
-require('./crafting recipes/IronEquipment');
-require('./crafting recipes/MageEquipment');
-require('./crafting recipes/Materials');
-require('./crafting recipes/NoctisEquipment');
-require('./crafting recipes/Potions');
-require('./crafting recipes/RangedEquipment');
+require("./crafting_recipes/ClanStructures");
+require("./crafting_recipes/DungiumEquipment");
+require("./crafting_recipes/IronEquipment");
+require("./crafting_recipes/MageEquipment");
+require("./crafting_recipes/Materials");
+require("./crafting_recipes/NoctisEquipment");
+require("./crafting_recipes/Potions");
+require("./crafting_recipes/RangedEquipment");
 
 // Write all of the recipes to the client, so the client knows when a valid recipe has been created from the crafting components.
-const fs = require('fs');
 let dataToWrite = {};
 
 let station;
@@ -25,7 +25,11 @@ for (let stationKey in CraftingManager.StationRecipes) {
 
     for (let recipeKey in station) {
         if (station.hasOwnProperty(recipeKey) === false) continue;
-
+        
+        if(!station[recipeKey].result) {
+            console.log(station[recipeKey]);
+            Utils.error(`Cannot add crafting recipe for recipe combo "${recipeKey}" in station "${station[recipeKey]}"`);
+        }
         // Add this recipe to the catalogue.
         dataToWrite[stationKey][recipeKey] = {
             resultTypeNumber: station[recipeKey].result.prototype.typeNumber
@@ -40,6 +44,6 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/CraftingRecipes.json', dataToWrite);
+fs.writeFileSync("../client/src/catalogues/CraftingRecipes.json", dataToWrite);
 
 Utils.message("Crafting recipes catalogue written to file.");

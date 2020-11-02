@@ -1,5 +1,4 @@
 const Boss = require('./Boss');
-const Utils = require('../../../../../Utils');
 
 const specialAttack1Rate = 5000;
 const specialAttack2Rate = 10000;
@@ -123,12 +122,9 @@ class ArchMage extends Boss {
 
 }
 module.exports = ArchMage;
-
+// TODO: can these be move to the top?
 const Projectile = require('./../../projectiles/Projectile');
 const ProjWind = require('./../../projectiles/ProjWind');
 const ProjPacify = require('./../../projectiles/ProjPacify');
 const MagicEffects = require('./../../../../../gameplay/MagicEffects');
 const Heal = require('../../../../../gameplay/Heal');
-
-ArchMage.prototype.registerEntityType();
-ArchMage.prototype.assignMobValues();

@@ -1,4 +1,3 @@
-
 const Breakable = require('./Breakable');
 
 class DoorLockedFighter extends Breakable {
@@ -37,8 +36,6 @@ class DoorLockedFighter extends Breakable {
 
 }
 module.exports = DoorLockedFighter;
-
-DoorLockedFighter.prototype.registerEntityType();
 
 DoorLockedFighter.prototype.interactionDurabilityCost = 1;
 DoorLockedFighter.prototype.reactivationRate = 5000;

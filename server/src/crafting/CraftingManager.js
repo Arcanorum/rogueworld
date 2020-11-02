@@ -1,3 +1,4 @@
+const Utils = require("../Utils");
 
 const CraftingManager = {
 
@@ -18,14 +19,20 @@ const CraftingManager = {
      * @param {TaskType} [config.taskCrafted] - What task will crafting this item give progress towards.
      */
     addRecipe: function (config) {
-        if(config.comp1 === undefined) return;
+        if(config.comp1 === undefined) {
+            Utils.error(`Adding crafting recipe named "${config.name}". No components specified.`);
+        }
 
-        let recipeCode = config.comp1.prototype.typeNumber + '-';
+        if(config.result === undefined) {
+            Utils.error(`Adding crafting recipe named "${config.name}". No result specified.`);
+        }
+
+        let recipeCode = config.comp1.prototype.typeNumber + "-";
         let statXPGiven = config.comp1.prototype.craftingExpValue;
-        if(config.comp2 !== undefined){ recipeCode += config.comp2.prototype.typeNumber + '-'; statXPGiven += config.comp2.prototype.craftingExpValue }
-        if(config.comp3 !== undefined){ recipeCode += config.comp3.prototype.typeNumber + '-'; statXPGiven += config.comp3.prototype.craftingExpValue }
-        if(config.comp4 !== undefined){ recipeCode += config.comp4.prototype.typeNumber + '-'; statXPGiven += config.comp4.prototype.craftingExpValue }
-        if(config.comp5 !== undefined){ recipeCode += config.comp5.prototype.typeNumber + '-'; statXPGiven += config.comp5.prototype.craftingExpValue }
+        if(config.comp2 !== undefined){ recipeCode += config.comp2.prototype.typeNumber + "-"; statXPGiven += config.comp2.prototype.craftingExpValue }
+        if(config.comp3 !== undefined){ recipeCode += config.comp3.prototype.typeNumber + "-"; statXPGiven += config.comp3.prototype.craftingExpValue }
+        if(config.comp4 !== undefined){ recipeCode += config.comp4.prototype.typeNumber + "-"; statXPGiven += config.comp4.prototype.craftingExpValue }
+        if(config.comp5 !== undefined){ recipeCode += config.comp5.prototype.typeNumber + "-"; statXPGiven += config.comp5.prototype.craftingExpValue }
 
         if(config.statXPGiven !== undefined) statXPGiven = config.statXPGiven;
 
@@ -44,16 +51,17 @@ const CraftingManager = {
         }
 
         this.StationRecipes[stationTypeNumber][recipeCode] = {
+            name: config.name,
             /** @type {Function} */
             result: config.result,
             /** @type {String} */
             craftingStat: config.craftingStat,
             /** @type {Number} */
-            statXPGiven: statXPGiven,
+            statXPGiven,
             /** @type {Number} */
-            stationTypeNumber: config.stationType.prototype.typeNumber,
+            stationTypeNumber,
             /** @type {String} */
-            taskIDCrafted: taskIDCrafted
+            taskIDCrafted
         };
     },
 
@@ -72,7 +80,7 @@ const CraftingManager = {
         // Check the station type number is valid. Might have been invalid input.
         if(this.StationRecipes[stationTypeNumber] === undefined) return;
 
-        let recipeCode = '';
+        let recipeCode = "";
         // How many of the components have a durability.
         let durabilityCount = 0;
         let totalPercentRemaining = 0;
@@ -82,12 +90,12 @@ const CraftingManager = {
         const inventory = crafter.inventory;
         for(let i=0; i<inventorySlotKeys.length; i+=1){
             // Only string names of each slot to use should be in the components.
-            if(typeof inventorySlotKeys[i] !== 'string') return;
+            if(typeof inventorySlotKeys[i] !== "string") return;
 
             item = inventory[inventorySlotKeys[i]];
             if(item === undefined) continue;
             if(item === null) continue;
-            recipeCode += item.typeNumber + '-';
+            recipeCode += item.typeNumber + "-";
             if(item.durability !== null){
                 durabilityCount += 1;
                 totalPercentRemaining += item.durability / item.maxDurability;
@@ -144,4 +152,4 @@ const CraftingManager = {
 module.exports = CraftingManager;
 
 // Run the crafting recipes file to init the recipes.
-require('./CraftingRecipes');
+require("./CraftingRecipes");

@@ -15,6 +15,4 @@ class Berserker extends Mob {
 }
 module.exports = Berserker;
 
-Berserker.prototype.registerEntityType();
-Berserker.prototype.assignMobValues();
 Berserker.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillWarriors.taskID;

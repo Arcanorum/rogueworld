@@ -1,4 +1,3 @@
-
 const Breakable = require('./Breakable');
 
 class MetalDoor extends Breakable {
@@ -53,6 +52,5 @@ class MetalDoor extends Breakable {
 }
 module.exports = MetalDoor;
 
-MetalDoor.prototype.registerEntityType();
 MetalDoor.prototype.interactionEnergyCost = 1;
 MetalDoor.prototype.reactivationRate = 5000;

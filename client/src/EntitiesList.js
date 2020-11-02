@@ -1,106 +1,46 @@
+import Utils from "./Utils";
+import GenericPickupsList from "./entities/pickups/GenericPickupsList";
 
 /**
- * Starts this sprite doing a bobbing in-out effect, mostly for pickups.
- */
-Phaser.Sprite.prototype.tweenPickupFromCenter = function () {
-    this.anchor.setTo(0.5);
-    this.x += dungeonz.CENTER_OFFSET;
-    this.y += dungeonz.CENTER_OFFSET;
-    _this.add.tween(this.scale).to({x: this.scale.x * 0.8, y: this.scale.y * 0.8}, 1000, "Linear", true, 0, -1, true);
-};
-
-Phaser.Sprite.prototype.onChangeDirection = function () {
-};
-
-/**
- * Show the damage marker, with the amount of damage taken.
- * @param {String|Number} amount
- */
-Phaser.Sprite.prototype.onHitPointsModified = function (amount) {
-    if(amount < 0){
-        this.damageMarker.addColor('#ff2f00', 0);
-    }
-    else {
-        this.damageMarker.addColor('#6abe30', 0);
-        amount = '+' + amount;
-    }
-
-    this.damageMarker.visible = true;
-    this.damageMarker.text = amount;
-
-    // If there is already a previous damage marker waiting to be hidden,
-    // stop that timer and start a new one for this damage event.
-    if(this.damageMarkerDisappearTimeout !== null){
-        clearTimeout(this.damageMarkerDisappearTimeout);
-    }
-
-    var that = this;
-    // Start a timeout to hide the damage marker.
-    this.damageMarkerDisappearTimeout = setTimeout(function () {
-        that.damageMarker.visible = false;
-        that.damageMarkerDisappearTimeout = null;
-    }, 800);
-};
-
-Phaser.Sprite.prototype.onInputOver = function () {
-    this.displayName.visible = true;
-};
-
-Phaser.Sprite.prototype.onInputOut = function () {
-    this.displayName.visible = false;
-};
-
-/*Phaser.Sprite.prototype.onInputDown = function () {
-    console.log("default oninputdown");
-};*/
-
-/**
- * Add a text object to this sprite to use as the damage indicator.
- */
-Phaser.Sprite.prototype.addDamageMarker = function () {
-    this.damageMarker = _this.add.text(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, -99, {
-        font: "20px Press Start 2P",
-        align: "center",
-        fill: "#f5f5f5",
-        stroke: "#000000",
-        strokeThickness: 5
-    });
-    this.damageMarker.anchor.set(0.5);
-    this.damageMarker.scale.set(0.2);
-    this.damageMarker.visible = false;
-    this.addChild(this.damageMarker);
-    this.damageMarkerDisappearTimeout = null;
-};
-
-/**
- * Add a text object to this sprite to use as the display name.
- * @param {String} displayName
- */
-Phaser.Sprite.prototype.addDisplayName = function (displayName) {
-    // The anchor is still in the top left, so offset by half the width to center the text.
-    this.displayName = _this.add.text(dungeonz.TILE_SIZE / 2, 4, displayName, {
-        font: "20px Press Start 2P",
-        align: "center",
-        fill: (this.displayNameColor&&this.displayNameColor.fill)?this.displayNameColor.fill:"#f5f5f5",
-        stroke: (this.displayNameColor&&this.displayNameColor.stroke)?this.displayNameColor.stroke:"#000000",
-        strokeThickness: (this.displayNameColor&&this.displayNameColor.strokeThickness)?this.displayNameColor.strokeThickness:5
-    });
-    this.displayName.anchor.set(0.5, 1);
-    this.displayName.scale.set(0.25);
-    this.addChild(this.displayName);
-    this.displayName.visible = false;
-};
-
-/**
- * A list of all client display entities that can be created.
+ * A list of all client display entities that can be instantiated.
+ * Created using all of the JS files found in /entities, to avoid having a huge list of imports.
+ * The list looks like `<FILENAME>: <TYPE/CLASS>`.
+ * @example
+ * {
+ *     Knight: Entity,
+ *     ProjShuriken: Entity,
+ *     PickupFireGem: Pickup, // Specialised pickup class
+ *     PickupIronBar: GenericPickup, // Generated pickup class
+ * }
  * @type {Object}
  */
-export default (ctx => {
-    let keys = ctx.keys();
-    let values = keys.map(ctx);
-    return keys.reduce((object, key, index) => {
-        key = key.split("/").pop().slice(0, -3);
-        object[key] = values[index];
+export default ((context) => {
+    let fileNames = context.keys();
+    let values = fileNames.map(context);
+    // Add each class to the list by file name.
+    let entitiesList = fileNames.reduce((object, fileName, index) => {
+        // Trim the ".js" from the end of the file name.
+        fileName = fileName.split("/").pop().slice(0, -3);
+        // Need to use .default to get the class from the file, or would need to actually import it.
+        object[fileName] = values[index].default;
         return object;
     }, {});
+
+    // Add the generic pickups that don't have their own class files.
+    // They get classes made for them on startup.
+    Object.entries(GenericPickupsList).forEach(([key, value]) => {
+        key = "Pickup" + key;
+        // Check for duplicate entries in the list.
+        if(entitiesList[key]) {
+            Utils.warning(
+                "Building entities list. Adding generated pickup class for \"" + key + "\", but type already exists with this key. Skipping. " +
+                "A pickup type should be defined either in a class file (if it does something special), or in the pickups list, but not both."
+            );
+            return;
+        };
+
+        entitiesList[key] = value;
+    });
+
+    return entitiesList;
 })(require.context('./entities/', true, /.js$/));

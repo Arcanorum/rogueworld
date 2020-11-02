@@ -129,7 +129,7 @@ class ShopPanel extends PanelTemplate {
             this.stockSlots[i].itemIcon.src = 'assets/img/gui/items/' + ItemTypes[shopStock[i]].iconSource + '.png';
 
             // And the item name for when it is hovered over.
-            this.stockSlots[i].itemName = dungeonz.getTextDef("Item name: " +  ItemTypes[shopStock[i]].idName);
+            this.stockSlots[i].itemName = dungeonz.getTextDef("Item name: " +  ItemTypes[shopStock[i]].translationID);
 
             this.stockSlots[i].container.style.display = "block";
         }

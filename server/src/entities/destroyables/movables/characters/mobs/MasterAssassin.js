@@ -1,4 +1,3 @@
-
 const Boss = require('./Boss');
 const Utils = require('./../../../../../Utils');
 
@@ -75,6 +74,4 @@ module.exports = MasterAssassin;
 
 const ProjShuriken = require('./../../projectiles/ProjShuriken');
 
-MasterAssassin.prototype.registerEntityType();
-MasterAssassin.prototype.assignMobValues();
 MasterAssassin.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillOutlaws.taskID;

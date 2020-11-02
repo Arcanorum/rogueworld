@@ -1,189 +1,268 @@
+import { setDefaultCursor, setHandCursor } from "./Cursors";
 
-class Static {
-    /**
-     * A static tile entity. Used to give a logical form to static map tiles, even though they don't have their own sprites.
-     * Everything this class needs is retrieved from the loaded map data.
-     * @param {Number} row
-     * @param {Number} col
-     * @param {Number} tileID
-     * @param {*} [data]
-     */
-    constructor(row, col, tileID, data) {
-        this.id = row + "-" + col;
-        this.row = row;
-        this.col = col;
-        /** @type {Boolean} Is this static in an active state. Only applies to interactables. */
-        //this.activeState = true;
-        /** @type {Boolean} Is this static in a broken state. Only applies to breakables. */
-        this.brokenState = false;
+class Static extends Phaser.GameObjects.Container {
+    constructor(config) {
+        super(_this, config.col * dungeonz.SCALED_TILE_SIZE, config.row * dungeonz.SCALED_TILE_SIZE);
+
+        // Add them to the scene here as this doesn't happen automatically when extending a gameobject class.
+        _this.add.existing(this);
+
+        // The world position of this tile. NOT where it is in any display grids; it doesn't need updating.
+        this.row = config.row;
+        this.col = config.col;
+
+        // The unique ID of this tile. Used to get and update a static tile from the statics
+        // list, such as when a door opens/closes and thus the frame needs to change.
+        this.id = this.row + "-" + this.col;
+
+        this.addTileSprite(config.tileID);
+
+        if (config.pressableRange) {
+            this.pressableRange = config.pressableRange;
+
+            this.addHighlightSprite();
+
+            this.tileSprite.setInteractive();
+
+            this.tileSprite.on('pointerdown', this.onPressed, this);
+
+            this.tileSprite.on("pointerover", () => {
+                if (this.isWithinPressableRange()) {
+                    setHandCursor();
+                }
+            });
+
+            this.tileSprite.on("pointerout", () => {
+                setDefaultCursor();
+            });
+
+            _this.interactables[this.id] = this;
+        }
+
+        this.setScale(GAME_SCALE);
+
         // Holder for the light distance property. Tilemap.updateDarknessGrid passes it in as a property of a sprite...
-        this.sprite = {};
+        this.spriteContainer = {};
         /** @type {Number} Does this static emit light. 0 = disabled */
-        this.sprite.lightDistance = 0;
-        /** @type {Number} The frame on the statics tileset to use for drawing to the bitmap data. */
-        this.tileID = tileID;
-        /** @type {Number} The frame on the statics tileset to use for drawing to the bitmap data when this static is inactive. */
+        this.spriteContainer.lightDistance = 0;
+
+        /** @type {Number} The frame on the statics tileset to use when this static is active. */
+        this.tileID = config.tileID;
+        /** @type {Number} The frame on the statics tileset to use when this static is inactive. */
         this.inactiveFrame = 0;
 
-        if (TileIDInactiveFrames[tileID] === undefined) {
+        if (TileIDInactiveFrames[this.tileID] === undefined) {
             this.inactiveFrame = TileIDInactiveFrames["0"];
         }
         else {
-            this.inactiveFrame = TileIDInactiveFrames[tileID];
+            this.inactiveFrame = TileIDInactiveFrames[this.tileID];
         }
 
         // Add this static to the statics list.
         if (_this.statics[this.id] === undefined) {
             _this.statics[this.id] = this;
         }
-        else {
-            //console.log("* WARNING: Attempting to add static tile, but ID already taken in statics list:", this.id);
-        }
 
+        this.on("destroy", () => {
+            delete _this.statics[this.id];
+
+            // If this was a light source, need to update the darkness grid.
+            if (_this.lightSources[this.id]) {
+                delete _this.lightSources[this.id];
+                _this.tilemap.updateDarknessGrid();
+            }
+
+            // If this was a light source, need to update the darkness grid.
+            if (_this.interactables[this.id]) {
+                delete _this.interactables[this.id];
+            }
+        });
     }
 
-    destroy() {
-        delete _this.statics[this.id];
-
-        if (_this.lightSources[this.id] !== undefined) {
-            delete _this.lightSources[this.id];
-            _this.tilemap.updateDarknessGrid();
-        }
+    addTileSprite(frame) {
+        this.tileSprite = _this.add.sprite(0, 0, "statics-tileset", frame);
+        this.tileSprite.setOrigin(0.5);
+        this.add(this.tileSprite);
     }
 
-    interactedByPlayer() { }
+    addHighlightSprite() {
+        this.highlightSprite = _this.add.sprite(0, 0, "highlight");
+        this.highlightSprite.setOrigin(0.5);
+        this.highlightSprite.setVisible(false);
+        this.add(this.highlightSprite);
+    }
 
-}
+    onMovedInto() { }
+
+    onPressed() { }
+
+    isWithinPressableRange() {
+        const player = _this.dynamics[_this.player.entityId];
+        const distFromPlayer =
+            Math.abs(this.row - player.row) + // Row dist.
+            Math.abs(this.col - player.col); // Col dist.
+
+        return distFromPlayer <= this.pressableRange;
+    }
+
+    activate() { }
+
+    deactivate() { }
+};
 
 /**
  * A list of the GUI triggers by trigger name. Multiple GUI trigger entities can have the same name, to group them.
+ * i.e. "crafting-tutorial" has many GUI trigger 
  * @type {{}}
  */
-const GUITriggers = {};
+// const GUITriggers = {};
 
-class GUITrigger extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+// TODO: make this a purely logical entity.
+// class GUITrigger extends Static {
+//     constructor(row, col, tileID, data) {
+//         super(row, col, tileID, data);
 
-        this.triggerName = data.name;
-        this.panelNameTextDefID = data.panelNameTextDefID;
-        this.contentTextDefID = data.contentTextDefID;
-        this.contentFileName = data.contentFileName;
-        this.panel = _this.GUI[data.panelName];
-        // Don't show the yellow square.
-        this.tileID = 0;
+//         this.triggerName = data.name;
+//         this.panelNameTextDefID = data.panelNameTextDefID;
+//         this.contentTextDefID = data.contentTextDefID;
+//         this.contentFileName = data.contentFileName;
+//         this.panel = _this.GUI[data.panelName];
+//         // Don't show the yellow square.
+//         this.tileID = 0;
 
-        if (this.panel === undefined) {
-            console.log("WARNING: Trigger cannot open invalid GUI panel:", data.panelName);
-        }
+//         if (this.panel === undefined) {
+//             console.log("WARNING: Trigger cannot open invalid GUI panel:", data.panelName);
+//         }
 
-        if (GUITriggers[this.triggerName] === undefined) {
-            GUITriggers[this.triggerName] = {};
-        }
+//         if (GUITriggers[this.triggerName] === undefined) {
+//             GUITriggers[this.triggerName] = {};
+//         }
 
-        GUITriggers[this.triggerName][this.id] = this;
-    }
+//         GUITriggers[this.triggerName][this.id] = this;
+//     }
 
-    static removeTriggerGroup(triggerName) {
-        const triggerGroup = GUITriggers[triggerName];
-        // Remove all of the other triggers in this group.
-        for (let triggerKey in triggerGroup) {
-            if (triggerGroup.hasOwnProperty(triggerKey) === false) continue;
-            triggerGroup[triggerKey].destroy();
-        }
-        // Remove the group.
-        delete GUITriggers[triggerName];
-    }
+//     static removeTriggerGroup(triggerName) {
+//         const triggerGroup = GUITriggers[triggerName];
+//         // Remove all of the other triggers in this group.
+//         for (let triggerKey in triggerGroup) {
+//             if (triggerGroup.hasOwnProperty(triggerKey) === false) continue;
+//             triggerGroup[triggerKey].destroy();
+//         }
+//         // Remove the group.
+//         delete GUITriggers[triggerName];
+//     }
 
-    destroy() {
-        delete GUITriggers[this.triggerName][this.id];
+//     destroy() {
+//         delete GUITriggers[this.triggerName][this.id];
 
-        super.destroy();
-    }
+//         super.destroy();
+//     }
 
-    interactedByPlayer() {
-        // Check the panel is valid. Might have been given the wrong panel name.
-        if (this.panel !== undefined) {
-            // Show the GUI panel this trigger opens.
-            this.panel.show(this.panelNameTextDefID, this.contentTextDefID, this.contentFileName);
-        }
+//     onMovedInto() {
+//         // Check the panel is valid. Might have been given the wrong panel name.
+//         if (this.panel !== undefined) {
+//             // Show the GUI panel this trigger opens.
+//             this.panel.show(this.panelNameTextDefID, this.contentTextDefID, this.contentFileName);
+//         }
 
-        // Remove this trigger and the group it is in.
-        GUITrigger.removeTriggerGroup(this.triggerName);
-    }
-}
+//         // Remove this trigger and the group it is in.
+//         GUITrigger.removeTriggerGroup(this.triggerName);
+//     }
+// }
 
 class Portal extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
-        this.sprite.lightDistance = 6;
+    constructor(config) {
+        config.pressableRange = 1;
+        super(config);
+        this.spriteContainer.lightDistance = 5;
     }
 }
 
 class DungeonPortal extends Portal {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+    constructor(config) {
+        super(config);
         /**
          * The ID number of the dungeon manager that this portal is linked to.
          * Each dungeon manager has a unique id, as well as a separate unique name.
          * @type {Number}
          */
-        this.dungeonManagerID = data;
+        this.dungeonManagerID = config.data;
     }
-    interactedByPlayer() {
-        _this.GUI.dungeonPanel.show(this);
+
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.GUI.dungeonPanel.show(this);
+        }
     }
 }
 
 class Torch extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
-        this.sprite.lightDistance = 4;
+    constructor(config) {
+        super(config);
+        this.spriteContainer.lightDistance = 4;
     }
 }
 
 class CraftingStation extends Static {
-    constructor(row, col, tileID, data) {
-        super(row, col, tileID, data);
+    constructor(config) {
+        config.pressableRange = 1;
+        super(config);
 
-        this.stationTypeNumber = data;
+        this.stationTypeNumber = config.data;
     }
-
-    interactedByPlayer() { }
 }
 
 class Anvil extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), 'assets/img/gui/panels/anvil.png');
+        }
     }
 }
 
 class Furnace extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Furnace"), 'assets/img/gui/panels/furnace.png');
-        this.sprite.lightDistance = 4;
+    constructor(config) {
+        super(config);
+        this.spriteContainer.lightDistance = 4;
+    }
+
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Furnace"), 'assets/img/gui/panels/furnace.png');
+        }
     }
 }
 
 class Laboratory extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Laboratory"), 'assets/img/gui/panels/laboratory.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Laboratory"), 'assets/img/gui/panels/laboratory.png');
+        }
     }
 }
 
 class Workbench extends CraftingStation {
-    interactedByPlayer() {
-        _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
-        _this.GUI.craftingPanel.show(dungeonz.getTextDef("Workbench"), 'assets/img/gui/panels/workbench.png');
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            _this.GUI.craftingPanel.show(dungeonz.getTextDef("Workbench"), 'assets/img/gui/panels/workbench.png');
+        }
     }
 }
 
 class BankChest extends Static {
-    interactedByPlayer() {
-        _this.GUI.bankPanel.show();
+    constructor(config) {
+        config.pressableRange = 1;
+        super(config);
+    }
+
+    onPressed() {
+        if (this.isWithinPressableRange()) {
+            _this.GUI.bankPanel.show();
+        }
     }
 }
 
@@ -191,7 +270,7 @@ class BankChest extends Static {
  * The frame to show when a static is broken. Pile of rubble.
  * @type {Number}
  */
-const brokenFrame = 144;
+// const brokenFrame = 144; TODO: maybe not relevant anymore? still doing breakable world statics?
 
 /**
  * The frames to use for each interactable type when it is inactive.
@@ -245,7 +324,7 @@ const TileIDInactiveFrames = {
  * @type {Object}
  */
 const StaticClasses = {
-    86: GUITrigger,
+    // 86: GUITrigger,
     147: DungeonPortal, // Dungeon portal (active)
     211: Portal,    // Overworld portal (active)
     // Light wall torches
@@ -356,21 +435,31 @@ const StaticClasses = {
 };
 
 /**
- * Add a static tile instance to the statics list.
+ * Add a static tile instance to the statics list and add a sprite for it.
  * @param {Number} row
  * @param {Number} col
- * @param {Array} tileData
+ * @param {Array} tileData - The tile ID to use from the tilset, and any data for this static.
  */
 function addStaticTile(row, col, tileData) {
     // If there is no specific class to use for this static tile, use the generic one.
     if (StaticClasses[tileData[0]] === undefined) {
-        return new Static(row, col, tileData[0], tileData[1]);
+        return new Static({
+            row,
+            col,
+            tileID: tileData[0],
+            data: tileData[1]
+        });
     }
     // Use the specific class.
     else {
-        const staticTile = new StaticClasses[tileData[0]](row, col, tileData[0], tileData[1]);
+        const staticTile = new StaticClasses[tileData[0]]({
+            row,
+            col,
+            tileID: tileData[0],
+            data: tileData[1]
+        });
         // If this static type emits light, add it to the light sources list.
-        if (staticTile.sprite.lightDistance > 0) {
+        if (staticTile.spriteContainer.lightDistance > 0) {
             _this.lightSources[staticTile.id] = staticTile;
             _this.tilemap.updateDarknessGrid();
         }

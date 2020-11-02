@@ -1,4 +1,4 @@
-const Entity = require('../Entity');
+const Entity = require("../Entity");
 
 class Spawner extends Entity {
     /**
@@ -174,6 +174,8 @@ class Spawner extends Entity {
     getRandomPosition() { }
 }
 module.exports = Spawner;
+
+Spawner.abstract = true;
 
 const Utils = require('../../Utils');
 const World = require('../../World');

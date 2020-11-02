@@ -1,17 +1,26 @@
+import Projectile from "./Projectile";
 
-const Sprite = function (x, y, config) {
-    Phaser.Sprite.call(this, _this.game, x, y, 'game-atlas', 'proj-acorn-1');
+class Entity extends Projectile {
+    constructor(x, y, config) {
+        super(x, y, config, "proj-acorn-1");
+        this.setScale(GAME_SCALE * 0.6);
+        this.anims.play("acorn-spin");
+    }
 
-    this.centered = true;
-
-    this.scale.setTo(GAME_SCALE * 0.6);
-
-    this.animations.add('spin', ['proj-acorn-1', 'proj-acorn-2', 'proj-acorn-3', 'proj-acorn-4'], 5, true);
-
-    this.animations.play('spin');
+    static setupAnimations() {
+        _this.anims.create({
+            key: "acorn-spin",
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "proj-acorn-1" },
+                { frame: "proj-acorn-2" },
+                { frame: "proj-acorn-3" },
+                { frame: "proj-acorn-4" }
+            ],
+            duration: 1000,
+            repeats: true
+        });
+    }
 };
 
-Sprite.prototype = Object.create(Phaser.Sprite.prototype);
-Sprite.prototype.constructor = Sprite;
-
-module.exports = Sprite;
+export default Entity;

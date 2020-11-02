@@ -1,0 +1,497 @@
+# Ammunition
+
+- name: DungiumArrows
+  extends: ammunition/Ammunition
+  translationID: Dungium arrows
+  iconSource: icon-dungium-arrows
+  ProjectileType: ProjDungiumArrow
+  baseDurability: 50
+  useDurabilityCost: 1
+
+- name: IronArrows
+  extends: ammunition/Ammunition
+  translationID: Iron arrows
+  iconSource: icon-iron-arrows
+  ProjectileType: ProjIronArrow
+  baseDurability: 50
+  useDurabilityCost: 1
+
+- name: NoctisArrows
+  extends: ammunition/Ammunition
+  translationID: Noctis arrows
+  iconSource: icon-noctis-arrows
+  ProjectileType: ProjNoctisArrow
+  baseDurability: 50
+  useDurabilityCost: 1
+
+# Clan structures
+
+# Clothes
+
+- name: Cloak
+  extends: clothes/Clothes
+  translationID: Cloak
+  iconSource: icon-cloak
+  category: Clothing
+  baseDurability: 100
+  defenceBonus: 25
+  statBonuses:
+    Ranged: 1
+
+- name: CopperArmour
+  extends: clothes/Clothes
+  translationID: Copper armour
+  iconSource: icon-copper-armour
+  category: Clothing
+  baseDurability: 100
+  defenceBonus: 40
+  statBonuses:
+    Melee: 1
+
+- name: DungiumArmour
+  extends: clothes/Clothes
+  translationID: Dungium armour
+  iconSource: icon-dungium-armour
+  category: Clothing
+  baseDurability: 200
+  defenceBonus: 60
+  statBonuses:
+    Melee: 3
+
+- name: IronArmour
+  extends: clothes/Clothes
+  translationID: Iron armour
+  iconSource: icon-iron-armour
+  category: Clothing
+  baseDurability: 150
+  defenceBonus: 50
+  statBonuses:
+    Melee: 2
+
+- name: MageRobe
+  extends: clothes/Clothes
+  translationID: Mage robe
+  iconSource: icon-mage-robe
+  category: Clothing
+  baseDurability: 100
+  defenceBonus: 20
+  statBonuses:
+    Magic: 1
+
+- name: NecromancerRobe
+  extends: clothes/Clothes
+  translationID: Necromancer robe
+  iconSource: icon-necromancer-robe
+  category: Clothing
+  baseDurability: 100
+  defenceBonus: 20
+  statBonuses:
+    Magic: 1
+
+- name: NinjaGarb
+  extends: clothes/Clothes
+  translationID: Ninja garm
+  iconSource: icon-ninja-garb
+  category: Clothing
+  baseDurability: 100
+  defenceBonus: 30
+  statBonuses:
+    Melee: 1
+    Ranged: 1
+
+- name: NoctisArmour
+  extends: clothes/Clothes
+  translationID: Noctis armour
+  iconSource: icon-noctis-armour
+  category: Clothing
+  baseDurability: 200 
+  defenceBonus: 70
+  statBonuses:
+    Melee: 4
+
+- name: PlainRobe
+  extends: clothes/Clothes
+  translationID: Plain robe
+  iconSource: icon-plain-robe
+  category: Clothing
+  baseDurability: 100
+  defenceBonus: 20
+  statBonuses:
+    Potionry: 1
+
+# Holdable
+
+# Holdable - Spell books
+
+# Holdable - Weapons
+
+- name: CopperSword
+  extends: holdable/weapons/Weapon
+  translationID: Copper sword
+  iconSource: icon-copper-sword
+  ProjectileType: ProjCopperSword
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: DungiumDagger
+  extends: holdable/weapons/Weapon
+  translationID: Dungium dagger
+  iconSource: icon-dungium-dagger
+  ProjectileType: ProjDungiumDagger
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: DungiumHammer
+  extends: holdable/weapons/Weapon
+  translationID: Dungium hammer
+  iconSource: icon-dungium-hammer
+  ProjectileType: ProjDungiumHammer
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: DungiumSword
+  extends: holdable/weapons/Weapon
+  translationID: Dungium sword
+  iconSource: icon-dungium-sword
+  ProjectileType: ProjDungiumSword
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: FireStaff
+  extends: holdable/weapons/Weapon
+  translationID: Fire staff
+  iconSource: icon-fire-staff
+  ProjectileType: ProjFire
+  category: Weapon
+  baseDurability: 30
+  useDurabilityCost: 1
+  useEnergyCost: 2
+  expGivenStatName: Magic
+
+- name: HammerOfGlory
+  extends: holdable/weapons/Weapon
+  translationID: Hammer of glory
+  iconSource: icon-iron-hammer
+  ProjectileType: ProjHammerOfGlory
+  category: Weapon
+  useGloryCost: 15
+  expGivenStatName: Melee
+
+- name: IronDagger
+  extends: holdable/weapons/Weapon
+  translationID: Iron dagger
+  iconSource: icon-iron-dagger
+  ProjectileType: ProjIronDagger
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: IronHammer
+  extends: holdable/weapons/Weapon
+  translationID: Iron hammer
+  iconSource: icon-iron-hammer
+  ProjectileType: ProjIronHammer
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: IronSword
+  extends: holdable/weapons/Weapon
+  translationID: Iron sword
+  iconSource: icon-iron-sword
+  ProjectileType: ProjIronSword
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: NoctisDagger
+  extends: holdable/weapons/Weapon
+  translationID: Noctis dagger
+  iconSource: icon-noctis-dagger
+  ProjectileType: ProjNoctisDagger
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: NoctisHammer
+  extends: holdable/weapons/Weapon
+  translationID: Noctis hammer
+  iconSource: icon-noctis-hammer
+  ProjectileType: ProjNoctisHammer
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: NoctisSword
+  extends: holdable/weapons/Weapon
+  translationID: Noctis sword
+  iconSource: icon-noctis-sword
+  ProjectileType: ProjNoctisSword
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: Shuriken
+  extends: holdable/weapons/Weapon
+  translationID: Shuriken
+  iconSource: icon-shuriken
+  ProjectileType: ProjShuriken
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Ranged
+
+- name: SuperFireStaff
+  extends: holdable/weapons/Weapon
+  translationID: Super fire staff
+  iconSource: icon-super-fire-staff
+  ProjectileType: ProjSuperFire
+  category: Weapon
+  baseDurability: 30
+  useDurabilityCost: 1
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
+- name: SuperWindStaff
+  extends: holdable/weapons/Weapon
+  translationID: Super wind staff
+  iconSource: icon-super-wind-staff
+  ProjectileType: ProjSuperWind
+  category: Weapon
+  baseDurability: 30
+  useDurabilityCost: 1
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
+- name: VampireFang
+  extends: holdable/weapons/Weapon
+  translationID: Vampire fang
+  iconSource: icon-vampire-fang
+  ProjectileType: ProjVampireFang
+  category: Weapon
+  baseDurability: 50
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: WindStaff
+  extends: holdable/weapons/Weapon
+  translationID: Wind staff
+  iconSource: icon-wind-staff
+  ProjectileType: ProjWind
+  category: Weapon
+  baseDurability: 30
+  useDurabilityCost: 1
+  useEnergyCost: 2
+  expGivenStatName: Magic
+
+# Holdable - Weapons - Bows
+
+- name: FirBow
+  extends: holdable/weapons/bows/Bow
+  translationID: Fir bow
+  iconSource: icon-fir-bow
+  category: Weapon
+  baseDurability: 200
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Ranged
+
+- name: OakBow
+  extends: holdable/weapons/bows/Bow
+  translationID: Oak bow
+  iconSource: icon-oak-bow
+  category: Weapon
+  baseDurability: 200
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Ranged
+
+# Everything else
+
+- name: BloodGem
+  translationID: Blood gem
+  iconSource: icon-blood-gem
+  craftingExpValue: 40
+
+- name: Cotton
+  translationID: Cotton
+  iconSource: icon-cotton
+  craftingExpValue: 5
+
+- name: DungiumBar
+  translationID: Dungium bar
+  iconSource: icon-dungium-bar
+
+- name: DungiumOre
+  translationID: Dungium ore
+  iconSource: icon-dungium-ore
+  
+- name: DungiumRod
+  translationID: Dungium rod
+  iconSource: icon-dungium-rod
+  
+- name: DungiumSheet
+  translationID: Dungium sheet
+  iconSource: icon-dungium-sheet
+  
+- name: ExpOrbArmoury
+  translationID: "Exp orb: Armoury"
+  iconSource: icon-exp-orb
+  expGivenStatName: Armoury
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbGathering
+  translationID: "Exp orb: Gathering"
+  iconSource: icon-exp-orb
+  expGivenStatName: Gathering
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbMagic
+  translationID: "Exp orb: Magic"
+  iconSource: icon-exp-orb
+  expGivenStatName: Magic
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbMelee
+  translationID: "Exp orb: Melee"
+  iconSource: icon-exp-orb
+  expGivenStatName: Melee
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbPotionry
+  translationID: "Exp orb: Potionry"
+  iconSource: icon-exp-orb
+  expGivenStatName: Potionry
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbRanged
+  translationID: "Exp orb: Ranged"
+  iconSource: icon-exp-orb
+  expGivenStatName: Ranged
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbToolery
+  translationID: "Exp orb: Toolery"
+  iconSource: icon-exp-orb
+  expGivenStatName: Toolery
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: ExpOrbWeaponry
+  translationID: "Exp orb: Weaponry"
+  iconSource: icon-exp-orb
+  expGivenStatName: Weaponry
+  expGivenOnUse: 100
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: Fabric
+  translationID: Fabric
+  iconSource: icon-fabric
+
+- name: Feathers
+  translationID: Feathers
+  iconSource: icon-feathers
+
+- name: FireGem
+  translationID: Fire gem
+  iconSource: icon-fire-gem
+  craftingExpValue: 40
+
+- name: FirLogs
+  translationID: Fir logs
+  iconSource: icon-fir-logs
+
+- name: IronBar
+  translationID: Iron bar
+  iconSource: icon-iron-bar
+
+- name: IronOre
+  translationID: Iron ore
+  iconSource: icon-iron-ore
+  
+- name: IronRod
+  translationID: Iron rod
+  iconSource: icon-iron-rod
+  
+- name: IronSheet
+  translationID: Iron sheet
+  iconSource: icon-iron-sheet
+
+- name: NoctisBar
+  translationID: Noctis bar
+  iconSource: icon-noctis-bar
+
+- name: NoctisOre
+  translationID: Noctis ore
+  iconSource: icon-noctis-ore
+  
+- name: NoctisRod
+  translationID: Noctis rod
+  iconSource: icon-noctis-rod
+  
+- name: NoctisSheet
+  translationID: Noctis sheet
+  iconSource: icon-noctis-sheet
+
+- name: OakLogs
+  translationID: Oak logs
+  iconSource: icon-oak-logs
+
+- name: PalmLogs
+  translationID: Palm logs
+  iconSource: icon-palm-logs
+
+- name: SpruceLogs
+  translationID: Spruce logs
+  iconSource: icon-spruce-logs
+
+- name: String
+  translationID: String
+  iconSource: icon-string
+
+- name: WindGem
+  translationID: Wind gem
+  iconSource: icon-wind-gem
+  craftingExpValue: 40

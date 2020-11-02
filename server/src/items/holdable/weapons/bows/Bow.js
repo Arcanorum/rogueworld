@@ -1,8 +1,6 @@
-
-const Weapon = require('../Weapon');
+const Weapon = require("../Weapon");
 
 class Bow extends Weapon {
-
     /**
      * Use this weapon. Typically creates a projectile.
      * @param {String} direction - A specific direction to use the item in. Otherwise uses the owner's direction.
@@ -26,5 +24,7 @@ class Bow extends Weapon {
     }
 
 }
+
+Bow.abstract = true;
 
 module.exports = Bow;

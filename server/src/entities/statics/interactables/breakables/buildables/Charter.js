@@ -28,7 +28,6 @@
 // }
 // module.exports = Charter;
 
-// Charter.prototype.registerEntityType();
 // Charter.prototype.hitPoints = 50;
 // Charter.prototype.maxHitPoints = 50;
 

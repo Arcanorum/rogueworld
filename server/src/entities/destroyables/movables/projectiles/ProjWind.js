@@ -1,5 +1,4 @@
-
-const Projectile = require('./Projectile');
+const Projectile = require("./Projectile");
 
 class ProjWind extends Projectile {
 
@@ -21,7 +20,6 @@ module.exports = ProjWind;
 
 const Damage = require('../../../../gameplay/Damage');
 
-ProjWind.prototype.registerEntityType();
 ProjWind.prototype.assignModHitPointConfigs();
 ProjWind.prototype.moveRate = 200;
 ProjWind.prototype.range = 10;

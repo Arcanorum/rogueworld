@@ -1,4 +1,3 @@
-
 const Destroyable = require('../Destroyable');
 
 class Corpse extends Destroyable {
@@ -14,10 +13,13 @@ class Corpse extends Destroyable {
     }
 
 }
-module.exports = Corpse;
+
+Corpse.abstract = true;
 
 /**
  * The type of zombie character to create if this corpse is animated.
  * @type {Zombie}
  */
 Corpse.prototype.ZombieType = null;
+
+module.exports = Corpse;

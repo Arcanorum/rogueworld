@@ -1,23 +1,25 @@
-import EntityTypes from '../src/catalogues/EntityTypes'
-import EntitiesList from './EntitiesList';
-import Tilemap from './Tilemap'
-import GUI from './gui/GUI'
-import Stats from './Stats'
-import Inventory from './Inventory'
+import EntityTypes from "../src/catalogues/EntityTypes"
+import EntitiesList from "./EntitiesList";
+import Tilemap from "./Tilemap"
+import GUI from "./gui/GUI"
+import Stats from "./Stats"
+import Inventory from "./Inventory"
 import CraftingManager from "./CraftingManager";
+import Utils from "./Utils";
 import BankManager from "./BankManager";
 import ClanManager from "./ClanManager";
+// import TextMetrics from "./TextMetrics";
 
 dungeonz.EntityTypes = EntityTypes;
 dungeonz.EntitiesList = EntitiesList;
 
-dungeonz.Game = function () {
-};
-
-dungeonz.Game.prototype = {
+class Game extends Phaser.Scene {
+    constructor() {
+        super("Game");
+    }
 
     init() {
-        console.log("* In game init");
+        Utils.message("Game init");
 
         const data = window.joinWorldData;
         // Game has loaded ok. Clear the backup timeouts.
@@ -46,7 +48,6 @@ dungeonz.Game.prototype = {
             hitPoints: data.player.maxHitPoints,
             energy: data.player.maxEnergy,
             glory: data.player.glory,
-            respawns: data.player.respawns,
             inventory: new Inventory(data.inventory),
             bankManager: new BankManager(data.bankItems),
             stats: new Stats(data.player.stats),
@@ -56,8 +57,6 @@ dungeonz.Game.prototype = {
 
         this.dynamicsData = data.dynamicsData;
 
-        this.dayPhase = data.dayPhase;
-
         this.DayPhases = {
             Dawn: 1,
             Day: 2,
@@ -65,17 +64,37 @@ dungeonz.Game.prototype = {
             Night: 4
         };
 
+        // The Z depth of the various display containers, as set by .setDepth.
+        this.renderOrder = {
+            ground: 1,
+            statics: 2,
+            dynamics: 3,
+            darkness: 4,
+            fpsText: 5
+        }
+
+        // this.dayPhase = data.dayPhase || this.DayPhases.Day;
+        this.dayPhase = this.DayPhases.Night;
+
         //console.log("nearby dynamics: data", this.dynamicsData);
-    },
+    }
 
     create() {
-        console.log("* In game create");
+        Utils.message("Game create");
 
         // Make this state globally accessible.
         window._this = this;
 
+        // Setup animations for entity types that have them configured.
+        Object.values(EntitiesList).forEach((EntityType) => {
+            if(EntityType.setupAnimations) EntityType.setupAnimations();
+            if(EntityType.addAnimationSet) EntityType.addAnimationSet();
+        });
+
+        // TextMetrics.init();
+
         // Hide the distracting background gif while the game is running.
-        document.getElementById('background_img').style.visibility = "hidden";
+        document.getElementById("background_img").style.visibility = "hidden";
 
         this.canvasContainer = document.getElementById("game_canvas");
         this.canvasContainer.appendChild(this.game.canvas);
@@ -85,7 +104,22 @@ dungeonz.Game.prototype = {
         this.scale.fullScreenTarget = document.getElementById("game_cont");
 
         // Listen for the resize event so anything that needs to be updated can be.
-        window.addEventListener('resize', window.windowResize);
+        // window.addEventListener("resize", window.windowResize);
+
+        this.scale.on("resize", () => {
+            this.fpsText.y = window.innerHeight - 30;
+        });
+        //     const windowWidth = window.innerWidth;
+        //     const windowHeight = window.innerHeight;
+
+        //     // TODO: Removed until darkness is added back in.
+        //     //tilemap.darknessSpritesContainer.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessSpritesContainer.width * 0.5);
+        //     //tilemap.darknessSpritesContainer.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessSpritesContainer.height * 0.5);
+
+        //     // tilemap.updateBorders();
+
+        //     console.log("some resize stuff");
+        // });
 
         /**
          * How often to send each move event.
@@ -100,12 +134,6 @@ dungeonz.Game.prototype = {
         this.nextMoveTime = 0;
 
         this.playerTween = null;
-        this.playerTweenDirections = {
-            u: false,
-            d: false,
-            l: false,
-            r: false
-        };
 
         /**
          * A list of all static entities. Statics are display entities, whose data is already
@@ -115,11 +143,22 @@ dungeonz.Game.prototype = {
         this.statics = {};
 
         /**
+         * A list of any dynamics and statics that do anything when interacted 
+         * with (moved into/pressed), such as opening a panel.
+         * @type {Object}
+         */
+        this.interactables = {};
+
+        /**
          * A list of all dynamic entities. Dynamics are display entities that can be added
          * at any time, and cannot be loaded into the map data.
          * @type {Object}
          */
         this.dynamics = {};
+
+        // A containert to put all dynamics into, so they stay on the same layer relative to other things in the display order.
+        this.dynamicSpritesContainer = this.add.container();
+        this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
 
         /**
          * A list of all light sources, used to update the darkness grid. Light sources can be static or dynamic.
@@ -127,18 +166,11 @@ dungeonz.Game.prototype = {
          */
         this.lightSources = {};
 
-        // A group to put all dynamics into, so they stay on the same layer relative to other things in the display order.
-        this.dynamicsGroup = this.add.group();
-
         this.clanManager = new ClanManager();
         this.GUI = new GUI(this);
         this.craftingManager = new CraftingManager();
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
-
-        this.game.world.bringToTop(this.dynamicsGroup);
-
-        this.pseudoInteractables = {};
 
         // Make sure the inventory slots are showing the right items.
         for (let slotKey in _this.player.inventory) {
@@ -180,8 +212,8 @@ dungeonz.Game.prototype = {
         _this.GUI.accountPanel.hide();
         _this.GUI.createAccountPanel.hide();
 
-        //this.game.world.bringToTop(this.tilemap.darknessGridGroup);
-        this.game.world.bringToTop(this.tilemap.bordersGroup);
+        //this.game.world.bringToTop(this.tilemap.darknessSpritesContainer);
+        //this.game.world.bringToTop(this.tilemap.bordersGroup);
 
         this.tilemap.updateDarknessGrid();
 
@@ -194,14 +226,22 @@ dungeonz.Game.prototype = {
         this.setupKeyboardControls();
 
         // Lock the camera to the player sprite.
-        this.camera.follow(this.dynamics[this.player.entityId].sprite.baseSprite);
+        this.cameras.main.startFollow(this.dynamics[this.player.entityId].spriteContainer);
 
-        window.addEventListener('mousedown', this.pointerDownHandler);
-        window.addEventListener('mousemove', this.pointerMoveHandler);
+        window.addEventListener("mousedown", this.pointerDownHandler);
 
         // Add the websocket event responses after the game state is started.
         window.addGameStateEventResponses();
-    },
+
+        this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
+            fontFamily: '"Courier"',
+            fontSize: "24px",
+            color: "#00ff00"
+        });
+        this.fpsText.fontSize = "64px";
+        this.fpsText.setScrollFactor(0);
+        this.fpsText.setDepth(this.renderOrder.fpsText);
+    }
 
     update() {
         if (this.nextMoveTime < Date.now()) {
@@ -209,44 +249,40 @@ dungeonz.Game.prototype = {
 
             // Allow continuous movement if a move key is held down.
             if (this.moveUpIsDown === true) {
-                this.checkPseudoInteractables('u');
-                ws.sendEvent('mv_u');
+                this.checkCollidables("u");
+                ws.sendEvent("mv_u");
             }
             if (this.moveDownIsDown === true) {
-                this.checkPseudoInteractables('d');
-                ws.sendEvent('mv_d');
+                this.checkCollidables("d");
+                ws.sendEvent("mv_d");
             }
             if (this.moveLeftIsDown === true) {
-                this.checkPseudoInteractables('l');
-                ws.sendEvent('mv_l');
+                this.checkCollidables("l");
+                ws.sendEvent("mv_l");
             }
             if (this.moveRightIsDown === true) {
-                this.checkPseudoInteractables('r');
-                ws.sendEvent('mv_r');
+                this.checkCollidables("r");
+                ws.sendEvent("mv_r");
             }
-
         }
-    },
 
-    render() {
         // Show an FPS counter.
         if (window.devMode) {
-            this.game.debug.text(this.game.time.fps, 10, this.game.height / 2, "#00ff00", '24px Courier');
+            this.fpsText.setText("FPS:" + Math.floor(this.game.loop.actualFps));
         }
-    },
+    }
 
     shutdown() {
         // Show the background GIF.
-        document.getElementById('background_img').style.visibility = "visible";
+        document.getElementById("background_img").style.visibility = "visible";
 
         // Remove the handler for resize events, so it doesn't try to resize the sprite container groups that have been removed.
-        window.removeEventListener('resize', window.windowResize);
+        // window.removeEventListener("resize", window.windowResize);
 
         // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
-        document.removeEventListener('keydown', this.keyDownHandler);
+        document.removeEventListener("keydown", this.keyDownHandler);
 
-        window.removeEventListener('mousedown', this.pointerDownHandler);
-        window.removeEventListener('mousemove', this.pointerMoveHandler);
+        window.removeEventListener("mousedown", this.pointerDownHandler);
 
         // Remove some of the DOM GUI elements so they aren't stacked when the game state starts again.
         this.GUI.removeExistingDOMElements(this.GUI.hitPointCounters);
@@ -273,7 +309,7 @@ dungeonz.Game.prototype = {
         for (let i = 0; i < this.GUI.panels.length; i += 1) {
             this.GUI.panels[i].hide();
         }
-    },
+    }
 
     /**
      * Attempt to move the player in a direction.
@@ -286,145 +322,79 @@ dungeonz.Game.prototype = {
             this.GUI.hideAllPanels();
         }
 
-        this.checkPseudoInteractables(direction);
+        this.checkCollidables(direction);
 
         if (this.player.hitPoints <= 0) return;
-        ws.sendEvent('mv_' + direction);
-        /*if(dungeonz.quickTurnEnabled === true){ // TODO allow to disable quick turn to make placing clan structures easier
-            if(this.dynamics[this.player.entityId].sprite.direction !== direction){
-                ws.sendEvent('mv_' + direction);
-            }
-        }*/
+        ws.sendEvent("mv_" + direction);
+
         this.nextMoveTime = Date.now() + this.moveDelay;
-    },
+    }
 
     /**
-     * Check any dynamics and statics that do anything when interacted with, such as opening a panel.
+     * Check any dynamics and statics that do anything when the player tries to
+     * move/bump into them with, such as opening a panel.
      * @param {String} direction
      */
-    checkPseudoInteractables(direction) {
-        // Check if any interactables that cause this client only to do something are about
-        // to be walked into, such as showing the crafting panel for crafting stations.
-        if (direction === 'u') {
-            const playerNextRow = this.player.row - 1;
-            const playerCol = this.player.col;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerNextRow) {
-                    if (dynamic.col === playerCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerNextRow + "-" + playerCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
-        else if (direction === 'd') {
-            const playerNextRow = this.player.row + 1;
-            const playerCol = this.player.col;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerNextRow) {
-                    if (dynamic.col === playerCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerNextRow + "-" + playerCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
-        else if (direction === 'l') {
-            const playerNextCol = this.player.col - 1;
-            const playerRow = this.player.row;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerRow) {
-                    if (dynamic.col === playerNextCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerRow + "-" + playerNextCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
-        else {
-            const playerNextCol = this.player.col + 1;
-            const playerRow = this.player.row;
-            let key,
-                dynamic;
-            for (key in this.pseudoInteractables) {
-                if (this.pseudoInteractables.hasOwnProperty(key) === false) continue;
-                dynamic = this.pseudoInteractables[key];
-                if (dynamic.row === playerRow) {
-                    if (dynamic.col === playerNextCol) {
-                        dynamic.sprite.interactedByPlayer();
-                        return;
-                    }
-                }
-            }
-            const staticEntity = this.statics[playerRow + "-" + playerNextCol];
-            // Check there is a static there.
-            if (staticEntity !== undefined) {
-                staticEntity.interactedByPlayer();
-            }
-        }
+    checkCollidables(direction) {
+        // Check if any interactables that cause this client
+        // to do something are about to be walked into.
+        let
+            key,
+            interactable,
+            playerNextRow = this.player.row,
+            playerNextCol = this.player.col;
 
-    },
+        if (direction === "u") playerNextRow -= 1;
+        else if (direction === "d") playerNextRow += 1;
+        else if (direction === "l") playerNextCol -= 1;
+        else playerNextCol += 1;
 
-    /**
-     * Gets the distance in pixels between a sprite and a pointer.
-     * @param baseSprite
-     * @param pointer
-     * @returns {Number}
-     */
-    distanceBetween(baseSprite, pointer) {
-        return Math.abs(baseSprite.worldPosition.x - pointer.clientX) + Math.abs(baseSprite.worldPosition.y - pointer.clientY);
-    },
+        for (key in this.interactables) {
+            if (this.interactables.hasOwnProperty(key) === false) continue;
+            interactable = this.interactables[key];
+            if (
+                interactable.row === playerNextRow &&
+                interactable.col === playerNextCol
+            ) {
+                // If it is a static, which is just a sprite.
+                if (interactable.onMovedInto) {
+                    interactable.onMovedInto();
+                    return;
+                }
+                // If it is a dynamic, it has a sprite container.
+                if (interactable.spriteContainer && interactable.spriteContainer.onMovedInto) {
+                    interactable.spriteContainer.onMovedInto();
+                    return;
+                }
+            }
+        }
+    }
 
     pointerDownHandler(event) {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         //event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
-        if (event.target === _this.GUI.gui) {
-
+        if (event.target === _this.GUI.gameCanvas) {
             // If the user pressed on their character sprite, pick up item.
-            if (_this.distanceBetween(_this.dynamics[_this.player.entityId].sprite.baseSprite, event) < 32) {
-                ws.sendEvent('pick_up_item');
+            if (Utils.pixelDistanceBetween(_this.dynamics[_this.player.entityId].spriteContainer.baseSprite, event) < 32) {
+                ws.sendEvent("pick_up_item");
                 return;
             }
 
+            // TODO: figure out something else to use here using sprite pointer events.
+            // maybe listen on the ground layer for pointer events?
+            // need to check if it would still bubble down after higher sprites clicked on...
             // Check if any of the dynamics were pressed on that have onInputDown handlers.
-            for (let dynamicKey in _this.dynamics) {
-                if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
-                if (_this.dynamics[dynamicKey].sprite.baseSprite === undefined) continue;
-                if (_this.dynamics[dynamicKey].sprite.onInputDown === undefined) continue;
-                // Check the distance between the cursor and the sprite.
-                if (_this.distanceBetween(_this.dynamics[dynamicKey].sprite.baseSprite, event) < 32) {
-                    _this.dynamics[dynamicKey].sprite.onInputDown();
-                    return;
-                }
-            }
+            // for (let dynamicKey in _this.dynamics) {
+            //     if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
+            //     if (_this.dynamics[dynamicKey].spriteContainer.baseSprite === undefined) continue;
+            //     if (_this.dynamics[dynamicKey].spriteContainer.onInputDown === undefined) continue;
+            //     // Check the distance between the cursor and the sprite.
+            //     if (_this.distanceBetween(_this.dynamics[dynamicKey].spriteContainer.baseSprite, event) < 32) {
+            //         _this.dynamics[dynamicKey].spriteContainer.onInputDown();
+            //         return;
+            //     }
+            // }
 
             const midX = window.innerWidth / 2;
             const midY = window.innerHeight / 2;
@@ -449,23 +419,7 @@ dungeonz.Game.prototype = {
                 ws.sendEvent("melee_attack", direction);
             }
         }
-
-    },
-
-    pointerMoveHandler(event) {
-        let sprite;
-        for (let dynamicKey in _this.dynamics) {
-            if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
-            sprite = _this.dynamics[dynamicKey].sprite;
-            if (sprite.baseSprite === undefined) continue;
-            if (_this.distanceBetween(sprite.baseSprite, event) < 32) {
-                sprite.onInputOver();
-            }
-            else {
-                sprite.onInputOut();
-            }
-        }
-    },
+    }
 
     checkKeyFilters() {
         if (_this.GUI) {
@@ -477,47 +431,47 @@ dungeonz.Game.prototype = {
             if (_this.GUI.accountPanel.isOpen === true) return true;
         }
         return false;
-    },
+    }
 
     moveUpPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('u');
+        _this.move("u");
         _this.moveUpIsDown = true;
-    },
+    }
 
     moveDownPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('d');
+        _this.move("d");
         _this.moveDownIsDown = true;
-    },
+    }
 
     moveLeftPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('l');
+        _this.move("l");
         _this.moveLeftIsDown = true;
-    },
+    }
 
     moveRightPressed() {
         if (_this.checkKeyFilters()) return;
-        _this.move('r');
+        _this.move("r");
         _this.moveRightIsDown = true;
-    },
+    }
 
     moveUpReleased() {
         _this.moveUpIsDown = false;
-    },
+    }
 
     moveDownReleased() {
         _this.moveDownIsDown = false;
-    },
+    }
 
     moveLeftReleased() {
         _this.moveLeftIsDown = false;
-    },
+    }
 
     moveRightReleased() {
         _this.moveRightIsDown = false;
-    },
+    }
 
     keyDownHandler(event) {
         if (_this.checkKeyFilters()) return;
@@ -532,65 +486,67 @@ dungeonz.Game.prototype = {
             _this.player.inventory.useItem("slot" + key);
         }
 
-        if (event.code === 'KeyE') {
-            ws.sendEvent('pick_up_item');
+        if (event.code === "KeyE") {
+            ws.sendEvent("pick_up_item");
         }
-    },
+    }
 
     setupKeyboardControls() {
         // Add the handler for keyboard events.
-        document.addEventListener('keydown', this.keyDownHandler);
+        document.addEventListener("keydown", this.keyDownHandler);
 
         this.keyboardKeys = this.input.keyboard.addKeys(
             {
-                arrowUp: Phaser.KeyCode.UP,
-                arrowDown: Phaser.KeyCode.DOWN,
-                arrowLeft: Phaser.KeyCode.LEFT,
-                arrowRight: Phaser.KeyCode.RIGHT,
+                arrowUp: Phaser.Input.Keyboard.KeyCodes.UP,
+                arrowDown: Phaser.Input.Keyboard.KeyCodes.DOWN,
+                arrowLeft: Phaser.Input.Keyboard.KeyCodes.LEFT,
+                arrowRight: Phaser.Input.Keyboard.KeyCodes.RIGHT,
 
-                w: Phaser.KeyCode.W,
-                s: Phaser.KeyCode.S,
-                a: Phaser.KeyCode.A,
-                d: Phaser.KeyCode.D,
+                w: Phaser.Input.Keyboard.KeyCodes.W,
+                s: Phaser.Input.Keyboard.KeyCodes.S,
+                a: Phaser.Input.Keyboard.KeyCodes.A,
+                d: Phaser.Input.Keyboard.KeyCodes.D,
 
-                shift: Phaser.KeyCode.SHIFT,
+                shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
 
-                enterChat: Phaser.KeyCode.ENTER
+                enterChat: Phaser.Input.Keyboard.KeyCodes.ENTER
             }
         );
         // Stop the key press events from being captured by Phaser, so they
         // can go up to the browser to be used in the chat input box.
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.UP);
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.DOWN);
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.LEFT);
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.RIGHT);
+        this.input.keyboard.removeCapture([
+            Phaser.Input.Keyboard.KeyCodes.UP,
+            Phaser.Input.Keyboard.KeyCodes.DOWN,
+            Phaser.Input.Keyboard.KeyCodes.LEFT,
+            Phaser.Input.Keyboard.KeyCodes.RIGHT,
 
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.W);
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.S);
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.A);
-        this.input.keyboard.removeKeyCapture(Phaser.KeyCode.D);
+            Phaser.Input.Keyboard.KeyCodes.W,
+            Phaser.Input.Keyboard.KeyCodes.S,
+            Phaser.Input.Keyboard.KeyCodes.A,
+            Phaser.Input.Keyboard.KeyCodes.D
+        ]);
 
-        this.keyboardKeys.arrowUp.onDown.add(this.moveUpPressed, this, 0);
-        this.keyboardKeys.arrowDown.onDown.add(this.moveDownPressed, this, 0);
-        this.keyboardKeys.arrowLeft.onDown.add(this.moveLeftPressed, this, 0);
-        this.keyboardKeys.arrowRight.onDown.add(this.moveRightPressed, this, 0);
+        this.keyboardKeys.arrowUp.on("down", this.moveUpPressed, this);
+        this.keyboardKeys.arrowDown.on("down", this.moveDownPressed, this);
+        this.keyboardKeys.arrowLeft.on("down", this.moveLeftPressed, this);
+        this.keyboardKeys.arrowRight.on("down", this.moveRightPressed, this);
 
-        this.keyboardKeys.arrowUp.onUp.add(this.moveUpReleased, this, 0);
-        this.keyboardKeys.arrowDown.onUp.add(this.moveDownReleased, this, 0);
-        this.keyboardKeys.arrowLeft.onUp.add(this.moveLeftReleased, this, 0);
-        this.keyboardKeys.arrowRight.onUp.add(this.moveRightReleased, this, 0);
+        this.keyboardKeys.arrowUp.on("up", this.moveUpReleased, this);
+        this.keyboardKeys.arrowDown.on("up", this.moveDownReleased, this);
+        this.keyboardKeys.arrowLeft.on("up", this.moveLeftReleased, this);
+        this.keyboardKeys.arrowRight.on("up", this.moveRightReleased, this);
 
-        this.keyboardKeys.w.onDown.add(this.moveUpPressed, this, 0);
-        this.keyboardKeys.s.onDown.add(this.moveDownPressed, this, 0);
-        this.keyboardKeys.a.onDown.add(this.moveLeftPressed, this, 0);
-        this.keyboardKeys.d.onDown.add(this.moveRightPressed, this, 0);
+        this.keyboardKeys.w.on("down", this.moveUpPressed, this);
+        this.keyboardKeys.s.on("down", this.moveDownPressed, this);
+        this.keyboardKeys.a.on("down", this.moveLeftPressed, this);
+        this.keyboardKeys.d.on("down", this.moveRightPressed, this);
 
-        this.keyboardKeys.w.onUp.add(this.moveUpReleased, this, 0);
-        this.keyboardKeys.s.onUp.add(this.moveDownReleased, this, 0);
-        this.keyboardKeys.a.onUp.add(this.moveLeftReleased, this, 0);
-        this.keyboardKeys.d.onUp.add(this.moveRightReleased, this, 0);
+        this.keyboardKeys.w.on("up", this.moveUpReleased, this);
+        this.keyboardKeys.s.on("up", this.moveDownReleased, this);
+        this.keyboardKeys.a.on("up", this.moveLeftReleased, this);
+        this.keyboardKeys.d.on("up", this.moveRightReleased, this);
 
-        this.keyboardKeys.enterChat.onDown.add(function () {
+        this.keyboardKeys.enterChat.on("down", () => {
             if (this.player.hitPoints <= 0) {
                 // Close the box. Can't chat while dead.
                 this.GUI.chatInput.isActive = false;
@@ -605,9 +561,9 @@ dungeonz.Game.prototype = {
                 this.GUI.chatInput.style.visibility = "hidden";
 
                 // Don't bother sending empty messages.
-                if (this.GUI.chatInput.value !== '') {
+                if (this.GUI.chatInput.value !== "") {
                     // Send the message to the server.
-                    ws.sendEvent('chat', this.GUI.chatInput.value);
+                    ws.sendEvent("chat", this.GUI.chatInput.value);
 
                     // Empty the contents ready for the next chat.
                     this.GUI.chatInput.value = "";
@@ -619,8 +575,8 @@ dungeonz.Game.prototype = {
                 this.GUI.chatInput.style.visibility = "visible";
                 this.GUI.chatInput.focus();
             }
-        }, this);
-    },
+        });
+    }
 
     /**
      * Used to add any kind of entity to the game world, such as dynamics, or updating the state of any newly added statics.
@@ -629,12 +585,12 @@ dungeonz.Game.prototype = {
     addEntity(data) {
         // Sort the statics from the dynamics. Statics don't have an ID.
         if (data.id === undefined) {
-            this.updateStatic(data);
+            // this.updateStatic(data);
         }
         else {
             this.addDynamic(data);
         }
-    },
+    }
 
     /**
      * Update a newly added static on the game world, as a static might not be in its default state.
@@ -654,7 +610,7 @@ dungeonz.Game.prototype = {
             this.tilemap.updateStaticTile(data.row + "-" + data.col, false);
         }
         // TODO might need to add the above here also, in some weird case. wait and see...
-    },
+    }
 
     /**
      * Add a new dynamic to the game world.
@@ -679,7 +635,7 @@ dungeonz.Game.prototype = {
 
         // Check that an entity type exists with the type name that corresponds to the given type number.
         if (EntitiesList[EntityTypes[typeNumber]] === undefined) {
-            console.log("* Invalid entity type number:", typeNumber, ", entity types:", EntityTypes);
+            Utils.warning(`Invalid entity type number: "${typeNumber}". Entity types:`, EntityTypes);
             return;
         }
 
@@ -688,39 +644,42 @@ dungeonz.Game.prototype = {
             id: id,
             row: row,
             col: col,
-            sprite: new EntitiesList[EntityTypes[typeNumber]](
+            spriteContainer: new EntitiesList[EntityTypes[typeNumber]](
                 col * dungeonz.TILE_SIZE * GAME_SCALE,
                 row * dungeonz.TILE_SIZE * GAME_SCALE,
                 data)
         };
 
-        const dynamicSprite = this.dynamics[id].sprite;
+        const dynamicSpriteContainer = this.dynamics[id].spriteContainer;
 
         // Add the sprite to the world group, as it extends sprite but
         // overwrites the constructor so doesn't get added automatically.
-        _this.add.existing(dynamicSprite);
+        // _this.add.existing(dynamicSpriteContainer);
 
-        if (dynamicSprite.centered === true) {
-            dynamicSprite.anchor.setTo(0.5);
-            dynamicSprite.x += dungeonz.CENTER_OFFSET;
-            dynamicSprite.y += dungeonz.CENTER_OFFSET;
+        if (dynamicSpriteContainer.centered === true) {
+            dynamicSpriteContainer.setOrigin(0.5);
         }
 
         // If the entity has a light distance, add it to the light sources list.
-        if (dynamicSprite.lightDistance !== undefined) {
+        // Even if it is 0, still add it if it is defined as it could be something like a
+        // extinguished torch that could be relit later, would still need to be in the list.
+        if (dynamicSpriteContainer.lightDistance !== undefined) {
             this.lightSources[id] = this.dynamics[id];
             this.tilemap.updateDarknessGrid();
         }
 
-        // If this entity does anything on the client when interacted with, add it to the pseudo interactables list.
-        if (dynamicSprite.pseudoInteractable !== undefined) {
-            this.pseudoInteractables[id] = this.dynamics[id];
+        // If this entity does anything on the client when interacted with, add it to the interactables list.
+        if (dynamicSpriteContainer.interactable === true) {
+            this.interactables[id] = this.dynamics[id];
         }
 
-        this.dynamicsGroup.add(dynamicSprite);
+        this.dynamicSpritesContainer.add(dynamicSpriteContainer);
 
-        this.dynamicsGroup.sort('y', Phaser.Group.SORT_ASCENDING);
-    },
+        // Move sprites further down the screen above ones further up.
+        this.dynamicSpritesContainer.list.forEach((dynamicSpriteContainer) => {
+            dynamicSpriteContainer.z = dynamicSpriteContainer.y;
+        });
+    }
 
     /**
      * Remove the dynamic with the given ID from the game.
@@ -733,30 +692,28 @@ dungeonz.Game.prototype = {
             return;
         }
 
-        if (this.lightSources[id] !== undefined) {
+        if (this.lightSources[id]) {
             delete this.lightSources[id];
             this.tilemap.updateDarknessGrid();
         }
 
-        if (this.pseudoInteractables[id] !== undefined) {
-            delete this.pseudoInteractables[id];
+        if (this.interactables[id]) {
+            delete this.interactables[id];
         }
 
-        this.dynamics[id].sprite.destroy();
+        this.dynamics[id].spriteContainer.destroy();
 
         delete this.dynamics[id];
-    },
+    }
 
     /**
      * Check for and remove any dynamics that are outside of the player's view range.
-     * @param {Number} rowOffset
-     * @param {Number} colOffset
      */
-    checkDynamicsInViewRange(rowOffset, colOffset) {
+    checkDynamicsInViewRange() {
         const dynamics = this.dynamics,
             playerEntityID = this.player.entityId;
         let dynamic;
-        let dynamicSprite;
+        let dynamicSpriteContainer;
         let playerRowTopViewRange = _this.player.row - dungeonz.VIEW_RANGE;
         let playerColLeftViewRange = _this.player.col - dungeonz.VIEW_RANGE;
         let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
@@ -767,72 +724,29 @@ dungeonz.Game.prototype = {
             if (dynamics.hasOwnProperty(key) === false) continue;
 
             dynamic = dynamics[key];
-            dynamicSprite = dynamic.sprite;
+            dynamicSpriteContainer = dynamic.spriteContainer;
 
             // Skip the player entity's sprite.
             if (dynamic.id === playerEntityID) continue;
 
             // Check if it is within the player view range.
-            if (dynamic.row < playerRowTopViewRange
-                || dynamic.row > playerRowBotViewRange
-                || dynamic.col < playerColLeftViewRange
-                || dynamic.col > playerColRightViewRange) {
+            if (dynamic.row < playerRowTopViewRange ||
+                dynamic.row > playerRowBotViewRange ||
+                dynamic.col < playerColLeftViewRange ||
+                dynamic.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
-                dynamicSprite.destroy();
+                dynamicSpriteContainer.destroy();
                 delete this.dynamics[key];
-                if (dynamicSprite.lightDistance !== undefined) {
+                if (dynamicSpriteContainer.lightDistance) {
                     delete this.lightSources[key];
                     this.tilemap.updateDarknessGrid();
                 }
                 continue;
             }
 
-            if (dynamicSprite.onMove !== undefined) dynamicSprite.onMove();
+            if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove();
         }
-    },
-
-    /**
-     * Check for and remove any static tiles that are outside of the player's view range.
-     * @param {Number} rowOffset
-     * @param {Number} colOffset
-     */
-    checkStaticTilesInViewRange(rowOffset, colOffset) {
-        const statics = this.statics;
-        let staticTile;
-        let playerRowTopViewRange = _this.player.row - dungeonz.VIEW_RANGE;
-        let playerColLeftViewRange = _this.player.col - dungeonz.VIEW_RANGE;
-        let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
-        let playerColRightViewRange = _this.player.col + dungeonz.VIEW_RANGE;
-
-        for (let key in statics) {
-
-            if (statics.hasOwnProperty(key) === false) continue;
-
-            staticTile = statics[key];
-
-            // Check if it is within the player view range.
-            if (staticTile.row < playerRowTopViewRange
-                || staticTile.row > playerRowBotViewRange
-                || staticTile.col < playerColLeftViewRange
-                || staticTile.col > playerColRightViewRange) {
-                // Out of view range. Remove it.
-                staticTile.destroy();
-                // Should have been removed above in destroy, but make sure.
-                delete statics[key];
-                if (staticTile.sprite.lightDistance !== 0) {
-                    //console.log("ld !== 0, oob, st:", staticTile);
-                    delete this.lightSources[key];
-                    _this.tilemap.updateDarknessGrid();
-                }
-                continue;
-            }
-
-            if (staticTile.sprite.lightDistance !== 0) {
-                //console.log("ld !== 0:", staticTile);
-                _this.tilemap.updateDarknessGrid();
-            }
-        }
-    },
+    }
 
     /**
      * Create a text chat message above the target entity.
@@ -863,15 +777,15 @@ dungeonz.Game.prototype = {
         };
 
         // Check if the message was a command.
-        if (message[0] === '/') {
+        if (message[0] === "/") {
             const command = message[1];
             // Remove the command part of the message.
             message = message.slice(2);
             // Check which command it is.
-            if (command === 'r') style.fill = "#ff7066";
-            else if (command === 'g') style.fill = "#73ff66";
-            else if (command === 'b') style.fill = "#66b3ff";
-            else if (command === 'y') style.fill = "#ffde66";
+            if (command === "r") style.fill = "#ff7066";
+            else if (command === "g") style.fill = "#73ff66";
+            else if (command === "b") style.fill = "#66b3ff";
+            else if (command === "y") style.fill = "#ffde66";
             // Invalid command.
             else {
                 style.fill = "#ffa54f";
@@ -888,13 +802,16 @@ dungeonz.Game.prototype = {
 
         const chatText = _this.add.text(0, -12, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
-        dynamic.sprite.baseSprite.addChild(chatText);
-        chatText.anchor.set(0.5);
-        chatText.scale.set(0.3);
+        dynamic.spriteContainer.add(chatText);
+        chatText.setOrigin(0.5);
+        chatText.setScale(0.3);
         // Make the chat message scroll up.
-        _this.add.tween(chatText).to({
-            y: -30
-        }, dungeonz.CHAT_BASE_LIFESPAN + (60 * message.length), null, true);
+        _this.tweens.add({
+            targets: chatText,
+            duration: dungeonz.CHAT_BASE_LIFESPAN + (60 * message.length),
+            x: data.col * dungeonz.SCALED_TILE_SIZE,
+            y: "-=30"
+        });
         // How long the message should stay for.
         chatText.lifespan = dungeonz.CHAT_BASE_LIFESPAN + (80 * message.length);
         // Destroy and remove from the list of chat messages when the lifespan is over.
@@ -902,5 +819,6 @@ dungeonz.Game.prototype = {
             this.destroy();
         }, chatText);
     }
+}
 
-};
+dungeonz.Game = Game;

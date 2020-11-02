@@ -1,4 +1,4 @@
-const ProjWind = require('./ProjWind');
+const ProjWind = require("./ProjWind");
 
 class ProjSuperWind extends ProjWind {
     /**
@@ -24,6 +24,8 @@ class ProjSuperWind extends ProjWind {
         // Ignore other wind projectiles.
         if (collidee instanceof ProjWind) return;
         if (collidee instanceof ProjSuperWind) return;
+        // Ignore pickups.
+        if (collidee instanceof Pickup) return;
         // Ignore statics that are not high blocking.
         if (collidee instanceof Static) {
             if (collidee.isHighBlocked() === false) return;
@@ -52,8 +54,8 @@ class ProjSuperWind extends ProjWind {
 }
 module.exports = ProjSuperWind;
 
-const Static = require('../../../statics/Static');
-const Damage = require('../../../../gameplay/Damage');
+const Pickup = require("../../pickups/Pickup");
+const Static = require("../../../statics/Static");
+const Damage = require("../../../../gameplay/Damage");
 
-ProjSuperWind.prototype.registerEntityType();
 ProjSuperWind.prototype.assignModHitPointConfigs("ProjWind");

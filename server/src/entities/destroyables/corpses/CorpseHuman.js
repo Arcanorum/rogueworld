@@ -1,5 +1,4 @@
-
-const Corpse = require('./Corpse');
+const Corpse = require("./Corpse");
 
 /**
  * @category Corpse
@@ -10,8 +9,7 @@ const Corpse = require('./Corpse');
  * @param {Board} config.board The board to create this entity on.
  */
 class CorpseHuman extends Corpse {}
+
 module.exports = CorpseHuman;
 
-CorpseHuman.prototype.registerEntityType();
-
-CorpseHuman.prototype.ZombieType = require('../movables/characters/mobs/zombies/ZombieHuman');
+CorpseHuman.prototype.ZombieType = require("../movables/characters/mobs/zombies/ZombieHuman");

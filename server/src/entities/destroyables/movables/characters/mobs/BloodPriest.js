@@ -1,4 +1,3 @@
-
 const Mob = require('./Mob');
 
 class BloodPriest extends Mob {
@@ -18,6 +17,4 @@ module.exports = BloodPriest;
 const ModHitPointConfigs = require('../../../../../gameplay/ModHitPointConfigs');
 const Damage = require('../../../../../gameplay/Damage');
 
-BloodPriest.prototype.registerEntityType();
-BloodPriest.prototype.assignMobValues();
 BloodPriest.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillVampires.taskID;

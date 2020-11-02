@@ -10,10 +10,10 @@
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "devDependencies": {
-    "better-docs": "^1.4.7",
-    "jsdoc": "^3.6.3"
+    "better-docs": "^1.4.13",
+    "jsdoc": "^3.6.6"
   },
   "dependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.5"
   }
 }

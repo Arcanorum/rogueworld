@@ -179,7 +179,7 @@ class CraftingPanel extends PanelTemplate {
 
         const craftingPanel = _this.GUI.craftingPanel;
 
-        craftingPanel.tooltip.innerText = dungeonz.getTextDef("Item name: " + _this.player.inventory[_this.craftingManager.components[slotKey].occupiedBy].catalogueEntry.idName);
+        craftingPanel.tooltip.innerText = dungeonz.getTextDef("Item name: " + _this.player.inventory[_this.craftingManager.components[slotKey].occupiedBy].catalogueEntry.translationID);
         craftingPanel.tooltip.style.visibility = 'visible';
 
         this.appendChild(craftingPanel.tooltip);

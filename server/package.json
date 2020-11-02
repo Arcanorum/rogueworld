@@ -16,7 +16,7 @@
       "node_modules/**/node_modules",
       "PlayerDataDump.json"
     ],
-    "ext": "js,json,css,scss,html,txt",
+    "ext": "js,json,yml,css,scss,html,txt,png",
     "verbose": true
   },
   "devDependencies": {
@@ -26,5 +26,9 @@
     "ws": "^5.2.2",
     "xlsx": "^0.13.5",
     "require-dir": "^1.2.0"
+  },
+  "dependencies": {
+    "js-yaml": "^3.14.0",
+    "tile-extruder": "^2.0.6"
   }
 }

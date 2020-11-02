@@ -1,5 +1,4 @@
-
-const Projectile = require('./Projectile');
+const Projectile = require("./Projectile");
 
 class ProjSnowball extends Projectile {
 
@@ -10,7 +9,6 @@ class ProjSnowball extends Projectile {
 }
 module.exports = ProjSnowball;
 
-ProjSnowball.prototype.registerEntityType();
 ProjSnowball.prototype.assignModHitPointConfigs();
 ProjSnowball.prototype.moveRate = 200;
 ProjSnowball.prototype.range = 4;

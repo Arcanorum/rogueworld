@@ -41,12 +41,12 @@ class Taskset {
     // The owner has no task progress so far, give them the starting tasks.
     addStartingTasks () {
         this.owner.tasks.list = {};
-        new Task.Task(this.owner, TaskTypes.KillRats,          0, 5, [ItemsList.ItemIronHammer],        500);
-        new Task.Task(this.owner, TaskTypes.KillBats,          0, 5, [ItemsList.ItemIronArmour],        500);
-        new Task.Task(this.owner, TaskTypes.GatherIronOre,     0, 5, [ItemsList.ItemDungiumPickaxe],    500);
-        new Task.Task(this.owner, TaskTypes.GatherCotton,      0, 5, [ItemsList.ItemExpOrbGathering],   500);
-        new Task.Task(this.owner, TaskTypes.CraftIronDaggers,  0, 5, [ItemsList.ItemNoctisDagger],      500);
-        new Task.Task(this.owner, TaskTypes.CraftPlainRobes,   0, 5, [ItemsList.ItemExpOrbArmoury],     500);
+        new Task.Task(this.owner, TaskTypes.KillRats,          0, 5, [ItemsList.IronHammer],        500);
+        new Task.Task(this.owner, TaskTypes.KillBats,          0, 5, [ItemsList.IronArmour],        500);
+        new Task.Task(this.owner, TaskTypes.GatherIronOre,     0, 5, [ItemsList.DungiumPickaxe],    500);
+        new Task.Task(this.owner, TaskTypes.GatherCotton,      0, 5, [ItemsList.ExpOrbGathering],   500);
+        new Task.Task(this.owner, TaskTypes.CraftIronDaggers,  0, 5, [ItemsList.NoctisDagger],      500);
+        new Task.Task(this.owner, TaskTypes.CraftPlainRobes,   0, 5, [ItemsList.ExpOrbArmoury],     500);
     }
 
     getEmittableTasks () {

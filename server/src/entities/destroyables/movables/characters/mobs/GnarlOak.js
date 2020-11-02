@@ -1,4 +1,3 @@
-
 const Mob = require('./Mob');
 
 class GnarlOak extends Mob {
@@ -11,6 +10,4 @@ class GnarlOak extends Mob {
 }
 module.exports = GnarlOak;
 
-GnarlOak.prototype.registerEntityType();
-GnarlOak.prototype.assignMobValues();
 GnarlOak.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillGnarls.taskID;

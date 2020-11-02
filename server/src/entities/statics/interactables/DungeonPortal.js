@@ -46,5 +46,3 @@ module.exports = DungeonPortal;
 const Utils = require('../../../Utils');
 const Player = require('../../destroyables/movables/characters/Player');
 const DungeonManagersList = require('../../../dungeon/DungeonManagersList');
-
-DungeonPortal.prototype.registerEntityType();

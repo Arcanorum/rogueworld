@@ -1,4 +1,3 @@
-
 const Breakable = require('./Breakable');
 
 class Torch extends Breakable {}

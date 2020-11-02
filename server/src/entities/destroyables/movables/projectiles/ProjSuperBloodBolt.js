@@ -1,8 +1,6 @@
-
-const ProjBloodBolt = require('./ProjBloodBolt');
+const ProjBloodBolt = require("./ProjBloodBolt");
 
 class ProjSuperBloodBolt extends ProjBloodBolt {
-
     /**
      * Custom collision checker to check tile in advance, otherwise the extra projectiles this makes can go through walls.
      */
@@ -27,6 +25,8 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
         // Ignore other blood bolt projectiles.
         if (collidee instanceof ProjBloodBolt) return;
         if (collidee instanceof ProjSuperBloodBolt) return;
+        // Ignore pickups.
+        if (collidee instanceof Pickup) return;
         // Ignore statics that are not high blocking.
         if (collidee instanceof Static) {
             if (collidee.isHighBlocked() === false) return;
@@ -62,10 +62,10 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
 }
 module.exports = ProjSuperBloodBolt;
 
-const Static = require('../../../statics/Static');
-const Character = require('../../../destroyables/movables/characters/Character');
-const Damage = require('../../../../gameplay/Damage');
-const Heal = require('../../../../gameplay/Heal');
+const Pickup = require("../../pickups/Pickup");
+const Static = require("../../../statics/Static");
+const Character = require("../../../destroyables/movables/characters/Character");
+const Damage = require("../../../../gameplay/Damage");
+const Heal = require("../../../../gameplay/Heal");
 
-ProjSuperBloodBolt.prototype.registerEntityType();
 ProjSuperBloodBolt.prototype.assignModHitPointConfigs("ProjBloodBolt");

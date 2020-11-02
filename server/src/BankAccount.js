@@ -58,10 +58,10 @@ class BankAccount {
     }
 
     addStarterItems () {
-        this.addItemToBankAccount(0, ItemsList.ItemIronSword);
-        this.addItemToBankAccount(1, ItemsList.ItemHealthPotion);
-        this.addItemToBankAccount(5, ItemsList.ItemOakBow);
-        this.addItemToBankAccount(6, ItemsList.ItemIronArrows);
+        this.addItemToBankAccount(0, ItemsList.IronSword);
+        this.addItemToBankAccount(1, ItemsList.HealthPotion);
+        this.addItemToBankAccount(5, ItemsList.OakBow);
+        this.addItemToBankAccount(6, ItemsList.IronArrows);
     }
 
     /**
@@ -228,5 +228,5 @@ class BankAccount {
 
 module.exports = BankAccount;
 
-const BankChest = require('./entities/statics/interactables/breakables/BankChest');
-const ItemsList = require('./ItemsList');
+const BankChest = require("./entities/statics/interactables/breakables/BankChest");
+const ItemsList = require("./ItemsList");

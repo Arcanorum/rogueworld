@@ -1,5 +1,4 @@
-
-const Projectile = require('./Projectile');
+const Projectile = require("./Projectile");
 
 class ProjIronHammer extends Projectile {
 
@@ -11,7 +10,6 @@ class ProjIronHammer extends Projectile {
 }
 module.exports = ProjIronHammer;
 
-ProjIronHammer.prototype.registerEntityType();
 ProjIronHammer.prototype.assignModHitPointConfigs();
 ProjIronHammer.prototype.moveRate = 200;
 ProjIronHammer.prototype.range = 2;

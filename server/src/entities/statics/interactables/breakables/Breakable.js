@@ -1,4 +1,3 @@
-
 const Interactable = require('../Interactable');
 
 function nothing() { }

@@ -1,7 +1,19 @@
-
-const Item = require('../Item');
+const Item = require("../Item");
+const EntitiesList = require("../../EntitiesList");
+const Utils = require("../../Utils");
 
 class Ammunition extends Item {
+
+    static loadConfig(config) {
+        // console.log("ammunition.loadconfig");
+        this.prototype.ProjectileType = EntitiesList[config.ProjectileType];
+
+        if(!this.prototype.ProjectileType) {
+            Utils.error(`Loading ammunition config. Invalid projectile type name "${config.ProjectileType}" for configured item "${config.name}". Type to use must be in the entities list.`, EntitiesList);
+        }
+
+        super.loadConfig(config);
+    }
     
     destroy () {
         // If this item is being worn, take it off the owner.
@@ -43,6 +55,8 @@ class Ammunition extends Item {
     }
 
 }
+
+Ammunition.abstract = true;
 
 Ammunition.prototype.ProjectileType = null;
 

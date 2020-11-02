@@ -1,5 +1,5 @@
-const Entity = require('../Entity');
-const Utils = require('../../Utils');
+const Entity = require("../Entity");
+const Utils = require("../../Utils");
 
 class Static extends Entity {
     /**
@@ -51,8 +51,6 @@ class Static extends Entity {
 
 }
 
-module.exports = Static;
-
 /**
  * Whether this board tile can be walked over. Will it block characters.
  * If a tile is high blocked, then it must also be low blocked.
@@ -65,3 +63,5 @@ Static.prototype._lowBlocked = true;
  * @type {Boolean}
  */
 Static.prototype._highBlocked = true;
+
+module.exports = Static;

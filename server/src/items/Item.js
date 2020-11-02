@@ -1,6 +1,10 @@
 const Utils = require("../Utils");
+const Pickup = require('../entities/destroyables/pickups/Pickup');
+const EntitiesList = require("../EntitiesList");
 const StatNames = require('../stats/Statset').prototype.StatNames;
 const getRandomIntInclusive = Utils.getRandomIntInclusive;
+
+const typeNumberCounter = new Utils.Counter();
 
 class Item {
 
@@ -37,6 +41,12 @@ class Item {
          */
         this.slotKey = null;
 
+    }
+
+    static registerItemType() {
+        this.prototype.typeNumber = typeNumberCounter.getNext();
+    
+        // Utils.message("Registering item type: ", this.prototype.typeNumber);
     }
 
     /**
@@ -147,35 +157,66 @@ class Item {
         }
     }
 
+    static assignPickupType(itemName) {
+        // Don't bother having a pickup type file. Just create one for each item 
+        // type, as it will always be 1-1 (except items that cannot be dropped).
+        class GenericPickup extends Pickup { }
+        GenericPickup.prototype.ItemType = this;
+
+        GenericPickup.registerEntityType();
+
+        this.prototype.PickupType = GenericPickup;
+
+        // Add the pickup to the entities list, so it can still be manually instantiated, for spawners.
+        EntitiesList["Pickup" + itemName] = GenericPickup;
+    }
+
+    static loadConfig(config) {
+        // Load anything else that hasn't already been set by the loadConfig method of a subclass.
+        // console.log("item.loadconfig");
+
+        this.translationID = config.translationID;
+        this.iconSource = config.iconSource;
+
+        Object.entries(config).forEach(([key, value]) => {
+            if(key === "name") return;
+
+            // Only load properties that should actually exist on this class.
+            if(this.prototype[key] !== undefined){
+                // Check if the property has already been loaded by a subclass.
+                if(Object.getPrototypeOf(this).prototype[key] === this.prototype[key]) {
+                    this.prototype[key] = value;
+                }
+            }
+        });
+    }
 }
+
+Item.abstract = true;
+
+/**
+ * The ID of this item in the language text definitions file.
+ * Just the item name itself, which is added onto the "Item name: " prefix
+ * on the client to get the actual ID.
+ * @type {String}
+ */
+Item.translationID = "Translation ID name not set.";
+
+Item.iconSource = "Icon source not set.";
 
 // Give all Items easy access to the finished EntitiesList. Needs to be done when all entities are finished initing, or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};
 
-var typeNumberCounter = 1;
 // A type number is an ID for this kind of item, so the client knows which item to add to the inventory bar.
 // Used to send a number to get the item name from the item type catalogue, instead of a lengthy string of the item name.
-// All items that appear on the client must be registered with Item.prototype.registerItemType().
-Item.prototype.typeNumber = 'Type not registered.';
+// All items that appear on the client must be registered with [ITEM_TYPE].registerItemType().
+Item.prototype.typeNumber = "Type not registered.";
 
 /**
  * Whether this item has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
  * @type {Boolean}
  */
 Item.prototype._destroyed = false;
-
-/**
- * The ID of this item in the language text definitions file.
- * Just the item name itself, which is added onto the "Item name: " prefix to get the actual ID.
- * @type {String}
- */
-Item.prototype.idName = 'ID name not set.';
-
-/**
- * The coin value of this item at full durability when sold to an NPC trader.
- * @type {Number}
- */
-Item.prototype.baseValue = 0;
 
 /**
  * The lowest durability this item can have at full durability.
@@ -189,8 +230,6 @@ Item.prototype.baseDurability = null;
  * @type {Number}
  */
 Item.prototype.useDurabilityCost = 0;
-
-Item.prototype.iconSource = "Icon source not set.";
 
 /**
  * How much crafting exp this item contributes to the recipe it is used in.
@@ -222,13 +261,5 @@ Item.prototype.category = null;
  * @type {Function}
  */
 Item.prototype.PickupType = null;
-
-Item.prototype.registerItemType = function () {
-    this.typeNumber = typeNumberCounter;
-
-    typeNumberCounter += 1;
-
-    //Utils.message("Registering item type: ", this);
-};
 
 module.exports = Item;

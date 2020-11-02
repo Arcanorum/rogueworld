@@ -30,6 +30,5 @@
 // }
 // module.exports = Generator;
 
-// Generator.prototype.registerEntityType();
 // Generator.prototype.hitPoints = 10;
 // Generator.prototype.maxHitPoints = 10;

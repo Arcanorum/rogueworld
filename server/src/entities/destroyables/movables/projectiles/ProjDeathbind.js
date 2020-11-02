@@ -21,7 +21,7 @@ class ProjDeathbind extends Projectile {
 module.exports = ProjDeathbind;
 
 const Character = require('../characters/Character');
-const MagicEffects = require('../../../../MagicEffects');
+const MagicEffects = require('../../../../gameplay/MagicEffects');
 
 ProjDeathbind.prototype.registerEntityType();
 ProjDeathbind.prototype.moveRate = 200;

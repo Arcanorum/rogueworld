@@ -1,4 +1,4 @@
-# [Dungeonz](http://142.93.54.176:4567/)
+# [Dungeonz](http://142.93.54.176/)
 
 ## Everything for the game Dungeonz.
 
@@ -13,7 +13,7 @@ Here you can find basically everything that goes into the game, what is currentl
 
 The creation of Dungeonz is a collaborative effort, with content and mechanics able to be added by members of the community.
 
-#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification. If you are already a big-brain, you can probably skip most of this readme.***
+#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification.***
 
 ## *Ok, cool, where do I start?*
 
@@ -165,7 +165,7 @@ C:\Users\User\dungeonz>
 
 <img src="guides/build-client.gif" width="50%"/>
 
-Finally, to open the client and play the game, go to http://localhost:4567/ in a web browser.
+Finally, to open the client and play the game, go to http://localhost/ in a web browser.
 
 <img src="guides/client-served-locally.png" width="50%"/>
 
@@ -179,9 +179,12 @@ Things like movement, collision, creating entities, AI, etc. that affects the fu
 
 ### **Content:**
 
-Things that implement mechanics to give players stuff to do, such as areas to explore, resources to gather, items to craft, creatures to slay, structures to build, etc.
+Things that implement mechanics to give players stuff to do, such as areas to explore, resources to gather, items to craft, creatures to fight, structures to build, etc.
+
+*Below are guides for each, where you are encouraged to think of something different to add instead of just the examples given and to experiment with each step of the guide, so you aren't just copying the guide without understanding what is happening.*
 
 #### [Map editor - Reference](guides/MAP_EDITOR_REFERENCE.md)
+
 #### [Map editor - Walkthrough](guides/MAP_EDITOR_WALKTHROUGH.md)
 
 #### [Creature](guides/CREATURES.md)
@@ -216,7 +219,3 @@ And use the service with:
 `sudo systemctl restart dungeonz`
 
 `sudo systemctl stop dungeonz`
-
-You will need to redirect requests for port 80 (HTTP) on the game server to port 4567 (the Express server).
-
-`sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 4567`

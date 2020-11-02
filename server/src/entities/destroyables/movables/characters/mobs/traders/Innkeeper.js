@@ -6,4 +6,4 @@ module.exports = Innkeeper;
 
 Innkeeper.prototype.registerEntityType();
 Innkeeper.prototype.faction = Merchant.prototype.Factions.Citizens;
-Innkeeper.prototype.shop = new (require('./../../../../../../Shops')).Inn();
+Innkeeper.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Inn();

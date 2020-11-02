@@ -1,8 +1,6 @@
-
 const Static = require('./Static');
 
 class Entrance extends Static {
-
     /**
      * @param {Object} config
      * @param {Number} config.row - For Entrances, this is the top row.
@@ -12,7 +10,7 @@ class Entrance extends Static {
      * @param {Number} config.height - How many tiles high.
      * @param {String} config.entranceName - The unique name ID for this entrance. Used to access this object in Board.entrances.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         this.top = config.row;
@@ -24,12 +22,13 @@ class Entrance extends Static {
         let colOffset,
             rowOffset,
             grid = this.board.grid;
-        for(colOffset=0; colOffset<config.width; colOffset+=1){
-            for(rowOffset=0; rowOffset<config.height; rowOffset+=1){
+        for (colOffset = 0; colOffset < config.width; colOffset += 1) {
+            for (rowOffset = 0; rowOffset < config.height; rowOffset += 1) {
                 grid[this.row + rowOffset][this.col + colOffset].static = this;
             }
         }
 
+        // Add this entrance to the list of entrances on the board it is on.
         config.board.entrances[config.entranceName] = this;
     }
 
@@ -37,7 +36,7 @@ class Entrance extends Static {
      * Gets a random position within the bounds of this entrance.
      * @returns {{row: Number, col: Number}}
      */
-    getRandomPosition () {
+    getRandomPosition() {
         return {
             row: Math.round(Math.random() * (this.top - this.bottom) + this.bottom),
             col: Math.round(Math.random() * (this.left - this.right) + this.right)

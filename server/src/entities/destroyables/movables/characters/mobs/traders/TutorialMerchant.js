@@ -6,4 +6,4 @@ module.exports = TutorialMerchant;
 
 TutorialMerchant.prototype.registerEntityType();
 TutorialMerchant.prototype.faction = Merchant.prototype.Factions.Citizens;
-TutorialMerchant.prototype.shop = new (require('./../../../../../../Shops')).Tutorial();
+TutorialMerchant.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Tutorial();

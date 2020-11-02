@@ -1,9 +1,9 @@
-
+const Utils = require("./../../../Utils");
 const Holdable = require('../Holdable');
 
 class SpellBook extends Holdable {
 
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         /**
@@ -13,26 +13,26 @@ class SpellBook extends Holdable {
         this.currentSpell = this.spell1;
     }
 
-    equip () {
+    equip() {
         super.equip();
 
-        if(this.owner.holding === this){
+        if (this.owner.holding === this) {
             // Tell the player a spell book was equipped, so they should show the button to open the spell book panel.
             this.owner.socket.sendEvent(this.owner.EventsList.activate_spell_book, [this.slotKey, this.spellBookTypeNumber]);
         }
     }
 
-    useWhileHeld (direction) {
+    useWhileHeld(direction) {
         const owner = this.owner;
 
-        if(owner.energy < this.useEnergyCost){
+        if (owner.energy < this.useEnergyCost) {
             return;
         }
 
         const front = owner.board.getRowColInFront(direction || owner.direction, owner.row, owner.col);
 
         // Cast the current spell, giving it a config object.
-        this.currentSpell({row: front.row, col: front.col, board: owner.board, direction: direction || owner.direction, source: this.owner});
+        this.currentSpell({ row: front.row, col: front.col, board: owner.board, direction: direction || owner.direction, source: this.owner });
 
         owner.modEnergy(-this.useEnergyCost);
 
@@ -44,25 +44,25 @@ class SpellBook extends Holdable {
      * Change the active selected spell.
      * @param {String|Number} spellNumber - The 1-4 number of the spell to change to.
      */
-    changeSpell (spellNumber) {
+    changeSpell(spellNumber) {
         // Check the spell exists. Might be invalid input.
-        if(this['spell' + spellNumber] === undefined) return;
+        if (this['spell' + spellNumber] === undefined) return;
 
         this.currentSpell = this['spell' + spellNumber];
     }
 
-    spell1 () {}
+    spell1() { }
 
-    spell2 () {}
+    spell2() { }
 
-    spell3 () {}
+    spell3() { }
 
-    spell4 () {}
+    spell4() { }
 
 }
 
 // Give all spell books easy access to the list of magic effects.
-SpellBook.prototype.MagicEffects = require('../../../MagicEffects');
+SpellBook.prototype.MagicEffects = require('../../../gameplay/MagicEffects');
 
 /**
  * The ID of this spell in the language text definitions file.
@@ -90,9 +90,9 @@ SpellBook.prototype.spellBookTypeNumber = 'Spell book type not registered.';
 SpellBook.prototype.registerSpellBookType = function () {
     this.spellBookTypeNumber = spellBookTypeNumberCounter;
 
-    spellBookTypeNumberCounter+=1;
+    spellBookTypeNumberCounter += 1;
 
-    //console.log("* Registering spell book type: ", this);
+    //Utils.message("Registering spell book type: ", this);
 };
 
 module.exports = SpellBook;

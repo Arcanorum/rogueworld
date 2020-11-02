@@ -1,4 +1,3 @@
-
 const Weapon = require('./Weapon');
 
 class ItemIronSword extends Weapon {}
@@ -14,7 +13,7 @@ ItemIronSword.prototype.ProjectileType = ProjectileType;
 ItemIronSword.prototype.iconSource = "icon-iron-sword";
 ItemIronSword.prototype.baseValue = 10;
 ItemIronSword.prototype.category = Weapon.prototype.categories.Weapon;
-ItemIronSword.prototype.baseDurability = 25;
+ItemIronSword.prototype.baseDurability = 50;
 ItemIronSword.prototype.useDurabilityCost = 1;
 ItemIronSword.prototype.useEnergyCost = 1;
 ItemIronSword.prototype.expGivenStatName = ItemIronSword.prototype.StatNames.Melee;

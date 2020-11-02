@@ -16,6 +16,6 @@ ItemSuperWindStaff.prototype.baseValue = 50;
 ItemSuperWindStaff.prototype.category = Weapon.prototype.categories.Weapon;
 ItemSuperWindStaff.prototype.baseDurability = 30;
 ItemSuperWindStaff.prototype.useDurabilityCost = 1;
-ItemSuperWindStaff.prototype.useEnergyCost = 2;
+ItemSuperWindStaff.prototype.useEnergyCost = 3;
 ItemSuperWindStaff.prototype.expGivenStatName = ItemSuperWindStaff.prototype.StatNames.Magic;
 ItemSuperWindStaff.prototype.canUseIntoHighBlockedTile = false;

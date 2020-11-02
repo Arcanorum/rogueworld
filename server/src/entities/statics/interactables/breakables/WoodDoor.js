@@ -1,8 +1,6 @@
-
 const Breakable = require('./Breakable');
 
 class WoodDoor extends Breakable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -10,7 +8,7 @@ class WoodDoor extends Breakable {
      * @param {Board} config.board
      * @param {Clan} config.clan
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         // If it belongs to a clan, add the specific properties for clan structures.
@@ -22,12 +20,12 @@ class WoodDoor extends Breakable {
         //}
     }
 
-    interaction (interactedBy) {
+    interaction(interactedBy) {
         // Don't do anything to this door if it is not active.
-        if(this.activeState === false) return;
+        if (this.activeState === false) return;
 
         // Don't do anything if the character doesn't have enough energy to interact with this object.
-        if(interactedBy.energy < this.interactionEnergyCost) return;
+        if (interactedBy.energy < this.interactionEnergyCost) return;
 
         // Don't do anything if this is owned by a clan, and the character isn't a member of that clan.
         //if(this.clan !== null){
@@ -45,10 +43,10 @@ class WoodDoor extends Breakable {
         this.blocking = false;
     }
 
-    activate () {
+    activate() {
         super.activate();
         // If the door was successfully activated (nothing standing on the open door), make it block things.
-        if(this.activeState === true) this.blocking = true;
+        if (this.activeState === true) this.blocking = true;
     }
 }
 module.exports = WoodDoor;

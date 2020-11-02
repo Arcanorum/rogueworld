@@ -32,9 +32,9 @@ Make a copy of this file, and rename it to whatever you want the dungeon to be c
 
 [copy blank.json gif]
 
-***Note:*** To disable a map file so that it will not be loaded by the server when it starts, add a '#' to the front of the file name.
+***Note:*** To disable a map file so that it will not be loaded by the server when it starts, add `Disabled: true` to the map properties.
 
-[pound symbol disable image]
+[disabled map property image]
 
 Now we can open it in Tiled to edit it.
 

@@ -15,7 +15,7 @@ class ItemHealthPotion extends Item {
 // This item needs to be exported before the pickup type that it is linked to accesses it.
 module.exports = ItemHealthPotion;
 
-const HealthRegen = require('./../StatusEffects').HealthRegen;
+const HealthRegen = require('./../gameplay/StatusEffects').HealthRegen;
 
 ItemHealthPotion.prototype.registerItemType();
 ItemHealthPotion.prototype.idName = "Health potion";

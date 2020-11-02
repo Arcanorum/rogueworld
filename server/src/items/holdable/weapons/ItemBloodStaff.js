@@ -3,9 +3,12 @@ const Weapon = require('./Weapon');
 
 class ItemBloodStaff extends Weapon {
 
-    onUsed () {
+    onUsed() {
         // Blood bolt consumes HP on use.
-        this.owner.modHitPoints(-ModHitPointValues.ProjBloodBoltDamage * 0.5);
+        this.owner.damage(new Damage({
+            amount: ModHitPointConfigs.ProjBloodBolt.damageAmount * 0.5,
+            types: ModHitPointConfigs.ProjBloodBolt.damageTypes
+        }));
 
         super.onUsed();
     }
@@ -15,7 +18,8 @@ class ItemBloodStaff extends Weapon {
 module.exports = ItemBloodStaff;
 
 const ProjectileType = require('../../../entities/destroyables/movables/projectiles/ProjBloodBolt');
-const ModHitPointValues = require('../../../ModHitPointValues');
+const ModHitPointConfigs = require('../../../gameplay/ModHitPointConfigs');
+const Damage = require('../../../gameplay/Damage');
 
 ItemBloodStaff.prototype.registerItemType();
 ItemBloodStaff.prototype.idName = "Blood staff";
@@ -24,7 +28,7 @@ ItemBloodStaff.prototype.ProjectileType = ProjectileType;
 ItemBloodStaff.prototype.iconSource = "icon-blood-staff";
 ItemBloodStaff.prototype.baseValue = 10;
 ItemBloodStaff.prototype.category = Weapon.prototype.categories.Weapon;
-ItemBloodStaff.prototype.baseDurability = 25;
+ItemBloodStaff.prototype.baseDurability = 30;
 ItemBloodStaff.prototype.useDurabilityCost = 1;
-ItemBloodStaff.prototype.useEnergyCost = 1;
+ItemBloodStaff.prototype.useEnergyCost = 2;
 ItemBloodStaff.prototype.expGivenStatName = ItemBloodStaff.prototype.StatNames.Magic;

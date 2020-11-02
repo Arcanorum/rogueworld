@@ -14,8 +14,7 @@ class SpawnerArea extends Spawner {
      * @param {Number} [config.maxAtOnce=1] - The maximum amount of entities this spawner can have at once.
      * @param {Number} [config.spawnRate=1000] - How often this spawner creates a new entity, in ms.
      */
-    constructor (config) {
-        //console.log("spawnerarea const, entity type:", config.entityType);
+    constructor(config) {
         super(config);
 
         this.top = config.row;
@@ -28,7 +27,7 @@ class SpawnerArea extends Spawner {
      * Gets a random position within the bounds of this spawner.
      * @returns {{row: Number, col: Number}}
      */
-    getRandomPosition () {
+    getRandomPosition() {
         return {
             row: Math.round(Math.random() * (this.top - this.bottom) + this.bottom),
             col: Math.round(Math.random() * (this.left - this.right) + this.right)

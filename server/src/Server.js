@@ -1,11 +1,13 @@
-
 const fs = require('fs');
+const Utils = require("./Utils");
 const pathToKeys = '../../../etc/letsencrypt/live/dungeonz.io/';
 
 // Express config.
 const express = require('express');
 const path = require('path');
 const app = express();
+const httpPort = 80;
+const httpsPort = 443;
 
 app.use(express.static(path.join(__dirname, '../../client/')));
 
@@ -22,15 +24,14 @@ let wss;
 
 // SSL check.
 // If a certificate can be found, load it and use SSL.
-if(fs.existsSync(pathToKeys + 'fullchain.pem')){
-
+if (fs.existsSync(pathToKeys + 'fullchain.pem')) {
     const https = require('https');
     httpServer = https.createServer({
-       cert:   fs.readFileSync(pathToKeys + 'fullchain.pem'),
-       key:    fs.readFileSync(pathToKeys + 'privkey.pem'),
+        cert: fs.readFileSync(pathToKeys + 'fullchain.pem'),
+        key: fs.readFileSync(pathToKeys + 'privkey.pem'),
     }, app).listen(443);
 
-    console.log("* Started HTTPS and WS servers on port", 443);
+    Utils.message("Started HTTPS and WS servers on port", httpsPort);
 
     const redirectApp = express();
     // Redirect all requests to the HTTP (port 80) server to the HTTPS server.
@@ -39,20 +40,22 @@ if(fs.existsSync(pathToKeys + 'fullchain.pem')){
     });
     // Create a basic HTTP server to catch HTTP 
     // requests and redirect to the HTTPS server.
-    require('http').createServer(redirectApp).listen(80);
-
+    require('http').createServer(redirectApp).listen(httpPort);
 }
 // No certificate found, use unsecure connections for development.
 else {
     const http = require('http');
-    httpServer = http.createServer(app).listen(80);
+    httpServer = http.createServer(app).listen(httpPort);
 
-    console.log("* Could not locate SSL certificate.");
-    console.log("* Started unsecure HTTP and WS servers on port", 80);
+    Utils.message("Could not locate SSL certificate.");
+    Utils.message("Started unsecure HTTP and WS servers on port", httpPort);
 }
 
 wss = new WebSocket.Server({
     server: httpServer
 });
 
-module.exports = wss;
+module.exports = {
+    app,
+    wss
+};

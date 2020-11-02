@@ -14,7 +14,7 @@ ItemCloak.prototype.iconSource = "icon-cloak";
 ItemCloak.prototype.baseValue = 10;
 ItemCloak.prototype.category = Clothes.prototype.categories.Clothing;
 ItemCloak.prototype.baseDurability = 100;
-ItemCloak.prototype.defenceBonus = 0.3;
+ItemCloak.prototype.defenceBonus = 25;
 ItemCloak.prototype.statBonuses = {
     [StatNames.Ranged]: 1
 };

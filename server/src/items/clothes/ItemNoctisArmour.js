@@ -14,7 +14,7 @@ ItemNoctisArmour.prototype.iconSource = "icon-noctis-armour";
 ItemNoctisArmour.prototype.baseValue = 10;
 ItemNoctisArmour.prototype.category = Clothes.prototype.categories.Clothing;
 ItemNoctisArmour.prototype.baseDurability = 150;
-ItemNoctisArmour.prototype.defenceBonus = 0.4;
+ItemNoctisArmour.prototype.defenceBonus = 70;
 ItemNoctisArmour.prototype.statBonuses = {
     [StatNames.Melee]: 5
 };

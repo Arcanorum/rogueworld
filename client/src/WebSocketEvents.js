@@ -1,4 +1,3 @@
-
 // Default websocket object state. Used to detect if there is already a connection.
 window.ws = false;
 
@@ -19,16 +18,16 @@ import ChatWarnings from './catalogues/ChatWarnings'
  * @param {String} url - The URL of the game server.
  * @returns {Boolean} Whether a connection already exists.
  */
-function makeWebSocketConnection (url) {
+function makeWebSocketConnection(url) {
     // Only connect if there isn't already a connection.
-    if(ws === false){
+    if (ws === false) {
         // Connect to the game server.
         window.ws = new WebSocket(url);
     }
     // Connection already exists.
     else {
         // Check the if the connection is not working.
-        if(ws.readyState !== 1){
+        if (ws.readyState !== 1) {
             // Close the connection.
             ws.close();
             // Try to create a new connection to the game server.
@@ -44,16 +43,16 @@ function makeWebSocketConnection (url) {
 window.connectToGameServer = function () {
 
     // If the game is running in dev mode (localhost), connect without SSL.
-    if(window.devMode === true){
+    if (window.devMode === true) {
         // Make a connection, or if one is already made, return so the listeners aren't added again.
-        if(makeWebSocketConnection('ws://127.0.0.4:80') === false) return false;
+        if (makeWebSocketConnection('ws://127.0.0.4:80') === false) return false;
     }
     // Deployment mode. Connect to live server, which should be using SSL.
     else {
         // Make a connection, or if one is already made, return so the listeners aren't added again.
         //if(makeWebSocketConnection('wss://test.waywardworlds.com:3000') === false) return false;
         // if(makeWebSocketConnection('ws://142.93.54.176:3000') === false) return false;
-        if(makeWebSocketConnection('wss://dungeonz.io:443') === false) return false;
+        if (makeWebSocketConnection('wss://dungeonz.io:443') === false) return false;
     }
 
     /**
@@ -62,7 +61,7 @@ window.connectToGameServer = function () {
      * @param {Object} [data]
      */
     ws.sendEvent = function (eventName, data) {
-        this.send(JSON.stringify({eventName: eventName, data: data}));
+        this.send(JSON.stringify({ eventName: eventName, data: data }));
     };
 
     // Wait for the connection to have finished opening before attempting to join the world.
@@ -81,9 +80,9 @@ window.connectToGameServer = function () {
         const eventName = EventNames[eventNameID];
 
         // Check this event name ID is in the list of valid event name IDs.
-        if(eventName !== undefined){
+        if (eventName !== undefined) {
             // Check there is a response function to run for the event.
-            if(eventResponses[eventName] !== undefined){
+            if (eventResponses[eventName] !== undefined) {
                 // Run the response, giving it any data.
                 eventResponses[eventName](parsedMessage.data);
             }
@@ -164,7 +163,7 @@ eventResponses.join_world_success = function (data) {
 
     // If somehow the state is not valid, close the connection.
     // Weird bug... :/
-    if(!_this.state){
+    if (!_this.state) {
         console.log("* WARNING: _this.state is invalid. Closing WS connection. _this:", _this);
         setTimeout(function () {
             ws.close();
@@ -197,7 +196,7 @@ eventResponses.world_full = function () {
     console.log("* World is full.");
 };
 
-function tweenCompleteLeft () {
+function tweenCompleteLeft() {
     _this.tilemap.groundGridBitmapData.move(dungeonz.TILE_SIZE, 0);
     _this.tilemap.staticsGridBitmapData.move(dungeonz.TILE_SIZE, 0);
     _this.tilemap.groundGridGraphic.x -= dungeonz.TILE_SIZE * GAME_SCALE;
@@ -210,7 +209,7 @@ function tweenCompleteLeft () {
     _this.playerTweenDirections.l = false;
 }
 
-function tweenCompleteRight () {
+function tweenCompleteRight() {
     _this.tilemap.groundGridBitmapData.move(-dungeonz.TILE_SIZE, 0);
     _this.tilemap.staticsGridBitmapData.move(-dungeonz.TILE_SIZE, 0);
     _this.tilemap.groundGridGraphic.x += dungeonz.TILE_SIZE * GAME_SCALE;
@@ -223,7 +222,7 @@ function tweenCompleteRight () {
     _this.playerTweenDirections.r = false;
 }
 
-function tweenCompleteUp () {
+function tweenCompleteUp() {
     _this.tilemap.groundGridBitmapData.move(0, dungeonz.TILE_SIZE);
     _this.tilemap.staticsGridBitmapData.move(0, dungeonz.TILE_SIZE);
     _this.tilemap.groundGridGraphic.y -= dungeonz.TILE_SIZE * GAME_SCALE;
@@ -236,7 +235,7 @@ function tweenCompleteUp () {
     _this.playerTweenDirections.u = false;
 }
 
-function tweenCompleteDown () {
+function tweenCompleteDown() {
     _this.tilemap.groundGridBitmapData.move(0, -dungeonz.TILE_SIZE);
     _this.tilemap.staticsGridBitmapData.move(0, -dungeonz.TILE_SIZE);
     _this.tilemap.groundGridGraphic.y += dungeonz.TILE_SIZE * GAME_SCALE;
@@ -255,546 +254,566 @@ function tweenCompleteDown () {
 window.addGameStateEventResponses = function () {
     console.log("* Adding game state event responses");
 
-eventResponses.create_account_success = (data) => {
-    console.log("create_account_success");
-    // Hide the create account panel.
-    _this.GUI.createAccountPanel.hide();
+    eventResponses.create_account_success = (data) => {
+        console.log("create_account_success");
+        // Hide the create account panel.
+        _this.GUI.createAccountPanel.hide();
 
-    _this.player.isLoggedIn = true;
+        _this.player.isLoggedIn = true;
 
-    _this.GUI.accountPanel.show();
-};
+        _this.GUI.accountPanel.show();
+    };
 
-eventResponses.moved = function (data) {
-    //console.log("moved: ", data);
+    eventResponses.moved = function (data) {
+        //console.log("moved: ", data);
 
-    if(_this.dynamics === undefined){
-        // Something went wrong... Reload the page.
-        //location.reload();
-        return;
-    }
-
-    // Get the dynamic that moved.
-    const dynamic = _this.dynamics[data.id];
-
-    // Check the entity id is valid.
-    if(dynamic === undefined) return;
-
-    const dynamicSprite = dynamic.sprite;
-
-    // The client player moved.
-    if(data.id === _this.player.entityId){
-        let origRow = _this.player.row;
-        let origCol = _this.player.col;
-
-        // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
-        if(_this.playerTween !== null){
-            _this.playerTween.stop(true);
-            //_this.tilemap.checkPendingStaticTileChanges();
-        }
-
-        // Do this AFTER stopping the current player tween, so it can finish with the
-        // previous position (the one that matches the state the tween starts in).
-        _this.player.row = data.row;
-        _this.player.col = data.col;
-
-        dynamic.row = data.row;
-        dynamic.col = data.col;
-
-        // Tween the player sprite to the target row/col.
-        _this.playerTween = _this.add.tween(dynamicSprite).to({
-            x: data.col * dungeonz.TILE_SCALE,
-            y: data.row * dungeonz.TILE_SCALE
-        }, _this.moveDelay, null, true);
-
-        // Right.
-        if(data.col > origCol){
-            _this.checkDynamicsInViewRange(0, -1);
-            _this.checkStaticTilesInViewRange(0, -1);
-            _this.playerTween.onComplete.add(tweenCompleteRight);
-            _this.playerTweenDirections.r = true;
-            // TODO _this.tilemap.darknessGridGroup.x += dungeonz.TILE_SIZE * GAME_SCALE;
-        }
-        // Left.
-        else if(data.col < origCol){
-            _this.checkDynamicsInViewRange(0, +1);
-            _this.checkStaticTilesInViewRange(0, +1);
-            _this.playerTween.onComplete.add(tweenCompleteLeft);
-            _this.playerTweenDirections.l = true;
-            //_this.tilemap.darknessGridGroup.x -= dungeonz.TILE_SIZE * GAME_SCALE;
-        }
-        // Down.
-        if(data.row > origRow){
-            _this.checkDynamicsInViewRange(+1, 0);
-            _this.checkStaticTilesInViewRange(+1, 0);
-            _this.playerTween.onComplete.add(tweenCompleteDown);
-            _this.playerTweenDirections.d = true;
-            //_this.tilemap.darknessGridGroup.y += dungeonz.TILE_SIZE * GAME_SCALE;
-        }
-        // Up.
-        else if(data.row < origRow){
-            _this.checkDynamicsInViewRange(-1, 0);
-            _this.checkStaticTilesInViewRange(-1, 0);
-            _this.playerTween.onComplete.add(tweenCompleteUp);
-            _this.playerTweenDirections.u = true;
-            //_this.tilemap.darknessGridGroup.y -= dungeonz.TILE_SIZE * GAME_SCALE;
-        }
-
-    }
-    // Another entity moved.
-    else {
-        //console.log("moving other entity:", data.id);
-
-        // Get the boundaries of the player view range.
-        let playerRowTopViewRange = _this.player.row - dungeonz.VIEW_RANGE;
-        let playerColLeftViewRange = _this.player.col - dungeonz.VIEW_RANGE;
-        let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
-        let playerColRightViewRange = _this.player.col + dungeonz.VIEW_RANGE;
-
-        dynamic.row = data.row;
-        dynamic.col = data.col;
-
-        // Check if it is still within the player view range.
-        if(dynamic.row < playerRowTopViewRange
-        || dynamic.row > playerRowBotViewRange
-        || dynamic.col < playerColLeftViewRange
-        || dynamic.col > playerColRightViewRange){
-            // Out of view range. Remove it.
-            dynamicSprite.destroy();
-            // Remove the reference to it.
-            delete _this.dynamics[dynamic.id];
+        if (_this.dynamics === undefined) {
+            // Something went wrong... Reload the page.
+            //location.reload();
             return;
         }
 
-        // Tween to the new location.
-        if(dynamicSprite.centered === true){
-            _this.add.tween(dynamicSprite).to({
-                x: (data.col * dungeonz.TILE_SCALE) + dungeonz.CENTER_OFFSET,
-                y: (data.row * dungeonz.TILE_SCALE) + dungeonz.CENTER_OFFSET
-            }, 250, null, true);//TODO: get the move rate of each dynamic, and use this here (250) for smoother timing
-        }
-        else {
-            _this.add.tween(dynamicSprite).to({
+        // Get the dynamic that moved.
+        const dynamic = _this.dynamics[data.id];
+
+        // Check the entity id is valid.
+        if (dynamic === undefined) return;
+
+        const dynamicSprite = dynamic.sprite;
+
+        // The client player moved.
+        if (data.id === _this.player.entityId) {
+            let origRow = _this.player.row;
+            let origCol = _this.player.col;
+
+            // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
+            if (_this.playerTween !== null) {
+                _this.playerTween.stop(true);
+                //_this.tilemap.checkPendingStaticTileChanges();
+            }
+
+            // Do this AFTER stopping the current player tween, so it can finish with the
+            // previous position (the one that matches the state the tween starts in).
+            _this.player.row = data.row;
+            _this.player.col = data.col;
+
+            dynamic.row = data.row;
+            dynamic.col = data.col;
+
+            // Tween the player sprite to the target row/col.
+            _this.playerTween = _this.add.tween(dynamicSprite).to({
                 x: data.col * dungeonz.TILE_SCALE,
                 y: data.row * dungeonz.TILE_SCALE
-            }, 250, null, true);
+            }, _this.moveDelay, null, true);
+
+            // Right.
+            if (data.col > origCol) {
+                _this.checkDynamicsInViewRange(0, -1);
+                _this.checkStaticTilesInViewRange(0, -1);
+                _this.playerTween.onComplete.add(tweenCompleteRight);
+                _this.playerTweenDirections.r = true;
+                // TODO _this.tilemap.darknessGridGroup.x += dungeonz.TILE_SIZE * GAME_SCALE;
+            }
+            // Left.
+            else if (data.col < origCol) {
+                _this.checkDynamicsInViewRange(0, +1);
+                _this.checkStaticTilesInViewRange(0, +1);
+                _this.playerTween.onComplete.add(tweenCompleteLeft);
+                _this.playerTweenDirections.l = true;
+                //_this.tilemap.darknessGridGroup.x -= dungeonz.TILE_SIZE * GAME_SCALE;
+            }
+            // Down.
+            if (data.row > origRow) {
+                _this.checkDynamicsInViewRange(+1, 0);
+                _this.checkStaticTilesInViewRange(+1, 0);
+                _this.playerTween.onComplete.add(tweenCompleteDown);
+                _this.playerTweenDirections.d = true;
+                //_this.tilemap.darknessGridGroup.y += dungeonz.TILE_SIZE * GAME_SCALE;
+            }
+            // Up.
+            else if (data.row < origRow) {
+                _this.checkDynamicsInViewRange(-1, 0);
+                _this.checkStaticTilesInViewRange(-1, 0);
+                _this.playerTween.onComplete.add(tweenCompleteUp);
+                _this.playerTweenDirections.u = true;
+                //_this.tilemap.darknessGridGroup.y -= dungeonz.TILE_SIZE * GAME_SCALE;
+            }
+
         }
-    }
+        // Another entity moved.
+        else {
+            //console.log("moving other entity:", data.id);
 
-    // If the dynamic does something extra when it moves, do it.
-    if(dynamicSprite.onMove !== undefined) dynamicSprite.onMove(true);
+            // Get the boundaries of the player view range.
+            let playerRowTopViewRange = _this.player.row - dungeonz.VIEW_RANGE;
+            let playerColLeftViewRange = _this.player.col - dungeonz.VIEW_RANGE;
+            let playerRowBotViewRange = _this.player.row + dungeonz.VIEW_RANGE;
+            let playerColRightViewRange = _this.player.col + dungeonz.VIEW_RANGE;
 
-    // Move sprites further down the screen above ones further up.
-    _this.dynamicsGroup.sort('y', Phaser.Group.SORT_ASCENDING);
-};
+            dynamic.row = data.row;
+            dynamic.col = data.col;
 
-eventResponses.change_board = function (data) {
-    //console.log("change board, data:", data);
-    _this.dynamicsData = data.dynamicsData;
-    _this.boardAlwaysNight = data.boardAlwaysNight;
-    _this.player.row = data.playerRow;
-    _this.player.col = data.playerCol;
+            // Check if it is still within the player view range.
+            if (dynamic.row < playerRowTopViewRange
+                || dynamic.row > playerRowBotViewRange
+                || dynamic.col < playerColLeftViewRange
+                || dynamic.col > playerColRightViewRange) {
+                // Out of view range. Remove it.
+                dynamicSprite.destroy();
+                // Remove the reference to it.
+                delete _this.dynamics[dynamic.id];
+                return;
+            }
 
-    /* TODO if(_this.boardAlwaysNight === false){
-        // Make the darkness layer invisible during day time.
-        if(_this.dayPhase === _this.DayPhases.Day){
-            let row,
-                col,
-                darknessGrid = _this.tilemap.darknessGrid;
+            // Tween to the new location.
+            if (dynamicSprite.centered === true) {
+                _this.add.tween(dynamicSprite).to({
+                    x: (data.col * dungeonz.TILE_SCALE) + dungeonz.CENTER_OFFSET,
+                    y: (data.row * dungeonz.TILE_SCALE) + dungeonz.CENTER_OFFSET
+                }, 250, null, true);//TODO: get the move rate of each dynamic, and use this here (250) for smoother timing
+            }
+            else {
+                _this.add.tween(dynamicSprite).to({
+                    x: data.col * dungeonz.TILE_SCALE,
+                    y: data.row * dungeonz.TILE_SCALE
+                }, 250, null, true);
+            }
+        }
 
-            for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
-                for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
-                    darknessGrid[row][col].alpha = 0;
+        // If the dynamic does something extra when it moves, do it.
+        if (dynamicSprite.onMove !== undefined) dynamicSprite.onMove(true);
+
+        // Move sprites further down the screen above ones further up.
+        _this.dynamicsGroup.sort('y', Phaser.Group.SORT_ASCENDING);
+    };
+
+    eventResponses.start_dungeon = (data) => {
+        _this.GUI.startDungeonTimer(data.timeLimitMinutes);
+    };
+
+    eventResponses.change_board = function (data) {
+        //console.log("change board, data:", data);
+        _this.dynamicsData = data.dynamicsData;
+        _this.boardAlwaysNight = data.boardAlwaysNight;
+        _this.player.row = data.playerRow;
+        _this.player.col = data.playerCol;
+
+        // They might be leaving a dungeon, so stop the dungeon timer if it is running.
+        if (!data.boardIsDungeon) {
+            _this.GUI.stopDungeonTimer();
+            _this.GUI.updateDungeonKeysList({});
+        }
+
+        /* TODO if(_this.boardAlwaysNight === false){
+            // Make the darkness layer invisible during day time.
+            if(_this.dayPhase === _this.DayPhases.Day){
+                let row,
+                    col,
+                    darknessGrid = _this.tilemap.darknessGrid;
+    
+                for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
+                    for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
+                        darknessGrid[row][col].alpha = 0;
+                    }
+                }
+            }
+        }*/
+
+        // Load the map with the given board name.
+        _this.tilemap.loadMap(data.boardName);
+
+        // Remove the old entities.
+        const dynamics = _this.dynamics;
+        for (let key in dynamics) {
+            if (dynamics.hasOwnProperty(key) === false) continue;
+            _this.removeDynamic(key);
+        }
+
+        // Add the new entities.
+        const dynamicsData = _this.dynamicsData;
+        for (let i = 0; i < dynamicsData.length; i += 1) {
+            _this.addEntity(dynamicsData[i]);
+        }
+
+        // Lock the camera to the player sprite.
+        _this.camera.follow(_this.dynamics[_this.player.entityId].sprite.baseSprite);
+
+        // Refresh the darkness grid.
+        _this.tilemap.updateDarknessGrid();
+
+        // Hide any open panels.
+        _this.GUI.hideAllPanels();
+    };
+
+    eventResponses.change_day_phase = function (data) {
+        //console.log("changing day phase:", data);
+        _this.dayPhase = data;
+
+        if (_this.boardAlwaysNight === false) {
+            // Make the darkness layer invisible during day time.
+            if (_this.dayPhase === _this.DayPhases.Day) {
+                let row,
+                    col,
+                    darknessGrid = _this.tilemap.darknessGrid;
+
+                for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
+                    for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
+                        darknessGrid[row][col].alpha = 0;
+                    }
                 }
             }
         }
-    }*/
 
-    // Load the map with the given board name.
-    _this.tilemap.loadMap(data.boardName);
+        _this.tilemap.updateDarknessGrid();
+    };
 
-    // Remove the old entities.
-    const dynamics = _this.dynamics;
-    for(let key in dynamics){
-        if(dynamics.hasOwnProperty(key) === false) continue;
-        _this.removeDynamic(key);
-    }
-
-    // Add the new entities.
-    const dynamicsData = _this.dynamicsData;
-    for(let i=0; i<dynamicsData.length; i+=1){
-        _this.addEntity(dynamicsData[i]);
-    }
-
-    // Lock the camera to the player sprite.
-    _this.camera.follow(_this.dynamics[_this.player.entityId].sprite.baseSprite);
-
-    // Refresh the darkness grid.
-    _this.tilemap.updateDarknessGrid();
-};
-
-eventResponses.change_day_phase = function (data) {
-    //console.log("changing day phase:", data);
-    _this.dayPhase = data;
-
-    if(_this.boardAlwaysNight === false){
-        // Make the darkness layer invisible during day time.
-        if(_this.dayPhase === _this.DayPhases.Day){
-            let row,
-                col,
-                darknessGrid = _this.tilemap.darknessGrid;
-
-            for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
-                for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
-                    darknessGrid[row][col].alpha = 0;
-                }
-            }
+    eventResponses.hit_point_value = function (data) {
+        _this.player.hitPoints = data;
+        if (_this.player.hitPoints <= 0) {
+            _this.GUI.respawnPanel.show();
         }
-    }
+        _this.GUI.updateHitPointCounters();
+    };
 
-    _this.tilemap.updateDarknessGrid();
-};
+    eventResponses.energy_value = function (data) {
+        _this.player.energy = data;
+        _this.GUI.updateEnergyCounters();
+    };
 
-eventResponses.hit_point_value = function (data) {
-    _this.player.hitPoints = data;
-    if(_this.player.hitPoints <= 0){
-        _this.GUI.respawnPanel.show();
-    }
-    _this.GUI.updateHitPointCounters();
-};
+    eventResponses.defence_value = function (data) {
+        _this.player.defence = data;
+        _this.GUI.updateDefenceCounters();
+    };
 
-eventResponses.energy_value = function (data) {
-    _this.player.energy = data;
-    _this.GUI.updateEnergyCounters();
-};
+    eventResponses.glory_value = function (data) {
+        _this.GUI.updateGloryCounter(data);
+    };
 
-eventResponses.defence_value = function (data) {
-    _this.player.defence = data;
-    _this.GUI.updateDefenceCounters();
-};
+    eventResponses.durability_value = function (data) {
+        //console.log("durability_value:", data);
+        _this.player.inventory[data.slotKey].updateDurability(data.durability);
+    };
 
-eventResponses.glory_value = function (data) {
-    _this.GUI.updateGloryCounter(data);
-};
+    eventResponses.heal = function (data) {
+        _this.dynamics[data.id].sprite.onHitPointsModified(data.amount);
+    };
 
-eventResponses.durability_value = function (data) {
-    //console.log("durability_value:", data);
-    _this.player.inventory[data.slotKey].updateDurability(data.durability);
-};
+    eventResponses.damage = function (data) {
+        _this.dynamics[data.id].sprite.onHitPointsModified(data.amount);
+    };
 
-eventResponses.heal = function (data) {
-    _this.dynamics[data.id].sprite.onHitPointsModified(data.amount);
-};
+    eventResponses.effect_start_burn = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onBurnStart();
+    };
 
-eventResponses.damage = function (data) {
-    _this.dynamics[data.id].sprite.onHitPointsModified(data.amount);
-};
+    eventResponses.effect_stop_burn = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onBurnStop();
+    };
 
-eventResponses.effect_start_burn = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onBurnStart();
-};
+    eventResponses.effect_start_poison = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onPoisonStart();
+    };
 
-eventResponses.effect_stop_burn = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onBurnStop();
-};
+    eventResponses.effect_stop_poison = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onPoisonStop();
+    };
 
-eventResponses.effect_start_poison = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onPoisonStart();
-};
+    eventResponses.effect_start_health_regen = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onHealthRegenStart();
+    };
 
-eventResponses.effect_stop_poison = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onPoisonStop();
-};
+    eventResponses.effect_stop_health_regen = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onHealthRegenStop();
+    };
 
-eventResponses.effect_start_health_regen = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onHealthRegenStart();
-};
+    eventResponses.effect_start_energy_regen = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onEnergyRegenStart();
+    };
 
-eventResponses.effect_stop_health_regen = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onHealthRegenStop();
-};
+    eventResponses.effect_stop_energy_regen = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onEnergyRegenStop();
+    };
 
-eventResponses.effect_start_energy_regen = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onEnergyRegenStart();
-};
+    eventResponses.effect_start_cured = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onCuredStart();
+    };
 
-eventResponses.effect_stop_energy_regen = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onEnergyRegenStop();
-};
+    eventResponses.effect_stop_cured = function (data) {
+        if (_this.dynamics[data] === undefined) return;
+        _this.dynamics[data].sprite.onCuredStop();
+    };
 
-eventResponses.effect_start_cured = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onCuredStart();
-};
+    eventResponses.player_respawn = function () {
+        _this.player.hitPoints = _this.player.maxHitPoints;
+        _this.player.energy = _this.player.maxEnergy;
+        _this.GUI.respawnPanel.hide();
+        _this.GUI.updateHitPointCounters();
+        _this.GUI.updateEnergyCounters();
+    };
 
-eventResponses.effect_stop_cured = function (data) {
-    if(_this.dynamics[data] === undefined) return;
-    _this.dynamics[data].sprite.onCuredStop();
-};
+    eventResponses.add_entity = function (data) {
+        //console.log("add entity event:", data);
+        if (_this.addEntity === undefined) return;
+        _this.addEntity(data);
+    };
 
-eventResponses.player_respawn = function () {
-    _this.player.hitPoints = _this.player.maxHitPoints;
-    _this.player.energy = _this.player.maxEnergy;
-    _this.GUI.respawnPanel.hide();
-    _this.GUI.updateHitPointCounters();
-    _this.GUI.updateEnergyCounters();
-    window.startPreRoll();
-};
+    eventResponses.remove_entity = function (data) {
+        //console.log("remove entity event:", data);
+        _this.removeDynamic(data);
+    };
 
-eventResponses.add_entity = function (data) {
-    //console.log("add entity event:", data);
-    if(_this.addEntity === undefined) return;
-    _this.addEntity(data);
-};
+    eventResponses.add_entities = function (data) {
+        //console.log("add entities event");
+        for (let i = 0; i < data.length; i += 1) {
+            _this.addEntity(data[i]);
+        }
+    };
 
-eventResponses.remove_entity = function (data) {
-    //console.log("remove entity event:", data);
-    _this.removeDynamic(data);
-};
+    eventResponses.add_item = function (data) {
+        //console.log("add item event:", data);
+        _this.player.inventory[data.slotKey].fill(ItemTypes[data.typeNumber], data.durability, data.maxDurability);
+    };
 
-eventResponses.add_entities = function (data) {
-    //console.log("add entities event");
-    for(let i=0; i<data.length; i+=1){
-        _this.addEntity(data[i]);
-    }
-};
+    eventResponses.remove_item = function (data) {
+        //console.log("remove item event:", data);
+        _this.player.inventory[data].empty();
+    };
 
-eventResponses.add_item = function (data) {
-    //console.log("add item event:", data);
-    _this.player.inventory[data.slotKey].fill(ItemTypes[data.typeNumber], data.durability, data.maxDurability);
-};
+    eventResponses.equip_clothes = function (data) {
+        const clothes = _this.dynamics[data.id].sprite.clothes;
+        clothes.visible = true;
+        clothes.clothesName = ItemTypes[data.typeNumber].idName;
+        clothes.frameName = clothes.clothesFrames[clothes.clothesName][clothes.parent.direction];
+    };
 
-eventResponses.remove_item = function (data) {
-    //console.log("remove item event:", data);
-    _this.player.inventory[data].empty();
-};
+    eventResponses.unequip_clothes = function (data) {
+        //console.log("unequip clothes:", data);
+        _this.dynamics[data].sprite.clothes.visible = false;
+    };
 
-eventResponses.equip_clothes = function (data) {
-    const clothes = _this.dynamics[data.id].sprite.clothes;
-    clothes.visible = true;
-    clothes.clothesName = ItemTypes[data.typeNumber].idName;
-    clothes.frameName = clothes.clothesFrames[clothes.clothesName][clothes.parent.direction];
-};
+    eventResponses.activate_ammunition = function (data) {
+        // Show the equipped icon on the inventory slot.
+        _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/ammunition-icon.png';
+        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
+    };
 
-eventResponses.unequip_clothes = function (data) {
-    //console.log("unequip clothes:", data);
-    _this.dynamics[data].sprite.clothes.visible = false;
-};
+    eventResponses.deactivate_ammunition = function (data) {
+        // Hide the equipped icon on the inventory slot.
+        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+    };
 
-eventResponses.activate_ammunition = function (data) {
-    // Show the equipped icon on the inventory slot.
-    _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/ammunition-icon.png';
-    _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
-};
+    eventResponses.activate_clothing = function (data) {
+        // Show the equipped icon on the inventory slot.
+        _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/clothing-icon.png';
+        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
+    };
 
-eventResponses.deactivate_ammunition = function (data) {
-    // Hide the equipped icon on the inventory slot.
-    _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
-};
+    eventResponses.deactivate_clothing = function (data) {
+        // Hide the equipped icon on the inventory slot.
+        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+    };
 
-eventResponses.activate_clothing = function (data) {
-    // Show the equipped icon on the inventory slot.
-    _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/clothing-icon.png';
-    _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
-};
+    eventResponses.activate_holding = function (data) {
+        _this.player.holdingItem = true;
+        // Show the equipped icon on the inventory slot.
+        _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/holding-icon.png';
+        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
+        // Change the cursor to the attack icon.
+        _this.GUI.gui.className = "attack_cursor";
+    };
 
-eventResponses.deactivate_clothing = function (data) {
-    // Hide the equipped icon on the inventory slot.
-    _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
-};
+    eventResponses.deactivate_holding = function (data) {
+        _this.player.holdingItem = false;
+        // Hide the equipped icon on the inventory slot.
+        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+        _this.GUI.spellBar.hide();
+        // Change the cursor to the normal icon.
+        _this.GUI.gui.className = "normal_cursor";
+    };
 
-eventResponses.activate_holding = function (data) {
-    _this.player.holdingItem = true;
-    // Show the equipped icon on the inventory slot.
-    _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/holding-icon.png';
-    _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
-    // Change the cursor to the attack icon.
-    _this.GUI.gui.className = "attack_cursor";
-};
+    /**
+     *
+     * @param data - The type number of the spell book being held.
+     */
+    eventResponses.activate_spell_book = function (data) {
+        _this.GUI.spellBar.changeSpellBook(data[1]);
+        _this.GUI.spellBar.show();
+    };
 
-eventResponses.deactivate_holding = function (data) {
-    _this.player.holdingItem = false;
-    // Hide the equipped icon on the inventory slot.
-    _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
-    _this.GUI.spellBar.hide();
-    // Change the cursor to the normal icon.
-    _this.GUI.gui.className = "normal_cursor";
-};
+    eventResponses.bank_item_deposited = function (data) {
+        //console.log("bank_item_deposited, data:", data);
+        _this.player.bankManager.addItemToContents(data.slotIndex, ItemTypes[data.typeNumber], data.durability, data.maxDurability);
+    };
 
-/**
- *
- * @param data - The type number of the spell book being held.
- */
-eventResponses.activate_spell_book = function (data) {
-    _this.GUI.spellBar.changeSpellBook(data[1]);
-    _this.GUI.spellBar.show();
-};
+    eventResponses.bank_item_withdrawn = function (data) {
+        //console.log("bank_item_withdrawn, data:", data);
+        _this.player.bankManager.removeItemFromContents(data);
+    };
 
-eventResponses.bank_item_deposited = function (data) {
-    //console.log("bank_item_deposited, data:", data);
-    _this.player.bankManager.addItemToContents(data.slotIndex, ItemTypes[data.typeNumber], data.durability, data.maxDurability);
-};
+    eventResponses.active_state = function (data) {
+        //console.log("active state change:", data);
+        _this.tilemap.updateStaticTile(data, true);
+    };
 
-eventResponses.bank_item_withdrawn = function (data) {
-    //console.log("bank_item_withdrawn, data:", data);
-    _this.player.bankManager.removeItemFromContents(data);
-};
+    eventResponses.inactive_state = function (data) {
+        //console.log("inactive state change:", data);
+        _this.tilemap.updateStaticTile(data, false);
+    };
 
-eventResponses.active_state = function (data) {
-    //console.log("active state change:", data);
-    _this.tilemap.updateStaticTile(data, true);
-};
+    eventResponses.change_direction = function (data) {
+        //console.log("change_direction:", data);
+        // Check the entity id is valid.
+        const dynamic = _this.dynamics[data.id];
+        if (dynamic === undefined) return;
 
-eventResponses.inactive_state = function (data) {
-    //console.log("inactive state change:", data);
-    _this.tilemap.updateStaticTile(data, false);
-};
+        const sprite = dynamic.sprite;
+        // Some sprites show their direction by having different frames, others by rotating.
+        if (sprite.baseFrames !== undefined) {
+            sprite.baseSprite.frameName = sprite.baseFrames[data.direction];
+        }
+        if (sprite.directionAngles !== undefined) {
+            sprite.angle = sprite.directionAngles[data.direction];
+        }
+        if (sprite.clothes !== undefined) {
+            sprite.clothes.frameName = sprite.clothes.clothesFrames[sprite.clothes.clothesName][data.direction];
+            sprite.clothes.animations.stop();
+        }
+        sprite.direction = data.direction;
+        sprite.onChangeDirection();
+    };
 
-eventResponses.change_direction = function (data) {
-    //console.log("change_direction:", data);
-    // Check the entity id is valid.
-    const dynamic = _this.dynamics[data.id];
-    if(dynamic === undefined) return;
+    eventResponses.curse_set = function (data) {
+        const dynamic = _this.dynamics[data];
+        if (dynamic === undefined) return;
+        dynamic.sprite.curseIcon.visible = true;
+    };
 
-    const sprite = dynamic.sprite;
-    // Some sprites show their direction by having different frames, others by rotating.
-    if(sprite.baseFrames !== undefined){
-        sprite.baseSprite.frameName = sprite.baseFrames[data.direction];
-    }
-    if(sprite.directionAngles !== undefined){
-        sprite.angle = sprite.directionAngles[data.direction];
-    }
-    if(sprite.clothes !== undefined){
-        sprite.clothes.frameName = sprite.clothes.clothesFrames[sprite.clothes.clothesName][data.direction];
-        sprite.clothes.animations.stop();
-    }
-    sprite.direction = data.direction;
-    sprite.onChangeDirection();
-};
+    eventResponses.curse_removed = function (data) {
+        const dynamic = _this.dynamics[data];
+        if (dynamic === undefined) return;
+        dynamic.sprite.curseIcon.visible = false;
+    };
 
-eventResponses.curse_set = function (data) {
-    const dynamic = _this.dynamics[data];
-    if(dynamic === undefined) return;
-    dynamic.sprite.curseIcon.visible = true;
-};
+    eventResponses.enchantment_set = function (data) {
+        const dynamic = _this.dynamics[data];
+        if (dynamic === undefined) return;
+        dynamic.sprite.enchantmentIcon.visible = true;
+    };
 
-eventResponses.curse_removed = function (data) {
-    const dynamic = _this.dynamics[data];
-    if(dynamic === undefined) return;
-    dynamic.sprite.curseIcon.visible = false;
-};
+    eventResponses.enchantment_removed = function (data) {
+        const dynamic = _this.dynamics[data];
+        if (dynamic === undefined) return;
+        dynamic.sprite.enchantmentIcon.visible = false;
+    };
 
-eventResponses.enchantment_set = function (data) {
-    const dynamic = _this.dynamics[data];
-    if(dynamic === undefined) return;
-    dynamic.sprite.enchantmentIcon.visible = true;
-};
+    eventResponses.chat = function (data) {
+        //console.log("chat:", data);
+        _this.chat(data.id, data.message);
+    };
 
-eventResponses.enchantment_removed = function (data) {
-    const dynamic = _this.dynamics[data];
-    if(dynamic === undefined) return;
-    dynamic.sprite.enchantmentIcon.visible = false;
-};
+    eventResponses.chat_warning = function (data) {
+        _this.chat(undefined, dungeonz.getTextDef(ChatWarnings[data]), "#ffa54f");
+    };
 
-eventResponses.chat = function (data) {
-    //console.log("chat:", data);
-    _this.chat(data.id, data.message);
-};
+    eventResponses.cannot_drop_here = function () {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Drop item blocked warning"));
+    };
 
-eventResponses.chat_warning = function (data) {
-    _this.chat(undefined, dungeonz.getTextDef(ChatWarnings[data]), "#ffa54f");
-};
+    eventResponses.item_broken = function () {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Item broken warning"));
+    };
 
-eventResponses.cannot_drop_here = function () {
-    _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Drop item blocked warning"));
-};
+    eventResponses.inventory_full = function () {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Inventory full warning"));
+    };
 
-eventResponses.item_broken = function () {
-    _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Item broken warning"));
-};
+    eventResponses.hatchet_needed = function () {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Hatchet needed warning"));
+    };
 
-eventResponses.inventory_full = function () {
-    _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Inventory full warning"));
-};
+    eventResponses.pickaxe_needed = function () {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Pickaxe needed warning"));
+    };
 
-eventResponses.hatchet_needed = function () {
-    _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Hatchet needed warning"));
-};
+    eventResponses.exp_gained = function (data) {
+        //console.log("exp gained, data:", data);
+        _this.player.stats.list[data.statName].modExp(data.exp);
+    };
 
-eventResponses.pickaxe_needed = function () {
-    _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Pickaxe needed warning"));
-};
+    eventResponses.stat_levelled = function (data) {
+        //console.log("stat levelled, data:", data);
+        _this.player.stats.list[data.statName].levelUp(data.level, data.nextLevelExpRequirement);
+    };
 
-eventResponses.exp_gained = function (data) {
-    //console.log("exp gained, data:", data);
-    _this.player.stats.list[data.statName].modExp(data.exp);
-};
+    eventResponses.parties = function (data) {
+        _this.GUI.dungeonPanel.updateParties(data);
+    };
 
-eventResponses.stat_levelled = function (data) {
-    //console.log("stat levelled, data:", data);
-    _this.player.stats.list[data.statName].levelUp(data.level, data.nextLevelExpRequirement);
-};
+    eventResponses.dungeon_door_keys = (data) => {
+        _this.GUI.updateDungeonKeysList(data);
+    };
 
-eventResponses.shop_prices = function (data) {
-    //console.log("shop prices, data:", data);
-    _this.GUI.shopPanel.updatePrices(data);
-};
+    eventResponses.shop_prices = function (data) {
+        //console.log("shop prices, data:", data);
+        _this.GUI.shopPanel.updatePrices(data);
+    };
 
-eventResponses.clan_joined = function (data) {
-    //console.log("clan joined, data:", data);
-    _this.clanManager.memberJoined(data);
-};
+    eventResponses.clan_joined = function (data) {
+        //console.log("clan joined, data:", data);
+        _this.clanManager.memberJoined(data);
+    };
 
-// A member was kicked from the clan. Might have been this player.
-eventResponses.clan_kicked = function (data) {
-    //console.log("clan kicked, data:", data);
-    _this.clanManager.memberKicked(data);
-};
+    // A member was kicked from the clan. Might have been this player.
+    eventResponses.clan_kicked = function (data) {
+        //console.log("clan kicked, data:", data);
+        _this.clanManager.memberKicked(data);
+    };
 
-// Another member left the clan.
-eventResponses.clan_left = function (data) {
-    //console.log("clan left, data:", data);
-    _this.clanManager.memberLeft(data);
-};
+    // Another member left the clan.
+    eventResponses.clan_left = function (data) {
+        //console.log("clan left, data:", data);
+        _this.clanManager.memberLeft(data);
+    };
 
-eventResponses.clan_promoted = function (data) {
-    //console.log("clan promoted, data:", data);
-    _this.clanManager.promoteMember(data);
-};
+    eventResponses.clan_promoted = function (data) {
+        //console.log("clan promoted, data:", data);
+        _this.clanManager.promoteMember(data);
+    };
 
-eventResponses.clan_destroyed = function (data) {
-    //console.log("clan destroyed, data:", data);
-    _this.clanManager.destroyed();
-};
+    eventResponses.clan_destroyed = function (data) {
+        //console.log("clan destroyed, data:", data);
+        _this.clanManager.destroyed();
+    };
 
-eventResponses.clan_values = function (data) {
-    //console.log("clan values, data:", data);
-    _this.GUI.clanPanel.updateValues(data);
-};
+    eventResponses.clan_values = function (data) {
+        //console.log("clan values, data:", data);
+        _this.GUI.clanPanel.updateValues(data);
+    };
 
-eventResponses.task_progress_made = function (data) {
-    //console.log("task progresss made, data:", data);
-    _this.GUI.tasksPanel.updateTaskProgress(data.taskID, data.progress);
-};
+    eventResponses.task_progress_made = function (data) {
+        //console.log("task progresss made, data:", data);
+        _this.GUI.tasksPanel.updateTaskProgress(data.taskID, data.progress);
+    };
 
-eventResponses.task_claimed = function (data) {
-    //console.log("task claimed, data:", data);
-    _this.GUI.tasksPanel.removeTask(data);
-};
+    eventResponses.task_claimed = function (data) {
+        //console.log("task claimed, data:", data);
+        _this.GUI.tasksPanel.removeTask(data);
+    };
 
-eventResponses.task_added = function (data) {
-    //console.log("task added, data:", data);
-    if(_this.GUI === undefined) return;
+    eventResponses.task_added = function (data) {
+        //console.log("task added, data:", data);
+        if (_this.GUI === undefined) return;
 
-    _this.GUI.tasksPanel.addTask(data);
-};
+        _this.GUI.tasksPanel.addTask(data);
+    };
 
 };

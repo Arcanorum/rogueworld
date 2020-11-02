@@ -16,6 +16,6 @@ ItemSuperFireStaff.prototype.baseValue = 50;
 ItemSuperFireStaff.prototype.category = Weapon.prototype.categories.Weapon;
 ItemSuperFireStaff.prototype.baseDurability = 30;
 ItemSuperFireStaff.prototype.useDurabilityCost = 1;
-ItemSuperFireStaff.prototype.useEnergyCost = 2;
+ItemSuperFireStaff.prototype.useEnergyCost = 3;
 ItemSuperFireStaff.prototype.expGivenStatName = ItemSuperFireStaff.prototype.StatNames.Magic;
 ItemSuperFireStaff.prototype.canUseIntoHighBlockedTile = false;

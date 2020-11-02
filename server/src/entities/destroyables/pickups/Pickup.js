@@ -19,8 +19,11 @@ class Pickup extends Destroyable {
 
         this.maxDurability = config.maxDurability || config.durability || null;
 
-        // A timer to auto destroy this item if it isn't picked up within the given time.
-        this.lifespanTimeout = setTimeout(this.destroy.bind(this), 1000 * 60);
+        // Add a self-destruct timer to pickups that are not in a dungeon.
+        if(!this.board.dungeon){
+            // A timer to auto destroy this item if it isn't picked up within the given time.
+            this.lifespanTimeout = setTimeout(this.destroy.bind(this), 1000 * 60);
+        }
     }
 
     onDestroy () {
@@ -64,6 +67,8 @@ Pickup.prototype.spawner = null;
  * @type {Number}
  */
 Pickup.prototype.dropRate = 20;
+
+Pickup.prototype.spawnRate = 20000;
 
 module.exports = Pickup;
 

@@ -27,7 +27,7 @@ class PanelTemplate {
         // Add the top left icon border that gives a backing to the panel specific icon.
         const iconBorder = document.createElement('img');
         iconBorder.className = 'centered panel_template_icon_border';
-        iconBorder.src = 'assets/img/gui/panels/panel_icon_border.png';
+        iconBorder.src = 'assets/img/gui/panels/panel-icon-border.png';
         iconBorder.draggable = false;
         this.mainContainer.appendChild(iconBorder);
 
@@ -56,7 +56,7 @@ class PanelTemplate {
             // Add a top right corner in place of the button.
             const topCorner = document.createElement('img');
             topCorner.className = 'centered panel_template_top_corner';
-            topCorner.src = 'assets/img/gui/panels/panel_corner.png';
+            topCorner.src = 'assets/img/gui/panels/panel-corner.png';
             topCorner.draggable = false;
             this.mainContainer.appendChild(topCorner);
         }
@@ -64,7 +64,7 @@ class PanelTemplate {
             // Add the close button.
             const closeButton = document.createElement('img');
             closeButton.className = 'centered panel_template_close_button';
-            closeButton.src = 'assets/img/gui/panels/panel_close_button.png';
+            closeButton.src = 'assets/img/gui/panels/panel-close-button.png';
             closeButton.onclick = this.hide.bind(this);
             closeButton.draggable = false;
             this.mainContainer.appendChild(closeButton);
@@ -73,13 +73,13 @@ class PanelTemplate {
         // Add the bottom corners.
         const leftCorner = document.createElement('img');
         leftCorner.className = 'centered panel_template_left_corner';
-        leftCorner.src = 'assets/img/gui/panels/panel_corner.png';
+        leftCorner.src = 'assets/img/gui/panels/panel-corner.png';
         leftCorner.draggable = false;
         this.mainContainer.appendChild(leftCorner);
 
         const rightCorner = document.createElement('img');
         rightCorner.className = 'centered panel_template_right_corner';
-        rightCorner.src = 'assets/img/gui/panels/panel_corner.png';
+        rightCorner.src = 'assets/img/gui/panels/panel-corner.png';
         rightCorner.draggable = false;
         this.mainContainer.appendChild(rightCorner);
 

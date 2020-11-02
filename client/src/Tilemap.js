@@ -3,7 +3,7 @@ import addStaticTile from './Statics'
 
 class Tilemap {
 
-    constructor (game) {
+    constructor(game) {
         this.game = game;
         // The frame on the ground tileset that is all black.
         this.blackFrame = 4;
@@ -22,7 +22,7 @@ class Tilemap {
         this.createBorders();
     }
 
-    createGroundGrid () {
+    createGroundGrid() {
         // Use a single bitmapdata as the base texture of the grid graphic, instead of many individual sprites.
         this.groundGridBitmapData = this.game.make.bitmapData(dungeonz.VIEW_DIAMETER * dungeonz.TILE_SIZE, dungeonz.VIEW_DIAMETER * dungeonz.TILE_SIZE);
 
@@ -37,7 +37,7 @@ class Tilemap {
     }
 
 
-    createStaticsGrid () {
+    createStaticsGrid() {
         // Use a single bitmapdata as the base texture of the grid graphic, instead of many individual sprites.
         this.staticsGridBitmapData = this.game.make.bitmapData(dungeonz.VIEW_DIAMETER * dungeonz.TILE_SIZE, dungeonz.VIEW_DIAMETER * dungeonz.TILE_SIZE);
 
@@ -51,7 +51,7 @@ class Tilemap {
         this.staticsGridGraphic.y = this.game.player.row * dungeonz.TILE_SCALE + (dungeonz.TILE_SCALE * 0.5);
     }
 
-    createDarknessGrid () {
+    createDarknessGrid() {
         this.darknessGrid = [];
         this.darknessGridGroup = this.game.add.group();
 
@@ -62,15 +62,15 @@ class Tilemap {
             tile,
             darknessValue = 1;
 
-        if(this.game.boardAlwaysNight === false){
-            if(this.game.dayPhase === this.game.DayPhases.Day) darknessValue = 0;
-            if(this.game.dayPhase === this.game.DayPhases.Dawn) darknessValue = 0.5;
-            if(this.game.dayPhase === this.game.DayPhases.Dusk) darknessValue = 0.5;
+        if (this.game.boardAlwaysNight === false) {
+            if (this.game.dayPhase === this.game.DayPhases.Day) darknessValue = 0;
+            if (this.game.dayPhase === this.game.DayPhases.Dawn) darknessValue = 0.5;
+            if (this.game.dayPhase === this.game.DayPhases.Dusk) darknessValue = 0.5;
         }
 
-        for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
+        for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
             this.darknessGrid.push([]);
-            for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
+            for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
                 tile = this.game.add.sprite(16 * GAME_SCALE * col, 16 * GAME_SCALE * row, 'ground-tileset', this.blackFrame);
                 tile.scale.setTo(GAME_SCALE);
                 tile.alpha = darknessValue;
@@ -87,31 +87,31 @@ class Tilemap {
      * Creates a sprite for each edge of the screen that covers that edge.
      * Used to hide the ugly transition pop-in of new tiles/entities during the player move tween.
      */
-    createBorders () {
+    createBorders() {
         this.bordersGroup = this.game.add.group();
 
         const gridSize = dungeonz.TILE_SCALE * dungeonz.VIEW_DIAMETER + (dungeonz.TILE_SCALE * 2);
         const thickness = (dungeonz.TILE_SCALE * 2) + 32;
         // Top.
-        this.topBorderSprite =      this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
+        this.topBorderSprite = this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
         this.topBorderSprite.width = gridSize;
         this.topBorderSprite.height = thickness;
         this.topBorderSprite.anchor.setTo(0.5);
         this.topBorderSprite.fixedToCamera = true;
         // Bottom.
-        this.bottomBorderSprite =   this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
+        this.bottomBorderSprite = this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
         this.bottomBorderSprite.width = gridSize;
         this.bottomBorderSprite.height = thickness;
         this.bottomBorderSprite.anchor.setTo(0.5);
         this.bottomBorderSprite.fixedToCamera = true;
         // Left.
-        this.leftBorderSprite =     this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
+        this.leftBorderSprite = this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
         this.leftBorderSprite.height = gridSize;
         this.leftBorderSprite.width = thickness;
         this.leftBorderSprite.anchor.setTo(0.5);
         this.leftBorderSprite.fixedToCamera = true;
         // Right.
-        this.rightBorderSprite =    this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
+        this.rightBorderSprite = this.game.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
         this.rightBorderSprite.height = gridSize;
         this.rightBorderSprite.width = thickness;
         this.rightBorderSprite.anchor.setTo(0.5);
@@ -123,10 +123,10 @@ class Tilemap {
     /**
      * Sets the black border sprites (that hide the move transition pop-in) to be at the edges of the screen.
      */
-    updateBorders () {
+    updateBorders() {
         const halfWindowWidth = window.innerWidth / 2;
         const halfWindowHeight = window.innerHeight / 2;
-        const gridRangeSize = dungeonz.TILE_SCALE * (dungeonz.VIEW_RANGE+1);
+        const gridRangeSize = dungeonz.TILE_SCALE * (dungeonz.VIEW_RANGE + 1);
         const halfTileScale = dungeonz.TILE_SCALE / 2;
         // When the window resized, set the border covers to be the width/height of the window.
         // Also move them along to be at the edge of the view range to put them to the edge of the tiled area.
@@ -146,7 +146,7 @@ class Tilemap {
     /**
      * Updates the whole ground grid. Used at init and board change. Use the edge ones for player movement.
      */
-    updateGroundGrid () {
+    updateGroundGrid() {
         let row,
             col,
             playerRow = this.game.player.row,
@@ -159,12 +159,12 @@ class Tilemap {
             viewDiameter = dungeonz.VIEW_DIAMETER;
 
         // Change the pixel data of the ground bitmap for each tile within the player's view diameter.
-        for(row=0; row<viewDiameter; row+=1){
+        for (row = 0; row < viewDiameter; row += 1) {
 
-            for(col=0; col<viewDiameter; col+=1){
+            for (col = 0; col < viewDiameter; col += 1) {
                 // Check the cell to view is in the current map bounds.
-                if(currentMapGroundGrid[playerRow + row - viewRange] !== undefined){
-                    if(currentMapGroundGrid[playerRow + row - viewRange][playerCol + col - viewRange] !== undefined){
+                if (currentMapGroundGrid[playerRow + row - viewRange] !== undefined) {
+                    if (currentMapGroundGrid[playerRow + row - viewRange][playerCol + col - viewRange] !== undefined) {
                         groundDrawingSprite.frame = currentMapGroundGrid[playerRow + row - viewRange][playerCol + col - viewRange];
                         groundGridBitmapData.draw(groundDrawingSprite, col * tileSize, row * tileSize);
                         continue;
@@ -180,7 +180,7 @@ class Tilemap {
     /**
      * Updates the bitmapdata around the edge in the direction that was moved in, as the rest of the data is just shifted and wraps back around.
      */
-    updateGroundGridEdgeTop () {
+    updateGroundGridEdgeTop() {
         const row = 0,
             playerCol = this.game.player.col,
             groundGridBitmapData = this.groundGridBitmapData,
@@ -192,10 +192,10 @@ class Tilemap {
             targetRow = this.game.player.row + row - viewRange;
         let col;
 
-        for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
+        for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
             // Check the cell to view is in the current map bounds.
-            if(currentMapGroundGrid[targetRow] !== undefined){
-                if(currentMapGroundGrid[targetRow][playerCol + col - viewRange] !== undefined){
+            if (currentMapGroundGrid[targetRow] !== undefined) {
+                if (currentMapGroundGrid[targetRow][playerCol + col - viewRange] !== undefined) {
                     groundDrawingSprite.frame = currentMapGroundGrid[targetRow][playerCol + col - viewRange];
                     groundGridBitmapData.draw(groundDrawingSprite, col * tileSize, rowPosition);
                     continue;
@@ -207,8 +207,8 @@ class Tilemap {
         }
     }
 
-    updateGroundGridEdgeBottom () {
-        const row = dungeonz.VIEW_DIAMETER-1,
+    updateGroundGridEdgeBottom() {
+        const row = dungeonz.VIEW_DIAMETER - 1,
             playerCol = this.game.player.col,
             groundGridBitmapData = this.groundGridBitmapData,
             groundDrawingSprite = this.groundDrawingSprite,
@@ -219,10 +219,10 @@ class Tilemap {
             targetRow = this.game.player.row + row - viewRange;
         let col;
 
-        for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
+        for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
             // Check the cell to view is in the current map bounds.
-            if(currentMapGroundGrid[targetRow] !== undefined){
-                if(currentMapGroundGrid[targetRow][playerCol + col - viewRange] !== undefined){
+            if (currentMapGroundGrid[targetRow] !== undefined) {
+                if (currentMapGroundGrid[targetRow][playerCol + col - viewRange] !== undefined) {
                     groundDrawingSprite.frame = currentMapGroundGrid[targetRow][playerCol + col - viewRange];
                     groundGridBitmapData.draw(groundDrawingSprite, col * tileSize, rowPosition);
                     continue;
@@ -234,7 +234,7 @@ class Tilemap {
         }
     }
 
-    updateGroundGridEdgeLeft () {
+    updateGroundGridEdgeLeft() {
         const col = 0,
             playerRow = this.game.player.row,
             groundGridBitmapData = this.groundGridBitmapData,
@@ -246,10 +246,10 @@ class Tilemap {
             targetCol = this.game.player.col + col - viewRange;
         let row;
 
-        for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
+        for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
             // Check the cell to view is in the current map bounds.
-            if(currentMapGroundGrid[playerRow + row - viewRange] !== undefined){
-                if(currentMapGroundGrid[playerRow + row - viewRange][targetCol] !== undefined){
+            if (currentMapGroundGrid[playerRow + row - viewRange] !== undefined) {
+                if (currentMapGroundGrid[playerRow + row - viewRange][targetCol] !== undefined) {
                     groundDrawingSprite.frame = currentMapGroundGrid[playerRow + row - viewRange][targetCol];
                     groundGridBitmapData.draw(groundDrawingSprite, colPosition, row * tileSize);
                     continue;
@@ -261,8 +261,8 @@ class Tilemap {
         }
     }
 
-    updateGroundGridEdgeRight () {
-        const col = dungeonz.VIEW_DIAMETER-1,
+    updateGroundGridEdgeRight() {
+        const col = dungeonz.VIEW_DIAMETER - 1,
             playerRow = this.game.player.row,
             groundGridBitmapData = this.groundGridBitmapData,
             groundDrawingSprite = this.groundDrawingSprite,
@@ -273,10 +273,10 @@ class Tilemap {
             targetCol = this.game.player.col + col - viewRange;
         let row;
 
-        for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
+        for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
             // Check the cell to view is in the current map bounds.
-            if(currentMapGroundGrid[playerRow + row - viewRange] !== undefined){
-                if(currentMapGroundGrid[playerRow + row - viewRange][targetCol] !== undefined){
+            if (currentMapGroundGrid[playerRow + row - viewRange] !== undefined) {
+                if (currentMapGroundGrid[playerRow + row - viewRange][targetCol] !== undefined) {
                     groundDrawingSprite.frame = currentMapGroundGrid[playerRow + row - viewRange][targetCol];
                     groundGridBitmapData.draw(groundDrawingSprite, colPosition, row * tileSize);
                     continue;
@@ -291,7 +291,7 @@ class Tilemap {
     /**
      * Updates the whole statics grid. Used at init and board change. Use the edge ones for player movement.
      */
-    updateStaticsGrid () {
+    updateStaticsGrid() {
         //console.log("update statics grid: ", this.currentMapStaticsGrid);
         const playerRow = this.game.player.row,
             playerCol = this.game.player.col,
@@ -308,18 +308,18 @@ class Tilemap {
             staticTile;
 
         // Change the frames of the static entities for each tile within the player's view diameter.
-        for(row=0; row<viewDiameter; row+=1){
+        for (row = 0; row < viewDiameter; row += 1) {
             targetRow = playerRow + row - viewRange;
-            for(col=0; col<viewDiameter; col+=1){
+            for (col = 0; col < viewDiameter; col += 1) {
                 targetCol = playerCol + col - viewRange;
                 // Clear all spaces on the bitmap data where a static might go, so there isn't a previous one still shown there.
                 staticsGridBitmapData.clear(col * tileSize, row * tileSize, tileSize, tileSize);
                 // Check the cell row to view is in the current map bounds. Do this after clear otherwise previous statics won't be cleared.
-                if(currentMapStaticsGrid[targetRow] === undefined) continue;
+                if (currentMapStaticsGrid[targetRow] === undefined) continue;
                 // Check the cell column to view is in the current map bounds.
-                if(currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
+                if (currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
                 // Check it isn't an empty tile. i.e. no static entity there.
-                if(currentMapStaticsGrid[targetRow][targetCol][0] === 0) continue;
+                if (currentMapStaticsGrid[targetRow][targetCol][0] === 0) continue;
                 // Add a static entity to the statics list, so it can have state changes applied.
                 staticTile = addStaticTile(targetRow, targetCol, currentMapStaticsGrid[targetRow][targetCol]);
                 // Show the sprite at this tile position.
@@ -329,7 +329,7 @@ class Tilemap {
         }
     }
 
-    updateStaticsGridEdgeTop () {
+    updateStaticsGridEdgeTop() {
         const row = 0,
             playerCol = this.game.player.col,
             staticsGridBitmapData = this.staticsGridBitmapData,
@@ -343,16 +343,16 @@ class Tilemap {
             targetCol,
             staticTile;
 
-        for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
+        for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
             targetCol = playerCol + col - viewRange;
             // Clear all spaces on the bitmap data where a static might go, so there isn't a previous one still shown there.
             staticsGridBitmapData.clear(col * tileSize, rowPosition, tileSize, tileSize);
             // Check the cell row to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow] === undefined) continue;
             // Check the cell column to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
             // Check it isn't an empty tile. i.e. no static entity there.
-            if(currentMapStaticsGrid[targetRow][targetCol][0] !== 0){
+            if (currentMapStaticsGrid[targetRow][targetCol][0] !== 0) {
                 // Add a static entity to the statics list, so it can have state changes applied.
                 staticTile = addStaticTile(targetRow, targetCol, currentMapStaticsGrid[targetRow][targetCol]);
                 // Show the sprite at this tile position.
@@ -362,8 +362,8 @@ class Tilemap {
         }
     }
 
-    updateStaticsGridEdgeBottom () {
-        const row = dungeonz.VIEW_DIAMETER-1,
+    updateStaticsGridEdgeBottom() {
+        const row = dungeonz.VIEW_DIAMETER - 1,
             playerCol = this.game.player.col,
             staticsGridBitmapData = this.staticsGridBitmapData,
             staticsDrawingSprite = this.staticsDrawingSprite,
@@ -376,16 +376,16 @@ class Tilemap {
             targetCol,
             staticTile;
 
-        for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
+        for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
             targetCol = playerCol + col - viewRange;
             // Clear all spaces on the bitmap data where a static might go, so there isn't a previous one still shown there.
             staticsGridBitmapData.clear(col * tileSize, rowPosition, tileSize, tileSize);
             // Check the cell row to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow] === undefined) continue;
             // Check the cell column to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
             // Check it isn't an empty tile. i.e. no static entity there.
-            if(currentMapStaticsGrid[targetRow][targetCol][0] !== 0){
+            if (currentMapStaticsGrid[targetRow][targetCol][0] !== 0) {
                 // Add a static entity to the statics list, so it can have state changes applied.
                 staticTile = addStaticTile(targetRow, targetCol, currentMapStaticsGrid[targetRow][targetCol]);
                 // Show the sprite at this tile position.
@@ -395,7 +395,7 @@ class Tilemap {
         }
     }
 
-    updateStaticsGridEdgeLeft () {
+    updateStaticsGridEdgeLeft() {
         const col = 0,
             playerRow = this.game.player.row,
             staticsGridBitmapData = this.staticsGridBitmapData,
@@ -409,16 +409,16 @@ class Tilemap {
             targetRow,
             staticTile;
 
-        for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
+        for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
             targetRow = playerRow + row - viewRange;
             // Clear all spaces on the bitmap data where a static might go, so there isn't a previous one still shown there.
             staticsGridBitmapData.clear(colPosition, row * tileSize, tileSize, tileSize);
             // Check the cell row to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow] === undefined) continue;
             // Check the cell column to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
             // Check it isn't an empty tile. i.e. no static entity there.
-            if(currentMapStaticsGrid[targetRow][targetCol][0] !== 0){
+            if (currentMapStaticsGrid[targetRow][targetCol][0] !== 0) {
                 // Add a static entity to the statics list, so it can have state changes applied.
                 staticTile = addStaticTile(targetRow, targetCol, currentMapStaticsGrid[targetRow][targetCol]);
                 // Show the sprite at this tile position.
@@ -428,8 +428,8 @@ class Tilemap {
         }
     }
 
-    updateStaticsGridEdgeRight () {
-        const col = dungeonz.VIEW_DIAMETER-1,
+    updateStaticsGridEdgeRight() {
+        const col = dungeonz.VIEW_DIAMETER - 1,
             playerRow = this.game.player.row,
             staticsGridBitmapData = this.staticsGridBitmapData,
             staticsDrawingSprite = this.staticsDrawingSprite,
@@ -442,16 +442,16 @@ class Tilemap {
             targetRow,
             staticTile;
 
-        for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
+        for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
             targetRow = playerRow + row - viewRange;
             // Clear all spaces on the bitmap data where a static might go, so there isn't a previous one still shown there.
             staticsGridBitmapData.clear(colPosition, row * tileSize, tileSize, tileSize);
             // Check the cell row to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow] === undefined) continue;
             // Check the cell column to view is in the current map bounds.
-            if(currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
+            if (currentMapStaticsGrid[targetRow][targetCol] === undefined) continue;
             // Check it isn't an empty tile. i.e. no static entity there.
-            if(currentMapStaticsGrid[targetRow][targetCol][0] !== 0){
+            if (currentMapStaticsGrid[targetRow][targetCol][0] !== 0) {
                 // Add a static entity to the statics list, so it can have state changes applied.
                 staticTile = addStaticTile(targetRow, targetCol, currentMapStaticsGrid[targetRow][targetCol]);
                 // Show the sprite at this tile position.
@@ -466,11 +466,11 @@ class Tilemap {
      * @param {String} tileID - The unique ID of the target tile. Looks like row-col, "147-258".
      * @param {Boolean} active - Whether the static tile is active. Some tiles can be inactive, such as interactables.
      */
-    updateStaticTile (tileID, active) {
+    updateStaticTile(tileID, active) {
         /** @type {Static} */
         const staticTile = _this.statics[tileID];
         // Cannot update if it doesn't exist.
-        if(staticTile === undefined) return;
+        if (staticTile === undefined) return;
 
         let staticsGridBitmapData = this.staticsGridBitmapData,
             staticsDrawingSprite = this.staticsDrawingSprite,
@@ -478,15 +478,15 @@ class Tilemap {
             targetRow = staticTile.row - _this.player.row + dungeonz.VIEW_RANGE,
             targetCol = staticTile.col - _this.player.col + dungeonz.VIEW_RANGE;
 
-        if(_this.playerTweenDirections.u === true) targetRow -= 1;
-        if(_this.playerTweenDirections.d === true) targetRow += 1;
-        if(_this.playerTweenDirections.l === true) targetCol -= 1;
-        if(_this.playerTweenDirections.r === true) targetCol += 1;
+        if (_this.playerTweenDirections.u === true) targetRow -= 1;
+        if (_this.playerTweenDirections.d === true) targetRow += 1;
+        if (_this.playerTweenDirections.l === true) targetCol -= 1;
+        if (_this.playerTweenDirections.r === true) targetCol += 1;
 
         // Remove all pixel data from the target
         staticsGridBitmapData.clear(targetCol * tileSize, targetRow * tileSize, tileSize, tileSize);
         // Redraw the sprite inactive frame at this tile position.
-        if(active === true){
+        if (active === true) {
             staticsDrawingSprite.frame = staticTile.tileID;
         }
         else {
@@ -496,7 +496,7 @@ class Tilemap {
         staticsGridBitmapData.draw(staticsDrawingSprite, targetCol * tileSize, targetRow * tileSize);
     }
 
-    updateDarknessGrid () {
+    updateDarknessGrid() {
         //console.log("update darkness grid");
 
         // TODO add darkness back
@@ -549,7 +549,7 @@ class Tilemap {
      * @param {Number} colIn
      * @param {Number} radius - The radius of the light.
      */
-    revealDarkness (rowIn, colIn, radius) {
+    revealDarkness(rowIn, colIn, radius) {
         // TODO: figure out daytime darkness for dark areas, caves etc.
         // TODO add darkness back
         /*const radiusPlusOne = radius + 1;
@@ -592,7 +592,7 @@ class Tilemap {
      * Loads a new map. Updates the world display layers.
      * @param {String} boardName
      */
-    loadMap (boardName) {
+    loadMap(boardName) {
         console.log("* Loading map:", boardName);
         this.game.currentBoardName = boardName;
 
@@ -606,11 +606,8 @@ class Tilemap {
         this.mapRows = this.currentMapGroundGrid.length;
         this.mapCols = this.currentMapGroundGrid[0].length;
 
-        //console.log("* Map rows:", this.mapRows);
-        //console.log("* Map cols:", this.mapCols);
-
         // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
-        if(_this.playerTween !== null){
+        if (_this.playerTween !== null) {
             _this.playerTween.stop(true);
         }
 

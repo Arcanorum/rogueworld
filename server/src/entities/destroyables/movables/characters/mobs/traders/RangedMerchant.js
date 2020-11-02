@@ -6,4 +6,4 @@ module.exports = RangedMerchant;
 
 RangedMerchant.prototype.registerEntityType();
 RangedMerchant.prototype.faction = Merchant.prototype.Factions.Citizens;
-RangedMerchant.prototype.shop = new (require('./../../../../../../Shops')).Ranged();
+RangedMerchant.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Ranged();

@@ -6,4 +6,4 @@ module.exports = MagicMerchant;
 
 MagicMerchant.prototype.registerEntityType();
 MagicMerchant.prototype.faction = Merchant.prototype.Factions.Citizens;
-MagicMerchant.prototype.shop = new (require('./../../../../../../Shops')).Magic();
+MagicMerchant.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Magic();

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Dungeonz.io</title>
 
@@ -15,7 +16,8 @@
     <link rel="apple-touch-icon" href="assets/img/misc/home-icon.png">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1, IE=9">
-    <meta name="description" content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
+    <meta name="description"
+        content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
     <meta name="keywords" content="game,io,multiplayer,roguelike,MMO,dungeon,online,games,gaming">
     <meta name="format-detection" content="telephone=no">
     <meta name="HandheldFriendly" content="true" />
@@ -29,7 +31,8 @@
     <meta property="og:title" content="Dungeonz.io">
     <meta property="og:url" content="https://dungeonz.io/">
     <meta property="og:type" content="game">
-    <meta property="og:description" content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
+    <meta property="og:description"
+        content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
     <meta property="og:image" content="http://dungeonz.io/assets/img/misc/share-banner.png">
     <meta property="og:image:width" content="1032">
     <meta property="og:image:height" content="679">
@@ -39,7 +42,8 @@
     <meta property="twitter:creator" content="@waywardworlds">
     <meta property="twitter:url" content="https://dungeonz.io/">
     <meta property="twitter:title" content="Dungeonz.io">
-    <meta property="twitter:description" content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
+    <meta property="twitter:description"
+        content="Dungeonz.io, the free to play massively multiplayer online roguelike io game. Fight with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons. By Wayward Worlds.">
     <meta property="twitter:image" content="http://dungeonz.io/assets/img/misc/share-banner.png">
     <meta property="twitter:image:alt" content="A scene from the game with players fighting monsters.">
 
@@ -49,7 +53,7 @@
 
     <script src="dist/main.js"></script>
 
-    <link rel="stylesheet" href="main.css" type="text/css"/>
+    <link rel="stylesheet" href="main.css" type="text/css" />
 
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
@@ -57,24 +61,14 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111760957-3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'UA-111760957-3');
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-        new Crate({
-            server: '472783630075166751',
-            channel: '529389784821399552',
-            shard: 'https://disweb.deploys.io',
-
-            location: ['bottom', 'left'],
-            defer: true
-        })
-    </script>
-
 </head>
+
 <body style="margin: 0; overflow:hidden;">
     <img id="background_img" src="assets/img/misc/home-background.gif">
     <div id="background_shadow"></div>
@@ -85,101 +79,115 @@
 
             <div id="hp_energy_bars_cont" class="gui_zoomable">
                 <div id="hitpoint_cont" class="inline_cont">
-                    <img id="hitpoint_icon" class="gui_icon" src="assets/img/gui/hud/hitpoint-icon.png" draggable="false">
+                    <img id="hitpoint_icon" class="gui_icon" src="assets/img/gui/hud/hitpoint-icon.png"
+                        draggable="false">
                     <div id="hitpoint_counters"></div>
-                    <div id="hitpoint_tooltip"  class="top_left_tooltip generic_tooltip"></div>
+                    <div id="hitpoint_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
                 <div id="energy_cont" class="inline_cont">
                     <img id="energy_icon" class="gui_icon" src="assets/img/gui/hud/energy-icon.png" draggable="false">
                     <div id="energy_counters"></div>
-                    <div id="energy_tooltip"    class="top_left_tooltip generic_tooltip"></div>
+                    <div id="energy_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
             </div>
 
             <div id="top_left_corner_cont" class="gui_zoomable">
                 <div id="glory_cont" class="inline_cont">
-                    <img id="glory_icon"                class="gui_icon" src="assets/img/gui/hud/glory-icon.png" draggable="false">
-                    <div id="glory_counter"             class="text_counter">100</div>
-                    <div id="glory_counter_transition"  class="text_counter text_counter_transition">100</div>
-                    <div id="glory_tooltip"     class="top_left_tooltip generic_tooltip"></div>
+                    <img id="glory_icon" class="gui_icon" src="assets/img/gui/hud/glory-icon.png" draggable="false">
+                    <div id="glory_counter" class="text_counter">100</div>
+                    <div id="glory_counter_transition" class="text_counter text_counter_transition">100</div>
+                    <div id="glory_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
                 <div id="defence_cont" class="inline_cont">
                     <img id="defence_icon" class="gui_icon" src="assets/img/gui/hud/defence-icon.png" draggable="false">
-                    <div id="defence_counter"   class="text_counter">%0</div>
-                    <div id="defence_tooltip"   class="top_left_tooltip generic_tooltip"></div>
+                    <div id="defence_counter" class="text_counter">0</div>
+                    <div id="defence_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
                 <div id="avatar_cont" class="inline_cont">
-                    <img id="avatar_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/stats-icon.png" draggable="false">
-                    <div id="avatar_tooltip"    class="top_left_tooltip generic_tooltip"></div>
+                    <img id="avatar_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/stats-icon.png"
+                        draggable="false">
+                    <div id="avatar_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
                 <div id="tasks_cont" class="inline_cont">
-                    <img id="tasks_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/tasks-icon.png" draggable="false">
-                    <div id="tasks_tooltip"     class="top_left_tooltip generic_tooltip"></div>
+                    <img id="tasks_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/tasks-icon.png"
+                        draggable="false">
+                    <div id="tasks_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
-                <div id="map_cont" class="inline_cont" onclick="window.open('/assets/img/misc/overworld.png', '_blank');">
-                    <img id="map_icon"  class="gui_icon hand_cursor" src="assets/img/gui/hud/map-icon.png" draggable="false">
-                    <div id="map_tooltip"       class="top_left_tooltip generic_tooltip"></div>
+                <div id="map_cont" class="inline_cont"
+                    onclick="window.open('/assets/img/misc/overworld.png', '_blank');">
+                    <img id="map_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/map-icon.png"
+                        draggable="false">
+                    <div id="map_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
                 <div id="clan_cont" class="inline_cont">
-                    <img id="clan_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/clan-icon.png" draggable="false">
-                    <div id="clan_tooltip"      class="top_left_tooltip generic_tooltip"></div>
+                    <img id="clan_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/clan-icon.png"
+                        draggable="false">
+                    <div id="clan_tooltip" class="top_left_tooltip generic_tooltip"></div>
                 </div>
             </div>
             <div id="top_right_corner_cont" class="gui_zoomable">
                 <div id="exit_cont" class="inline_cont">
-                    <div id="exit_tooltip"      class="top_right_tooltip generic_tooltip"></div>
-                    <img id="exit_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/exit-icon.png" draggable="false">
+                    <div id="exit_tooltip" class="top_right_tooltip generic_tooltip"></div>
+                    <img id="exit_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/exit-icon.png"
+                        draggable="false">
                 </div>
                 <div id="discord_cont" class="inline_cont">
-                    <div id="discord_tooltip"       class="top_right_tooltip generic_tooltip"></div>
-                    <img id="discord_icon"  class="gui_icon hand_cursor" src="assets/img/gui/hud/discord-icon.png" draggable="false"
-                         onclick="window.open('https://discord.gg/7wjyU7B', '_blank');"
-                    >
+                    <div id="discord_tooltip" class="top_right_tooltip generic_tooltip"></div>
+                    <img id="discord_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/discord-icon.png"
+                        draggable="false" onclick="window.open('https://discord.gg/7wjyU7B', '_blank');">
                 </div>
                 <div id="wiki_cont" class="inline_cont">
-                    <div id="wiki_tooltip"      class="top_right_tooltip generic_tooltip"></div>
-                    <img id="wiki_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/wiki-icon.png" draggable="false"
-                         onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');"
-                    >
+                    <div id="wiki_tooltip" class="top_right_tooltip generic_tooltip"></div>
+                    <img id="wiki_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/wiki-icon.png"
+                        draggable="false"
+                        onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');">
                 </div>
             </div>
             <div id="bottom_left_corner_cont" class="gui_zoomable">
             </div>
             <div id="bottom_right_corner_cont" class="gui_zoomable">
                 <div class="inline_cont">
-                    <div id="audio_tooltip"         class="generic_tooltip bottom_right_tooltip"></div>
-                    <img id="audio_minus_icon"      class="gui_icon hand_cursor" src="assets/img/gui/hud/minus-icon.png" draggable="false">
-                    <div id="audio_counter"         class="text_counter"></div>
-                    <img id="audio_plus_icon"       class="gui_icon hand_cursor" src="assets/img/gui/hud/plus-icon.png" draggable="false">
-                    <img id="audio_icon"            class="gui_icon" src="assets/img/gui/hud/audio-icon.png" draggable="false">
+                    <div id="audio_tooltip" class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="audio_minus_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/minus-icon.png"
+                        draggable="false">
+                    <div id="audio_counter" class="text_counter"></div>
+                    <img id="audio_plus_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/plus-icon.png"
+                        draggable="false">
+                    <img id="audio_icon" class="gui_icon" src="assets/img/gui/hud/audio-icon.png" draggable="false">
                 </div>
                 <div class="inline_cont">
-                    <div id="gui_zoom_tooltip"      class="generic_tooltip bottom_right_tooltip"></div>
-                    <img id="gui_zoom_minus_icon"   class="gui_icon hand_cursor" src="assets/img/gui/hud/minus-icon.png" draggable="false">
-                    <div id="gui_zoom_counter"      class="text_counter"></div>
-                    <img id="gui_zoom_plus_icon"    class="gui_icon hand_cursor" src="assets/img/gui/hud/plus-icon.png" draggable="false">
-                    <img id="gui_zoom_icon"         class="gui_icon" src="assets/img/gui/hud/zoom-icon.png" draggable="false">
+                    <div id="gui_zoom_tooltip" class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="gui_zoom_minus_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/minus-icon.png"
+                        draggable="false">
+                    <div id="gui_zoom_counter" class="text_counter"></div>
+                    <img id="gui_zoom_plus_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/plus-icon.png"
+                        draggable="false">
+                    <img id="gui_zoom_icon" class="gui_icon" src="assets/img/gui/hud/zoom-icon.png" draggable="false">
                 </div>
                 <div class="inline_cont">
-                    <div id="virtual_dpad_tooltip"  class="generic_tooltip bottom_right_tooltip"></div>
-                    <img id="virtual_dpad_icon"     class="gui_icon hand_cursor" src="assets/img/gui/hud/virtual-dpad-icon.png" draggable="false">
+                    <div id="virtual_dpad_tooltip" class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="virtual_dpad_icon" class="gui_icon hand_cursor"
+                        src="assets/img/gui/hud/virtual-dpad-icon.png" draggable="false">
                 </div>
                 <div class="inline_cont">
-                    <div id="fullscreen_tooltip"    class="generic_tooltip bottom_right_tooltip"></div>
-                    <img id="fullscreen_icon"       class="gui_icon hand_cursor" src="assets/img/gui/hud/fullscreen-icon.png" draggable="false">
+                    <div id="fullscreen_tooltip" class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="fullscreen_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/fullscreen-icon.png"
+                        draggable="false">
                 </div>
                 <!--<div class="inline_cont">
                     <div id="quick_turn_tooltip"    class="generic_tooltip bottom_right_tooltip"></div>
                     <img id="quick_turn_icon"       class="gui_icon hand_cursor" src="assets/img/gui/hud/turn-icon.png" draggable="false">
                 </div>-->
                 <div class="inline_cont">
-                    <div id="settings_tooltip"      class="generic_tooltip bottom_right_tooltip"></div>
-                    <img id="settings_icon"         class="gui_icon hand_cursor" src="assets/img/gui/hud/settings-icon.png" draggable="false">
+                    <div id="settings_tooltip" class="generic_tooltip bottom_right_tooltip"></div>
+                    <img id="settings_icon" class="gui_icon hand_cursor" src="assets/img/gui/hud/settings-icon.png"
+                        draggable="false">
                 </div>
             </div>
 
             <div id="inventory_tooltip" class="counter_tooltip generic_tooltip gui_zoomable"></div>
-            <img id="inventory_icon" class="gui_icon gui_zoomable" src="assets/img/gui/hud/inventory-icon.png" draggable="false">
+            <img id="inventory_icon" class="gui_icon gui_zoomable" src="assets/img/gui/hud/inventory-icon.png"
+                draggable="false">
 
             <div id="respawn_panel" class="centered panel_template_cont gui_zoomable"></div>
 
@@ -207,6 +215,14 @@
 
             <div id="hint_panel" class="centered panel_template_cont gui_zoomable"></div>
 
+            <div id="dungeon_timer_cont">
+                <div id="dungeon_timer_text">Time remaining:</div>
+                <div id="dungeon_timer_value">243</div>
+            </div>
+            <div id="dungeon_keys_cont">
+                <div id="dungeon_keys_list"></div>
+            </div>
+
             <div id="spell_bar" class="gui_zoomable">
                 <div id="spell_tooltip">
                     <div id="spell_tooltip_name"></div>
@@ -216,10 +232,14 @@
             </div>
 
             <div id="virtual_dpad">
-                <img id="virtual_dpad_up"    draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-up-icon.png">
-                <img id="virtual_dpad_down"  draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-down-icon.png">
-                <img id="virtual_dpad_left"  draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-left-icon.png">
-                <img id="virtual_dpad_right" draggable="false" class="virtual_dpad_hover" src="assets/img/gui/hud/virtual-dpad-right-icon.png">
+                <img id="virtual_dpad_up" draggable="false" class="virtual_dpad_hover"
+                    src="assets/img/gui/hud/virtual-dpad-up-icon.png">
+                <img id="virtual_dpad_down" draggable="false" class="virtual_dpad_hover"
+                    src="assets/img/gui/hud/virtual-dpad-down-icon.png">
+                <img id="virtual_dpad_left" draggable="false" class="virtual_dpad_hover"
+                    src="assets/img/gui/hud/virtual-dpad-left-icon.png">
+                <img id="virtual_dpad_right" draggable="false" class="virtual_dpad_hover"
+                    src="assets/img/gui/hud/virtual-dpad-right-icon.png">
             </div>
 
             <span id="inventory_bar" class="gui_zoomable">
@@ -232,7 +252,7 @@
             </span>
 
         </div>
-        <input id="chat_input" type="text" minLength="1" maxLength="46" placeholder="Enter a message"/>
+        <input id="chat_input" type="text" minLength="1" maxLength="46" placeholder="Enter a message" />
     </div>
 
     <div id="home_cont" class="press_start_font">
@@ -253,16 +273,15 @@
                 <div id="title_cont">
                     <img id="title_img" src="assets/img/misc/dungeonzio-title.png">
                     <div id="new_character_continue_cont">
-                        <div id="new_character" class="title_button_unselected"
-                             onclick="newCharacterPressed()"></div>
-                        <div id="continue" class="title_button_unselected"
-                             onclick="continuePressed()"></div>
+                        <div id="new_character" class="title_button_unselected" onclick="newCharacterPressed()"></div>
+                        <div id="continue" class="title_button_unselected" onclick="continuePressed()"></div>
                     </div>
                     <div id="play_inputs_cont">
                         <input id="name_input" class="home_input" type="text" maxlength="20" autofocus>
                         <input id="username_input" class="home_input" type="text" maxlength="50">
                         <input id="password_input" class="home_input" type="password" maxlength="50">
-                        <img id="show_password" draggable="false" class="show_password_active" src="assets/img/misc/show-icon-active.png" onclick="showPasswordPressed()">
+                        <img id="show_password" draggable="false" class="show_password_active"
+                            src="assets/img/misc/show-icon-active.png" onclick="showPasswordPressed()">
                     </div>
                 </div>
                 <div id="center_button" onclick="playPressed()"></div>
@@ -271,23 +290,27 @@
             <div id="right_bar">
                 <div id="antisocial_bar">
                     <div id="notdiscord_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notdiscord-logo.png" onclick="window.open('https://discord.gg/7wjyU7B', '_blank');">
+                        <img class="antisocial_icon" src="assets/img/misc/notdiscord-logo.png"
+                            onclick="window.open('https://discord.gg/7wjyU7B', '_blank');">
                     </div>
                     <div id="notreddit_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notreddit-logo.png" onclick="window.open('https://www.reddit.com/r/dungeonz/', '_blank');">
+                        <img class="antisocial_icon" src="assets/img/misc/notreddit-logo.png"
+                            onclick="window.open('https://www.reddit.com/r/dungeonz/', '_blank');">
                     </div>
                     <div id="notfacebook_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notfacebook-logo.png" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=dungeonz.io', '_blank');">
+                        <img class="antisocial_icon" src="assets/img/misc/notfacebook-logo.png"
+                            onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=dungeonz.io', '_blank');">
                     </div>
                     <div id="notwiki_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notfandom-logo.png" onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');">
+                        <img class="antisocial_icon" src="assets/img/misc/notfandom-logo.png"
+                            onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');">
                     </div>
                 </div>
                 <div id="news_cont" onclick="window.open('/changelog.txt', '_blank');">
                     <h1 id="news_header">News</h1>
-                    <p id="news_date">20/05/2019</p>
-                    <p id="news_title">Update 5<br>Forest maze</p>
-                    <img id="news_image" draggable="false" src="assets/img/misc/news-20-05-2019.PNG">
+                    <p id="news_date">18/07/2019</p>
+                    <p id="news_title">Update 6<br>Dungeon instances</p>
+                    <img id="news_image" draggable="false" src="assets/img/misc/news-18-07-2020.PNG">
                 </div>
                 <div></div>
                 <div id="renderer_language_cont" class="bottom_texts">
@@ -295,16 +318,18 @@
                     |
                     <span id="language_text">Language</span></div>
                 <ul id="language_list">
-                    <li id="language_english"       class="language_option">English</li>
-                    <li id="language_french"        class="language_option">Français</li>
-                    <li id="language_spanish"       class="language_option">Español</li>
-                    <li id="language_portuguese"    class="language_option">Português do Brasil</li>
-                    <li id="language_turkish"       class="language_option">Türkçe</li>
-                    <li id="language_german"        class="language_option">Deutsch</li>
-                    <li id="language_russian"       class="language_option">русский язык</li>
-                    <li id="language_polish"        class="language_option">Polski</li>
-                    <li id="language_chinese"       class="language_option">中文</li>
-                    <li id="add_translation"        class="language_option" onclick="window.open('https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0', '_blank');"></li>
+                    <li id="language_english" class="language_option">English</li>
+                    <li id="language_french" class="language_option">Français</li>
+                    <li id="language_spanish" class="language_option">Español</li>
+                    <li id="language_portuguese" class="language_option">Português do Brasil</li>
+                    <li id="language_turkish" class="language_option">Türkçe</li>
+                    <li id="language_german" class="language_option">Deutsch</li>
+                    <li id="language_russian" class="language_option">русский язык</li>
+                    <li id="language_polish" class="language_option">Polski</li>
+                    <li id="language_chinese" class="language_option">中文</li>
+                    <li id="add_translation" class="language_option"
+                        onclick="window.open('https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0', '_blank');">
+                    </li>
                 </ul>
             </div>
         </div>
@@ -339,12 +364,12 @@
 
             // Get the code from the client local storage if one exists.
             const storedUsername = localStorage.getItem('username');
-            if(storedUsername !== null){
+            if (storedUsername !== null) {
                 window.newCharacter = false;
                 usernameInput.value = storedUsername;
             }
 
-            function newCharacterPressed () {
+            function newCharacterPressed() {
                 window.newCharacter = true;
                 // Hide the username and password inputs and the button to show/hide the password value.
                 usernameInput.style.display = "none";
@@ -358,7 +383,7 @@
                 continueButton.className = "title_button_unselected";
             }
 
-            function continuePressed () {
+            function continuePressed() {
                 window.newCharacter = false;
                 // Hide the name input.
                 nameInput.style.display = "none";
@@ -372,9 +397,9 @@
                 newCharacterButton.className = "title_button_unselected";
             }
 
-            function showPasswordPressed () {
+            function showPasswordPressed() {
                 // Change the type of the continue code input.
-                if(passwordInput.type === "text"){
+                if (passwordInput.type === "text") {
                     passwordInput.type = "password";
                     // Set the icon image to be the open eye.
                     showPasswordButton.src = "assets/img/misc/show-icon-active.png";
@@ -402,15 +427,15 @@
                 }
             };
 
-            if(window.newCharacter === true){
+            if (window.newCharacter === true) {
                 newCharacterPressed();
             }
             else {
                 continuePressed();
             }
 
-            function partnersPressed () {
-                if(document.getElementById('partners_cont').style.visibility === "visible"){
+            function partnersPressed() {
+                if (document.getElementById('partners_cont').style.visibility === "visible") {
                     document.getElementById('partners_cont').style.visibility = "hidden";
                 }
                 else {
@@ -427,26 +452,26 @@
                 return hashHex;
             };
 
-            async function playPressed () {
+            async function playPressed() {
                 console.log("* Play pressed");
-                if(window.newCharacter === true){
+                if (window.newCharacter === true) {
                     // New character option selected. Start as a new character with the given display name.
                     window.connectToGameServer();
                     // Only attempt to connect if the connection is ready to communicate.
-                    if(ws.readyState === 1){
-                        ws.sendEvent('new_char', {displayName: document.getElementById('name_input').value});
+                    if (ws.readyState === 1) {
+                        ws.sendEvent('new_char', { displayName: document.getElementById('name_input').value });
                     }
                 }
                 else {
                     // Continue as an existing character with the given continue code.
                     window.connectToGameServer();
                     // Only attempt to connect if the connection is ready to communicate.
-                    if(ws.readyState === 1){
+                    if (ws.readyState === 1) {
                         // Check username and password are valid.
                         const username = document.getElementById('username_input').value;
                         const password = document.getElementById('password_input').value;
-                        if(username === "") return;
-                        if(password === "") return;
+                        if (username === "") return;
+                        if (password === "") return;
 
                         const hash = await digestMessage(password); // Encrypt the password before sending.
 
@@ -459,7 +484,7 @@
             }
 
             document.getElementById('language_text').onclick = function (event) {
-                if(document.getElementById('language_list').style.visibility === "visible"){
+                if (document.getElementById('language_list').style.visibility === "visible") {
                     document.getElementById('language_list').style.visibility = "hidden";
                 }
                 else {
@@ -467,45 +492,45 @@
                 }
             };
 
-            function changeLanguage (language) {
+            function changeLanguage(language) {
                 dungeonz.language = language;
 
                 // Update the DOM elements that have text with the values for the selected language.
                 // Home page.
                 //document.getElementById('warning_message').innerText =      dungeonz.getTextDef('Connect game server warning');
-                document.getElementById('language_text').innerText =        dungeonz.getTextDef('Language');
-                document.getElementById('add_translation').innerText =      dungeonz.getTextDef('Add translation');
-                document.getElementById('news_header').innerText =          dungeonz.getTextDef('News');
-                document.getElementById('name_input').placeholder =         dungeonz.getTextDef('Name input');
-                document.getElementById('username_input').placeholder =     "Username"; //dungeonz.getTextDef('Continue code input');
-                document.getElementById('password_input').placeholder =     "Password"; //dungeonz.getTextDef('Continue code input');
-                document.getElementById('new_character').innerText =        dungeonz.getTextDef('New character');
-                document.getElementById('continue').innerText =             dungeonz.getTextDef('Continue');
-                document.getElementById('center_text').innerText =          dungeonz.getTextDef('Play');
+                document.getElementById('language_text').innerText = dungeonz.getTextDef('Language');
+                document.getElementById('add_translation').innerText = dungeonz.getTextDef('Add translation');
+                document.getElementById('news_header').innerText = dungeonz.getTextDef('News');
+                document.getElementById('name_input').placeholder = dungeonz.getTextDef('Name input');
+                document.getElementById('username_input').placeholder = "Username"; //dungeonz.getTextDef('Continue code input');
+                document.getElementById('password_input').placeholder = "Password"; //dungeonz.getTextDef('Continue code input');
+                document.getElementById('new_character').innerText = dungeonz.getTextDef('New character');
+                document.getElementById('continue').innerText = dungeonz.getTextDef('Continue');
+                document.getElementById('center_text').innerText = dungeonz.getTextDef('Play');
                 //document.getElementById('controls_move').innerText =        dungeonz.getTextDef('Controls: move');
                 //document.getElementById('controls_use_held_item').innerText=dungeonz.getTextDef('Controls: use held item');
                 //document.getElementById('controls_pick_up_item').innerText =dungeonz.getTextDef('Controls: pick up item');
                 //document.getElementById('controls_select_item').innerText = dungeonz.getTextDef('Controls: select item');
 
                 // General GUI tooltips.
-                document.getElementById('defence_tooltip').innerText =      dungeonz.getTextDef('Defence tooltip');
-                document.getElementById('hitpoint_tooltip').innerText =     dungeonz.getTextDef('Hitpoint tooltip');
-                document.getElementById('energy_tooltip').innerText =       dungeonz.getTextDef('Energy tooltip');
-                document.getElementById('glory_tooltip').innerText =        dungeonz.getTextDef('Glory tooltip');
-                document.getElementById('avatar_tooltip').innerText =       dungeonz.getTextDef('Avatar tooltip');
-                document.getElementById('tasks_tooltip').innerText =        dungeonz.getTextDef('Tasks tooltip');
-                document.getElementById('map_tooltip').innerText =          dungeonz.getTextDef('Map tooltip');
-                document.getElementById('clan_tooltip').innerText =         dungeonz.getTextDef('Clan tooltip');
-                document.getElementById('inventory_tooltip').innerHTML =    dungeonz.getTextDef('Inventory tooltip');
-                document.getElementById('exit_tooltip').innerHTML =         dungeonz.getTextDef('Exit tooltip');
-                document.getElementById('discord_tooltip').innerHTML =      dungeonz.getTextDef('Discord tooltip');
-                document.getElementById('wiki_tooltip').innerHTML =         dungeonz.getTextDef('Wiki tooltip');
-                document.getElementById('settings_tooltip').innerHTML =     dungeonz.getTextDef('Settings tooltip');
+                document.getElementById('defence_tooltip').innerText = dungeonz.getTextDef('Defence tooltip');
+                document.getElementById('hitpoint_tooltip').innerText = dungeonz.getTextDef('Hitpoint tooltip');
+                document.getElementById('energy_tooltip').innerText = dungeonz.getTextDef('Energy tooltip');
+                document.getElementById('glory_tooltip').innerText = dungeonz.getTextDef('Glory tooltip');
+                document.getElementById('avatar_tooltip').innerText = dungeonz.getTextDef('Avatar tooltip');
+                document.getElementById('tasks_tooltip').innerText = dungeonz.getTextDef('Tasks tooltip');
+                document.getElementById('map_tooltip').innerText = dungeonz.getTextDef('Map tooltip');
+                document.getElementById('clan_tooltip').innerText = dungeonz.getTextDef('Clan tooltip');
+                document.getElementById('inventory_tooltip').innerHTML = dungeonz.getTextDef('Inventory tooltip');
+                document.getElementById('exit_tooltip').innerHTML = dungeonz.getTextDef('Exit tooltip');
+                document.getElementById('discord_tooltip').innerHTML = dungeonz.getTextDef('Discord tooltip');
+                document.getElementById('wiki_tooltip').innerHTML = dungeonz.getTextDef('Wiki tooltip');
+                document.getElementById('settings_tooltip').innerHTML = dungeonz.getTextDef('Settings tooltip');
                 //document.getElementById('quick_turn_tooltip').innerHTML =   dungeonz.getTextDef('Quick turn tooltip');
-                document.getElementById('audio_tooltip').innerHTML =        dungeonz.getTextDef('Audio tooltip');
-                document.getElementById('gui_zoom_tooltip').innerHTML =     dungeonz.getTextDef('GUI zoom tooltip');
+                document.getElementById('audio_tooltip').innerHTML = dungeonz.getTextDef('Audio tooltip');
+                document.getElementById('gui_zoom_tooltip').innerHTML = dungeonz.getTextDef('GUI zoom tooltip');
                 document.getElementById('virtual_dpad_tooltip').innerHTML = dungeonz.getTextDef('Virtual D pad tooltip');
-                document.getElementById('fullscreen_tooltip').innerHTML =   dungeonz.getTextDef('Fullscreen tooltip');
+                document.getElementById('fullscreen_tooltip').innerHTML = dungeonz.getTextDef('Fullscreen tooltip');
 
                 // Hide the language list again.
                 document.getElementById('language_list').style.visibility = "hidden";
@@ -514,32 +539,32 @@
             // Load the default language.
             changeLanguage(dungeonz.language);
 
-            document.getElementById('language_english').onclick =       function () { changeLanguage('English') };
-            document.getElementById('language_french').onclick =        function () { changeLanguage('French') };
-            document.getElementById('language_spanish').onclick =       function () { changeLanguage('Spanish') };
-            document.getElementById('language_portuguese').onclick =    function () { changeLanguage('Portuguese (Brazil)') };
-            document.getElementById('language_turkish').onclick =       function () { changeLanguage('Turkish') };
-            document.getElementById('language_german').onclick =        function () { changeLanguage('German') };
-            document.getElementById('language_russian').onclick =       function () { changeLanguage('Russian') };
-            document.getElementById('language_polish').onclick =        function () { changeLanguage('Polish') };
-            document.getElementById('language_chinese').onclick =       function () { changeLanguage('Chinese') };
+            document.getElementById('language_english').onclick = function () { changeLanguage('English') };
+            document.getElementById('language_french').onclick = function () { changeLanguage('French') };
+            document.getElementById('language_spanish').onclick = function () { changeLanguage('Spanish') };
+            document.getElementById('language_portuguese').onclick = function () { changeLanguage('Portuguese (Brazil)') };
+            document.getElementById('language_turkish').onclick = function () { changeLanguage('Turkish') };
+            document.getElementById('language_german').onclick = function () { changeLanguage('German') };
+            document.getElementById('language_russian').onclick = function () { changeLanguage('Russian') };
+            document.getElementById('language_polish').onclick = function () { changeLanguage('Polish') };
+            document.getElementById('language_chinese').onclick = function () { changeLanguage('Chinese') };
 
             //let hoverTooltip = document.getElementById('main_tooltip');
             //console.log("ht:", hoverTooltip);
             // Changes the text displayed in the main tooltip.
-            function changeHoverTooltip (textDef) {
+            function changeHoverTooltip(textDef) {
                 let hoverTooltip = document.getElementById('main_tooltip');
                 hoverTooltip.innerText = dungeonz.getTextDef(textDef);
                 hoverTooltip.style.visibility = 'visible';
             }
 
             // Saved renderer preference already loaded in Main.js.
-            if(window.renderer === 'canvas'){
+            if (window.renderer === 'canvas') {
                 document.getElementById('renderer_text').innerText = 'Canvas';
             }
 
             function swapRenderer() {
-                if(window.renderer === 'canvas'){
+                if (window.renderer === 'canvas') {
                     localStorage.setItem('renderer', 'webgl');
                 }
                 else {
@@ -548,9 +573,6 @@
 
                 location.reload();
             }
-
-            // Disable the right click context menu on the game.
-            //document.getElementById('game_cont').addEventListener('contextmenu', event => event.preventDefault());
 
             // Load the changelog contents into the news section.
             let xmlhttp, text;
@@ -562,4 +584,5 @@
         </script>
     </div>
 </body>
+
 </html>

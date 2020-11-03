@@ -1,0 +1,6 @@
+localhost
+
+reverse_proxy 127.0.0.1:4567
+
+root * ./client
+file_server

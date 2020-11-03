@@ -7,7 +7,12 @@ class Clothes extends Item {
         if(this.owner.clothing === this){
             this.owner.modClothing(null);
             // Tell nearby players the owner entity is now wearing nothing.
-            this.owner.board.emitToNearbyPlayers(this.owner.row, this.owner.col, this.owner.EventsList.unequip_clothes, this.owner.id);
+            this.owner.board.emitToNearbyPlayers(
+                this.owner.row,
+                this.owner.col,
+                this.owner.EventsList.unequip_clothes,
+                this.owner.id
+            );
             // Remove the defence bonus of this item from the owner.
             this.owner.modDefence(-this.defenceBonus);
         }

@@ -8,13 +8,13 @@ class EternalFlame extends Weapon {
         const targetPosition = this.owner.board.getRowColInFront(direction, this.owner.row, this.owner.col);
         // Get the positions to the sides of that position.
         const sidePositions = this.owner.board.getRowColsToSides(direction, targetPosition.row, targetPosition.col);
-        // Make some more wind projectiles in the same direction, at those positions.
+        // Make some more projectiles in the same direction, at those positions.
         sidePositions.forEach((position) => {
             new ProjectileType({
                 row: position.row,
                 col: position.col,
                 board: this.owner.board,
-                source: this.owner.source,
+                source: this.owner,
                 direction: direction
             }).emitToNearbyPlayers();
         });
@@ -30,5 +30,6 @@ EternalFlame.prototype.ProjectileType = ProjectileType;
 EternalFlame.prototype.useGloryCost = 10;
 EternalFlame.prototype.category = Weapon.prototype.categories.Weapon;
 EternalFlame.prototype.expGivenStatName = EternalFlame.prototype.StatNames.Magic;
+EternalFlame.prototype.canUseIntoHighBlockedTile = false;
 
 module.exports = EternalFlame;

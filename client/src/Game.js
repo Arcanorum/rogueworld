@@ -364,21 +364,6 @@ class Game extends Phaser.Scene {
                 return;
             }
 
-            // TODO: figure out something else to use here using sprite pointer events.
-            // maybe listen on the ground layer for pointer events?
-            // need to check if it would still bubble down after higher sprites clicked on...
-            // Check if any of the dynamics were pressed on that have onInputDown handlers.
-            // for (let dynamicKey in _this.dynamics) {
-            //     if (_this.dynamics.hasOwnProperty(dynamicKey) === false) continue;
-            //     if (_this.dynamics[dynamicKey].spriteContainer.baseSprite === undefined) continue;
-            //     if (_this.dynamics[dynamicKey].spriteContainer.onInputDown === undefined) continue;
-            //     // Check the distance between the cursor and the sprite.
-            //     if (_this.distanceBetween(_this.dynamics[dynamicKey].spriteContainer.baseSprite, event) < 32) {
-            //         _this.dynamics[dynamicKey].spriteContainer.onInputDown();
-            //         return;
-            //     }
-            // }
-
             const midX = window.innerWidth / 2;
             const midY = window.innerHeight / 2;
             const targetX = event.clientX - midX;

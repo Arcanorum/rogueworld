@@ -15,7 +15,7 @@ class Entity extends Projectile {
                 { frame: "proj-shuriken-2" }
             ],
             duration: 1000,
-            repeats: true
+            repeat: -1
         });
     }
 };

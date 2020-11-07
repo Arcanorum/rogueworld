@@ -18,7 +18,7 @@ class Entity extends Projectile {
                 { frame: "proj-acorn-4" }
             ],
             duration: 1000,
-            repeats: true
+            repeat: -1
         });
     }
 };

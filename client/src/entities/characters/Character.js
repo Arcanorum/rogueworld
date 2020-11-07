@@ -68,7 +68,7 @@ class Character extends Container {
     }
 
     addEffect(frameName) {
-        const sprite = _this.add.sprite(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, "game-atlas", frameName);
+        const sprite = _this.add.sprite(0, 0, "game-atlas", frameName);
         sprite.setOrigin(0.5);
         sprite.visible = false;
         this.add(sprite);
@@ -106,42 +106,62 @@ class Character extends Container {
     static setupAnimations() {
         _this.anims.create({
             key: "energy-regen",
-            frames: ["energy-regen-effect-1", "energy-regen-effect-2"],
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "energy-regen-effect-1" },
+                { frame: "energy-regen-effect-2" }
+            ],
             frameRate: 2,
+            repeat: -1,
             showOnStart: true,
-            hideOnComplete: true
         });
 
         _this.anims.create({
             key: "health-regen",
-            frames: ["health-regen-effect-1", "health-regen-effect-2"],
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "health-regen-effect-1" },
+                { frame: "health-regen-effect-2" }
+            ],
             frameRate: 2,
+            repeat: -1,
             showOnStart: true,
-            hideOnComplete: true
         });
 
         _this.anims.create({
             key: "cured",
-            frames: ["cured-effect-1", "cured-effect-2"],
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "cured-effect-1" },
+                { frame: "cured-effect-2" }
+            ],
             frameRate: 2,
+            repeat: -1,
             showOnStart: true,
-            hideOnComplete: true
         });
 
         _this.anims.create({
             key: "poison",
-            frames: ["poison-effect-1", "poison-effect-2"],
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "poison-effect-1" },
+                { frame: "poison-effect-2" }
+            ],
             frameRate: 2,
+            repeat: -1,
             showOnStart: true,
-            hideOnComplete: true
         });
 
         _this.anims.create({
             key: "burn",
-            frames: ["burn-effect-1", "burn-effect-2"],
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "burn-effect-1" },
+                { frame: "burn-effect-2" }
+            ],
             frameRate: 2,
+            repeat: -1,
             showOnStart: true,
-            hideOnComplete: true
         });
     }
 

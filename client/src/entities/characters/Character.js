@@ -9,7 +9,7 @@ class Character extends Container {
         this.entityId = config.id;
         this.setDirection(config.direction);
         this.moveRate = config.moveRate;
-        // Can be undefined or an object with an optional 'fill' and 'stroke'
+        // Can be undefined or an object with an optional "fill" and "stroke"
         // property to be set as any color string value Phaser can take.
         // Used for differentiating clan members by name color.
         this.displayNameColor = config.displayNameColor;
@@ -31,12 +31,12 @@ class Character extends Container {
         this.poisonEffect = this.addEffect("poison-effect-1");
         this.burnEffect = this.addEffect("burn-effect-1");
 
-        this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, 'game-atlas', 'curse-icon');
+        this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, "game-atlas", "curse-icon");
         this.curseIcon.setOrigin(0.5);
         this.add(this.curseIcon);
         this.curseIcon.visible = false;
 
-        this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, 'game-atlas', 'enchantment-icon');
+        this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, "game-atlas", "enchantment-icon");
         this.enchantmentIcon.setOrigin(0.5);
         this.add(this.enchantmentIcon);
         this.enchantmentIcon.visible = false;
@@ -47,8 +47,8 @@ class Character extends Container {
 
         this.baseSprite.setInteractive();
 
-        this.baseSprite.on('pointerover', this.onPointerOver, this);
-        this.baseSprite.on('pointerout', this.onPointerOut, this);
+        this.baseSprite.on("pointerover", this.onPointerOver, this);
+        this.baseSprite.on("pointerout", this.onPointerOut, this);
     };
 
     setDirection(direction) {
@@ -106,7 +106,7 @@ class Character extends Container {
     static setupAnimations() {
         _this.anims.create({
             key: "energy-regen",
-            frames: ['energy-regen-effect-1', 'energy-regen-effect-2'],
+            frames: ["energy-regen-effect-1", "energy-regen-effect-2"],
             frameRate: 2,
             showOnStart: true,
             hideOnComplete: true
@@ -114,7 +114,7 @@ class Character extends Container {
 
         _this.anims.create({
             key: "health-regen",
-            frames: ['health-regen-effect-1', 'health-regen-effect-2'],
+            frames: ["health-regen-effect-1", "health-regen-effect-2"],
             frameRate: 2,
             showOnStart: true,
             hideOnComplete: true
@@ -122,7 +122,7 @@ class Character extends Container {
 
         _this.anims.create({
             key: "cured",
-            frames: ['cured-effect-1', 'cured-effect-2'],
+            frames: ["cured-effect-1", "cured-effect-2"],
             frameRate: 2,
             showOnStart: true,
             hideOnComplete: true
@@ -130,7 +130,7 @@ class Character extends Container {
 
         _this.anims.create({
             key: "poison",
-            frames: ['poison-effect-1', 'poison-effect-2'],
+            frames: ["poison-effect-1", "poison-effect-2"],
             frameRate: 2,
             showOnStart: true,
             hideOnComplete: true
@@ -138,7 +138,7 @@ class Character extends Container {
 
         _this.anims.create({
             key: "burn",
-            frames: ['burn-effect-1', 'burn-effect-2'],
+            frames: ["burn-effect-1", "burn-effect-2"],
             frameRate: 2,
             showOnStart: true,
             hideOnComplete: true

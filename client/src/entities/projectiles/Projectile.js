@@ -1,8 +1,17 @@
-class Projectile extends Phaser.GameObjects.Sprite {
+import Sprite from "../Sprite";
+
+class Projectile extends Sprite {
     constructor(x, y, config, frameName) {
-        super(_this, x, y, "game-atlas", frameName);
-        _this.add.existing(this);
+        super(x, y, config);
+
+        this.setFrame(frameName);
         this.setScale(GAME_SCALE);
+
+        this.angle = this.directionAngleSet[config.direction] || this.directionAngleSet.l;
+    }
+
+    setDirection(direction) {
+        this.angle = this.directionAngleSet[direction] || this.directionAngleSet.l;
     }
 }
 
@@ -21,5 +30,7 @@ Projectile.prototype.DiagonalDirectionAngles = {
     l: Projectile.prototype.CardinalDirectionAngles.l + 45,
     r: Projectile.prototype.CardinalDirectionAngles.r + 45
 };
+
+Projectile.prototype.directionAngleSet = Projectile.prototype.DiagonalDirectionAngles;
 
 export default Projectile;

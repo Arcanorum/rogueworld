@@ -206,7 +206,7 @@ export default (eventResponses) => {
         if (dynamic === undefined) return;
 
         const spriteContainer = dynamic.spriteContainer;
-        
+
         spriteContainer.setDirection(data.direction);
 
         // Some sprites show their direction by having different frames, others by rotating.

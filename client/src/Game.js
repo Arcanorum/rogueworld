@@ -70,7 +70,8 @@ class Game extends Phaser.Scene {
             statics: 2,
             dynamics: 3,
             darkness: 4,
-            fpsText: 5
+            borders: 5,
+            fpsText: 6
         }
 
         // this.dayPhase = data.dayPhase || this.DayPhases.Day;
@@ -104,22 +105,10 @@ class Game extends Phaser.Scene {
         this.scale.fullScreenTarget = document.getElementById("game_cont");
 
         // Listen for the resize event so anything that needs to be updated can be.
-        // window.addEventListener("resize", window.windowResize);
-
         this.scale.on("resize", () => {
             this.fpsText.y = window.innerHeight - 30;
+            this.tilemap.updateBorders();
         });
-        //     const windowWidth = window.innerWidth;
-        //     const windowHeight = window.innerHeight;
-
-        //     // TODO: Removed until darkness is added back in.
-        //     //tilemap.darknessSpritesContainer.cameraOffset.x = (windowWidth * 0.5)  - (tilemap.darknessSpritesContainer.width * 0.5);
-        //     //tilemap.darknessSpritesContainer.cameraOffset.y = (windowHeight * 0.5) - (tilemap.darknessSpritesContainer.height * 0.5);
-
-        //     // tilemap.updateBorders();
-
-        //     console.log("some resize stuff");
-        // });
 
         /**
          * How often to send each move event.
@@ -212,9 +201,6 @@ class Game extends Phaser.Scene {
         _this.GUI.accountPanel.hide();
         _this.GUI.createAccountPanel.hide();
 
-        //this.game.world.bringToTop(this.tilemap.darknessSpritesContainer);
-        //this.game.world.bringToTop(this.tilemap.bordersGroup);
-
         this.tilemap.updateDarknessGrid();
 
         // Flags for if a move key is held down, to allow continuous movement.
@@ -275,9 +261,6 @@ class Game extends Phaser.Scene {
     shutdown() {
         // Show the background GIF.
         document.getElementById("background_img").style.visibility = "visible";
-
-        // Remove the handler for resize events, so it doesn't try to resize the sprite container groups that have been removed.
-        // window.removeEventListener("resize", window.windowResize);
 
         // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
         document.removeEventListener("keydown", this.keyDownHandler);

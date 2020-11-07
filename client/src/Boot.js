@@ -85,14 +85,6 @@ window.dungeonz.SCALED_TILE_SIZE = dungeonz.TILE_SIZE * GAME_SCALE;
  */
 window.dungeonz.CENTER_OFFSET = dungeonz.SCALED_TILE_SIZE * 0.5;
 
-/**
- * Called when the window is resized.
- */
-// window.windowResize = function () {
-//     const tilemap = _this.tilemap;
-//     // tilemap.updateBorders();
-// };
-
 // Import the data for each map.
 function requireAll(r) {
     r.keys().forEach((fileName) => {

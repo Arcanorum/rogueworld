@@ -1,5 +1,5 @@
-import Utils from './Utils';
-import addStaticTile from './Statics'
+import Utils from "./Utils";
+import addStaticTile from "./Statics"
 
 class Tilemap {
 
@@ -11,15 +11,11 @@ class Tilemap {
         this.mapRows = 0;
         this.mapCols = 0;
 
-        //this.pendingStaticTileChanges = [];
-
         this.createGroundGrid();
         this.createStaticsGrid();
         this.createDarknessGrid();
 
-        //this.createTestDarkness(); // Testing with new darkness methods.
-
-        //this.createBorders();
+        this.createBorders();
     }
 
     createGroundGrid() {
@@ -130,34 +126,27 @@ class Tilemap {
      * Used to hide the ugly transition pop-in of new tiles/entities during the player move tween.
      */
     createBorders() {
-        this.bordersGroup = this.scene.add.group();
+        this.bordersContainer = this.scene.add.container();
+        this.bordersContainer.setDepth(this.scene.renderOrder.borders);
 
         const gridSize = dungeonz.SCALED_TILE_SIZE * dungeonz.VIEW_DIAMETER + (dungeonz.SCALED_TILE_SIZE * 2);
         const thickness = (dungeonz.SCALED_TILE_SIZE * 2) + 32;
-        // Top.
-        this.topBorderSprite = this.scene.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
-        this.topBorderSprite.width = gridSize;
-        this.topBorderSprite.height = thickness;
-        this.topBorderSprite.setOrigin(0.5);
-        this.topBorderSprite.fixedToCamera = true;
-        // Bottom.
-        this.bottomBorderSprite = this.scene.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
-        this.bottomBorderSprite.width = gridSize;
-        this.bottomBorderSprite.height = thickness;
-        this.bottomBorderSprite.setOrigin(0.5);
-        this.bottomBorderSprite.fixedToCamera = true;
-        // Left.
-        this.leftBorderSprite = this.scene.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
-        this.leftBorderSprite.height = gridSize;
-        this.leftBorderSprite.width = thickness;
-        this.leftBorderSprite.setOrigin(0.5);
-        this.leftBorderSprite.fixedToCamera = true;
-        // Right.
-        this.rightBorderSprite = this.scene.add.sprite(0, 0, 'ground-tileset', this.blackFrame, this.bordersGroup);
-        this.rightBorderSprite.height = gridSize;
-        this.rightBorderSprite.width = thickness;
-        this.rightBorderSprite.setOrigin(0.5);
-        this.rightBorderSprite.fixedToCamera = true;
+
+        const createBorderSprite = (width, height) => {
+            const borderSprite = this.scene.add.sprite(0, 0, "ground-tileset", this.blackFrame);
+            borderSprite.displayWidth = width;
+            borderSprite.displayHeight = height;
+            borderSprite.setOrigin(0.5);
+            borderSprite.setScrollFactor(0);
+            this.bordersContainer.add(borderSprite);
+            console.log(borderSprite);
+            return borderSprite;
+        };
+        
+        this.topBorderSprite = createBorderSprite(gridSize, thickness);
+        this.bottomBorderSprite = createBorderSprite(gridSize, thickness);
+        this.leftBorderSprite = createBorderSprite(thickness, gridSize);
+        this.rightBorderSprite = createBorderSprite(thickness, gridSize);
 
         this.updateBorders();
     }
@@ -172,17 +161,17 @@ class Tilemap {
         const halfTileScale = dungeonz.SCALED_TILE_SIZE / 2;
         // When the window resized, set the border covers to be the width/height of the window.
         // Also move them along to be at the edge of the view range to put them to the edge of the tiled area.
-        // this.topBorderSprite.cameraOffset.x = halfWindowWidth;
-        // this.topBorderSprite.cameraOffset.y = halfWindowHeight - gridRangeSize + halfTileScale;
+        this.topBorderSprite.x = halfWindowWidth;
+        this.topBorderSprite.y = halfWindowHeight - gridRangeSize + halfTileScale;
 
-        // this.bottomBorderSprite.cameraOffset.x = halfWindowWidth;
-        // this.bottomBorderSprite.cameraOffset.y = halfWindowHeight + gridRangeSize - halfTileScale;
+        this.bottomBorderSprite.x = halfWindowWidth;
+        this.bottomBorderSprite.y = halfWindowHeight + gridRangeSize - halfTileScale;
 
-        // this.leftBorderSprite.cameraOffset.x = halfWindowWidth - gridRangeSize + halfTileScale;
-        // this.leftBorderSprite.cameraOffset.y = halfWindowHeight;
+        this.leftBorderSprite.x = halfWindowWidth - gridRangeSize + halfTileScale;
+        this.leftBorderSprite.y = halfWindowHeight;
 
-        // this.rightBorderSprite.cameraOffset.x = halfWindowWidth + gridRangeSize - halfTileScale;
-        // this.rightBorderSprite.cameraOffset.y = halfWindowHeight;
+        this.rightBorderSprite.x = halfWindowWidth + gridRangeSize - halfTileScale;
+        this.rightBorderSprite.y = halfWindowHeight;
     }
 
     /**

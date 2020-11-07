@@ -225,8 +225,18 @@ class GUI {
         this.gui.ondragover = (event) => {
             event.preventDefault();
         };
-        // If an inventory item is dropped onto the game GUI, drop it.
         this.gui.ondrop = (event) => {
+            event.preventDefault();
+        };
+
+        this.gameCanvas.ondragenter = (event) => {
+            event.preventDefault();
+        };
+        this.gameCanvas.ondragover = (event) => {
+            event.preventDefault();
+        };
+        // If an inventory item is dropped onto the game canvas, drop it.
+        this.gameCanvas.ondrop = (event) => {
             event.preventDefault();
 
             if (_this.GUI.dragData === null) return; // TODO: this can just be `this` now with arrow funcs

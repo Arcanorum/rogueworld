@@ -1,5 +1,5 @@
 import InventorySlot from "./InventorySlot";
-import ItemTypes from '../src/catalogues/ItemTypes'
+import ItemTypes from "../src/catalogues/ItemTypes";
 
 class Inventory {
 
@@ -29,11 +29,11 @@ class Inventory {
     useHeldItem(direction) {
         if (direction === undefined) {
             // Tell the game server this player wants to use this item.
-            ws.sendEvent('use_held_item');
+            ws.sendEvent("use_held_item");
         }
         else {
             // Tell the game server this player wants to use this item in a direction.
-            ws.sendEvent('use_held_item', direction);
+            ws.sendEvent("use_held_item", direction);
         }
     }
 
@@ -46,12 +46,12 @@ class Inventory {
         // Check if they want to drop the item.
         if (_this.keyboardKeys.shift.isDown === true) {
             // Tell the game server this player wants to drop this item.
-            window.ws.sendEvent('drop_item', slotNumber);
+            window.ws.sendEvent("drop_item", slotNumber);
             return;
         }
 
         // Tell the game server this player wants to use this item.
-        window.ws.sendEvent('use_item', slotNumber);
+        window.ws.sendEvent("use_item", slotNumber);
     }
 
     swapInventorySlots(slotKeyFrom, slotKeyTo) {
@@ -93,8 +93,7 @@ class Inventory {
             GUIslots[slotKeyFrom].equipped.src = toSlotData.equippedSource;
         }
 
-        window.ws.sendEvent('swap_inventory_slots', { slotKeyFrom: slotKeyFrom, slotKeyTo: slotKeyTo });
-
+        window.ws.sendEvent("swap_inventory_slots", { slotKeyFrom: slotKeyFrom, slotKeyTo: slotKeyTo });
     }
 
 }

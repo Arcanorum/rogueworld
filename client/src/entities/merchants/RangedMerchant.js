@@ -1,7 +1,7 @@
-import Trader from './Trader';
+import Merchant from "./Merchant";
 import NPCShopTypes from "./../../catalogues/NPCShopTypes.json";
 
-class Entity extends Trader {
+class Entity extends Merchant {
     constructor(x, y, config) {
         super(x, y, config);
 

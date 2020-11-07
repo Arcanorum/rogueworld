@@ -1,7 +1,7 @@
 import Container from "../Container";
-import NPCShopTypes from "./../../catalogues/NPCShopTypes.json";
+import NPCShopTypes from "../../catalogues/NPCShopTypes.json";
 
-class Trader extends Container {
+class Merchant extends Container {
     constructor(x, y, config) {
         super(x, y, config);
 
@@ -39,4 +39,4 @@ class Trader extends Container {
     };
 }
 
-export default Trader;
+export default Merchant;

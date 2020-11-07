@@ -90,8 +90,8 @@ class ShopPanel extends PanelTemplate {
         // Keep the currently shown shop stock, so the item type numbers can be found to be sent when buying.
         this.shopStock = [];
 
-        // The trader entity that this player is trading with, to send when buying something so the server knows who to buy from.
-        this.traderID = null;
+        // The merchant entity that this player is trading with, to send when buying something so the server knows who to buy from.
+        this.merchantID = null;
 
         // The currently selected slot.
         this.selectedSlot = null;
@@ -100,7 +100,7 @@ class ShopPanel extends PanelTemplate {
         this.getPricesLoop = null;
     }
 
-    show (traderID, shopName, shopStock) {
+    show (merchantID, shopName, shopStock) {
 
         super.show();
 
@@ -112,16 +112,16 @@ class ShopPanel extends PanelTemplate {
 
         // Request the prices of items in this shop.
         ws.sendEvent('get_shop_prices', {
-            traderID: traderID,
-            row: _this.dynamics[traderID].row,
-            col: _this.dynamics[traderID].col
+            merchantID: merchantID,
+            row: _this.dynamics[merchantID].row,
+            col: _this.dynamics[merchantID].col
         });
 
         this.getPricesLoop = setInterval(function () {
             ws.sendEvent('get_shop_prices', {
-                traderID: traderID,
-                row: _this.dynamics[traderID].row,
-                col: _this.dynamics[traderID].col
+                merchantID: merchantID,
+                row: _this.dynamics[merchantID].row,
+                col: _this.dynamics[merchantID].col
             });
         }, 5000);
 
@@ -135,7 +135,7 @@ class ShopPanel extends PanelTemplate {
         }
 
         this.shopStock = shopStock;
-        this.traderID = traderID;
+        this.merchantID = merchantID;
     }
 
     hide () {
@@ -172,9 +172,9 @@ class ShopPanel extends PanelTemplate {
         const slotIndex = shopPanel.selectedSlot.container.getAttribute('slotIndex');
 
         ws.sendEvent("shop_buy_item", {
-            traderID: shopPanel.traderID,
-            row: _this.dynamics[shopPanel.traderID].row,
-            col: _this.dynamics[shopPanel.traderID].col,
+            merchantID: shopPanel.merchantID,
+            row: _this.dynamics[shopPanel.merchantID].row,
+            col: _this.dynamics[shopPanel.merchantID].col,
             index: slotIndex,
             itemTypeNumber: shopPanel.shopStock[slotIndex],
             price: shopPanel.selectedSlot.price.innerText

@@ -1,7 +1,6 @@
-const Mob = require('../Mob');
+const Mob = require("../Mob");
 
 class Merchant extends Mob {
-
     /**
      * Prevent merchants from ever being moved.
      */
@@ -12,13 +11,15 @@ class Merchant extends Mob {
      */
     modHitPoints () {}
 
+    modDirection() {}
+
+    addStatusEffect() {}
 }
 
 Merchant.abstract = true;
 
 Merchant.prototype.maxHitPoints = 1;
 Merchant.prototype.gloryValue = 0;
-Merchant.prototype.wanderRate = 0;
 Merchant.prototype.faction = Mob.prototype.Factions.Citizens;
 Merchant.prototype.shop = undefined;
 

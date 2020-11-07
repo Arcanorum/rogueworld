@@ -366,7 +366,7 @@ const ShopTypes = {
 
 // Write the shops data to the client, so the client knows what items/prices to show for each shop ID name.
 // The shop ID name isn't sent to the client, it is a property of each entity type, so they already know
-// what shop data to show in the shop panel for each type of trader.
+// what shop data to show in the shop panel for each type of merchant.
 const fs = require("fs");
 let dataToWrite = {};
 

@@ -19,26 +19,48 @@
   dropList: []
 
 - name: ArenaMaster
+  moveRate: 0
+  wanderRate: 0
 
 - name: DwarfWeaponMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: Innkeeper
+  moveRate: 0
+  wanderRate: 0
 
 - name: MagicMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: MeleeMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: OmniMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: PriestMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: RangedMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: Ruler
+  moveRate: 0
+  wanderRate: 0
 
 - name: ToolMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: TutorialMerchant
+  moveRate: 0
+  wanderRate: 0
 
 - name: Citizen
   viewRange: 8

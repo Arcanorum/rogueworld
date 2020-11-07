@@ -618,9 +618,9 @@ eventResponses.respawn = function (clientSocket) {
 
 /**
  * @param {*} clientSocket
- * @param {Number} data.traderID - The ID of a trader entity.
- * @param {Number} data.row - The row of the trader that was interacted with.
- * @param {Number} data.col - The col of the trader that was interacted with.
+ * @param {Number} data.merchantID - The ID of a merchant entity.
+ * @param {Number} data.row - The row of the merchant that was interacted with.
+ * @param {Number} data.col - The col of the merchant that was interacted with.
  */
 eventResponses.get_shop_prices = function (clientSocket, data) {
     if (clientSocket.inGame === false) return;
@@ -628,12 +628,12 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
     if (clientSocket.entity.hitPoints <= 0) return;
     if (!data) return;
 
-    // Make sure the board tile the client says the trader is on is valid.
+    // Make sure the board tile the client says the merchant is on is valid.
     const grid = clientSocket.entity.board.grid;
     if (grid[data.row] === undefined) return;
     const boardTile = grid[data.row][data.col];
     if (boardTile === undefined) return;
-    const entity = boardTile.destroyables[data.traderID];
+    const entity = boardTile.destroyables[data.merchantID];
     if (entity === undefined) return;
     // Check the entity actually has a shop.
     if (entity.shop === undefined) return;
@@ -643,9 +643,9 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
 
 /**
  * @param {*} clientSocket
- * @param {Number} data.traderID - The ID of a trader entity.
- * @param {Number} data.row - The row of the trader that was interacted with.
- * @param {Number} data.col - The col of the trader that was interacted with.
+ * @param {Number} data.merchantID - The ID of a merchant entity.
+ * @param {Number} data.row - The row of the merchant that was interacted with.
+ * @param {Number} data.col - The col of the merchant that was interacted with.
  */
 eventResponses.shop_buy_item = function (clientSocket, data) {
     //console.log("shop buy item event, data:", data);
@@ -654,12 +654,12 @@ eventResponses.shop_buy_item = function (clientSocket, data) {
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
 
-    // Make sure the board tile the client says the trader is on is valid.
+    // Make sure the board tile the client says the merchant is on is valid.
     const grid = clientSocket.entity.board.grid;
     if (grid[data.row] === undefined) return;
     const boardTile = grid[data.row][data.col];
     if (boardTile === undefined) return;
-    const entity = boardTile.destroyables[data.traderID];
+    const entity = boardTile.destroyables[data.merchantID];
     if (entity === undefined) return;
     // Check the entity actually has a shop.
     if (entity.shop === undefined) return;

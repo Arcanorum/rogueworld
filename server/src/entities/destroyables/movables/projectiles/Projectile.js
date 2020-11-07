@@ -1,6 +1,6 @@
-const Movable = require('../Movable');
-const Utils = require('../../../../Utils');
-const ModHitPointConfigs = require('../../../../gameplay/ModHitPointConfigs');
+const Movable = require("../Movable");
+const Utils = require("../../../../Utils");
+const ModHitPointConfigs = require("../../../../gameplay/ModHitPointConfigs");
 
 class Projectile extends Movable {
     /**
@@ -186,9 +186,9 @@ class Projectile extends Movable {
         // Add this to the default checks that get done when any projectile moves, as
         // the case where a wind moves into a projectile is covered by the wind itself,
         // but not when the other projectile is the one moving into the wind during its own move.
-        if (collidee instanceof ProjWind) {
+        if (collidee instanceof ProjWind || collidee instanceof ProjSuperWind) {
             // If 2 winds collide, destroy them both.
-            if (this instanceof ProjWind) {
+            if (this instanceof ProjWind || this instanceof ProjSuperWind) {
                 this.destroy();
                 collidee.destroy();
             }
@@ -324,10 +324,11 @@ module.exports = Projectile;
 
 Projectile.abstract = true;
 
-const Character = require('../characters/Character');
-const Static = require('../../../statics/Static');
-const ProjWind = require('../projectiles/ProjWind');
-const Damage = require('../../../../gameplay/Damage');
+const Character = require("../characters/Character");
+const Static = require("../../../statics/Static");
+const Damage = require("../../../../gameplay/Damage");
+const ProjWind = require("../projectiles/ProjWind");
+const ProjSuperWind = require("../projectiles/ProjSuperWind");
 
 /**
  * How many board tiles can this projectile can move before it is destroyed.

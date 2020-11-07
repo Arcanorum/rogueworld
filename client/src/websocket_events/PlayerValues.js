@@ -13,20 +13,16 @@ export default (eventResponses) => {
             _this.GUI.updateDungeonKeysList({});
         }
 
-        /* TODO if(_this.boardAlwaysNight === false){
+        if (_this.boardAlwaysNight === false) {
             // Make the darkness layer invisible during day time.
-            if(_this.dayPhase === _this.DayPhases.Day){
-                let row,
-                    col,
-                    darknessSpritesGrid = _this.tilemap.darknessSpritesGrid;
-    
-                for(row=0; row<dungeonz.VIEW_DIAMETER; row+=1){
-                    for(col=0; col<dungeonz.VIEW_DIAMETER; col+=1){
-                        darknessSpritesGrid[row][col].alpha = 0;
-                    }
-                }
+            if (_this.dayPhase === _this.DayPhases.Day) {
+                _this.tilemap.darknessSpritesContainer.visible = false;
             }
-        }*/
+            else {
+                _this.tilemap.darknessSpritesContainer.visible = true;
+                _this.tilemap.updateDarknessGrid();
+            }
+        }
 
         // Load the map with the given board name.
         _this.tilemap.loadMap(data.boardName);

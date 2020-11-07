@@ -157,25 +157,19 @@ window.addGameStateEventResponses = () => {
     // Misc/ungrouped events.
 
     eventResponses.change_day_phase = (data) => {
-        //console.log("changing day phase:", data);
+        // console.log("changing day phase:", data);
         _this.dayPhase = data;
 
         if (_this.boardAlwaysNight === false) {
             // Make the darkness layer invisible during day time.
             if (_this.dayPhase === _this.DayPhases.Day) {
-                let row,
-                    col,
-                    darknessSpritesGrid = _this.tilemap.darknessSpritesGrid;
-
-                for (row = 0; row < dungeonz.VIEW_DIAMETER; row += 1) {
-                    for (col = 0; col < dungeonz.VIEW_DIAMETER; col += 1) {
-                        darknessSpritesGrid[row][col].alpha = 0;
-                    }
-                }
+                _this.tilemap.darknessSpritesContainer.visible = false;
+            }
+            else {
+                _this.tilemap.darknessSpritesContainer.visible = true;
+                _this.tilemap.updateDarknessGrid();
             }
         }
-
-        _this.tilemap.updateDarknessGrid();
     };
 
     eventResponses.chat = (data) => {

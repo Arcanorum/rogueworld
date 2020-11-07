@@ -10,9 +10,10 @@ const DayPhases = require("./DayPhases");
 
 // Set up the day phase cycle.
 const dayPhaseCycle = [];
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 12);
+// 12 parts day and night, 1 part transition between them.
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 2);
 Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 1);
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 12);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 2);
 Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
 // Keep the length of a whole day the same, regarless of how many cycle phases each day has.
 const dayPhaseRate = (60000 * 24) / dayPhaseCycle.length;
@@ -350,19 +351,19 @@ const world = {
         // Shuffle the time along to the next period.
         dayPhaseCycle.push(dayPhaseCycle.shift());
 
-        //Utils.message("Day phase progressed:", dayPhaseCycle[0]);
+        // Utils.message("Day phase progressed:", dayPhaseCycle[0]);
 
         // Check if the period is different than last. Don't bother updating the boards/players if it is the same. i.e. day and night last more than one phase.
         if (dayPhaseCycle[0] !== world.dayPhase) {
             // Get whatever is at the front.
             world.dayPhase = dayPhaseCycle[0];
 
-            for (let i = 0, len = BoardsList.boardsArray.length; i < len; i += 1) {
+            BoardsList.boardsArray.forEach((board) => {
                 // Don't change the time inside dungeons and caves etc. They are always dark (night).
-                if (BoardsList.boardsArray[i].alwaysNight === false) {
-                    BoardsList.boardsArray[i].dayPhase = world.dayPhase;
+                if (board.alwaysNight === false) {
+                    board.dayPhase = world.dayPhase;
                 }
-            }
+            });
 
             // Tell the boards and everyone on them the time has changed.
             wss.broadcastToInGame(EventsList.change_day_phase, world.dayPhase);

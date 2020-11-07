@@ -26,11 +26,15 @@ class DungeonManager {
         this.name = config.name || "";
         this.nameDefinitionID = config.nameDefinitionID || "";
 
+        if(typeof config.alwaysNight !== "boolean") {
+            Utils.error(`Creating dungeon manager. Required config "alwaysNight" is not a boolean. Dungeon name: ${this.name}`);
+        }
+
         // The data to give the dungeon instances, so it knows how to build it's board.
         this.boardConfig = {
             name: config.name,
             mapData: config.mapData,
-            alwaysNight: config.alwaysNight || true
+            alwaysNight: config.alwaysNight
         };
 
         this.maxPlayers = config.maxPlayers || 6;

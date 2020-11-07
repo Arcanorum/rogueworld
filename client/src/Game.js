@@ -74,8 +74,8 @@ class Game extends Phaser.Scene {
             fpsText: 6
         }
 
-        // this.dayPhase = data.dayPhase || this.DayPhases.Day;
-        this.dayPhase = this.DayPhases.Night;
+        this.dayPhase = data.dayPhase || this.DayPhases.Day;
+        // this.dayPhase = this.DayPhases.Night;
 
         //console.log("nearby dynamics: data", this.dynamicsData);
     }

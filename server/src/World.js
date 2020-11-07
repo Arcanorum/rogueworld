@@ -1,12 +1,12 @@
-const { wss } = require('./Server');
-const Utils = require('./Utils');
-const AccountManager = require('./AccountManager');
-//const clanManager = require('./gameplay/ClanManager');
-const DungeonManager = require('./dungeon/DungeonManager');
-const DungeonManagersList = require('./dungeon/DungeonManagersList');
-const EventsList = require('./EventsList');
-const BoardsList = require('./board/BoardsList');
-const DayPhases = require('./DayPhases');
+const { wss } = require("./Server");
+const Utils = require("./Utils");
+const AccountManager = require("./AccountManager");
+//const clanManager = require("./gameplay/ClanManager");
+const DungeonManager = require("./dungeon/DungeonManager");
+const DungeonManagersList = require("./dungeon/DungeonManagersList");
+const EventsList = require("./EventsList");
+const BoardsList = require("./board/BoardsList");
+const DayPhases = require("./DayPhases");
 
 // Set up the day phase cycle.
 const dayPhaseCycle = [];
@@ -38,9 +38,9 @@ const world = {
 
     init() {
         // Read each of the map data files in the map directory and load them.
-        const fs = require('fs');
-        const dirs = fs.readdirSync('map', { encoding: 'utf-8', withFileTypes: true });
-        const path = require('path');
+        const fs = require("fs");
+        const dirs = fs.readdirSync("map", { encoding: "utf-8", withFileTypes: true });
+        const path = require("path");
 
         dirs.forEach((elem) => {
             const parsed = path.parse(elem.name);
@@ -69,7 +69,7 @@ const world = {
         this.linkDungeonManagerEvictionBoards();
 
         // Start the day/night cycle loop.
-        //setTimeout(world.progressTime, dayPhaseRate);
+        setTimeout(world.progressTime, dayPhaseRate);
     },
 
     /**
@@ -78,39 +78,39 @@ const world = {
      * @param {String} dataFileName - The end part of the URL to the map data file.
      */
     createBoard(dataFileName) {
-        const data = require('../map/' + dataFileName + '.json');
+        const data = require("../map/" + dataFileName + ".json");
 
-        const mapProperties = Utils.arrayToObject(data.properties, 'name', 'value');
+        const mapProperties = Utils.arrayToObject(data.properties, "name", "value");
 
         // Skip disabled maps.
-        if (mapProperties['Disabled'] === true) {
+        if (mapProperties["Disabled"] === true) {
             Utils.message("Skipping disabled map:", dataFileName);
             return;
         }
 
         let alwaysNight = false;
-        if (mapProperties['AlwaysNight'] == undefined) Utils.warning("Map data is missing property: 'AlwaysNight'. Using default (false). On map: " + dataFileName);
-        if (mapProperties['AlwaysNight'] === true) alwaysNight = true;
+        if (mapProperties["AlwaysNight"] == undefined) Utils.warning(`Map data is missing property: "AlwaysNight". Using default (false). On map: ${dataFileName}`);
+        if (mapProperties["AlwaysNight"] === true) alwaysNight = true;
 
-        if (mapProperties['IsDungeon'] == undefined) Utils.warning("Map data is missing property: 'IsDungeon'. Using default (false). On map: " + dataFileName);
-        if (mapProperties['IsDungeon'] === true) {
-            if (!mapProperties['Difficulty']) Utils.warning("Dungeon map is missing property: 'Difficulty'. Using default. On map: " + dataFileName);
-            if (!mapProperties['NameDefinitionID']) Utils.warning("Dungeon map is missing property: 'NameDefinitionID'. Using default. On map: " + dataFileName);
-            if (!mapProperties['MaxPlayers']) Utils.warning("Dungeon map is missing property: 'MaxPlayers'. Using default. On map: " + dataFileName);
-            if (!mapProperties['TimeLimitMinutes']) Utils.warning("Dungeon map is missing property: 'TimeLimitMinutes'. Using default. On map: " + dataFileName);
-            if (!mapProperties['EvictionMapName']) Utils.warning("Dungeon map is missing property: 'EvictionMapName'. Using default. On map: " + dataFileName);
-            if (!mapProperties['EvictionEntranceName']) Utils.warning("Dungeon map is missing property: 'EvictionEntranceName'. Using default. On map: " + dataFileName);
+        if (mapProperties["IsDungeon"] == undefined) Utils.warning(`Map data is missing property: "IsDungeon". Using default (false). On map: ${dataFileName}`);
+        if (mapProperties["IsDungeon"] === true) {
+            if (!mapProperties["Difficulty"]) Utils.warning(`Dungeon map is missing property: "Difficulty". Using default. On map: ${dataFileName}`);
+            if (!mapProperties["NameDefinitionID"]) Utils.warning(`Dungeon map is missing property: "NameDefinitionID". Using default. On map: ${dataFileName}`);
+            if (!mapProperties["MaxPlayers"]) Utils.warning(`Dungeon map is missing property: "MaxPlayers". Using default. On map: ${dataFileName}`);
+            if (!mapProperties["TimeLimitMinutes"]) Utils.warning(`Dungeon map is missing property: "TimeLimitMinutes". Using default. On map: ${dataFileName}`);
+            if (!mapProperties["EvictionMapName"]) Utils.warning(`Dungeon map is missing property: "EvictionMapName". Using default. On map: ${dataFileName}`);
+            if (!mapProperties["EvictionEntranceName"]) Utils.warning(`Dungeon map is missing property: "EvictionEntranceName". Using default. On map: ${dataFileName}`);
 
             new DungeonManager({
                 name: dataFileName,
-                nameDefinitionID: mapProperties['NameDefinitionID'],
+                nameDefinitionID: mapProperties["NameDefinitionID"],
                 mapData: data,
                 alwaysNight,
-                maxPlayers: mapProperties['MaxPlayers'],
-                timeLimitMinutes: mapProperties['TimeLimitMinutes'],
-                difficultyName: mapProperties['Difficulty'],
-                evictionMapName: mapProperties['EvictionMapName'],
-                evictionEntranceName: mapProperties['EvictionEntranceName']
+                maxPlayers: mapProperties["MaxPlayers"],
+                timeLimitMinutes: mapProperties["TimeLimitMinutes"],
+                difficultyName: mapProperties["Difficulty"],
+                evictionMapName: mapProperties["EvictionMapName"],
+                evictionEntranceName: mapProperties["EvictionEntranceName"]
             });
 
             // Stop here. Don't create a board for a dungeon map, as they are created
@@ -195,7 +195,7 @@ const world = {
         // Don't let too many players in the world.
         if (world.playerCount < world.maxPlayers) {
             // Start them in the overworld if they have played before.
-            const randomPosition = world.boardsObject['overworld'].entrances['city-spawn'].getRandomPosition();
+            const randomPosition = world.boardsObject["overworld"].entrances["city-spawn"].getRandomPosition();
 
             /** @type {Player} */
             const playerEntity = new EntitiesList.Player({
@@ -266,7 +266,7 @@ const world = {
         // Don't let too many players in the world.
         if (world.playerCount < world.maxPlayers) {
 
-            const randomPosition = world.boardsObject['tutorial'].entrances['spawn'].getRandomPosition();
+            const randomPosition = world.boardsObject["tutorial"].entrances["spawn"].getRandomPosition();
 
             /** @type {Player} */
             const playerEntity = new EntitiesList.Player({
@@ -376,6 +376,6 @@ const world = {
 module.exports = world;
 
 // Import these AFTER the world is exported.
-const Board = require('./board/Board');
-const EntitiesList = require('./EntitiesList');
-const Exit = require('./entities/statics/interactables/exits/Exit');
+const Board = require("./board/Board");
+const EntitiesList = require("./EntitiesList");
+const Exit = require("./entities/statics/interactables/exits/Exit");

@@ -183,7 +183,8 @@ class Item {
 
             // Only load properties that should actually exist on this class.
             if(this.prototype[key] !== undefined){
-                // Check if the property has already been loaded by a subclass.
+                // Check if the property has already been loaded by a
+                // subclass, or set on the class prototype for class files.
                 if(Object.getPrototypeOf(this).prototype[key] === this.prototype[key]) {
                     this.prototype[key] = value;
                 }

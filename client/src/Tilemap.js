@@ -139,7 +139,6 @@ class Tilemap {
             borderSprite.setOrigin(0.5);
             borderSprite.setScrollFactor(0);
             this.bordersContainer.add(borderSprite);
-            console.log(borderSprite);
             return borderSprite;
         };
         

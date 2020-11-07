@@ -11,8 +11,7 @@ class Sprite extends Phaser.GameObjects.Sprite {
     /**
      * TODO: whats this for???
      */
-    onChangeDirection() {
-    }
+    onChangeDirection() {}
 }
 
 export default Sprite;

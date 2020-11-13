@@ -153,7 +153,10 @@ class Projectile extends Movable {
         // Check if it is over an interactable.
         if (currentBoardTile.static !== null) {
             if (currentBoardTile.static.activeState !== undefined) {
-                this.handleCollision(currentBoardTile.static);
+                // Check this projectile is still on the board, as it might have been removed above if it hit something.
+                if (this.board) {
+                    this.handleCollision(currentBoardTile.static);
+                }
             }
         }
 

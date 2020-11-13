@@ -172,7 +172,6 @@ class Static extends Phaser.GameObjects.Container {
 
 class Portal extends Static {
     constructor(config) {
-        config.pressableRange = 1;
         super(config);
         this.spriteContainer.lightDistance = 5;
     }
@@ -180,6 +179,7 @@ class Portal extends Static {
 
 class DungeonPortal extends Portal {
     constructor(config) {
+        config.pressableRange = 1;
         super(config);
         /**
          * The ID number of the dungeon manager that this portal is linked to.

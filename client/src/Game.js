@@ -69,9 +69,10 @@ class Game extends Phaser.Scene {
             ground: 1,
             statics: 2,
             dynamics: 3,
-            darkness: 4,
-            borders: 5,
-            fpsText: 6
+            particles: 4,
+            darkness: 5,
+            borders: 6,
+            fpsText: 7
         }
 
         this.dayPhase = data.dayPhase || this.DayPhases.Day;
@@ -227,6 +228,24 @@ class Game extends Phaser.Scene {
         this.fpsText.fontSize = "64px";
         this.fpsText.setScrollFactor(0);
         this.fpsText.setDepth(this.renderOrder.fpsText);
+
+        const damageParticles = this.add.particles("game-atlas");
+
+        this.damageParticleEmitter = damageParticles.createEmitter({
+            frame: ["damage-particle-1", "damage-particle-2", "damage-particle-3"],
+            x: { min: -200, max: 200 },
+            speed: { min: 200, max: 300 },
+            angle: { min: 220, max: 320 },
+            quantity: { min: 1, max: 7 },
+            lifespan: { min: 400, max: 600 },
+            scale: { min: GAME_SCALE * 0.8, max: GAME_SCALE * 1.2 },
+            alpha: { start: 1, end: 0 },
+            rotate: { min: 0, max: 360 },
+            gravityY: 1000,
+            on: false
+        });
+
+        damageParticles.setDepth(this.renderOrder.particles);
     }
 
     update() {

@@ -186,7 +186,13 @@ export default (eventResponses) => {
     };
 
     eventResponses.damage = (data) => {
-        _this.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
+        const spriteContainer = _this.dynamics[data.id].spriteContainer;
+        spriteContainer.onHitPointsModified(data.amount);
+        // Squirt some juice.
+        _this.damageParticleEmitter.emitParticleAt(
+            spriteContainer.x,
+            spriteContainer.y
+        );
     };
 
     eventResponses.active_state = (data) => {

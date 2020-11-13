@@ -49,7 +49,18 @@ class Character extends Container {
 
         this.baseSprite.on("pointerover", this.onPointerOver, this);
         this.baseSprite.on("pointerout", this.onPointerOut, this);
-    };
+
+        this.baseSprite.on("destroy", this.onDestroy, this);
+    }
+
+    onDestroy() {
+        // Squirt a lot of juice on death.
+        _this.damageParticleEmitter.emitParticleAt(
+            this.x,
+            this.y,
+            Phaser.Math.Between(15, 25),
+        );
+    }
 
     setDirection(direction) {
         switch (direction) {

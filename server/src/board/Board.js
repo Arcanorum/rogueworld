@@ -406,8 +406,6 @@ class Board {
     }
 
     destroy() {
-        console.log("board destroy:", this.id);
-
         // Need to remove all references from the board to the entity,
         // and also the entity to the board (done in Entity.onDestroy.
 

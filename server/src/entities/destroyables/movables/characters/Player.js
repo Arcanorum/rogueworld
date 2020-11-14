@@ -543,7 +543,7 @@ class Player extends Character {
      */
     pickUpItem() {
         // Get the tile the character is standing on.
-        const boardTile = this.board.grid[this.row][this.col];
+        const boardTile = this.getBoardTile();
 
         let pickup = null;
 

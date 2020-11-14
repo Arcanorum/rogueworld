@@ -1,4 +1,4 @@
-const Destroyable = require('../Destroyable');
+const Destroyable = require("../Destroyable");
 
 class Movable extends Destroyable {
     /**
@@ -23,7 +23,7 @@ class Movable extends Destroyable {
             this.EventsList.add_entity,
             this.getEmittableProperties({})
         );
-        // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that only calls getEmiitableProperties
+        // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that only calls getEmittableProperties
         // if any other players have been found, as the current way calls it for every move, even if there is nobody else seeing it,
         // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that a another
         // player is found on, instead of just once and use it if needed.
@@ -58,9 +58,6 @@ class Movable extends Destroyable {
      * @param {Number} toCol - The board grid col to reposition the entity to.
      */
     repositionAndEmitToNearbyPlayers(toRow, toCol) {
-        const origRow = this.row;
-        const origCol = this.col;
-
         // Tell the players in this zone that this dynamic has moved.
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.moved, { id: this.id, row: toRow, col: toCol });
 

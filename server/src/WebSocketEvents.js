@@ -363,7 +363,7 @@ eventResponses.drop_item = function (clientSocket, data) {
     // Check the item slot is valid, and not empty.
     if (item === undefined || item === null) return;
 
-    const boardTile = entity.board.grid[entity.row][entity.col];
+    const boardTile = entity.getBoardTile();
 
     // Check the board tile the player is standing on doesn't already have an item or interactable on it.
     if (boardTile.isLowBlocked() === true) {
@@ -497,18 +497,15 @@ eventResponses.focus_dungeon = (clientSocket, data) => {
 
     // Find the dungeon portal entity.
     const player = clientSocket.entity;
-    const grid = player.board.grid;
-    const gridRow = grid[data.row];
-    if (gridRow === undefined) return;
-    const boardTile = gridRow[data.col];
-    if (boardTile === undefined) return;
+    const boardTile = player.board.getTileAt(data.row, data.col);
+    if (!boardTile) return;
     const dungeonPortal = boardTile.static;
     if (dungeonPortal instanceof DungeonPortal === false) return;
     // Check they are adjacent to it.
     if (player.isAdjacentToEntity(dungeonPortal) === false) return;
 
     // Focus on the target dungeon manager.
-    clientSocket.entity.focusedDungeonManager = dungeonManager;
+    player.focusedDungeonManager = dungeonManager;
 
     // Send the the parties data straight away.
     clientSocket.sendEvent(EventsList.parties, dungeonManager.getPartiesData());
@@ -594,11 +591,8 @@ eventResponses.start_dungeon = (clientSocket, data) => {
 
     // Find the dungeon portal entity.
     const player = clientSocket.entity;
-    const grid = player.board.grid;
-    const gridRow = grid[data.row];
-    if (gridRow === undefined) return;
-    const boardTile = gridRow[data.col];
-    if (boardTile === undefined) return;
+    const boardTile = clientSocket.entity.board.getTileAt(data.row, data.col);
+    if (!boardTile) return;
     const dungeonPortal = boardTile.static;
     if (dungeonPortal instanceof DungeonPortal === false) return;
 
@@ -629,10 +623,8 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
     if (!data) return;
 
     // Make sure the board tile the client says the merchant is on is valid.
-    const grid = clientSocket.entity.board.grid;
-    if (grid[data.row] === undefined) return;
-    const boardTile = grid[data.row][data.col];
-    if (boardTile === undefined) return;
+    const boardTile = clientSocket.entity.board.getTileAt(data.row, data.col);
+    if (!boardTile) return;
     const entity = boardTile.destroyables[data.merchantID];
     if (entity === undefined) return;
     // Check the entity actually has a shop.
@@ -655,10 +647,8 @@ eventResponses.shop_buy_item = function (clientSocket, data) {
     if (clientSocket.entity.hitPoints <= 0) return;
 
     // Make sure the board tile the client says the merchant is on is valid.
-    const grid = clientSocket.entity.board.grid;
-    if (grid[data.row] === undefined) return;
-    const boardTile = grid[data.row][data.col];
-    if (boardTile === undefined) return;
+    const boardTile = clientSocket.entity.board.getTileAt(data.row, data.col);
+    if (!boardTile) return;
     const entity = boardTile.destroyables[data.merchantID];
     if (entity === undefined) return;
     // Check the entity actually has a shop.
@@ -679,10 +669,10 @@ eventResponses.clan_join = function (clientSocket) {
     if (clientSocket.entity.hitPoints <= 0) return;
 
     const player = clientSocket.entity;
-    const frontPos = player.board.getRowColInFront(player.direction, player.row, player.col);
-    /** @type {BoardTile} */
-    const frontTile = player.board.grid[frontPos.row][frontPos.col];
+    const frontTile = player.board.getTileInFront(player.direction, player.row, player.col);
 
+    if(!frontTile) return;
+    
     if (frontTile.static instanceof Charter) {
         frontTile.static.clan.addMember(player);
     }

@@ -173,6 +173,7 @@ class Entity {
 
     /**
      * Returns the board tile this entity is currently occupying.
+     * Shouldn't have to worry about the tile being valid, as they shouldn't be occupying an invalid tile.
      * @returns {BoardTile}
      */
     getBoardTile() {

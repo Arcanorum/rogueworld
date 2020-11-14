@@ -1,4 +1,4 @@
-const Boss = require('./Boss');
+const Boss = require("./Boss");
 
 const specialAttack1Rate = 5000;
 const specialAttack2Rate = 10000;
@@ -65,18 +65,16 @@ class ArchMage extends Boss {
      * Check for projectiles to reflect.
      */
     specialAttack3() {
-        const checkRange = 5;
-        const checkRangePlusOne = checkRange + 1;
-        let row;
-        /** @type {BoardTile} */
+        const
+            board = this.board,
+            checkRange = 5,
+            checkRangePlusOne = checkRange + 1;
         let tile;
 
         // Up and down.
         for (let i = -checkRange; i < checkRangePlusOne; i += 1) {
-            row = this.board.grid[this.row + i];
-            if (row === undefined) continue;
-            tile = row[this.col];
-            if (tile === undefined) continue;
+            tile = board.getTileAt(this.row + i, this.col);
+            if (!tile) continue;
 
             let destroyables = tile.destroyables;
 
@@ -97,10 +95,9 @@ class ArchMage extends Boss {
         }
 
         // Left and right.
-        row = this.board.grid[this.row];
         for (let i = -checkRange; i < checkRangePlusOne; i += 1) {
-            tile = row[this.col + i];
-            if (tile === undefined) continue;
+            tile = board.getTileAt(this.row, this.col + i);
+            if (!tile) continue;
 
             let destroyables = tile.destroyables;
 
@@ -117,14 +114,12 @@ class ArchMage extends Boss {
                 }
             }
         }
-
     }
-
 }
 module.exports = ArchMage;
-// TODO: can these be move to the top?
-const Projectile = require('./../../projectiles/Projectile');
-const ProjWind = require('./../../projectiles/ProjWind');
-const ProjPacify = require('./../../projectiles/ProjPacify');
-const MagicEffects = require('./../../../../../gameplay/MagicEffects');
-const Heal = require('../../../../../gameplay/Heal');
+// TODO: can these be moved to the top?
+const Projectile = require("./../../projectiles/Projectile");
+const ProjWind = require("./../../projectiles/ProjWind");
+const ProjPacify = require("./../../projectiles/ProjPacify");
+const MagicEffects = require("./../../../../../gameplay/MagicEffects");
+const Heal = require("../../../../../gameplay/Heal");

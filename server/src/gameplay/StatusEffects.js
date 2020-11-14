@@ -150,7 +150,7 @@ class Burn extends StatusEffect {
     shouldContinueEffect() {
         // If it is water, remove burning if it is applied.
         // Can't walk into deep water.
-        if (this.appliedTo.board.grid[this.appliedTo.row][this.appliedTo.col].groundType === GroundTypes.ShallowWater) {
+        if (this.appliedTo.getBoardTile().groundType === GroundTypes.ShallowWater) {
             return false;
         }
     }
@@ -158,7 +158,7 @@ class Burn extends StatusEffect {
     shouldStop() {
         // Check if they are standing in lava.
         // If so, keep burning.
-        if (this.appliedTo.board.grid[this.appliedTo.row][this.appliedTo.col].groundType.StatusEffect === Burn) {
+        if (this.appliedTo.getBoardTile().groundType.StatusEffect === Burn) {
             this._effectsRemaining = this._startingEffectsRemaining;
             return false;
         }
@@ -199,7 +199,7 @@ class Poison extends StatusEffect {
     shouldStop() {
         // Check if they are standing in poison.
         // If so, keep poisoned.
-        if (this.appliedTo.board.grid[this.appliedTo.row][this.appliedTo.col].groundType.StatusEffect === Poison) {
+        if (this.appliedTo.getBoardTile().groundType.StatusEffect === Poison) {
             this._effectsRemaining = this._startingEffectsRemaining;
             return false;
         }

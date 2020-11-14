@@ -130,14 +130,10 @@ class Character extends Movable {
 
         const currentBoard = this.board;
 
-        // Check the grid row element being accessed is valid.
-        if (currentBoard.grid[this.row + byRows] === undefined) return false;
-
         /** @type {BoardTile} */
-        const boardTile = currentBoard.grid[this.row + byRows][this.col + byCols];
+        const boardTile = currentBoard.getTileAt(this.row + byRows, this.col + byCols);
 
-        // Check the grid col element (the tile itself) being accessed is valid.
-        if (boardTile === undefined) return false;
+        if (!boardTile) return false;
 
         // If there is an interactable ahead, interact with it.
         if (boardTile.static !== null) {
@@ -194,6 +190,12 @@ class Character extends Movable {
                 })
             );
         }
+    }
+
+    repositionAndEmitToNearbyPlayers(toRow, toCol) {
+        if(this.board.grid[toRow][toCol].groundType.canBeStoodOn === false) return false;
+        super.repositionAndEmitToNearbyPlayers(toRow, toCol);
+        return true;
     }
 
     /**

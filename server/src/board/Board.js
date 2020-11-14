@@ -1028,6 +1028,7 @@ class Board {
      * @returns {BoardTile} 
      */
     getTileAt(row, col) {
+        // TODO: replace cases of ...board.grid[row][col] manaual tile validity checks with this method.
         if (this.grid[row] === undefined) return false;
         const tile = this.grid[row][col];
         // Check the grid col element (the tile itself) being accessed is valid.

@@ -754,13 +754,15 @@ class Game extends Phaser.Scene {
         if (dynamic === undefined) return;
 
         const style = {
-            font: "20px Press Start 2P",
+            fontFamily: "'Press Start 2P'",
+            fontSize: 20,
             align: "center",
             fill: fillColour || "#f5f5f5",
             stroke: "#000000",
             strokeThickness: 4,
-            wordWrap: true,
-            wordWrapWidth: 400
+            wordWrap: {
+                width: 400,
+            },
         };
 
         // Check if the message was a command.
@@ -796,15 +798,14 @@ class Game extends Phaser.Scene {
         _this.tweens.add({
             targets: chatText,
             duration: dungeonz.CHAT_BASE_LIFESPAN + (60 * message.length),
-            x: data.col * dungeonz.SCALED_TILE_SIZE,
             y: "-=30"
         });
         // How long the message should stay for.
-        chatText.lifespan = dungeonz.CHAT_BASE_LIFESPAN + (80 * message.length);
+        const duration = dungeonz.CHAT_BASE_LIFESPAN + (80 * message.length);
         // Destroy and remove from the list of chat messages when the lifespan is over.
-        chatText.events.onKilled.add(function () {
-            this.destroy();
-        }, chatText);
+        setTimeout(() => {
+            chatText.destroy();
+        }, duration);
     }
 }
 

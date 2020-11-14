@@ -58,8 +58,9 @@ class Container extends Phaser.GameObjects.Container {
      * Add a text object to this sprite to use as the damage indicator.
      */
     addDamageMarker() {
-        this.damageMarker = _this.add.text(dungeonz.TILE_SIZE / 2, dungeonz.TILE_SIZE / 2, -99, {
-            font: "20px Press Start 2P",
+        this.damageMarker = _this.add.text(0, 0, -99, {
+            fontFamily: "'Press Start 2P'",
+            fontSize: 20,
             align: "center",
             fill: "#f5f5f5",
             stroke: "#000000",
@@ -78,8 +79,9 @@ class Container extends Phaser.GameObjects.Container {
      */
     addDisplayName(displayName) {
         // The anchor is still in the top left, so offset by half the width to center the text.
-        this.displayName = _this.add.text(dungeonz.TILE_SIZE / 2, 4, displayName, {
-            font: "20px Press Start 2P",
+        this.displayName = _this.add.text(0, -6, displayName, {
+            fontFamily: "'Press Start 2P'",
+            fontSize: 20,
             align: "center",
             fill: "#f5f5f5",
             stroke: "#000000",

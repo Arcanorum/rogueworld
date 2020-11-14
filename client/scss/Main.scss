@@ -49,6 +49,13 @@ img {
   font-size: 1.5vw;
 }
 
+@font-face {
+  font-family: "Press Start 2P";
+  src: url('./assets/font/PressStart2P-Regular.ttf');
+  font-weight:400;
+  font-weight:normal;
+}
+
 .press_start_font {
   font-family: 'Press Start 2P', cursive;
   letter-spacing: 0.1em;

@@ -21,7 +21,7 @@ const playerViewRange = EntitiesList["Player"].viewRange;
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
 // Precomputed value to avoid having to do `i <= playerViewRange` (2 checks), or `i < playerViewRange + 1` (repeated calculation).
 const playerViewRangePlusOne = playerViewRange + 1;
-const Directions = require("../entities/Entity").prototype.Directions;
+const { Directions, OppositeDirections } = require("../entities/Entity").prototype;
 
 // Sum the amount of tiles in each previous tileset to get the start GID of each tileset.
 const boundariesStartGID = groundTileset.tilecount;
@@ -1020,14 +1020,45 @@ class Board {
         return opposite;
     }
 
+    /**
+     * Gets the tile on this board at the given position.
+     * Returns false if the position is invalid.
+     * @param {Number} row 
+     * @param {Number} col
+     * @returns {BoardTile} 
+     */
+    getTileAt(row, col) {
+        if (this.grid[row] === undefined) return false;
+        const tile = this.grid[row][col];
+        // Check the grid col element (the tile itself) being accessed is valid.
+        if (tile === undefined) return false;
+        return tile;
+    }
+
+    /**
+     * Gets the tile on this board in front of the given position.
+     * Returns false if the position is invalid.
+     * @param {String} direction 
+     * @param {Number} row 
+     * @param {Number} col 
+     */
     getTileInFront(direction, row, col) {
         const front = this.getRowColInFront(direction, row, col);
 
-        if (this.grid[front.row] === undefined) return false;
-        const tile = this.grid[front.row][front.col];
-        if (tile === undefined) return false;
+        return this.getTileAt(front.row, front.col) || false;
+    }
 
-        return tile;
+    /**
+     * Gets the tile on this board behind (other side from direction) of the given position.
+     * Returns false if the position is invalid.
+     * @param {String} direction 
+     * @param {Number} row 
+     * @param {Number} col 
+     */
+    getTileBehind(direction, row, col) {
+        const behind = this.getRowColInFront(OppositeDirections[direction], row, col);
+
+        return this.getTileAt(behind.row, behind.col) || false;
     }
 
     /**

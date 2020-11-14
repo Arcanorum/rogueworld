@@ -583,6 +583,11 @@ class Mob extends Character {
     }
 
     /**
+     * Overwrite with what to do before attempting to attack.
+     */
+    preAttack() { }
+
+    /**
      * Attempt to attack the target of this mob.
      * The attack it does depends on if this mob is melee, or uses a projectile.
      * If the target is found to be dead, stops targeting.
@@ -599,6 +604,8 @@ class Mob extends Character {
             }
         }
 
+        this.preAttack();
+
         // Stop attacking if the target is dead.
         if (this.target.hitPoints <= 0) {
             this.target = null;
@@ -606,10 +613,12 @@ class Mob extends Character {
         }
 
         this.attackFunction();
-
     }
 
-    onAttackSuccess() { };
+    /**
+     * Overwrite with what to do after a successful attack.
+     */
+    onAttackSuccess() { }
 
     /**
      * Hit the target if they are in an adjacent tile.
@@ -670,6 +679,7 @@ class Mob extends Character {
      * @param {Function} ProjectileType - The projectile entity class itself, not an instance.
      */
     changeAttackProjectile(ProjectileType) {
+        if (ProjectileType === this.projectileAttackType) return;
         if (ProjectileType) {
             this.projectileAttackType = ProjectileType;
             // Get the attack range from the projectile.
@@ -1664,6 +1674,48 @@ class Mob extends Character {
         if (this.Factions.getRelationship(this.faction, character.faction) === this.Factions.RelationshipStatuses.Hostile) return true;
 
         return false;
+    }
+
+    teleportBehindTarget() {
+        // Don't bother if no target.
+        if (this.target === null) return;
+        // Check the target is alive.
+        if (this.target.hitPoints < 1) {
+            this.target = null;
+            return;
+        }
+
+        // Get the position behind the target.
+        const behindTile = this.board.getTileBehind(this.target.direction, this.target.row, this.target.col);
+        if(!behindTile) return;
+
+        // Check the tile behind them isn't blocked before moving.
+        if (behindTile.isLowBlocked()) return;
+        
+        // Avoid teleporting onto hazards.
+        if(behindTile.groundType.hazardous) return;
+
+        const behindOffset = this.board.directionToRowColOffset(this.OppositeDirections[this.target.direction]);
+        // Move behind the target if possible.
+        if(this.repositionAndEmitToNearbyPlayers(this.target.row + behindOffset.row, this.target.col + behindOffset.col) === false) return;
+        // Face the target's back.
+        this.modDirection(this.target.direction);
+    }
+
+    teleportOntoTarget() {
+        // Don't bother if no target.
+        if (this.target === null) return;
+        // Check the target is alive.
+        if (this.target.hitPoints < 1) {
+            this.target = null;
+            return;
+        }
+
+        // Avoid teleporting onto hazards if the target is standing on one.
+        if(this.target.getBoardTile().groundType.hazardous) return;
+
+        // Cannot reach their back. Teleport onto the same tile instead.
+        this.repositionAndEmitToNearbyPlayers(this.target.row, this.target.col);
     }
 
     /**

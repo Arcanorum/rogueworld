@@ -1,5 +1,5 @@
-const Mob = require('./Mob');
-const Utils = require('../../../../../Utils');
+const Mob = require("./Mob");
+const Utils = require("../../../../../Utils");
 
 class Assassin extends Mob {
     /**
@@ -13,12 +13,18 @@ class Assassin extends Mob {
     constructor(config) {
         super(config);
 
-        // This mob type can have different projectile attacks.
-        if (Utils.getRandomIntInclusive(0, 1) === 1) {
+        this.specialAttackTimeout = setInterval(this.specialAttack.bind(this), 10000);
+    }
+
+    preAttack() {
+        // Decide what weapon to use based on proximity to target.
+        if(!this.target) return;
+        if(this.isAdjacentToEntity(this.target)) {
+            this.changeAttackProjectile(ProjNoctisDagger);
+        }
+        else {
             this.changeAttackProjectile(ProjShuriken);
         }
-
-        this.specialAttackTimeout = setTimeout(this.specialAttack.bind(this), 10000);
     }
 
     onDestroy() {
@@ -28,34 +34,13 @@ class Assassin extends Mob {
     }
 
     specialAttack() {
-        // Don't bother if no target.
-        if (this.target !== null) {
-            // Check the target is alive.
-            if (this.target.hitPoints < 1) {
-                this.target = null;
-                return;
-            }
-            // Get the position behind the target.
-            const behindOffset = this.board.directionToRowColOffset(this.OppositeDirections[this.target.direction]);
-            const behindRow = this.board.grid[this.target.row + behindOffset.row];
-            if (behindRow === undefined) return;
-            /** @type {BoardTile} */
-            const behindTile = behindRow[this.target.col + behindOffset.col];
-            if (behindTile === undefined) return;
-            // Check the tile behind them isn't blocked before moving.
-            if (behindTile.isLowBlocked() === false) {
-                // Move behind the target.
-                this.repositionAndEmitToNearbyPlayers(this.target.row + behindOffset.row, this.target.col + behindOffset.col);
-                // Face the target's back.
-                this.modDirection(this.target.direction);
-            }
-        }
-        this.specialAttackTimeout = setTimeout(this.specialAttack.bind(this), 10000);
+        this.teleportBehindTarget() || this.teleportOntoTarget();
     }
 
 }
 module.exports = Assassin;
 
-const ProjShuriken = require('./../../projectiles/ProjShuriken');
+const ProjShuriken = require("./../../projectiles/ProjShuriken");
+const ProjNoctisDagger = require("./../../projectiles/ProjNoctisDagger");
 
-Assassin.prototype.taskIDKilled = require('../../../../../tasks/TaskTypes').KillOutlaws.taskID;
+Assassin.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillOutlaws.taskID;

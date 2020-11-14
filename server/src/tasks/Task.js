@@ -1,4 +1,3 @@
-
 const EventsList = require("./../EventsList");
 const Utils = require("../Utils");
 const RewardsList = require("./RewardsList");

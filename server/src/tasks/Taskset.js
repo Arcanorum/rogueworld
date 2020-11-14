@@ -1,4 +1,3 @@
-
 class Taskset {
     /**
      * A new set of tasks. Can be continued from what tasks the player had before.
@@ -79,7 +78,7 @@ class Taskset {
 
 module.exports = Taskset;
 
-//const TaskProgress = require('./TaskProgress.js');
-const Task = require('./Task');
-const TaskTypes = require('./TaskTypes');
-const ItemsList = require('../ItemsList');
+//const TaskProgress = require("./TaskProgress.js");
+const Task = require("./Task");
+const TaskTypes = require("./TaskTypes");
+const ItemsList = require("../ItemsList");

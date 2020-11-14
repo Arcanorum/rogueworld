@@ -6,9 +6,6 @@ const EntitiesLoader = require("./src/EntitiesLoader");
 
 Utils.message("Start of index");
 
-require("./src/AccountManager").setup()
-    .then(init);
-
 async function init() {
     const { wss } = require("./src/Server");
     
@@ -20,6 +17,9 @@ async function init() {
 
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();
+
+    const AccountManager = require("./src/AccountManager");
+    await AccountManager.setup();
 
     require("./src/WebSocketEvents");
     require("./src/TextDefinitionsParser");
@@ -115,3 +115,5 @@ async function init() {
     Utils.message("End of index. Server is good to go. :)");
     Utils.message("Game can be played at http://localhost/4567");
 }
+
+init();

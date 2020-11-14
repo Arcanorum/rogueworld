@@ -1,7 +1,6 @@
 const fs = require("fs");
 const Utils = require("./Utils");
 const EntitiesList = require("./EntitiesList");
-const Mob = require("./entities/destroyables/movables/characters/mobs/Mob");
 
 const populateList = () => {
     Utils.message("Populating entities list.");
@@ -27,6 +26,8 @@ const populateList = () => {
 
 const initialiseList = () => {
     Utils.message("Initialising entities list.");
+
+    const Mob = require("./entities/destroyables/movables/characters/mobs/Mob");
 
     Mob.loadMobStats();
 

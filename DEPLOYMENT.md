@@ -8,7 +8,7 @@ The game server runs as unsecured NodeJS server, which means that it will only a
 
 We can keep running the server on unsecure HTTP, and just have any requests routed to it through a reverse proxy that is secured. This allows us to still be able to access the game for development on localhost:4567 as we don't care about security when it is just for testing things locally.
 
-For this, Caddy is recommended, due to it's ease of setup.
+For this, Caddy is recommended, due to it's ease of setup. The project already has a Caddyfile for expected config.
 
 https://caddyserver.com/docs/download
 

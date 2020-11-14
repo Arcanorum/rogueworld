@@ -6,7 +6,7 @@ class Entity extends Merchant {
         super(x, y, config);
 
         this.displayName.setText(dungeonz.getTextDef("Mob name: Priest"));
-        this.baseSprite.setFrame("merchant-priest-1");
+        this.baseSprite.setFrame("trader-priest-1");
         this.npcShopType = NPCShopTypes.Respawns;
     }
 }

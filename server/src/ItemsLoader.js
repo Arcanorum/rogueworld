@@ -65,6 +65,7 @@ const populateList = () => {
                 if(value.hasOwnProperty("abstract")) return;
 
                 value.assignPickupType(baseName);
+                value.prototype.typeName = baseName;
 
                 ItemsList[baseName] = value;
             }

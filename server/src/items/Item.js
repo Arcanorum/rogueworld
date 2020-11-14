@@ -179,7 +179,10 @@ class Item {
         this.iconSource = config.iconSource;
 
         Object.entries(config).forEach(([key, value]) => {
-            if(key === "name") return;
+            if(key === "name") {
+                this.prototype.typeName = value;
+                return;
+            }
 
             // Only load properties that should actually exist on this class.
             if(this.prototype[key] !== undefined){
@@ -204,6 +207,8 @@ Item.abstract = true;
 Item.translationID = "Translation ID name not set.";
 
 Item.iconSource = "Icon source not set.";
+
+Item.prototype.typeName = "Type name not set."
 
 // Give all Items easy access to the finished EntitiesList. Needs to be done when all entities are finished initing, or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};

@@ -39,7 +39,7 @@ class BankAccount {
         if(itemType === undefined) return;
         /** @type {BankItem} */
         const bankItem = this.items[slotIndex];
-        bankItem.itemTypeName = itemType.name;
+        bankItem.itemTypeName = itemType.prototype.typeName;
         bankItem.durability = durability || itemType.prototype.baseDurability || null;
         bankItem.maxDurability = maxDurability || itemType.prototype.baseDurability || null;
     }
@@ -84,7 +84,7 @@ class BankAccount {
         // The data to store, before the item is destroyed.
         const durability = inventoryItem.durability;
         const maxDurability = inventoryItem.maxDurability;
-        const itemTypeName = inventoryItem.constructor.name;
+        const itemTypeName = inventoryItem.typeName;
 
         // Destroy the deposited item from the inventory.
         inventoryItem.destroy();
@@ -148,7 +148,7 @@ class BankAccount {
                 // The data to store, before the item is destroyed.
                 const durability = inventoryItem.durability;
                 const maxDurability = inventoryItem.maxDurability;
-                const itemTypeName = inventoryItem.constructor.name;
+                const itemTypeName = inventoryItem.typeName;
                 const typeNumber = inventoryItem.typeNumber;
 
                 // Remove the item from the inventory slot.

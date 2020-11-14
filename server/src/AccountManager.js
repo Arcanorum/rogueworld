@@ -358,7 +358,7 @@ module.exports = {
     getFormattedSaveData(entity) {
         /**
          * DO NOT SAVE TYPE NUMBERS OF ANY KIND, AS THEY WILL CHANGE BETWEEN BUILDS AS THINGS ARE ADDED.
-         * Type names are fine. i.e. "ItemIronSword"
+         * Type names are fine. i.e. "IronSword"
          */
         const data = {};
 
@@ -367,18 +367,16 @@ module.exports = {
         data.glory = entity.glory;
 
         // Bank.
-        data.bankItems = [];
-        const bankItems = entity.bankAccount.items;
-        for (let i = 0, len = bankItems.length; i < len; i += 1) {
-            data.bankItems[i] = {
+        data.bankItems = entity.bankAccount.items.map((bankItem) => {
+            return {
                 // Item type name.
-                itemTypeName: bankItems[i].itemTypeName,
+                itemTypeName: bankItem.itemTypeName,
                 // Durability.
-                durability: bankItems[i].durability,
+                durability: bankItem.durability,
                 // Max durability.
-                maxDurability: bankItems[i].maxDurability
+                maxDurability: bankItem.maxDurability
             };
-        }
+        });
 
         // Inventory.
         data.inventory = {};
@@ -389,7 +387,7 @@ module.exports = {
             data.inventory[slotKey] = {
                 // TODO: save by unique/unchanging item codes here, instead of class name, too brittle
                 // Item type name.
-                itemTypeName: entity.inventory[slotKey].constructor.name,
+                itemTypeName: entity.inventory[slotKey].typeName,
                 // Durability.
                 durability: entity.inventory[slotKey].durability,
                 // Max durability.
@@ -411,11 +409,10 @@ module.exports = {
             if (tasksList.hasOwnProperty(taskKey) === false) continue;
             /** @type {Task} */
             const task = tasksList[taskKey];
-            const itemTypes = [];
             // Can't save the class references, so save the class names.
-            for (let i = 0; i < task.rewardItemTypes.length; i += 1) {
-                itemTypes.push(task.rewardItemTypes[i].name);
-            }
+            const itemTypes = task.rewardItemTypes.map((rewardItemType) => {
+                return rewardItemType.prototype.typeName;
+            });
             data.tasks[taskKey] = {
                 taskID: task.taskType.taskID,
                 progress: task.progress,

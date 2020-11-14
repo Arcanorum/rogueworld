@@ -10,11 +10,12 @@
         scale: {
             mode: Phaser.Scale.RESIZE,
             autoCenter: Phaser.Scale.CENTER_BOTH,
+            fullscreenTarget: "game_cont",
         },
         scene: [dungeonz.Boot, dungeonz.Game]
     });
 
-    game.scene.start('Boot');
+    game.scene.start("Boot");
 
     // Check if the game should be run in dev mode by checking if it is localhost.
     if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "") {

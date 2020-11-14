@@ -136,12 +136,12 @@ class SettingsBar {
         this.fullscreenIcon.onmouseover = function () { settingsBar.fullscreenTooltip.style.visibility = "visible" };
         this.fullscreenIcon.onmouseout = function () { settingsBar.fullscreenTooltip.style.visibility = "hidden" };
         this.fullscreenIcon.onclick = function () {
-            if (_this.game.scale.isFullScreen === true) {
-                _this.game.scale.stopFullScreen();
+            if (_this.scale.isFullscreen === true) {
+                _this.scale.stopFullscreen();
                 settingsBar.fullscreenIcon.style.opacity = "0.5";
             }
             else {
-                _this.game.scale.startFullScreen(true);
+                _this.scale.startFullscreen();
                 settingsBar.fullscreenIcon.style.opacity = "1";
             }
         };

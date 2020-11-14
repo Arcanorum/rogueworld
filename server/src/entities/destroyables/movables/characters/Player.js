@@ -634,6 +634,8 @@ const Damage = require("../../../../gameplay/Damage");
 Player.prototype.ChatWarnings = require("../../../../ChatWarnings");
 /** @type {Number} How long between each move. */
 Player.prototype.moveDelay = 250;
+/** @type {Number} Set this for it to be sent to the client too, so it can tween/animate at the right speed. */
+Player.prototype.moveRate = 250;
 /** @type {Number} */
 Player.prototype.maxHitPoints = 200;
 /** @type {Number} */

@@ -99,6 +99,10 @@ const ModHitPointConfigs = {
         damageAmount: 6,
         damageTypes: [Magical]
     },
+    ProjDark: {
+        damageAmount: 20,
+        damageTypes: [Magical]
+    },
 
     BookOfLightHealArea: {
         healAmount: 20

@@ -541,25 +541,28 @@
       dropRate: 10
 
 - name: SmallAdumbral
+  maxHitPoints: 50
   gloryValue: 50
   viewRange: 5
-  moveRate: 400
+  moveRate: 300
   attackRate: 1000
   meleeDamageAmount: 10
   faction: HostileAnimals
 
 - name: MediumAdumbral
+  maxHitPoints: 150
   gloryValue: 100
   viewRange: 6
-  moveRate: 600
+  moveRate: 400
   attackRate: 1500
   meleeDamageAmount: 20
   faction: HostileAnimals
 
 - name: LargeAdumbral
+  maxHitPoints: 300
   gloryValue: 200
-  viewRange: 7
-  moveRate: 800
-  attackRate: 2000
-  meleeDamageAmount: 30
+  viewRange: 8
+  moveRate: 500
+  attackRate: 1000
+  projectileAttackType: Dark
   faction: HostileAnimals

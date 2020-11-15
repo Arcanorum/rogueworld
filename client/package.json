@@ -7,7 +7,7 @@
     "start": "npm run pack && npx sass scss/Main.scss:main.css && webpack --mode development",
     "dev": "nodemon --exec npm start",
     "pack": "npm run pack:sprites",
-    "pack:sprites": "free-tex-packer-cli --project assets/img/sprites-packer.ftpp --output assets/img"
+    "pack:sprites": "free-tex-packer-cli --project assets/img/game-atlas-packer.ftpp --output assets/img"
   },
   "keywords": [],
   "author": "",

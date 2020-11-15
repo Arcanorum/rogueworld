@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx sass scss/Main.scss:main.css && webpack --mode development",
-    "dev": "nodemon --exec npm start"
+    "start": "npm run pack && npx sass scss/Main.scss:main.css && webpack --mode development",
+    "dev": "nodemon --exec npm start",
+    "pack": "npm run pack:sprites",
+    "pack:sprites": "free-tex-packer-cli --project assets/img/sprites-packer.ftpp --output assets/img"
   },
   "keywords": [],
   "author": "",
@@ -15,13 +17,17 @@
       ".git",
       "node_modules/**/node_modules",
       "dist",
-      "main.css"
+      "main.css",
+      "game-atlas.png",
+      "game-atlas.json"
     ],
-    "ext": "js,json,css,scss,html,txt"
+    "ext": "js,json,css,scss,html,txt,png"
   },
   "devDependencies": {
+    "free-tex-packer-cli": "^0.2.8",
     "sass": "^1.23.7",
     "webpack": "4.32.2",
     "webpack-cli": "3.3.2"
-  }
+  },
+  "dependencies": {}
 }

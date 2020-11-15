@@ -6,6 +6,8 @@ client/main.css
 client/main.css.map
 client/dist/
 client/assets/map/
+client/assets/img/game-atlas.json
+client/assets/img/game-atlas.png
 client/assets/img/ground.png
 client/assets/img/statics.png
 client/src/catalogues/

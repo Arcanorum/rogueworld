@@ -1,4 +1,4 @@
-const Mob = require('./Mob');
+const Mob = require("./Mob");
 
 class Prisoner extends Mob {}
 module.exports = Prisoner;

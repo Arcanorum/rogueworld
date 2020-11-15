@@ -1,4 +1,4 @@
-const Boss = require('./Boss');
+const Boss = require("./Boss");
 
 const specialAttack1Rate = 30000;
 const specialAttack2Rate = 6000;
@@ -42,10 +42,11 @@ class GreatGnarl extends Boss {
                 return;
             }
             // Spawn a grass scamp in each direction.
-            const grassScamp1 = new GrassScamp({row: this.row - 1,  col: this.col - 1,  board: this.board, lifespan: 60000}).emitToNearbyPlayers();
-            const grassScamp2 = new GrassScamp({row: this.row - 1,  col: this.col + 1,  board: this.board, lifespan: 60000}).emitToNearbyPlayers();
-            const grassScamp3 = new GrassScamp({row: this.row + 1,  col: this.col - 1,  board: this.board, lifespan: 60000}).emitToNearbyPlayers();
-            const grassScamp4 = new GrassScamp({row: this.row + 1,  col: this.col + 1,  board: this.board, lifespan: 60000}).emitToNearbyPlayers();
+            // TODO: Check the tile in each direction is valid.
+            const grassScamp1 = new GrassScamp({row: this.row - 1, col: this.col - 1, board: this.board, lifespan: 60000}).emitToNearbyPlayers();
+            const grassScamp2 = new GrassScamp({row: this.row - 1, col: this.col + 1, board: this.board, lifespan: 60000}).emitToNearbyPlayers();
+            const grassScamp3 = new GrassScamp({row: this.row + 1, col: this.col - 1, board: this.board, lifespan: 60000}).emitToNearbyPlayers();
+            const grassScamp4 = new GrassScamp({row: this.row + 1, col: this.col + 1, board: this.board, lifespan: 60000}).emitToNearbyPlayers();
 
             grassScamp1.modDirection('u');
             grassScamp2.modDirection('r');

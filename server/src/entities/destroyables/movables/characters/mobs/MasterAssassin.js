@@ -1,4 +1,4 @@
-const Boss = require('./Boss');
+const Boss = require("./Boss");
 const Utils = require('./../../../../../Utils');
 
 const specialAttack1Rate = 6000;

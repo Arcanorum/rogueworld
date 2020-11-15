@@ -1,4 +1,4 @@
-const Boss = require('./Boss');
+const Boss = require("./Boss");
 
 class BanditLeader extends Boss { }
 module.exports = BanditLeader;

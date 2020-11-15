@@ -1,4 +1,4 @@
-const Boss = require('./Boss');
+const Boss = require("./Boss");
 
 class Pharaoh extends Boss {}
 module.exports = Pharaoh;

@@ -31,3 +31,7 @@ module.exports = SmallAdumbral;
 const DayPhases = require("../../../../../DayPhases");
 const Damage = require("../../../../../gameplay/Damage");
 const Heal = require("../../../../../gameplay/Heal");
+
+SmallAdumbral.prototype.spawnableDayPhases = {
+    [DayPhases.Night]: true,
+};

@@ -10,13 +10,17 @@ const DayPhases = require("./DayPhases");
 
 // Set up the day phase cycle.
 const dayPhaseCycle = [];
-// 12 parts day and night, 1 part transition between them.
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 2);
+// 11 parts day and night, 1 part transition between them.
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 11);
 Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 1);
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 2);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 11);
 Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
+
+const fullDayDuration = 60000 * 24;
 // Keep the length of a whole day the same, regarless of how many cycle phases each day has.
-const dayPhaseRate = (60000 * 24) / dayPhaseCycle.length;
+const dayPhaseRate = fullDayDuration / dayPhaseCycle.length;
+Utils.message("Full day duration:", fullDayDuration / 60000, "minutes.");
+Utils.message("Day phase rate:", dayPhaseRate / 60000, "minutes.");
 
 const world = {
 

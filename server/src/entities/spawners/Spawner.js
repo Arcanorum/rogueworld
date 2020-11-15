@@ -109,7 +109,7 @@ class Spawner extends Entity {
             return false;
         }
 
-        if (this.EntityType.prototype.checkSpawnCriteria(boardTile, World.dayPhase) === false) {
+        if (this.EntityType.prototype.checkSpawnCriteria(boardTile, this.board.dayPhase) === false) {
             // Restart the spawn.
             this.addSpawnTimeout();
             return false;

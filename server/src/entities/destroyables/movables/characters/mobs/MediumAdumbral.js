@@ -73,3 +73,7 @@ const SmallAdumbral = require("./../../characters/mobs/SmallAdumbral");
 const DayPhases = require("../../../../../DayPhases");
 const Damage = require("../../../../../gameplay/Damage");
 const Heal = require("../../../../../gameplay/Heal");
+
+MediumAdumbral.prototype.spawnableDayPhases = {
+    [DayPhases.Night]: true,
+};

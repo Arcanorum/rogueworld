@@ -1,6 +1,7 @@
 const Utils = require("../Utils");
 const Damage = require("../gameplay/Damage");
 const Heal = require("../gameplay/Heal");
+const DayPhases = require("../DayPhases");
 
 const idCounter = new Utils.Counter();
 const typeNumberCounter = new Utils.Counter();
@@ -279,6 +280,8 @@ class Entity {
      * @returns {Boolean}
      */
     checkSpawnCriteria(boardTile, dayPhase) {
+        if(!this.spawnableDayPhases[dayPhase]) return false;
+        
         return true;
     }
 
@@ -337,6 +340,17 @@ Entity.prototype.SideDirections = {
  * @type {Number}
  */
 Entity.prototype.spawnRate = 60000;
+
+/**
+ * A list of times of day that this entity can be spawned during.
+ * @type {Array.<Number>}
+ */
+Entity.prototype.spawnableDayPhases = {
+    [DayPhases.Dawn]: true,
+    [DayPhases.Day]: true,
+    [DayPhases.Dusk]: true,
+    [DayPhases.Night]: true,
+};
 
 Entity.prototype.maxHitPoints = null;
 Entity.prototype.hitPoints = null;

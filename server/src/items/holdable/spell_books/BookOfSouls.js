@@ -4,7 +4,6 @@ const ModHitPointConfigs = require("../../../gameplay/ModHitPointConfigs");
 const Heal = require("../../../gameplay/Heal");
 
 class BookOfSouls extends SpellBook {
-
     /**
      * Enthrall
      */
@@ -32,7 +31,7 @@ class BookOfSouls extends SpellBook {
                 for (let entityKey in boardTile.destroyables) {
                     if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
 
-                    if (boardTile.destroyables[entityKey] instanceof this.EntitiesList.Zombie === false) continue;
+                    if (boardTile.destroyables[entityKey] instanceof this.EntitiesList.AbstractClasses.Zombie === false) continue;
 
                     if (boardTile.destroyables[entityKey].master !== null) continue;
 
@@ -59,7 +58,7 @@ class BookOfSouls extends SpellBook {
         for (let entityKey in boardTile.destroyables) {
             if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
 
-            if (boardTile.destroyables[entityKey] instanceof this.EntitiesList.Zombie === false) continue;
+            if (boardTile.destroyables[entityKey] instanceof this.EntitiesList.AbstractClasses.Zombie === false) continue;
 
             if (boardTile.destroyables[entityKey].master === this.owner) {
                 // Consume the minion.
@@ -102,7 +101,7 @@ class BookOfSouls extends SpellBook {
                     if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
                     dynamic = boardTile.destroyables[entityKey];
                     // Skip anything that isn't a corpse.
-                    if (dynamic instanceof this.EntitiesList.Corpse === false) continue;
+                    if (dynamic instanceof this.EntitiesList.AbstractClasses.Corpse === false) continue;
                     // Create the zombie.
                     zombie = new dynamic.ZombieType({ row: dynamic.row, col: dynamic.col, board: dynamic.board }).emitToNearbyPlayers();
                     // Make the zombie follow the player.

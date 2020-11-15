@@ -1,3 +1,5 @@
-const EntitiesList = {};
+const EntitiesList = {
+    AbstractClasses: {},
+};
 
 module.exports = EntitiesList;

@@ -85,7 +85,7 @@ module.exports = Zombie;
 
 Zombie.abstract = true;
 
-const Character = require('../../Character');
+const Character = require("../../Character");
 
 /**
  * The master of this zombie.
@@ -97,4 +97,4 @@ Zombie.prototype.meleeDamageAmount = 2;
 Zombie.prototype.moveRate = 500;
 Zombie.prototype.viewRange = 4;
 Zombie.prototype.faction = Zombie.prototype.Factions.Zombies;
-Zombie.prototype.taskIDKilled = require('../../../../../../tasks/TaskTypes').KillZombies.taskID;
+Zombie.prototype.taskIDKilled = require("../../../../../../tasks/TaskTypes").KillZombies.taskID;

@@ -12,7 +12,10 @@ const populateList = () => {
             if (typeof value === "function") {
                 // Don't do any additional setup for abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
-                if(value.hasOwnProperty("abstract")) return;
+                if(value.hasOwnProperty("abstract")) {
+                    EntitiesList.AbstractClasses[baseName] = value;
+                    return;
+                };
 
                 value.registerEntityType();
 
@@ -43,6 +46,7 @@ const createCatalogue = () => {
     let dataToWrite = {};
 
     for (let entityTypeKey in EntitiesList) {
+        if(entityTypeKey === "AbstractClasses") continue;
         // Don't check prototype properties.
         if (EntitiesList.hasOwnProperty(entityTypeKey) === false) continue;
         // Only add registered types.

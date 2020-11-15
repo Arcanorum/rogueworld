@@ -1042,6 +1042,7 @@ class Board {
      * @param {String} direction 
      * @param {Number} row 
      * @param {Number} col 
+     * @returns {BoardTile} 
      */
     getTileInFront(direction, row, col) {
         const front = this.getRowColInFront(direction, row, col);

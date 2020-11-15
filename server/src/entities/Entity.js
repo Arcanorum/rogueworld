@@ -318,10 +318,17 @@ Entity.prototype.Directions = {
  * @type {{u: string, d: string, r: string, l: string}}
  */
 Entity.prototype.OppositeDirections = {
-    "u": "d",
-    "d": "u",
-    "r": "l",
-    "l": "r"
+    "u": Entity.prototype.Directions.DOWN,
+    "d": Entity.prototype.Directions.UP,
+    "l": Entity.prototype.Directions.RIGHT,
+    "r": Entity.prototype.Directions.LEFT,
+};
+
+Entity.prototype.SideDirections = {
+    "u": [Entity.prototype.Directions.LEFT, Entity.prototype.Directions.RIGHT],
+    "d": [Entity.prototype.Directions.RIGHT, Entity.prototype.Directions.LEFT],
+    "l": [Entity.prototype.Directions.DOWN, Entity.prototype.Directions.UP],
+    "r": [Entity.prototype.Directions.UP, Entity.prototype.Directions.DOWN],
 };
 
 /**

@@ -8,6 +8,6 @@ class Entity extends Character {
     }
 }
 
-Entity.prototype.animationSetName = "bandit";
+Entity.prototype.animationSetName = "adumbral-large";
 
 export default Entity;

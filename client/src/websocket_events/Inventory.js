@@ -1,5 +1,5 @@
 import ItemTypes from "../catalogues/ItemTypes";
-import { setAttackCursor, setHandCursor } from "../Cursors";
+import { setAttackCursor, setDefaultCursor, setHandCursor } from "../Cursors";
 
 export default (eventResponses) => {
 
@@ -62,7 +62,7 @@ export default (eventResponses) => {
         _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
         _this.GUI.spellBar.hide();
         // Change the cursor back to what it was before.
-        setHandCursor();
+        setDefaultCursor();
     };
 
     /**

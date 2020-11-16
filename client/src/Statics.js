@@ -1,4 +1,4 @@
-import { setHandCursor, setPreviousCursor } from "./Cursors";
+import { setAttackCursor, setDefaultCursor, setHandCursor } from "./Cursors";
 
 class Static extends Phaser.GameObjects.Container {
     constructor(config) {
@@ -33,7 +33,12 @@ class Static extends Phaser.GameObjects.Container {
             });
 
             this.tileSprite.on("pointerout", () => {
-                setPreviousCursor();
+                if(_this.player.holdingItem){
+                    setAttackCursor();
+                }
+                else {
+                    setDefaultCursor();
+                }
             });
 
             _this.interactables[this.id] = this;

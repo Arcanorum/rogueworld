@@ -31,12 +31,12 @@ class Character extends Container {
         this.poisonEffect = this.addEffect("poison-effect-1");
         this.burnEffect = this.addEffect("burn-effect-1");
 
-        this.curseIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 - 6, -6, "game-atlas", "curse-icon");
+        this.curseIcon = _this.add.sprite(-6, -10, "game-atlas", "curse-icon");
         this.curseIcon.setOrigin(0.5);
         this.add(this.curseIcon);
         this.curseIcon.visible = false;
 
-        this.enchantmentIcon = _this.add.sprite(dungeonz.TILE_SIZE / 2 + 6, -6, "game-atlas", "enchantment-icon");
+        this.enchantmentIcon = _this.add.sprite(6, -10, "game-atlas", "enchantment-icon");
         this.enchantmentIcon.setOrigin(0.5);
         this.add(this.enchantmentIcon);
         this.enchantmentIcon.visible = false;

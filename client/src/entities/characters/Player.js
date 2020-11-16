@@ -10,6 +10,8 @@ class Entity extends Character {
         this.clothes = new Clothes(config);
         this.add(this.clothes);
         // Bring the display name and damage/heal marker over the clothes, so the clothes don't cover them.
+        this.bringToTop(this.curseIcon);
+        this.bringToTop(this.enchantmentIcon);
         this.bringToTop(this.displayName);
         this.bringToTop(this.damageMarker);
 

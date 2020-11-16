@@ -142,6 +142,10 @@
     - itemName: Redcap
 
 - name: Mage
+  gloryValue: 50
+  viewRange: 6
+  defence: 20
+  faction: Mages
   corpseType: Human
   projectileAttackType: Fire
   dropList:
@@ -156,6 +160,11 @@
     - itemName: FireStaff
 
 - name: ArchMage
+  gloryValue: 150
+  viewRange: 7
+  maxHitPoints: 200
+  defence: 20
+  faction: Mages
   corpseType: Human
   projectileAttackType: SuperFire
   dropList:

@@ -12,11 +12,12 @@ const Factions = {
     Citizens:       registerFaction(),
     Goblins:        registerFaction(),
     HostileAnimals: registerFaction(),
+    Mages:          registerFaction(),
     Necromancers:   registerFaction(),
     Outlaws:        registerFaction(),
     PeacefulAnimals:registerFaction(),
     Vampires:       registerFaction(),
-    Zombies:        registerFaction()
+    Zombies:        registerFaction(),
 
 };
 
@@ -36,8 +37,9 @@ const Relationships = {
 
     [Factions.CityGuards]: {
         [Factions.CityGuards]: Factions.RelationshipStatuses.Friendly,
-        [Factions.Outlaws]: Factions.RelationshipStatuses.Hostile,
         [Factions.Citizens]: Factions.RelationshipStatuses.Friendly,
+        [Factions.Mages]: Factions.RelationshipStatuses.Friendly,
+        [Factions.Outlaws]: Factions.RelationshipStatuses.Hostile,
         [Factions.Zombies]: Factions.RelationshipStatuses.Hostile
     },
 
@@ -61,6 +63,7 @@ const Relationships = {
         [Factions.Citizens]: Factions.RelationshipStatuses.Hostile,
         [Factions.CityGuards]: Factions.RelationshipStatuses.Hostile,
         [Factions.Vampires]: Factions.RelationshipStatuses.Hostile,
+        [Factions.Mages]: Factions.RelationshipStatuses.Hostile,
     },
 
     [Factions.HostileAnimals]: {
@@ -71,6 +74,15 @@ const Relationships = {
         [Factions.Citizens]: Factions.RelationshipStatuses.Hostile,
         [Factions.PeacefulAnimals]: Factions.RelationshipStatuses.Hostile,
         [Factions.Goblins]: Factions.RelationshipStatuses.Hostile,
+        [Factions.Mages]: Factions.RelationshipStatuses.Hostile,
+    },
+
+    [Factions.Mages]: {
+        [Factions.Mages]: Factions.RelationshipStatuses.Friendly,
+        [Factions.CityGuards]: Factions.RelationshipStatuses.Friendly,
+        [Factions.Citizens]: Factions.RelationshipStatuses.Friendly,
+        [Factions.Zombies]: Factions.RelationshipStatuses.Hostile,
+        [Factions.Necromancers]: Factions.RelationshipStatuses.Hostile,
     },
 
     [Factions.Vampires]: {
@@ -80,6 +92,7 @@ const Relationships = {
         [Factions.CityGuards]: Factions.RelationshipStatuses.Hostile,
         [Factions.Citizens]: Factions.RelationshipStatuses.Hostile,
         [Factions.Zombies]: Factions.RelationshipStatuses.Hostile,
+        [Factions.Mages]: Factions.RelationshipStatuses.Hostile,
     }
 
 };

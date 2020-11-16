@@ -1,7 +1,7 @@
 (function () {
     const game = new Phaser.Game({
         type: Phaser.WEBGL,
-        parent: "",
+        parent: "game_canvas",
         width: 100,
         height: 100,
         pixelArt: true,

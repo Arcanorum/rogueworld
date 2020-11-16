@@ -129,8 +129,11 @@ class Boot extends Phaser.Scene {
 
         window._this = this;
 
-        // If this boot scene is started again for whatever reason, make sure the home container is shown, as it is hidden during the game scene.
+        // If this boot scene is started again for whatever reason, make sure 
+        // the home container is shown, as it is hidden during the game scene.
         document.getElementById("home_cont").style.display = "block";
+
+        document.getElementById("game_cont").style.visibility = "hidden";
 
         // Keep the game running even when the window loses focus.
         this.events.on('hidden', function () {

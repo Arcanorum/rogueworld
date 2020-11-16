@@ -98,8 +98,8 @@ class Game extends Phaser.Scene {
         // Hide the distracting background gif while the game is running.
         document.getElementById("background_img").style.visibility = "hidden";
 
-        this.canvasContainer = document.getElementById("game_canvas");
-        this.canvasContainer.appendChild(this.game.canvas);
+        // Show the game itself.
+        document.getElementById("game_cont").style.visibility = "visible";
 
         // Set the game container to be the thing that is fullscreened when fullscreen mode
         // is entered, instead of just the game canvas, or the GUI will be invisible.
@@ -280,6 +280,9 @@ class Game extends Phaser.Scene {
     shutdown() {
         // Show the background GIF.
         document.getElementById("background_img").style.visibility = "visible";
+
+        // Hide the game, or it still shows a blank canvas over the login screen.
+        document.getElementById("game_cont").style.visibility = "hidden";
 
         // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
         document.removeEventListener("keydown", this.keyDownHandler);

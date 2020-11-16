@@ -6,8 +6,9 @@
     bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
+    pointer-events: auto;
 }
-
+a
 #spell_slots_cont {
     display: grid;
     grid-template-columns: repeat(4, 25%);

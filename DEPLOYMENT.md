@@ -16,6 +16,20 @@ https://caddyserver.com/docs/getting-started
 
 Though you may use whatever reverse proxy you wish (Apache, NGINX, etc.) if you are already familiar.
 
+## Using Caddy
+`echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" \
+    | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list`
+
+`sudo apt update`
+
+`sudo apt install caddy`
+
+`caddy stop`
+
+`caddy start`
+
+`caddy reload`
+
 ## Creating a service
 
 You may want to run the game server in the background as a service on your deployment machine (so you can close the terminal without also stopping the server, or do other things on it while the server is running), and for this you can use the provided service file in the project root directory, `dungeonz.service`.
@@ -39,3 +53,7 @@ And use the service with:
 `sudo systemctl restart dungeonz`
 
 `sudo systemctl stop dungeonz`
+
+## Reboot a server
+
+`sudo shutdown -r now`

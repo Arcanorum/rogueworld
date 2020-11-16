@@ -9,9 +9,9 @@ class Entity extends Character {
         // Whenever the clothes change, it is just changing the frame name used of this one display object.
         this.clothes = new Clothes(config);
         this.add(this.clothes);
-        // Bring the display name over the clothes, so the clothes don't cover it.
-        // v TODO figure out what this would be in P3
-        //this.swapChildren(this.clothes, this.displayName);
+        // Bring the display name and damage/heal marker over the clothes, so the clothes don't cover them.
+        this.bringToTop(this.displayName);
+        this.bringToTop(this.damageMarker);
 
         // TODO: add a chat bubble above head when someone starts chatting.
 

@@ -1,6 +1,12 @@
 localhost, dungeonz.io
 
-reverse_proxy 127.0.0.1:4567
-
 root * ./client
 file_server
+
+@websockets {
+	header Connection *Upgrade*
+	header Upgrade    websocket
+}
+reverse_proxy @websockets localhost:4567
+
+# reverse_proxy 127.0.0.1:4567

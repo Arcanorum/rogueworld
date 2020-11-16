@@ -1,3 +1,42 @@
+16/11/2020 - Update 7 - Darkness
+An ominous veil of darkness has fell upon the world, ushering in a new age of uncertainty for the denizens of Munud City.
+Strange figures have been reported swarming in the shadows at night, mauling any creature foolish enough to wander near...
+
+Could this be related to the recent appearance of more drawfs in the known lands? Have they brought this curse with them, or 
+were they fleeing from it themselves? Perhaps a journey into the western mountains will reveal the mystery of this adumbral plague...
+
+New:
+- Day/night cycle
+    - Reduced visibility at night.
+    - Some creatures now only spawn during certain times of day.
+    - Some dungeons are now always at night, such as underground locations.
+- Adumbrals
+    A vicious enemy that spawns only at night. Fledgling adventurers should approach with caution!
+- Punch
+    You can now attack the tile next to you when no item is being held.
+- Interactable objects highlighting
+    Nearby objects that can be interacted with (anvils, banks, etc.) are now shown with a white marker around them.
+- Splatter of particles when damaged
+
+Balance:
+- Assassins now always use daggers when next to their target, and shurikens when there is some distance, instead 
+  of randomly picking either dagger or shurikens when spawned and only ever using that.
+
+Bugs:
+- Fixed super projectiles (super fire/wind/blood staffs) colliding with pickups.
+- Fixed where assassins sometimes permanently stop using their teleport ability.
+- Fixed where assassins could teleport onto tiles that they shouldn't be able to stand on (deep water, pits).
+- Fixed mages/archmages not staying hostile when attacked.
+
+Other:
+- Upgraded the game client to Phaser 3.
+    - Improved FPS (hopefully), smoother animations, particle effects.
+- Removed canvas renderer mode option from login screen.
+    - WebGL support on your device is now required to be able to run the game.
+        - Performance is still being tested and adjusted.
+        - If you suffer from a worse experience from this update, feedback would be appreciated.
+
+
 18/07/2020 - Update 6 - Dungeon instances
 New:
 - Dungeon instances

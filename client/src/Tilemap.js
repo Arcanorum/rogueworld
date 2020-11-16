@@ -632,12 +632,17 @@ class Tilemap {
             darknessValue = 0,
             viewDiameter = dungeonz.VIEW_DIAMETER;
 
+        this.darknessSpritesContainer.visible = true;
+
         if (this.scene.boardAlwaysNight === true) {
             darknessValue = 1;
         }
         else {
             // Don't bother doing the rest if it is day.
-            if (this.scene.dayPhase === this.scene.DayPhases.Day) return;
+            if (this.scene.dayPhase === this.scene.DayPhases.Day) {
+                this.darknessSpritesContainer.visible = false;
+                return;
+            }
             else if (this.scene.dayPhase === this.scene.DayPhases.Dawn) darknessValue = 0.5;
             else if (this.scene.dayPhase === this.scene.DayPhases.Dusk) darknessValue = 0.5;
             else darknessValue = 1;

@@ -13,17 +13,6 @@ export default (eventResponses) => {
             _this.GUI.updateDungeonKeysList({});
         }
 
-        if (_this.boardAlwaysNight === false) {
-            // Make the darkness layer invisible during day time.
-            if (_this.dayPhase === _this.DayPhases.Day) {
-                _this.tilemap.darknessSpritesContainer.visible = false;
-            }
-            else {
-                _this.tilemap.darknessSpritesContainer.visible = true;
-                _this.tilemap.updateDarknessGrid();
-            }
-        }
-
         // Load the map with the given board name.
         _this.tilemap.loadMap(data.boardName);
 

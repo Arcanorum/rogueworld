@@ -5,7 +5,6 @@ class SettingsBar {
         const settingsBar = this;
 
         this.settingsIcon = document.getElementById('settings_icon');
-        this.quickTurnIcon = document.getElementById('quick_turn_icon');
         this.audioIcon = document.getElementById('audio_icon');
         this.audioMinusIcon = document.getElementById('audio_minus_icon');
         this.audioPlusIcon = document.getElementById('audio_plus_icon');
@@ -18,7 +17,6 @@ class SettingsBar {
         this.fullscreenIcon = document.getElementById('fullscreen_icon');
 
         this.settingsTooltip = document.getElementById('settings_tooltip');
-        //this.quickTurnTooltip =     document.getElementById('quick_turn_tooltip');
         this.audioTooltip = document.getElementById('audio_tooltip');
         this.guiZoomTooltip = document.getElementById('gui_zoom_tooltip');
         this.virtualDPadTooltip = document.getElementById('virtual_dpad_tooltip');
@@ -154,7 +152,6 @@ class SettingsBar {
 
     show() {
         this.settingsIcon.style.opacity = '0.5';
-        //this.quickTurnIcon.style.visibility = "visible";
         this.audioIcon.style.visibility = "visible";
         this.audioMinusIcon.style.visibility = "visible";
         this.audioPlusIcon.style.visibility = "visible";
@@ -169,7 +166,6 @@ class SettingsBar {
 
     hide() {
         this.settingsIcon.style.opacity = '1';
-        //this.quickTurnIcon.style.visibility = "hidden";
         this.audioIcon.style.visibility = "hidden";
         this.audioMinusIcon.style.visibility = "hidden";
         this.audioPlusIcon.style.visibility = "hidden";

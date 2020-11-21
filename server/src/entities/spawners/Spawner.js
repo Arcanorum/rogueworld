@@ -133,8 +133,6 @@ class Spawner extends Entity {
             // Check it is an entity that should have a drop list.
             if (entity.dropList) {
                 entity.dropList = this.dropList;
-                // Make sure they can only drop one item, in case they are a key holder.
-                entity.dropAmount = 1;
             }
         }
 

@@ -60,9 +60,9 @@
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+        gtag("js", new Date());
 
-        gtag('config', 'UA-111760957-3');
+        gtag("config", "UA-111760957-3");
     </script>
 
 </head>
@@ -347,15 +347,15 @@
              */
             window.newCharacter = true;
 
-            const newCharacterButton = document.getElementById('new_character');
-            const continueButton = document.getElementById('continue');
-            const nameInput = document.getElementById('name_input');
-            const usernameInput = document.getElementById('username_input');
-            const passwordInput = document.getElementById('password_input');
-            const showPasswordButton = document.getElementById('show_password');
+            const newCharacterButton = document.getElementById("new_character");
+            const continueButton = document.getElementById("continue");
+            const nameInput = document.getElementById("name_input");
+            const usernameInput = document.getElementById("username_input");
+            const passwordInput = document.getElementById("password_input");
+            const showPasswordButton = document.getElementById("show_password");
 
             // Get the code from the client local storage if one exists.
-            const storedUsername = localStorage.getItem('username');
+            const storedUsername = localStorage.getItem("username");
             if (storedUsername !== null) {
                 window.newCharacter = false;
                 usernameInput.value = storedUsername;
@@ -427,20 +427,20 @@
             }
 
             function partnersPressed() {
-                if (document.getElementById('partners_cont').style.visibility === "visible") {
-                    document.getElementById('partners_cont').style.visibility = "hidden";
+                if (document.getElementById("partners_cont").style.visibility === "visible") {
+                    document.getElementById("partners_cont").style.visibility = "hidden";
                 }
                 else {
-                    document.getElementById('partners_cont').style.visibility = "visible";
+                    document.getElementById("partners_cont").style.visibility = "visible";
                 }
             }
 
             // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#Converting_a_digest_to_a_hex_string
             window.digestMessage = async function (message) {
                 const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+                const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);           // hash the message
                 const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join(""); // convert bytes to hex string
                 return hashHex;
             };
 
@@ -451,7 +451,7 @@
                     window.connectToGameServer();
                     // Only attempt to connect if the connection is ready to communicate.
                     if (ws.readyState === 1) {
-                        ws.sendEvent('new_char', { displayName: document.getElementById('name_input').value });
+                        ws.sendEvent("new_char", { displayName: document.getElementById("name_input").value });
                     }
                 }
                 else {
@@ -460,14 +460,14 @@
                     // Only attempt to connect if the connection is ready to communicate.
                     if (ws.readyState === 1) {
                         // Check username and password are valid.
-                        const username = document.getElementById('username_input').value;
-                        const password = document.getElementById('password_input').value;
+                        const username = document.getElementById("username_input").value;
+                        const password = document.getElementById("password_input").value;
                         if (username === "") return;
                         if (password === "") return;
 
                         const hash = await digestMessage(password); // Encrypt the password before sending.
 
-                        ws.sendEvent('log_in', {
+                        ws.sendEvent("log_in", {
                             username: username,
                             password: hash
                         });
@@ -475,12 +475,12 @@
                 }
             }
 
-            document.getElementById('language_text').onclick = function (event) {
-                if (document.getElementById('language_list').style.visibility === "visible") {
-                    document.getElementById('language_list').style.visibility = "hidden";
+            document.getElementById("language_text").onclick = function (event) {
+                if (document.getElementById("language_list").style.visibility === "visible") {
+                    document.getElementById("language_list").style.visibility = "hidden";
                 }
                 else {
-                    document.getElementById('language_list').style.visibility = "visible";
+                    document.getElementById("language_list").style.visibility = "visible";
                 }
             };
 
@@ -489,64 +489,64 @@
 
                 // Update the DOM elements that have text with the values for the selected language.
                 // Home page.
-                //document.getElementById('warning_message').innerText =      dungeonz.getTextDef('Connect game server warning');
-                document.getElementById('language_text').innerText = dungeonz.getTextDef('Language');
-                document.getElementById('add_translation').innerText = dungeonz.getTextDef('Add translation');
-                document.getElementById('news_header').innerText = dungeonz.getTextDef('News');
-                document.getElementById('name_input').placeholder = dungeonz.getTextDef('Name input');
-                document.getElementById('username_input').placeholder = "Username";
-                document.getElementById('password_input').placeholder = "Password";
-                document.getElementById('new_character').innerText = dungeonz.getTextDef('New character');
-                document.getElementById('continue').innerText = dungeonz.getTextDef('Continue');
-                document.getElementById('center_text').innerText = dungeonz.getTextDef('Play');
+                //document.getElementById("warning_message").innerText =      dungeonz.getTextDef("Connect game server warning");
+                document.getElementById("language_text").innerText = dungeonz.getTextDef("Language");
+                document.getElementById("add_translation").innerText = dungeonz.getTextDef("Add translation");
+                document.getElementById("news_header").innerText = dungeonz.getTextDef("News");
+                document.getElementById("name_input").placeholder = dungeonz.getTextDef("Name input");
+                document.getElementById("username_input").placeholder = "Username";
+                document.getElementById("password_input").placeholder = "Password";
+                document.getElementById("new_character").innerText = dungeonz.getTextDef("New character");
+                document.getElementById("continue").innerText = dungeonz.getTextDef("Continue");
+                document.getElementById("center_text").innerText = dungeonz.getTextDef("Play");
 
                 // General GUI tooltips.
-                document.getElementById('defence_tooltip').innerText = dungeonz.getTextDef('Defence tooltip');
-                document.getElementById('hitpoint_tooltip').innerText = dungeonz.getTextDef('Hitpoint tooltip');
-                document.getElementById('energy_tooltip').innerText = dungeonz.getTextDef('Energy tooltip');
-                document.getElementById('glory_tooltip').innerText = dungeonz.getTextDef('Glory tooltip');
-                document.getElementById('avatar_tooltip').innerText = dungeonz.getTextDef('Avatar tooltip');
-                document.getElementById('tasks_tooltip').innerText = dungeonz.getTextDef('Tasks tooltip');
-                document.getElementById('map_tooltip').innerText = dungeonz.getTextDef('Map tooltip');
-                document.getElementById('clan_tooltip').innerText = dungeonz.getTextDef('Clan tooltip');
-                document.getElementById('inventory_tooltip').innerHTML = dungeonz.getTextDef('Inventory tooltip');
-                document.getElementById('exit_tooltip').innerHTML = dungeonz.getTextDef('Exit tooltip');
-                document.getElementById('discord_tooltip').innerHTML = dungeonz.getTextDef('Discord tooltip');
-                document.getElementById('wiki_tooltip').innerHTML = dungeonz.getTextDef('Wiki tooltip');
-                document.getElementById('settings_tooltip').innerHTML = dungeonz.getTextDef('Settings tooltip');
-                document.getElementById('audio_tooltip').innerHTML = dungeonz.getTextDef('Audio tooltip');
-                document.getElementById('gui_zoom_tooltip').innerHTML = dungeonz.getTextDef('GUI zoom tooltip');
-                document.getElementById('virtual_dpad_tooltip').innerHTML = dungeonz.getTextDef('Virtual D pad tooltip');
-                document.getElementById('fullscreen_tooltip').innerHTML = dungeonz.getTextDef('Fullscreen tooltip');
+                document.getElementById("defence_tooltip").innerText = dungeonz.getTextDef("Defence tooltip");
+                document.getElementById("hitpoint_tooltip").innerText = dungeonz.getTextDef("Hitpoint tooltip");
+                document.getElementById("energy_tooltip").innerText = dungeonz.getTextDef("Energy tooltip");
+                document.getElementById("glory_tooltip").innerText = dungeonz.getTextDef("Glory tooltip");
+                document.getElementById("avatar_tooltip").innerText = dungeonz.getTextDef("Avatar tooltip");
+                document.getElementById("tasks_tooltip").innerText = dungeonz.getTextDef("Tasks tooltip");
+                document.getElementById("map_tooltip").innerText = dungeonz.getTextDef("Map tooltip");
+                document.getElementById("clan_tooltip").innerText = dungeonz.getTextDef("Clan tooltip");
+                document.getElementById("inventory_tooltip").innerHTML = dungeonz.getTextDef("Inventory tooltip");
+                document.getElementById("exit_tooltip").innerHTML = dungeonz.getTextDef("Exit tooltip");
+                document.getElementById("discord_tooltip").innerHTML = dungeonz.getTextDef("Discord tooltip");
+                document.getElementById("wiki_tooltip").innerHTML = dungeonz.getTextDef("Wiki tooltip");
+                document.getElementById("settings_tooltip").innerHTML = dungeonz.getTextDef("Settings tooltip");
+                document.getElementById("audio_tooltip").innerHTML = dungeonz.getTextDef("Audio tooltip");
+                document.getElementById("gui_zoom_tooltip").innerHTML = dungeonz.getTextDef("GUI zoom tooltip");
+                document.getElementById("virtual_dpad_tooltip").innerHTML = dungeonz.getTextDef("Virtual D pad tooltip");
+                document.getElementById("fullscreen_tooltip").innerHTML = dungeonz.getTextDef("Fullscreen tooltip");
 
                 // Hide the language list again.
-                document.getElementById('language_list').style.visibility = "hidden";
+                document.getElementById("language_list").style.visibility = "hidden";
             }
 
             // Load the default language.
             changeLanguage(dungeonz.language);
 
-            document.getElementById('language_english').onclick = function () { changeLanguage('English') };
-            document.getElementById('language_french').onclick = function () { changeLanguage('French') };
-            document.getElementById('language_spanish').onclick = function () { changeLanguage('Spanish') };
-            document.getElementById('language_portuguese').onclick = function () { changeLanguage('Portuguese (Brazil)') };
-            document.getElementById('language_turkish').onclick = function () { changeLanguage('Turkish') };
-            document.getElementById('language_german').onclick = function () { changeLanguage('German') };
-            document.getElementById('language_russian').onclick = function () { changeLanguage('Russian') };
-            document.getElementById('language_polish').onclick = function () { changeLanguage('Polish') };
-            document.getElementById('language_chinese').onclick = function () { changeLanguage('Chinese') };
+            document.getElementById("language_english").onclick = function () { changeLanguage("English") };
+            document.getElementById("language_french").onclick = function () { changeLanguage("French") };
+            document.getElementById("language_spanish").onclick = function () { changeLanguage("Spanish") };
+            document.getElementById("language_portuguese").onclick = function () { changeLanguage("Portuguese (Brazil)") };
+            document.getElementById("language_turkish").onclick = function () { changeLanguage("Turkish") };
+            document.getElementById("language_german").onclick = function () { changeLanguage("German") };
+            document.getElementById("language_russian").onclick = function () { changeLanguage("Russian") };
+            document.getElementById("language_polish").onclick = function () { changeLanguage("Polish") };
+            document.getElementById("language_chinese").onclick = function () { changeLanguage("Chinese") };
 
             // Changes the text displayed in the main tooltip.
             function changeHoverTooltip(textDef) {
-                let hoverTooltip = document.getElementById('main_tooltip');
+                let hoverTooltip = document.getElementById("main_tooltip");
                 hoverTooltip.innerText = dungeonz.getTextDef(textDef);
-                hoverTooltip.style.visibility = 'visible';
+                hoverTooltip.style.visibility = "visible";
             }
 
             // Load the changelog contents into the news section.
             let xmlhttp, text;
             xmlhttp = new XMLHttpRequest();
-            xmlhttp.open('GET', './changelog.txt', false);
+            xmlhttp.open("GET", "./changelog.txt", false);
             xmlhttp.send();
             text = xmlhttp.responseText;
 

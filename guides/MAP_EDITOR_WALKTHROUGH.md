@@ -30,8 +30,6 @@ There is a blank template that can be used to start any new maps, */server/map/B
 
 Make a copy of this file, and rename it to whatever you want the dungeon to be called, following the naming convention of the existing dungeon map files.
 
-[copy blank.json gif]
-
 ***Note:*** To disable a map file so that it will not be loaded by the server when it starts, add `Disabled: true` to the map properties.
 
 [disabled map property image]

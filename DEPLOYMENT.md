@@ -74,9 +74,9 @@ Wait a few seconds for the game server to finish starting and building the clien
 
 When deploying/updating there are a plethora of NPM related issues that can be very annoying to deal with.
 
-A common solution to many of the problems that I have encountered with scripts not running or ENOENT type errors is simply to start the packages from a blank slate.
+A common solution to many of the problems that I have encountered with scripts not running or ENOENT type errors is simply to start the packages from a blank slate. In the project root, run:
 
-npm cache clean --force
+`npm cache clean --force`
 
 `rm -rf node_modules`
 
@@ -92,7 +92,7 @@ npm cache clean --force
 
 And then do a fresh reinstall of the packages.
 
-`npm i` (in project root)
+`npm i`
 
 ### Reboot a machine
 

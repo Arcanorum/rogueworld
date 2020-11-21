@@ -1,3 +1,5 @@
+# * ***Item system rework in progress, this guide may be out of date/incomplete***
+
 # Getting started: Items
 
 An item is an object that a player can obtain and can be used for many game functions, such as combat, resource gathering, crafting and interacting with other objects (such as opening locked doors).
@@ -24,14 +26,18 @@ Every weapon should have at least the following code for it to be valid.
 
 ### ItemIronSpear.js
 ```js
-const Mob = require('./Mob');
+const Item = require("./Item");
 
-class Slime extends Mob {}
-module.exports = Slime;
+class IronSpear extends Item {}
 
-Slime.prototype.registerEntityType();
-Slime.prototype.assignMobValues();
+IronSpear.translationID = "Iron spear";
+IronSpear.iconSource = "icon-iron-spear";
+
+module.exports = IronSpear;
 ```
 
+## Add it to the game world
 
-## Adding an item to the game world
+Since items themselves are not actual entities, but pickups are, we can add items as pickups to the game world using a regular entity spawner.
+
+<img src="item-spawner.png" width="50%"/>

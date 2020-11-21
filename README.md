@@ -4,6 +4,8 @@
 
 Greetings! You have stumbled upon the work area for Dungeonz, the free, open-source, browser based, massively multiplayer online RPG.
 
+#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification.***
+
 ## *What is this?*
 This is the central code repository for Dungeonz.
 
@@ -12,8 +14,6 @@ Dungeonz is open-source, meaning that anyone is free to see all aspects of how t
 Here you can find basically everything that goes into the game, what is currently being worked on, and how you can help!
 
 The creation of Dungeonz is a collaborative effort, with content and mechanics able to be added by members of the community.
-
-#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification.***
 
 ## *Ok, cool, where do I start?*
 

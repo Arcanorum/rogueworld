@@ -371,6 +371,13 @@ class Board {
                                 Utils.error(`Dungeon portal on map "${this.name}" is missing property "DungeonName". Map object:`, mapObject);
                                 continue;
                             }
+
+                            // Check the dungeon manager to link to exists.
+                            if (!DungeonManagersList.ByName["dungeon-" + config.dungeonName]) {
+                                Utils.warning("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Dungeon name:", config.dungeonName);
+                                continue;
+                            }
+
                             break;
                         case "OverworldPortal":
                             config.targetBoard = mapObject.properties["TargetBoard"];
@@ -1329,7 +1336,15 @@ Board.createClientBoardData = (dataFileName) => {
                             Utils.error("No properties set on dungeon portal in map data:", mapObject);
                             continue;
                         }
+
                         config.dungeonName = mapObject.properties["DungeonName"];
+
+                        // Check the dungeon manager to link to exists.
+                        if (!DungeonManagersList.ByName["dungeon-" + config.dungeonName]) {
+                            Utils.warning("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Dungeon name:", config.dungeonName);
+                            continue;
+                        }
+
                         break;
                 }
 

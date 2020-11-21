@@ -54,10 +54,11 @@ const world = {
 
             // Only load JSON map data.
             if (parsed.ext === ".json") {
-                this.createBoard(parsed.name);
-                // Do this after the board/dungeon manager is created, or the client board data won't
-                // have the dungeon manager ID to use for any dungeon portals that need that ID.
-                Board.createClientBoardData(parsed.name);
+                if (this.createBoard(parsed.name)) {
+                    // Do this after the board/dungeon manager is created, or the client board data won't
+                    // have the dungeon manager ID to use for any dungeon portals that need that ID.
+                    Board.createClientBoardData(parsed.name);
+                }
             }
 
         });
@@ -81,6 +82,7 @@ const world = {
      * Create an instance of a board for a map that should
      * exist at the start and not be added in later.
      * @param {String} dataFileName - The end part of the URL to the map data file.
+     * @returns {Boolean} - Whether the world should continue any other setup that involves this board.
      */
     createBoard(dataFileName) {
         const data = require("../map/" + dataFileName + ".json");
@@ -90,7 +92,7 @@ const world = {
         // Skip disabled maps.
         if (mapProperties["Disabled"] === true) {
             Utils.message("Skipping disabled map:", dataFileName);
-            return;
+            return false;
         }
 
         let alwaysNight = false;
@@ -120,7 +122,7 @@ const world = {
 
             // Stop here. Don't create a board for a dungeon map, as they are created
             // dynamically when a dungeon instance is created by the dungeon manager.
-            return;
+            return true;
         }
 
         const board = new Board(data, dataFileName, alwaysNight);
@@ -130,6 +132,8 @@ const world = {
 
         this.boardsArray.push(board);
         this.boardsObject[dataFileName] = board;
+
+        return true;
     },
 
     linkExits() {

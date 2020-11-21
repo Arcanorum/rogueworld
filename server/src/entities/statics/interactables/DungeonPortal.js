@@ -15,11 +15,11 @@ class DungeonPortal extends Interactable {
         /** @type {DungeonManager} */
         this.dungeonManager = DungeonManagersList.ByName["dungeon-" + config.dungeonName];
 
-        this.dungeonManager.portals.push(this);
-
         if (!this.dungeonManager) {
             Utils.error("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Config:", config);
         }
+
+        this.dungeonManager.portals.push(this);
     }
 
     /**

@@ -26,7 +26,7 @@ class DungeonManager {
         this.name = config.name || "";
         this.nameDefinitionID = config.nameDefinitionID || "";
 
-        if(typeof config.alwaysNight !== "boolean") {
+        if (typeof config.alwaysNight !== "boolean") {
             Utils.error(`Creating dungeon manager. Required config "alwaysNight" is not a boolean. Dungeon name: ${this.name}`);
         }
 
@@ -38,8 +38,8 @@ class DungeonManager {
         };
 
         this.maxPlayers = config.maxPlayers || 6;
+
         this.timeLimitMinutes = config.timeLimitMinutes || 20;
-        this.difficultyName = config.difficultyName || "";
 
         /**
          * The list of active dungeon instances that this manager is responsible for, by their ID.

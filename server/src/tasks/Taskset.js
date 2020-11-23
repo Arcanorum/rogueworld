@@ -3,7 +3,7 @@ class Taskset {
      * A new set of tasks. Can be continued from what tasks the player had before.
      * @param {Player} owner
      */
-    constructor (owner) {
+    constructor(owner) {
 
         this.owner = owner;
 
@@ -32,35 +32,32 @@ class Taskset {
      * Increase the progress made in this task.
      * @param {String} taskID
      */
-    progressTask (taskID) {
-        if(this.list[taskID] === undefined) return;
+    progressTask(taskID) {
+        if (this.list[taskID] === undefined) return;
         this.list[taskID].progressMade();
     }
 
     // The owner has no task progress so far, give them the starting tasks.
-    addStartingTasks () {
+    addStartingTasks() {
         this.owner.tasks.list = {};
-        new Task.Task(this.owner, TaskTypes.KillRats,          0, 5, [ItemsList.IronHammer],        500);
-        new Task.Task(this.owner, TaskTypes.KillBats,          0, 5, [ItemsList.IronArmour],        500);
-        new Task.Task(this.owner, TaskTypes.GatherIronOre,     0, 5, [ItemsList.DungiumPickaxe],    500);
-        new Task.Task(this.owner, TaskTypes.GatherCotton,      0, 5, [ItemsList.ExpOrbGathering],   500);
-        new Task.Task(this.owner, TaskTypes.CraftIronDaggers,  0, 5, [ItemsList.NoctisDagger],      500);
-        new Task.Task(this.owner, TaskTypes.CraftPlainRobes,   0, 5, [ItemsList.ExpOrbArmoury],     500);
+        new Task.Task(this.owner, TaskTypes.KillRats, 0, 5, [ItemsList.IronHammer], 500);
+        new Task.Task(this.owner, TaskTypes.KillBats, 0, 5, [ItemsList.IronArmour], 500);
+        new Task.Task(this.owner, TaskTypes.GatherIronOre, 0, 5, [ItemsList.DungiumPickaxe], 500);
+        new Task.Task(this.owner, TaskTypes.GatherCotton, 0, 5, [ItemsList.ExpOrbGathering], 500);
+        new Task.Task(this.owner, TaskTypes.CraftIronDaggers, 0, 5, [ItemsList.NoctisDagger], 500);
+        new Task.Task(this.owner, TaskTypes.CraftPlainRobes, 0, 5, [ItemsList.ExpOrbArmoury], 500);
     }
 
-    getEmittableTasks () {
+    getEmittableTasks() {
         const emittableTasks = {};
 
-        for(let taskID in this.list){
-            if(this.list.hasOwnProperty(taskID) === false) continue;
-            /** @type {Task} */
-            const task = this.list[taskID];
-
+        Object.entries(this.list).forEach(([taskID, task]) => {
             const rewardItemTypeNumbers = [];
-            for(let i=0; i<task.rewardItemTypes.length; i+=1){
-                if(task.rewardItemTypes[i] === undefined) continue;
+
+            task.rewardItemTypes.forEach((itemType, i) => {
+                if (!itemType) return;
                 rewardItemTypeNumbers[i] = task.rewardItemTypes[i].prototype.typeNumber;
-            }
+            });
 
             emittableTasks[taskID] = {
                 taskID: task.taskType.taskID,
@@ -69,7 +66,7 @@ class Taskset {
                 rewardItemTypeNumbers: rewardItemTypeNumbers,
                 rewardGlory: task.rewardGlory,
             }
-        }
+        });
 
         return emittableTasks;
     }

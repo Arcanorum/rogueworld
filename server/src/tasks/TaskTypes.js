@@ -40,6 +40,7 @@ TaskTypes.KillVampires = new TaskType("KillVampires", TaskCategories.Kill);
 TaskTypes.KillOutlaws = new TaskType("KillOutlaws", TaskCategories.Kill);
 TaskTypes.KillWarriors = new TaskType("KillWarriors", TaskCategories.Kill);
 TaskTypes.KillGnarls = new TaskType("KillGnarls", TaskCategories.Kill);
+TaskTypes.KillAdumbrals = new TaskType("KillAdumbrals", TaskCategories.Kill);
 
 TaskTypes.GatherCotton = new TaskType("GatherCotton", TaskCategories.Gather);
 TaskTypes.GatherRedcaps = new TaskType("GatherRedcaps", TaskCategories.Gather);

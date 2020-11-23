@@ -124,7 +124,7 @@
   dropList:
     - itemName: IronOre
     - itemName: IronBar
-    - itemName: IronSword
+    - itemName: IronHammer
     - itemName: Redcap
 
 - name: Berserker

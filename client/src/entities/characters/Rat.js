@@ -6,10 +6,12 @@ class Entity extends Character {
 
         this.displayName.setText(dungeonz.getTextDef("Mob name: Rat"));
         this.baseSprite.setScale(0.5);
+        this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`);
     }
 }
 
 Entity.prototype.animationSetName = "rat";
 Entity.prototype.animationRepeats = true;
+Entity.prototype.animationDuration = 1000;
 
 export default Entity;

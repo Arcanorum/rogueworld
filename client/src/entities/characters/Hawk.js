@@ -11,5 +11,6 @@ class Entity extends Character {
 
 Entity.prototype.animationSetName = "hawk";
 Entity.prototype.animationRepeats = true;
+Entity.prototype.animationDuration = 1000;
 
 export default Entity;

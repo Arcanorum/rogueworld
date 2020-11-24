@@ -106,7 +106,7 @@ class Character extends Container {
 
     onChangeDirection() {
         // Keep playing if the animation loops.
-        if(this.animationRepeats){
+        if (this.animationRepeats) {
             this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
         }
         else {
@@ -189,7 +189,7 @@ class Character extends Container {
             setName = this.prototype.animationSetName,
             frameSequence = this.prototype.animationFrameSequence,
             repeats = this.prototype.animationRepeats,
-            duration = 500,
+            duration = this.prototype.animationDuration,
             defaultTextureKey = "game-atlas",
             directions = ["up", "down", "left", "right"],
             generateFrames = (direction) => {
@@ -229,9 +229,11 @@ class Character extends Container {
     }
 }
 
-Character.prototype.baseFrames = {};
+Character.prototype.baseFrames = {
+};
 Character.prototype.animationSetName = null;
 Character.prototype.animationFrameSequence = [1, 2, 1, 3];
 Character.prototype.animationRepeats = false;
+Character.prototype.animationDuration = 500;
 
 export default Character;

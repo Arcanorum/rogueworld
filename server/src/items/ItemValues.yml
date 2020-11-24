@@ -90,7 +90,7 @@
 
 - name: NinjaGarb
   extends: clothes/Clothes
-  translationID: Ninja garm
+  translationID: Ninja garb
   iconSource: icon-ninja-garb
   category: Clothing
   baseDurability: 100

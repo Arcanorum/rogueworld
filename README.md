@@ -1,4 +1,4 @@
-# [Dungeonz](http://142.93.54.176/)
+# [Dungeonz](https://dungeonz.io/)
 
 ## Everything for the game Dungeonz.
 

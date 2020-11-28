@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
  <objecttype name="DungeonPortal" color="#a0a0a4">
-  <property name="TargetBoard" type="string"/>
-  <property name="TargetEntranceName" type="string"/>
+  <property name="DungeonName" type="string"/>
  </objecttype>
  <objecttype name="Entrance" color="#a0a0a4">
   <property name="EntranceName" type="string" default=""/>
@@ -19,7 +18,6 @@
   <property name="PanelNameTextDefID" type="string"/>
  </objecttype>
  <objecttype name="OverworldPortal" color="#a0a0a4">
-  <property name="ActiveState" type="bool" default="true"/>
   <property name="TargetBoard" type="string" default=""/>
   <property name="TargetEntranceName" type="string" default=""/>
  </objecttype>

@@ -1,4 +1,5 @@
 import ChatWarnings from "../catalogues/ChatWarnings";
+import Utils from "../Utils";
 
 export default (eventResponses) => {
 
@@ -10,6 +11,15 @@ export default (eventResponses) => {
         _this.player.isLoggedIn = true;
 
         _this.GUI.accountPanel.show();
+    };
+
+    eventResponses.create_account_failure = (data) => {
+        Utils.message("create_account_failure:", data);
+        if (data) {
+            const message = dungeonz.getTextDef(data.messageID);
+            _this.GUI.createAccountPanel.warningText.innerText = message;
+            _this.GUI.createAccountPanel.warningText.style.visibility = "visible";
+        }
     };
 
     eventResponses.chat_warning = (data) => {

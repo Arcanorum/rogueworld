@@ -179,23 +179,37 @@ eventResponses.new_char = function (clientSocket, data) {
  * @param {String} data.password
  */
 eventResponses.create_account = (clientSocket, data) => {
-    console.log("create_account:", data);
     if (!data) return;
-    if (!data.username) return;
-    if (!data.password) return;
+    if (!data.username) {
+        clientSocket.sendEvent(EventsList.create_account_failure, { messageID: "No username" });
+        return;
+    }
+    if (!data.password) {
+        clientSocket.sendEvent(EventsList.create_account_failure, { messageID: "No password" });
+        return;
+    }
     // Limit the username length. Also limited on client, but check here too.
     // Don't check password length, as it will be encrypted and potentially very long.
-    if (data.username.length > 50) return;
+    if (data.username.length > 50) {
+        clientSocket.sendEvent(EventsList.create_account_failure, { messageID: "Username too long" });
+        return;
+    }
 
     AccountManager.createAccount(data.username, data.password, clientSocket.entity,
         () => {
-            console.log("create account success");
+            Utils.message("Create account success:", data.username);
             clientSocket.accountUsername = data.username;
             clientSocket.sendEvent(EventsList.create_account_success);
         },
-        () => {
-            console.log("username already taken");
-            clientSocket.sendEvent(EventsList.username_taken);
+        (error) => {
+            if (error) {
+                // An index with this key (the username) already exists. Must be unique.
+                if (error.code === 11000) {
+                    // Username already taken.
+                    clientSocket.sendEvent(EventsList.create_account_failure, { messageID: "Username taken" });
+                    return;
+                }
+            }
         }
     );
 };
@@ -671,8 +685,8 @@ eventResponses.clan_join = function (clientSocket) {
     const player = clientSocket.entity;
     const frontTile = player.board.getTileInFront(player.direction, player.row, player.col);
 
-    if(!frontTile) return;
-    
+    if (!frontTile) return;
+
     if (frontTile.static instanceof Charter) {
         frontTile.static.clan.addMember(player);
     }

@@ -35,6 +35,7 @@ const EventsList = {
     clan_promoted: registerEventName(),
     clan_kicked: registerEventName(),
     clan_values: registerEventName(),
+    create_account_failure: registerEventName(),
     create_account_success: registerEventName(),
     curse_set: registerEventName(),
     curse_removed: registerEventName(),

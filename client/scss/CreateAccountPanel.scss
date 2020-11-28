@@ -54,8 +54,13 @@
 }
 
 #create_account_warning_text {
-    padding-left: 10px;
-    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    background-color: orange;
+    border: 4px solid black;
+    padding: 10px;
     font-size: 14px;
 }
 
@@ -82,4 +87,8 @@
     &:hover {
         transform: scale(1.05);
     }
+}
+
+.create_account_input::-webkit-input-placeholder {
+    font-size: 16px;
 }

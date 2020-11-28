@@ -116,19 +116,11 @@ module.exports = {
 
         await acc.save()
             .then((res) => {
-                onSuccess();
+                onSuccess(res);
             })
-            .catch((err) => {
-                if (err) {
-                    // An index with this key (the username) already exists. Must be unique.
-                    if (err.code === 11000) {
-                        // Username already taken.
-                        onFailure();
-                        return;
-                    }
-                }
-                Utils.message("Account manager, create account error:", err);
-            })
+            .catch((error) => {
+                onFailure(error);
+            });
     },
 
     /**
@@ -279,7 +271,7 @@ module.exports = {
                     rewardItemTypes.push(Utils.getRandomElement(RewardsList));
                     continue;
                 };
-                
+
                 rewardItemTypes.push(ItemsList[taskData.rewardItemTypeNames[i]]);
             }
 

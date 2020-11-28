@@ -6,6 +6,7 @@ class Entity extends Merchant {
         super(x, y, config);
 
         this.displayName.setText(dungeonz.getTextDef("Mob name: Ruler"));
+        this.baseSprite.setFrame("ruler-1");
         this.npcShopType = NPCShopTypes.Ruler;
     }
 }

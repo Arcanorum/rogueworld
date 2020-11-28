@@ -244,13 +244,13 @@ class ShopOmni extends ShopNPC {
     }
 }
 
-/*class ShopRuler extends ShopNPC {
-    constructor () {
+class ShopRuler extends ShopNPC {
+    constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.Charter, 1000));
+        // this.addStock(new StockItem(ItemsList.Charter, 1000));
     }
-}*/
+}
 
 // Gathering tools
 class ShopTools extends ShopNPC {
@@ -326,10 +326,11 @@ class ShopMaterials extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.IronOre, 50));
-        this.addStock(new StockItem(ItemsList.OakLogs, 40));
-        this.addStock(new StockItem(ItemsList.Feathers, 30));
-        this.addStock(new StockItem(ItemsList.Cotton, 30));
+        this.addStock(new StockItem(ItemsList.IronBar, 200));
+        this.addStock(new StockItem(ItemsList.OakLogs, 140));
+        this.addStock(new StockItem(ItemsList.Feathers, 100));
+        this.addStock(new StockItem(ItemsList.Fabric, 200));
+        this.addStock(new StockItem(ItemsList.Cotton, 120));
     }
 }
 
@@ -352,7 +353,7 @@ const ShopTypes = {
     Tutorial: ShopTutorial,
     Omni: ShopOmni,
     Clan: ShopClan,
-    //Ruler: ShopRuler,
+    Ruler: ShopRuler,
     Tools: ShopTools,
     Melee: ShopMelee,
     Ranged: ShopRanged,
@@ -360,7 +361,7 @@ const ShopTypes = {
     Inn: ShopInn,
     Arena: ShopArena,
     DwarfWeapons: ShopDwarfWeapons,
-    //Materials: ShopMaterials,
+    Materials: ShopMaterials,
 };
 
 

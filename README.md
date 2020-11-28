@@ -118,7 +118,7 @@ Open the project root in another terminal and run
 
 `npm run client:dev`
 
-Finally, to open the client and play the game, go to http://localhost/4567 in a web browser.
+Finally, to open the client and play the game, go to http://localhost:4567 in a web browser.
 
 <img src="guides/client-loaded.png" width="50%"/>
 

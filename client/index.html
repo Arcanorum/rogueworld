@@ -455,7 +455,7 @@
                     }
                 }
                 else {
-                    // Continue as an existing character with the given continue code.
+                    // Continue as an existing character with the given credentials.
                     window.connectToGameServer();
                     // Only attempt to connect if the connection is ready to communicate.
                     if (ws.readyState === 1) {
@@ -465,7 +465,8 @@
                         if (username === "") return;
                         if (password === "") return;
 
-                        const hash = await digestMessage(password); // Encrypt the password before sending.
+                        // Encrypt the password before sending.
+                        const hash = await digestMessage(password);
 
                         ws.sendEvent("log_in", {
                             username: username,

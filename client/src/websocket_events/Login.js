@@ -3,41 +3,35 @@ import Utils from "../Utils";
 export default (eventResponses) => {
 
     eventResponses.something_went_wrong = () => {
-        // Get the warning text.
         let element = document.getElementById("center_text");
         const originalText = element.innerText;
-
         element.innerText = dungeonz.getTextDef("Something went wrong");
 
-        // Make it disappear after a few seconds.
+        // Revert after a few seconds.
         setTimeout(function () {
             element.innerText = originalText;
-        }, 3000);
+        }, 8000);
     };
 
-    eventResponses.invalid_continue_code = () => {
-        // Get the warning text.
+    eventResponses.invalid_login_details = () => {
         let element = document.getElementById("center_text");
-        // Show the server connect error message.
-        element.innerText = dungeonz.getTextDef("Invalid continue code warning");
-        // Show it.
-        element.style.visibility = "visible";
-        // Make it disappear after a few seconds.
+        const originalText = element.innerText;
+        element.innerText = dungeonz.getTextDef("Invalid login details");
+
+        // Revert after a few seconds.
         setTimeout(function () {
-            element.style.visibility = "hidden";
+            element.innerText = originalText;
         }, 8000);
     };
 
     eventResponses.character_in_use = () => {
-        // Get the warning text.
         let element = document.getElementById("center_text");
-        // Show the server connect error message.
+        const originalText = element.innerText;
         element.innerText = dungeonz.getTextDef("Character in use");
-        // Show it.
-        element.style.visibility = "visible";
-        // Make it disappear after a few seconds.
+
+        // Revert after a few seconds.
         setTimeout(function () {
-            element.style.visibility = "hidden";
+            element.innerText = originalText;
         }, 8000);
     };
 

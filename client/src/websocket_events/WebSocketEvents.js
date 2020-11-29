@@ -53,15 +53,17 @@ const makeWebSocketConnection = (url) => {
 window.connectToGameServer = () => {
 
     // If the game is running in dev mode (localhost), connect without SSL.
-    if (window.devMode === true) {
+    if (window.host === "local") {
         // Make a connection, or if one is already made, return so the listeners aren't added again.
         if (makeWebSocketConnection('ws://127.0.0.4:4567') === false) return false;
+    }
+    else if (window.host === "test") {
+        // Make a connection, or if one is already made, return so the listeners aren't added again.
+        if (makeWebSocketConnection('wss://test.dungeonz.io:443') === false) return false;
     }
     // Deployment mode. Connect to live server, which should be using SSL.
     else {
         // Make a connection, or if one is already made, return so the listeners aren't added again.
-        //if(makeWebSocketConnection('wss://test.waywardworlds.com:3000') === false) return false;
-        // if(makeWebSocketConnection('ws://142.93.54.176:3000') === false) return false;
         if (makeWebSocketConnection('wss://dungeonz.io:443') === false) return false;
     }
 

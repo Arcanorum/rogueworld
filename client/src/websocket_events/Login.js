@@ -7,7 +7,7 @@ export default (eventResponses) => {
         let element = document.getElementById("center_text");
         const originalText = element.innerText;
 
-        element.innerText = "Something went wrong... :/";
+        element.innerText = dungeonz.getTextDef("Something went wrong");
 
         // Make it disappear after a few seconds.
         setTimeout(function () {

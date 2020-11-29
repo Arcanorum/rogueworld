@@ -123,6 +123,30 @@ module.exports = {
             });
     },
 
+    async changePassword(clientSocket, currentPassword, newPassword) {
+        try {
+            const account = await AccountModel.findOne({ username: clientSocket.accountUsername });
+
+            // Check the current password matches what they claim it is.
+            if (account.password !== currentPassword) {
+                clientSocket.sendEvent(EventsList.change_password_failure, { messageID: "Incorrect current password" });
+                return;
+            }
+
+            // Update the password.
+            await AccountModel.findByIdAndUpdate(
+                account._id,
+                { password: newPassword }
+            );
+
+            clientSocket.sendEvent(EventsList.change_password_success);
+        }
+        catch (error) {
+            Utils.message("Change password error:", error);
+            clientSocket.sendEvent(EventsList.change_password_failure, { messageID: "Something went wrong" });
+        }
+    },
+
     /**
      * Log a player account in.
      * @param {Object} clientSocket

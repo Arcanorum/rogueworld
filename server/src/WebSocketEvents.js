@@ -214,6 +214,14 @@ eventResponses.create_account = (clientSocket, data) => {
     );
 };
 
+eventResponses.change_password = (clientSocket, data) => {
+    if (!data) return;
+    if (!data.currentPassword) return;
+    if (!data.newPassword) return;
+
+    AccountManager.changePassword(clientSocket, data.currentPassword, data.newPassword);
+};
+
 eventResponses.mv_u = function (clientSocket) {
     //console.log("move player up");
     // Make sure they are in the game.

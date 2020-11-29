@@ -5,7 +5,7 @@ export default (eventResponses) => {
 
     eventResponses.create_account_success = () => {
         Utils.message("create_account_success");
-        // Hide the create account panel.
+        // Account created. Switch to the account panel.
         _this.GUI.createAccountPanel.hide();
 
         _this.player.isLoggedIn = true;
@@ -19,6 +19,24 @@ export default (eventResponses) => {
             const message = dungeonz.getTextDef(data.messageID);
             _this.GUI.createAccountPanel.warningText.innerText = message;
             _this.GUI.createAccountPanel.warningText.style.visibility = "visible";
+        }
+    };
+
+    eventResponses.change_password_success = () => {
+        Utils.message("change_password_success");
+        const message = dungeonz.getTextDef("Password changed");
+        _this.GUI.accountPanel.warningText.innerText = message;
+        _this.GUI.accountPanel.warningText.style.backgroundColor = "lime";
+        _this.GUI.accountPanel.warningText.style.visibility = "visible";
+    };
+
+    eventResponses.change_password_failure = (data) => {
+        Utils.message("change_password_failure:", data);
+        if (data) {
+            const message = dungeonz.getTextDef(data.messageID);
+            _this.GUI.accountPanel.warningText.innerText = message;
+            _this.GUI.accountPanel.warningText.style.backgroundColor = "orange";
+            _this.GUI.accountPanel.warningText.style.visibility = "visible";
         }
     };
 

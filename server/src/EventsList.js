@@ -29,6 +29,8 @@ const EventsList = {
     change_board: registerEventName(),
     change_day_phase: registerEventName(),
     character_in_use: registerEventName(),
+    change_password_failure: registerEventName(),
+    change_password_success: registerEventName(),
     clan_destroyed: registerEventName(),
     clan_joined: registerEventName(),
     clan_left: registerEventName(),

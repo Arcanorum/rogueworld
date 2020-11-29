@@ -47,7 +47,7 @@ class CreateAccountPanel extends PanelTemplate {
 
         this.warningText = document.createElement("div");
         this.warningText.id = "create_account_warning_text";
-        this.warningText.innerText = "Something went wrong x_x";
+        this.warningText.innerText = "";
         this.warningText.style.visibility = "hidden";
         innerContainer.appendChild(this.warningText);
     }
@@ -77,6 +77,7 @@ class CreateAccountPanel extends PanelTemplate {
 
         // Encrypt the password before sending.
         const hash = await digestMessage(password);
+
         window.ws.sendEvent("create_account", {
             username: this.usernameInput.value,
             password: hash

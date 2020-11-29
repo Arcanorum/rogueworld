@@ -234,6 +234,16 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.NoctisHatchet, 0));
         this.addStock(new StockItem(ItemsList.NoctisPickaxe, 0));
 
+        this.addStock(new StockItem(ItemsList.ExpOrbMelee, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbRanged, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbMagic, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbGathering, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbWeaponry, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbArmoury, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbToolery, 0));
+        this.addStock(new StockItem(ItemsList.ExpOrbPotionry, 0));
+        this.addStock(new StockItem(ItemsList.GloryOrb, 0));
+
         //this.addStock(new StockItem(ItemsList.Charter, 0));
         //this.addStock(new StockItem(ItemsList.Workbench, 0));
         //this.addStock(new StockItem(ItemsList.Furnace, 0));

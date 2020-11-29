@@ -4,6 +4,15 @@ This deployment guide assumes you are going to be running the game server on an 
 
 Getting a game server up and running on an Ubuntu machine is fairly straightforward, but below is some subject matter that you should be familiar with to understand the component parts of a successful deployment.
 
+## Install MongoDB
+
+If your deployment machine doesn't already have MongoDB installed, it is easy enough to set up.
+https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04
+
+## Install NodeJS & NPM
+
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
+
 ## Security | Reverse proxy | File server
 
 The game server runs as an unsecured WebSocket (WS) server, which means that it will only accept regular WebSocket requests, but most browsers these days will warn users of unsecure connections, especially for a game like this one that has user credential input fields, so we will need to use WebSocket Secure (WSS) for secured connections.
@@ -93,6 +102,10 @@ A common solution to many of the problems that I have encountered with scripts n
 And then do a fresh reinstall of the packages.
 
 `npm i`
+
+### Update Ubuntu
+
+`apt-get update && apt-get upgrade`
 
 ### Reboot a machine
 

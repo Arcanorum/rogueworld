@@ -1,4 +1,4 @@
-localhost, dungeonz.io
+localhost, dungeonz.io, test.dungeonz.io
 
 root * ./client
 file_server

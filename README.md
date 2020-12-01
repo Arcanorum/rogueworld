@@ -150,5 +150,8 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 ### [Translation](https://docs.google.com/spreadsheets/u/1/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit?pli=1#gid=0)
 
+## **Links**
+
+### See the latest changes before they go live on the public test server at https://test.dungeonz.io/
 
 ### For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B

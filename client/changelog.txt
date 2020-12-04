@@ -1,3 +1,30 @@
+4/12/2020 - Bugfix 7.1
+
+New:
+- Test server
+    - See the latest changes to the game before they go live on the main game at https://test.dungeonz.io
+- Added adumbrals as a possible kill task.
+
+Balance:
+- Warriors now drop iron hammers instead of iron swords.
+
+Bugs:
+- Equipping a ninja garb no longer crashes the game.
+- Ninja garb now shows the item name and description.
+- Fixed create account panel not showing if account was successfuly created.
+- Fixed warning message not showing when trying to log in using invalid credentials.
+- Fixed password reset on the account panel not working.
+- Fixed "Kill goblins" showing as "KillGoblins".
+- Fixed noctis hammers appearing as noctis daggers.
+- Rulers now use the correct sprite.
+- Dwarf merchants now use correct sprite.
+- Tutorial merchants now use correct sprite.
+- Rat animation now plays as soon as you see it.
+- Hawk animation now plays as soon as you see it.
+- Added names for dwarf, dwarf warrior, adumbral.
+- Fandom wiki tooltip now shows correct text.
+
+
 16/11/2020 - Update 7 - Darkness
 An ominous veil of darkness has fell upon the world, ushering in a new age of uncertainty for the denizens of Munud City.
 Strange figures have been reported swarming in the shadows at night, mauling any creature foolish enough to wander near...
@@ -204,7 +231,9 @@ Balance:
 - The "Could not connect to server" warning is now clearer to see.
 - Added a debug mode that can be activated by entering localStorage.setItem('debug_mode', true); into the browser console.
 - Fixed claim invalid task server crash.
+
 12/04/2019 - Hotfix:
 - Fixed server crash when suiciding from eating greencaps.
 - Fixed bug where if you die, the respawn panel would close if you tried to move while dead.
+
 11/04/2019 - Launch.

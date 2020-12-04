@@ -1,6 +1,5 @@
 .idea/
 node_modules/
-.env
 
 client/node_modules/
 client/main.css
@@ -14,5 +13,6 @@ client/assets/img/statics.png
 client/src/catalogues/
 
 server/node_modules/
+server/settings.yml
 server/PlayerDataDump.json
 server/test.js

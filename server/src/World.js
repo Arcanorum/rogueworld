@@ -1,5 +1,6 @@
 const { wss } = require("./Server");
 const Utils = require("./Utils");
+const settings = require("../settings");
 const AccountManager = require("./AccountManager");
 //const clanManager = require("./gameplay/ClanManager");
 const DungeonManager = require("./dungeon/DungeonManager");
@@ -16,11 +17,13 @@ Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 1);
 Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 11);
 Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
 
-const fullDayDuration = 60000 * 24;
+const fullDayDuration = 60000 * settings.FULL_DAY_DURATION_MINUTES;
 // Keep the length of a whole day the same, regarless of how many cycle phases each day has.
 const dayPhaseRate = fullDayDuration / dayPhaseCycle.length;
-Utils.message("Full day duration:", fullDayDuration / 60000, "minutes.");
+Utils.message("Full day duration:", settings.FULL_DAY_DURATION_MINUTES, "minutes.");
 Utils.message("Day phase rate:", dayPhaseRate / 60000, "minutes.");
+
+const defaultSpawnEntranceName = settings.DEV_MODE ? "test-island" : "city-spawn";
 
 const world = {
 
@@ -30,7 +33,7 @@ const world = {
     playerCount: 0,
 
     /** @type {Number} How many players can be in the game at once. */
-    maxPlayers: 1000,
+    maxPlayers: settings.MAX_PLAYERS,
 
     /** @type {Array.<Board>} A list of board in the world, by index. */
     boardsArray: BoardsList.boardsArray,
@@ -204,7 +207,7 @@ const world = {
         // Don't let too many players in the world.
         if (world.playerCount < world.maxPlayers) {
             // Start them in the overworld if they have played before.
-            const randomPosition = world.boardsObject["overworld"].entrances["city-spawn"].getRandomPosition();
+            const randomPosition = world.boardsObject["overworld"].entrances[defaultSpawnEntranceName].getRandomPosition();
 
             /** @type {Player} */
             const playerEntity = new EntitiesList.Player({

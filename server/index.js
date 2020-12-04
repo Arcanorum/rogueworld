@@ -1,3 +1,5 @@
+require("./settings");
+const fs = require("fs");
 const { exec } = require("child_process");
 const { extrudeTilesetToImage } = require("tile-extruder");
 const Utils = require("./src/Utils");
@@ -8,7 +10,7 @@ Utils.message("Start of index");
 
 async function init() {
     const { wss } = require("./src/Server");
-    
+
     ItemsLoader.populateList();
     EntitiesLoader.populateList();
 
@@ -25,19 +27,17 @@ async function init() {
     require("./src/TextDefinitionsParser");
     require("./src/items/holdable/spell_books/SpellBooksList");
     require("./src/ChatWarnings");
-    
+
     //const clanManager = require("./src/ClanManager");
     const world = require("./src/World");
     world.init();
-    
+
     require("./src/CatalogueBuilders").buildDungeonPrompts();
-    
+
     // Create a finished reference to the list of items. Mainly useful for the BankManager.
     require("./src/ItemsList").LIST = require("./src/ItemsList");
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
     require("./src/items/Item").prototype.EntitiesList = require("./src/EntitiesList");
-
-    const fs = require("fs");
 
     function cleanUp() {
         Utils.message("index.js cleanup");
@@ -103,7 +103,7 @@ async function init() {
 
     // Rebuild the client as some of the resources it uses might have been updated by the server init.
     exec("cd .. && npm run client", (error, stdout, stderr) => {
-        if(error || stderr) {
+        if (error || stderr) {
             Utils.error(error || stderr);
         }
         // Uncomment to see the output logs of building the client.

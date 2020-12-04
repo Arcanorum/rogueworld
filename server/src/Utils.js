@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require("fs");
+const settings = require("../settings");
 
 class Utils {
     /**
@@ -97,8 +98,10 @@ class Utils {
      * @param {*} message
      */
     warning(...args) {
-        args.unshift("* WARNING:");
-        console.log.apply(console, args);
+        if (!settings.IGNORE_WARNINGS) {
+            args.unshift("* WARNING:");
+            console.log.apply(console, args);
+        }
     }
 
     /**

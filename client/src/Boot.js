@@ -1,6 +1,6 @@
 import Utils from "./Utils";
-import TextDefs from '../src/catalogues/TextDefinitions';
-import DungeonPrompts from '../src/catalogues/DungeonPrompts';
+import TextDefs from "../src/catalogues/TextDefinitions";
+import DungeonPrompts from "../src/catalogues/DungeonPrompts";
 
 /** @type {Phaser.Scene}
  * A global reference to the currently running Phaser scene. */
@@ -33,7 +33,7 @@ window.dungeonz = {
     CHAT_SCROLL_SPEED: 0.3,
     /** @type {String}
      * What language to use from the text defs. */
-    language: 'English',
+    language: "English",
     /** @type {Boolean} Whether audio is enabled. */
     audioEnabled: true,
     /** @type {Number}
@@ -62,11 +62,11 @@ window.dungeonz = {
         // Check if definition is defined for selected language.
         if (text === null) {
             // Use English instead.
-            return dungeonz.TextDefs['English'][definitionID];
+            return dungeonz.TextDefs["English"][definitionID];
         }
         else {
             // Check if the text def is even defined.
-            if (text === undefined) return '???';
+            if (text === undefined) return "???";
             // Return the text, in the selected language.
             else return text;
         }
@@ -88,17 +88,17 @@ window.dungeonz.CENTER_OFFSET = dungeonz.SCALED_TILE_SIZE * 0.5;
 // Import the data for each map.
 function requireAll(r) {
     r.keys().forEach((fileName) => {
-        // Remove the './' from the start.
+        // Remove the "./" from the start.
         fileName = fileName.substring(2);
-        // Remove the '.json' from the end.
+        // Remove the ".json" from the end.
         fileName = fileName.slice(0, -5);
         // Skip the blank map that is used as a base/template when making new maps.
-        if (fileName === 'BLANK') return;
+        if (fileName === "BLANK") return;
 
-        dungeonz.mapsData[fileName] = require('../assets/map/' + fileName + '.json');
+        dungeonz.mapsData[fileName] = require("../assets/map/" + fileName + ".json");
     });
 }
-requireAll(require.context('../assets/map/', true, /\.json$/));
+requireAll(require.context("../assets/map/", true, /\.json$/));
 
 class Boot extends Phaser.Scene {
     constructor() {
@@ -108,15 +108,15 @@ class Boot extends Phaser.Scene {
     preload() {
         Utils.message("Boot preload");
 
-        this.load.image('highlight', 'assets/img/gui/hud/highlight.png');
-        this.load.atlas('game-atlas', 'assets/img/game-atlas.png', 'assets/img/game-atlas.json');
-        this.load.spritesheet('ground-tileset', 'assets/img/ground.png', {
+        this.load.image("highlight", "assets/img/gui/hud/highlight.png");
+        this.load.atlas("game-atlas", "assets/img/game-atlas.png", "assets/img/game-atlas.json");
+        this.load.spritesheet("ground-tileset", "assets/img/ground.png", {
             frameWidth: 16,
             frameHeight: 16,
             margin: 1,
             spacing: 2
         });
-        this.load.spritesheet('statics-tileset', 'assets/img/statics.png', {
+        this.load.spritesheet("statics-tileset", "assets/img/statics.png", {
             frameWidth: 16,
             frameHeight: 16,
             margin: 1,
@@ -136,12 +136,12 @@ class Boot extends Phaser.Scene {
         document.getElementById("game_cont").style.visibility = "hidden";
 
         // Keep the game running even when the window loses focus.
-        this.events.on('hidden', function () {
-            console.log('hidden');
+        this.events.on("hidden", function () {
+            console.log("hidden");
         }, this);
 
-        this.events.on('visible', function () {
-            console.log('visible');
+        this.events.on("visible", function () {
+            console.log("visible");
         }, this);
 
         // Make sure the window always has focus when clicked on. Fixes not detecting input when iframed.
@@ -155,7 +155,7 @@ class Boot extends Phaser.Scene {
 
         if (window.devMove === false) {
             // Disable the right click context menu on the game in prod.
-            document.getElementById('game_cont').addEventListener('contextmenu', event => event.preventDefault());
+            document.getElementById("game_cont").addEventListener("contextmenu", event => event.preventDefault());
         }
 
     }

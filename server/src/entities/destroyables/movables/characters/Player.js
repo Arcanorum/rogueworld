@@ -1,7 +1,10 @@
+const settings = require("../../../../../settings");
 const Character = require("./Character");
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
+
+const respawnEntranceName = settings.DEV_MODE ? "test-island" : "city-spawn";
 
 class Player extends Character {
     /**
@@ -28,7 +31,7 @@ class Player extends Character {
          * The entrance that this player entity will respawn into.
          * @type {Entrance}
          */
-        this.respawnEntrance = config.respawnEntrance || BoardsList.boardsObject["overworld"].entrances["city-spawn"];
+        this.respawnEntrance = config.respawnEntrance || BoardsList.boardsObject["overworld"].entrances[respawnEntranceName];
 
         /**
          * This can't be on the prototype, as changing the contents would change it for every instance of this class.

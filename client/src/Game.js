@@ -89,8 +89,8 @@ class Game extends Phaser.Scene {
 
         // Setup animations for entity types that have them configured.
         Object.values(EntitiesList).forEach((EntityType) => {
-            if(EntityType.setupAnimations) EntityType.setupAnimations();
-            if(EntityType.addAnimationSet) EntityType.addAnimationSet();
+            if (EntityType.setupAnimations) EntityType.setupAnimations();
+            if (EntityType.addAnimationSet) EntityType.addAnimationSet();
         });
 
         // TextMetrics.init();
@@ -246,6 +246,21 @@ class Game extends Phaser.Scene {
         });
 
         damageParticles.setDepth(this.renderOrder.particles);
+
+        this.sounds = {
+            playerDeathLoop: this.sound.add("player-death-loop"),
+            footsteps: [
+                this.sound.add("footstep-1"),
+                this.sound.add("footstep-2"),
+                this.sound.add("footstep-3"),
+                this.sound.add("footstep-4"),
+            ],
+            item: {
+                dropped: this.sound.add("item-dropped"),
+            },
+            dungeonKeyGained: this.sound.add("dungeon-key-gained"),
+        };
+
     }
 
     update() {

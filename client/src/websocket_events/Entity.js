@@ -1,3 +1,5 @@
+import Utils from "../Utils";
+
 const tweenCompleteLeft = () => {
     _this.tilemap.shiftMapLeft();
     _this.playerTween = null;
@@ -139,6 +141,8 @@ export default (eventResponses) => {
                 }
             }
 
+            // Play a random footstep sound every time they move.
+            Utils.getRandomElement(_this.sounds.footsteps).play();
         }
         // Another entity moved.
         else {

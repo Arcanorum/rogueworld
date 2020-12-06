@@ -45,7 +45,7 @@ class Item {
 
     static registerItemType() {
         this.prototype.typeNumber = typeNumberCounter.getNext();
-    
+
         // Utils.message("Registering item type: ", this.prototype.typeNumber);
     }
 
@@ -80,9 +80,9 @@ class Item {
         }
     }
 
-    equip() {    }
+    equip() { }
 
-    unequip() {    }
+    unequip() { }
 
     drop() {
         // If no pickup type set, destroy the item without leaving a pickup on the ground.
@@ -94,6 +94,8 @@ class Item {
         const owner = this.owner;
         // Add a pickup entity of that item to the board.
         new this.PickupType({ row: owner.row, col: owner.col, board: owner.board, durability: this.durability, maxDurability: this.maxDurability }).emitToNearbyPlayers();
+
+        owner.socket.sendEvent(this.owner.EventsList.item_dropped);
 
         this.destroy();
     }
@@ -179,16 +181,16 @@ class Item {
         this.iconSource = config.iconSource;
 
         Object.entries(config).forEach(([key, value]) => {
-            if(key === "name") {
+            if (key === "name") {
                 this.prototype.typeName = value;
                 return;
             }
 
             // Only load properties that should actually exist on this class.
-            if(this.prototype[key] !== undefined){
+            if (this.prototype[key] !== undefined) {
                 // Check if the property has already been loaded by a
                 // subclass, or set on the class prototype for class files.
-                if(Object.getPrototypeOf(this).prototype[key] === this.prototype[key]) {
+                if (Object.getPrototypeOf(this).prototype[key] === this.prototype[key]) {
                     this.prototype[key] = value;
                 }
             }

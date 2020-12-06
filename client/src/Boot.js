@@ -108,6 +108,7 @@ class Boot extends Phaser.Scene {
     preload() {
         Utils.message("Boot preload");
 
+        // Graphics.
         this.load.image("highlight", "assets/img/gui/hud/highlight.png");
         this.load.atlas("game-atlas", "assets/img/game-atlas.png", "assets/img/game-atlas.json");
         this.load.spritesheet("ground-tileset", "assets/img/ground.png", {
@@ -122,6 +123,15 @@ class Boot extends Phaser.Scene {
             margin: 1,
             spacing: 2
         });
+
+        // Audio.
+        this.load.audio("player-death-loop", "assets/audio/player/death-loop-draft.ogg");
+        this.load.audio("footstep-1", "assets/audio/player/footstep-1.wav");
+        this.load.audio("footstep-2", "assets/audio/player/footstep-2.wav");
+        this.load.audio("footstep-3", "assets/audio/player/footstep-3.wav");
+        this.load.audio("footstep-4", "assets/audio/player/footstep-4.wav");
+        this.load.audio("item-dropped", "assets/audio/items/item-dropped.wav");
+        this.load.audio("dungeon-key-gained", "assets/audio/dungeon-key-gained.wav");
     }
 
     create() {

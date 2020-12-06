@@ -52,6 +52,10 @@ export default (eventResponses) => {
         _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Item broken warning"));
     };
 
+    eventResponses.item_dropped = () => {
+        _this.sounds.item.dropped.play();
+    };
+
     eventResponses.inventory_full = () => {
         _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Inventory full warning"));
     };

@@ -91,6 +91,15 @@ const Utils = {
     },
 
     /**
+     * Gets a random element from the given array.
+     * @param {Array} array
+     * @returns {*}
+     */
+    getRandomElement(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    },
+
+    /**
      * Gets the distance in pixels between a sprite and a pointer.
      * @param {Phaser.GameObject.Sprite} baseSprite
      * @param pointer

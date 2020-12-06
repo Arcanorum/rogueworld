@@ -79,6 +79,18 @@ const Utils = {
     },
 
     /**
+     * Gets a random number between, and including, min and max.
+     * @param {Number} min
+     * @param {Number} max
+     * @returns {*}
+     */
+    getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    /**
      * Gets the distance in pixels between a sprite and a pointer.
      * @param {Phaser.GameObject.Sprite} baseSprite
      * @param pointer

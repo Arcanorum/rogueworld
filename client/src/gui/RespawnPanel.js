@@ -1,9 +1,10 @@
 
+import Utils from "../Utils";
 import PanelTemplate from "./PanelTemplate";
 
 class RespawnPanel extends PanelTemplate {
-    constructor () {
-        super(document.getElementById('respawn_panel'), 440, 220, dungeonz.getTextDef('You died'), 'gui/hud/respawns-icon', true);
+    constructor() {
+        super(document.getElementById('respawn_panel'), 440, 220, dungeonz.getTextDef("Respawn panel: name"), 'gui/hud/respawns-icon', true);
 
         const innerContainer = document.createElement('div');
         innerContainer.id = 'respawn_inner_cont';
@@ -13,10 +14,9 @@ class RespawnPanel extends PanelTemplate {
         mainContainer.id = 'respawn_main_cont';
         innerContainer.appendChild(mainContainer);
 
-        const respawnInfo = document.createElement('div');
-        respawnInfo.id = 'respawn_info';
-        respawnInfo.innerText = dungeonz.getTextDef('Respawns remaining');
-        mainContainer.appendChild(respawnInfo);
+        this.respawnInfo = document.createElement('div');
+        this.respawnInfo.id = 'respawn_info';
+        mainContainer.appendChild(this.respawnInfo);
 
         const bottomContainer = document.createElement('div');
         bottomContainer.id = 'respawn_bottom_cont';
@@ -42,17 +42,19 @@ class RespawnPanel extends PanelTemplate {
 
     }
 
-    show () {
+    show() {
         super.show();
         _this.GUI.isAnyPanelOpen = true;
+        // Pick a random hint to show.
+        this.respawnInfo.innerText = dungeonz.getTextDef("Respawn panel: info " + Utils.getRandomIntInclusive(1, 3));
     }
 
-    hide () {
+    hide() {
         super.hide();
         _this.GUI.isAnyPanelOpen = false;
     }
 
-    respawnPressed () {
+    respawnPressed() {
         window.ws.sendEvent("respawn");
     }
 }

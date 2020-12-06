@@ -130,6 +130,7 @@ class Boot extends Phaser.Scene {
         this.load.audio("footstep-2", "assets/audio/player/footstep-2.wav");
         this.load.audio("footstep-3", "assets/audio/player/footstep-3.wav");
         this.load.audio("footstep-4", "assets/audio/player/footstep-4.wav");
+        this.load.audio("generic-theme", "assets/audio/locations/generic-theme.ogg");
         this.load.audio("item-dropped", "assets/audio/items/item-dropped.wav");
         this.load.audio("dungeon-key-gained", "assets/audio/dungeon-key-gained.wav");
     }

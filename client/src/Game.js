@@ -255,12 +255,17 @@ class Game extends Phaser.Scene {
                 this.sound.add("footstep-3"),
                 this.sound.add("footstep-4"),
             ],
+            location: {
+                generic: this.sound.add("generic-theme"),
+            },
             item: {
                 dropped: this.sound.add("item-dropped"),
             },
             dungeonKeyGained: this.sound.add("dungeon-key-gained"),
         };
 
+        this.currentBackgroundMusic = this.sounds.item.dropped;
+        this.changeBackgroundMusic(this.sounds.location.generic);
     }
 
     update() {
@@ -580,6 +585,31 @@ class Game extends Phaser.Scene {
                 this.GUI.chatInput.style.visibility = "visible";
                 this.GUI.chatInput.focus();
             }
+        });
+    }
+
+    changeBackgroundMusic(sound) {
+        this.currentBackgroundMusic.stop();
+
+        sound.play({
+            loop: true,
+        });
+
+        this.currentBackgroundMusic = sound;
+
+        // Fade playing the audio in.
+        _this.tweens.add({
+            targets: this.currentBackgroundMusic,
+            volume: {
+                getStart: function () {
+                    return 0;
+                },
+                getEnd: function () {
+                    return 1;
+                }
+            },
+            duration: 2000,
+            ease: "Linear",
         });
     }
 

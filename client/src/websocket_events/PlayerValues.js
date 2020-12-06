@@ -45,30 +45,16 @@ export default (eventResponses) => {
         _this.GUI.respawnPanel.hide();
         _this.GUI.updateHitPointCounters();
         _this.GUI.updateEnergyCounters();
-        _this.sounds.playerDeathLoop.stop();
+
+        _this.changeBackgroundMusic(_this.sounds.location.generic);
     };
 
     eventResponses.hit_point_value = (data) => {
         _this.player.hitPoints = data;
         if (_this.player.hitPoints <= 0) {
             _this.GUI.respawnPanel.show();
-            _this.sounds.playerDeathLoop.play({
-                loop: true,
-            });
-            // Fade playing the audio in.
-            _this.tweens.add({
-                targets: _this.sounds.playerDeathLoop,
-                volume: {
-                    getStart: function () {
-                        return 0;
-                    },
-                    getEnd: function () {
-                        return 1;
-                    }
-                },
-                duration: 2000,
-                ease: "Linear",
-            });
+            
+            _this.changeBackgroundMusic(_this.sounds.playerDeathLoop);
         }
         _this.GUI.updateHitPointCounters();
     };

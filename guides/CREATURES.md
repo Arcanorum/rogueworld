@@ -86,18 +86,18 @@ These frames must be defined as *client/assets/img/entities/characters/**[mob na
 
 So for our slime example, the following files are expected to exist:
 
-*client/assets/img/entities/characters/slime/slime-up-1.png*
-*client/assets/img/entities/characters/slime/slime-up-2.png*
-*client/assets/img/entities/characters/slime/slime-up-3.png*
-*client/assets/img/entities/characters/slime/slime-down-1.png*
-*client/assets/img/entities/characters/slime/slime-down-2.png*
-*client/assets/img/entities/characters/slime/slime-down-3.png*
-*client/assets/img/entities/characters/slime/slime-left-1.png*
-*client/assets/img/entities/characters/slime/slime-left-2.png*
-*client/assets/img/entities/characters/slime/slime-left-3.png*
-*client/assets/img/entities/characters/slime/slime-right-1.png*
-*client/assets/img/entities/characters/slime/slime-right-2.png*
-*client/assets/img/entities/characters/slime/slime-right-3.png*
+- *client/assets/img/entities/characters/slime/slime-up-1.png*
+- *client/assets/img/entities/characters/slime/slime-up-2.png*
+- *client/assets/img/entities/characters/slime/slime-up-3.png*
+- *client/assets/img/entities/characters/slime/slime-down-1.png*
+- *client/assets/img/entities/characters/slime/slime-down-2.png*
+- *client/assets/img/entities/characters/slime/slime-down-3.png*
+- *client/assets/img/entities/characters/slime/slime-left-1.png*
+- *client/assets/img/entities/characters/slime/slime-left-2.png*
+- *client/assets/img/entities/characters/slime/slime-left-3.png*
+- *client/assets/img/entities/characters/slime/slime-right-1.png*
+- *client/assets/img/entities/characters/slime/slime-right-2.png*
+- *client/assets/img/entities/characters/slime/slime-right-3.png*
 
 ## Add it to the game world
 
@@ -169,15 +169,15 @@ export default Entity;
 
 ### Animation set
 
-*client/assets/img/entities/characters/giant-slime/giant-slime-up-1.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-up-2.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-up-3.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-down-1.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-down-2.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-down-3.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-left-1.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-left-2.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-left-3.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-right-1.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-right-2.png*
-*client/assets/img/entities/characters/giant-slime/giant-slime-right-3.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-up-1.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-up-2.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-up-3.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-down-1.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-down-2.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-down-3.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-left-1.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-left-2.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-left-3.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-right-1.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-right-2.png*
+- *client/assets/img/entities/characters/giant-slime/giant-slime-right-3.png*

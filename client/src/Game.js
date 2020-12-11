@@ -260,6 +260,8 @@ class Game extends Phaser.Scene {
             },
             item: {
                 dropped: this.sound.add("item-dropped"),
+                weaponEquipped: this.sound.add("weapon-equipped"),
+                clothingEquipped: this.sound.add("clothing-equipped"),
             },
             dungeonKeyGained: this.sound.add("dungeon-key-gained"),
         };

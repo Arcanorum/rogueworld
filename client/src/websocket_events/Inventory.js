@@ -40,6 +40,8 @@ export default (eventResponses) => {
         // Show the equipped icon on the inventory slot.
         _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/clothing-icon.png';
         _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
+        // Play sound when equipped clothing
+        _this.sounds.item.clothingEquipped.play()
     };
 
     eventResponses.deactivate_clothing = (data) => {
@@ -54,6 +56,8 @@ export default (eventResponses) => {
         _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
         // Change the cursor to the attack icon.
         setAttackCursor();
+        // Play sound when equipped weapon
+        _this.sounds.item.weaponEquipped.play()
     };
 
     eventResponses.deactivate_holding = (data) => {

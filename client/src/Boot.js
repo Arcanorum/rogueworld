@@ -133,7 +133,7 @@ class Boot extends Phaser.Scene {
         const loadAudio = (key, filePath) => {
             this.load.audio(key, [
                 "assets/audio/" + filePath + ".ogg",
-                filePath + ".mp3",
+                "assets/audio/" + filePath + ".mp3",
             ]);
         };
 

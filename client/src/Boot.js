@@ -124,17 +124,31 @@ class Boot extends Phaser.Scene {
             spacing: 2
         });
 
+        /**
+         * Utility for providing Ogg/MP3 audio assets to the Phaser loader.
+         * Safari doesn't support Ogg format files, so MP3 must be provided as a fallback.
+         * @param {String} key - What to refer to this asset as later.
+         * @param {String} filePath - The URL to the asset, without the file type extension.
+         */
+        const loadAudio = (key, filePath) => {
+            this.load.audio(key, [
+                "assets/audio/" + filePath + ".ogg",
+                filePath + ".mp3",
+            ]);
+        };
+
         // Audio.
-        this.load.audio("player-death-loop", "assets/audio/player/death-loop-draft.ogg");
-        this.load.audio("footstep-1", "assets/audio/player/footstep-1.wav");
-        this.load.audio("footstep-2", "assets/audio/player/footstep-2.wav");
-        this.load.audio("footstep-3", "assets/audio/player/footstep-3.wav");
-        this.load.audio("footstep-4", "assets/audio/player/footstep-4.wav");
-        this.load.audio("generic-theme", "assets/audio/locations/generic-theme.ogg");
-        this.load.audio("item-dropped", "assets/audio/items/item-dropped.wav");
-        this.load.audio("dungeon-key-gained", "assets/audio/dungeon-key-gained.wav");
-        this.load.audio("weapon-equipped", "assets/audio/items/weapon-equipped.wav");
-        this.load.audio("clothing-equipped", "assets/audio/items/clothing-equipped.wav");
+        loadAudio("player-death-loop", "player/death-loop");
+        loadAudio("footstep-1", "player/footstep-1");
+        loadAudio("footstep-2", "player/footstep-2");
+        loadAudio("footstep-3", "player/footstep-3");
+        loadAudio("footstep-4", "player/footstep-4");
+        loadAudio("generic-theme-1", "locations/generic-theme-1");
+        loadAudio("generic-theme-2", "locations/generic-theme-2");
+        loadAudio("item-dropped", "items/item-dropped");
+        loadAudio("dungeon-key-gained", "items/dungeon-key-gained");
+        loadAudio("weapon-equipped", "items/weapon-equipped");
+        loadAudio("clothing-equipped", "items/clothing-equipped");
 
     }
 

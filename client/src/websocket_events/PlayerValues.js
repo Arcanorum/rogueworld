@@ -46,7 +46,7 @@ export default (eventResponses) => {
         _this.GUI.updateHitPointCounters();
         _this.GUI.updateEnergyCounters();
 
-        _this.changeBackgroundMusic(_this.sounds.location.generic);
+        _this.changeBackgroundMusic(_this.sounds.location.generic1);
     };
 
     eventResponses.hit_point_value = (data) => {

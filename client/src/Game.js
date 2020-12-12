@@ -256,7 +256,8 @@ class Game extends Phaser.Scene {
                 this.sound.add("footstep-4"),
             ],
             location: {
-                generic: this.sound.add("generic-theme"),
+                generic1: this.sound.add("generic-theme-1"),
+                generic2: this.sound.add("generic-theme-2"),
             },
             item: {
                 dropped: this.sound.add("item-dropped"),
@@ -267,7 +268,7 @@ class Game extends Phaser.Scene {
         };
 
         this.currentBackgroundMusic = this.sounds.item.dropped;
-        this.changeBackgroundMusic(this.sounds.location.generic);
+        this.changeBackgroundMusic(this.sounds.location.generic1);
     }
 
     update() {

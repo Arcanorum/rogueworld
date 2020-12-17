@@ -7,11 +7,10 @@ assignees: ''
 
 ---
 
-**Task description:**
+### Task description
 
 
-**References/notes:**
+### References/notes
 
 
-**Acceptance criteria:**
-AC:
+### Acceptance criteria

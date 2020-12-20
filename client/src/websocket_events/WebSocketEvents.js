@@ -96,7 +96,13 @@ window.connectToGameServer = () => {
             // Check there is a response function to run for the event.
             if (eventResponses[eventName] !== undefined) {
                 // Run the response, giving it any data.
-                eventResponses[eventName](parsedMessage.data);
+                // Need to check for if any data was given at all, otherwise falsy values 
+                // like 0 and false would be ignored, even though they are valid values.
+                if (parsedMessage.data === undefined) {
+                    eventResponses[eventName]({});
+                } else {
+                    eventResponses[eventName](parsedMessage.data);
+                }
             }
         }
 

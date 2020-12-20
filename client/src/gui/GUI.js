@@ -347,7 +347,7 @@ class GUI {
 
     }
 
-    updateDefenceCounters() {
+    updateDefenceCounter() {
         this.defenceCounter.innerText = this.game.player.defence;
     }
 

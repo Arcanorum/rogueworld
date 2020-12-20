@@ -54,7 +54,7 @@ export default (eventResponses) => {
         if (_this.player.hitPoints <= 0) {
             _this.GUI.respawnPanel.show();
             
-            _this.changeBackgroundMusic(_this.sounds.playerDeathLoop);
+            _this.changeBackgroundMusic(_this.soundManager.player.sounds.deathLoop);
         }
         _this.GUI.updateHitPointCounters();
     };
@@ -66,7 +66,7 @@ export default (eventResponses) => {
 
     eventResponses.defence_value = (data) => {
         _this.player.defence = data;
-        _this.GUI.updateDefenceCounters();
+        _this.GUI.updateDefenceCounter();
     };
 
     eventResponses.glory_value = (data) => {

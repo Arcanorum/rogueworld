@@ -141,8 +141,7 @@ export default (eventResponses) => {
                 }
             }
 
-            // Play a random footstep sound every time they move.
-            Utils.getRandomElement(_this.sounds.footsteps).play();
+            _this.soundManager.player.playFootstep();
         }
         // Another entity moved.
         else {

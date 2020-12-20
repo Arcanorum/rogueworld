@@ -125,7 +125,8 @@ const createCatalogue = () => {
         dataToWrite[itemPrototype.typeNumber] = {
             typeNumber: itemPrototype.typeNumber,
             translationID: itemType.translationID,
-            iconSource: itemType.iconSource
+            iconSource: itemType.iconSource,
+            soundType: itemType.soundType,
         };
     }
 

@@ -13,6 +13,7 @@ class CurePotion extends Item {
 
 CurePotion.translationID = "Cure potion";
 CurePotion.iconSource = "icon-cure-potion";
+CurePotion.soundType = "Drink";
 CurePotion.prototype.craftingExpValue = 40;
 CurePotion.prototype.baseDurability = 6;
 CurePotion.prototype.useDurabilityCost = 1;

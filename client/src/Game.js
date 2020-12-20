@@ -8,6 +8,7 @@ import CraftingManager from "./CraftingManager";
 import Utils from "./Utils";
 import BankManager from "./BankManager";
 import ClanManager from "./ClanManager";
+import SoundManager from "./SoundManager";
 // import TextMetrics from "./TextMetrics";
 
 dungeonz.EntityTypes = EntityTypes;
@@ -156,6 +157,7 @@ class Game extends Phaser.Scene {
          */
         this.lightSources = {};
 
+        this.soundManager = new SoundManager(this);
         this.clanManager = new ClanManager();
         this.GUI = new GUI(this);
         this.craftingManager = new CraftingManager();
@@ -247,28 +249,8 @@ class Game extends Phaser.Scene {
 
         damageParticles.setDepth(this.renderOrder.particles);
 
-        this.sounds = {
-            playerDeathLoop: this.sound.add("player-death-loop"),
-            footsteps: [
-                this.sound.add("footstep-1"),
-                this.sound.add("footstep-2"),
-                this.sound.add("footstep-3"),
-                this.sound.add("footstep-4"),
-            ],
-            location: {
-                generic1: this.sound.add("generic-theme-1"),
-                generic2: this.sound.add("generic-theme-2"),
-            },
-            item: {
-                dropped: this.sound.add("item-dropped"),
-                weaponEquipped: this.sound.add("weapon-equipped"),
-                clothingEquipped: this.sound.add("clothing-equipped"),
-            },
-            dungeonKeyGained: this.sound.add("dungeon-key-gained"),
-        };
-
-        this.currentBackgroundMusic = this.sounds.item.dropped;
-        this.changeBackgroundMusic(this.sounds.location.generic1);
+        // Start an initial background music playing.
+        this.soundManager.music.changeBackgroundMusic(this.soundManager.music.sounds.location.generic1);
     }
 
     update() {
@@ -588,31 +570,6 @@ class Game extends Phaser.Scene {
                 this.GUI.chatInput.style.visibility = "visible";
                 this.GUI.chatInput.focus();
             }
-        });
-    }
-
-    changeBackgroundMusic(sound) {
-        this.currentBackgroundMusic.stop();
-
-        sound.play({
-            loop: true,
-        });
-
-        this.currentBackgroundMusic = sound;
-
-        // Fade playing the audio in.
-        _this.tweens.add({
-            targets: this.currentBackgroundMusic,
-            volume: {
-                getStart: function () {
-                    return 0;
-                },
-                getEnd: function () {
-                    return 1;
-                }
-            },
-            duration: 2000,
-            ease: "Linear",
         });
     }
 

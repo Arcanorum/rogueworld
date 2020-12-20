@@ -78,6 +78,10 @@ class Item {
             }
             this.modDurability(-this.useDurabilityCost);
         }
+
+        // Tell the user the item was used. Might not have had an immediate effect, but
+        // the client might like to know right away (i.e. to play a sound effect).
+        this.owner.socket.sendEvent(this.owner.EventsList.item_used, { itemTypeNumber: this.typeNumber });
     }
 
     equip() { }
@@ -179,6 +183,7 @@ class Item {
 
         this.translationID = config.translationID;
         this.iconSource = config.iconSource;
+        this.soundType = config.soundType;
 
         Object.entries(config).forEach(([key, value]) => {
             if (key === "name") {

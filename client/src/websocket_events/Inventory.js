@@ -13,7 +13,32 @@ export default (eventResponses) => {
         _this.player.inventory[data].empty();
     };
 
+    eventResponses.inventory_full = () => {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Inventory full warning"));
+    };
+
+    /**
+     * When an item is used, such as attacking with a weapon, drinking a potion, eating 
+     * food, firing an arrow, etc. Generally when an item to lose durability.
+     * Does NOT trigger for item state changes, like equipping/unequipping an item.
+     * @param {*} data
+     * @param {Number} data.typeNumber
+     */
+    eventResponses.item_used = (data) => {
+        // console.log("item used event:", data);
+        _this.soundManager.items.playUsedSound(data.itemTypeNumber);
+    };
+
+    eventResponses.item_broken = () => {
+        _this.GUI.textCounterSetText(_this.GUI.inventoryBar.message, dungeonz.getTextDef("Item broken warning"));
+    };
+
+    eventResponses.item_dropped = (data) => {
+        _this.soundManager.items.playDroppedSound(data.itemTypeNumber);
+    };
+
     eventResponses.equip_clothes = (data) => {
+        // console.log("equip_clothes:", data);
         const clothes = _this.dynamics[data.id].spriteContainer.clothes;
         clothes.visible = true;
         clothes.clothesName = ItemTypes[data.typeNumber].translationID;
@@ -21,7 +46,7 @@ export default (eventResponses) => {
     };
 
     eventResponses.unequip_clothes = (data) => {
-        //console.log("unequip clothes:", data);
+        // console.log("unequip clothes:", data);
         _this.dynamics[data].spriteContainer.clothes.visible = false;
     };
 
@@ -37,36 +62,40 @@ export default (eventResponses) => {
     };
 
     eventResponses.activate_clothing = (data) => {
+        // console.log("activate_clothing:", data);
         // Show the equipped icon on the inventory slot.
-        _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/clothing-icon.png';
-        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
-        // Play sound when equipped clothing
-        _this.sounds.item.clothingEquipped.play()
+        _this.GUI.inventoryBar.slots[data.slotKey].equipped.src = 'assets/img/gui/hud/clothing-icon.png';
+        _this.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "visible";
+
+        _this.soundManager.items.playEquippedSound(data.itemTypeNumber);
     };
 
     eventResponses.deactivate_clothing = (data) => {
+        // console.log("deactivate_clothing:", data);
         // Hide the equipped icon on the inventory slot.
-        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+        _this.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
     };
 
     eventResponses.activate_holding = (data) => {
         _this.player.holdingItem = true;
         // Show the equipped icon on the inventory slot.
-        _this.GUI.inventoryBar.slots[data].equipped.src = 'assets/img/gui/hud/holding-icon.png';
-        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "visible";
+        _this.GUI.inventoryBar.slots[data.slotKey].equipped.src = 'assets/img/gui/hud/holding-icon.png';
+        _this.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "visible";
         // Change the cursor to the attack icon.
         setAttackCursor();
-        // Play sound when equipped weapon
-        _this.sounds.item.weaponEquipped.play()
+        // Play sound when an item is held (i.e. a weapon).
+        _this.soundManager.items.playEquippedSound(data.itemTypeNumber);
     };
 
     eventResponses.deactivate_holding = (data) => {
         _this.player.holdingItem = false;
         // Hide the equipped icon on the inventory slot.
-        _this.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+        _this.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
         _this.GUI.spellBar.hide();
         // Change the cursor back to what it was before.
         setDefaultCursor();
+
+        _this.soundManager.items.playUnequippedSound(data.itemTypeNumber);
     };
 
     /**

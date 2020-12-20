@@ -385,7 +385,10 @@ class Player extends Character {
     modClothing(clothing) {
         if (clothing === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent(this.EventsList.deactivate_clothing, this.clothing.slotKey);
+            this.socket.sendEvent(
+                this.EventsList.deactivate_clothing,
+                { slotKey: this.clothing.slotKey, typeNumber: this.clothing.typeNumber }
+            );
 
             for (let statKey in this.clothing.statBonuses) {
                 if (this.clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
@@ -395,7 +398,10 @@ class Player extends Character {
         }
         else {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent(this.EventsList.activate_clothing, clothing.slotKey);
+            this.socket.sendEvent(
+                this.EventsList.activate_clothing,
+                { slotKey: clothing.slotKey, typeNumber: clothing.typeNumber }
+            );
 
             for (let statKey in clothing.statBonuses) {
                 if (clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
@@ -413,11 +419,17 @@ class Player extends Character {
     modHolding(holding) {
         if (holding === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent(this.EventsList.deactivate_holding, this.holding.slotKey);
+            this.socket.sendEvent(this.EventsList.deactivate_holding, {
+                slotKey: this.holding.slotKey,
+                itemTypeNumber: this.holding.typeNumber,
+            });
         }
         else {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent(this.EventsList.activate_holding, holding.slotKey);
+            this.socket.sendEvent(this.EventsList.activate_holding, {
+                slotKey: holding.slotKey,
+                itemTypeNumber: holding.typeNumber,
+            });
         }
         // Do this after, or this.holding would have already been nulled, so won't have a slot key to send to the client.
         this.holding = holding;

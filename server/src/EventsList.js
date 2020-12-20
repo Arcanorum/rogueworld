@@ -77,6 +77,7 @@ const EventsList = {
     inactive_state: registerEventName(),
     item_broken: registerEventName(),
     item_dropped: registerEventName(),
+    item_used: registerEventName(),
     inventory_full: registerEventName(),
     join_world_success: registerEventName(),
     key_needed: registerEventName(),

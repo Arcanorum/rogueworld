@@ -32,6 +32,7 @@
   extends: clothes/Clothes
   translationID: Cloak
   iconSource: icon-cloak
+  soundType: Fabric clothing
   category: Clothing
   baseDurability: 100
   defenceBonus: 25
@@ -42,6 +43,7 @@
   extends: clothes/Clothes
   translationID: Copper armour
   iconSource: icon-copper-armour
+  soundType: Metal clothing
   category: Clothing
   baseDurability: 100
   defenceBonus: 40
@@ -52,6 +54,7 @@
   extends: clothes/Clothes
   translationID: Dungium armour
   iconSource: icon-dungium-armour
+  soundType: Metal clothing
   category: Clothing
   baseDurability: 200
   defenceBonus: 60
@@ -62,6 +65,7 @@
   extends: clothes/Clothes
   translationID: Iron armour
   iconSource: icon-iron-armour
+  soundType: Metal clothing
   category: Clothing
   baseDurability: 150
   defenceBonus: 50
@@ -72,6 +76,7 @@
   extends: clothes/Clothes
   translationID: Mage robe
   iconSource: icon-mage-robe
+  soundType: Fabric clothing
   category: Clothing
   baseDurability: 100
   defenceBonus: 20
@@ -82,6 +87,7 @@
   extends: clothes/Clothes
   translationID: Necromancer robe
   iconSource: icon-necromancer-robe
+  soundType: Fabric clothing
   category: Clothing
   baseDurability: 100
   defenceBonus: 20
@@ -92,6 +98,7 @@
   extends: clothes/Clothes
   translationID: Ninja garb
   iconSource: icon-ninja-garb
+  soundType: Fabric clothing
   category: Clothing
   baseDurability: 100
   defenceBonus: 30
@@ -103,6 +110,7 @@
   extends: clothes/Clothes
   translationID: Noctis armour
   iconSource: icon-noctis-armour
+  soundType: Metal clothing
   category: Clothing
   baseDurability: 200 
   defenceBonus: 70
@@ -113,6 +121,7 @@
   extends: clothes/Clothes
   translationID: Plain robe
   iconSource: icon-plain-robe
+  soundType: Fabric clothing
   category: Clothing
   baseDurability: 100
   defenceBonus: 20
@@ -129,6 +138,7 @@
   extends: holdable/weapons/Weapon
   translationID: Copper sword
   iconSource: icon-copper-sword
+  soundType: Metal weapon
   ProjectileType: ProjCopperSword
   category: Weapon
   baseDurability: 50
@@ -140,6 +150,7 @@
   extends: holdable/weapons/Weapon
   translationID: Dungium dagger
   iconSource: icon-dungium-dagger
+  soundType: Metal weapon
   ProjectileType: ProjDungiumDagger
   category: Weapon
   baseDurability: 50
@@ -151,6 +162,7 @@
   extends: holdable/weapons/Weapon
   translationID: Dungium hammer
   iconSource: icon-dungium-hammer
+  soundType: Metal weapon
   ProjectileType: ProjDungiumHammer
   category: Weapon
   baseDurability: 50
@@ -162,6 +174,7 @@
   extends: holdable/weapons/Weapon
   translationID: Dungium sword
   iconSource: icon-dungium-sword
+  soundType: Metal weapon
   ProjectileType: ProjDungiumSword
   category: Weapon
   baseDurability: 50
@@ -184,6 +197,7 @@
   extends: holdable/weapons/Weapon
   translationID: Hammer of glory
   iconSource: icon-iron-hammer
+  soundType: Metal weapon
   ProjectileType: ProjHammerOfGlory
   category: Weapon
   useGloryCost: 15
@@ -193,6 +207,7 @@
   extends: holdable/weapons/Weapon
   translationID: Iron dagger
   iconSource: icon-iron-dagger
+  soundType: Metal weapon
   ProjectileType: ProjIronDagger
   category: Weapon
   baseDurability: 50
@@ -204,6 +219,7 @@
   extends: holdable/weapons/Weapon
   translationID: Iron hammer
   iconSource: icon-iron-hammer
+  soundType: Metal weapon
   ProjectileType: ProjIronHammer
   category: Weapon
   baseDurability: 50
@@ -215,6 +231,7 @@
   extends: holdable/weapons/Weapon
   translationID: Iron sword
   iconSource: icon-iron-sword
+  soundType: Metal weapon
   ProjectileType: ProjIronSword
   category: Weapon
   baseDurability: 50
@@ -226,6 +243,7 @@
   extends: holdable/weapons/Weapon
   translationID: Noctis dagger
   iconSource: icon-noctis-dagger
+  soundType: Metal weapon
   ProjectileType: ProjNoctisDagger
   category: Weapon
   baseDurability: 50
@@ -237,6 +255,7 @@
   extends: holdable/weapons/Weapon
   translationID: Noctis hammer
   iconSource: icon-noctis-hammer
+  soundType: Metal weapon
   ProjectileType: ProjNoctisHammer
   category: Weapon
   baseDurability: 50
@@ -248,6 +267,7 @@
   extends: holdable/weapons/Weapon
   translationID: Noctis sword
   iconSource: icon-noctis-sword
+  soundType: Metal weapon
   ProjectileType: ProjNoctisSword
   category: Weapon
   baseDurability: 50
@@ -259,6 +279,7 @@
   extends: holdable/weapons/Weapon
   translationID: Shuriken
   iconSource: icon-shuriken
+  soundType: Metal weapon
   ProjectileType: ProjShuriken
   category: Weapon
   baseDurability: 50

@@ -21,7 +21,6 @@ export default ((context) => {
     const entitiesList = fileNames.reduce((object, fileName, index) => {
         // Trim the ".js" from the end of the file name.
         fileName = fileName.split("/").pop().slice(0, -3);
-        console.log("loading entity:", fileName);
         // Need to use .default to get the class from the file, or would need to actually import it.
         object[fileName] = values[index].default;
         return object;

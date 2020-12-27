@@ -9,7 +9,7 @@ import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
 // import BankManager from "../../../client/src/BankManager";
 // import ClanManager from "../../../client/src/ClanManager";
-// import SoundManager from "./SoundManager";
+import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 // import TextMetrics from "./TextMetrics";
 
@@ -153,7 +153,7 @@ class Game extends Phaser.Scene {
          */
         this.lightSources = {};
 
-        // this.soundManager = new SoundManager(this);
+        this.soundManager = new SoundManager(this);
         // this.clanManager = new ClanManager();
         // this.GUI = new GUI(this);
         // this.craftingManager = new CraftingManager();
@@ -250,9 +250,9 @@ class Game extends Phaser.Scene {
         damageParticles.setDepth(this.renderOrder.particles);
 
         // Start an initial background music playing.
-        // this.soundManager.music.changeBackgroundMusic(
-        //     this.soundManager.music.sounds.location.generic1,
-        // );
+        this.soundManager.music.changeBackgroundMusic(
+            this.soundManager.music.sounds.location.generic1,
+        );
     }
 
     update() {
@@ -485,7 +485,7 @@ class Game extends Phaser.Scene {
 
     setupKeyboardControls() {
         // Add the handler for keyboard events.
-        document.addEventListener("keydown", this.keyDownHandler);
+        document.addEventListener("keydown", this.keyDownHandler.bind(this));
 
         this.keyboardKeys = this.input.keyboard.addKeys(
             {

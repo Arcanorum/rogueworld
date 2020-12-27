@@ -42,7 +42,7 @@ class Music {
 class PlayerSounds {
     constructor(state) {
         this.sounds = {
-            deathLoop: state.sound.add("player-death-loop"),
+            deathLoop: state.sound.add("death-loop"),
             footsteps: [
                 state.sound.add("footstep-1"),
                 state.sound.add("footstep-2"),
@@ -112,6 +112,10 @@ class ItemSounds {
     }
 }
 
+/**
+ * Any sounds added here need to use the file name of the audio file, as all audio assets are loaded dynamically and stored by their file name.
+ * i.e. for the audio files "./my-sound.mp3" and "./my-sound.ogg", simply use `state.sound.add("my-sound")`.
+ */
 class SoundManager {
     constructor(state) {
         this.player = new PlayerSounds(state);
@@ -122,6 +126,50 @@ class SoundManager {
         this.sounds = {
             dungeonKeyGained: state.sound.add("dungeon-key-gained"),
         };
+    }
+
+    /**
+     * A list of all audio assets to be loaded.
+     * Created using all of the webpack resolved audio file paths for the files found in /assets/audio,
+     * to avoid having a huge list of imports than need constantly updating when new stuff is added.
+     * This does NOT load the audio files directly, only gets what their paths would be when output to /build/static/media.
+     * The Phaser boot state does the actual loading, using those paths.
+     * The list looks like `<FILENAME>: <ARRAY>`.
+     * @example
+     * {
+     *     "clothing-equipped": [
+     *         "/static/media/clothing-equipped.mp3",
+     *         "/static/media/clothing-equipped.ogg"
+     *     ],
+     *     "item-dropped": [
+     *         "/static/media/item-dropped.mp3",
+     *         "/static/media/item-dropped.ogg"
+     *     ],
+     *     "generic-theme-1": [
+     *         "/static/media/generic-theme-1.mp3",
+     *         "/static/media/generic-theme-1.ogg"
+     *     ]
+     * }
+     * @type {Object}
+     */
+    static getAudioAssetPaths() {
+        return ((context) => {
+            const paths = context.keys();
+            const values = paths.map(context);
+            // Add each class to the list by file name.
+            return paths.reduce((list, path, index) => {
+                // Trim the ".mp3" or ".ogg" from the end of the file name.
+                const fileName = path.split("/").pop().slice(0, -4);
+                // Need to use .default to get the resolved path for the file, or would need to actually import it.
+                // Add both file types under the same file name. {"my-sound": ["../my-sound.mp3", "../my-sound.ogg"]}
+                if (list[fileName]) {
+                    list[fileName].push(values[index].default);
+                } else {
+                    list[fileName] = [values[index].default];
+                }
+                return list;
+            }, {});
+        })(require.context("../assets/audio/", true, /.mp3|.ogg$/));
     }
 }
 

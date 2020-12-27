@@ -5,6 +5,10 @@ import gameAtlasImage from "../assets/images/game-atlas.png";
 import gameAtlasData from "../assets/images/game-atlas.json";
 import groundTileset from "../assets/images/ground.png";
 import staticsTileset from "../assets/images/statics.png";
+import highlightImage from "../assets/images/misc/highlight.png";
+import SoundManager from "./SoundManager";
+
+const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
 class Boot extends Phaser.Scene {
     constructor() {
@@ -15,7 +19,7 @@ class Boot extends Phaser.Scene {
         Utils.message("Boot preload");
 
         // Graphics.
-        // this.load.image("highlight", "assets/images/gui/hud/highlight.png");
+        this.load.image("highlight", highlightImage);
         this.load.atlas("game-atlas", gameAtlasImage, gameAtlasData);
         this.load.spritesheet("ground-tileset", groundTileset, {
             frameWidth: 16,
@@ -30,31 +34,9 @@ class Boot extends Phaser.Scene {
             spacing: 2,
         });
 
-        /**
-         * Utility for providing Ogg/MP3 audio assets to the Phaser loader.
-         * Safari doesn't support Ogg format files, so MP3 must be provided as a fallback.
-         * @param {String} key - What to refer to this asset as later.
-         * @param {String} filePath - The URL to the asset, without the file type extension.
-         */
-        const loadAudio = (key, filePath) => {
-            this.load.audio(key, [
-                `assets/audio/${filePath}.ogg`,
-                `assets/audio/${filePath}.mp3`,
-            ]);
-        };
-
-        // Audio.
-        // loadAudio("player-death-loop", "player/death-loop");
-        // loadAudio("footstep-1", "player/footstep-1");
-        // loadAudio("footstep-2", "player/footstep-2");
-        // loadAudio("footstep-3", "player/footstep-3");
-        // loadAudio("footstep-4", "player/footstep-4");
-        // loadAudio("generic-theme-1", "locations/generic-theme-1");
-        // loadAudio("generic-theme-2", "locations/generic-theme-2");
-        // loadAudio("item-dropped", "items/item-dropped");
-        // loadAudio("dungeon-key-gained", "items/dungeon-key-gained");
-        // loadAudio("weapon-equipped", "items/weapon-equipped");
-        // loadAudio("clothing-equipped", "items/clothing-equipped");
+        Object.entries(audioAssetPaths).forEach(([name, paths]) => {
+            this.load.audio(name, paths);
+        });
     }
 
     create() {

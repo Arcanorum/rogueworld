@@ -1,0 +1,11 @@
+{
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-config-sass-guidelines",
+        "stylelint-config-idiomatic-order"
+    ],
+    "rules": {
+        "scss/dollar-variable-pattern": "$",
+        "selector-max-id": 1
+    }
+}

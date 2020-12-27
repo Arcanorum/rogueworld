@@ -80,7 +80,7 @@ class Utils {
      * Checks the client catalogues directory exists. If not, creates it.
      */
     checkClientCataloguesExists() {
-        this.checkDirectoryExists('../client/src/catalogues');
+        this.checkDirectoryExists('../client2/src/catalogues');
     }
 
     /**

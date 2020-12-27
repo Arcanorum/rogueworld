@@ -68,8 +68,6 @@
 </head>
 
 <body style="margin: 0; overflow:hidden;">
-    <img id="background_img" src="assets/img/misc/home-background.gif">
-    <div id="background_shadow"></div>
 
     <div id="game_cont" class="press_start_font normal_cursor">
         <div id="game_canvas"></div>
@@ -251,94 +249,6 @@
 
     <div id="home_cont" class="press_start_font">
 
-        <div id="center_text_cont">
-            <div id="center_text" class="scale-up-center">Play</div>
-        </div>
-
-        <div id="main_columns">
-            <div id="left_bar">
-                <div id="partners_credits_cont" class="bottom_texts">
-                    <span id="partners_text" onclick="partnersPressed();">Partners</span>
-                    |
-                    <span id="credits_text" onclick="window.open('/credits', '_blank');">Credits</span></div>
-            </div>
-
-            <div id="center_bar">
-                <div id="title_cont">
-                    <img id="title_img" src="assets/img/misc/dungeonzio-title.png">
-                    <div id="new_character_continue_cont">
-                        <div id="new_character" class="title_button_unselected" onclick="newCharacterPressed()"></div>
-                        <div id="continue" class="title_button_unselected" onclick="continuePressed()"></div>
-                    </div>
-                    <div id="play_inputs_cont">
-                        <input id="name_input" class="home_input" type="text" maxlength="20" autofocus>
-                        <input id="username_input" class="home_input" type="text" maxlength="50">
-                        <input id="password_input" class="home_input" type="password" maxlength="50">
-                        <img id="show_password" draggable="false" class="show_password_active"
-                            src="assets/img/misc/show-icon-active.png" onclick="showPasswordPressed()">
-                    </div>
-                </div>
-                <div id="center_button" onclick="playPressed()"></div>
-            </div>
-
-            <div id="right_bar">
-                <div id="antisocial_bar">
-                    <div id="notdiscord_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notdiscord-logo.png"
-                            onclick="window.open('https://discord.gg/7wjyU7B', '_blank');">
-                    </div>
-                    <div id="notreddit_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notreddit-logo.png"
-                            onclick="window.open('https://www.reddit.com/r/dungeonz/', '_blank');">
-                    </div>
-                    <div id="notfacebook_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notfacebook-logo.png"
-                            onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=dungeonz.io', '_blank');">
-                    </div>
-                    <div id="notwiki_button" class="antisocial_button">
-                        <img class="antisocial_icon" src="assets/img/misc/notfandom-logo.png"
-                            onclick="window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');">
-                    </div>
-                </div>
-                <div id="news_cont" onclick="window.open('/changelog.txt', '_blank');">
-                    <h1 id="news_header">News</h1>
-                    <p id="news_date">16/11/2020</p>
-                    <p id="news_title">Update 7<br>Darkness</p>
-                    <img id="news_image" draggable="false" src="assets/img/misc/news-16-11-2020.gif">
-                </div>
-                <div></div>
-                <div id="language_cont" class="bottom_texts">
-                    <span id="language_text">Language</span></div>
-                <ul id="language_list">
-                    <li id="language_english" class="language_option">English</li>
-                    <li id="language_french" class="language_option">Français</li>
-                    <li id="language_spanish" class="language_option">Español</li>
-                    <li id="language_portuguese" class="language_option">Português do Brasil</li>
-                    <li id="language_turkish" class="language_option">Türkçe</li>
-                    <li id="language_german" class="language_option">Deutsch</li>
-                    <li id="language_russian" class="language_option">русский язык</li>
-                    <li id="language_polish" class="language_option">Polski</li>
-                    <li id="language_chinese" class="language_option">中文</li>
-                    <li id="add_translation" class="language_option"
-                        onclick="window.open('https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0', '_blank');">
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="partners_cont" class="press_start_font">
-            <div id="partners_close" onclick="partnersPressed()">x</div>
-            <div id="partners_header">Thanks to our partners</div>
-            <a href="http://iogames.space/" target="_blank">
-                <img id="iogames_space_logo" src="assets/img/misc/iogames-space-logo.png">
-            </a>
-            <a href="https://www.crazygames.com/c/io" target="_blank">
-                <img id="crazy_games_logo" src="assets/img/misc/crazy-games-logo.png">
-            </a>
-            <a href="https://x1p.com/" target="_blank">
-                <img id="x1p_logo" src="assets/img/misc/x1p-logo.png" title="best .io games" alt="best .io games">
-            </a>
-        </div>
 
         <script>
             /**
@@ -353,96 +263,6 @@
             const usernameInput = document.getElementById("username_input");
             const passwordInput = document.getElementById("password_input");
             const showPasswordButton = document.getElementById("show_password");
-
-            // Get the code from the client local storage if one exists.
-            const storedUsername = localStorage.getItem("username");
-            if (storedUsername !== null) {
-                window.newCharacter = false;
-                usernameInput.value = storedUsername;
-            }
-
-            function newCharacterPressed() {
-                window.newCharacter = true;
-                // Hide the username and password inputs and the button to show/hide the password value.
-                usernameInput.style.display = "none";
-                passwordInput.style.display = "none";
-                showPasswordButton.style.display = "none";
-                // Show the name input.
-                nameInput.style.display = "block";
-                // Lighten the new character tab button.
-                newCharacterButton.className = "title_button_selected";
-                // Darken the continue tab button.
-                continueButton.className = "title_button_unselected";
-            }
-
-            function continuePressed() {
-                window.newCharacter = false;
-                // Hide the name input.
-                nameInput.style.display = "none";
-                // Show the username and password inputs and the button to show/hide the password value.
-                usernameInput.style.display = "block";
-                passwordInput.style.display = "block";
-                showPasswordButton.style.display = "block";
-                // Lighten the continue tab button.
-                continueButton.className = "title_button_selected";
-                // Darken the new character tab button.
-                newCharacterButton.className = "title_button_unselected";
-            }
-
-            function showPasswordPressed() {
-                // Change the type of the continue code input.
-                if (passwordInput.type === "text") {
-                    passwordInput.type = "password";
-                    // Set the icon image to be the open eye.
-                    showPasswordButton.src = "assets/img/misc/show-icon-active.png";
-                    showPasswordButton.className = "show_password_active";
-                }
-                else {
-                    passwordInput.type = "text";
-                    // Set the icon image to be the closed eye.
-                    showPasswordButton.src = "assets/img/misc/show-icon-inactive.png";
-                    showPasswordButton.className = "show_password_inactive";
-                }
-            }
-
-            nameInput.onkeydown = function (event) {
-                // If the Enter key is pressed, attempt to connect.
-                if (event.keyCode === 13) {
-                    playPressed();
-                }
-            };
-
-            passwordInput.onkeydown = function (event) {
-                // If the Enter key is pressed, attempt to connect.
-                if (event.keyCode === 13) {
-                    playPressed();
-                }
-            };
-
-            if (window.newCharacter === true) {
-                newCharacterPressed();
-            }
-            else {
-                continuePressed();
-            }
-
-            function partnersPressed() {
-                if (document.getElementById("partners_cont").style.visibility === "visible") {
-                    document.getElementById("partners_cont").style.visibility = "hidden";
-                }
-                else {
-                    document.getElementById("partners_cont").style.visibility = "visible";
-                }
-            }
-
-            // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#Converting_a_digest_to_a_hex_string
-            window.digestMessage = async function (message) {
-                const msgUint8 = new TextEncoder().encode(message);                           // encode as (utf-8) Uint8Array
-                const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);           // hash the message
-                const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join(""); // convert bytes to hex string
-                return hashHex;
-            };
 
             async function playPressed() {
                 console.log("* Play pressed");

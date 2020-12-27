@@ -83,6 +83,6 @@ dataToWrite = JSON.stringify(defsAsJSON);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/TextDefinitions.json', dataToWrite);
+fs.writeFileSync('../client2/src/catalogues/TextDefinitions.json', dataToWrite);
 
 Utils.message("Text definitions catalogue written to file.");

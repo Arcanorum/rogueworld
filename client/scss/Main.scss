@@ -26,38 +26,4 @@ sass --watch scss/Main.scss:main.css
 @import "PanelTemplate";
 
 
-#game_canvas {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  transform: translate(-50%, -50%);
-}
 
-body {
-  background-color: $colourDB32Black;
-}
-
-img {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-}
-
-::placeholder {
-  color: $colourDB32IronGrey;
-  font-size: 1.5vw;
-}
-
-@font-face {
-  font-family: "Press Start 2P";
-  src: url('./assets/font/PressStart2P-Regular.ttf');
-  font-weight:400;
-  font-weight:normal;
-}
-
-.press_start_font {
-  font-family: 'Press Start 2P', cursive;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-}

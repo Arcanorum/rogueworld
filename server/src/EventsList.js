@@ -116,7 +116,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync("../client/src/catalogues/EventNames.json", dataToWrite);
+fs.writeFileSync("../client2/src/catalogues/EventNames.json", dataToWrite);
 
 Utils.message("Event names catalogue written to file.");
 

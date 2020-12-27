@@ -30,7 +30,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/ChatWarnings.json', dataToWrite);
+fs.writeFileSync('../client2/src/catalogues/ChatWarnings.json', dataToWrite);
 
 Utils.message("Chat warnings catalogue written to file.");
 

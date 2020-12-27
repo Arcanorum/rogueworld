@@ -35,6 +35,6 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync("../client/src/catalogues/SpellBookTypes.json", dataToWrite);
+fs.writeFileSync("../client2/src/catalogues/SpellBookTypes.json", dataToWrite);
 
 Utils.message("Spell book types catalogue written to file.");

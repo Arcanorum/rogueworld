@@ -1,9 +1,11 @@
 import React from "react";
+import Meters from "./meters/Meters";
+import "./GUI.scss";
 
 function GUI() {
     return (
         <div>
-            GUI cont
+            <Meters />
 
             <input
               id="chat-input"

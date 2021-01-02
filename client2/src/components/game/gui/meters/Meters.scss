@@ -1,0 +1,26 @@
+.meters {
+    position: absolute;
+    left: 50%;
+    bottom: 80px;
+    transform: translateX(-50%);
+}
+
+.meter {
+    position: relative;
+    display: flex;
+    user-select: none;
+}
+
+.meter-counter {
+    width: 16px;
+    height: 16px;
+    padding: 1px;
+    margin-top: 12px;
+    pointer-events: auto;
+}
+
+.meter-tooltip {
+    bottom: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
+}

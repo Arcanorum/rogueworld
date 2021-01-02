@@ -47,18 +47,6 @@
     cursor: url(./assets/img/gui/hud/attack-cursor.png), auto;
 }
 
-.gui_icon {
-    width: 34px;
-    height: 34px;
-    padding: 4px;
-    pointer-events: auto;
-    user-select: none;
-    &:hover {
-        -webkit-filter: brightness(150%);
-        transform: scale(1.2);
-    }
-}
-
 .inline_cont {
     display: flex;
     user-select: none;
@@ -106,13 +94,7 @@
     transform-origin: top left;
 }
 
-.gui_counter_icon {
-    width: 16px;
-    height: 16px;
-    padding: 1px;
-    margin-top: 12px;
-    pointer-events: auto
-}
+
 
 // Top right corner.
 #top_right_corner_cont {
@@ -150,12 +132,7 @@
     transform-origin: bottom right;
 }
 
-#hp_energy_bars_cont {
-    position: absolute;
-    left: 50%;
-    bottom: 80px;
-    transform: translateX(-50%);
-}
+
 
 #audio_counter, #gui_zoom_counter {
     position: relative;

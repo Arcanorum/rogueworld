@@ -1,0 +1,56 @@
+@import '../../../shared/Variables.scss';
+
+.gui-icon {
+    width: 34px;
+    height: 34px;
+    padding: 4px;
+    pointer-events: auto;
+    user-select: none;
+    &:hover {
+        -webkit-filter: brightness(150%);
+        filter: brightness(150%);
+        transform: scale(1.2);
+    }
+}
+
+.generic-tooltip {
+    color: $colourDB32White;
+    text-align: center;
+    background-color: $colourDB32VeryDarkPurple;
+    line-height: 1.2;
+    padding: 8px;
+    z-index: 1000;
+}
+  
+.top-left-tooltip {
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 40px;
+  width: 400px;
+}
+
+.top-right-tooltip {
+  position: absolute;
+  margin-top: 20px;
+  margin-right: 40px;
+  width: 400px;
+  right: 0px;
+}
+
+.bottom-right-tooltip {
+  position: absolute;
+  margin-top: 20px;
+  margin-right: 40px;
+  width: 400px;
+  right: 0px;
+  transform: translateY(-100%);
+}
+
+.inventory-tooltip {
+  position: absolute;
+  width: 50%;
+  bottom: 50px;
+  right: 50%;
+  transform: translateX(50%);
+  margin-bottom: 30px;
+}

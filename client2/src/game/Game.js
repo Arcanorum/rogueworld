@@ -11,10 +11,11 @@ import Utils from "../shared/Utils";
 // import ClanManager from "../../../client/src/ClanManager";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
+import { app } from "../shared/States";
 // import TextMetrics from "./TextMetrics";
 
 gameConfig.EntityTypes = EntityTypes;
-// gameConfig.EntitiesList = EntitiesList;
+gameConfig.EntitiesList = EntitiesList;
 
 class Game extends Phaser.Scene {
     constructor() {
@@ -91,16 +92,20 @@ class Game extends Phaser.Scene {
         window.gameScene = this;
 
         // Setup animations for entity types that have them configured.
-        // Object.values(EntitiesList).forEach((EntityType) => {
-        //     if (EntityType.setupAnimations) EntityType.setupAnimations();
-        //     if (EntityType.addAnimationSet) EntityType.addAnimationSet();
-        // });
+        Object.values(EntitiesList).forEach((EntityType) => {
+            // The file might be commented out to disable it for the time being.
+            // Check it has something added for this entity type.
+            if (EntityType) {
+                if (EntityType.setupAnimations) EntityType.setupAnimations();
+                if (EntityType.addAnimationSet) EntityType.addAnimationSet();
+            }
+        });
 
         // TextMetrics.init();
 
         // Set the game container to be the thing that is fullscreened when fullscreen mode
         // is entered, instead of just the game canvas, or the GUI will be invisible.
-        // this.scale.fullScreenTarget = document.getElementById("game_cont");
+        this.scale.fullScreenTarget = document.getElementById("game-cont");
 
         // Listen for the resize event so anything that needs to be updated can be.
         this.scale.on("resize", () => {
@@ -253,6 +258,9 @@ class Game extends Phaser.Scene {
         this.soundManager.music.changeBackgroundMusic(
             this.soundManager.music.sounds.location.generic1,
         );
+
+        // Game finished loading. Let the loading/hint screen be closed.
+        app.setLoading(false);
     }
 
     update() {

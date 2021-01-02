@@ -1,6 +1,6 @@
 import Utils from "../shared/Utils";
 import eventResponses from "./EventResponses";
-import States from "../shared/States";
+import { app } from "../shared/States";
 
 export default () => {
     eventResponses.something_went_wrong = () => {
@@ -44,7 +44,7 @@ export default () => {
         // Keep the join world data, to pass to the game state create method.
         window.joinWorldData = data;
 
-        States.setPlaying(true);
+        app.setPlaying(true);
 
         // If somehow the state is not valid, close the connection.
         // Weird bug... :/

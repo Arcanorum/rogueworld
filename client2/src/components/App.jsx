@@ -3,27 +3,32 @@ import { autorun } from "mobx";
 import LoginPage from "./login/LoginPage";
 import GamePage from "./game/GamePage";
 import "./App.scss";
-import States from "../shared/States";
+import { app } from "../shared/States";
+import LoadingPage from "./loading/LoadingPage";
 
 function App() {
     const [currentPage, setCurrentPage] = useState("login");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         autorun(() => {
-            console.log("in loginpage, states changed:", States.playing);
-
-            if (States.playing) {
+            if (app.playing) {
                 setCurrentPage("game");
             } else {
                 setCurrentPage("login");
             }
+
+            // Waiyt for the user to accept the finished load,
+            // in case they want to finish reading a hint.
+            setLoading(app.loading || !app.loadAccepted);
         });
     }, []);
 
     return (
-        <div className="App">
+        <div className="App press-start-font">
             {currentPage === "login" && <LoginPage />}
             {currentPage === "game" && <GamePage />}
+            {loading && <LoadingPage />}
         </div>
     );
 }

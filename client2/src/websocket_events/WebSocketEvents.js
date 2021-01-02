@@ -42,7 +42,6 @@ const makeWebSocketConnection = (url) => {
 };
 
 window.connectToGameServer = () => {
-    console.log("connectToGameServer");
     // If the game is running in dev mode (localhost), connect without SSL.
     if (window.host === "local") {
         // Make a connection, or if one is already made, return so the listeners aren't added again.
@@ -54,8 +53,6 @@ window.connectToGameServer = () => {
         // Deployment mode. Connect to live server, which should be using SSL.
         // Make a connection, or if one is already made, return so the listeners aren't added again.
     } else if (makeWebSocketConnection("wss://dungeonz.io:443") === false) return false;
-
-    console.log("after making connection");
 
     /**
      * Event emit helper. Attach this to a socket, and use it to send an event to the server.
@@ -74,23 +71,17 @@ window.connectToGameServer = () => {
     };
 
     window.ws.onmessage = (event) => {
-        // console.log("EventNames?:", EventNames);
         // The data is JSON, so parse it.
         const parsedMessage = JSON.parse(event.data);
-        console.log("onmessage:", parsedMessage);
         // Every event received should have an event name ID, which is a number that represents an event name string.
         // Numbers are smaller, so saves sending lengthy strings for each message.
         const { eventNameID } = parsedMessage;
         // Look up the corresponding event name string for the given ID.
         const eventName = EventNames[eventNameID];
-        console.log("event name:", eventName);
-        // console.log("responses:", eventResponses);
-
         // Check this event name ID is in the list of valid event name IDs.
         if (eventName !== undefined) {
             // Check there is a response function to run for the event.
             if (eventResponses[eventName] !== undefined) {
-                console.log("event?", eventResponses[eventName], parsedMessage.data);
                 // Run the response, giving it any data.
                 // Need to check for if any data was given at all, otherwise falsy values
                 // like 0 and false would be ignored, even though they are valid values.

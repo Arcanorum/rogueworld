@@ -15,15 +15,15 @@ import GenericPickupsList from "./entities/pickups/GenericPickupsList";
  * @type {Object}
  */
 export default ((context) => {
-    const fileNames = context.keys();
-    const values = fileNames.map(context);
+    const paths = context.keys();
+    const values = paths.map(context);
     // Add each class to the list by file name.
-    const entitiesList = fileNames.reduce((object, fileName, index) => {
+    const entitiesList = paths.reduce((list, path, index) => {
         // Trim the ".js" from the end of the file name.
-        fileName = fileName.split("/").pop().slice(0, -3);
+        const fileName = path.split("/").pop().slice(0, -3);
         // Need to use .default to get the class from the file, or would need to actually import it.
-        object[fileName] = values[index].default;
-        return object;
+        list[fileName] = values[index].default;
+        return list;
     }, {});
 
     // Add the generic pickups that don't have their own class files.

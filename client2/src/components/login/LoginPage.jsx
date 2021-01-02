@@ -3,7 +3,7 @@ import { autorun } from "mobx";
 import Utils from "../../shared/Utils";
 import News from "./news/News";
 import Partners from "./partners/Partners";
-import dungeonzLogo from "./assets/dungeonz-title.png";
+import dungeonzLogo from "../assets/dungeonz-title.png";
 import background from "./assets/home-background.gif";
 import notDiscordLogo from "./assets/notdiscord-logo.png";
 import notFacebookLogo from "./assets/notfacebook-logo.png";
@@ -31,11 +31,9 @@ function LoginPage() {
                 window.ws.sendEvent("new_char", { displayName: newCharacterName });
             }
         } else {
-            console.log("u:", username, "p:", password);
             // Continue as an existing character with the given credentials.
             window.connectToGameServer();
 
-            console.log("ws?", window.ws);
             // Only attempt to connect if the connection is ready to communicate.
             if (window.ws.readyState === 1) {
                 // Check username and password are valid.
@@ -44,8 +42,6 @@ function LoginPage() {
 
                 // Encrypt the password before sending.
                 const hash = await Utils.digestMessage(password);
-
-                console.log("before sending event");
 
                 window.ws.sendEvent("log_in", {
                     username,

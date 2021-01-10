@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { autorun, runInAction } from "mobx";
+import PubSub from "pubsub-js";
 import createGame from "./PhaserConfig";
 import GUI from "./gui/GUI";
-import { app } from "../../shared/States";
+import { ApplicationState } from "../../shared/state/States";
+import { LOAD_ACCEPTED } from "../../shared/EventTypes";
 import "./GamePage.scss";
 
 function GamePage() {
@@ -11,27 +12,31 @@ function GamePage() {
 
     // Initial setup.
     useEffect(() => {
-        autorun(() => {
-            // Wait for the user to accept the finished load,
-            // in case they want to finish reading a hint.
-            setLoadFinished(app.loadAccepted);
-        });
+        // Show the loading screen, then start loading the game.
+        ApplicationState.setLoading(true);
 
-        runInAction(() => {
-            // app.setLoading(true);
-        });
+        const subs = [
+            PubSub.subscribe(LOAD_ACCEPTED, (msd, data) => {
+                // Wait for the user to accept the finished load,
+                // in case they want to finish reading a hint.
+                setLoadFinished(data.new);
+            }),
+        ];
 
         // By this point the game canvas container should be set
         // up ok, ready for the Phaser game to be injected into it.
         const theGame = createGame();
+        console.log("the game?", theGame);
         setGame(theGame);
+        game.scene.start("Boot");
 
-        theGame.scene.start("Boot");
+        // Cleanup.
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
     }, []);
-
-    useEffect(() => {
-        console.log("game set:", game);
-    }, [game]);
 
     return (
         <div>

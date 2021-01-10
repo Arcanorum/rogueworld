@@ -2,18 +2,29 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./websocket_events/WebSocketEvents";
 import App from "./components/App";
-// import reportWebVitals from "./reportWebVitals";
 import gameConfig from "./shared/GameConfig";
+import Utils from "./shared/Utils";
+
+// Check if the game should be run in dev mode by checking if it is localhost, or what other server to
+// connect to based on the domain, i.e. go to test server for test.dungeonz.io, or live server for dungeonz.io
+if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === "") {
+    Utils.message("Running in dev mode.");
+    window.devMode = true;
+    window.host = "local";
+} else if (window.location.hostname === "test.dungeonz.io") {
+    Utils.message("Running in test mode.");
+    window.devMode = true;
+    window.host = "test";
+} else {
+    Utils.message("Running in prod mode.");
+    window.devMode = false;
+    window.host = "live";
+}
 
 ReactDOM.render(
     <App />,
     document.getElementById("root"),
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
 
 // Import the data for each map.
 function requireAll(r) {
@@ -31,19 +42,3 @@ function requireAll(r) {
     });
 }
 requireAll(require.context("./assets/maps/", true, /\.json$/));
-
-// Check if the game should be run in dev mode by checking if it is localhost, or what other server to
-// connect to based on the domain, i.e. go to test server for test.dungeonz.io, or live server for dungeonz.io
-if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === "") {
-    console.log("* Running in dev mode.");
-    window.devMode = true;
-    window.host = "local";
-} else if (window.location.hostname === "test.dungeonz.io") {
-    console.log("* Running in test mode.");
-    window.devMode = true;
-    window.host = "test";
-} else {
-    console.log("* Running in prod mode.");
-    window.devMode = false;
-    window.host = "live";
-}

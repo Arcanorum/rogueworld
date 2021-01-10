@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from "react";
+import PubSub from "pubsub-js";
+import playButtonBorder from "../../assets/images/misc/play-button-border.png";
+import hintImageBat from "../../assets/images/misc/hints/bat.png";
 import "./LoadingPage.scss";
-import { autorun } from "mobx";
-import playButtonBorder from "./assets/play-button-border.png";
-import hintImageBat from "./assets/hints/bat.png";
-import { app } from "../../shared/States";
+import { LOADING } from "../../shared/EventTypes";
+import { ApplicationState } from "../../shared/state/States";
 
 function LoadingPage() {
     const [hint, setHint] = useState("Some creatures only come out at night.");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        autorun(() => {
-            setLoading(app.loading);
-        });
+        const subs = [
+            PubSub.subscribe(LOADING, (msd, data) => {
+                setLoading(data.new);
+            }),
+        ];
+
+        // Cleanup.
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
     }, []);
 
     const nextHintPressed = () => {
-        app.setLoading(false);
+        ApplicationState.setLoading(false);
     };
 
     const playPressed = () => {
-        app.setLoadAccepted(true);
+        ApplicationState.setLoadAccepted(true);
     };
 
     return (

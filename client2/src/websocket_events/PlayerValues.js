@@ -1,3 +1,4 @@
+import { PlayerState } from "../shared/state/States";
 import eventResponses from "./EventResponses";
 
 export default () => {
@@ -53,15 +54,18 @@ export default () => {
     };
 
     eventResponses.hit_point_value = (data) => {
-        window.gameScene.player.hitPoints = data;
-        if (window.gameScene.player.hitPoints <= 0) {
-            window.gameScene.GUI.respawnPanel.show();
+        console.log("hit_point_value:", data);
+        PlayerState.setHitPoints(data);
 
-            window.gameScene.changeBackgroundMusic(
-                window.gameScene.soundManager.player.sounds.deathLoop,
-            );
-        }
-        window.gameScene.GUI.updateHitPointCounters();
+        // window.gameScene.player.hitPoints = data;
+        // if (window.gameScene.player.hitPoints <= 0) {
+        //     window.gameScene.GUI.respawnPanel.show();
+
+        //     window.gameScene.changeBackgroundMusic(
+        //         window.gameScene.soundManager.player.sounds.deathLoop,
+        //     );
+        // }
+        // window.gameScene.GUI.updateHitPointCounters();
     };
 
     eventResponses.energy_value = (data) => {
@@ -75,7 +79,7 @@ export default () => {
     };
 
     eventResponses.glory_value = (data) => {
-        window.gameScene.GUI.updateGloryCounter(data);
+        PlayerState.setGlory(data);
     };
 
     eventResponses.durability_value = (data) => {

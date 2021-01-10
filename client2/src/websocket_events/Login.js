@@ -1,8 +1,9 @@
 import Utils from "../shared/Utils";
 import eventResponses from "./EventResponses";
-import { app } from "../shared/States";
+import { ApplicationState } from "../shared/state/States";
 
 export default () => {
+    console.log("Adding login events");
     eventResponses.something_went_wrong = () => {
         const element = document.getElementById("center_text");
         const originalText = element.innerText;
@@ -44,7 +45,7 @@ export default () => {
         // Keep the join world data, to pass to the game state create method.
         window.joinWorldData = data;
 
-        app.setPlaying(true);
+        ApplicationState.setJoined(true);
 
         // If somehow the state is not valid, close the connection.
         // Weird bug... :/

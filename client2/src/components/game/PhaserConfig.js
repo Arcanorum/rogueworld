@@ -8,8 +8,10 @@ import Game from "../../game/Game";
  */
 window.gameScene = {};
 
+let done = false;
+
 export default () => {
-    // console.log("creating new game instance");
+    console.log("creating new game instance");
     const config = {
         type: Phaser.WEBGL,
         parent: "game-canvas",
@@ -28,6 +30,14 @@ export default () => {
             Game,
         ],
     };
+
+    console.log("making from game config");
+
+    if (done) {
+        console.log("*********** alrady made?");
+        throw new Error("already defined, wtf?");
+    }
+    done = true;
 
     return new Phaser.Game(config);
 };

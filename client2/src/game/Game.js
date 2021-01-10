@@ -11,7 +11,7 @@ import Utils from "../shared/Utils";
 // import ClanManager from "../../../client/src/ClanManager";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
-import { app } from "../shared/States";
+import { ApplicationState } from "../shared/state/States";
 // import TextMetrics from "./TextMetrics";
 
 gameConfig.EntityTypes = EntityTypes;
@@ -224,9 +224,6 @@ class Game extends Phaser.Scene {
 
         // window.addEventListener("mousedown", this.pointerDownHandler);
 
-        // Add the websocket event responses after the game state is started.
-        window.addGameEventResponses();
-
         this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
             fontFamily: "\"Courier\"",
             fontSize: "24px",
@@ -259,8 +256,11 @@ class Game extends Phaser.Scene {
             this.soundManager.music.sounds.location.generic1,
         );
 
+        // Add the websocket event responses after the game state is started.
+        window.addGameEventResponses();
+
         // Game finished loading. Let the loading/hint screen be closed.
-        app.setLoading(false);
+        ApplicationState.setLoading(false);
     }
 
     update() {

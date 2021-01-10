@@ -83,17 +83,6 @@
     to {opacity: 0}
 }
 
-// Top left corner.
-#top_left_corner_cont {
-    position: absolute;
-    display: block;
-    top: 10px;
-    left: 10px;
-    pointer-events: none;
-    //transform: translateY(-50%);
-    transform-origin: top left;
-}
-
 
 
 // Top right corner.

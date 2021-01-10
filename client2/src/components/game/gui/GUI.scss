@@ -20,30 +20,30 @@
     line-height: 1.2;
     padding: 8px;
     z-index: 1000;
-}
-  
-.top-left-tooltip {
-  position: absolute;
-  margin-top: 20px;
-  margin-left: 40px;
-  width: 400px;
-}
 
-.top-right-tooltip {
-  position: absolute;
-  margin-top: 20px;
-  margin-right: 40px;
-  width: 400px;
-  right: 0px;
-}
+    &.top {
+      position: absolute;
+      top: 0;
+    }
 
-.bottom-right-tooltip {
-  position: absolute;
-  margin-top: 20px;
-  margin-right: 40px;
-  width: 400px;
-  right: 0px;
-  transform: translateY(-100%);
+    &.left {
+      position: absolute;
+      margin-top: 20px;
+      margin-left: 40px;
+      width: 400px;
+    }
+
+    &.right {
+      position: absolute;
+      margin-top: 20px;
+      margin-right: 40px;
+      width: 400px;
+      right: 0px;
+    }
+
+    .bottom {
+      transform: translateY(-100%);
+    }
 }
 
 .inventory-tooltip {
@@ -53,4 +53,14 @@
   right: 50%;
   transform: translateX(50%);
   margin-bottom: 30px;
+}
+
+.top-left-corner-cont {
+  position: absolute;
+  display: block;
+  top: 10px;
+  left: 10px;
+  pointer-events: none;
+  //transform: translateY(-50%);
+  transform-origin: top left;
 }

@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { autorun } from "mobx";
+import PubSub from "pubsub-js";
 import Utils from "../../shared/Utils";
 import News from "./news/News";
 import Partners from "./partners/Partners";
-import dungeonzLogo from "../assets/dungeonz-title.png";
-import background from "./assets/home-background.gif";
-import notDiscordLogo from "./assets/notdiscord-logo.png";
-import notFacebookLogo from "./assets/notfacebook-logo.png";
-import notFandomLogo from "./assets/notfandom-logo.png";
-import notRedditLogo from "./assets/notreddit-logo.png";
+import dungeonzLogo from "../../assets/images/misc/branding/dungeonz-title.png";
+import background from "../../assets/images/misc/home-background.gif";
+import notDiscordLogo from "../../assets/images/misc/branding/notdiscord-logo.png";
+import notFacebookLogo from "../../assets/images/misc/branding/notfacebook-logo.png";
+import notFandomLogo from "../../assets/images/misc/branding/notfandom-logo.png";
+import notRedditLogo from "../../assets/images/misc/branding/notreddit-logo.png";
 import "./LoginPage.scss";
-import States from "../../shared/States";
+import {
+    CONNECTED, CONNECTING, JOINED, JOINING, WEBSOCKET_CLOSE,
+} from "../../shared/EventTypes";
+import {
+    connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
+} from "../../comms/ConnectionManager";
+import { ApplicationState } from "../../shared/state/States";
 
 function LoginPage() {
     const [showPartners, setShowPartners] = useState(false);
@@ -19,44 +25,74 @@ function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const playPressed = async () => {
-        // Show connecting message.
+    const [connecting, setConnecting] = useState(false);
+    const [connected, setConnected] = useState(false);
+    const [joining, setJoining] = useState(false);
+    // const [] = useState(false);
 
+    const [connectionIssue, setConnectionIssue] = useState("");
+
+    const playPressed = async () => {
         console.log("* Play pressed");
-        if (!loginExistingUser) {
-            // New character option selected. Start as a new character with the given display name.
-            window.connectToGameServer();
-            // Only attempt to connect if the connection is ready to communicate.
-            if (window.ws.readyState === 1) {
-                window.ws.sendEvent("new_char", { displayName: newCharacterName });
+
+        if (connected) {
+            if (!joining) {
+                if (!loginExistingUser) {
+                    // New character option selected. Start as a new character with the given display name.
+                    joinGameNewCharacter(newCharacterName);
+                } else {
+                    // Log in to an existing account.
+                    joinGameContinue(username, password);
+                }
             }
         } else {
-            // Continue as an existing character with the given credentials.
-            window.connectToGameServer();
-
-            // Only attempt to connect if the connection is ready to communicate.
-            if (window.ws.readyState === 1) {
-                // Check username and password are valid.
-                if (username === "") return;
-                if (password === "") return;
-
-                // Encrypt the password before sending.
-                const hash = await Utils.digestMessage(password);
-
-                window.ws.sendEvent("log_in", {
-                    username,
-                    password: hash,
-                });
-            }
+            connectToGameServer();
         }
     };
 
     useEffect(() => {
-        autorun(() => {
-            console.log("in loginpage, states changed:", States.playing);
+        const subs = [
+            PubSub.subscribe(CONNECTING, (msd, data) => {
+                setConnecting(data.new);
+            }),
+            PubSub.subscribe(CONNECTED, (msd, data) => {
+                setConnected(data.new);
+            }),
+            PubSub.subscribe(JOINING, (msd, data) => {
+                setJoining(data.new);
+            }),
+            PubSub.subscribe(JOINED, (msd, data) => {
+                // Start the game state.
+            }),
+            PubSub.subscribe(WEBSOCKET_CLOSE, (msd, data) => {
+                console.log("login ws close:", data);
 
-            playPressed();
-        });
+                if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET) {
+                    setConnectionIssue("Cannot connect, no internet");
+                } else if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_SERVER) {
+                    setConnectionIssue(
+                        `Could not connect to game server.\n
+                        The server may be down due to update, maintenance, or other problem.\n
+                        Try again in a few minutes.`,
+                    );
+                } else if (data === ConnectionCloseTypes.DISCONNECTED_NO_INTERNET) {
+                    setConnectionIssue("Disconnect, no internet");
+                } else if (data === ConnectionCloseTypes.DISCONNECTED_NO_SERVER) {
+                    setConnectionIssue("Disconnect, no server");
+                } else {
+                    setConnectionIssue("Unknown connection error. :/");
+                }
+            }),
+        ];
+
+        connectToGameServer();
+
+        // Cleanup.
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
     }, []);
 
     const inputEnterPressed = (event) => {
@@ -84,8 +120,11 @@ function LoginPage() {
             <img className="background-img" src={background} />
             <div className="background-shadow" />
 
-            <div id="center-text-cont">
-                <div id="center-text" className="scale-up-center">Play</div>
+            <div className="center-text-cont">
+                {connectionIssue && <div className="connection-issue scale-up-center">{connectionIssue}</div>}
+                {connecting && <div className="scale-up-center">Connecting to game server...</div>}
+                {connected && !joining && <div className="scale-up-center">Play</div>}
+                {joining && <div className="scale-up-center">Joining game world...</div>}
             </div>
 
             <div id="main-columns">

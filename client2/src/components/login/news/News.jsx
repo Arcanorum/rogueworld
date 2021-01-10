@@ -1,5 +1,5 @@
 import React from "react";
-import image from "./assets/news-16-11-2020.gif";
+import image from "../../../assets/images/misc/news/news-16-11-2020.gif";
 import "./News.scss";
 
 function News() {

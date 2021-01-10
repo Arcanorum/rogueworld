@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { autorun } from "mobx";
+import PubSub from "pubsub-js";
 import LoginPage from "./login/LoginPage";
 import GamePage from "./game/GamePage";
-import "./App.scss";
-import { app } from "../shared/States";
 import LoadingPage from "./loading/LoadingPage";
+import { ApplicationState } from "../shared/state/States";
+import { LOADING, JOINED } from "../shared/EventTypes";
+import "./App.scss";
 
 function App() {
     const [currentPage, setCurrentPage] = useState("login");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        autorun(() => {
-            if (app.playing) {
-                setCurrentPage("game");
-            } else {
-                setCurrentPage("login");
-            }
+        const subs = [
+            PubSub.subscribe(JOINED, (msg, data) => {
+                if (data.new) {
+                    setCurrentPage("game");
+                } else {
+                    setCurrentPage("login");
+                }
+            }),
+            PubSub.subscribe(LOADING, (msg, data) => {
+                // Wait for the user to accept the finished load,
+                // in case they want to finish reading a hint.
+                setLoading(ApplicationState.loading || !ApplicationState.loadAccepted);
+            }),
+        ];
 
-            // Waiyt for the user to accept the finished load,
-            // in case they want to finish reading a hint.
-            setLoading(app.loading || !app.loadAccepted);
-        });
+        // Cleanup.
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
     }, []);
 
     return (

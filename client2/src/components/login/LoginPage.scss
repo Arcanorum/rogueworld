@@ -253,12 +253,12 @@
   }
 }
 
-#center-text-cont {
+.center-text-cont {
   position: absolute;
   top: 50%;
   left: 50%;
   display: grid;
-  width: 50%;
+  width: 40%;
   align-content: center;
   justify-content: center;
   color: #dadada;
@@ -268,10 +268,13 @@
   user-select: none;
 }
 
-// Need to have the text container be separate so the transform
-// rules don't get overwritten by the bounce animation.
-#center-text {
-  background-color: none;
+.connection-issue {
+  color: orange;
+  font-size: 1vw;
+  white-space: pre-line;
+  border: 0.4vw orange solid;
+  background: #00000078;
+  padding: 1vw;
 }
 
 .scale-up-center {
@@ -280,7 +283,7 @@
 
 @keyframes scale-up-center {
   0% {
-    transform: scale(0.8);
+    transform: scale(0.9);
   }
 
   100% {

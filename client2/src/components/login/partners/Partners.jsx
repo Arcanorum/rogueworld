@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ioGamesLogo from "./assets/iogames-space-logo.png";
-import crazyGamesLogo from "./assets/crazy-games-logo.png";
+import ioGamesLogo from "../../../assets/images/misc/branding/iogames-space-logo.png";
+import crazyGamesLogo from "../../../assets/images/misc/branding/crazy-games-logo.png";
 
 function Partners({ toggleShowPartners }) {
     return (

@@ -1,12 +1,12 @@
 import Phaser from "phaser";
 import gameConfig from "../shared/GameConfig";
 import Utils from "../shared/Utils";
+import SoundManager from "./SoundManager";
 import gameAtlasImage from "../assets/images/game-atlas.png";
 import gameAtlasData from "../assets/images/game-atlas.json";
 import groundTileset from "../assets/images/ground.png";
 import staticsTileset from "../assets/images/statics.png";
-import highlightImage from "../assets/images/misc/highlight.png";
-import SoundManager from "./SoundManager";
+import highlightImage from "../assets/images/gui/highlight.png";
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 

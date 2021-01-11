@@ -1,4 +1,4 @@
-import { PlayerState } from "../shared/state/States";
+import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
 export default () => {

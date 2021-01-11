@@ -5,9 +5,9 @@ import GUI from "./gui/GUI";
 import { ApplicationState } from "../../shared/state/States";
 import { LOAD_ACCEPTED } from "../../shared/EventTypes";
 import "./GamePage.scss";
+import { addGameEventResponses, removeGameEventResponses } from "../../network/websocket_events/WebSocketEvents";
 
 function GamePage() {
-    const [game, setGame] = useState({});
     const [loadFinished, setLoadFinished] = useState({});
 
     // Initial setup.
@@ -25,16 +25,25 @@ function GamePage() {
 
         // By this point the game canvas container should be set
         // up ok, ready for the Phaser game to be injected into it.
-        const theGame = createGame();
-        console.log("the game?", theGame);
-        setGame(theGame);
-        game.scene.start("Boot");
+        const gameInstance = createGame();
+
+        gameInstance.scene.start("Boot");
+
+        // Add the websocket event responses after the game state is started.
+        addGameEventResponses();
 
         // Cleanup.
         return () => {
             subs.forEach((sub) => {
                 PubSub.unsubscribe(sub);
             });
+
+            // Remove the gameplay event listeners, or they will
+            // throw errors without the game instance to use.
+            removeGameEventResponses();
+
+            // Destroy the Phaser game instance.
+            gameInstance.destroy(true);
         };
     }, []);
 

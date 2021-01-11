@@ -1,44 +1,25 @@
-import Utils from "../shared/Utils";
+import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
-import { ApplicationState } from "../shared/state/States";
+import { ApplicationState } from "../../shared/state/States";
 
 export default () => {
-    console.log("Adding login events");
+    Utils.message("Adding login events");
     eventResponses.something_went_wrong = () => {
-        const element = document.getElementById("center_text");
-        const originalText = element.innerText;
-        element.innerText = Utils.getTextDef("Something went wrong");
-
-        // Revert after a few seconds.
-        setTimeout(() => {
-            element.innerText = originalText;
-        }, 8000);
+        ApplicationState.setJoining(false);
     };
 
     eventResponses.invalid_login_details = () => {
-        const element = document.getElementById("center_text");
-        const originalText = element.innerText;
-        element.innerText = Utils.getTextDef("Invalid login details");
-
-        // Revert after a few seconds.
-        setTimeout(() => {
-            element.innerText = originalText;
-        }, 8000);
+        console.log("invalid_login_details");
+        ApplicationState.setJoining(false);
     };
 
     eventResponses.character_in_use = () => {
-        const element = document.getElementById("center_text");
-        const originalText = element.innerText;
-        element.innerText = Utils.getTextDef("Character in use");
+        Utils.message("Join world success");
 
-        // Revert after a few seconds.
-        setTimeout(() => {
-            element.innerText = originalText;
-        }, 8000);
+        ApplicationState.setJoining(false);
     };
 
     eventResponses.join_world_success = (data) => {
-        console.log("join_world_success");
         Utils.message("Join world success, data:");
         Utils.message(data);
 

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./websocket_events/WebSocketEvents";
+import "./network/websocket_events/WebSocketEvents";
 import App from "./components/App";
 import gameConfig from "./shared/GameConfig";
 import Utils from "./shared/Utils";

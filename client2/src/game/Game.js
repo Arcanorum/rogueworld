@@ -256,9 +256,6 @@ class Game extends Phaser.Scene {
             this.soundManager.music.sounds.location.generic1,
         );
 
-        // Add the websocket event responses after the game state is started.
-        window.addGameEventResponses();
-
         // Game finished loading. Let the loading/hint screen be closed.
         ApplicationState.setLoading(false);
     }

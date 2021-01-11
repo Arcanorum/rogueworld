@@ -1,4 +1,4 @@
-import gameConfig from "../shared/GameConfig";
+import gameConfig from "../../shared/GameConfig";
 import eventResponses from "./EventResponses";
 
 const tweenCompleteLeft = () => {

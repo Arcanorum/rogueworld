@@ -1,6 +1,6 @@
 // import ItemTypes from "../catalogues/ItemTypes";
-import { setAttackCursor, setDefaultCursor } from "../shared/Cursors";
-import Utils from "../shared/Utils";
+import { setAttackCursor, setDefaultCursor } from "../../shared/Cursors";
+import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 
 const ItemTypes = {}; // temp

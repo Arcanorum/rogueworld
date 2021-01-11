@@ -1,6 +1,5 @@
-import ChatWarnings from "../catalogues/ChatWarnings.json";
-import gameConfig from "../shared/GameConfig";
-import Utils from "../shared/Utils";
+import ChatWarnings from "../../catalogues/ChatWarnings.json";
+import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 
 export default () => {

@@ -26,7 +26,7 @@ function LoadingPage() {
     }, []);
 
     const nextHintPressed = () => {
-        ApplicationState.setLoading(false);
+        // ApplicationState.setLoading(false);
     };
 
     const playPressed = () => {

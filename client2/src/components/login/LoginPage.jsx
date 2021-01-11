@@ -15,7 +15,7 @@ import {
 } from "../../shared/EventTypes";
 import {
     connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
-} from "../../comms/ConnectionManager";
+} from "../../network/ConnectionManager";
 import { ApplicationState } from "../../shared/state/States";
 
 function LoginPage() {
@@ -30,23 +30,29 @@ function LoginPage() {
     const [joining, setJoining] = useState(false);
     // const [] = useState(false);
 
-    const [connectionIssue, setConnectionIssue] = useState("");
+    const [connectionIssue, setConnectionIssue] = useState(null);
+    const [joinIssue, setJoinIssue] = useState(null);
 
-    const playPressed = async () => {
-        console.log("* Play pressed");
+    const playPressed = () => {
+        Utils.message("Play pressed");
 
-        if (connected) {
-            if (!joining) {
-                if (!loginExistingUser) {
-                    // New character option selected. Start as a new character with the given display name.
-                    joinGameNewCharacter(newCharacterName);
-                } else {
-                    // Log in to an existing account.
-                    joinGameContinue(username, password);
-                }
+        if (connected && !joining) {
+            if (!loginExistingUser) {
+                // New character option selected. Start as a new character with the given display name.
+                joinGameNewCharacter(newCharacterName);
+            } else {
+                // Log in to an existing account.
+                joinGameContinue(username, password);
             }
-        } else {
+        }
+    };
+
+    const reconnectPressed = () => {
+        Utils.message("Play pressed");
+        if (connectionIssue) {
             connectToGameServer();
+
+            setConnectionIssue(null);
         }
     };
 
@@ -65,20 +71,38 @@ function LoginPage() {
                 // Start the game state.
             }),
             PubSub.subscribe(WEBSOCKET_CLOSE, (msd, data) => {
-                console.log("login ws close:", data);
-
                 if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET) {
-                    setConnectionIssue("Cannot connect, no internet");
+                    setConnectionIssue(
+                        `Could not connect to game server.
+
+                        No internet connection detected.
+                    
+                        Check your internet connection.`,
+                    );
                 } else if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_SERVER) {
                     setConnectionIssue(
-                        `Could not connect to game server.\n
-                        The server may be down due to update, maintenance, or other problem.\n
+                        `Could not connect to game server.
+
+                        The server may be down due to update, maintenance, or other problem.
+                        
                         Try again in a few minutes.`,
                     );
                 } else if (data === ConnectionCloseTypes.DISCONNECTED_NO_INTERNET) {
-                    setConnectionIssue("Disconnect, no internet");
+                    setConnectionIssue(
+                        `Disconnected from game server.
+
+                        Internet connection lost.
+                        
+                        Check your internet connection.`,
+                    );
                 } else if (data === ConnectionCloseTypes.DISCONNECTED_NO_SERVER) {
-                    setConnectionIssue("Disconnect, no server");
+                    setConnectionIssue(
+                        `Disconnected from game server.
+
+                        The server may have closed due to update, maintenance, or other problem.
+                        
+                        Try again in a few minutes.`,
+                    );
                 } else {
                     setConnectionIssue("Unknown connection error. :/");
                 }
@@ -122,6 +146,7 @@ function LoginPage() {
 
             <div className="center-text-cont">
                 {connectionIssue && <div className="connection-issue scale-up-center">{connectionIssue}</div>}
+                {connectionIssue && <div className="scale-up-center">Reconnect</div>}
                 {connecting && <div className="scale-up-center">Connecting to game server...</div>}
                 {connected && !joining && <div className="scale-up-center">Play</div>}
                 {joining && <div className="scale-up-center">Joining game world...</div>}
@@ -192,7 +217,8 @@ function LoginPage() {
                             )}
                         </div>
                     </div>
-                    <div id="center-button" onClick={playPressed} />
+                    {connected && <div id="center-button" onClick={playPressed} />}
+                    {connectionIssue && <div id="center-button" onClick={reconnectPressed} />}
                 </div>
 
                 <div id="right-bar">

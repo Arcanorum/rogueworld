@@ -1,4 +1,6 @@
 import PubSub from "pubsub-js";
+import EventNames from "../catalogues/EventNames.json";
+import eventResponses from "./websocket_events/EventResponses";
 import { ApplicationState } from "../shared/state/States";
 import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from "../shared/EventTypes";
 import Utils from "../shared/Utils";
@@ -37,6 +39,10 @@ const getErrorCategory = () => {
     return ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET;
 };
 
+/**
+ * Attempt to create a new websocket connection to the game server.
+ * @returns {Boolean} Whether a the function finished without a problem.
+ */
 export const connectToGameServer = () => {
     // If the game is running in dev mode (localhost), connect without SSL.
     if (window.host === "local") {
@@ -44,12 +50,9 @@ export const connectToGameServer = () => {
     } else if (window.host === "test") {
         serverURL = "wss://test.dungeonz.io:443";
     } else {
-    // Deployment mode. Connect to live server, which should be using SSL.
-    // Make a connection, or if one is already made, return so the listeners aren't added again.
+        // Deployment mode. Connect to live server, which should be using SSL.
         serverURL = "wss://dungeonz.io:443";
     }
-
-    console.log("connect to game server:", serverURL);
 
     if (ApplicationState.connected || ApplicationState.connecting) {
         return false;
@@ -76,42 +79,43 @@ export const connectToGameServer = () => {
         ApplicationState.setConnected(true);
     };
 
-    // window.ws.onmessage = (event) => {
-    //     // The data is JSON, so parse it.
-    //     const parsedMessage = JSON.parse(event.data);
-    //     // Every event received should have an event name ID, which is a number that represents an event name string.
-    //     // Numbers are smaller, so saves sending lengthy strings for each message.
-    //     const { eventNameID } = parsedMessage;
-    //     // Look up the corresponding event name string for the given ID.
-    //     const eventName = EventNames[eventNameID];
-    //     // Check this event name ID is in the list of valid event name IDs.
-    //     if (eventName !== undefined) {
-    //         // Check there is a response function to run for the event.
-    //         if (eventResponses[eventName] !== undefined) {
-    //             // Run the response, giving it any data.
-    //             // Need to check for if any data was given at all, otherwise falsy values
-    //             // like 0 and false would be ignored, even though they are valid values.
-    //             if (parsedMessage.data === undefined) {
-    //                 eventResponses[eventName]({});
-    //             } else {
-    //                 eventResponses[eventName](parsedMessage.data);
-    //             }
-    //         }
-    //     }
-    // };
+    window.ws.onmessage = (event) => {
+        // The data is JSON, so parse it.
+        const parsedMessage = JSON.parse(event.data);
+        // Every event received should have an event name ID, which is a number that represents an event name string.
+        // Numbers are smaller, so saves sending lengthy strings for each message.
+        const { eventNameID } = parsedMessage;
+        // Look up the corresponding event name string for the given ID.
+        const eventName = EventNames[eventNameID];
+        // Check this event name ID is in the list of valid event name IDs.
+        if (eventName !== undefined) {
+            // Check there is a response function to run for the event.
+            if (eventResponses[eventName] !== undefined) {
+                // Run the response, giving it any data.
+                // Need to check for if any data was given at all, otherwise falsy values
+                // like 0 and false would be ignored, even though they are valid values.
+                if (parsedMessage.data === undefined) {
+                    eventResponses[eventName]({});
+                } else {
+                    eventResponses[eventName](parsedMessage.data);
+                }
+            }
+        }
+    };
 
     window.ws.onclose = () => {
         Utils.message("Disconnected from game server.");
 
         window.ws = false;
 
-        console.log("close category?:", getErrorCategory());
+        // Do this first, otherwise the current state is lost and can't tell if it
+        // was initial connection failure, or failure while already connected.
+        PubSub.publish(WEBSOCKET_CLOSE, getErrorCategory());
+
         ApplicationState.setJoined(false);
         ApplicationState.setJoining(false);
         ApplicationState.setConnected(false);
         ApplicationState.setConnecting(false);
-
-        PubSub.publish(WEBSOCKET_CLOSE, getErrorCategory());
     };
 
     window.ws.onerror = (error) => {

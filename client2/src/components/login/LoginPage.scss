@@ -262,7 +262,7 @@
   align-content: center;
   justify-content: center;
   color: #dadada;
-  font-size: 3vw;
+  font-size: 6vh;
   text-align: center;
   transform: translate(-50%, -50%);
   user-select: none;
@@ -270,11 +270,12 @@
 
 .connection-issue {
   color: orange;
-  font-size: 1vw;
+  font-size: 2vh;
   white-space: pre-line;
-  border: 0.4vw orange solid;
+  border: 0.4vh orange solid;
   background: #00000078;
-  padding: 1vw;
+  padding: 1vh;
+  margin: 1vh;
 }
 
 .scale-up-center {

@@ -25,7 +25,6 @@ class Application {
     }
 
     setConnecting(value) {
-        console.log("setConnecting");
         const old = this.connecting;
         this.connecting = value;
         PubSub.publish(CONNECTING, { old, new: value });

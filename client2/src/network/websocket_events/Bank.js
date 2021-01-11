@@ -1,4 +1,4 @@
-import ItemTypes from "../catalogues/ItemTypes.json";
+import ItemTypes from "../../catalogues/ItemTypes.json";
 import eventResponses from "./EventResponses";
 
 export default () => {

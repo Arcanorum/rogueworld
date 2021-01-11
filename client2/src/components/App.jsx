@@ -4,7 +4,7 @@ import LoginPage from "./login/LoginPage";
 import GamePage from "./game/GamePage";
 import LoadingPage from "./loading/LoadingPage";
 import { ApplicationState } from "../shared/state/States";
-import { LOADING, JOINED } from "../shared/EventTypes";
+import { LOADING, JOINED, LOAD_ACCEPTED } from "../shared/EventTypes";
 import "./App.scss";
 
 function App() {
@@ -12,6 +12,12 @@ function App() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        const onLoadEvent = (msg, data) => {
+            // Wait for the user to accept the finished load,
+            // in case they want to finish reading a hint.
+            setLoading(ApplicationState.loading || !ApplicationState.loadAccepted);
+        };
+
         const subs = [
             PubSub.subscribe(JOINED, (msg, data) => {
                 if (data.new) {
@@ -20,11 +26,8 @@ function App() {
                     setCurrentPage("login");
                 }
             }),
-            PubSub.subscribe(LOADING, (msg, data) => {
-                // Wait for the user to accept the finished load,
-                // in case they want to finish reading a hint.
-                setLoading(ApplicationState.loading || !ApplicationState.loadAccepted);
-            }),
+            PubSub.subscribe(LOADING, onLoadEvent),
+            PubSub.subscribe(LOAD_ACCEPTED, onLoadEvent),
         ];
 
         // Cleanup.

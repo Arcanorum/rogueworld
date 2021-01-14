@@ -14,7 +14,6 @@ import {
 const maxCounters = 20;
 
 const Counters = ({ stat, maxStat, counterImage }) => {
-    console.log("counter observer:", stat);
     // The value might be in 0.5s as well as whole numbers, so round down to only count each full counter.
     stat = Math.floor(stat);
     // Get the % of the stat this player has. i.e.

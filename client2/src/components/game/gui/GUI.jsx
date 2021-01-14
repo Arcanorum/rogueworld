@@ -5,7 +5,7 @@ import GloryCounter from "./glory_counter/GloryCounter";
 
 function GUI() {
     return (
-        <div>
+        <div className="gui">
             <Meters />
 
             <div className="top-left-corner-cont gui-zoomable">

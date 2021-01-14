@@ -47,10 +47,10 @@ function GloryCounter() {
                   setShowTooltip(false);
               }}
             />
-            {/* <AnimatedNumber
+            <AnimatedNumber
               value={glory}
               formatValue={formatValue}
-            /> */}
+            />
             <div className="text-counter text-counter-transition">{difference}</div>
             {showTooltip && <div className="generic-tooltip top left">Glory tooltip text</div>}
         </div>

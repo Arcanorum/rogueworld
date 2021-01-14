@@ -11,7 +11,7 @@ import Utils from "../shared/Utils";
 // import ClanManager from "../../../client/src/ClanManager";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
-import { ApplicationState } from "../shared/state/States";
+import { ApplicationState, PlayerState } from "../shared/state/States";
 // import TextMetrics from "./TextMetrics";
 
 gameConfig.EntityTypes = EntityTypes;
@@ -24,6 +24,9 @@ class Game extends Phaser.Scene {
 
     init() {
         Utils.message("Game init");
+
+        // Make this state globally accessible.
+        window.gameScene = this;
 
         const data = window.joinWorldData;
         // Game has loaded ok. Clear the backup timeouts.
@@ -46,18 +49,26 @@ class Game extends Phaser.Scene {
             row: data.player.row,
             col: data.player.col,
             displayName: data.player.displayName,
-            maxHitPoints: data.player.maxHitPoints,
-            maxEnergy: data.player.maxEnergy,
+            // maxHitPoints: data.player.maxHitPoints,
+            // maxEnergy: data.player.maxEnergy,
             defence: data.player.defence,
-            hitPoints: data.player.maxHitPoints,
-            energy: data.player.maxEnergy,
-            glory: data.player.glory,
+            // hitPoints: data.player.maxHitPoints,
+            // energy: data.player.maxEnergy,
+            // glory: data.player.glory,
             // inventory: new Inventory(data.inventory),
             // bankManager: new BankManager(data.bankItems),
             // stats: new Stats(data.player.stats),
             tasks: data.player.tasks,
             holdingItem: false,
         };
+
+        const playerData = data.player;
+
+        PlayerState.setHitPoints(playerData.hitPoints);
+        PlayerState.setMaxHitPoints(playerData.maxHitPoints);
+        PlayerState.setEnergy(playerData.energy);
+        PlayerState.setMaxEnergy(playerData.maxEnergy);
+        PlayerState.setGlory(playerData.glory);
 
         this.dynamicsData = data.dynamicsData;
 
@@ -82,15 +93,6 @@ class Game extends Phaser.Scene {
         this.dayPhase = data.dayPhase || this.DayPhases.Day;
         // this.dayPhase = this.DayPhases.Night;
 
-        // console.log("nearby dynamics: data", this.dynamicsData);
-    }
-
-    create() {
-        Utils.message("Game create");
-
-        // Make this state globally accessible.
-        window.gameScene = this;
-
         // Setup animations for entity types that have them configured.
         Object.values(EntitiesList).forEach((EntityType) => {
             // The file might be commented out to disable it for the time being.
@@ -100,8 +102,6 @@ class Game extends Phaser.Scene {
                 if (EntityType.addAnimationSet) EntityType.addAnimationSet();
             }
         });
-
-        // TextMetrics.init();
 
         // Set the game container to be the thing that is fullscreened when fullscreen mode
         // is entered, instead of just the game canvas, or the GUI will be invisible.
@@ -148,15 +148,19 @@ class Game extends Phaser.Scene {
          */
         this.dynamics = {};
 
-        // A containert to put all dynamics into, so they stay on the same layer relative to other things in the display order.
-        this.dynamicSpritesContainer = this.add.container();
-        this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
-
         /**
          * A list of all light sources, used to update the darkness grid. Light sources can be static or dynamic.
          * @type {Object}
          */
         this.lightSources = {};
+    }
+
+    create() {
+        Utils.message("Game create");
+
+        // A containert to put all dynamics into, so they stay on the same layer relative to other things in the display order.
+        this.dynamicSpritesContainer = this.add.container();
+        this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
 
         this.soundManager = new SoundManager(this);
         // this.clanManager = new ClanManager();

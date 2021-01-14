@@ -1,15 +1,25 @@
 @import '../../../shared/Variables.scss';
 
+.gui {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  -webkit-text-stroke: 1px black;
+}
+
 .gui-icon {
     width: 34px;
     height: 34px;
     padding: 4px;
     pointer-events: auto;
     user-select: none;
-    &:hover {
-        -webkit-filter: brightness(150%);
-        filter: brightness(150%);
-        transform: scale(1.2);
+
+    &.interactive {
+      &:hover {
+          -webkit-filter: brightness(150%);
+          filter: brightness(150%);
+          transform: scale(1.2);
+      }
     }
 }
 

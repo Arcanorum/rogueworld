@@ -1,6 +1,9 @@
-.idea/
-node_modules/
+# PROJECT
+.idea
+node_modules
 
+# OLD CLIENT
+# TODO: remove
 client/node_modules/
 client/main.css
 client/main.css.map
@@ -12,7 +15,29 @@ client/assets/img/ground.png
 client/assets/img/statics.png
 client/src/catalogues/
 
-server/node_modules/
+# NEW CLIENT
+client2/node_modules
+client2/.pnp
+client2/.pnp.js
+client2/.DS_Store
+client2/.env.local
+client2/.env.development.local
+client2/.env.test.local
+client2/.env.production.local
+client2/build
+client2/npm-debug.log*
+client2/yarn-debug.log*
+client2/yarn-error.log*
+
+client2/src/catalogues/
+client2/assets/map/
+client2/assets/img/game-atlas.json
+client2/assets/img/game-atlas.png
+client2/assets/img/ground.png
+client2/assets/img/statics.png
+
+# SERVER
+server/node_modules
 server/settings.yml
 server/PlayerDataDump.json
 server/test.js

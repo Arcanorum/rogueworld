@@ -12,7 +12,7 @@ function App() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const onLoadEvent = (msg, data) => {
+        const onLoadEvent = () => {
             // Wait for the user to accept the finished load,
             // in case they want to finish reading a hint.
             setLoading(ApplicationState.loading || !ApplicationState.loadAccepted);

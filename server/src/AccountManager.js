@@ -166,7 +166,7 @@ module.exports = {
 
                 // Prevent them from logging into an account that is already logged in.
                 if (res.isLoggedIn === true) {
-                    clientSocket.sendEvent(EventsList.something_went_wrong);
+                    clientSocket.sendEvent(EventsList.already_logged_in);
                     return;
                 }
 

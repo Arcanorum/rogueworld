@@ -1,22 +1,35 @@
+import PubSub from "pubsub-js";
 import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 import { ApplicationState } from "../../shared/state/States";
+import {
+    ALREADY_LOGGED_IN, INVALID_LOGIN_DETAILS, WORLD_FULL, SOMETHING_WENT_WRONG,
+} from "../../shared/EventTypes";
 
 export default () => {
     Utils.message("Adding login events");
     eventResponses.something_went_wrong = () => {
         ApplicationState.setJoining(false);
+
+        PubSub.publish(SOMETHING_WENT_WRONG);
     };
 
     eventResponses.invalid_login_details = () => {
-        console.log("invalid_login_details");
         ApplicationState.setJoining(false);
+
+        PubSub.publish(INVALID_LOGIN_DETAILS);
     };
 
-    eventResponses.character_in_use = () => {
-        Utils.message("Join world success");
-
+    eventResponses.already_logged_in = () => {
         ApplicationState.setJoining(false);
+
+        PubSub.publish(ALREADY_LOGGED_IN);
+    };
+
+    eventResponses.world_full = () => {
+        ApplicationState.setJoining(false);
+
+        PubSub.publish(WORLD_FULL);
     };
 
     eventResponses.join_world_success = (data) => {
@@ -51,9 +64,5 @@ export default () => {
         // }, 5000);
 
         Utils.message("End of join world success");
-    };
-
-    eventResponses.world_full = () => {
-        Utils.message("World is full.");
     };
 };

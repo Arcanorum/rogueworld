@@ -6,6 +6,11 @@ export const JOINED = Symbol("JOINED");
 export const LOADING = Symbol("LOADING");
 export const LOAD_ACCEPTED = Symbol("LOAD_ACCEPTED");
 
+// Join issues.
+export const INVALID_LOGIN_DETAILS = Symbol("INVALID_LOGIN_DETAILS");
+export const ALREADY_LOGGED_IN = Symbol("ALREADY_LOGGED_IN");
+export const WORLD_FULL = Symbol("WORLD_FULL");
+
 // Player.
 export const HITPOINTS_VALUE = Symbol("HITPOINTS_VALUE");
 export const MAX_HITPOINTS_VALUE = Symbol("MAX_HITPOINTS_VALUE");
@@ -18,3 +23,4 @@ export const GLORY_VALUE = Symbol("GLORY_VALUE");
 // Misc.
 export const WEBSOCKET_CLOSE = Symbol("WEBSOCKET_CLOSE");
 export const WEBSOCKET_ERROR = Symbol("WEBSOCKET_ERROR");
+export const SOMETHING_WENT_WRONG = Symbol("SOMETHING_WENT_WRONG");

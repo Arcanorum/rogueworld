@@ -11,12 +11,19 @@ import notFandomLogo from "../../assets/images/misc/branding/notfandom-logo.png"
 import notRedditLogo from "../../assets/images/misc/branding/notreddit-logo.png";
 import "./LoginPage.scss";
 import {
-    CONNECTED, CONNECTING, JOINED, JOINING, WEBSOCKET_CLOSE,
+    CONNECTED,
+    CONNECTING,
+    INVALID_LOGIN_DETAILS,
+    JOINED,
+    JOINING,
+    WORLD_FULL,
+    WEBSOCKET_CLOSE,
+    SOMETHING_WENT_WRONG,
+    ALREADY_LOGGED_IN,
 } from "../../shared/EventTypes";
 import {
     connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
 } from "../../network/ConnectionManager";
-import { ApplicationState } from "../../shared/state/States";
 
 function LoginPage() {
     const [showPartners, setShowPartners] = useState(false);
@@ -28,7 +35,6 @@ function LoginPage() {
     const [connecting, setConnecting] = useState(false);
     const [connected, setConnected] = useState(false);
     const [joining, setJoining] = useState(false);
-    // const [] = useState(false);
 
     const [connectionIssue, setConnectionIssue] = useState(null);
     const [joinIssue, setJoinIssue] = useState(null);
@@ -40,6 +46,10 @@ function LoginPage() {
             if (!loginExistingUser) {
                 // New character option selected. Start as a new character with the given display name.
                 joinGameNewCharacter(newCharacterName);
+            } else if (!username) {
+                setJoinIssue("Username required.");
+            } else if (!password) {
+                setJoinIssue("Password required.");
             } else {
                 // Log in to an existing account.
                 joinGameContinue(username, password);
@@ -67,8 +77,26 @@ function LoginPage() {
             PubSub.subscribe(JOINING, (msd, data) => {
                 setJoining(data.new);
             }),
-            PubSub.subscribe(JOINED, (msd, data) => {
+            PubSub.subscribe(JOINED, () => {
                 // Start the game state.
+            }),
+            PubSub.subscribe(INVALID_LOGIN_DETAILS, () => {
+                setJoinIssue("Invalid username or password.");
+            }),
+            PubSub.subscribe(ALREADY_LOGGED_IN, () => {
+                setJoinIssue("That account is already logged in.");
+            }),
+            PubSub.subscribe(WORLD_FULL, () => {
+                setJoinIssue(
+                    `Game is full.
+                    Wow... :o`,
+                );
+            }),
+            PubSub.subscribe(SOMETHING_WENT_WRONG, () => {
+                setJoinIssue(
+                    `Something went wrong.
+                    Awkward... :/`,
+                );
             }),
             PubSub.subscribe(WEBSOCKET_CLOSE, (msd, data) => {
                 if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET) {
@@ -109,6 +137,7 @@ function LoginPage() {
             }),
         ];
 
+        // Connect as soon as the login page loads.
         connectToGameServer();
 
         // Cleanup.
@@ -120,12 +149,15 @@ function LoginPage() {
     }, []);
 
     const inputEnterPressed = (event) => {
-        console.log("inputEnterPressed");
         // If the Enter key is pressed, attempt to connect.
         if (event.keyCode === 13) {
             playPressed();
         }
     };
+
+    useEffect(() => {
+        setJoinIssue(null);
+    }, [connectionIssue, loginExistingUser, username, password]);
 
     const newCharacterPressed = () => {
         setLoginExistingUser(false);
@@ -146,6 +178,7 @@ function LoginPage() {
 
             <div className="center-text-cont">
                 {connectionIssue && <div className="connection-issue scale-up-center">{connectionIssue}</div>}
+                {joinIssue && <div className="connection-issue scale-up-center">{joinIssue}</div>}
                 {connectionIssue && <div className="scale-up-center">Reconnect</div>}
                 {connecting && <div className="scale-up-center">Connecting to game server...</div>}
                 {connected && !joining && <div className="scale-up-center">Play</div>}

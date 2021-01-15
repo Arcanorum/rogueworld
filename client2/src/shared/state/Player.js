@@ -1,6 +1,11 @@
 import PubSub from "pubsub-js";
 import {
-    HITPOINTS_VALUE, ENERGY_VALUE, GLORY_VALUE, MAX_HITPOINTS_VALUE, MAX_ENERGY_VALUE,
+    HITPOINTS_VALUE,
+    MAX_HITPOINTS_VALUE,
+    ENERGY_VALUE,
+    MAX_ENERGY_VALUE,
+    GLORY_VALUE,
+    DEFENCE_VALUE,
 } from "../EventTypes";
 
 class Player {
@@ -13,6 +18,8 @@ class Player {
     maxEnergy = 0;
 
     glory = 0;
+
+    defence = 0;
 
     setHitPoints(value) {
         const old = this.hitPoints;
@@ -42,6 +49,12 @@ class Player {
         const old = this.glory;
         this.glory = value;
         PubSub.publish(GLORY_VALUE, { old, new: value });
+    }
+
+    setDefence(value) {
+        const old = this.defence;
+        this.defence = value;
+        PubSub.publish(DEFENCE_VALUE, { old, new: value });
     }
 }
 

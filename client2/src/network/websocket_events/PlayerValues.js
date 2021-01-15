@@ -74,8 +74,7 @@ export default () => {
     };
 
     eventResponses.defence_value = (data) => {
-        window.gameScene.player.defence = data;
-        window.gameScene.GUI.updateDefenceCounter();
+        PlayerState.setDefence(data);
     };
 
     eventResponses.glory_value = (data) => {

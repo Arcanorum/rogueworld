@@ -17,6 +17,7 @@ export const MAX_HITPOINTS_VALUE = Symbol("MAX_HITPOINTS_VALUE");
 export const ENERGY_VALUE = Symbol("ENERGY_VALUE");
 export const MAX_ENERGY_VALUE = Symbol("MAX_ENERGY_VALUE");
 export const GLORY_VALUE = Symbol("GLORY_VALUE");
+export const DEFENCE_VALUE = Symbol("DEFENCE_VALUE");
 
 // Inventory.
 

@@ -6,7 +6,9 @@ import {
     MAX_ENERGY_VALUE,
     GLORY_VALUE,
     DEFENCE_VALUE,
+    STATS_VALUE,
 } from "../EventTypes";
+import Utils from "../Utils";
 
 class Player {
     hitPoints = 0;
@@ -20,6 +22,33 @@ class Player {
     glory = 0;
 
     defence = 0;
+
+    stats = {
+        Melee: {
+            textDefID: "Melee", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Ranged: {
+            textDefID: "Ranged", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Magic: {
+            textDefID: "Magic", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Gathering: {
+            textDefID: "Gathering", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Weaponry: {
+            textDefID: "Weaponry", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Armoury: {
+            textDefID: "Armoury", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Toolery: {
+            textDefID: "Toolery", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+        Potionry: {
+            textDefID: "Potionry", level: 0, exp: 0, nextLevelExpRequirement: 0,
+        },
+    }
 
     setHitPoints(value) {
         const old = this.hitPoints;
@@ -55,6 +84,37 @@ class Player {
         const old = this.defence;
         this.defence = value;
         PubSub.publish(DEFENCE_VALUE, { old, new: value });
+    }
+
+    setStats(stats) {
+        // Update the stats to the correct values.
+        Object.entries(stats).forEach(([statName, data]) => {
+            if (!this.stats[statName]) {
+                // A new stat might not have been added to the client yet.
+                Utils.warning(`setStats: No stat defined for stat name "${statName}".`);
+                return;
+            }
+            this.stats[statName].level = data.level;
+            this.stats[statName].exp = data.exp;
+            this.stats[statName].nextLevelExpRequirement = data.nextLevelExpRequirement;
+        });
+
+        PubSub.publish(STATS_VALUE, { new: this.stats });
+    }
+
+    setStatExp(statName, exp) {
+        if (!this.stats[statName]) Utils.warning(`setStatExp: Invalid stat name "${statName}"`);
+        this.stats[statName].exp = exp;
+        PubSub.publish(STATS_VALUE, { new: this.stats });
+    }
+
+    setStatLevel(statName, level, nextLevelExpRequirement) {
+        this.stats[statName].level = level;
+        this.stats[statName].nextLevelExpRequirement = nextLevelExpRequirement;
+        // _this.GUI.statsPanel.updateSelectedStat();
+        // _this.chat(undefined, `${dungeonz.getTextDef(`Stat name: ${this.name}`)} level gained!`, "#73ff66");
+
+        PubSub.publish(STATS_VALUE, { new: this.stats });
     }
 }
 

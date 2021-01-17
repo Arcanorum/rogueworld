@@ -1,12 +1,13 @@
+@import "../../../../../shared/Variables.scss";
 
-.panel_template_cont {
+.panel-template-cont {
     left: 50%;
     top: 50%;
     pointer-events: auto;
 }
 
 // The container the other generic parts are positioned relative to, and gives the main background and side borders.
-.panel_template_main_cont {
+.panel-template-main-cont {
     width: 400px;
     height: 300px;
     //background-color: $colourDB32SteelGrey;
@@ -16,7 +17,7 @@
 }
 
 // The top left icon that goes being the actual panel specific icon.
-.panel_template_icon_border {
+.panel-template-icon-border {
     left: 0%;
     top: 0%;
     width: 80px;
@@ -24,40 +25,40 @@
 }
 
 // The top left icon that represents this panel.
-.panel_template_icon {
+.panel-template-icon {
     left: 0%;
     top: 0%;
     width: 54px;
     user-select: none;
 }
 
-.panel_template_close_button {
+.panel-template-close-button {
     left: 100%;
     top: 0%;
     width: 52px;
     user-select: none;
-    cursor: $cursorHand;
+    // cursor: $cursorHand;
     &:hover {
         transform: translate(-50%, -50%) scale(1.1);
         filter: brightness(150%);
     }
 }
 
-.panel_template_top_corner {
+.panel-template-top-corner {
     left: 100%;
     top: 0%;
     width: 36px;
     user-select: none;
 }
 
-.panel_template_left_corner {
+.panel-template-left-corner {
     left: 0%;
     top: 100%;
     width: 36px;
     user-select: none;
 }
 
-.panel_template_right_corner {
+.panel-template-right-corner {
     left: 100%;
     top: 100%;
     width: 36px;
@@ -70,7 +71,7 @@
 }
 
 // The shown localised name of the context of this panel.
-.panel_template_name_border {
+.panel-template-name-border {
     position: absolute;
     top: 0%;
     width: 100%;
@@ -83,7 +84,7 @@
 }
 
 // The shown localised name of the context of this panel.
-.panel_template_name {
+.panel-template-name {
     position: absolute;
     top: 0%;
     width: 100%;
@@ -95,11 +96,11 @@
 }
 
 // The container for all of the specific stuff for this panel.
-.panel_template_contents_cont {
+.panel-template-contents-cont {
     width: 100%;
     height: 100%;
 }
 
-.panel_template_spacer {
+.panel-template-spacer {
     background-color: $colourDB32VeryDarkPurple;
 }

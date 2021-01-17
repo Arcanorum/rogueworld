@@ -4,7 +4,8 @@ import "./GUI.scss";
 import GloryCounter from "./glory_counter/GloryCounter";
 import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./PanelButton";
-import StatsIcon from "../../../assets/images/gui/hud/stats-icon.png";
+import StatsPanel from "./panels/stats_panel/StatsPanel";
+import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 
 function GUI() {
     const [showStatsPanel, setShowStatsPanel] = useState(false);
@@ -16,12 +17,22 @@ function GUI() {
                 <GloryCounter />
                 <DefenceCounter />
                 <PanelButton
-                  icon={StatsIcon}
+                  icon={statsIcon}
                   onClick={() => {
                       setShowStatsPanel(!showStatsPanel);
                   }}
                   tooltip="stats tooltip"
                 />
+            </div>
+
+            <div className="panel-cont">
+                {showStatsPanel && (
+                <StatsPanel
+                  onCloseCallback={() => {
+                      setShowStatsPanel(false);
+                  }}
+                />
+                )}
             </div>
 
             <input

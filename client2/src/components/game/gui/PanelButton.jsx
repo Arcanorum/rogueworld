@@ -8,7 +8,7 @@ function PanelButton({ icon, onClick, tooltip }) {
         <div>
             <div>
                 <img
-                  className="gui-icon"
+                  className="gui-icon interactive"
                   src={icon}
                   draggable={false}
                   onMouseEnter={() => {

@@ -4,8 +4,8 @@ import createGame from "./PhaserConfig";
 import GUI from "./gui/GUI";
 import { ApplicationState } from "../../shared/state/States";
 import { LOAD_ACCEPTED } from "../../shared/EventTypes";
+import { removeGameEventResponses } from "../../network/websocket_events/WebSocketEvents";
 import "./GamePage.scss";
-import { addGameEventResponses, removeGameEventResponses } from "../../network/websocket_events/WebSocketEvents";
 
 function GamePage() {
     const [loadFinished, setLoadFinished] = useState({});
@@ -28,9 +28,6 @@ function GamePage() {
         const gameInstance = createGame();
 
         gameInstance.scene.start("Boot");
-
-        // Add the websocket event responses after the game state is started.
-        addGameEventResponses();
 
         // Cleanup.
         return () => {

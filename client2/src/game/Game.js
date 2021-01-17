@@ -13,6 +13,7 @@ import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 import { ApplicationState, PlayerState } from "../shared/state/States";
 // import TextMetrics from "./TextMetrics";
+import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
@@ -69,6 +70,7 @@ class Game extends Phaser.Scene {
         PlayerState.setEnergy(playerData.energy);
         PlayerState.setMaxEnergy(playerData.maxEnergy);
         PlayerState.setGlory(playerData.glory);
+        PlayerState.setStats(playerData.stats);
 
         this.dynamicsData = data.dynamicsData;
 
@@ -259,6 +261,9 @@ class Game extends Phaser.Scene {
         this.soundManager.music.changeBackgroundMusic(
             this.soundManager.music.sounds.location.generic1,
         );
+
+        // Add the websocket event responses after the game state is started.
+        addGameEventResponses();
 
         // Game finished loading. Let the loading/hint screen be closed.
         ApplicationState.setLoading(false);

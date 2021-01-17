@@ -13,7 +13,7 @@ import {
 // How many of the little circle counters to show on each meter bar.
 const maxCounters = 20;
 
-const Counters = ({ stat, maxStat, counterImage }) => {
+function Counters({ stat, maxStat, counterImage }) {
     // The value might be in 0.5s as well as whole numbers, so round down to only count each full counter.
     stat = Math.floor(stat);
     // Get the % of the stat this player has. i.e.
@@ -26,7 +26,7 @@ const Counters = ({ stat, maxStat, counterImage }) => {
         }
         return <img key={i} src={emptyCounter} draggable={false} className="meter-counter" />;
     });
-};
+}
 
 function Meters() {
     const [showHitPointTooltip, setShowHitPointTooltip] = useState(false);

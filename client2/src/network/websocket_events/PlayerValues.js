@@ -54,7 +54,6 @@ export default () => {
     };
 
     eventResponses.hit_point_value = (data) => {
-        console.log("hit_point_value:", data);
         PlayerState.setHitPoints(data);
 
         // window.gameScene.player.hitPoints = data;

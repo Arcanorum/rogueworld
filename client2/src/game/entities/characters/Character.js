@@ -110,7 +110,8 @@ class Character extends Container {
         // Keep playing if the animation loops.
         if (this.animationRepeats) {
             this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
-        } else {
+        }
+        else {
             this.baseSprite.anims.stop();
         }
     }

@@ -629,7 +629,8 @@ class Tilemap {
 
         if (active === true) {
             staticTile.tileSprite.setFrame(staticTile.tileID);
-        } else {
+        }
+        else {
             staticTile.tileSprite.setFrame(staticTile.inactiveFrame);
         }
     }
@@ -645,7 +646,8 @@ class Tilemap {
 
         if (this.scene.boardAlwaysNight === true) {
             darknessValue = 1;
-        } else {
+        }
+        else {
             // Don't bother doing the rest if it is day.
             if (this.scene.dayPhase === this.scene.DayPhases.Day) {
                 this.darknessSpritesContainer.visible = false;

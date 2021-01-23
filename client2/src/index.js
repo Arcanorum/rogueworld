@@ -11,11 +11,13 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
     Utils.message("Running in dev mode.");
     window.devMode = true;
     window.host = "local";
-} else if (window.location.hostname === "test.dungeonz.io") {
+}
+else if (window.location.hostname === "test.dungeonz.io") {
     Utils.message("Running in test mode.");
     window.devMode = true;
     window.host = "test";
-} else {
+}
+else {
     Utils.message("Running in prod mode.");
     window.devMode = false;
     window.host = "live";

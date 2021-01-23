@@ -105,7 +105,8 @@ class ItemSounds {
         // Play the specific sound for the sound type of this item if one is defined.
         if (itemType && itemType.soundType && scope[itemType.soundType]) {
             scope[itemType.soundType].play();
-        } else if (scope.default) { // No specific sound set. Use the generic/default one, if it is set.
+        }
+        else if (scope.default) { // No specific sound set. Use the generic/default one, if it is set.
             scope.default.play();
         }
         // There is no specific or default sound. Don't play anything.
@@ -164,7 +165,8 @@ class SoundManager {
                 // Add both file types under the same file name. {"my-sound": ["../my-sound.mp3", "../my-sound.ogg"]}
                 if (list[fileName]) {
                     list[fileName].push(values[index].default);
-                } else {
+                }
+                else {
                     list[fileName] = [values[index].default];
                 }
                 return list;

@@ -46,11 +46,11 @@ class Boot extends Phaser.Scene {
 
         // Keep the game running even when the window loses focus.
         this.events.on("hidden", () => {
-            console.log("hidden");
+            Utils.message("hidden");
         }, this);
 
         this.events.on("visible", () => {
-            console.log("visible");
+            Utils.message("visible");
         }, this);
 
         // Make sure the window always has focus when clicked on. Fixes not detecting input when iframed.

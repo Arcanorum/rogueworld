@@ -1,5 +1,7 @@
 const a11yOff = Object.keys(require("eslint-plugin-jsx-a11y").rules)
-    .reduce((acc, rule) => { acc[`jsx-a11y/${rule}`] = "off"; return acc; }, {});
+    .reduce((acc, rule) => {
+        acc[`jsx-a11y/${rule}`] = "off"; return acc;
+    }, {});
 
 module.exports = {
     extends: "airbnb",
@@ -43,32 +45,37 @@ module.exports = {
             },
         ],
         "no-unused-vars": [
-            1,
+            "warn",
         ],
         "no-param-reassign": [
-            0,
+            "off",
         ],
         "class-methods-use-this": [
-            0,
+            "off",
         ],
         "max-classes-per-file": [
-            0,
+            "off",
         ],
         quotes: [
             "error",
             "double",
         ],
+        "brace-style": [
+            "warn",
+            "stroustrup",
+            { allowSingleLine: true },
+        ],
         "linebreak-style": [
-            0,
+            "off",
         ],
         "import/no-unresolved": [
-            2,
+            "error",
         ],
         "import/no-extraneous-dependencies": [
-            0,
+            "off",
         ],
         "react/jsx-filename-extension": [
-            1,
+            "warn",
             {
                 extensions: [
                     ".js",

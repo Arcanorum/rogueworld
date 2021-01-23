@@ -77,15 +77,20 @@ export default () => {
 
             let tweenOnCompleteFunction;
 
-            if (data.col > origCol) { // Right.
+            // Right.
+            if (data.col > origCol) {
                 tweenOnCompleteFunction = tweenCompleteRight;
-            } else if (data.col < origCol) { // Left.
+            }
+            // Left.
+            else if (data.col < origCol) {
                 tweenOnCompleteFunction = tweenCompleteLeft;
             }
-
-            if (data.row > origRow) { // Down.
+            // Down.
+            if (data.row > origRow) {
                 tweenOnCompleteFunction = tweenCompleteDown;
-            } else if (data.row < origRow) { // Up.
+            }
+            // Up.
+            else if (data.row < origRow) {
                 tweenOnCompleteFunction = tweenCompleteUp;
             }
 
@@ -120,17 +125,21 @@ export default () => {
                     if (interactable.isWithinPressableRange()) {
                         interactable.highlightSprite.setAlpha(1);
                         interactable.highlightSprite.setScale(1.2);
-                    } else {
+                    }
+                    else {
                         interactable.highlightSprite.setAlpha(0.6);
                         interactable.highlightSprite.setScale(1);
                     }
-                } else {
+                }
+                else {
                     interactable.highlightSprite.setVisible(false);
                 }
             });
 
             window.gameScene.soundManager.player.playFootstep();
-        } else { // Another entity moved.
+        }
+        // Another entity moved.
+        else {
             // Get the boundaries of the player view range.
             const playerRowTopViewRange = window.gameScene.player.row - gameConfig.VIEW_RANGE;
             const playerColLeftViewRange = window.gameScene.player.col - gameConfig.VIEW_RANGE;

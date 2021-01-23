@@ -46,11 +46,14 @@ function LoginPage() {
             if (!loginExistingUser) {
                 // New character option selected. Start as a new character with the given display name.
                 joinGameNewCharacter(newCharacterName);
-            } else if (!username) {
+            }
+            else if (!username) {
                 setJoinIssue("Username required.");
-            } else if (!password) {
+            }
+            else if (!password) {
                 setJoinIssue("Password required.");
-            } else {
+            }
+            else {
                 // Log in to an existing account.
                 joinGameContinue(username, password);
             }
@@ -107,7 +110,8 @@ function LoginPage() {
                     
                         Check your internet connection.`,
                     );
-                } else if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_SERVER) {
+                }
+                else if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_SERVER) {
                     setConnectionIssue(
                         `Could not connect to game server.
 
@@ -115,7 +119,8 @@ function LoginPage() {
                         
                         Try again in a few minutes.`,
                     );
-                } else if (data === ConnectionCloseTypes.DISCONNECTED_NO_INTERNET) {
+                }
+                else if (data === ConnectionCloseTypes.DISCONNECTED_NO_INTERNET) {
                     setConnectionIssue(
                         `Disconnected from game server.
 
@@ -123,7 +128,8 @@ function LoginPage() {
                         
                         Check your internet connection.`,
                     );
-                } else if (data === ConnectionCloseTypes.DISCONNECTED_NO_SERVER) {
+                }
+                else if (data === ConnectionCloseTypes.DISCONNECTED_NO_SERVER) {
                     setConnectionIssue(
                         `Disconnected from game server.
 
@@ -131,7 +137,8 @@ function LoginPage() {
                         
                         Try again in a few minutes.`,
                     );
-                } else {
+                }
+                else {
                     setConnectionIssue("Unknown connection error. :/");
                 }
             }),
@@ -188,9 +195,23 @@ function LoginPage() {
             <div id="main-columns">
                 <div id="left-bar">
                     <div id="partners-credits-cont" className="bottom-texts">
-                        <span id="partners-text" onClick={() => { toggleShowPartners(); }}>Partners</span>
+                        <span
+                          id="partners-text"
+                          onClick={() => {
+                              toggleShowPartners();
+                          }}
+                        >
+                            Partners
+                        </span>
                         |
-                        <span id="credits-text" onClick={() => { window.open("/credits", "_blank"); }}>Credits</span>
+                        <span
+                          id="credits-text"
+                          onClick={() => {
+                              window.open("/credits", "_blank");
+                          }}
+                        >
+                            Credits
+                        </span>
                     </div>
                 </div>
 
@@ -235,7 +256,9 @@ function LoginPage() {
                                       maxLength="50"
                                       value={username}
                                       onKeyDown={inputEnterPressed}
-                                      onChange={(event) => { setUsername(event.target.value); }}
+                                      onChange={(event) => {
+                                          setUsername(event.target.value);
+                                      }}
                                     />
                                     <input
                                       id="password-input"
@@ -244,7 +267,9 @@ function LoginPage() {
                                       maxLength="50"
                                       value={password}
                                       onKeyDown={inputEnterPressed}
-                                      onChange={(event) => { setPassword(event.target.value); }}
+                                      onChange={(event) => {
+                                          setPassword(event.target.value);
+                                      }}
                                     />
                                 </>
                             )}
@@ -260,28 +285,36 @@ function LoginPage() {
                             <img
                               className="antisocial-icon"
                               src={notDiscordLogo}
-                              onClick={() => { window.open("https://discord.gg/7wjyU7B", "_blank"); }}
+                              onClick={() => {
+                                  window.open("https://discord.gg/7wjyU7B", "_blank");
+                              }}
                             />
                         </div>
                         <div id="notreddit-button" className="antisocial-button">
                             <img
                               className="antisocial-icon"
                               src={notRedditLogo}
-                              onClick={() => { window.open("https://www.reddit.com/r/dungeonz/", "_blank"); }}
+                              onClick={() => {
+                                  window.open("https://www.reddit.com/r/dungeonz/", "_blank");
+                              }}
                             />
                         </div>
                         <div id="notfacebook-button" className="antisocial-button">
                             <img
                               className="antisocial-icon"
                               src={notFacebookLogo}
-                              onClick={() => { window.open("https://www.facebook.com/sharer/sharer.php?u=dungeonz.io", "_blank"); }}
+                              onClick={() => {
+                                  window.open("https://www.facebook.com/sharer/sharer.php?u=dungeonz.io", "_blank");
+                              }}
                             />
                         </div>
                         <div id="notwiki-button" className="antisocial-button">
                             <img
                               className="antisocial-icon"
                               src={notFandomLogo}
-                              onClick={() => { window.open("https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki", "_blank"); }}
+                              onClick={() => {
+                                  window.open("https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki", "_blank");
+                              }}
                             />
                         </div>
                     </div>
@@ -303,7 +336,9 @@ function LoginPage() {
                         <li
                           id="add-translation"
                           className="language-option"
-                          onClick={() => { window.open("https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0", "_blank"); }}
+                          onClick={() => {
+                              window.open("https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0", "_blank");
+                          }}
                         />
                     </ul>
                 </div>

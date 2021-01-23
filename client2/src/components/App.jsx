@@ -22,7 +22,8 @@ function App() {
             PubSub.subscribe(JOINED, (msg, data) => {
                 if (data.new) {
                     setCurrentPage("game");
-                } else {
+                }
+                else {
                     setCurrentPage("login");
                 }
             }),

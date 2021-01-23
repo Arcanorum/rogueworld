@@ -1,4 +1,4 @@
-import SpellBookTypes from "../../catalogues/SpellBookTypes.json";
+// import SpellBookTypes from "../../catalogues/SpellBookTypes.json";
 
 import eventResponses from "./EventResponses";
 
@@ -52,7 +52,8 @@ export const addGameEventResponses = () => {
             // Make the darkness layer invisible during day time.
             if (window.gameScene.dayPhase === window.gameScene.DayPhases.Day) {
                 window.gameScene.tilemap.darknessSpritesContainer.visible = false;
-            } else {
+            }
+            else {
                 window.gameScene.tilemap.darknessSpritesContainer.visible = true;
                 window.gameScene.tilemap.updateDarknessGrid();
             }

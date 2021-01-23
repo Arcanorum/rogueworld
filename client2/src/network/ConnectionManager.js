@@ -47,9 +47,11 @@ export const connectToGameServer = () => {
     // If the game is running in dev mode (localhost), connect without SSL.
     if (window.host === "local") {
         serverURL = "ws://127.0.0.4:4567";
-    } else if (window.host === "test") {
+    }
+    else if (window.host === "test") {
         serverURL = "wss://test.dungeonz.io:443";
-    } else {
+    }
+    else {
         // Deployment mode. Connect to live server, which should be using SSL.
         serverURL = "wss://dungeonz.io:443";
     }
@@ -57,8 +59,6 @@ export const connectToGameServer = () => {
     if (ApplicationState.connected || ApplicationState.connecting) {
         return false;
     }
-
-    console.log("existing ws connection?", window.ws);
 
     // Connect to the game server.
     window.ws = new WebSocket(serverURL);
@@ -96,7 +96,8 @@ export const connectToGameServer = () => {
                 // like 0 and false would be ignored, even though they are valid values.
                 if (parsedMessage.data === undefined) {
                     eventResponses[eventName]({});
-                } else {
+                }
+                else {
                     eventResponses[eventName](parsedMessage.data);
                 }
             }

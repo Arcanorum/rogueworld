@@ -5,7 +5,7 @@ import Phaser from "phaser";
  * Avoids having to modify the Phaser container prototype.
  */
 class Container extends Phaser.GameObjects.Container {
-    constructor(x, y, config) {
+    constructor(x, y) {
         super(window.gameScene, x, y);
         window.gameScene.add.existing(this);
     }
@@ -19,7 +19,8 @@ class Container extends Phaser.GameObjects.Container {
             // JUICE IT! maybe change it to a particle instead?
             // and have them bounce out of entity when damaged, bounce into entity when healed.
             this.damageMarker.setColor("#ff2f00");
-        } else {
+        }
+        else {
             this.damageMarker.setColor("#6abe30");
             amount = `+${amount}`;
         }

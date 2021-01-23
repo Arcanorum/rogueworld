@@ -95,7 +95,8 @@ class Static extends Phaser.GameObjects.Container {
             this.tileSprite.on("pointerout", () => {
                 if (window.gameScene.player.holdingItem) {
                     // setAttackCursor();
-                } else {
+                }
+                else {
                     // setDefaultCursor();
                 }
             });
@@ -117,7 +118,8 @@ class Static extends Phaser.GameObjects.Container {
 
         if (TileIDInactiveFrames[this.tileID] === undefined) {
             this.inactiveFrame = TileIDInactiveFrames["0"];
-        } else {
+        }
+        else {
             this.inactiveFrame = TileIDInactiveFrames[this.tileID];
         }
 

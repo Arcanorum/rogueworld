@@ -41,6 +41,7 @@ function DefenceCounter() {
             <AnimatedNumber
               value={defence}
               formatValue={formatValue}
+              className="high-contrast-text"
             />
             {showTooltip && <div className="generic-tooltip top left">Defence tooltip text</div>}
         </div>

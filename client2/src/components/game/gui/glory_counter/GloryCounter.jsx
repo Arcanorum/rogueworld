@@ -18,7 +18,8 @@ function GloryCounter() {
                 const diff = data.old - data.new;
                 if (difference > 0) {
                     setDifference(`+${diff}`);
-                } else {
+                }
+                else {
                     setDifference(`${diff}`);
                 }
 
@@ -50,8 +51,9 @@ function GloryCounter() {
             <AnimatedNumber
               value={glory}
               formatValue={formatValue}
+              className="high-contrast-text"
             />
-            <div className="text-counter text-counter-transition">{difference}</div>
+            <div className="text-counter text-counter-transition high-contrast-text">{difference}</div>
             {showTooltip && <div className="generic-tooltip top left">Glory tooltip text</div>}
         </div>
     );

@@ -59,7 +59,7 @@ class Game extends Phaser.Scene {
             // inventory: new Inventory(data.inventory),
             // bankManager: new BankManager(data.bankItems),
             // stats: new Stats(data.player.stats),
-            tasks: data.player.tasks,
+            // tasks: data.player.tasks,
             holdingItem: false,
         };
 
@@ -71,6 +71,7 @@ class Game extends Phaser.Scene {
         PlayerState.setMaxEnergy(playerData.maxEnergy);
         PlayerState.setGlory(playerData.glory);
         PlayerState.setStats(playerData.stats);
+        PlayerState.setTasks(playerData.tasks);
 
         this.dynamicsData = data.dynamicsData;
 
@@ -415,13 +416,15 @@ class Game extends Phaser.Scene {
             if (Math.abs(targetX) > Math.abs(targetY)) {
                 if (targetX > 0) direction = "r";
                 else direction = "l";
-            } else if (targetY > 0) direction = "d";
+            }
+            else if (targetY > 0) direction = "d";
             else direction = "u";
 
             // Try to use the held item if one is selected.
             if (this.player.holdingItem) {
                 this.player.inventory.useHeldItem(direction);
-            } else { // Do a melee attack.
+            }
+            else { // Do a melee attack.
                 window.ws.sendEvent("melee_attack", direction);
             }
         }
@@ -574,7 +577,8 @@ class Game extends Phaser.Scene {
                     // Empty the contents ready for the next chat.
                     this.GUI.chatInput.value = "";
                 }
-            } else { // Not open, so open it.
+            }
+            else { // Not open, so open it.
                 this.GUI.chatInput.isActive = true;
                 this.GUI.chatInput.style.visibility = "visible";
                 this.GUI.chatInput.focus();
@@ -590,7 +594,8 @@ class Game extends Phaser.Scene {
         // Sort the statics from the dynamics. Statics don't have an ID.
         if (data.id === undefined) {
             // this.updateStatic(data);
-        } else {
+        }
+        else {
             this.addDynamic(data);
         }
     }
@@ -607,7 +612,8 @@ class Game extends Phaser.Scene {
             // The static is not yet added to the grid. Wait a bit for the current player tween to
             // finish and the edge is loaded, by which point the static tile should have been added.
             setTimeout(this.tilemap.updateStaticTile.bind(this.tilemap), 500, `${data.row}-${data.col}`, false);
-        } else {
+        }
+        else {
             // Tile already exists/is in view. Make it look inactive.
             this.tilemap.updateStaticTile(`${data.row}-${data.col}`, false);
         }
@@ -793,7 +799,8 @@ class Game extends Phaser.Scene {
                 // If the message was from this client, tell them a warning message.
                 if (entityID === window.gameScene.player.entityId) {
                     message = Utils.getTextDef("Invalid command warning");
-                } else { // Someone else's message, so don't show it.
+                }
+                else { // Someone else's message, so don't show it.
                     return;
                 }
             }

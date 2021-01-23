@@ -6,12 +6,25 @@ import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./PanelButton";
 import StatsPanel from "./panels/stats_panel/StatsPanel";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
+import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
+import TasksPanel from "./panels/tasks_panel/TasksPanel";
+import TaskTracker from "./panels/task_tracker/TaskTracker";
+
+const Panels = {
+    NONE: Symbol("NONE"),
+    Stats: Symbol("Stats"),
+    Tasks: Symbol("Tasks"),
+};
 
 function GUI() {
-    const [showStatsPanel, setShowStatsPanel] = useState(false);
+    const [shownPanel, setShownPanel] = useState(false);
+    const [trackedTask, setTrackedTask] = useState(null);
+
     return (
         <div className="gui">
             <Meters />
+
+            {trackedTask && <TaskTracker />}
 
             <div className="top-left-corner-cont gui-zoomable">
                 <GloryCounter />
@@ -19,17 +32,31 @@ function GUI() {
                 <PanelButton
                   icon={statsIcon}
                   onClick={() => {
-                      setShowStatsPanel(!showStatsPanel);
+                      setShownPanel(Panels.Stats);
+                  }}
+                  tooltip="stats tooltip"
+                />
+                <PanelButton
+                  icon={tasksIcon}
+                  onClick={() => {
+                      setShownPanel(Panels.Tasks);
                   }}
                   tooltip="stats tooltip"
                 />
             </div>
 
             <div className="panel-cont">
-                {showStatsPanel && (
+                {shownPanel === Panels.Stats && (
                 <StatsPanel
                   onCloseCallback={() => {
-                      setShowStatsPanel(false);
+                      setShownPanel(Panels.NONE);
+                  }}
+                />
+                )}
+                {shownPanel === Panels.Tasks && (
+                <TasksPanel
+                  onCloseCallback={() => {
+                      setShownPanel(Panels.NONE);
                   }}
                 />
                 )}

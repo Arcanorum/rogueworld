@@ -7,6 +7,7 @@ import {
     GLORY_VALUE,
     DEFENCE_VALUE,
     STATS_VALUE,
+    TASKS_VALUE,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -49,6 +50,8 @@ class Player {
             textDefID: "Potionry", level: 0, exp: 0, nextLevelExpRequirement: 0,
         },
     }
+
+    tasks = [];
 
     setHitPoints(value) {
         const old = this.hitPoints;
@@ -115,6 +118,11 @@ class Player {
         // _this.chat(undefined, `${dungeonz.getTextDef(`Stat name: ${this.name}`)} level gained!`, "#73ff66");
 
         PubSub.publish(STATS_VALUE, { new: this.stats });
+    }
+
+    setTasks(tasks) {
+        this.tasks = tasks;
+        PubSub.publish(TASKS_VALUE, { new: this.tasks });
     }
 }
 

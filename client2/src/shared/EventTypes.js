@@ -19,6 +19,7 @@ export const MAX_ENERGY_VALUE = Symbol("MAX_ENERGY_VALUE");
 export const GLORY_VALUE = Symbol("GLORY_VALUE");
 export const DEFENCE_VALUE = Symbol("DEFENCE_VALUE");
 export const STATS_VALUE = Symbol("STATS_VALUE");
+export const TASKS_VALUE = Symbol("TASKS_VALUE");
 
 // Inventory.
 

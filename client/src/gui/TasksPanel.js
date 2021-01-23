@@ -118,11 +118,11 @@ class TaskSlot {
         this.rewardContainer.style.backgroundColor = _this.GUI.GUIColours.taskSlotDefault;
     }
 
-    setTracking () {
-        this.taskName.style.backgroundColor = _this.GUI.GUIColours.taskSlotTracking;
-        this.progress.style.backgroundColor = _this.GUI.GUIColours.taskSlotTracking;
-        this.rewardContainer.style.backgroundColor = _this.GUI.GUIColours.taskSlotTracking;
-    }
+    // setTracking () {
+    //     this.taskName.style.backgroundColor = _this.GUI.GUIColours.taskSlotTracking;
+    //     this.progress.style.backgroundColor = _this.GUI.GUIColours.taskSlotTracking;
+    //     this.rewardContainer.style.backgroundColor = _this.GUI.GUIColours.taskSlotTracking;
+    // }
 
     setCompleted () {
         this.taskName.style.backgroundColor = _this.GUI.GUIColours.taskSlotCompleted;

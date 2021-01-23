@@ -1,0 +1,231 @@
+@import "../../../../../shared/Variables";
+
+.tasks-panel {
+
+    .inner-cont {
+        height: 100%;
+        display: grid;
+        grid-template-rows: 10% 3% auto 13%;
+
+        .headings-cont {
+            color: $colourDB32VeryDarkPurple;
+            background-color: $colourDB32IronGreyOpacity80;
+            display: grid;
+            grid-template-columns: 28% 41% auto;
+            text-align: center;
+            align-items: end;
+            justify-items: center;
+            grid-gap: 16px;
+            font-weight: bold;
+        }
+
+        .list-cont {
+            background-color: $colourDB32SteelGreyOpacity50;
+            overflow: auto;
+
+            .slot-cont {
+                color: $colourDB32VeryDarkPurple;
+                background-color: $colourDB32VeryDarkPurple;
+                display: grid;
+                grid-template-columns: 42% 18% auto;
+                text-align: center;
+                align-items: center;
+                grid-gap: 4px;
+                font-size: 14px;
+                margin: 8px;
+                border-width: 4px;
+                border-style: solid;
+                border-color: $colourDB32VeryDarkPurple;
+                // cursor: $cursorHand;
+                &:hover {
+                    filter: brightness(150%);
+                    transform: scale(1.03);
+                }
+            }
+
+            .slot-cell {
+                height: 100%;
+                background-color: $colourDB32White;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .slot-task-name {
+                height: auto;
+                padding: 7px;
+            }
+
+            .reward-cont {
+                display: grid;
+                grid-template-columns: 15% 15% 15% 15% auto;
+                grid-gap: 4px;
+                align-items: center;
+                justify-items: center;
+            }
+
+            .reward-item-cont {
+                position: relative;
+                width: 100%;
+            }
+
+            .reward-item {
+                width: 100%;
+                &:hover {
+                    filter: brightness(150%);
+                    transform: scale(1.3);
+                }
+            }
+            
+            .glory-icon {
+                width: 80%;
+                pointer-events: none;
+            }
+        }
+
+        .bottom-cont {
+            background-color: $colourDB32VeryDarkPurple;
+            position: relative;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            grid-template-columns: auto 50%;
+            padding-top: 17px;
+
+            .bottom-button-cont {
+                position: relative;
+                width: 55%;
+                user-select: none;
+                // cursor: $cursorHand;
+                &:hover {
+                    filter: brightness(150%);
+                    transform: scale(1.1);
+                }
+
+                .bottom-button {
+                    width: 100%;
+                    left: 50%;
+                    top: 50%;
+                }
+
+                .bottom-text {
+                    left: 50%;
+                    top: 50%;
+                    font-size: 14px;
+                    color: $colourDB32VeryDarkPurple;
+                }
+            }
+        }
+    }
+
+    .grid-cont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin-top: 6px;
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            margin: 24px;
+
+            .stat-cont {
+                position: relative;
+                background-color: $colourDB32SteelGrey;
+                border: 4px solid $colourDB32VeryDarkPurple;
+                margin: 5%;
+                
+                .name {
+                    color: white;
+                    font-size: 1rem;
+                    position: absolute;
+                    left: 50%;
+                    top: -10px;
+                    transform: translateX(-50%);
+                    
+                    &.border {
+                        -webkit-text-stroke: 6px $colourDB32VeryDarkPurple;
+                    }
+                }
+        
+                .margin {
+                    margin: 6px;
+                }
+        
+                .level-cont {
+                    display: flex;
+                    align-items: center;
+                    padding-top: 4px;
+            
+                    .icon {
+                        width: 64px;
+                    }
+        
+                    .level {
+                        text-align: center;
+                        width: 100%;
+                        -webkit-text-stroke: 2px black;
+                    }
+                }
+        
+                .remaining {
+                    font-size: 1rem;
+                    text-align: center;
+                    -webkit-text-stroke: 1.5px $colourDB32VeryDarkPurple;
+                    padding: 4px;
+                    background-color: $colourDB32WhiteOpacity50;
+                    border: 1px solid $colourDB32SteelGreyOpacity50;
+                }
+        
+                &:hover {
+                    -webkit-filter: brightness(120%);
+                    filter: brightness(120%);
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    .info-cont {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        text-align: center;
+        background-color: $colourDB32SteelGrey;
+        border: 8px solid $colourDB32VeryDarkPurple;
+        -webkit-text-stroke: 0;
+        color: $colourDB32VeryDarkPurple;
+        padding: 12px;
+
+        .name {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .level {
+            font-size: 2rem;
+            margin: 16px;
+        }
+
+        .exp {
+            font-size: 1.2rem;
+            margin: 8px;
+        }
+
+        .close {
+            font-size: 1rem;
+            color: $colourDB32Grey;
+            margin-top: 18px;
+            font-weight: normal;
+        }
+    }
+}

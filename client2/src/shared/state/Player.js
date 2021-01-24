@@ -51,7 +51,7 @@ class Player {
         },
     }
 
-    tasks = [];
+    tasks = {};
 
     setHitPoints(value) {
         const old = this.hitPoints;

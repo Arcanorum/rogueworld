@@ -32,33 +32,34 @@ RewardItem.propTypes = {
     rewardItemTypeNumber: PropTypes.number.isRequired,
 };
 
-function TaskSlot({ task, onClick, selectedTaskID }) {
+function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
+    // TODO: some weird shit where this state prop isnt showing as the right value in the template...
+    // was same problem doing it for `selected`
+    const [completed, setCompleted] = useState(
+        task.progress >= task.completionThreshold,
+    );
+
     return (
         <div
-          className="slot-cont"
+          className={`slot-cont ${task.taskID === selectedTaskID ? "selected" : ""}`}
           onClick={() => {
-              // If nothing is selected, select this slot.
-              if (!selectedTaskID) {
-                  //
-              }
               // The selected slot was selected again, deselect it.
-              else if (selectedTaskID) {
-                  //
+              if (selectedTaskID === task.taskID) {
+                  setSelectedTaskID(null);
               }
-              // A slot is already selected, deselect it and select this one.
+              // Another slot (or none at all) is selected, select this slot instead.
               else {
-                  //
+                  setSelectedTaskID(task.taskID);
               }
-              onClick(task.taskID);
           }}
         >
-            <div className="slot-cell slot-task-name">
+            <div className={`slot-cell slot-task-name ${completed ? "completed" : ""}`}>
                 {Utils.getTextDef(`Task ID: ${task.taskID}`)}
             </div>
-            <div className="slot-cell">
+            <div className={`slot-cell ${completed ? "completed" : ""}`}>
                 {`${task.progress}/${task.completionThreshold}`}
             </div>
-            <div className="slot-cell reward-cont">
+            <div className={`slot-cell reward-cont ${completed ? "completed" : ""}`}>
                 {task.rewardItemTypeNumbers.map((typeNumber) => (
                     <RewardItem key={typeNumber} rewardItemTypeNumber={typeNumber} />
                 ))}
@@ -69,8 +70,12 @@ function TaskSlot({ task, onClick, selectedTaskID }) {
 
 TaskSlot.propTypes = {
     task: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired,
-    selectedTaskID: PropTypes.bool.isRequired,
+    setSelectedTaskID: PropTypes.func.isRequired,
+    selectedTaskID: PropTypes.string,
+};
+
+TaskSlot.defaultProps = {
+    selectedTaskID: null,
 };
 
 function TasksPanel({ onCloseCallback }) {
@@ -79,7 +84,16 @@ function TasksPanel({ onCloseCallback }) {
     const [claimValid, setClaimValid] = useState(false);
 
     useEffect(() => {
-        console.log("selectedtask changeD:", selectedTaskID);
+        // Get the task data of the selected task slot.
+        const task = PlayerState.tasks[selectedTaskID];
+
+        // Show the claim button if the task is complete.
+        if (task && task.progress >= task.completionThreshold) {
+            setClaimValid(true);
+        }
+        else {
+            setClaimValid(false);
+        }
     }, [selectedTaskID]);
 
     useEffect(() => {
@@ -128,8 +142,8 @@ function TasksPanel({ onCloseCallback }) {
                             <TaskSlot
                               key={taskID}
                               task={task}
-                              onClick={setSelectedTaskID}
-                              selected={taskID === selectedTaskID}
+                              setSelectedTaskID={setSelectedTaskID}
+                              selectedTaskID={selectedTaskID}
                             />
                         ))}
                     </div>

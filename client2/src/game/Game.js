@@ -52,7 +52,7 @@ class Game extends Phaser.Scene {
             displayName: data.player.displayName,
             // maxHitPoints: data.player.maxHitPoints,
             // maxEnergy: data.player.maxEnergy,
-            defence: data.player.defence,
+            // defence: data.player.defence,
             // hitPoints: data.player.maxHitPoints,
             // energy: data.player.maxEnergy,
             // glory: data.player.glory,
@@ -70,6 +70,7 @@ class Game extends Phaser.Scene {
         PlayerState.setEnergy(playerData.energy);
         PlayerState.setMaxEnergy(playerData.maxEnergy);
         PlayerState.setGlory(playerData.glory);
+        PlayerState.setDefence(playerData.defence);
         PlayerState.setStats(playerData.stats);
         PlayerState.setTasks(playerData.tasks);
 

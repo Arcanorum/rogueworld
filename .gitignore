@@ -24,6 +24,7 @@ client2/.env.local
 client2/.env.development.local
 client2/.env.test.local
 client2/.env.production.local
+client2/.eslintcache
 client2/build
 client2/npm-debug.log*
 client2/yarn-debug.log*

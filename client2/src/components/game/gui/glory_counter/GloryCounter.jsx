@@ -3,9 +3,10 @@ import AnimatedNumber from "animated-number-react";
 import PubSub from "pubsub-js";
 import gloryIcon from "../../../../assets/images/gui/hud/glory-icon.png";
 import { GLORY_VALUE } from "../../../../shared/EventTypes";
+import PanelButton from "../panel_button/PanelButton";
+import Utils from "../../../../shared/Utils";
 
 function GloryCounter() {
-    const [showTooltip, setShowTooltip] = useState(false);
     const [glory, setGlory] = useState(0);
     // Use a string, so it will show the + when positive change.
     const [difference, setDifference] = useState("");
@@ -36,17 +37,10 @@ function GloryCounter() {
     }, []);
 
     return (
-        <div className="inline-cont">
-            <img
-              className="gui-icon"
-              src={gloryIcon}
-              draggable={false}
-              onMouseEnter={() => {
-                  setShowTooltip(true);
-              }}
-              onMouseLeave={() => {
-                  setShowTooltip(false);
-              }}
+        <div>
+            <PanelButton
+              icon={gloryIcon}
+              tooltip={Utils.getTextDef("Glory tooltip")}
             />
             <AnimatedNumber
               value={glory}
@@ -54,7 +48,6 @@ function GloryCounter() {
               className="high-contrast-text"
             />
             <div className="text-counter text-counter-transition high-contrast-text">{difference}</div>
-            {showTooltip && <div className="generic-tooltip top left">Glory tooltip text</div>}
         </div>
     );
 }

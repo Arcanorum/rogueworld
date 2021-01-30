@@ -3,9 +3,10 @@ import AnimatedNumber from "animated-number-react";
 import PubSub from "pubsub-js";
 import defenceIcon from "../../../../assets/images/gui/hud/defence-icon.png";
 import { DEFENCE_VALUE } from "../../../../shared/EventTypes";
+import Utils from "../../../../shared/Utils";
+import PanelButton from "../panel_button/PanelButton";
 
 function DefenceCounter() {
-    const [showTooltip, setShowTooltip] = useState(false);
     const [defence, setDefence] = useState(0);
 
     const formatValue = (value) => value.toFixed(0);
@@ -26,24 +27,16 @@ function DefenceCounter() {
     }, []);
 
     return (
-        <div className="inline-cont">
-            <img
-              className="gui-icon"
-              src={defenceIcon}
-              draggable={false}
-              onMouseEnter={() => {
-                  setShowTooltip(true);
-              }}
-              onMouseLeave={() => {
-                  setShowTooltip(false);
-              }}
+        <div>
+            <PanelButton
+              icon={defenceIcon}
+              tooltip={Utils.getTextDef("Defence tooltip")}
             />
             <AnimatedNumber
               value={defence}
               formatValue={formatValue}
               className="high-contrast-text"
             />
-            {showTooltip && <div className="generic-tooltip top left">Defence tooltip text</div>}
         </div>
     );
 }

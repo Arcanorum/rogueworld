@@ -64,7 +64,7 @@ function Meters() {
 
     return (
         <div className="meters gui-zoomable">
-            <div className="meter inline-cont">
+            <div className="meter">
                 <img
                   className="gui-icon"
                   src={hitpointIcon}
@@ -85,7 +85,7 @@ function Meters() {
                 </div>
                 {showHitPointTooltip && <div className="meter-tooltip generic-tooltip left">Hitpoint tooltip text</div>}
             </div>
-            <div className="meter inline-cont">
+            <div className="meter">
                 <img
                   className="gui-icon"
                   src={energyIcon}

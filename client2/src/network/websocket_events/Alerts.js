@@ -1,24 +1,22 @@
+import PubSub from "pubsub-js";
 import ChatWarnings from "../../catalogues/ChatWarnings.json";
 import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
+import { CREATE_ACCOUNT_FAILURE } from "../../shared/EventTypes";
+import { ApplicationState } from "../../shared/state/States";
 
 export default () => {
     eventResponses.create_account_success = () => {
         Utils.message("create_account_success");
-        // Account created. Switch to the account panel.
-        window.gameScene.GUI.createAccountPanel.hide();
 
-        window.gameScene.player.isLoggedIn = true;
-
-        window.gameScene.GUI.accountPanel.show();
+        ApplicationState.setLoggedIn(true);
     };
 
     eventResponses.create_account_failure = (data) => {
         Utils.message("create_account_failure:", data);
+
         if (data) {
-            const message = Utils.getTextDef(data.messageID);
-            window.gameScene.GUI.createAccountPanel.warningText.innerText = message;
-            window.gameScene.GUI.createAccountPanel.warningText.style.visibility = "visible";
+            PubSub.publish(CREATE_ACCOUNT_FAILURE, data);
         }
     };
 

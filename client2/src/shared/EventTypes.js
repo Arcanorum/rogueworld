@@ -5,11 +5,15 @@ export const JOINING = Symbol("JOINING");
 export const JOINED = Symbol("JOINED");
 export const LOADING = Symbol("LOADING");
 export const LOAD_ACCEPTED = Symbol("LOAD_ACCEPTED");
+export const LOGGED_IN = Symbol("LOGGED_IN");
 
 // Join issues.
 export const INVALID_LOGIN_DETAILS = Symbol("INVALID_LOGIN_DETAILS");
 export const ALREADY_LOGGED_IN = Symbol("ALREADY_LOGGED_IN");
 export const WORLD_FULL = Symbol("WORLD_FULL");
+
+// Create account issues.
+export const CREATE_ACCOUNT_FAILURE = Symbol("CREATE_ACCOUNT_FAILURE");
 
 // Player.
 export const HITPOINTS_VALUE = Symbol("HITPOINTS_VALUE");

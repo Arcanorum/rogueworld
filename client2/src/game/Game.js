@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import EntityTypes from "../catalogues/EntityTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
-// import GUI from "../../../client/src/gui/GUI";
+import GUI from "./gui/GUI";
 // import Stats from "../../../client/src/Stats";
 // import Inventory from "../../../client/src/Inventory";
 // import CraftingManager from "../../../client/src/CraftingManager";
@@ -169,7 +169,7 @@ class Game extends Phaser.Scene {
 
         this.soundManager = new SoundManager(this);
         // this.clanManager = new ClanManager();
-        // this.GUI = new GUI(this);
+        this.GUI = new GUI(this);
         // this.craftingManager = new CraftingManager();
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
@@ -437,9 +437,9 @@ class Game extends Phaser.Scene {
             // Don't move while the chat input is open.
             if (this.GUI.chatInput.isActive === true) return true;
             // Or the create account panel.
-            if (this.GUI.createAccountPanel.isOpen === true) return true;
+            // if (this.GUI.createAccountPanel.isOpen === true) return true;
             // Or the account panel.
-            if (this.GUI.accountPanel.isOpen === true) return true;
+            // if (this.GUI.accountPanel.isOpen === true) return true;
         }
         return false;
     }

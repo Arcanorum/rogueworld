@@ -35,7 +35,7 @@ module.exports = {
         "max-len": [
             "error",
             {
-                code: 100,
+                code: 150,
                 ignoreComments: true,
                 ignoreTrailingComments: true,
                 ignoreUrls: true,
@@ -88,6 +88,13 @@ module.exports = {
             4,
         ],
         "react/forbid-prop-types": "off",
+        "import/extensions": 0,
+        "no-restricted-syntax": 0,
+        "no-prototype-builtins": 0,
+        "no-continue": 0,
+        "no-plusplus": 0,
+        "consistent-return": 0,
+        "prefer-destructuring": 0,
     },
     env: {
         es6: true,

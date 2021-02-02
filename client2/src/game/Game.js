@@ -45,7 +45,7 @@ class Game extends Phaser.Scene {
         this.player = {
             /** @type {Boolean}
              * Whether the user is logged into an account. */
-            isLoggedIn: data.isLoggedIn || false,
+            // isLoggedIn: data.isLoggedIn || false,
             entityId: data.player.id,
             row: data.player.row,
             col: data.player.col,
@@ -63,8 +63,9 @@ class Game extends Phaser.Scene {
             holdingItem: false,
         };
 
-        const playerData = data.player;
+        ApplicationState.setLoggedIn(data.isLoggedIn);
 
+        const playerData = data.player;
         PlayerState.setHitPoints(playerData.hitPoints);
         PlayerState.setMaxHitPoints(playerData.maxHitPoints);
         PlayerState.setEnergy(playerData.energy);

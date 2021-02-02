@@ -12,8 +12,10 @@ export const INVALID_LOGIN_DETAILS = Symbol("INVALID_LOGIN_DETAILS");
 export const ALREADY_LOGGED_IN = Symbol("ALREADY_LOGGED_IN");
 export const WORLD_FULL = Symbol("WORLD_FULL");
 
-// Create account issues.
+// Account issues.
 export const CREATE_ACCOUNT_FAILURE = Symbol("CREATE_ACCOUNT_FAILURE");
+export const CHANGE_PASSWORD_SUCCESS = Symbol("CHANGE_PASSWORD_SUCCESS");
+export const CHANGE_PASSWORD_FAILURE = Symbol("CHANGE_PASSWORD_FAILURE");
 
 // Player.
 export const HITPOINTS_VALUE = Symbol("HITPOINTS_VALUE");

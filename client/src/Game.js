@@ -546,6 +546,7 @@ class Game extends Phaser.Scene {
                 // Close the box. Can't chat while dead.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
+                this.GUI.chatInput.blur();
                 this.GUI.chatInput.value = "";
                 return;
             }
@@ -554,6 +555,7 @@ class Game extends Phaser.Scene {
                 // Close the box, and submit the message.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
+                this.GUI.chatInput.blur();
 
                 // Don't bother sending empty messages.
                 if (this.GUI.chatInput.value !== "") {

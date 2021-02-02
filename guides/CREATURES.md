@@ -45,7 +45,7 @@ This is where you define most of the generic configuration of the creature (hitp
   meleeDamageAmount: 15
   faction: HostileAnimals
   dropList:
-    - itemName: GreenCap
+    - itemName: Greencap
       dropRate: 30
 
 ...

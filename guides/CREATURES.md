@@ -138,7 +138,7 @@ module.exports = GiantSlime;
       dropRate: 30
     - itemName: ExpOrbPotionry
       dropRate: 30
-    - itemName: GreenCap
+    - itemName: Greencap
       dropRate: 30
       rolls: 2
 

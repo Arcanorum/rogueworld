@@ -17,8 +17,8 @@ import AccountPanel from "./AccountPanel";
 // import GeneratorPanel from "./GeneratorPanel";
 
 class GUI {
-    constructor(game) {
-        this.game = game;
+    constructor(GAME) {
+        this.GAME = GAME;
 
         this.GUIColours = {
             currentlyDragged: "rgba(255, 171, 0, 0.5)",
@@ -96,7 +96,7 @@ class GUI {
         this.panels = [];
         this.isAnyPanelOpen = false;
 
-        // this.inventoryBar = new InventoryBar(this);
+        this.inventoryBar = new InventoryBar(this, GAME);
         /*
         this.spellBar = new SpellBar();
         this.settingsBar = new SettingsBar();
@@ -275,13 +275,13 @@ class GUI {
         this.energyCounters = [];
 
         this.addHitPointCounters(20);
-        this.addEnergyCounters(this.game.player.maxEnergy);
+        this.addEnergyCounters(this.GAME.player.maxEnergy);
 
         this.stopDungeonTimer();
         */
 
         // Set the values for the text based counters (glory, coins).
-        // this.gloryCounter.innerText = this.game.player.glory;
+        // this.gloryCounter.innerText = this.GAME.player.glory;
         // this.gloryCounterTransition.addEventListener("webkitAnimationEnd",
         //     this.textCounterWebkitAnimationEnd, false);
 
@@ -400,13 +400,13 @@ class GUI {
     }
 
     updateDefenceCounter() {
-        this.defenceCounter.innerText = this.game.player.defence;
+        this.defenceCounter.innerText = this.GAME.player.defence;
     }
 
     updateHitPointCounters() {
         // Hitpoints might be in 0.5s as well as whole numbers, so round down to only count each full hitpoint counter.
-        let hitPoints = Math.floor(this.game.player.hitPoints);
-        const { maxHitPoints } = this.game.player;
+        let hitPoints = Math.floor(this.GAME.player.hitPoints);
+        const { maxHitPoints } = this.GAME.player;
         // Get the % of HP this player has.
         hitPoints = Math.floor((hitPoints / maxHitPoints) * this.hitPointCounters.length);
 
@@ -422,8 +422,8 @@ class GUI {
 
     updateEnergyCounters() {
         // Energy can be in 0.5s as well as whole numbers, so round down to only count each full energy counter.
-        const energy = Math.floor(this.game.player.energy);
-        const { maxEnergy } = this.game.player;
+        const energy = Math.floor(this.GAME.player.energy);
+        const { maxEnergy } = this.GAME.player;
 
         for (let i = 0; i < maxEnergy; i += 1) {
             if (i < energy) {
@@ -443,7 +443,7 @@ class GUI {
         else {
             this.textCounterSetText(this.gloryCounterTransition, difference);
         }
-        this.game.player.glory = value;
+        this.GAME.player.glory = value;
         this.gloryCounter.innerText = value;
     }
 

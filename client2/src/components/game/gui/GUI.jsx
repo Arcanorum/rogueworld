@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PubSub from "pubsub-js";
 import Meters from "./meters/Meters";
 import "./GUI.scss";
+import "./Inventory.scss";
 import GloryCounter from "./glory_counter/GloryCounter";
 import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./panel_button/PanelButton";
@@ -122,6 +123,16 @@ function GUI() {
                 />
                 )}
             </div>
+
+            {/* Dumping these here for now (should move these to a dedicate react component) */}
+            <span id="inventory-bar" className="gui-zoomable">
+                <div id="inventory-message" className="text_counter_transition" />
+                <div id="item_tooltip_cont">
+                    <div id="item_name" />
+                    <div id="item_description" />
+                    <div id="item_durability" />
+                </div>
+            </span>
 
             <input
               id="chat-input"

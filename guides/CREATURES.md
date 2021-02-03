@@ -45,7 +45,7 @@ This is where you define most of the generic configuration of the creature (hitp
   meleeDamageAmount: 15
   faction: HostileAnimals
   dropList:
-    - itemName: GreenCap
+    - itemName: Greencap
       dropRate: 30
 
 ...
@@ -138,7 +138,7 @@ module.exports = GiantSlime;
       dropRate: 30
     - itemName: ExpOrbPotionry
       dropRate: 30
-    - itemName: GreenCap
+    - itemName: Greencap
       dropRate: 30
       rolls: 2
 

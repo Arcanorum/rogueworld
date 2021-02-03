@@ -142,9 +142,8 @@ class InventoryBar {
         }
     }
 
-    slotMouseOver() {
-        console.log(this);
-        /* const slotKey = this.getAttribute("slotKey");
+    slotMouseOver(container) {
+        const slotKey = container.getAttribute("slotKey");
         const inventorySlot = this.GAME.player.inventory[slotKey];
         // Skip empty inventory slots.
         if (inventorySlot.catalogueEntry === null) return;
@@ -166,16 +165,16 @@ class InventoryBar {
                 inventorySlot.maxDurability})`;
         }
 
-        /!* Bug fix hack, brightness changes position when used on parent. :S *!/
+        /* Bug fix hack, brightness changes position when used on parent. :S */
         const guiSlot = this.GUI.inventoryBar.slots[slotKey];
         guiSlot.icon.style["-webkit-filter"] = "brightness(150%)";
         guiSlot.durability.style["-webkit-filter"] = "brightness(150%)";
         guiSlot.equipped.style["-webkit-filter"] = "brightness(150%)";
-        guiSlot.border.style["-webkit-filter"] = "brightness(150%)"; */
+        guiSlot.border.style["-webkit-filter"] = "brightness(150%)";
     }
 
-    slotMouseOut() {
-        const slotKey = this.getAttribute("slotKey");
+    slotMouseOut(container) {
+        const slotKey = container.getAttribute("slotKey");
         this.GUI.itemTooltipContainer.style.visibility = "hidden";
         /* Bug fix hack, brightness changes position when used on parent. :S */
         const guiSlot = this.GUI.inventoryBar.slots[slotKey];

@@ -1,5 +1,5 @@
 class Slot {
-    constructor(slotKey, bar) {
+    constructor(slotKey, InventoryBar) {
         this.icon = document.createElement("img");
         this.icon.src = "assets/img/gui/items/icon-dungium-ore.png";
         this.icon.className = "inventory_slot_icon";
@@ -24,7 +24,7 @@ class Slot {
         this.addButton.src = "assets/img/gui/hud/inventory-add-item-icon.png";
         this.addButton.className = "inventory_slot_add_button";
         this.addButton.draggable = false;
-        this.addButton.onclick = bar.addClick;
+        this.addButton.onclick = InventoryBar.addClick.bind(InventoryBar);
         // Store the key of this slot on the add button itself.
         this.addButton.setAttribute("slotKey", slotKey);
 
@@ -32,19 +32,19 @@ class Slot {
         this.container.className = "inventory_slot";
         this.container.draggable = true;
         // Use the item in this slot when pressed.
-        this.container.onclick = bar.click;
-        this.container.onmousedown = bar.mouseDown;
+        this.container.onclick = InventoryBar.click.bind(InventoryBar);
+        this.container.onmousedown = InventoryBar.mouseDown.bind(InventoryBar);
         // Show and update the item tooltip info text when mouse is over a slot.
-        this.container.onmouseover = bar.slotMouseOver;
+        this.container.onmouseover = InventoryBar.slotMouseOver.bind(InventoryBar, this.container);
         // Hide the item tooltip when mouse is not over a slot.
-        this.container.onmouseout = bar.slotMouseOut;
+        this.container.onmouseout = InventoryBar.slotMouseOut.bind(InventoryBar, this.container);
         // Drag and drop.
-        this.container.ondragstart = bar.slotDragStart;
-        this.container.ondragend = bar.slotDragEnd;
-        this.container.ondragenter = bar.slotDragEnter;
-        this.container.ondragleave = bar.slotDragLeave;
-        this.container.ondragover = bar.slotDragOver;
-        this.container.ondrop = bar.slotDrop;
+        this.container.ondragstart = InventoryBar.slotDragStart.bind(InventoryBar);
+        this.container.ondragend = InventoryBar.slotDragEnd.bind(InventoryBar);
+        this.container.ondragenter = InventoryBar.slotDragEnter.bind(InventoryBar);
+        this.container.ondragleave = InventoryBar.slotDragLeave.bind(InventoryBar);
+        this.container.ondragover = InventoryBar.slotDragOver.bind(InventoryBar);
+        this.container.ondrop = InventoryBar.slotDrop.bind(InventoryBar);
 
         // Store the key of this slot on the slot itself.
         this.container.setAttribute("slotKey", slotKey);
@@ -55,7 +55,7 @@ class Slot {
         this.container.appendChild(this.border);
         this.container.appendChild(this.addButton);
 
-        bar.slotContainer.appendChild(this.container);
+        InventoryBar.slotContainer.appendChild(this.container);
     }
 
     refreshAddButton() {

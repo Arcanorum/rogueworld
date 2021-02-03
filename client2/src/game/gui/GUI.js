@@ -80,10 +80,10 @@ class GUI {
         this.virtualDPadLeft = document.getElementById("virtual_dpad_left");
         this.virtualDPadRight = document.getElementById("virtual_dpad_right");
 
-        this.itemTooltipContainer = document.getElementById("item_tooltip_cont");
-        this.itemTooltipName = document.getElementById("item_name");
-        this.itemTooltipDescription = document.getElementById("item_description");
-        this.itemTooltipDurability = document.getElementById("item_durability");
+        this.itemTooltipContainer = document.getElementById("item-tooltip-cont");
+        this.itemTooltipName = document.getElementById("item-name");
+        this.itemTooltipDescription = document.getElementById("item-description");
+        this.itemTooltipDurability = document.getElementById("item-durability");
 
         this.dungeonTimerContainer = document.getElementById("dungeon_timer_cont");
         this.dungeonTimerValue = document.getElementById("dungeon_timer_value");

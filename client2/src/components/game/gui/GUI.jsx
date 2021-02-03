@@ -127,10 +127,10 @@ function GUI() {
             {/* Dumping these here for now (should move these to a dedicate react component) */}
             <span id="inventory-bar" className="gui-zoomable">
                 <div id="inventory-message" className="text_counter_transition" />
-                <div id="item_tooltip_cont">
-                    <div id="item_name" />
-                    <div id="item_description" />
-                    <div id="item_durability" />
+                <div id="item-tooltip-cont">
+                    <div id="item-name" />
+                    <div id="item-description" />
+                    <div id="item-durability" />
                 </div>
             </span>
 

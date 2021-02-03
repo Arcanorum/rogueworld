@@ -39,7 +39,7 @@ class GUI {
             colourDB32SteelGreyOpacity50: "rgba(155, 173, 183, 0.8)",
         };
 
-        this.gameCanvas = document.getElementById("game-canvas").childNodes[0];
+        // this.gameCanvas = document.getElementById("game-canvas").childNodes[0];
 
         // References to the DOM elements for the icons and parents.
         this.gui = document.getElementById("gui-cont");
@@ -278,12 +278,14 @@ class GUI {
         this.addEnergyCounters(this.game.player.maxEnergy);
 
         this.stopDungeonTimer();
+        */
 
         // Set the values for the text based counters (glory, coins).
-        this.gloryCounter.innerText = this.game.player.glory;
-        this.gloryCounterTransition.addEventListener("webkitAnimationEnd",
-            this.textCounterWebkitAnimationEnd, false);
+        // this.gloryCounter.innerText = this.game.player.glory;
+        // this.gloryCounterTransition.addEventListener("webkitAnimationEnd",
+        //     this.textCounterWebkitAnimationEnd, false);
 
+        /*
         this.dragData = null;
 
         this.updateDungeonKeysList({});
@@ -296,23 +298,6 @@ class GUI {
         };
         this.gui.ondrop = (event) => {
             event.preventDefault();
-        };
-
-        this.gameCanvas.ondragenter = (event) => {
-            event.preventDefault();
-        };
-        this.gameCanvas.ondragover = (event) => {
-            event.preventDefault();
-        };
-        // If an inventory item is dropped onto the game canvas, drop it.
-        this.gameCanvas.ondrop = (event) => {
-            event.preventDefault();
-
-            if (window.gameScene.GUI.dragData === null) return; // TODO: this can just be `this` now with arrow funcs
-            // If it was from the inventory bar, drop the item.
-            if (window.gameScene.GUI.dragData.dragOrigin === window.gameScene.GUI.inventoryBar.slotContainer) {
-                window.window.ws.sendEvent("drop_item", window.gameScene.GUI.dragData.inventorySlot.slotKey);
-            }
         };
         */
     }

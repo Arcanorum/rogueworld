@@ -55,7 +55,7 @@ class Game extends Phaser.Scene {
             // defence: data.player.defence,
             // hitPoints: data.player.maxHitPoints,
             // energy: data.player.maxEnergy,
-            // glory: data.player.glory,
+            glory: data.player.glory,
             // inventory: new Inventory(data.inventory),
             // bankManager: new BankManager(data.bankItems),
             // stats: new Stats(data.player.stats),

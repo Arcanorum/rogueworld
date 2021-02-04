@@ -9,25 +9,6 @@ import "./GamePage.scss";
 
 function GamePage() {
     const [loadFinished, setLoadFinished] = useState({});
-    const ondragenter = (e) => {
-        e.preventDefault();
-    };
-
-    const ondragover = (e) => {
-        e.preventDefault();
-    };
-    // If an inventory item is dropped onto the game canvas, drop it.
-
-    const ondrop = (e) => {
-        e.preventDefault();
-        const { dragData } = window.gameScene.GUI;
-
-        if (dragData === null) return; // TODO: this can just be `this` now with arrow funcs
-        // If it was from the inventory bar, drop the item.
-        if (dragData.dragOrigin === window.gameScene.GUI.inventoryBar.slotContainer) {
-            window.window.ws.sendEvent("drop_item", dragData.inventorySlot.slotKey);
-        }
-    };
 
     // Initial setup.
     useEffect(() => {
@@ -66,12 +47,7 @@ function GamePage() {
     return (
         <div>
             <div id="game-cont" className={`normal-cursor ${loadFinished ? "fade-in" : ""}`}>
-                <div
-                  id="game-canvas"
-                  onDragEnter={ondragenter}
-                  onDragOver={ondragover}
-                  onDrop={ondrop}
-                />
+                <div id="game-canvas" />
                 <GUI />
             </div>
         </div>

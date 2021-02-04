@@ -79,6 +79,7 @@ function ChatInput() {
               maxLength="46"
               placeholder="Enter a message"
               autoFocus
+              autoComplete="off"
               onChange={handleKeyDown}
             />
             )}

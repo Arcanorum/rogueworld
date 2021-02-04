@@ -3,9 +3,9 @@ import PubSub from "pubsub-js";
 import EntityTypes from "../catalogues/EntityTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
-import GUI from "./gui/GUI";
+// import GUI from "../../../client/src/gui/GUI";
 // import Stats from "../../../client/src/Stats";
-// import Inventory from "./Inventory";
+// import Inventory from "../../../client/src/Inventory";
 // import CraftingManager from "../../../client/src/CraftingManager";
 import Utils from "../shared/Utils";
 // import BankManager from "../../../client/src/BankManager";
@@ -181,7 +181,7 @@ class Game extends Phaser.Scene {
 
         this.soundManager = new SoundManager(this);
         // this.clanManager = new ClanManager();
-        this.GUI = new GUI(this);
+        // this.GUI = new GUI(this);
         // this.craftingManager = new CraftingManager();
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
@@ -450,14 +450,14 @@ class Game extends Phaser.Scene {
     }
 
     checkKeyFilters() {
-        if (this.GUI) {
-            // Don't move while the chat input is open.
-            if (this.chatInputStatus) return true;
-            // Or the create account panel.
-            // if (this.GUI.createAccountPanel.isOpen === true) return true;
-            // Or the account panel.
-            // if (this.GUI.accountPanel.isOpen === true) return true;
-        }
+        // if (this.GUI) {
+        // Don't move while the chat input is open.
+        if (this.chatInputStatus) return true;
+        // Or the create account panel.
+        // if (this.GUI.createAccountPanel.isOpen === true) return true;
+        // Or the account panel.
+        // if (this.GUI.accountPanel.isOpen === true) return true;
+        // }
         return false;
     }
 

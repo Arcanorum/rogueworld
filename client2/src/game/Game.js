@@ -42,24 +42,14 @@ class Game extends Phaser.Scene {
 
         this.boardAlwaysNight = data.boardAlwaysNight;
 
+        // TODO: the rest of this needs moving to the player state manager, most of it has already been moved.
         this.player = {
-            /** @type {Boolean}
-             * Whether the user is logged into an account. */
-            // isLoggedIn: data.isLoggedIn || false,
             entityId: data.player.id,
             row: data.player.row,
             col: data.player.col,
             displayName: data.player.displayName,
-            // maxHitPoints: data.player.maxHitPoints,
-            // maxEnergy: data.player.maxEnergy,
-            // defence: data.player.defence,
-            // hitPoints: data.player.maxHitPoints,
-            // energy: data.player.maxEnergy,
-            glory: data.player.glory,
             // inventory: new Inventory(data.inventory),
             // bankManager: new BankManager(data.bankItems),
-            // stats: new Stats(data.player.stats),
-            // tasks: data.player.tasks,
             holdingItem: false,
         };
 
@@ -562,6 +552,7 @@ class Game extends Phaser.Scene {
                 // Close the box. Can't chat while dead.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
+                this.GUI.chatInput.blur();
                 this.GUI.chatInput.value = "";
                 return;
             }
@@ -570,6 +561,7 @@ class Game extends Phaser.Scene {
                 // Close the box, and submit the message.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
+                this.GUI.chatInput.blur();
 
                 // Don't bother sending empty messages.
                 if (this.GUI.chatInput.value !== "") {

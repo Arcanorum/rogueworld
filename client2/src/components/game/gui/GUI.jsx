@@ -67,14 +67,14 @@ function GUI() {
                   onClick={() => {
                       setShownPanel(Panels.Stats);
                   }}
-                  tooltip="stats tooltip"
+                  tooltip={Utils.getTextDef("Avatar tooltip")}
                 />
                 <PanelButton
                   icon={tasksIcon}
                   onClick={() => {
                       setShownPanel(Panels.Tasks);
                   }}
-                  tooltip="stats tooltip"
+                  tooltip={Utils.getTextDef("Tasks tooltip")}
                 />
             </div>
 

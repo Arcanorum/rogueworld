@@ -42,24 +42,14 @@ class Game extends Phaser.Scene {
 
         this.boardAlwaysNight = data.boardAlwaysNight;
 
+        // TODO: the rest of this needs moving to the player state mamanger, most of it has already been moved.
         this.player = {
-            /** @type {Boolean}
-             * Whether the user is logged into an account. */
-            // isLoggedIn: data.isLoggedIn || false,
             entityId: data.player.id,
             row: data.player.row,
             col: data.player.col,
             displayName: data.player.displayName,
-            // maxHitPoints: data.player.maxHitPoints,
-            // maxEnergy: data.player.maxEnergy,
-            // defence: data.player.defence,
-            // hitPoints: data.player.maxHitPoints,
-            // energy: data.player.maxEnergy,
-            // glory: data.player.glory,
             // inventory: new Inventory(data.inventory),
             // bankManager: new BankManager(data.bankItems),
-            // stats: new Stats(data.player.stats),
-            // tasks: data.player.tasks,
             holdingItem: false,
         };
 

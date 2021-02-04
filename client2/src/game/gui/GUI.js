@@ -1,18 +1,18 @@
 // import InventoryBar from "./InventoryBar";
-import SettingsBar from "./SettingsBar";
-import StatsPanel from "./StatsPanel";
+// import SettingsBar from "./SettingsBar";
+// import StatsPanel from "./StatsPanel";
 // import CraftingPanel from "./CraftingPanel";
 // import BankPanel from "./BankPanel";
 // import ExitGamePanel from "./ExitGamePanel";
-import ClanPanel from "./ClanPanel";
-import SpellBar from "./SpellBar";
+// import ClanPanel from "./ClanPanel";
+// import SpellBar from "./SpellBar";
 // import ShopPanel from "./ShopPanel";
 // import TasksPanel from "./TasksPanel";
 // import DungeonPanel from "./DungeonPanel";
-import RespawnPanel from "./RespawnPanel";
-import HintPanel from "./HintPanel";
-import CreateAccountPanel from "./CreateAccountPanel";
-import AccountPanel from "./AccountPanel";
+// import RespawnPanel from "./RespawnPanel";
+// import HintPanel from "./HintPanel";
+// import CreateAccountPanel from "./CreateAccountPanel";
+// import AccountPanel from "./AccountPanel";
 
 // import GeneratorPanel from "./GeneratorPanel";
 
@@ -91,8 +91,6 @@ class GUI {
         this.dungeonKeysContainer = document.getElementById("dungeon_keys_cont");
         this.dungeonKeysList = document.getElementById("dungeon_keys_list");
 
-        this.chatInput = document.getElementById("chat-input");
-
         this.panels = [];
         this.isAnyPanelOpen = false;
 
@@ -118,8 +116,6 @@ class GUI {
         // this.gui.style.visibility = "visible";
 
         // Hide the chat input at the start.
-        this.chatInput.isActive = false;
-        this.chatInput.style.visibility = "hidden";
 
         // Check if the virtual D-pad should be shown at the start.
         // if (window.dungeonz.virtualDPadEnabled === true) this.virtualDPad.style.visibility = "visible";

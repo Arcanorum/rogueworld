@@ -17,6 +17,7 @@ import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import { LOGGED_IN } from "../../../shared/EventTypes";
+import ChatInput from "./chat_input/ChatInput";
 
 const Panels = {
     NONE: Symbol("NONE"),
@@ -33,7 +34,7 @@ function GUI() {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(LOGGED_IN, (msd, data) => {
+            PubSub.subscribe(LOGGED_IN, (msg, data) => {
                 setLoggedIn(data.new);
             }),
         ];
@@ -124,13 +125,7 @@ function GUI() {
                 )}
             </div>
 
-            <input
-              id="chat-input"
-              type="text"
-              minLength="1"
-              maxLength="46"
-              placeholder="Enter a message"
-            />
+            <ChatInput />
         </div>
     );
 }

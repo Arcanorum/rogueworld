@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import PubSub from "pubsub-js";
 import Meters from "./meters/Meters";
 import "./GUI.scss";
-import "./Inventory.scss";
 import GloryCounter from "./glory_counter/GloryCounter";
 import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./panel_button/PanelButton";

@@ -20,7 +20,7 @@ function GamePage() {
 
     const ondrop = (e) => {
         e.preventDefault();
-        const dragData = window.gameScene.GUI.dragData;
+        const { dragData } = window.gameScene.GUI;
 
         if (dragData === null) return; // TODO: this can just be `this` now with arrow funcs
         // If it was from the inventory bar, drop the item.

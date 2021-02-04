@@ -1,14 +1,14 @@
-import InventoryBar from "./InventoryBar";
+// import InventoryBar from "./InventoryBar";
 import SettingsBar from "./SettingsBar";
 import StatsPanel from "./StatsPanel";
-import CraftingPanel from "./CraftingPanel";
-import BankPanel from "./BankPanel";
+// import CraftingPanel from "./CraftingPanel";
+// import BankPanel from "./BankPanel";
 // import ExitGamePanel from "./ExitGamePanel";
 import ClanPanel from "./ClanPanel";
 import SpellBar from "./SpellBar";
-import ShopPanel from "./ShopPanel";
-import TasksPanel from "./TasksPanel";
-import DungeonPanel from "./DungeonPanel";
+// import ShopPanel from "./ShopPanel";
+// import TasksPanel from "./TasksPanel";
+// import DungeonPanel from "./DungeonPanel";
 import RespawnPanel from "./RespawnPanel";
 import HintPanel from "./HintPanel";
 import CreateAccountPanel from "./CreateAccountPanel";
@@ -80,10 +80,10 @@ class GUI {
         this.virtualDPadLeft = document.getElementById("virtual_dpad_left");
         this.virtualDPadRight = document.getElementById("virtual_dpad_right");
 
-        this.itemTooltipContainer = document.getElementById("item-tooltip-cont");
-        this.itemTooltipName = document.getElementById("item-name");
-        this.itemTooltipDescription = document.getElementById("item-description");
-        this.itemTooltipDurability = document.getElementById("item-durability");
+        // this.itemTooltipContainer = document.getElementById("item-tooltip-cont");
+        // this.itemTooltipName = document.getElementById("item-name");
+        // this.itemTooltipDescription = document.getElementById("item-description");
+        // this.itemTooltipDurability = document.getElementById("item-durability");
 
         this.dungeonTimerContainer = document.getElementById("dungeon_timer_cont");
         this.dungeonTimerValue = document.getElementById("dungeon_timer_value");
@@ -96,7 +96,7 @@ class GUI {
         this.panels = [];
         this.isAnyPanelOpen = false;
 
-        this.inventoryBar = new InventoryBar(this, GAME);
+        // this.inventoryBar = new InventoryBar(this, GAME);
         /*
         this.spellBar = new SpellBar();
         this.settingsBar = new SettingsBar();

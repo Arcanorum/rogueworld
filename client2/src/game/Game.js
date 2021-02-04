@@ -4,7 +4,7 @@ import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
 import GUI from "./gui/GUI";
 // import Stats from "../../../client/src/Stats";
-import Inventory from "./Inventory";
+// import Inventory from "./Inventory";
 // import CraftingManager from "../../../client/src/CraftingManager";
 import Utils from "../shared/Utils";
 // import BankManager from "../../../client/src/BankManager";
@@ -56,7 +56,7 @@ class Game extends Phaser.Scene {
             // hitPoints: data.player.maxHitPoints,
             // energy: data.player.maxEnergy,
             glory: data.player.glory,
-            inventory: new Inventory(data.inventory),
+            // inventory: new Inventory(data.inventory),
             // bankManager: new BankManager(data.bankItems),
             // stats: new Stats(data.player.stats),
             // tasks: data.player.tasks,

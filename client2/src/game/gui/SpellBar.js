@@ -1,4 +1,4 @@
-import SpellBookTypes from "../../catalogues/SpellBookTypes";
+import SpellBookTypes from "../../catalogues/SpellBookTypes.json";
 
 class SpellSlot {
     constructor(spellBar, spellNumber) {
@@ -37,7 +37,8 @@ class SpellBar {
         this.selectedSpellNumber = 1;
 
         // The spell book data of the held spell book.
-        this.selectedSpellBook = SpellBookTypes[1];
+        const SpellBookType = SpellBookTypes[1]; // compliance to eslint (prefer-destructuring)
+        this.selectedSpellBook = SpellBookType;
 
         this.slots = {
             spell1: new SpellSlot(this, 1),
@@ -61,10 +62,10 @@ class SpellBar {
         this.selectedSpellNumber = spellNumber;
 
         // Un-highlight all other icons.
-        for (const key in this.slots) {
-            if (this.slots.hasOwnProperty(key) === false) continue;
-            this.slots[key].border.src = "assets/img/gui/hud/spell-slot-border-inactive.png";
-        }
+        Object.keys(this.slots)
+            .forEach((key) => {
+                this.slots[key].border.src = "assets/img/gui/hud/spell-slot-border-inactive.png";
+            });
         // Make the given spell slot look selected.
         this.slots[`spell${
             spellNumber}`].border.src = "assets/img/gui/hud/spell-slot-border-active.png";

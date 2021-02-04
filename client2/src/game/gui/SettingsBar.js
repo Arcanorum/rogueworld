@@ -95,11 +95,13 @@ class SettingsBar {
 
         const getStyle = function (className) {
             const classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
-            for (let x = 0; x < classes.length; x++) {
+            for (let x = 0; x < classes.length; x += 1) {
                 if (classes[x].selectorText === className) {
                     return classes[x].style;
                 }
             }
+
+            return null; // In compliance to eslint config
         };
 
         this.guiZoomMinusIcon.onclick = function () {

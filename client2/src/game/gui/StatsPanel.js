@@ -104,10 +104,9 @@ class StatsPanel extends PanelTemplate {
         this.selectedStat = stat;
 
         // Un-highlight all other icons.
-        for (const key in this.icons) {
-            if (this.icons.hasOwnProperty(key) === false) continue;
+        Object.keys(this.icons).forEach((key) => {
             this.icons[key].container.style.backgroundColor = window.gameScene.GUI.GUIColours.taskSlotDefault;
-        }
+        });
 
         this.icons[stat.name].container.style.backgroundColor = window.gameScene.GUI.GUIColours.taskSlotTracking;
         this.statName.innerText = window.dungeonz.getTextDef(`Stat name: ${stat.name}`);

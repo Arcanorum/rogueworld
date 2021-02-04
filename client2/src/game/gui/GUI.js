@@ -390,12 +390,7 @@ class GUI {
         else {
             // console.log("group is an object");
             // Remove any existing icons of this type.
-            for (const key in groupObject) {
-                if (groupObject.hasOwnProperty(key) === false) continue;
-                // console.log("removing counter");
-                // console.dir(groupObject[key]);
-                groupObject[key].remove();
-            }
+            Object.keys(groupObject).forEach((key) => groupObject[key].remove());
         }
     }
 

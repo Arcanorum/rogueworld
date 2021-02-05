@@ -446,7 +446,7 @@ class Game extends Phaser.Scene {
     checkKeyFilters() {
         // if (this.GUI) {
         // Don't move while the chat input is open.
-        if (GUIState.getChatInputStatus()) return true;
+        if (GUIState.chatInputStatus) return true;
         // Or the create account panel.
         // if (this.GUI.createAccountPanel.isOpen === true) return true;
         // Or the account panel.

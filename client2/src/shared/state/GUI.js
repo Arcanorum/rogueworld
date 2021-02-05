@@ -39,10 +39,6 @@ class GUI {
     setChatInputStatus(value) {
         this.chatInputStatus = value;
     }
-
-    getChatInputStatus() {
-        return this.chatInputStatus;
-    }
 }
 
 export default GUI;

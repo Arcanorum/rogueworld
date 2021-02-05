@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ChatInput.scss";
 import PubSub from "pubsub-js";
 import { CHAT_CLOSE, CHAT_OPEN, ENTER_KEY } from "../../../../shared/EventTypes";
+import { PlayerState } from "../../../../shared/state/States";
 
 function ChatInput() {
     const [chatStatus, setChatStatus] = useState(CHAT_CLOSE);
@@ -28,9 +29,9 @@ function ChatInput() {
     useEffect(() => {
         const subs = [
             // hitPoints is undefined for now, until player is implemented again
-            PubSub.subscribe(ENTER_KEY, (msg, { hitPoints }) => {
+            PubSub.subscribe(ENTER_KEY, (msg, data) => {
                 // Close the box. Can't chat while dead.
-                if (hitPoints <= 0) {
+                if (PlayerState.hitPoints <= 0) {
                     clearChatMsg();
                     hideChatInput();
                 }

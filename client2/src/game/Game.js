@@ -571,9 +571,7 @@ class Game extends Phaser.Scene {
         this.keyboardKeys.enterChat.on("down", () => {
             // Send player hitPoints and websocket to be used by chatInput
             // player is undefined 'cause it's not defined,
-            PubSub.publish(ENTER_KEY, {
-                hitPoints: PlayerState.hitPoints,
-            });
+            PubSub.publish(ENTER_KEY);
         });
     }
 

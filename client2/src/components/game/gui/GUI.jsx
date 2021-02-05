@@ -15,6 +15,8 @@ import { ApplicationState } from "../../../shared/state/States";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
+import discordIcon from "../../../assets/images/gui/hud/discord-icon.png";
+import wikiIcon from "../../../assets/images/gui/hud/wiki-icon.png";
 import { LOGGED_IN } from "../../../shared/EventTypes";
 import ChatInput from "./chat_input/ChatInput";
 
@@ -30,6 +32,8 @@ function GUI() {
     const [shownPanel, setShownPanel] = useState(null);
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
+    const discordInviteLink = "https://discord.com/invite/7wjyU7B";
+    const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
 
     useEffect(() => {
         const subs = [
@@ -90,6 +94,18 @@ function GUI() {
                       }
                   }}
                   tooltip={Utils.getTextDef("Exit tooltip")}
+                />
+
+                <PanelButton
+                  icon={discordIcon}
+                  onClick={() => window.open(discordInviteLink, "_blank")}
+                  tooltip={Utils.getTextDef("Discord tooltip")}
+                />
+
+                <PanelButton
+                  icon={wikiIcon}
+                  onClick={() => window.open(wikiLink, "_blank")}
+                  tooltip={Utils.getTextDef("Wikia tooltip")}
                 />
             </div>
 

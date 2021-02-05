@@ -572,7 +572,7 @@ class Game extends Phaser.Scene {
             // Send player hitPoints and websocket to be used by chatInput
             // player is undefined 'cause it's not defined,
             PubSub.publish(ENTER_KEY, {
-                hitPoints: this.player.hitPoints,
+                hitPoints: PlayerState.hitPoints,
             });
         });
     }

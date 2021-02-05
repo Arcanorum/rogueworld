@@ -579,7 +579,6 @@ class Game extends Phaser.Scene {
             // player is undefined 'cause it's not defined,
             PubSub.publish(ENTER_KEY, {
                 hitPoints: this.player.hitPoints,
-                webSocket: window.ws,
             });
         });
     }

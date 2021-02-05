@@ -28,7 +28,7 @@ function ChatInput() {
     useEffect(() => {
         const subs = [
             // hitPoints is undefined for now, until player is implemented again
-            PubSub.subscribe(ENTER_KEY, (msg, { hitPoints, webSocket }) => {
+            PubSub.subscribe(ENTER_KEY, (msg, { hitPoints }) => {
                 // Close the box. Can't chat while dead.
                 if (hitPoints <= 0) {
                     clearChatMsg();
@@ -42,7 +42,7 @@ function ChatInput() {
                     // Don't bother sending empty messages.
                     if (chatMsg !== "") {
                         // Send the message to the server.
-                        sendChatMsg(webSocket, chatMsg);
+                        sendChatMsg(window.ws, chatMsg);
 
                         // Empty the contents ready for the next chat.
                         setChatMsg("");

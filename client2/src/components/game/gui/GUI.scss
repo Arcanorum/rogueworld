@@ -27,6 +27,16 @@
     //transform: translateY(-50%);
     transform-origin: top right;
   }
+
+  .bottom-right-corner-cont {
+    position: absolute;
+    display: flex;
+    bottom: 10px;
+    right: 10px;
+    pointer-events: none;
+    //transform: translateY(-50%);
+    transform-origin: bottom right;
+  }
 }
 
 .gui-icon {
@@ -73,7 +83,7 @@
       right: 0px;
     }
 
-    .bottom {
+    &.bottom {
       transform: translateY(-100%);
     }
 }

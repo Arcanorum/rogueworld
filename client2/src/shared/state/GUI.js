@@ -12,7 +12,7 @@ class GUI {
     constructor() {
         document.onmousemove = (event) => {
             this.setCursorX(event.clientX);
-            this.cursorY = event.clientY;
+            this.setCursorY(event.clientY);
         };
     }
 

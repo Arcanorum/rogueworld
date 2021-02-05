@@ -17,6 +17,8 @@ import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/discord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/wiki-icon.png";
+import inventoryIcon from "../../../assets/images/gui/hud/inventory-icon.png";
+import settingsIcon from "../../../assets/images/gui/hud/settings-icon.png";
 import { LOGGED_IN } from "../../../shared/EventTypes";
 import ChatInput from "./chat_input/ChatInput";
 
@@ -106,6 +108,20 @@ function GUI() {
                   icon={wikiIcon}
                   onClick={() => window.open(wikiLink, "_blank")}
                   tooltip={Utils.getTextDef("Wikia tooltip")}
+                />
+            </div>
+
+            <div className="bottom-right-corner-cont gui-zoomable">
+                <PanelButton
+                  icon={inventoryIcon}
+                  onClick={() => null} // @TODO implement this later
+                  tooltip={Utils.getTextDef("Inventory tooltip")}
+                />
+
+                <PanelButton
+                  icon={settingsIcon}
+                  onClick={() => null} // @TODO implement this later
+                  tooltip={Utils.getTextDef("Settings tooltip")}
                 />
             </div>
 

@@ -20,7 +20,13 @@ function PanelButton({ icon, onClick, tooltip }) {
               }}
               onClick={onClick}
             />
-            {showTooltip && <div className={`generic-tooltip top ${GUIState.cursorInLeftSide ? "left" : "right"}`}>{tooltip}</div>}
+            {showTooltip && (
+            <div className={`generic-tooltip ${GUIState.cursorInTopSide ? "top" : "bottom"}
+             ${GUIState.cursorInLeftSide ? "left" : "right"}`}
+            >
+                {tooltip}
+            </div>
+            )}
 
         </div>
     );

@@ -7,6 +7,8 @@ class GUI {
 
     cursorInTopSide = false;
 
+    chatInputStatus = false;
+
     constructor() {
         document.onmousemove = (event) => {
             this.setCursorX(event.clientX);
@@ -32,6 +34,14 @@ class GUI {
         else {
             this.cursorInTopSide = false;
         }
+    }
+
+    setChatInputStatus(value) {
+        this.chatInputStatus = value;
+    }
+
+    getChatInputStatus() {
+        return this.chatInputStatus;
     }
 }
 

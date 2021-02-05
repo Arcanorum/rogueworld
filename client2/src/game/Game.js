@@ -12,7 +12,7 @@ import Utils from "../shared/Utils";
 // import ClanManager from "../../../client/src/ClanManager";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
-import { ApplicationState, PlayerState } from "../shared/state/States";
+import { ApplicationState, PlayerState, GUIState } from "../shared/state/States";
 // import TextMetrics from "./TextMetrics";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import { CHAT_CLOSE, CHAT_OPEN, ENTER_KEY } from "../shared/EventTypes";
@@ -152,22 +152,16 @@ class Game extends Phaser.Scene {
         this.lightSources = {};
 
         /**
-         * ChatInput status, determines whether chatInput is closed or opened.
-         * @type {Boolean}
-         */
-        this.chatInputStatus = false;
-
-        /**
          * A list of PubSub subscription
          * @TODO Move to a separate file
          * @type {Array.<PubSub>}
          */
         this.subs = [
             PubSub.subscribe(CHAT_OPEN, (msg, d) => { // can't use word data due to shadowing
-                this.chatInputStatus = true;
+                GUIState.setChatInputStatus(true);
             }),
             PubSub.subscribe(CHAT_CLOSE, (msg, d) => { // can't use word data due to shadowing
-                this.chatInputStatus = false;
+                GUIState.setChatInputStatus(false);
             }),
         ];
     }
@@ -452,7 +446,7 @@ class Game extends Phaser.Scene {
     checkKeyFilters() {
         // if (this.GUI) {
         // Don't move while the chat input is open.
-        if (this.chatInputStatus) return true;
+        if (GUIState.getChatInputStatus()) return true;
         // Or the create account panel.
         // if (this.GUI.createAccountPanel.isOpen === true) return true;
         // Or the account panel.

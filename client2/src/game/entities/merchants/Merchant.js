@@ -2,6 +2,7 @@ import Container from "../Container";
 import NPCShopTypes from "../../../catalogues/NPCShopTypes.json";
 import gameConfig from "../../../shared/GameConfig";
 import Utils from "../../../shared/Utils";
+import { PlayerState } from "../../../shared/state/States";
 
 class Merchant extends Container {
     constructor(x, y, config) {
@@ -31,10 +32,9 @@ class Merchant extends Container {
 
     onPointerDown() {
         // Check they are within trading range.
-        const { player } = window.gameScene;
         const entity = window.gameScene.dynamics[this.entityId];
-        const rowDist = Math.abs(player.row - entity.row);
-        const colDist = Math.abs(player.col - entity.col);
+        const rowDist = Math.abs(PlayerState.row - entity.row);
+        const colDist = Math.abs(PlayerState.col - entity.col);
         if ((rowDist + colDist) < 3) {
             window.gameScene.GUI.shopPanel.show(
                 this.entityId, this.displayName.text, this.npcShopType,

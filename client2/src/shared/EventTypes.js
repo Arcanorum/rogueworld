@@ -18,6 +18,8 @@ export const CHANGE_PASSWORD_SUCCESS = Symbol("CHANGE_PASSWORD_SUCCESS");
 export const CHANGE_PASSWORD_FAILURE = Symbol("CHANGE_PASSWORD_FAILURE");
 
 // Player.
+export const POSITION_VALUE = Symbol("POSITION_VALUE");
+export const DISPLAY_NAME_VALUE = Symbol("DISPLAY_NAME_VALUE");
 export const HITPOINTS_VALUE = Symbol("HITPOINTS_VALUE");
 export const MAX_HITPOINTS_VALUE = Symbol("MAX_HITPOINTS_VALUE");
 export const ENERGY_VALUE = Symbol("ENERGY_VALUE");

@@ -1,5 +1,7 @@
 import PubSub from "pubsub-js";
 import {
+    POSITION_VALUE,
+    DISPLAY_NAME_VALUE,
     HITPOINTS_VALUE,
     MAX_HITPOINTS_VALUE,
     ENERGY_VALUE,
@@ -12,6 +14,16 @@ import {
 import Utils from "../Utils";
 
 class Player {
+    entityID = null;
+
+    row = 0;
+
+    col = 0;
+
+    // Why is the linter complaining about this??
+    // eslint-disable-next-line react/static-property-placement
+    displayName = "";
+
     hitPoints = 0;
 
     maxHitPoints = 0;
@@ -53,40 +65,68 @@ class Player {
 
     tasks = {};
 
+    setRow(value) {
+        const old = this.row;
+        this.row = value;
+        // Send the row and column together, as there shouldn't be
+        // anything that only cares about changes to only one vector.
+        PubSub.publish(POSITION_VALUE, {
+            old: { row: old, col: this.col },
+            new: { row: this.row, col: this.col },
+        });
+    }
+
+    setCol(value) {
+        const old = this.col;
+        this.col = value;
+        // Send the row and column together, as there shouldn't be
+        // anything that only cares about changes to only one vector.
+        PubSub.publish(POSITION_VALUE, {
+            old: { row: this.row, col: old },
+            new: { row: this.row, col: this.col },
+        });
+    }
+
+    setDisplayName(value) {
+        const old = this.displayName;
+        this.displayName = value;
+        PubSub.publish(DISPLAY_NAME_VALUE, { old, new: this.displayName });
+    }
+
     setHitPoints(value) {
         const old = this.hitPoints;
         this.hitPoints = value;
-        PubSub.publish(HITPOINTS_VALUE, { old, new: value });
+        PubSub.publish(HITPOINTS_VALUE, { old, new: this.hitPoints });
     }
 
     setMaxHitPoints(value) {
         const old = this.maxHitPoints;
         this.maxHitPoints = value;
-        PubSub.publish(MAX_HITPOINTS_VALUE, { old, new: value });
+        PubSub.publish(MAX_HITPOINTS_VALUE, { old, new: this.maxHitPoints });
     }
 
     setEnergy(value) {
         const old = this.energy;
         this.energy = value;
-        PubSub.publish(ENERGY_VALUE, { old, new: value });
+        PubSub.publish(ENERGY_VALUE, { old, new: this.energy });
     }
 
     setMaxEnergy(value) {
         const old = this.maxEnergy;
         this.maxEnergy = value;
-        PubSub.publish(MAX_ENERGY_VALUE, { old, new: value });
+        PubSub.publish(MAX_ENERGY_VALUE, { old, new: this.maxEnergy });
     }
 
     setGlory(value) {
         const old = this.glory;
         this.glory = value;
-        PubSub.publish(GLORY_VALUE, { old, new: value });
+        PubSub.publish(GLORY_VALUE, { old, new: this.glory });
     }
 
     setDefence(value) {
         const old = this.defence;
         this.defence = value;
-        PubSub.publish(DEFENCE_VALUE, { old, new: value });
+        PubSub.publish(DEFENCE_VALUE, { old, new: this.defence });
     }
 
     setStats(stats) {

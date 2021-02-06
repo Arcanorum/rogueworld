@@ -1,19 +1,14 @@
 import Phaser from "phaser";
+import PubSub from "pubsub-js";
 import EntityTypes from "../catalogues/EntityTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
-// import GUI from "../../../client/src/gui/GUI";
-// import Stats from "../../../client/src/Stats";
-// import Inventory from "../../../client/src/Inventory";
-// import CraftingManager from "../../../client/src/CraftingManager";
 import Utils from "../shared/Utils";
-// import BankManager from "../../../client/src/BankManager";
-// import ClanManager from "../../../client/src/ClanManager";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 import { ApplicationState, PlayerState } from "../shared/state/States";
-// import TextMetrics from "./TextMetrics";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
+import { HITPOINTS_VALUE } from "../shared/EventTypes";
 
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
@@ -42,20 +37,12 @@ class Game extends Phaser.Scene {
 
         this.boardAlwaysNight = data.boardAlwaysNight;
 
-        // TODO: the rest of this needs moving to the player state mamanger, most of it has already been moved.
-        this.player = {
-            entityId: data.player.id,
-            row: data.player.row,
-            col: data.player.col,
-            displayName: data.player.displayName,
-            // inventory: new Inventory(data.inventory),
-            // bankManager: new BankManager(data.bankItems),
-            holdingItem: false,
-        };
-
-        ApplicationState.setLoggedIn(data.isLoggedIn);
-
+        // Initialise player state values.
         const playerData = data.player;
+        PlayerState.entityID = playerData.id;
+        PlayerState.setRow(playerData.row);
+        PlayerState.setCol(playerData.col);
+        PlayerState.setDisplayName(playerData.displayName);
         PlayerState.setHitPoints(playerData.hitPoints);
         PlayerState.setMaxHitPoints(playerData.maxHitPoints);
         PlayerState.setEnergy(playerData.energy);
@@ -64,6 +51,8 @@ class Game extends Phaser.Scene {
         PlayerState.setDefence(playerData.defence);
         PlayerState.setStats(playerData.stats);
         PlayerState.setTasks(playerData.tasks);
+
+        ApplicationState.setLoggedIn(data.isLoggedIn);
 
         this.dynamicsData = data.dynamicsData;
 
@@ -86,7 +75,6 @@ class Game extends Phaser.Scene {
         };
 
         this.dayPhase = data.dayPhase || this.DayPhases.Day;
-        // this.dayPhase = this.DayPhases.Night;
 
         // Setup animations for entity types that have them configured.
         Object.values(EntitiesList).forEach((EntityType) => {
@@ -158,55 +146,13 @@ class Game extends Phaser.Scene {
         this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
 
         this.soundManager = new SoundManager(this);
-        // this.clanManager = new ClanManager();
-        // this.GUI = new GUI(this);
-        // this.craftingManager = new CraftingManager();
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
-
-        // Make sure the inventory slots are showing the right items.
-        // Object.keys(this.player.inventory).forEach((slotKey) => {
-        //     window.gameScene.player.inventory.swapInventorySlots(slotKey, slotKey);
-        // });
-
-        // Load the bank items.
-        // Make sure the bank slots are showing the right items.
-        // this.player.bankManager.items.forEach((item, slotIndex) => {
-        //     // Skip empty items slots.
-        //     if (item.catalogueEntry === null) return;
-
-        //     this.player.bankManager.addItemToContents(
-        //         slotIndex,
-        //         item.catalogueEntry,
-        //         item.durability,
-        //         item.maxDurability,
-        //     );
-        // });
-
-        // Hide the panel, as if any of the slots were filled with existing items, they will be shown.
-        // window.gameScene.GUI.bankPanel.hide();
-
-        // Hide the shop panel, all of the slots are reset and empty ones won't be visible when first opened.
-        // window.gameScene.GUI.shopPanel.hide();
-
-        // Load the tasks.
-        // Object.values(this.player.tasks).forEach((task) => {
-        //     window.gameScene.GUI.tasksPanel.addTask(task);
-        // });
-
-        // Make sure the item icons are hidden. They aren't after being added at first.
-        // window.gameScene.GUI.tasksPanel.hide();
-
-        // Update the starting value for the next level exp requirement, for the default shown stat info.
-        // window.gameScene.GUI.statsPanel.changeStatInfo(window.gameScene.player.stats.list.Melee);
 
         // Add the entities that are visible on start.
         for (let i = 0; i < this.dynamicsData.length; i += 1) {
             this.addEntity(this.dynamicsData[i]);
         }
-
-        // window.gameScene.GUI.accountPanel.hide();
-        // window.gameScene.GUI.createAccountPanel.hide();
 
         this.tilemap.updateDarknessGrid();
 
@@ -219,7 +165,7 @@ class Game extends Phaser.Scene {
         this.setupKeyboardControls();
 
         // Lock the camera to the player sprite.
-        this.cameras.main.startFollow(this.dynamics[this.player.entityId].spriteContainer);
+        this.cameras.main.startFollow(this.dynamics[PlayerState.entityID].spriteContainer);
 
         // window.addEventListener("mousedown", this.pointerDownHandler);
 
@@ -260,6 +206,17 @@ class Game extends Phaser.Scene {
 
         // Game finished loading. Let the loading/hint screen be closed.
         ApplicationState.setLoading(false);
+
+        this.subs = [
+            PubSub.subscribe(HITPOINTS_VALUE, (data) => {
+                // If the player is now dead, play the death music.
+                if (data.new <= 0) {
+                    this.soundManager.music.changeBackgroundMusic(
+                        this.soundManager.player.sounds.deathLoop,
+                    );
+                }
+            }),
+        ];
     }
 
     update() {
@@ -292,42 +249,15 @@ class Game extends Phaser.Scene {
     }
 
     shutdown() {
-        // Show the background GIF.
-        // document.getElementById("background_img").style.visibility = "visible";
-
-        // Hide the game, or it still shows a blank canvas over the login screen.
-        // document.getElementById("game_cont").style.visibility = "hidden";
-
         // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
         document.removeEventListener("keydown", this.keyDownHandler);
 
         window.removeEventListener("mousedown", this.pointerDownHandler);
 
-        // Remove some of the DOM GUI elements so they aren't stacked when the game state starts again.
-        // this.GUI.removeExistingDOMElements(this.GUI.hitPointCounters);
-        // this.GUI.removeExistingDOMElements(this.GUI.energyCounters);
-
-        // for (const elemKey in this.GUI.inventoryBar.slots) {
-        //     this.GUI.inventoryBar.slots[elemKey].container.remove();
-        // }
-
-        let { contents } = this.GUI.bankPanel;
-        while (contents.firstChild) {
-            contents.removeChild(contents.firstChild);
-        }
-
-        contents = this.GUI.shopPanel.contents;
-        while (contents.firstChild) {
-            contents.removeChild(contents.firstChild);
-        }
-
-        this.GUI.gui.style.visibility = "hidden";
-        this.GUI.settingsBar.hide();
-
-        // Hide all the panels.
-        for (let i = 0; i < this.GUI.panels.length; i += 1) {
-            this.GUI.panels[i].hide();
-        }
+        // Clean up subscriptions before stopping the game.
+        this.subs.forEach((sub) => {
+            PubSub.unsubscribe(sub);
+        });
     }
 
     /**
@@ -335,15 +265,9 @@ class Game extends Phaser.Scene {
      * @param {String} direction
      */
     move(direction) {
-        // Hide all panels, in case they are just moving away from the item for it.
-        if (this.GUI && this.GUI.isAnyPanelOpen === true) {
-            // Hide all the panels.
-            this.GUI.hideAllPanels();
-        }
-
         this.checkCollidables(direction);
 
-        if (this.player.hitPoints <= 0) return;
+        if (PlayerState.hitPoints <= 0) return;
         window.ws.sendEvent(`mv_${direction}`);
 
         this.nextMoveTime = Date.now() + this.moveDelay;
@@ -357,8 +281,8 @@ class Game extends Phaser.Scene {
     checkCollidables(direction) {
         // Check if any interactables that cause this client
         // to do something are about to be walked into.
-        let playerNextRow = this.player.row;
-        let playerNextCol = this.player.col;
+        let playerNextRow = PlayerState.row;
+        let playerNextCol = PlayerState.col;
 
         if (direction === "u") playerNextRow -= 1;
         else if (direction === "d") playerNextRow += 1;
@@ -393,7 +317,7 @@ class Game extends Phaser.Scene {
         if (event.target === this.GUI.gameCanvas) {
             // If the user pressed on their character sprite, pick up item.
             if (Utils.pixelDistanceBetween(
-                this.dynamics[this.player.entityId].spriteContainer.baseSprite,
+                this.dynamics[PlayerState.entityID].spriteContainer.baseSprite,
                 event,
             ) < 32) {
                 window.ws.sendEvent("pick_up_item");
@@ -548,7 +472,7 @@ class Game extends Phaser.Scene {
         this.keyboardKeys.d.on("up", this.moveRightReleased, this);
 
         this.keyboardKeys.enterChat.on("down", () => {
-            if (this.player.hitPoints <= 0) {
+            if (PlayerState.hitPoints <= 0) {
                 // Close the box. Can't chat while dead.
                 this.GUI.chatInput.isActive = false;
                 this.GUI.chatInput.style.visibility = "hidden";
@@ -715,12 +639,12 @@ class Game extends Phaser.Scene {
      */
     checkDynamicsInViewRange() {
         const { dynamics } = this;
-        const playerEntityID = this.player.entityId;
+        const playerEntityID = PlayerState.entityID;
         let dynamicSpriteContainer;
-        const playerRowTopViewRange = this.player.row - gameConfig.VIEW_RANGE;
-        const playerColLeftViewRange = this.player.col - gameConfig.VIEW_RANGE;
-        const playerRowBotViewRange = this.player.row + gameConfig.VIEW_RANGE;
-        const playerColRightViewRange = this.player.col + gameConfig.VIEW_RANGE;
+        const playerRowTopViewRange = PlayerState.row - gameConfig.VIEW_RANGE;
+        const playerColLeftViewRange = PlayerState.col - gameConfig.VIEW_RANGE;
+        const playerRowBotViewRange = PlayerState.row + gameConfig.VIEW_RANGE;
+        const playerColRightViewRange = PlayerState.col + gameConfig.VIEW_RANGE;
 
         Object.entries(dynamics).forEach(([key, dynamic]) => {
             dynamicSpriteContainer = dynamic.spriteContainer;
@@ -756,7 +680,7 @@ class Game extends Phaser.Scene {
     chat(entityID, message, fillColour) {
         // console.log("chat");
         // Check an entity ID was given. If not, use this player.
-        entityID = entityID || this.player.entityId;
+        entityID = entityID || PlayerState.entityID;
 
         // Make sure the message is a string.
         message += "";
@@ -791,7 +715,7 @@ class Game extends Phaser.Scene {
             else {
                 style.fill = "#ffa54f";
                 // If the message was from this client, tell them a warning message.
-                if (entityID === window.gameScene.player.entityId) {
+                if (entityID === PlayerState.entityID) {
                     message = Utils.getTextDef("Invalid command warning");
                 }
                 else { // Someone else's message, so don't show it.

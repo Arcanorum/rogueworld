@@ -1,4 +1,5 @@
 import gameConfig from "../../shared/GameConfig";
+import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
 const tweenCompleteLeft = () => {
@@ -58,9 +59,9 @@ export default () => {
         const dynamicSpriteContainer = dynamic.spriteContainer;
 
         // The client player moved.
-        if (data.id === window.gameScene.player.entityId) {
-            const origRow = window.gameScene.player.row;
-            const origCol = window.gameScene.player.col;
+        if (data.id === PlayerState.entityID) {
+            const origRow = PlayerState.row;
+            const origCol = PlayerState.col;
 
             // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
             if (window.gameScene.playerTween !== null) {
@@ -69,8 +70,8 @@ export default () => {
 
             // Do this AFTER stopping the current player tween, so it can finish with the
             // previous position (the one that matches the state the tween starts in).
-            window.gameScene.player.row = data.row;
-            window.gameScene.player.col = data.col;
+            PlayerState.row = data.row;
+            PlayerState.col = data.col;
 
             dynamic.row = data.row;
             dynamic.col = data.col;
@@ -141,10 +142,10 @@ export default () => {
         // Another entity moved.
         else {
             // Get the boundaries of the player view range.
-            const playerRowTopViewRange = window.gameScene.player.row - gameConfig.VIEW_RANGE;
-            const playerColLeftViewRange = window.gameScene.player.col - gameConfig.VIEW_RANGE;
-            const playerRowBotViewRange = window.gameScene.player.row + gameConfig.VIEW_RANGE;
-            const playerColRightViewRange = window.gameScene.player.col + gameConfig.VIEW_RANGE;
+            const playerRowTopViewRange = PlayerState.row - gameConfig.VIEW_RANGE;
+            const playerColLeftViewRange = PlayerState.col - gameConfig.VIEW_RANGE;
+            const playerRowBotViewRange = PlayerState.row + gameConfig.VIEW_RANGE;
+            const playerColRightViewRange = PlayerState.col + gameConfig.VIEW_RANGE;
 
             dynamic.row = data.row;
             dynamic.col = data.col;

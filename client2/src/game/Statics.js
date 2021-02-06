@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import gameConfig from "../shared/GameConfig";
+import { PlayerState } from "../shared/state/States";
 import Utils from "../shared/Utils";
 // import { setAttackCursor, setDefaultCursor, setHandCursor } from "./Cursors";
 
@@ -164,7 +165,7 @@ class Static extends Phaser.GameObjects.Container {
     onPressed() { }
 
     isWithinPressableRange() {
-        const player = window.gameScene.dynamics[window.gameScene.player.entityId];
+        const player = window.gameScene.dynamics[PlayerState.entityID];
         const distFromPlayer = Math.abs(this.row - player.row) // Row dist.
             + Math.abs(this.col - player.col); // Col dist.
 

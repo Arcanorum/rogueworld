@@ -6,8 +6,9 @@ export default () => {
         // console.log("change board, data:", data);
         window.gameScene.dynamicsData = data.dynamicsData;
         window.gameScene.boardAlwaysNight = data.boardAlwaysNight;
-        window.gameScene.player.row = data.playerRow;
-        window.gameScene.player.col = data.playerCol;
+
+        PlayerState.setRow(data.playerRow);
+        PlayerState.setCol(data.playerCol);
 
         // They might be leaving a dungeon, so stop the dungeon timer if it is running.
         if (!data.boardIsDungeon) {
@@ -33,7 +34,7 @@ export default () => {
 
         // Lock the camera to the player sprite.
         window.gameScene.cameras.main.startFollow(
-            window.gameScene.dynamics[window.gameScene.player.entityId].spriteContainer,
+            window.gameScene.dynamics[PlayerState.entityID].spriteContainer,
         );
 
         // Refresh the darkness grid.
@@ -44,32 +45,20 @@ export default () => {
     };
 
     eventResponses.player_respawn = () => {
-        window.gameScene.player.hitPoints = window.gameScene.player.maxHitPoints;
-        window.gameScene.player.energy = window.gameScene.player.maxEnergy;
-        window.gameScene.GUI.respawnPanel.hide();
-        window.gameScene.GUI.updateHitPointCounters();
-        window.gameScene.GUI.updateEnergyCounters();
+        PlayerState.setHitPoints(PlayerState.maxHitPoints);
+        PlayerState.setEnergy(PlayerState.maxEnergy);
 
-        window.gameScene.changeBackgroundMusic(window.gameScene.sounds.location.generic1);
+        window.gameScene.soundManager.music.changeBackgroundMusic(
+            window.gameScene.soundManager.music.sounds.location.generic1,
+        );
     };
 
     eventResponses.hit_point_value = (data) => {
         PlayerState.setHitPoints(data);
-
-        // window.gameScene.player.hitPoints = data;
-        // if (window.gameScene.player.hitPoints <= 0) {
-        //     window.gameScene.GUI.respawnPanel.show();
-
-        //     window.gameScene.changeBackgroundMusic(
-        //         window.gameScene.soundManager.player.sounds.deathLoop,
-        //     );
-        // }
-        // window.gameScene.GUI.updateHitPointCounters();
     };
 
     eventResponses.energy_value = (data) => {
-        window.gameScene.player.energy = data;
-        window.gameScene.GUI.updateEnergyCounters();
+        PlayerState.setEnergy(data);
     };
 
     eventResponses.defence_value = (data) => {

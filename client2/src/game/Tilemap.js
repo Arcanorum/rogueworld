@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import gameConfig from "../shared/GameConfig";
+import { PlayerState } from "../shared/state/States";
 import Utils from "../shared/Utils";
 import addStaticTile from "./Statics";
 
@@ -20,8 +21,7 @@ class Tilemap {
     }
 
     createGroundGrid() {
-        const
-            viewDiameter = gameConfig.VIEW_DIAMETER;
+        const viewDiameter = gameConfig.VIEW_DIAMETER;
         const scaledTileSize = gameConfig.SCALED_TILE_SIZE;
         const { scene } = this;
 
@@ -42,8 +42,7 @@ class Tilemap {
     }
 
     createStaticsGrid() {
-        const
-            viewDiameter = gameConfig.VIEW_DIAMETER;
+        const viewDiameter = gameConfig.VIEW_DIAMETER;
 
         this.staticsSpritesGrid = [];
         this.staticsSpritesContainer = this.scene.add.container();
@@ -60,8 +59,7 @@ class Tilemap {
     }
 
     flickerDarkness() {
-        const
-            darknessSprites = this.darknessSpritesContainer.list;
+        const darknessSprites = this.darknessSpritesContainer.list;
 
         darknessSprites.forEach((tile) => {
             if (tile.darknessValue < 1) {
@@ -109,10 +107,9 @@ class Tilemap {
         }
 
         // Reposition to around where the player is now.
-        const
-            viewRangePixels = viewRange * scaledTileSize;
-        const playerX = (this.scene.player.col * scaledTileSize) - viewRangePixels;
-        const playerY = (this.scene.player.row * scaledTileSize) - viewRangePixels;
+        const viewRangePixels = viewRange * scaledTileSize;
+        const playerX = (PlayerState.col * scaledTileSize) - viewRangePixels;
+        const playerY = (PlayerState.row * scaledTileSize) - viewRangePixels;
 
         this.darknessSpritesGrid.forEach((darknessRow, rowIndex) => {
             darknessRow.forEach((tileSprite, colIndex) => {
@@ -184,9 +181,8 @@ class Tilemap {
      * Updates the whole ground grid. Used at init and board change. Use the edge ones for player movement.
      */
     updateGroundGrid() {
-        const
-            playerRow = this.scene.player.row;
-        const playerCol = this.scene.player.col;
+        const playerRow = PlayerState.row;
+        const playerCol = PlayerState.col;
         const { groundSpritesGrid } = this;
         const { currentMapGroundGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
@@ -218,10 +214,9 @@ class Tilemap {
         }
 
         // Reposition to around where the player is now.
-        const
-            viewRangePixels = viewRange * scaledTileSize;
-        const playerX = this.scene.player.col * scaledTileSize - viewRangePixels;
-        const playerY = this.scene.player.row * scaledTileSize - viewRangePixels;
+        const viewRangePixels = viewRange * scaledTileSize;
+        const playerX = PlayerState.col * scaledTileSize - viewRangePixels;
+        const playerY = PlayerState.row * scaledTileSize - viewRangePixels;
 
         groundSpritesGrid.forEach((groundRow, rowIndex) => {
             groundRow.forEach((tileSprite, colIndex) => {
@@ -237,21 +232,19 @@ class Tilemap {
     updateGroundGridEdgeTop() {
         Utils.shiftMatrixDown(this.groundSpritesGrid);
 
-        const
-            { groundSpritesGrid } = this;
+        const { groundSpritesGrid } = this;
         const { currentMapGroundGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
-        const playerRow = this.scene.player.row;
+        const playerRow = PlayerState.row;
         const scaledTileSize = gameConfig.SCALED_TILE_SIZE;
         const viewRangePixels = viewRange * scaledTileSize;
-        const playerY = this.scene.player.row * scaledTileSize;
+        const playerY = PlayerState.row * scaledTileSize;
         const topRow = groundSpritesGrid[0];
         const mapRow = currentMapGroundGrid[playerRow - viewRange];
-        let
-            targetCol;
+        let targetCol;
 
         topRow.forEach((tileSprite, colIndex) => {
-            targetCol = this.scene.player.col - viewRange + colIndex;
+            targetCol = PlayerState.col - viewRange + colIndex;
             // Move this tile sprite position to the other end of the grid.
             tileSprite.y = playerY - viewRangePixels;
             // Check the cell to view is in the current map bounds.
@@ -270,21 +263,19 @@ class Tilemap {
     updateGroundGridEdgeBottom() {
         Utils.shiftMatrixUp(this.groundSpritesGrid);
 
-        const
-            { groundSpritesGrid } = this;
+        const { groundSpritesGrid } = this;
         const { currentMapGroundGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
-        const playerRow = this.scene.player.row;
+        const playerRow = PlayerState.row;
         const scaledTileSize = gameConfig.SCALED_TILE_SIZE;
         const viewRangePixels = viewRange * scaledTileSize;
-        const playerY = this.scene.player.row * scaledTileSize;
+        const playerY = PlayerState.row * scaledTileSize;
         const bottomRow = groundSpritesGrid[groundSpritesGrid.length - 1];
         const mapRow = currentMapGroundGrid[playerRow + viewRange];
-        let
-            targetCol;
+        let targetCol;
 
         bottomRow.forEach((tileSprite, colIndex) => {
-            targetCol = this.scene.player.col - viewRange + colIndex;
+            targetCol = PlayerState.col - viewRange + colIndex;
             // Move this tile sprite position to the other end of the grid.
             tileSprite.y = playerY + viewRangePixels;
             // Check the cell to view is in the current map bounds.
@@ -303,18 +294,16 @@ class Tilemap {
     updateGroundGridEdgeLeft() {
         Utils.shiftMatrixRight(this.groundSpritesGrid);
 
-        const
-            { groundSpritesGrid } = this;
+        const { groundSpritesGrid } = this;
         const { currentMapGroundGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
         const startColIndex = 0;
-        const playerRow = this.scene.player.row;
-        const targetCol = this.scene.player.col - viewRange;
+        const playerRow = PlayerState.row;
+        const targetCol = PlayerState.col - viewRange;
         const scaledTileSize = gameConfig.SCALED_TILE_SIZE;
         const viewRangePixels = viewRange * scaledTileSize;
-        const playerX = this.scene.player.col * scaledTileSize;
-        let
-            mapRow;
+        const playerX = PlayerState.col * scaledTileSize;
+        let mapRow;
         let tileSprite;
 
         groundSpritesGrid.forEach((row, rowIndex) => {
@@ -338,18 +327,16 @@ class Tilemap {
     updateGroundGridEdgeRight() {
         Utils.shiftMatrixLeft(this.groundSpritesGrid);
 
-        const
-            { groundSpritesGrid } = this;
+        const { groundSpritesGrid } = this;
         const { currentMapGroundGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
         const endColIndex = groundSpritesGrid[0].length - 1;
-        const playerRow = this.scene.player.row;
-        const targetCol = this.scene.player.col + endColIndex - viewRange;
+        const playerRow = PlayerState.row;
+        const targetCol = PlayerState.col + endColIndex - viewRange;
         const scaledTileSize = gameConfig.SCALED_TILE_SIZE;
         const viewRangePixels = viewRange * scaledTileSize;
-        const playerX = this.scene.player.col * scaledTileSize;
-        let
-            mapRow;
+        const playerX = PlayerState.col * scaledTileSize;
+        let mapRow;
         let tileSprite;
 
         groundSpritesGrid.forEach((row, rowIndex) => {
@@ -379,9 +366,8 @@ class Tilemap {
         // changing the frame, as statics are more complex with interactivity
         // and custom data, so they need to be instances of the appropriate
         // static tile sprite class.
-        const
-            playerRow = this.scene.player.row;
-        const playerCol = this.scene.player.col;
+        const playerRow = PlayerState.row;
+        const playerCol = PlayerState.col;
         const { staticsSpritesGrid } = this;
         const { currentMapStaticsGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
@@ -428,10 +414,9 @@ class Tilemap {
         }
 
         // Reposition to around where the player is now.
-        const
-            viewRangePixels = viewRange * scaledTileSize;
-        const playerX = (this.scene.player.col * scaledTileSize) - viewRangePixels;
-        const playerY = (this.scene.player.row * scaledTileSize) - viewRangePixels;
+        const viewRangePixels = viewRange * scaledTileSize;
+        const playerX = (PlayerState.col * scaledTileSize) - viewRangePixels;
+        const playerY = (PlayerState.row * scaledTileSize) - viewRangePixels;
 
         staticsSpritesGrid.forEach((staticsRow, rowIndex) => {
             staticsRow.forEach((tileSprite, colIndex) => {
@@ -446,15 +431,13 @@ class Tilemap {
     updateStaticsGridEdgeTop() {
         Utils.shiftMatrixDown(this.staticsSpritesGrid);
 
-        const
-            { staticsSpritesGrid } = this;
+        const { staticsSpritesGrid } = this;
         const { currentMapStaticsGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
         const topSpritesRow = staticsSpritesGrid[0];
-        const targetRow = this.scene.player.row - viewRange;
-        const playerCol = this.scene.player.col;
-        let
-            mapRow;
+        const targetRow = PlayerState.row - viewRange;
+        const playerCol = PlayerState.col;
+        let mapRow;
         let targetCol;
         let staticTile;
 
@@ -488,15 +471,13 @@ class Tilemap {
     updateStaticsGridEdgeBottom() {
         Utils.shiftMatrixUp(this.staticsSpritesGrid);
 
-        const
-            { staticsSpritesGrid } = this;
+        const { staticsSpritesGrid } = this;
         const { currentMapStaticsGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
         const bottomSpritesRow = staticsSpritesGrid[staticsSpritesGrid.length - 1];
-        const targetRow = this.scene.player.row + viewRange;
-        const playerCol = this.scene.player.col;
-        let
-            mapRow;
+        const targetRow = PlayerState.row + viewRange;
+        const playerCol = PlayerState.col;
+        let mapRow;
         let targetCol;
         let staticTile;
 
@@ -530,15 +511,13 @@ class Tilemap {
     updateStaticsGridEdgeLeft() {
         Utils.shiftMatrixRight(this.staticsSpritesGrid);
 
-        const
-            { staticsSpritesGrid } = this;
+        const { staticsSpritesGrid } = this;
         const { currentMapStaticsGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
         const startColIndex = 0;
-        const playerRow = this.scene.player.row;
-        const targetCol = this.scene.player.col - viewRange;
-        let
-            mapRow;
+        const playerRow = PlayerState.row;
+        const targetCol = PlayerState.col - viewRange;
+        let mapRow;
         let targetRow;
         let tileSprite;
         let staticTile;
@@ -574,15 +553,13 @@ class Tilemap {
     updateStaticsGridEdgeRight() {
         Utils.shiftMatrixLeft(this.staticsSpritesGrid);
 
-        const
-            { staticsSpritesGrid } = this;
+        const { staticsSpritesGrid } = this;
         const { currentMapStaticsGrid } = this;
         const viewRange = gameConfig.VIEW_RANGE;
         const endColIndex = staticsSpritesGrid[0].length - 1;
-        const playerRow = this.scene.player.row;
-        const targetCol = this.scene.player.col + viewRange;
-        let
-            mapRow;
+        const playerRow = PlayerState.row;
+        const targetCol = PlayerState.col + viewRange;
+        let mapRow;
         let targetRow;
         let tileSprite;
         let staticTile;
@@ -636,7 +613,7 @@ class Tilemap {
     }
 
     updateDarknessGrid() {
-        const player = this.scene.dynamics[this.scene.player.entityId];
+        const player = this.scene.dynamics[PlayerState.entityID];
         const { lightSources } = this.scene;
         const { darknessSpritesGrid } = this;
         let darknessValue = 0;
@@ -672,7 +649,7 @@ class Tilemap {
 
         if (player !== undefined) {
             // this.revealDarkness(player.sprite.x, player.sprite.y, 10);
-            this.revealDarkness(this.scene.player.row, this.scene.player.col, 5);
+            this.revealDarkness(PlayerState.row, PlayerState.col, 5);
         }
 
         // Lighten the area around each light source.
@@ -691,8 +668,8 @@ class Tilemap {
         const
             scaledTileSize = gameConfig.SCALED_TILE_SIZE;
         const viewRangePixels = gameConfig.VIEW_RANGE * scaledTileSize;
-        const playerX = (this.scene.player.col * scaledTileSize) - viewRangePixels;
-        const playerY = (this.scene.player.row * scaledTileSize) - viewRangePixels;
+        const playerX = (PlayerState.col * scaledTileSize) - viewRangePixels;
+        const playerY = (PlayerState.row * scaledTileSize) - viewRangePixels;
 
         this.darknessSpritesGrid.forEach((row, rowIndex) => {
             row.forEach((tileSprite, colIndex) => {
@@ -713,8 +690,8 @@ class Tilemap {
         const radiusPlusOne = radius + 1;
         let rowOffset = -radius;
         let colOffset = -radius;
-        const row = (Math.floor(rowIn) + gameConfig.VIEW_RANGE) - this.scene.player.row;
-        const col = (Math.floor(colIn) + gameConfig.VIEW_RANGE) - this.scene.player.col;
+        const row = (Math.floor(rowIn) + gameConfig.VIEW_RANGE) - PlayerState.row;
+        const col = (Math.floor(colIn) + gameConfig.VIEW_RANGE) - PlayerState.col;
         const { darknessSpritesGrid } = this;
         let tile;
         let rowDist;

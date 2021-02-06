@@ -207,6 +207,11 @@ class Game extends Phaser.Scene {
         // Game finished loading. Let the loading/hint screen be closed.
         ApplicationState.setLoading(false);
 
+        /**
+         * A list of PubSub subscription IDs, to be removed on shutdown.
+         * @TODO Move to a separate file
+         * @type {Array.<String>}
+         */
         this.subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (data) => {
                 // If the player is now dead, play the death music.

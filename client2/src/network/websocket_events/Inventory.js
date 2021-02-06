@@ -88,7 +88,7 @@ export default () => {
     };
 
     eventResponses.activate_holding = (data) => {
-        window.gameScene.player.holdingItem = true;
+        // window.gameScene.player.holdingItem = true;
         // Show the equipped icon on the inventory slot.
         window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.src = "assets/img/gui/hud/holding-icon.png";
         window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "visible";
@@ -101,7 +101,7 @@ export default () => {
     };
 
     eventResponses.deactivate_holding = (data) => {
-        window.gameScene.player.holdingItem = false;
+        // window.gameScene.player.holdingItem = false;
         // Hide the equipped icon on the inventory slot.
         window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
         window.gameScene.GUI.spellBar.hide();

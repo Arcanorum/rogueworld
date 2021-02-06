@@ -342,12 +342,12 @@ class Game extends Phaser.Scene {
             else direction = "u";
 
             // Try to use the held item if one is selected.
-            if (this.player.holdingItem) {
-                this.player.inventory.useHeldItem(direction);
-            }
-            else { // Do a melee attack.
-                window.ws.sendEvent("melee_attack", direction);
-            }
+            // if (this.player.holdingItem) {
+            //     this.player.inventory.useHeldItem(direction);
+            // }
+            // else { // Do a melee attack.
+            //     window.ws.sendEvent("melee_attack", direction);
+            // }
         }
     }
 

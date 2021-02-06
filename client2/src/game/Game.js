@@ -6,9 +6,11 @@ import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
-import { ApplicationState, PlayerState } from "../shared/state/States";
+import { ApplicationState, GUIState, PlayerState } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
-import { HITPOINTS_VALUE } from "../shared/EventTypes";
+import {
+    CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE,
+} from "../shared/EventTypes";
 
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
@@ -216,6 +218,12 @@ class Game extends Phaser.Scene {
                     );
                 }
             }),
+            PubSub.subscribe(CHAT_OPEN, (data) => { // can't use word data due to shadowing
+                GUIState.setChatInputStatus(true);
+            }),
+            PubSub.subscribe(CHAT_CLOSE, (data) => { // can't use word data due to shadowing
+                GUIState.setChatInputStatus(false);
+            }),
         ];
     }
 
@@ -347,14 +355,14 @@ class Game extends Phaser.Scene {
     }
 
     checkKeyFilters() {
-        if (this.GUI) {
-            // Don't move while the chat input is open.
-            if (this.GUI.chatInput.isActive === true) return true;
-            // Or the create account panel.
-            if (this.GUI.createAccountPanel.isOpen === true) return true;
-            // Or the account panel.
-            if (this.GUI.accountPanel.isOpen === true) return true;
-        }
+        // if (this.GUI) {
+        // Don't move while the chat input is open.
+        if (GUIState.chatInputStatus) return true;
+        // Or the create account panel.
+        // if (this.GUI.createAccountPanel.isOpen === true) return true;
+        // Or the account panel.
+        // if (this.GUI.accountPanel.isOpen === true) return true;
+        // }
         return false;
     }
 
@@ -472,35 +480,7 @@ class Game extends Phaser.Scene {
         this.keyboardKeys.d.on("up", this.moveRightReleased, this);
 
         this.keyboardKeys.enterChat.on("down", () => {
-            if (PlayerState.hitPoints <= 0) {
-                // Close the box. Can't chat while dead.
-                this.GUI.chatInput.isActive = false;
-                this.GUI.chatInput.style.visibility = "hidden";
-                this.GUI.chatInput.blur();
-                this.GUI.chatInput.value = "";
-                return;
-            }
-            // Check if the chat input box is open.
-            if (this.GUI.chatInput.isActive === true) {
-                // Close the box, and submit the message.
-                this.GUI.chatInput.isActive = false;
-                this.GUI.chatInput.style.visibility = "hidden";
-                this.GUI.chatInput.blur();
-
-                // Don't bother sending empty messages.
-                if (this.GUI.chatInput.value !== "") {
-                    // Send the message to the server.
-                    window.ws.sendEvent("chat", this.GUI.chatInput.value);
-
-                    // Empty the contents ready for the next chat.
-                    this.GUI.chatInput.value = "";
-                }
-            }
-            else { // Not open, so open it.
-                this.GUI.chatInput.isActive = true;
-                this.GUI.chatInput.style.visibility = "visible";
-                this.GUI.chatInput.focus();
-            }
+            PubSub.publish(ENTER_KEY);
         });
     }
 

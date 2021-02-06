@@ -29,7 +29,7 @@ function ChatInput() {
     useEffect(() => {
         const subs = [
             // hitPoints is undefined for now, until player is implemented again
-            PubSub.subscribe(ENTER_KEY, (msg, data) => {
+            PubSub.subscribe(ENTER_KEY, (data) => {
                 // Close the box. Can't chat while dead.
                 if (PlayerState.hitPoints <= 0) {
                     clearChatMsg();

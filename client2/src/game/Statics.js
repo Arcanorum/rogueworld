@@ -94,12 +94,12 @@ class Static extends Phaser.GameObjects.Container {
             });
 
             this.tileSprite.on("pointerout", () => {
-                if (window.gameScene.player.holdingItem) {
-                    // setAttackCursor();
-                }
-                else {
-                    // setDefaultCursor();
-                }
+                // if (window.gameScene.player.holdingItem) {
+                //     // setAttackCursor();
+                // }
+                // else {
+                //     // setDefaultCursor();
+                // }
             });
 
             window.gameScene.interactables[this.id] = this;

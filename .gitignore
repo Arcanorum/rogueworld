@@ -29,6 +29,7 @@ client2/build
 client2/npm-debug.log*
 client2/yarn-debug.log*
 client2/yarn-error.log*
+client2/src/assets/maps/
 
 client2/src/catalogues/
 client2/assets/map/

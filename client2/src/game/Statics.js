@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import PubSub from "pubsub-js";
+import { DUNGEON_PORTAL_PRESSED } from "../shared/EventTypes";
 import gameConfig from "../shared/GameConfig";
 import { PlayerState } from "../shared/state/States";
 import Utils from "../shared/Utils";
@@ -260,7 +262,7 @@ class DungeonPortal extends Portal {
 
     onPressed() {
         if (this.isWithinPressableRange()) {
-            window.gameScene.GUI.dungeonPanel.show(this);
+            PubSub.publish(DUNGEON_PORTAL_PRESSED, this);
         }
     }
 }

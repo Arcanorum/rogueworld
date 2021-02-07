@@ -191,12 +191,10 @@ class DungeonManager {
 
         party.members.push(player);
 
-        const partiesData = this.getPartiesData();
-        // Update the party data of all of the party members, so they see the new member.
+        // Update the party data of everyone looking at this list of
+        // parties, as they will need to know if the party is now full.
         // Includes the new member themself.
-        party.members.forEach((member) => {
-            member.socket.sendEvent(EventsList.parties, partiesData);
-        });
+        this.updateNearbyFocusedPlayers();
     }
 
     /**

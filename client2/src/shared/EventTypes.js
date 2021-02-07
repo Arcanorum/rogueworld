@@ -29,14 +29,21 @@ export const DEFENCE_VALUE = Symbol("DEFENCE_VALUE");
 export const STATS_VALUE = Symbol("STATS_VALUE");
 export const TASKS_VALUE = Symbol("TASKS_VALUE");
 
-// Keyboard
+// Keyboard.
 export const ENTER_KEY = Symbol("ENTER_KEY");
 
-// Chat
+// Chat.
 export const CHAT_CLOSE = Symbol("CHAT_CLOSE");
 export const CHAT_OPEN = Symbol("CHAT_OPEN");
 
 // Inventory.
+
+// GUI.
+export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
+
+// Dungeon.
+export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");
+export const DUNGEON_START = Symbol("DUNGEON_START");
 
 // Misc.
 export const WEBSOCKET_CLOSE = Symbol("WEBSOCKET_CLOSE");

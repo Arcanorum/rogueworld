@@ -19,13 +19,15 @@ import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
 import inventoryIcon from "../../../assets/images/gui/hud/inventory-icon.png";
 import settingsIcon from "../../../assets/images/gui/hud/settings-icon.png";
-import { LOGGED_IN } from "../../../shared/EventTypes";
+import { DUNGEON_PORTAL_PRESSED, LOGGED_IN, POSITION_VALUE } from "../../../shared/EventTypes";
 import ChatInput from "./chat_input/ChatInput";
+import DungeonPanel from "./panels/dungeon_panel/DungeonPanel";
 
 const Panels = {
     NONE: Symbol("NONE"),
     CreateAccount: Symbol("CreateAccount"),
     Account: Symbol("Account"),
+    Dungeon: Symbol("Dungeon"),
     Stats: Symbol("Stats"),
     Tasks: Symbol("Tasks"),
 };
@@ -34,6 +36,7 @@ function GUI() {
     const [shownPanel, setShownPanel] = useState(null);
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
+    const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
     const discordInviteLink = "https://discord.com/invite/7wjyU7B";
     const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
 
@@ -41,6 +44,16 @@ function GUI() {
         const subs = [
             PubSub.subscribe(LOGGED_IN, (msg, data) => {
                 setLoggedIn(data.new);
+            }),
+            PubSub.subscribe(DUNGEON_PORTAL_PRESSED, (msg, portal) => {
+                // Set the target portal before changing the
+                // panel, or it won't know what info to load.
+                setTargetDungeonPortal(portal);
+                setShownPanel(Panels.Dungeon);
+            }),
+            PubSub.subscribe(POSITION_VALUE, () => {
+                setShownPanel(Panels.NONE);
+                setTargetDungeonPortal(null);
             }),
         ];
 
@@ -138,6 +151,14 @@ function GUI() {
                   onCloseCallback={() => {
                       setShownPanel(Panels.NONE);
                   }}
+                />
+                )}
+                {shownPanel === Panels.Dungeon && (
+                <DungeonPanel
+                  onCloseCallback={() => {
+                      setShownPanel(Panels.NONE);
+                  }}
+                  dungeonPortal={targetDungeonPortal}
                 />
                 )}
                 {shownPanel === Panels.Stats && (

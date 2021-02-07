@@ -12,8 +12,8 @@ export default () => {
 
         // They might be leaving a dungeon, so stop the dungeon timer if it is running.
         if (!data.boardIsDungeon) {
-            window.gameScene.GUI.stopDungeonTimer();
-            window.gameScene.GUI.updateDungeonKeysList({});
+            // window.gameScene.GUI.stopDungeonTimer();
+            // window.gameScene.GUI.updateDungeonKeysList({});
         }
 
         // Load the map with the given board name.
@@ -41,7 +41,7 @@ export default () => {
         window.gameScene.tilemap.updateDarknessGrid();
 
         // Hide any open panels.
-        window.gameScene.GUI.hideAllPanels();
+        // window.gameScene.GUI.hideAllPanels();
     };
 
     eventResponses.player_respawn = () => {

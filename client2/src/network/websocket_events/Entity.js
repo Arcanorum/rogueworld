@@ -70,8 +70,8 @@ export default () => {
 
             // Do this AFTER stopping the current player tween, so it can finish with the
             // previous position (the one that matches the state the tween starts in).
-            PlayerState.row = data.row;
-            PlayerState.col = data.col;
+            PlayerState.setRow(data.row);
+            PlayerState.setCol(data.col);
 
             dynamic.row = data.row;
             dynamic.col = data.col;

@@ -157,7 +157,7 @@ eventResponses.new_char = function (clientSocket, data) {
         // Check it is a string.
         if (typeof data.displayName === "string") {
             // Check it isn't empty, or just a space.
-            if (data.displayName !== "" && data.displayName !== " ") {
+            if (data.displayName.trim() !== "") {
                 // Check it isn't too long.
                 if (data.displayName.length < 21) {
                     displayName = data.displayName;
@@ -171,7 +171,7 @@ eventResponses.new_char = function (clientSocket, data) {
 
 /**
  * Create a new account.
- * @param {*} clientSocket 
+ * @param {*} clientSocket
  * @param {String} data.username
  * @param {String} data.password
  */
@@ -395,7 +395,7 @@ eventResponses.drop_item = function (clientSocket, data) {
 
 /**
  * Pick up an item pickup from the tile the player is on.
- * @param {*} clientSocket 
+ * @param {*} clientSocket
  */
 eventResponses.pick_up_item = function (clientSocket) {
     if (clientSocket.inGame === false) return;
@@ -548,7 +548,7 @@ eventResponses.create_dungeon_party = (clientSocket, data) => {
 };
 
 /**
- * @param {*} clientSocket 
+ * @param {*} clientSocket
  * @param {Number} data.dungeonID
  */
 eventResponses.join_dungeon_party = (clientSocket, data) => {

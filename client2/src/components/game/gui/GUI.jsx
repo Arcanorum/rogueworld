@@ -5,12 +5,12 @@ import "./GUI.scss";
 import GloryCounter from "./glory_counter/GloryCounter";
 import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./panel_button/PanelButton";
-import StatsPanel from "./panels/stats_panel/StatsPanel";
-import TasksPanel from "./panels/tasks_panel/TasksPanel";
-import CreateAccountPanel from "./panels/create_account_panel/CreateAccountPanel";
+import StatsPanel from "./panels/stats/StatsPanel";
+import TasksPanel from "./panels/tasks/TasksPanel";
+import CreateAccountPanel from "./panels/create_account/CreateAccountPanel";
 import TaskTracker from "./task_tracker/TaskTracker";
 import Utils from "../../../shared/Utils";
-import AccountPanel from "./panels/account_panel/AccountPanel";
+import AccountPanel from "./panels/account/AccountPanel";
 import { ApplicationState } from "../../../shared/state/States";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
@@ -19,14 +19,18 @@ import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
 import inventoryIcon from "../../../assets/images/gui/hud/inventory-icon.png";
 import settingsIcon from "../../../assets/images/gui/hud/settings-icon.png";
-import { DUNGEON_PORTAL_PRESSED, LOGGED_IN, POSITION_VALUE } from "../../../shared/EventTypes";
+import {
+    DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, POSITION_VALUE,
+} from "../../../shared/EventTypes";
 import ChatInput from "./chat_input/ChatInput";
-import DungeonPanel from "./panels/dungeon_panel/DungeonPanel";
+import DungeonPanel from "./panels/dungeon/DungeonPanel";
+import RespawnPanel from "./panels/respawn/RespawnPanel";
 
 const Panels = {
     NONE: Symbol("NONE"),
     CreateAccount: Symbol("CreateAccount"),
     Account: Symbol("Account"),
+    Respawn: Symbol("Respawn"),
     Dungeon: Symbol("Dungeon"),
     Stats: Symbol("Stats"),
     Tasks: Symbol("Tasks"),
@@ -39,6 +43,10 @@ function GUI() {
     const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
     const discordInviteLink = "https://discord.com/invite/7wjyU7B";
     const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
+
+    const closePanelCallback = () => {
+        setShownPanel(Panels.NONE);
+    };
 
     useEffect(() => {
         const subs = [
@@ -53,7 +61,12 @@ function GUI() {
             }),
             PubSub.subscribe(POSITION_VALUE, () => {
                 setShownPanel(Panels.NONE);
-                setTargetDungeonPortal(null);
+            }),
+            PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
+                // If the player died, show the respawn panel.
+                if (data.new <= 0) {
+                    setShownPanel(Panels.Respawn);
+                }
             }),
         ];
 
@@ -141,38 +154,31 @@ function GUI() {
             <div className="panel-cont">
                 {shownPanel === Panels.CreateAccount && (
                 <CreateAccountPanel
-                  onCloseCallback={() => {
-                      setShownPanel(Panels.NONE);
-                  }}
+                  onCloseCallback={closePanelCallback}
                 />
                 )}
                 {shownPanel === Panels.Account && (
                 <AccountPanel
-                  onCloseCallback={() => {
-                      setShownPanel(Panels.NONE);
-                  }}
+                  onCloseCallback={closePanelCallback}
                 />
+                )}
+                {shownPanel === Panels.Respawn && (
+                <RespawnPanel />
                 )}
                 {shownPanel === Panels.Dungeon && (
                 <DungeonPanel
-                  onCloseCallback={() => {
-                      setShownPanel(Panels.NONE);
-                  }}
+                  onCloseCallback={closePanelCallback}
                   dungeonPortal={targetDungeonPortal}
                 />
                 )}
                 {shownPanel === Panels.Stats && (
                 <StatsPanel
-                  onCloseCallback={() => {
-                      setShownPanel(Panels.NONE);
-                  }}
+                  onCloseCallback={closePanelCallback}
                 />
                 )}
                 {shownPanel === Panels.Tasks && (
                 <TasksPanel
-                  onCloseCallback={() => {
-                      setShownPanel(Panels.NONE);
-                  }}
+                  onCloseCallback={closePanelCallback}
                 />
                 )}
             </div>

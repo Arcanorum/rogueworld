@@ -75,7 +75,10 @@ PanelTemplate.propTypes = {
     height: PropTypes.number.isRequired,
     icon: PropTypes.string.isRequired,
     panelName: PropTypes.string,
-    onCloseCallback: PropTypes.func,
+    onCloseCallback: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.bool,
+    ]),
 };
 
 PanelTemplate.defaultProps = {

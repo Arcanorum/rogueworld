@@ -25,7 +25,10 @@ import {
 import ChatInput from "./chat_input/ChatInput";
 import DungeonPanel from "./panels/dungeon/DungeonPanel";
 import RespawnPanel from "./panels/respawn/RespawnPanel";
+import DungeonTimer from "./dungeon_timer/DungeonTimer";
 
+const discordInviteLink = "https://discord.com/invite/7wjyU7B";
+const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
 const Panels = {
     NONE: Symbol("NONE"),
     CreateAccount: Symbol("CreateAccount"),
@@ -41,8 +44,6 @@ function GUI() {
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
     const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
-    const discordInviteLink = "https://discord.com/invite/7wjyU7B";
-    const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
 
     const closePanelCallback = () => {
         setShownPanel(Panels.NONE);
@@ -150,6 +151,8 @@ function GUI() {
                   tooltip={Utils.getTextDef("Settings tooltip")}
                 />
             </div>
+
+            <DungeonTimer />
 
             <div className="panel-cont">
                 {shownPanel === Panels.CreateAccount && (

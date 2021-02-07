@@ -1,3 +1,5 @@
+import PubSub from "pubsub-js";
+import { DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
 import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
@@ -12,7 +14,8 @@ export default () => {
 
         // They might be leaving a dungeon, so stop the dungeon timer if it is running.
         if (!data.boardIsDungeon) {
-            // window.gameScene.GUI.stopDungeonTimer();
+            PubSub.publish(DUNGEON_TIME_LIMIT_MINUTES, 0);
+
             // window.gameScene.GUI.updateDungeonKeysList({});
         }
 

@@ -1,5 +1,5 @@
 import PubSub from "pubsub-js";
-import { DUNGEON_PARTIES } from "../../shared/EventTypes";
+import { DUNGEON_PARTIES, DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
 import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 
@@ -11,7 +11,7 @@ export default () => {
     };
 
     eventResponses.start_dungeon = (data) => {
-        // window.gameScene.GUI.startDungeonTimer(data.timeLimitMinutes);
+        PubSub.publish(DUNGEON_TIME_LIMIT_MINUTES, data.timeLimitMinutes);
     };
 
     eventResponses.dungeon_door_keys = (data) => {

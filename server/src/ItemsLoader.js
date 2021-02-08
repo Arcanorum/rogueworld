@@ -135,7 +135,7 @@ const createCatalogue = () => {
     Utils.checkClientCataloguesExists();
 
     // Write the data to the file in the client files.
-    fs.writeFileSync("../client2/src/catalogues/ItemTypes.json", dataToWrite);
+    fs.writeFileSync("../client/src/catalogues/ItemTypes.json", dataToWrite);
 
     Utils.message("Item types catalogue written to file.");
 };

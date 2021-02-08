@@ -412,7 +412,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync("../client2/src/catalogues/NPCShopTypes.json", dataToWrite);
+fs.writeFileSync("../client/src/catalogues/NPCShopTypes.json", dataToWrite);
 
 Utils.message("NPC shop types catalogue written to file.");
 

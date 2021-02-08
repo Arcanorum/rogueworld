@@ -44,6 +44,6 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync("../client2/src/catalogues/CraftingRecipes.json", dataToWrite);
+fs.writeFileSync("../client/src/catalogues/CraftingRecipes.json", dataToWrite);
 
 Utils.message("Crafting recipes catalogue written to file.");

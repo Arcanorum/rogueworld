@@ -60,7 +60,7 @@ const createCatalogue = () => {
     Utils.checkClientCataloguesExists();
 
     // Write the data to the file in the client files.
-    fs.writeFileSync("../client2/src/catalogues/EntityTypes.json", dataToWrite);
+    fs.writeFileSync("../client/src/catalogues/EntityTypes.json", dataToWrite);
 
     Utils.message("Entity types catalogue written to file.");
 };

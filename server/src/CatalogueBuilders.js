@@ -32,7 +32,7 @@ module.exports = {
         Utils.checkClientCataloguesExists();
 
         // Write the data to the file in the client files.
-        fs.writeFileSync('../client2/src/catalogues/DungeonPrompts.json', dataToWrite);
+        fs.writeFileSync('../client/src/catalogues/DungeonPrompts.json', dataToWrite);
 
         Utils.message("Dungeon prompts info catalogue written to file.");
     }

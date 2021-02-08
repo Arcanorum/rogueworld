@@ -2,41 +2,27 @@
 .idea
 node_modules
 
-# OLD CLIENT
-# TODO: remove
-client/node_modules/
-client/main.css
-client/main.css.map
-client/dist/
-client/assets/map/
-client/assets/img/game-atlas.json
-client/assets/img/game-atlas.png
-client/assets/img/ground.png
-client/assets/img/statics.png
-client/src/catalogues/
-
 # NEW CLIENT
-client2/node_modules
-client2/.pnp
-client2/.pnp.js
-client2/.DS_Store
-client2/.env.local
-client2/.env.development.local
-client2/.env.test.local
-client2/.env.production.local
-client2/.eslintcache
-client2/build
-client2/npm-debug.log*
-client2/yarn-debug.log*
-client2/yarn-error.log*
-client2/src/assets/maps/
-
-client2/src/catalogues/
-client2/assets/map/
-client2/assets/img/game-atlas.json
-client2/assets/img/game-atlas.png
-client2/assets/img/ground.png
-client2/assets/img/statics.png
+client/node_modules
+client/.pnp
+client/.pnp.js
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+client/.eslintcache
+client/build
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/src/catalogues/
+client/src/assets/maps/
+client/src/assets/maps/
+client/src/assets/images/game-atlas.json
+client/src/assets/images/game-atlas.png
+client/src/assets/images/ground.png
+client/src/assets/images/statics.png
 
 # SERVER
 server/node_modules

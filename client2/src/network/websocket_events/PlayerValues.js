@@ -1,5 +1,5 @@
 import PubSub from "pubsub-js";
-import { DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
+import { DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
 import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
@@ -15,8 +15,7 @@ export default () => {
         // They might be leaving a dungeon, so stop the dungeon timer if it is running.
         if (!data.boardIsDungeon) {
             PubSub.publish(DUNGEON_TIME_LIMIT_MINUTES, 0);
-
-            // window.gameScene.GUI.updateDungeonKeysList({});
+            PubSub.publish(DUNGEON_KEYS, {});
         }
 
         // Load the map with the given board name.
@@ -42,9 +41,6 @@ export default () => {
 
         // Refresh the darkness grid.
         window.gameScene.tilemap.updateDarknessGrid();
-
-        // Hide any open panels.
-        // window.gameScene.GUI.hideAllPanels();
     };
 
     eventResponses.player_respawn = () => {

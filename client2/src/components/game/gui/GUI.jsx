@@ -26,6 +26,7 @@ import ChatInput from "./chat_input/ChatInput";
 import DungeonPanel from "./panels/dungeon/DungeonPanel";
 import RespawnPanel from "./panels/respawn/RespawnPanel";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
+import DungeonKeys from "./dungeon_keys/DungeonKeys";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -153,6 +154,7 @@ function GUI() {
             </div>
 
             <DungeonTimer />
+            <DungeonKeys />
 
             <div className="panel-cont">
                 {shownPanel === Panels.CreateAccount && (

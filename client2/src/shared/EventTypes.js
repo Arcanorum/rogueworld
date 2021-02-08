@@ -44,6 +44,7 @@ export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
 // Dungeon.
 export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");
 export const DUNGEON_TIME_LIMIT_MINUTES = Symbol("DUNGEON_TIME_LIMIT_MINUTES");
+export const DUNGEON_KEYS = Symbol("DUNGEON_KEYS");
 
 // Misc.
 export const WEBSOCKET_CLOSE = Symbol("WEBSOCKET_CLOSE");

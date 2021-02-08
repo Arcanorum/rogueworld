@@ -4,10 +4,11 @@ import respawnIcon from "../../../../../assets/images/gui/panels/respawn/respawn
 import borderImage from "../../../../../assets/images/gui/panels/respawn/respawn-button-border.png";
 import "./RespawnPanel.scss";
 import Utils from "../../../../../shared/Utils";
+import { ApplicationState } from "../../../../../shared/state/States";
 
 function RespawnPanel() {
     const respawnPressed = async () => {
-        window.ws.sendEvent("respawn");
+        ApplicationState.connection.sendEvent("respawn");
     };
 
     return (

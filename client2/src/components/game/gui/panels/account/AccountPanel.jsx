@@ -7,6 +7,7 @@ import borderImage from "../../../../../assets/images/gui/panels/account/create-
 import "./AccountPanel.scss";
 import Utils from "../../../../../shared/Utils";
 import { CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS } from "../../../../../shared/EventTypes";
+import { ApplicationState } from "../../../../../shared/state/States";
 
 function AccountPanel({ onCloseCallback }) {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -31,7 +32,7 @@ function AccountPanel({ onCloseCallback }) {
         const currentHash = await Utils.digestMessage(currentPassword);
         const newHash = await Utils.digestMessage(newPassword);
 
-        window.ws.sendEvent("change_password", {
+        ApplicationState.connection.sendEvent("change_password", {
             currentPassword: currentHash,
             newPassword: newHash,
         });

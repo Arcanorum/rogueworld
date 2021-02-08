@@ -5,7 +5,7 @@ import PanelTemplate from "../panel_template/PanelTemplate";
 import "./TasksPanel.scss";
 import tasksIcon from "../../../../../assets/images/gui/hud/tasks-icon.png";
 import { TASKS_VALUE } from "../../../../../shared/EventTypes";
-import { PlayerState } from "../../../../../shared/state/States";
+import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 import Utils from "../../../../../shared/Utils";
 import ItemIconList from "../../../../../shared/ItemIconList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
@@ -115,7 +115,7 @@ function TasksPanel({ onCloseCallback }) {
         if (selectedTaskID === null) return;
 
         // Get the selected slot task ID.
-        window.ws.sendEvent("task_claim_reward", selectedTaskID.container.getAttribute("taskID"));
+        ApplicationState.connection.sendEvent("task_claim_reward", selectedTaskID.container.getAttribute("taskID"));
 
         // Assume it will be claimed successfully, so default the claim button.
         setClaimValid(false);

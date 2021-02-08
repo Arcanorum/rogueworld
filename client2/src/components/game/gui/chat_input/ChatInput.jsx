@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ChatInput.scss";
 import PubSub from "pubsub-js";
 import { CHAT_CLOSE, CHAT_OPEN, ENTER_KEY } from "../../../../shared/EventTypes";
-import { PlayerState } from "../../../../shared/state/States";
+import { ApplicationState, PlayerState } from "../../../../shared/state/States";
 
 function ChatInput() {
     const [chatStatus, setChatStatus] = useState(CHAT_CLOSE);
@@ -12,8 +12,8 @@ function ChatInput() {
         setChatMsg("");
     };
 
-    const sendChatMsg = (webSocket, msg) => {
-        webSocket.sendEvent("chat", msg);
+    const sendChatMsg = (msg) => {
+        ApplicationState.connection.sendEvent("chat", msg);
     };
 
     const hideChatInput = () => {
@@ -29,7 +29,7 @@ function ChatInput() {
     useEffect(() => {
         const subs = [
             // hitPoints is undefined for now, until player is implemented again
-            PubSub.subscribe(ENTER_KEY, (data) => {
+            PubSub.subscribe(ENTER_KEY, () => {
                 // Close the box. Can't chat while dead.
                 if (PlayerState.hitPoints <= 0) {
                     clearChatMsg();
@@ -43,7 +43,7 @@ function ChatInput() {
                     // Don't bother sending empty messages.
                     if (chatMsg !== "") {
                         // Send the message to the server.
-                        sendChatMsg(window.ws, chatMsg);
+                        sendChatMsg(chatMsg);
 
                         // Empty the contents ready for the next chat.
                         setChatMsg("");

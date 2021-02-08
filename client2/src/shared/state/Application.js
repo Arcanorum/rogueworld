@@ -4,6 +4,8 @@ import {
 } from "../EventTypes";
 
 class Application {
+    connection = null;
+
     connecting = false;
 
     connected = false;

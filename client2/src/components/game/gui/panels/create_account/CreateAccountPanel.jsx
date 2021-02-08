@@ -7,6 +7,7 @@ import borderImage from "../../../../../assets/images/gui/panels/account/create-
 import "./CreateAccountPanel.scss";
 import Utils from "../../../../../shared/Utils";
 import { CREATE_ACCOUNT_FAILURE } from "../../../../../shared/EventTypes";
+import { ApplicationState } from "../../../../../shared/state/States";
 
 function CreateAccountPanel({ onCloseCallback }) {
     const [username, setUsername] = useState("");
@@ -30,7 +31,7 @@ function CreateAccountPanel({ onCloseCallback }) {
         // Encrypt the password before sending.
         const hash = await Utils.digestMessage(password);
 
-        window.ws.sendEvent("create_account", {
+        ApplicationState.connection.sendEvent("create_account", {
             username,
             password: hash,
         });

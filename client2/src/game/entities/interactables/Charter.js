@@ -13,7 +13,7 @@
 
 // Sprite.prototype.interactedByPlayer = function () {
 //     // If this player isn't in a clan, join the one the charter belongs to.
-//     if (window.gameScene.clanManager.ownRankIndex === null) ws.sendEvent("clan_join");
+//     if (window.gameScene.clanManager.ownRankIndex === null) ApplicationState.connection.sendEvent("clan_join");
 //     // Open the base crafting panel.
 //     else {
 //         window.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;

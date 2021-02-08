@@ -239,19 +239,19 @@ class Game extends Phaser.Scene {
             // Allow continuous movement if a move key is held down.
             if (this.moveUpIsDown === true) {
                 this.checkCollidables("u");
-                window.ws.sendEvent("mv_u");
+                ApplicationState.connection.sendEvent("mv_u");
             }
             if (this.moveDownIsDown === true) {
                 this.checkCollidables("d");
-                window.ws.sendEvent("mv_d");
+                ApplicationState.connection.sendEvent("mv_d");
             }
             if (this.moveLeftIsDown === true) {
                 this.checkCollidables("l");
-                window.ws.sendEvent("mv_l");
+                ApplicationState.connection.sendEvent("mv_l");
             }
             if (this.moveRightIsDown === true) {
                 this.checkCollidables("r");
-                window.ws.sendEvent("mv_r");
+                ApplicationState.connection.sendEvent("mv_r");
             }
         }
 
@@ -281,7 +281,7 @@ class Game extends Phaser.Scene {
         this.checkCollidables(direction);
 
         if (PlayerState.hitPoints <= 0) return;
-        window.ws.sendEvent(`mv_${direction}`);
+        ApplicationState.connection.sendEvent(`mv_${direction}`);
 
         this.nextMoveTime = Date.now() + this.moveDelay;
     }
@@ -333,7 +333,7 @@ class Game extends Phaser.Scene {
                 this.dynamics[PlayerState.entityID].spriteContainer.baseSprite,
                 event,
             ) < 32) {
-                window.ws.sendEvent("pick_up_item");
+                ApplicationState.connection.sendEvent("pick_up_item");
                 return;
             }
 
@@ -354,7 +354,7 @@ class Game extends Phaser.Scene {
             //     this.player.inventory.useHeldItem(direction);
             // }
             // else { // Do a melee attack.
-            //     window.ws.sendEvent("melee_attack", direction);
+            //     ApplicationState.connection.sendEvent("melee_attack", direction);
             // }
         }
     }
@@ -425,7 +425,7 @@ class Game extends Phaser.Scene {
         }
 
         if (event.code === "KeyE") {
-            window.ws.sendEvent("pick_up_item");
+            ApplicationState.connection.sendEvent("pick_up_item");
         }
     }
 

@@ -11,18 +11,18 @@ import createButtonBorderValid from "../../../../../assets/images/gui/panels/dun
 import createButtonBorderInvalid from "../../../../../assets/images/gui/panels/dungeon/create-button-border-invalid.png";
 import closeButtonImage from "../../../../../assets/images/gui/panels/panel-close-button.png";
 import gloryIcon from "../../../../../assets/images/gui/hud/glory-icon.png";
-import { PlayerState } from "../../../../../shared/state/States";
+import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 import { DUNGEON_PARTIES } from "../../../../../shared/EventTypes";
 
 const leaveParty = (dungeonManagerID) => {
-    window.ws.sendEvent("leave_dungeon_party", {
+    ApplicationState.connection.sendEvent("leave_dungeon_party", {
         dungeonID: dungeonManagerID,
     });
 };
 
 function PartySlot({ party, dungeonPortal }) {
     const joinPressed = () => {
-        window.ws.sendEvent("join_dungeon_party", {
+        ApplicationState.connection.sendEvent("join_dungeon_party", {
             dungeonID: dungeonPortal.dungeonManagerID,
             partyID: party.id,
         });
@@ -45,7 +45,7 @@ PartySlot.propTypes = {
 
 function PartyMemberSlot({ member, partyLeader, dungeonPortal }) {
     const kickPressed = () => {
-        window.ws.sendEvent("kick_dungeon_party_member", {
+        ApplicationState.connection.sendEvent("kick_dungeon_party_member", {
             dungeonID: dungeonPortal.dungeonManagerID,
             memberID: member.id,
         });
@@ -84,7 +84,7 @@ function PartySelectionList({ parties, gloryCost, dungeonPortal }) {
         // Check if the player has enough glory.
         if (PlayerState.glory >= gloryCost) {
             // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
-            window.ws.sendEvent("create_dungeon_party", {
+            ApplicationState.connection.sendEvent("create_dungeon_party", {
                 dungeonID: dungeonPortal.dungeonManagerID,
                 row: dungeonPortal.row,
                 col: dungeonPortal.col,
@@ -174,7 +174,7 @@ function PartyMembersList({
         // Check if the player has enough glory.
         if (PlayerState.glory >= gloryCost) {
             // Attempt to start the dungeon. Send the server the ID of the dungeon manager, and position of the portal to enter through.
-            window.ws.sendEvent("start_dungeon", {
+            ApplicationState.connection.sendEvent("start_dungeon", {
                 dungeonID: dungeonPortal.dungeonManagerID,
                 row: dungeonPortal.row,
                 col: dungeonPortal.col,
@@ -248,7 +248,7 @@ function DungeonPanel({ onCloseCallback, dungeonPortal }) {
 
     useEffect(() => {
         // Tell the server this player is looking at the interface for this dungeon, so they can receive updates for it.
-        window.ws.sendEvent("focus_dungeon", {
+        ApplicationState.connection.sendEvent("focus_dungeon", {
             dungeonID: dungeonPortal.dungeonManagerID,
             row: dungeonPortal.row,
             col: dungeonPortal.col,

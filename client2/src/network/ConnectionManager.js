@@ -61,7 +61,7 @@ export const connectToGameServer = () => {
     }
 
     // Connect to the game server.
-    window.ws = new WebSocket(serverURL);
+    ApplicationState.connection = new WebSocket(serverURL);
 
     ApplicationState.setConnecting(true);
 
@@ -70,16 +70,16 @@ export const connectToGameServer = () => {
      * @param {String} eventName
      * @param {Object} [data]
      */
-    window.ws.sendEvent = (eventName, data) => {
-        window.ws.send(JSON.stringify({ eventName, data }));
+    ApplicationState.connection.sendEvent = (eventName, data) => {
+        ApplicationState.connection.send(JSON.stringify({ eventName, data }));
     };
 
     // Wait for the connection to have finished opening before attempting to join the world.
-    window.ws.onopen = () => {
+    ApplicationState.connection.onopen = () => {
         ApplicationState.setConnected(true);
     };
 
-    window.ws.onmessage = (event) => {
+    ApplicationState.connection.onmessage = (event) => {
         // The data is JSON, so parse it.
         const parsedMessage = JSON.parse(event.data);
         // Every event received should have an event name ID, which is a number that represents an event name string.
@@ -104,10 +104,10 @@ export const connectToGameServer = () => {
         }
     };
 
-    window.ws.onclose = () => {
+    ApplicationState.connection.onclose = () => {
         Utils.message("Disconnected from game server.");
 
-        window.ws = false;
+        ApplicationState.connection = null;
 
         // Do this first, otherwise the current state is lost and can't tell if it
         // was initial connection failure, or failure while already connected.
@@ -119,7 +119,7 @@ export const connectToGameServer = () => {
         ApplicationState.setConnecting(false);
     };
 
-    window.ws.onerror = (error) => {
+    ApplicationState.connection.onerror = (error) => {
         Utils.message("Websocket error:", error);
 
         PubSub.publish(WEBSOCKET_ERROR, error);
@@ -129,7 +129,7 @@ export const connectToGameServer = () => {
 };
 
 export const joinGameNewCharacter = (characterName) => {
-    window.ws.sendEvent("new_char", { displayName: characterName });
+    ApplicationState.connection.sendEvent("new_char", { displayName: characterName });
 
     ApplicationState.setJoining(true);
 };
@@ -142,7 +142,7 @@ export const joinGameContinue = async (username, password) => {
     // Encrypt the password before sending.
     const hash = await Utils.digestMessage(password);
 
-    window.ws.sendEvent("log_in", {
+    ApplicationState.connection.sendEvent("log_in", {
         username,
         password: hash,
     });

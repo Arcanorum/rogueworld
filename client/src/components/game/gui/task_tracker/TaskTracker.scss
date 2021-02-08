@@ -1,0 +1,22 @@
+@import '../../../../shared/Variables.scss';
+
+.task-tracker {
+    position: absolute;
+    left: 200px;
+    text-align: center;
+    padding: 8px;
+    background-color: $colourDB32VeryDarkPurpleOpacity80;
+    color: $colourDB32White;
+    border: 4px solid $colourDB32VeryDarkPurple;
+    display: inline-flex;
+    align-items: center;
+
+    .task {
+      font-size: 0.8rem;
+    }
+
+    .progress {
+      font-size: 1.4rem;
+      margin-left: 16px;
+    }
+}

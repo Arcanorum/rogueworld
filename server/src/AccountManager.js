@@ -158,11 +158,15 @@ module.exports = {
         AccountModel.findOne({ username: username })
             .then(async (res) => {
                 // If a document by the given username was NOT found, res will be null.
-                if (!res) return;
+                if (!res) {
+                    // Account doesn't exist.
+                    clientSocket.sendEvent(EventsList.invalid_login_details);
+                    return;
+                };
 
                 // Prevent them from logging into an account that is already logged in.
                 if (res.isLoggedIn === true) {
-                    clientSocket.sendEvent(EventsList.something_went_wrong);
+                    clientSocket.sendEvent(EventsList.already_logged_in);
                     return;
                 }
 

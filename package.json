@@ -4,9 +4,9 @@
   "scripts": {
     "postinstall": "cd server && npm install && cd ../client && npm install",
     "server": "cd server && node index",
-    "client": "cd client && npm start",
+    "client": "cd client && npm run build",
     "server:dev": "cd server && npm run dev",
-    "client:dev": "cd client && npm run dev",
+    "client:dev": "cd client && npm run start",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "itemcode": "node ./server/src/GenerateItemCode"
   },

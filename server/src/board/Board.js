@@ -1395,10 +1395,10 @@ Board.createClientBoardData = (dataFileName) => {
 
     //console.log("client data to save:", json);
 
-    Utils.checkDirectoryExists("../client/assets/map");
+    Utils.checkDirectoryExists("../client/src/assets/maps");
 
     // Write the data to the file in the client files.
-    fs.writeFileSync("../client/assets/map/" + dataFileName + ".json", json, "utf8");
+    fs.writeFileSync("../client/src/assets/maps/" + dataFileName + ".json", json, "utf8");
 
     Utils.message("Map data written to client: " + dataFileName);
 };

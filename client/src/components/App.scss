@@ -1,0 +1,30 @@
+@import '../shared/Variables';
+
+body {
+  overflow: hidden;
+  margin: 0;
+  background-color: $colourDB32Black;
+}
+
+img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+::placeholder {
+  color: $colourDB32IronGrey;
+  font-size: 1.5vw;
+}
+
+@font-face {
+  font-family: 'Press Start 2P';
+  font-weight: 400;
+  font-weight: normal;
+  src: url('../assets/fonts/PressStart2P-Regular.ttf');
+}
+
+.press-start-font {
+  font-family: 'Press Start 2P', cursive;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+}

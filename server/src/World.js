@@ -33,7 +33,7 @@ const world = {
     playerCount: 0,
 
     /** @type {Number} How many players can be in the game at once. */
-    maxPlayers: settings.MAX_PLAYERS,
+    maxPlayers: settings.MAX_PLAYERS || 1000,
 
     /** @type {Array.<Board>} A list of board in the world, by index. */
     boardsArray: BoardsList.boardsArray,
@@ -78,7 +78,7 @@ const world = {
         this.linkDungeonManagerEvictionBoards();
 
         // Start the day/night cycle loop.
-        setTimeout(world.progressTime, dayPhaseRate);
+        setTimeout(this.progressTime, dayPhaseRate);
     },
 
     /**
@@ -196,7 +196,6 @@ const world = {
      * @param {AccountModel} account
      */
     addExistingPlayer(clientSocket, account) {
-
         Utils.message("World add existing player:", account.displayName);
 
         if (clientSocket.entity !== undefined) {
@@ -205,59 +204,61 @@ const world = {
         }
 
         // Don't let too many players in the world.
-        if (world.playerCount < world.maxPlayers) {
-            // Start them in the overworld if they have played before.
-            const randomPosition = world.boardsObject["overworld"].entrances[defaultSpawnEntranceName].getRandomPosition();
-
-            /** @type {Player} */
-            const playerEntity = new EntitiesList.Player({
-                row: randomPosition.row,
-                col: randomPosition.col,
-                board: world.boardsObject["overworld"],
-                displayName: account.displayName,
-                socket: clientSocket,
-            });
-
-            AccountManager.loadPlayerData(playerEntity, account);
-
-            const dataToSend = {};
-
-            // Add the extra properties for the loaded data.
-            dataToSend.isLoggedIn = true;
-            dataToSend.inventory = playerEntity.getEmittableInventory();
-            dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
-            dataToSend.boardName = playerEntity.board.name;
-            dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
-            dataToSend.dayPhase = playerEntity.board.dayPhase;
-            dataToSend.player = {
-                id: playerEntity.id,
-                row: playerEntity.row,
-                col: playerEntity.col,
-                displayName: playerEntity.displayName,
-                maxHitPoints: playerEntity.maxHitPoints,
-                maxEnergy: playerEntity.maxEnergy,
-                defence: playerEntity.defence,
-                glory: playerEntity.glory,
-                stats: playerEntity.stats.getEmittableStats(),
-                tasks: playerEntity.tasks.getEmittableTasks(),
-            };
-            // Get the things this player can see.
-            dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
-
-            // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
-            playerEntity.emitToNearbyPlayers();
-
-            clientSocket.sendEvent(EventsList.join_world_success, dataToSend);
-
-            clientSocket.inGame = true;
-
-            world.playerCount += 1;
-        }
-        else {
+        if (this.playerCount >= this.maxPlayers) {
             clientSocket.sendEvent(EventsList.world_full);
+            return;
         }
 
-        console.log("  * Player count:", this.playerCount);
+        // Start them in the overworld if they have played before.
+        const randomPosition = this.boardsObject["overworld"].entrances[defaultSpawnEntranceName].getRandomPosition();
+
+        /** @type {Player} */
+        const playerEntity = new EntitiesList.Player({
+            row: randomPosition.row,
+            col: randomPosition.col,
+            board: this.boardsObject["overworld"],
+            displayName: account.displayName,
+            socket: clientSocket,
+        });
+
+        AccountManager.loadPlayerData(playerEntity, account);
+
+        const dataToSend = {};
+
+        // Add the extra properties for the loaded data.
+        dataToSend.isLoggedIn = true;
+        dataToSend.inventory = playerEntity.getEmittableInventory();
+        dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
+        dataToSend.boardName = playerEntity.board.name;
+        dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
+        dataToSend.dayPhase = playerEntity.board.dayPhase;
+        dataToSend.player = {
+            id: playerEntity.id,
+            row: playerEntity.row,
+            col: playerEntity.col,
+            displayName: playerEntity.displayName,
+            hitPoints: playerEntity.hitPoints,
+            maxHitPoints: playerEntity.maxHitPoints,
+            energy: playerEntity.energy,
+            maxEnergy: playerEntity.maxEnergy,
+            defence: playerEntity.defence,
+            glory: playerEntity.glory,
+            stats: playerEntity.stats.getEmittableStats(),
+            tasks: playerEntity.tasks.getEmittableTasks(),
+        };
+        // Get the things this player can see.
+        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
+
+        // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
+        playerEntity.emitToNearbyPlayers();
+
+        clientSocket.sendEvent(EventsList.join_world_success, dataToSend);
+
+        clientSocket.inGame = true;
+
+        this.playerCount += 1;
+
+        Utils.message("Player count:", this.playerCount);
     },
 
     /**
@@ -267,68 +268,68 @@ const world = {
      * @param {String} displayName
      */
     addNewPlayer(clientSocket, displayName) {
+        Utils.message("World add new player:", displayName);
 
         if (clientSocket.entity !== undefined) {
             // Weird bug... :S
             Utils.warning("* * * * adding new player, but client socket already has an entity");
         }
 
-        Utils.message("World add new player:", displayName);
-
         // Don't let too many players in the world.
-        if (world.playerCount < world.maxPlayers) {
-
-            const randomPosition = world.boardsObject["tutorial"].entrances["spawn"].getRandomPosition();
-
-            /** @type {Player} */
-            const playerEntity = new EntitiesList.Player({
-                row: randomPosition.row,
-                col: randomPosition.col,
-                board: world.boardsObject["tutorial"],
-                displayName: displayName,
-                socket: clientSocket
-            });
-
-            // Give the new player some starting tasks, as they are NOT added automatically for player entities.
-            playerEntity.tasks.addStartingTasks();
-            // New accounts get some free stuff in their bank in the tutorial, so add those properties.
-            playerEntity.bankAccount.addStarterItems();
-
-            const dataToSend = {};
-
-            dataToSend.inventory = playerEntity.getEmittableInventory();
-            dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
-            dataToSend.boardName = playerEntity.board.name;
-            dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
-            dataToSend.dayPhase = playerEntity.board.dayPhase;
-            dataToSend.player = {
-                id: playerEntity.id,
-                row: playerEntity.row,
-                col: playerEntity.col,
-                displayName: playerEntity.displayName,
-                maxHitPoints: playerEntity.maxHitPoints,
-                maxEnergy: playerEntity.maxEnergy,
-                glory: playerEntity.glory,
-                stats: playerEntity.stats.getEmittableStats(),
-                tasks: playerEntity.tasks.getEmittableTasks(),
-            };
-            // Get the things this player can see.
-            dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
-
-            // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
-            playerEntity.emitToNearbyPlayers();
-
-            clientSocket.sendEvent(EventsList.join_world_success, dataToSend);
-
-            clientSocket.inGame = true;
-
-            world.playerCount += 1;
-        }
-        else {
+        if (this.playerCount >= this.maxPlayers) {
             clientSocket.sendEvent(EventsList.world_full);
+            return;
         }
 
-        console.log("  * Player count:", this.playerCount);
+        const randomPosition = this.boardsObject["tutorial"].entrances["spawn"].getRandomPosition();
+
+        /** @type {Player} */
+        const playerEntity = new EntitiesList.Player({
+            row: randomPosition.row,
+            col: randomPosition.col,
+            board: this.boardsObject["tutorial"],
+            displayName: displayName,
+            socket: clientSocket
+        });
+
+        // Give the new player some starting tasks, as they are NOT added automatically for player entities.
+        playerEntity.tasks.addStartingTasks();
+        // New accounts get some free stuff in their bank in the tutorial, so add those properties.
+        playerEntity.bankAccount.addStarterItems();
+
+        const dataToSend = {};
+
+        dataToSend.inventory = playerEntity.getEmittableInventory();
+        dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
+        dataToSend.boardName = playerEntity.board.name;
+        dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
+        dataToSend.dayPhase = playerEntity.board.dayPhase;
+        dataToSend.player = {
+            id: playerEntity.id,
+            row: playerEntity.row,
+            col: playerEntity.col,
+            displayName: playerEntity.displayName,
+            hitPoints: playerEntity.hitPoints,
+            maxHitPoints: playerEntity.maxHitPoints,
+            energy: playerEntity.energy,
+            maxEnergy: playerEntity.maxEnergy,
+            glory: playerEntity.glory,
+            stats: playerEntity.stats.getEmittableStats(),
+            tasks: playerEntity.tasks.getEmittableTasks(),
+        };
+        // Get the things this player can see.
+        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
+
+        // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
+        playerEntity.emitToNearbyPlayers();
+
+        clientSocket.sendEvent(EventsList.join_world_success, dataToSend);
+
+        clientSocket.inGame = true;
+
+        this.playerCount += 1;
+
+        Utils.message("Player count:", this.playerCount);
     },
 
     /**
@@ -336,7 +337,7 @@ const world = {
      * @param {Object} clientSocket - The socket of the player entity to remove.
      */
     removePlayer(clientSocket) {
-        console.log("remove player, account username:", clientSocket.accountUsername);
+        Utils.message("World remove player, account username:", clientSocket.accountUsername);
         // If the socket had an entity, remove it from the game.
         if (clientSocket.entity !== undefined) {
             // If they have an account username then they have an account, so log them out.
@@ -352,7 +353,7 @@ const world = {
         // Reduce the player count.
         this.playerCount -= 1;
 
-        Utils.message("World remove player, player count:", this.playerCount);
+        Utils.message("Player count:", this.playerCount);
     },
 
     /**
@@ -365,19 +366,19 @@ const world = {
         // Utils.message("Day phase progressed:", dayPhaseCycle[0]);
 
         // Check if the period is different than last. Don't bother updating the boards/players if it is the same. i.e. day and night last more than one phase.
-        if (dayPhaseCycle[0] !== world.dayPhase) {
+        if (dayPhaseCycle[0] !== this.dayPhase) {
             // Get whatever is at the front.
-            world.dayPhase = dayPhaseCycle[0];
+            this.dayPhase = dayPhaseCycle[0];
 
             BoardsList.boardsArray.forEach((board) => {
                 // Don't change the time inside dungeons and caves etc. They are always dark (night).
                 if (board.alwaysNight === false) {
-                    board.dayPhase = world.dayPhase;
+                    board.dayPhase = this.dayPhase;
                 }
             });
 
             // Tell the boards and everyone on them the time has changed.
-            wss.broadcastToInGame(EventsList.change_day_phase, world.dayPhase);
+            wss.broadcastToInGame(EventsList.change_day_phase, this.dayPhase);
         }
 
         setTimeout(world.progressTime, dayPhaseRate);

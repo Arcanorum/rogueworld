@@ -1,0 +1,136 @@
+@import "../../../../../shared/Variables";
+
+$taskSlotUnselected: #222034;
+$taskSlotSelected: #df7126;
+$taskSlotDefault: #ffffff;
+$taskSlotTracking: #639bff;
+$taskSlotCompleted: #6abe30;
+
+.tasks-panel {
+
+    .inner-cont {
+        height: 100%;
+        display: grid;
+        grid-template-rows: 10% 3% auto 13%;
+
+        .headings-cont {
+            color: $colourDB32VeryDarkPurple;
+            background-color: $colourDB32IronGreyOpacity80;
+            display: grid;
+            grid-template-columns: 28% 41% auto;
+            text-align: center;
+            align-items: end;
+            justify-items: center;
+            grid-gap: 16px;
+            font-weight: bold;
+        }
+
+        .list-cont {
+            background-color: $colourDB32SteelGreyOpacity50;
+            overflow: auto;
+
+            .slot-cont {
+                color: $colourDB32VeryDarkPurple;
+                background-color: $colourDB32VeryDarkPurple;
+                display: grid;
+                grid-template-columns: 42% 18% auto;
+                text-align: center;
+                align-items: center;
+                grid-gap: 4px;
+                font-size: 14px;
+                margin: 8px;
+                border-width: 4px;
+                border-style: solid;
+                border-color: $colourDB32VeryDarkPurple;
+                // cursor: $cursorHand;
+                &:hover {
+                    filter: brightness(150%);
+                    transform: scale(1.03);
+                }
+
+                .slot-cell {
+                    height: 100%;
+                    background-color: $colourDB32White;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .slot-task-name {
+                    height: auto;
+                    padding: 7px;
+                }
+
+                .reward-cont {
+                    display: grid;
+                    grid-template-columns: 15% 15% 15% 15% auto;
+                    grid-gap: 4px;
+                    align-items: center;
+                    justify-items: center;
+
+                    .reward-item-cont {
+                        position: relative;
+                        width: 100%;
+
+                        .reward-item {
+                            width: 100%;
+
+                            &:hover {
+                                filter: brightness(150%);
+                                transform: scale(1.3);
+                            }
+                        }
+                    }
+
+                    .glory-icon {
+                        width: 80%;
+                        pointer-events: none;
+                    }
+                }
+            }
+
+            .completed {
+                background-color: $taskSlotCompleted;
+            }
+
+            .selected {
+                background-color: $taskSlotSelected;
+                border-color: $taskSlotSelected;
+            }
+        }
+
+        .bottom-cont {
+            background-color: $colourDB32VeryDarkPurple;
+            position: relative;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            grid-template-columns: auto 50%;
+            padding-top: 17px;
+
+            .bottom-button-cont {
+                position: relative;
+                width: 55%;
+                user-select: none;
+                // cursor: $cursorHand;
+                &:hover {
+                    filter: brightness(150%);
+                    transform: scale(1.1);
+                }
+
+                .bottom-button {
+                    width: 100%;
+                    left: 50%;
+                    top: 50%;
+                }
+
+                .bottom-text {
+                    left: 50%;
+                    top: 50%;
+                    font-size: 14px;
+                    color: $colourDB32VeryDarkPurple;
+                }
+            }
+        }
+    }
+}

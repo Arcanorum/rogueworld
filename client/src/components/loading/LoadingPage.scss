@@ -1,0 +1,85 @@
+@import "../../shared/Variables.scss";
+
+.loading-page {
+    background-color: $colourDB32VeryDarkPurple;
+    color: $colourDB32White;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 40px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-gap: 5%;
+    grid-template-rows: 10% 50% 10% auto;
+    align-items: center;
+    justify-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.loading-heading {
+    font-size: 8vh;
+}
+  
+.loading-hint-cont {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .col {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .image {
+        text-align: right;
+        height: 100%;
+    }
+}
+
+.loading-hint-image {
+    height: 100%;
+}
+
+.loading-hint-text {
+    font-size: 4vh;
+    text-align: left;
+}
+
+.loading-next-hint-button {
+    font-size: 2vh;
+    color: $colourDB32White;
+    padding: 1rem;
+    cursor: pointer;
+    border: 0.1rem solid $colourDB32White;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.loading-play-button-cont {
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    font-size: 2rem;
+    color: $colourDB32White;
+    height: 100%;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.loading-play-button-border {
+    position: absolute;
+    height: 100%;
+    cursor: pointer;
+}
+
+.loading-play-text {
+    position: absolute;
+    font-size: 6vh;
+    cursor: pointer;
+}

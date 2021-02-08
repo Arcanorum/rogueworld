@@ -1,18 +1,31 @@
-.idea/
-node_modules/
+# PROJECT
+.idea
+node_modules
 
-client/node_modules/
-client/main.css
-client/main.css.map
-client/dist/
-client/assets/map/
-client/assets/img/game-atlas.json
-client/assets/img/game-atlas.png
-client/assets/img/ground.png
-client/assets/img/statics.png
+# NEW CLIENT
+client/node_modules
+client/.pnp
+client/.pnp.js
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+client/.eslintcache
+client/build
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
 client/src/catalogues/
+client/src/assets/maps/
+client/src/assets/maps/
+client/src/assets/images/game-atlas.json
+client/src/assets/images/game-atlas.png
+client/src/assets/images/ground.png
+client/src/assets/images/statics.png
 
-server/node_modules/
+# SERVER
+server/node_modules
 server/settings.yml
 server/PlayerDataDump.json
 server/test.js

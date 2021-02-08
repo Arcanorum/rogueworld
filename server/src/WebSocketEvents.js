@@ -81,10 +81,7 @@ wss.broadcastToInGame = function broadcast(eventNameID, data) {
     });
 };
 
-let conCount = 1;
 wss.on("connection", function (clientSocket) {
-    conCount += 1;
-
     clientSocket.isAlive = true;
     clientSocket.on("pong", heartbeat);
 
@@ -148,7 +145,7 @@ eventResponses.log_in = (clientSocket, data) => {
  * @param {String} data.displayName
  */
 eventResponses.new_char = function (clientSocket, data) {
-    //console.log("new char:", data);
+    // console.log("new char:", data);
     if (!data) return;
     // Don't let them join a world if they are already in one.
     if (clientSocket.inGame === true) return;

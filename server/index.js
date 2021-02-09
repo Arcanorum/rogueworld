@@ -5,6 +5,7 @@ const { extrudeTilesetToImage } = require("tile-extruder");
 const Utils = require("./src/Utils");
 const ItemsLoader = require("./src/ItemsLoader");
 const EntitiesLoader = require("./src/EntitiesLoader");
+const settings = require("./settings");
 
 Utils.message("Start of index");
 
@@ -102,15 +103,19 @@ async function init() {
     Utils.message("Tilesets copied to client assets.");
 
     // Rebuild the client as some of the resources it uses might have been updated by the server init.
-    // exec("cd .. && npm run client", (error, stdout, stderr) => {
-    //     if (error || stderr) {
-    //         Utils.error(error || stderr);
-    //     }
-    //     // Uncomment to see the output logs of building the client.
-    //     // Utils.message(stdout);
-
-    //     Utils.message("Finished building client.");
-    // });
+    // Should only need to do this for a prod build, as the Webpack dev server should take care of
+    // detecting changes and rebuilding the client during development.
+    if(settings.DEV_MODE === false){
+        exec("cd .. && npm run client", (error, stdout, stderr) => {
+            if (error || stderr) {
+                Utils.error(error || stderr);
+            }
+            // Uncomment to see the output logs of building the client.
+            // Utils.message(stdout);
+    
+            Utils.message("Finished building client.");
+        });
+    }
 
     Utils.message("End of index. Server is good to go. :)");
     Utils.message("Game can be played at http://localhost:4567");

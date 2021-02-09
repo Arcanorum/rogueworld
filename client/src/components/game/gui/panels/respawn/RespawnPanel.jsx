@@ -14,8 +14,8 @@ function RespawnPanel() {
     return (
         <div className="respawn-panel centered panel-template-cont gui-zoomable">
             <PanelTemplate
-              width={440}
-              height={220}
+              width="440px"
+              height="220px"
               panelName={Utils.getTextDef("Respawn panel: name")}
               icon={respawnIcon}
             >

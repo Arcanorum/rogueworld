@@ -124,8 +124,8 @@ function TasksPanel({ onCloseCallback }) {
     return (
         <div className="tasks-panel centered panel-template-cont gui-zoomable">
             <PanelTemplate
-              width={540}
-              height={360}
+              width="540px"
+              height="360px"
               panelName={Utils.getTextDef("Tasks")}
               icon={tasksIcon}
               onCloseCallback={onCloseCallback}

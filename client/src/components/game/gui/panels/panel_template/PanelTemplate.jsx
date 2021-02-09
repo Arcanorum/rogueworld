@@ -11,7 +11,7 @@ function PanelTemplate({
     return (
         <div
           className="panel-template-main-cont"
-          style={{ width: `${width}px`, height: `${height}px` }}
+          style={{ width: `${width}`, height: `${height}` }}
           draggable={false}
         >
             <img
@@ -71,8 +71,8 @@ function PanelTemplate({
 
 PanelTemplate.propTypes = {
     children: PropTypes.node.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     panelName: PropTypes.string,
     onCloseCallback: PropTypes.oneOfType([

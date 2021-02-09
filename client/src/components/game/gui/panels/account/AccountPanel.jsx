@@ -59,8 +59,8 @@ function AccountPanel({ onCloseCallback }) {
     return (
         <div className="account-panel centered panel-template-cont gui-zoomable">
             <PanelTemplate
-              width={440}
-              height={420}
+              width="440px"
+              height="420px"
               panelName={Utils.getTextDef("Account panel: name")}
               icon={exitIcon}
               onCloseCallback={onCloseCallback}

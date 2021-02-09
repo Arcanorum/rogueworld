@@ -14,6 +14,7 @@ import AccountPanel from "./panels/account/AccountPanel";
 import { ApplicationState } from "../../../shared/state/States";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
+import mapIcon from "../../../assets/images/gui/hud/map-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
@@ -27,6 +28,7 @@ import DungeonPanel from "./panels/dungeon/DungeonPanel";
 import RespawnPanel from "./panels/respawn/RespawnPanel";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
+import MapPanel from "./panels/map/MapPanel";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -38,6 +40,7 @@ const Panels = {
     Dungeon: Symbol("Dungeon"),
     Stats: Symbol("Stats"),
     Tasks: Symbol("Tasks"),
+    Map: Symbol("Map"),
 };
 
 function GUI() {
@@ -109,6 +112,13 @@ function GUI() {
                       setShownPanel(Panels.Tasks);
                   }}
                   tooltip={Utils.getTextDef("Tasks tooltip")}
+                />
+                <PanelButton
+                  icon={mapIcon}
+                  onClick={() => {
+                      setShownPanel(Panels.Map);
+                  }}
+                  tooltip={Utils.getTextDef("Map tooltip")}
                 />
             </div>
 
@@ -183,6 +193,11 @@ function GUI() {
                 )}
                 {shownPanel === Panels.Tasks && (
                 <TasksPanel
+                  onCloseCallback={closePanelCallback}
+                />
+                )}
+                {shownPanel === Panels.Map && (
+                <MapPanel
                   onCloseCallback={closePanelCallback}
                 />
                 )}

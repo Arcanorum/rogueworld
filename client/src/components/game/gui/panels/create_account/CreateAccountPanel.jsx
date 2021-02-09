@@ -54,8 +54,8 @@ function CreateAccountPanel({ onCloseCallback }) {
     return (
         <div className="create-account-panel centered panel-template-cont gui-zoomable">
             <PanelTemplate
-              width={440}
-              height={420}
+              width="440px"
+              height="420px"
               panelName={Utils.getTextDef("Create account panel: name")}
               icon={exitIcon}
               onCloseCallback={onCloseCallback}

@@ -89,8 +89,8 @@ function StatsPanel({ onCloseCallback }) {
     return (
         <div className="stats-panel centered panel-template-cont gui-zoomable">
             <PanelTemplate
-              width={540}
-              height={360}
+              width="540px"
+              height="360px"
               panelName={Utils.getTextDef("Stats panel: name")}
               icon={statsIcon}
               onCloseCallback={onCloseCallback}

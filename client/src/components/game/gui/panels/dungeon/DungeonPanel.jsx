@@ -295,8 +295,8 @@ function DungeonPanel({ onCloseCallback, dungeonPortal }) {
     return (
         <div className="dungeon-panel centered panel-template-cont gui-zoomable">
             <PanelTemplate
-              width={440}
-              height={420}
+              width="440px"
+              height="420px"
               panelName={Utils.getTextDef("Dungeon")}
               icon={dungeonIcon}
               onCloseCallback={onCloseCallback}

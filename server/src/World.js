@@ -191,6 +191,39 @@ const world = {
     },
 
     /**
+     * Prepares any data that a client will need to know as soon as it starts the game state.
+     * @param {Player} playerEntity 
+     */
+    getPlayerDataToSend(playerEntity) {
+        const dataToSend = {};
+
+        dataToSend.inventory = playerEntity.getEmittableInventory();
+        dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
+        dataToSend.boardName = playerEntity.board.name;
+        dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
+        dataToSend.dayPhase = playerEntity.board.dayPhase;
+        dataToSend.player = {
+            id: playerEntity.id,
+            row: playerEntity.row,
+            col: playerEntity.col,
+            displayName: playerEntity.displayName,
+            hitPoints: playerEntity.hitPoints,
+            maxHitPoints: playerEntity.maxHitPoints,
+            energy: playerEntity.energy,
+            maxEnergy: playerEntity.maxEnergy,
+            defence: playerEntity.defence,
+            glory: playerEntity.glory,
+            moveDelay: playerEntity.moveDelay,
+            stats: playerEntity.stats.getEmittableStats(),
+            tasks: playerEntity.tasks.getEmittableTasks(),
+        };
+        // Get the things this player can see.
+        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
+
+        return dataToSend;
+    },
+
+    /**
      * Add a player entity to the game world from an existing player account.
      * @param {Object} clientSocket
      * @param {AccountModel} account
@@ -223,31 +256,10 @@ const world = {
 
         AccountManager.loadPlayerData(playerEntity, account);
 
-        const dataToSend = {};
+        const dataToSend = this.getPlayerDataToSend(playerEntity);
 
-        // Add the extra properties for the loaded data.
+        // Tell them they are logged in.
         dataToSend.isLoggedIn = true;
-        dataToSend.inventory = playerEntity.getEmittableInventory();
-        dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
-        dataToSend.boardName = playerEntity.board.name;
-        dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
-        dataToSend.dayPhase = playerEntity.board.dayPhase;
-        dataToSend.player = {
-            id: playerEntity.id,
-            row: playerEntity.row,
-            col: playerEntity.col,
-            displayName: playerEntity.displayName,
-            hitPoints: playerEntity.hitPoints,
-            maxHitPoints: playerEntity.maxHitPoints,
-            energy: playerEntity.energy,
-            maxEnergy: playerEntity.maxEnergy,
-            defence: playerEntity.defence,
-            glory: playerEntity.glory,
-            stats: playerEntity.stats.getEmittableStats(),
-            tasks: playerEntity.tasks.getEmittableTasks(),
-        };
-        // Get the things this player can see.
-        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
 
         // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
         playerEntity.emitToNearbyPlayers();
@@ -297,28 +309,7 @@ const world = {
         // New accounts get some free stuff in their bank in the tutorial, so add those properties.
         playerEntity.bankAccount.addStarterItems();
 
-        const dataToSend = {};
-
-        dataToSend.inventory = playerEntity.getEmittableInventory();
-        dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
-        dataToSend.boardName = playerEntity.board.name;
-        dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;
-        dataToSend.dayPhase = playerEntity.board.dayPhase;
-        dataToSend.player = {
-            id: playerEntity.id,
-            row: playerEntity.row,
-            col: playerEntity.col,
-            displayName: playerEntity.displayName,
-            hitPoints: playerEntity.hitPoints,
-            maxHitPoints: playerEntity.maxHitPoints,
-            energy: playerEntity.energy,
-            maxEnergy: playerEntity.maxEnergy,
-            glory: playerEntity.glory,
-            stats: playerEntity.stats.getEmittableStats(),
-            tasks: playerEntity.tasks.getEmittableTasks(),
-        };
-        // Get the things this player can see.
-        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
+        const dataToSend = this.getPlayerDataToSend(playerEntity);
 
         // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
         playerEntity.emitToNearbyPlayers();

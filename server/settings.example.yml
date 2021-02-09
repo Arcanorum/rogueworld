@@ -1,4 +1,34 @@
+# Production/Development mode. Useful for opting in/out of certain prod or dev features, such as
+# changing the default player spawn entrance from the main city to the dev island.
 DEV_MODE: true
+
+# Silence warning messages. Useful for development when still messing around with stuff and to
+# avoid getting spammed. Warning should be fixed though for a prod build.
 IGNORE_WARNINGS: false
+
+# Up to how many players can be playing at once.
 MAX_PLAYERS: 1000
+
+# Each game day is split up into an amount of sections, but the total length of a full day cycle
+# is always the same regardless of the ratio between dawn/day/dusk/night.
 FULL_DAY_DURATION_MINUTES: 24
+
+# Prevents all spawner entities from spawning any other entities.
+# Will make any dungeons that require key drops for locked doors impossible to complete.
+DISABLE_SPAWNER_AREAS: false
+
+# How long between each time the player entity can move. (ms)
+# Lower is less delay, so faster move speed.
+PLAYER_MOVE_DELAY: 250
+
+# How much glory a new player starts with.
+PLAYER_STARTING_GLORY: 100
+
+# How many hitpoints a player entity can have.
+PLAYER_MAX_HITPOINTS: 200
+
+# How much energy a player entity can have.
+PLAYER_MAX_ENERGY: 20
+
+# How long each energy point takes to regenerate. (ms)
+PLAYER_ENERGY_REGEN_RATE: 1000

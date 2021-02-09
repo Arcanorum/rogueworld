@@ -648,23 +648,23 @@ const Damage = require("../../../../gameplay/Damage");
 // Give each player easy access to the events list.
 Player.prototype.ChatWarnings = require("../../../../ChatWarnings");
 /** @type {Number} How long between each move. */
-Player.prototype.moveDelay = 250;
+Player.prototype.moveDelay = settings.PLAYER_MOVE_DELAY || 250;
 /** @type {Number} Set this for it to be sent to the client too, so it can tween/animate at the right speed. */
-Player.prototype.moveRate = 250;
+Player.prototype.moveRate = settings.PLAYER_MOVE_DELAY || 250;
 /** @type {Number} */
-Player.prototype.maxHitPoints = 200;
+Player.prototype.maxHitPoints = settings.PLAYER_MAX_HITPOINTS || 200;
 /** @type {Number} */
 Player.prototype.hitPoints = Player.prototype.maxHitPoints;
 /** @type {Number} */
-Player.prototype.maxEnergy = 20;
+Player.prototype.maxEnergy = settings.PLAYER_MAX_ENERGY || 20;
 /** @type {Number} */
 Player.prototype.energy = Player.prototype.maxEnergy;
 /** @type {Number} */
-Player.prototype.energyRegenRate = 1000;
+Player.prototype.energyRegenRate = settings.PLAYER_ENERGY_REGEN_RATE || 1000;
 /** @type {Number|null} */
 Player.prototype.energyRegenLoop = null;
 /** @type {Number} */
-Player.prototype.glory = 100;
+Player.prototype.glory = settings.PLAYER_STARTING_GLORY || 0;
 /** @type {Function} */
 Player.prototype.CorpseType = require("../../corpses/CorpseHuman");
 

@@ -329,6 +329,9 @@ class Board {
 
                     switch (type) {
                         case "SpawnerArea":
+                            // Check if spawners have been disabled in the settings.
+                            if(settings.DISABLE_SPAWNER_AREAS) continue;
+
                             config.width = mapObject.width / this.tileSize;
                             config.height = mapObject.height / this.tileSize;
                             config.entityType = EntitiesList[mapObject.properties["EntityClassName"]];
@@ -1407,3 +1410,4 @@ module.exports = Board;
 
 const boardsObject = require("./BoardsList").boardsObject;
 const DungeonManagersList = require("../dungeon/DungeonManagersList");
+const settings = require("../../settings");

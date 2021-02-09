@@ -102,7 +102,7 @@ class Game extends Phaser.Scene {
          * How often to send each move event.
          * @type {Number}
          */
-        this.moveDelay = 250;
+        this.moveDelay = playerData.moveDelay || 250;
 
         /**
          * The time after which the next move can be performed.

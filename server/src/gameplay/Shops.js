@@ -244,13 +244,13 @@ class ShopOmni extends ShopNPC {
         this.addStock(new StockItem(ItemsList.ExpOrbPotionry, 0));
         this.addStock(new StockItem(ItemsList.GloryOrb, 0));
 
-        //this.addStock(new StockItem(ItemsList.Charter, 0));
-        //this.addStock(new StockItem(ItemsList.Workbench, 0));
-        //this.addStock(new StockItem(ItemsList.Furnace, 0));
-        //this.addStock(new StockItem(ItemsList.Anvil, 0));
-        //this.addStock(new StockItem(ItemsList.BankChest, 0));
-        //this.addStock(new StockItem(ItemsList.WoodWall, 0));
-        //this.addStock(new StockItem(ItemsList.WoodDoor, 0));
+        // this.addStock(new StockItem(ItemsList.Charter, 0));
+        // this.addStock(new StockItem(ItemsList.Workbench, 0));
+        // this.addStock(new StockItem(ItemsList.Furnace, 0));
+        // this.addStock(new StockItem(ItemsList.Anvil, 0));
+        // this.addStock(new StockItem(ItemsList.BankChest, 0));
+        // this.addStock(new StockItem(ItemsList.WoodWall, 0));
+        // this.addStock(new StockItem(ItemsList.WoodDoor, 0));
     }
 }
 
@@ -374,14 +374,14 @@ const ShopTypes = {
     Materials: ShopMaterials,
 };
 
-
 // Write the shops data to the client, so the client knows what items/prices to show for each shop ID name.
 // The shop ID name isn't sent to the client, it is a property of each entity type, so they already know
 // what shop data to show in the shop panel for each type of merchant.
 const fs = require("fs");
+
 let dataToWrite = {};
 
-for (let shopKey in ShopTypes) {
+for (const shopKey in ShopTypes) {
     // Don't check prototype properties.
     if (ShopTypes.hasOwnProperty(shopKey) === false) continue;
     // Only add NPC shop types.
@@ -394,7 +394,7 @@ for (let shopKey in ShopTypes) {
     // Prices are not added, as they can change, so needs to be sent on request.
     dataToWrite[shopKey] = [];
 
-    const stock = shop.stock;
+    const { stock } = shop;
     // For every item in the stock.
     for (let i = 0; i < stock.length; i += 1) {
         if (!stock[i].ItemType.prototype) {
@@ -403,7 +403,6 @@ for (let shopKey in ShopTypes) {
 
         dataToWrite[shopKey][i] = stock[i].ItemType.prototype.typeNumber;
     }
-
 }
 
 // Turn the data into a string.

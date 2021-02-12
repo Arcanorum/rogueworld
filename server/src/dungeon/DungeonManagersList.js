@@ -13,5 +13,5 @@ module.exports = {
      * // Get the bandit hideout dungeon manager.
      * DungeonManagersList.ByName["bandit-hideout"];
      */
-    ByName: {}
+    ByName: {},
 };

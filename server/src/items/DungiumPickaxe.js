@@ -1,11 +1,9 @@
 const Item = require("./Item");
 
 class DungiumPickaxe extends Item {
-
-    use () {
+    use() {
         this.useGatheringTool();
     }
-
 }
 
 DungiumPickaxe.translationID = "Dungium pickaxe";

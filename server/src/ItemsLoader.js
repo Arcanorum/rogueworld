@@ -1,4 +1,4 @@
-const fs   = require("fs");
+const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
 const Utils = require("./Utils");
@@ -12,15 +12,15 @@ const Item = require("./items/Item");
  * @param {String} [config.extends]
  */
 const makeClass = (config) => {
-    if(!config.name) {
-        Utils.error(`Cannot load item config, required property "name" is missing.`);
+    if (!config.name) {
+        Utils.error("Cannot load item config, required property \"name\" is missing.");
     }
 
     // Use the base Item class to extend from by default.
     let SuperClass = Item;
 
     // Use a more specific type (i.e. Ammunition, Clothes) to extend from if specified.
-    if(config.extends){
+    if (config.extends) {
         const pathToCheck = `${__dirname}/items/${config.extends}.js`;
         if (fs.existsSync(pathToCheck)) {
             SuperClass = require(`./items/${config.extends}`);
@@ -35,7 +35,7 @@ const makeClass = (config) => {
     class GenericItem extends SuperClass { }
 
     GenericItem.assignPickupType(config.name);
-    
+
     return GenericItem;
 };
 
@@ -45,11 +45,12 @@ const populateList = () => {
     try {
         // Load all of the pure config items from the item configs list.
         const itemConfigs = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/ItemValues.yml"), "utf8"));
-    
+
         itemConfigs.forEach((config) => {
             ItemsList[config.name] = makeClass(config);
         });
-    } catch (error) {
+    }
+    catch (error) {
         Utils.error(error);
     }
 
@@ -58,19 +59,19 @@ const populateList = () => {
         recurse: true,
         mapKey: (value, baseName) => {
             if (typeof value === "function") {
-                if(ItemsList[baseName]){
+                if (ItemsList[baseName]) {
                     Utils.error(`Cannot load item "${baseName}", as it already exists in the items list. Each item can have an entry in the ItemValues.yml item config list, or a class file, but not both.`);
                 }
                 // Don't add abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
-                if(value.hasOwnProperty("abstract")) return;
+                if (value.hasOwnProperty("abstract")) return;
 
                 value.assignPickupType(baseName);
                 value.prototype.typeName = baseName;
 
                 ItemsList[baseName] = value;
             }
-        }
+        },
     });
 
     // Check all of the items are valid. i.e. are a class/function.
@@ -85,7 +86,7 @@ const populateList = () => {
         // Need to do the registering here, so both the items from the config list and the ones loaded from file are done.
         itemType.registerItemType();
     });
-    
+
     Utils.message("Finished populating items list.");
 };
 
@@ -97,11 +98,12 @@ const initialiseList = () => {
     try {
         // Get the pure config items values again to finish setting them up, now that the classes are created.
         const itemConfigs = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/ItemValues.yml"), "utf8"));
-    
+
         itemConfigs.forEach((config) => {
             ItemsList[config.name].loadConfig(config);
         });
-    } catch (error) {
+    }
+    catch (error) {
         Utils.error(error);
     }
 
@@ -111,8 +113,8 @@ const initialiseList = () => {
 const createCatalogue = () => {
     // Write the registered item types to the client, so the client knows what item to add for each type number.
     let dataToWrite = {};
-    
-    for (let itemTypeKey in ItemsList) {
+
+    for (const itemTypeKey in ItemsList) {
         // Don't check prototype properties.
         if (ItemsList.hasOwnProperty(itemTypeKey) === false) continue;
 

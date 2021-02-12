@@ -1,4 +1,3 @@
-
 // const Item = require("./Item");
 
 // class ItemWoodWall extends Item {
@@ -24,8 +23,8 @@
 //     }
 
 // }
-// 
- // module.exports = ItemWoodWall;
+//
+// module.exports = ItemWoodWall;
 
 // const ClanWoodWall = require('../entities/interactables/WoodWall');
 

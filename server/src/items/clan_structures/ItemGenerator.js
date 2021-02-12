@@ -1,4 +1,3 @@
-
 // const Item = require("./Item");
 
 // class ItemGenerator extends Item {
@@ -24,8 +23,8 @@
 //     }
 
 // }
-// 
- // module.exports = ItemGenerator;
+//
+// module.exports = ItemGenerator;
 
 // const Generator = require('../entities/interactables/Generator');
 

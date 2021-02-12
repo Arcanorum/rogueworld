@@ -1,6 +1,5 @@
-
-var counter = 1;
-function registerBehaviour () {
+let counter = 1;
+function registerBehaviour() {
     counter += 1;
     return counter;
 }
@@ -46,7 +45,7 @@ const Behaviours = {
      * - Attacks hostiles and neutrals in range if they are on low hitpoints.
      * - Runs on attacked, unless attacker is on low hitpoints.
      */
-    Opportunistic: registerBehaviour()
+    Opportunistic: registerBehaviour(),
 };
 
 module.exports = Behaviours;

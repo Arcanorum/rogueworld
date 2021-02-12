@@ -1,5 +1,4 @@
-
-const ItemsList = require('../ItemsList');
+const ItemsList = require("../ItemsList");
 
 /**
  * A list of potential rewards to be given on completion of a task.

@@ -1,23 +1,22 @@
-
-var counter = 1;
-function registerFaction () {
+let counter = 1;
+function registerFaction() {
     counter += 1;
     return counter;
 }
 
 const Factions = {
 
-    Barbarians:     registerFaction(),
-    CityGuards:     registerFaction(),
-    Citizens:       registerFaction(),
-    Goblins:        registerFaction(),
+    Barbarians: registerFaction(),
+    CityGuards: registerFaction(),
+    Citizens: registerFaction(),
+    Goblins: registerFaction(),
     HostileAnimals: registerFaction(),
-    Mages:          registerFaction(),
-    Necromancers:   registerFaction(),
-    Outlaws:        registerFaction(),
-    PeacefulAnimals:registerFaction(),
-    Vampires:       registerFaction(),
-    Zombies:        registerFaction(),
+    Mages: registerFaction(),
+    Necromancers: registerFaction(),
+    Outlaws: registerFaction(),
+    PeacefulAnimals: registerFaction(),
+    Vampires: registerFaction(),
+    Zombies: registerFaction(),
 
 };
 
@@ -30,7 +29,7 @@ Factions.RelationshipStatuses = {
     // Attack on sight.
     Hostile: 2,
     // Will attack if attacked. Default when no relationship specified.
-    Neutral: 3
+    Neutral: 3,
 };
 
 const Relationships = {
@@ -40,7 +39,7 @@ const Relationships = {
         [Factions.Citizens]: Factions.RelationshipStatuses.Friendly,
         [Factions.Mages]: Factions.RelationshipStatuses.Friendly,
         [Factions.Outlaws]: Factions.RelationshipStatuses.Hostile,
-        [Factions.Zombies]: Factions.RelationshipStatuses.Hostile
+        [Factions.Zombies]: Factions.RelationshipStatuses.Hostile,
     },
 
     [Factions.Goblins]: {
@@ -53,7 +52,7 @@ const Relationships = {
     [Factions.Outlaws]: {
         [Factions.Outlaws]: Factions.RelationshipStatuses.Friendly,
         [Factions.CityGuards]: Factions.RelationshipStatuses.Hostile,
-        [Factions.Citizens]: Factions.RelationshipStatuses.Hostile
+        [Factions.Citizens]: Factions.RelationshipStatuses.Hostile,
     },
 
     [Factions.Zombies]: {
@@ -93,15 +92,15 @@ const Relationships = {
         [Factions.Citizens]: Factions.RelationshipStatuses.Hostile,
         [Factions.Zombies]: Factions.RelationshipStatuses.Hostile,
         [Factions.Mages]: Factions.RelationshipStatuses.Hostile,
-    }
+    },
 
 };
 
 Factions.getRelationship = function (fromFaction, toFaction) {
-    if(Relationships[fromFaction] === undefined){
+    if (Relationships[fromFaction] === undefined) {
         return Factions.RelationshipStatuses.Neutral;
     }
-    if(Relationships[fromFaction][toFaction] === undefined){
+    if (Relationships[fromFaction][toFaction] === undefined) {
         return Factions.RelationshipStatuses.Neutral;
     }
     return Relationships[fromFaction][toFaction];

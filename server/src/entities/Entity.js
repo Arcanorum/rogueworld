@@ -23,9 +23,9 @@ class Entity {
 
     static registerEntityType() {
         this.prototype.typeNumber = typeNumberCounter.getNext();
-    
+
         // Utils.message("Registering entity type: ", this.prototype.typeNumber);
-    };
+    }
 
     /**
      * Remove this entity from the game world completely, and allow it to be GCed.
@@ -88,9 +88,9 @@ class Entity {
     }
 
     /**
-     * 
-     * @param {Heal} heal 
-     * @param {Entity} source 
+     *
+     * @param {Heal} heal
+     * @param {Entity} source
      */
     heal(heal, source) {
         if ((heal instanceof Heal) === false) {
@@ -109,7 +109,7 @@ class Entity {
     onHeal(heal) {
         const amount = Math.floor(heal.amount);
         this.hitPoints += amount;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, { id: this.id, amount: amount });
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, { id: this.id, amount });
     }
 
     /**
@@ -225,7 +225,7 @@ class Entity {
      * @returns {Boolean}
      */
     isAdjacentToStaticType(typeNumber) {
-        const grid = this.board.grid;
+        const { grid } = this.board;
         // Above.
         if (grid[this.row - 1][this.col].static !== null) {
             if (grid[this.row - 1][this.col].static.typeNumber === typeNumber) {
@@ -280,11 +280,10 @@ class Entity {
      * @returns {Boolean}
      */
     checkSpawnCriteria(boardTile, dayPhase) {
-        if(!this.spawnableDayPhases[dayPhase]) return false;
-        
+        if (!this.spawnableDayPhases[dayPhase]) return false;
+
         return true;
     }
-
 }
 module.exports = Entity;
 
@@ -313,7 +312,7 @@ Entity.prototype.Directions = {
     UP: "u",
     DOWN: "d",
     LEFT: "l",
-    RIGHT: "r"
+    RIGHT: "r",
 };
 
 /**
@@ -321,17 +320,17 @@ Entity.prototype.Directions = {
  * @type {{u: string, d: string, r: string, l: string}}
  */
 Entity.prototype.OppositeDirections = {
-    "u": Entity.prototype.Directions.DOWN,
-    "d": Entity.prototype.Directions.UP,
-    "l": Entity.prototype.Directions.RIGHT,
-    "r": Entity.prototype.Directions.LEFT,
+    u: Entity.prototype.Directions.DOWN,
+    d: Entity.prototype.Directions.UP,
+    l: Entity.prototype.Directions.RIGHT,
+    r: Entity.prototype.Directions.LEFT,
 };
 
 Entity.prototype.SideDirections = {
-    "u": [Entity.prototype.Directions.LEFT, Entity.prototype.Directions.RIGHT],
-    "d": [Entity.prototype.Directions.RIGHT, Entity.prototype.Directions.LEFT],
-    "l": [Entity.prototype.Directions.DOWN, Entity.prototype.Directions.UP],
-    "r": [Entity.prototype.Directions.UP, Entity.prototype.Directions.DOWN],
+    u: [Entity.prototype.Directions.LEFT, Entity.prototype.Directions.RIGHT],
+    d: [Entity.prototype.Directions.RIGHT, Entity.prototype.Directions.LEFT],
+    l: [Entity.prototype.Directions.DOWN, Entity.prototype.Directions.UP],
+    r: [Entity.prototype.Directions.UP, Entity.prototype.Directions.DOWN],
 };
 
 /**

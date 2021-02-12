@@ -1,21 +1,19 @@
 const Utils = require("../Utils");
-const Pickup = require('../entities/destroyables/pickups/Pickup');
+const Pickup = require("../entities/destroyables/pickups/Pickup");
 const EntitiesList = require("../EntitiesList");
-const StatNames = require('../stats/Statset').prototype.StatNames;
-const getRandomIntInclusive = Utils.getRandomIntInclusive;
+const { StatNames } = require("../stats/Statset").prototype;
 
+const { getRandomIntInclusive } = Utils;
 const typeNumberCounter = new Utils.Counter();
 
 class Item {
-
     /**
      * @param {Number} [config.durability = null]
      * @param {Number} [config.maxDurability = null]
      */
     constructor(config) {
-
-        const durability = parseInt(config.durability);
-        const maxDurability = parseInt(config.maxDurability);
+        const durability = parseInt(config.durability, 10);
+        const maxDurability = parseInt(config.maxDurability, 10);
 
         /**
          * How much durability this item has.
@@ -40,7 +38,6 @@ class Item {
          * @type {String|null}
          */
         this.slotKey = null;
-
     }
 
     static registerItemType() {
@@ -81,7 +78,10 @@ class Item {
 
         // Tell the user the item was used. Might not have had an immediate effect, but
         // the client might like to know right away (i.e. to play a sound effect).
-        this.owner.socket.sendEvent(this.owner.EventsList.item_used, { itemTypeNumber: this.typeNumber });
+        this.owner.socket.sendEvent(
+            this.owner.EventsList.item_used,
+            { itemTypeNumber: this.typeNumber },
+        );
     }
 
     equip() { }
@@ -95,9 +95,15 @@ class Item {
             return;
         }
 
-        const owner = this.owner;
+        const { owner } = this;
         // Add a pickup entity of that item to the board.
-        new this.PickupType({ row: owner.row, col: owner.col, board: owner.board, durability: this.durability, maxDurability: this.maxDurability }).emitToNearbyPlayers();
+        new this.PickupType({
+            row: owner.row,
+            col: owner.col,
+            board: owner.board,
+            durability: this.durability,
+            maxDurability: this.maxDurability,
+        }).emitToNearbyPlayers();
 
         owner.socket.sendEvent(this.owner.EventsList.item_dropped);
 
@@ -108,8 +114,11 @@ class Item {
         // Get position of the grid tile in front of the owner of this item.
         const directionOffset = this.owner.board.directionToRowColOffset(this.owner.direction);
 
+        const targetRow = this.owner.row + directionOffset.row;
+        const targetCol = this.owner.col + directionOffset.col;
+
         // Get the static entity in that grid tile.
-        const interactable = this.owner.board.grid[this.owner.row + directionOffset.row][this.owner.col + directionOffset.col].static;
+        const interactable = this.owner.board.grid[targetRow][targetCol].static;
 
         // Check the tile actually has a static on it.
         if (interactable === null) return;
@@ -159,12 +168,15 @@ class Item {
         }
         else {
             // Tell the player the new durability.
-            this.owner.socket.sendEvent(this.owner.EventsList.durability_value, { durability: this.durability, slotKey: this.slotKey });
+            this.owner.socket.sendEvent(
+                this.owner.EventsList.durability_value,
+                { durability: this.durability, slotKey: this.slotKey },
+            );
         }
     }
 
     static assignPickupType(itemName) {
-        // Don't bother having a pickup type file. Just create one for each item 
+        // Don't bother having a pickup type file. Just create one for each item
         // type, as it will always be 1-1 (except items that cannot be dropped).
         class GenericPickup extends Pickup { }
         GenericPickup.prototype.ItemType = this;
@@ -174,7 +186,7 @@ class Item {
         this.prototype.PickupType = GenericPickup;
 
         // Add the pickup to the entities list, so it can still be manually instantiated, for spawners.
-        EntitiesList["Pickup" + itemName] = GenericPickup;
+        EntitiesList[`Pickup${itemName}`] = GenericPickup;
     }
 
     static loadConfig(config) {
@@ -215,9 +227,11 @@ Item.translationID = "Translation ID name not set.";
 
 Item.iconSource = "Icon source not set.";
 
-Item.prototype.typeName = "Type name not set."
+Item.prototype.typeName = "Type name not set.";
 
-// Give all Items easy access to the finished EntitiesList. Needs to be done when all entities are finished initing, or accessing entities causes errors. Done in index.js.
+// Give all Items easy access to the finished EntitiesList.
+// Needs to be done when all entities are finished initing,
+// or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};
 
 // A type number is an ID for this kind of item, so the client knows which item to add to the inventory bar.

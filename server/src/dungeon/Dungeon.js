@@ -1,4 +1,4 @@
-const Utils = require('../Utils');
+const Utils = require("../Utils");
 
 const idCounter = new Utils.Counter();
 
@@ -14,7 +14,6 @@ class Dungeon {
      * @param {String} config.evictionEntrance
      */
     constructor(config) {
-
         this.id = idCounter.getNext();
 
         // The board that players will be evicted to.
@@ -34,7 +33,7 @@ class Dungeon {
             green: 0,
             blue: 0,
             yellow: 0,
-            brown: 0
+            brown: 0,
         };
 
         // Create a board instance from the map data.
@@ -62,9 +61,7 @@ class Dungeon {
             this.timeUpTimeout = null;
 
             this.evictAllPlayers();
-
         }, this.timeRemaining);
-
     }
 
     destroy() {
@@ -109,15 +106,15 @@ class Dungeon {
         // Move the party members into a dungeon instance.
         players.forEach((player) => {
             // Reposition them to somewhere within the entrance bounds.
-            let position = this.board.entrances["dungeon-start"].getRandomPosition();
+            const position = this.board.entrances["dungeon-start"].getRandomPosition();
 
             // Move the player to the board instance that was created.
             player.changeBoard(player.board, this.board, position.row, position.col);
 
             // Tell them the dungeon has started.
             player.socket.sendEvent(EventsList.start_dungeon, {
-                timeLimitMinutes
-            })
+                timeLimitMinutes,
+            });
         });
     }
 
@@ -131,7 +128,7 @@ class Dungeon {
         // Send all players on the board to the entrance that this dungeon exits to.
         this.party.members.forEach((player) => {
             // Reposition them to somewhere within the entrance bounds.
-            let position = this.evictionEntrance.getRandomPosition();
+            const position = this.evictionEntrance.getRandomPosition();
 
             // Move them out of this dungeon board.
             player.changeBoard(this.board, this.evictionBoard, position.row, position.col);
@@ -141,14 +138,13 @@ class Dungeon {
     emitDoorKeysToParty() {
         this.party.members.forEach((member) => {
             member.socket.sendEvent(EventsList.dungeon_door_keys, this.doorKeys);
-        })
+        });
     }
-
 }
 
 module.exports = Dungeon;
 
-const Board = require('../board/Board');
-const BoardsList = require('../board/BoardsList');
-const Exit = require('../entities/statics/interactables/exits/Exit');
-const EventsList = require('../EventsList');
+const Board = require("../board/Board");
+const BoardsList = require("../board/BoardsList");
+const Exit = require("../entities/statics/interactables/exits/Exit");
+const EventsList = require("../EventsList");

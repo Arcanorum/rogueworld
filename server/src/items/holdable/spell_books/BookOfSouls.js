@@ -10,15 +10,15 @@ class BookOfSouls extends SpellBook {
     spell1() {
         // For every adjacent unclaimed zombie.
         const
-            range = 1,
-            rangePlusOne = range + 1;
-        let
-            row = this.owner.row,
-            col = this.owner.col,
-            rowOffset,
-            colOffset,
-            board = this.owner.board,
-            boardTile;
+            range = 1;
+        const rangePlusOne = range + 1;
+        const
+            { row } = this.owner;
+        const { col } = this.owner;
+        let rowOffset;
+        let colOffset;
+        const { board } = this.owner;
+        let boardTile;
 
         for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
@@ -28,7 +28,7 @@ class BookOfSouls extends SpellBook {
                 // Check col is valid.
                 if (boardTile === undefined) continue;
                 // Claim all nearby unclaimed zombies.
-                for (let entityKey in boardTile.destroyables) {
+                for (const entityKey in boardTile.destroyables) {
                     if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
 
                     if (boardTile.destroyables[entityKey] instanceof this.EntitiesList.AbstractClasses.Zombie === false) continue;
@@ -42,7 +42,6 @@ class BookOfSouls extends SpellBook {
                     if (boardTile.destroyables[entityKey].target === this.owner) {
                         boardTile.destroyables[entityKey].target = null;
                     }
-
                 }
             }
         }
@@ -55,7 +54,7 @@ class BookOfSouls extends SpellBook {
         const boardTile = config.board.grid[config.row][config.col];
 
         // For every destroyable on that tile.
-        for (let entityKey in boardTile.destroyables) {
+        for (const entityKey in boardTile.destroyables) {
             if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
 
             if (boardTile.destroyables[entityKey] instanceof this.EntitiesList.AbstractClasses.Zombie === false) continue;
@@ -75,19 +74,19 @@ class BookOfSouls extends SpellBook {
     spell3(config) {
         // For every adjacent corpse entity.
         const
-            range = 1,
-            rangePlusOne = range + 1;
-        let
-            row = this.owner.row,
-            col = this.owner.col,
-            rowOffset,
-            colOffset,
-            board = this.owner.board,
-            boardTile,
-            /** @type {Corpse} */
-            dynamic,
-            /** @type {Zombie} */
-            zombie;
+            range = 1;
+        const rangePlusOne = range + 1;
+        const
+            { row } = this.owner;
+        const { col } = this.owner;
+        let rowOffset;
+        let colOffset;
+        const { board } = this.owner;
+        let boardTile;
+        /** @type {Corpse} */
+        let dynamic;
+        /** @type {Zombie} */
+        let zombie;
 
         for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
@@ -97,7 +96,7 @@ class BookOfSouls extends SpellBook {
                 // Check col is valid.
                 if (boardTile === undefined) continue;
                 // Turn all corpses into zombies of their zombie type.
-                for (let entityKey in boardTile.destroyables) {
+                for (const entityKey in boardTile.destroyables) {
                     if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
                     dynamic = boardTile.destroyables[entityKey];
                     // Skip anything that isn't a corpse.
@@ -123,10 +122,9 @@ class BookOfSouls extends SpellBook {
             col: config.col,
             board: config.board,
             direction: config.direction,
-            source: config.source
+            source: config.source,
         }).emitToNearbyPlayers();
     }
-
 }
 
 BookOfSouls.translationID = "Book of souls";

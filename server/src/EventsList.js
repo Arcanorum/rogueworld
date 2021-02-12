@@ -1,9 +1,9 @@
 const Utils = require("./Utils");
 
-var counter = 0;
+let counter = 0;
 function registerEventName() {
     counter += 1;
-    //Utils.message("Registering event name, ID: ", counter);
+    // Utils.message("Registering event name, ID: ", counter);
     return counter;
 }
 
@@ -100,9 +100,10 @@ const EventsList = {
 
 // Write the event names to the client, so the client knows what event to fire for each event ID.
 const fs = require("fs");
+
 let dataToWrite = {};
 
-for (let eventTypeKey in EventsList) {
+for (const eventTypeKey in EventsList) {
     // Don't check prototype properties.
     if (EventsList.hasOwnProperty(eventTypeKey) === false) continue;
     // Add this event name to the catalogue.

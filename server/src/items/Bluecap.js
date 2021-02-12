@@ -1,13 +1,11 @@
 const Item = require("./Item");
 
 class Bluecap extends Item {
-
-    onUsed () {
+    onUsed() {
         this.owner.modEnergy(1);
 
         super.onUsed();
     }
-
 }
 
 Bluecap.translationID = "Bluecap";

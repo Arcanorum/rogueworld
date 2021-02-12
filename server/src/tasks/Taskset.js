@@ -4,7 +4,6 @@ class Taskset {
      * @param {Player} owner
      */
     constructor(owner) {
-
         this.owner = owner;
 
         this.list = {};
@@ -15,7 +14,7 @@ class Taskset {
      * @param {Task} task
      * @param {Number} [progress] - Optional progress to start this task at.
      */
-    /*addTask (task, progress) {
+    /* addTask (task, progress) {
         // Don't add the task if there is already one with that ID.
         if(this.list[task.taskID] !== undefined){
             console.log("* WARNING: Attempt to add a task progress with a task ID that is already in use:", task.taskType.name);
@@ -26,7 +25,7 @@ class Taskset {
 
         // Tell the client to add the task.
         //this.owner.socket.sendEvent(this.owner.EventsList.task_added, {taskID: task.taskID, progress: this.list[task.taskID].progress});
-    }*/
+    } */
 
     /**
      * Increase the progress made in this task.
@@ -63,19 +62,18 @@ class Taskset {
                 taskID: task.taskType.taskID,
                 progress: task.progress,
                 completionThreshold: task.completionThreshold,
-                rewardItemTypeNumbers: rewardItemTypeNumbers,
+                rewardItemTypeNumbers,
                 rewardGlory: task.rewardGlory,
-            }
+            };
         });
 
         return emittableTasks;
     }
-
 }
 
 module.exports = Taskset;
 
-//const TaskProgress = require("./TaskProgress.js");
+// const TaskProgress = require("./TaskProgress.js");
 const Task = require("./Task");
 const TaskTypes = require("./TaskTypes");
 const ItemsList = require("../ItemsList");

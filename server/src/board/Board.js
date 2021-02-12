@@ -16,7 +16,7 @@ staticsTileset.tiles = staticsTileset.tiles.reduce((map, obj) => {
     return map;
 }, {});
 
-const playerViewRange = EntitiesList["Player"].viewRange;
+const playerViewRange = EntitiesList.Player.viewRange;
 // Need this so that the loops in the functions that emit to players around the player view range go all the way to
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
 // Precomputed value to avoid having to do `i <= playerViewRange` (2 checks), or `i < playerViewRange + 1` (repeated calculation).
@@ -95,7 +95,7 @@ class Board {
     }
 
     createBoard() {
-        const mapData = this.mapData;
+        const { mapData } = this;
 
         this.rows = this.mapData.height;
         this.cols = this.mapData.width;
@@ -103,23 +103,23 @@ class Board {
         // Load the map objects.
         // Check that there is some map data for the map of this board.
         if (mapData === undefined) {
-            Utils.error("No map data found for this board when creating board " + this.name);
+            Utils.error(`No map data found for this board when creating board ${this.name}`);
             return;
         }
 
-        var i = 0,
-            j = 0,
-            len = 0,
-            layer,
-            findLayer = function (layerName) {
-                for (var i = 0; i < mapData.layers.length; i += 1) {
-                    if (mapData.layers[i].name === layerName) {
-                        return mapData.layers[i];
-                    }
+        let i = 0;
+        let j = 0;
+        let len = 0;
+        let layer;
+        const findLayer = function (layerName) {
+            for (let i = 0; i < mapData.layers.length; i += 1) {
+                if (mapData.layers[i].name === layerName) {
+                    return mapData.layers[i];
                 }
-                Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + ".");
-                return false;
-            };
+            }
+            Utils.warning(`Couldn't find tilemap layer '${layerName}' for board ${this.name}.`);
+            return false;
+        };
 
         let tilesData;
         let objectsData;
@@ -193,7 +193,7 @@ class Board {
                 mapTile = tilesData[i] - 1;
 
                 if (groundTileset.tiles[mapTile] === undefined) {
-                    Utils.error("Invalid/empty map tile found while creating board: " + this.name + " at row: " + row + ", col: " + col);
+                    Utils.error(`Invalid/empty map tile found while creating board: ${this.name} at row: ${row}, col: ${col}`);
                 }
                 // Get and separate the type from the prefix using the tile GID.
                 type = groundTileset.tiles[mapTile].type;
@@ -208,7 +208,7 @@ class Board {
                     this.grid[row][col].groundType = GroundTypes[type];
                 }
                 else {
-                    Utils.warning("Invalid ground mapTile type: " + type);
+                    Utils.warning(`Invalid ground mapTile type: ${type}`);
                 }
                 // Move to the next column.
                 col += 1;
@@ -268,10 +268,10 @@ class Board {
                 // Check that the type of this tile is a valid one.
                 if (EntitiesList[type]) {
                     // Create a new entity of the type of this tile.
-                    new EntitiesList[type]({ row: row, col: col, board: this });
+                    new EntitiesList[type]({ row, col, board: this });
                 }
                 else {
-                    //Utils.warning("Entity type doesn't exist for static mapTile type: " + type);
+                    // Utils.warning("Entity type doesn't exist for static mapTile type: " + type);
                 }
                 // Move to the next column.
                 col += 1;
@@ -309,9 +309,9 @@ class Board {
                 // Check that the type of this tile is a valid one.
                 if (EntitiesList[type]) {
                     const config = {
-                        row: row,
-                        col: col,
-                        board: this
+                        row,
+                        col,
+                        board: this,
                     };
 
                     // Check if the properties are already an array, as the map data object might have already
@@ -322,93 +322,93 @@ class Board {
                         mapObject.properties = Utils.arrayToObject(mapObject.properties, "name", "value");
                     }
 
-                    if (mapObject.properties["Disabled"]) {
+                    if (mapObject.properties.Disabled) {
                         Utils.warning("Map object is disabled in map data:", mapObject);
                         continue;
                     }
 
                     switch (type) {
-                        case "SpawnerArea":
-                            // Check if spawners have been disabled in the settings.
-                            if(settings.DISABLE_SPAWNER_AREAS) continue;
+                    case "SpawnerArea":
+                        // Check if spawners have been disabled in the settings.
+                        if (settings.DISABLE_SPAWNER_AREAS) continue;
 
-                            config.width = mapObject.width / this.tileSize;
-                            config.height = mapObject.height / this.tileSize;
-                            config.entityType = EntitiesList[mapObject.properties["EntityClassName"]];
-                            config.maxAtOnce = mapObject.properties["MaxAtOnce"];
-                            config.spawnRate = mapObject.properties["SpawnRate"];
-                            config.testing = mapObject.properties["Testing"];
-                            config.dropList = mapObject.properties["DropList"];
-                            if (
-                                mapObject.properties["RedKeys"] ||
-                                mapObject.properties["GreenKeys"] ||
-                                mapObject.properties["BlueKeys"] ||
-                                mapObject.properties["YellowKeys"] ||
-                                mapObject.properties["BrownKeys"]
-                            ) {
-                                config.dungeonKeys = {}
-                                if (mapObject.properties["RedKeys"]) config.dungeonKeys.red = mapObject.properties["RedKeys"];
-                                if (mapObject.properties["GreenKeys"]) config.dungeonKeys.green = mapObject.properties["GreenKeys"];
-                                if (mapObject.properties["BlueKeys"]) config.dungeonKeys.blue = mapObject.properties["BlueKeys"];
-                                if (mapObject.properties["YellowKeys"]) config.dungeonKeys.yellow = mapObject.properties["YellowKeys"];
-                                if (mapObject.properties["BrownKeys"]) config.dungeonKeys.brown = mapObject.properties["BrownKeys"];
-                            }
-                            // Check the entity type to create is valid.
-                            if (config.entityType === undefined) {
-                                Utils.warning("Spawner invalid configuration. Entity type to spawn doesn't exist:", mapObject.properties["EntityClassName"]);
-                                continue;
-                            }
-                            break;
-                        case "Exit":
-                            config.targetBoard = mapObject.properties["TargetBoard"];
-                            config.targetEntranceName = mapObject.properties["TargetEntranceName"];
-                            break;
-                        case "DungeonPortal":
-                            // Check the dungeon portal properties are valid.
-                            if (mapObject.properties === undefined) {
-                                Utils.error("No properties set on dungeon portal in map data:", mapObject);
-                                continue;
-                            }
-                            config.dungeonName = mapObject.properties["DungeonName"];
-                            if (config.dungeonName === undefined) {
-                                Utils.error(`Dungeon portal on map "${this.name}" is missing property "DungeonName". Map object:`, mapObject);
-                                continue;
-                            }
+                        config.width = mapObject.width / this.tileSize;
+                        config.height = mapObject.height / this.tileSize;
+                        config.entityType = EntitiesList[mapObject.properties.EntityClassName];
+                        config.maxAtOnce = mapObject.properties.MaxAtOnce;
+                        config.spawnRate = mapObject.properties.SpawnRate;
+                        config.testing = mapObject.properties.Testing;
+                        config.dropList = mapObject.properties.DropList;
+                        if (
+                            mapObject.properties.RedKeys
+                                || mapObject.properties.GreenKeys
+                                || mapObject.properties.BlueKeys
+                                || mapObject.properties.YellowKeys
+                                || mapObject.properties.BrownKeys
+                        ) {
+                            config.dungeonKeys = {};
+                            if (mapObject.properties.RedKeys) config.dungeonKeys.red = mapObject.properties.RedKeys;
+                            if (mapObject.properties.GreenKeys) config.dungeonKeys.green = mapObject.properties.GreenKeys;
+                            if (mapObject.properties.BlueKeys) config.dungeonKeys.blue = mapObject.properties.BlueKeys;
+                            if (mapObject.properties.YellowKeys) config.dungeonKeys.yellow = mapObject.properties.YellowKeys;
+                            if (mapObject.properties.BrownKeys) config.dungeonKeys.brown = mapObject.properties.BrownKeys;
+                        }
+                        // Check the entity type to create is valid.
+                        if (config.entityType === undefined) {
+                            Utils.warning("Spawner invalid configuration. Entity type to spawn doesn't exist:", mapObject.properties.EntityClassName);
+                            continue;
+                        }
+                        break;
+                    case "Exit":
+                        config.targetBoard = mapObject.properties.TargetBoard;
+                        config.targetEntranceName = mapObject.properties.TargetEntranceName;
+                        break;
+                    case "DungeonPortal":
+                        // Check the dungeon portal properties are valid.
+                        if (mapObject.properties === undefined) {
+                            Utils.error("No properties set on dungeon portal in map data:", mapObject);
+                            continue;
+                        }
+                        config.dungeonName = mapObject.properties.DungeonName;
+                        if (config.dungeonName === undefined) {
+                            Utils.error(`Dungeon portal on map "${this.name}" is missing property "DungeonName". Map object:`, mapObject);
+                            continue;
+                        }
 
-                            // Check the dungeon manager to link to exists.
-                            if (!DungeonManagersList.ByName["dungeon-" + config.dungeonName]) {
-                                Utils.warning("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Dungeon name:", config.dungeonName);
-                                continue;
-                            }
+                        // Check the dungeon manager to link to exists.
+                        if (!DungeonManagersList.ByName[`dungeon-${config.dungeonName}`]) {
+                            Utils.warning("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Dungeon name:", config.dungeonName);
+                            continue;
+                        }
 
-                            break;
-                        case "OverworldPortal":
-                            config.targetBoard = mapObject.properties["TargetBoard"];
-                            config.targetEntranceName = mapObject.properties["TargetEntranceName"];
-                            config.activeState = mapObject.properties["ActiveState"];
-                            break;
-                        case "Entrance":
-                            config.width = mapObject.width / this.tileSize;
-                            config.height = mapObject.height / this.tileSize;
-                            config.entranceName = mapObject.properties["EntranceName"];
-                            if (config.entranceName === "dungeon-start") {
-                                dungeonStartEntranceFound = true;
-                            }
-                            break;
+                        break;
+                    case "OverworldPortal":
+                        config.targetBoard = mapObject.properties.TargetBoard;
+                        config.targetEntranceName = mapObject.properties.TargetEntranceName;
+                        config.activeState = mapObject.properties.ActiveState;
+                        break;
+                    case "Entrance":
+                        config.width = mapObject.width / this.tileSize;
+                        config.height = mapObject.height / this.tileSize;
+                        config.entranceName = mapObject.properties.EntranceName;
+                        if (config.entranceName === "dungeon-start") {
+                            dungeonStartEntranceFound = true;
+                        }
+                        break;
                     }
 
                     // Create a new entity of the type of this tile.
                     new EntitiesList[type](config);
                 }
                 else {
-                    //Utils.warning("Entity type doesn't exist for configurable object type: " + type);
+                    // Utils.warning("Entity type doesn't exist for configurable object type: " + type);
                 }
             }
         }
 
         // Dungeon maps must have an entrance named "dungeon-start".
         if (this.dungeon) {
-            if (dungeonStartEntranceFound === false) Utils.error('Dungeon map does not have an entrance named "dungeon-start". Map name:', this.name);
+            if (dungeonStartEntranceFound === false) Utils.error("Dungeon map does not have an entrance named \"dungeon-start\". Map name:", this.name);
         }
 
         // No longer need the map data.
@@ -428,7 +428,7 @@ class Board {
                 }
 
                 Object.values(boardTile.destroyables).forEach((destroyable) => destroyable.destroy());
-            })
+            });
         });
 
         this.entrances = null;
@@ -510,21 +510,20 @@ class Board {
 
         // How far around the target position to get data from.
         /** @type {Number} */
-        let rowOffset = -playerViewRange,
-            colOffset = -playerViewRange,
-            currentRow,
-            /** @type {BoardTile} */
-            currentTile,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Interactable} */
-            interactable;
+        let rowOffset = -playerViewRange;
+        let colOffset = -playerViewRange;
+        let currentRow;
+        /** @type {BoardTile} */
+        let currentTile;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Interactable} */
+        let interactable;
 
         for (; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
             for (colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
-
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
                 if (currentRow === undefined) continue;
@@ -537,7 +536,7 @@ class Board {
                     if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         nearbyDynamics.push(
-                            destroyables[entityKey].getEmittableProperties({})
+                            destroyables[entityKey].getEmittableProperties({}),
                         );
                     }
                 }
@@ -551,7 +550,7 @@ class Board {
                     if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         nearbyDynamics.push(
-                            interactable.getEmittableProperties({})
+                            interactable.getEmittableProperties({}),
                         );
                     }
                 }
@@ -573,18 +572,17 @@ class Board {
         const edgeDynamics = [];
 
         /** @type {BoardTile} */
-        let currentTile,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Interactable} */
-            interactable;
+        let currentTile;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Interactable} */
+        let interactable;
 
         if (direction === Directions.LEFT) {
             // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
-
                 // Check for invalid array index access.
                 if (this.grid[row + i] === undefined) continue;
                 currentTile = this.grid[row + i][col - playerViewRange];
@@ -596,7 +594,7 @@ class Board {
                     if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            destroyables[entityKey].getEmittableProperties({})
+                            destroyables[entityKey].getEmittableProperties({}),
                         );
                     }
                 }
@@ -610,7 +608,7 @@ class Board {
                     if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            interactable.getEmittableProperties({})
+                            interactable.getEmittableProperties({}),
                         );
                     }
                 }
@@ -619,7 +617,6 @@ class Board {
         else if (direction === Directions.RIGHT) {
             // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
-
                 // Check for invalid array index access.
                 if (this.grid[row + i] === undefined) continue;
                 currentTile = this.grid[row + i][col + playerViewRange];
@@ -631,7 +628,7 @@ class Board {
                     if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            destroyables[entityKey].getEmittableProperties({})
+                            destroyables[entityKey].getEmittableProperties({}),
                         );
                     }
                 }
@@ -645,7 +642,7 @@ class Board {
                     if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            interactable.getEmittableProperties({})
+                            interactable.getEmittableProperties({}),
                         );
                     }
                 }
@@ -654,7 +651,6 @@ class Board {
         else if (direction === Directions.UP) {
             // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
-
                 // Check for invalid array index access.
                 if (this.grid[row - playerViewRange] === undefined) continue;
                 currentTile = this.grid[row - playerViewRange][col + i];
@@ -666,7 +662,7 @@ class Board {
                     if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            destroyables[entityKey].getEmittableProperties({})
+                            destroyables[entityKey].getEmittableProperties({}),
                         );
                     }
                 }
@@ -680,7 +676,7 @@ class Board {
                     if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            interactable.getEmittableProperties({})
+                            interactable.getEmittableProperties({}),
                         );
                     }
                 }
@@ -689,7 +685,6 @@ class Board {
         else {
             // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
-
                 // Check for invalid array index access.
                 if (this.grid[row + playerViewRange] === undefined) continue;
                 currentTile = this.grid[row + playerViewRange][col + i];
@@ -701,7 +696,7 @@ class Board {
                     if (destroyables.hasOwnProperty(entityKey)) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            destroyables[entityKey].getEmittableProperties({})
+                            destroyables[entityKey].getEmittableProperties({}),
                         );
                     }
                 }
@@ -715,7 +710,7 @@ class Board {
                     if (interactable.activeState === false) {
                         // Add the relevant data of this entity to the data to return.
                         edgeDynamics.push(
-                            interactable.getEmittableProperties({})
+                            interactable.getEmittableProperties({}),
                         );
                     }
                 }
@@ -736,16 +731,16 @@ class Board {
      * @returns {Array} An array of Player entities.
      */
     getNearbyPlayers(row, col, range) {
-        const nearbyPlayers = [],
-            grid = this.grid,
-            rangePlusOne = range + 1;
+        const nearbyPlayers = [];
+        const { grid } = this;
+        const rangePlusOne = range + 1;
 
-        let rowOffset = -range,
-            colOffset = -range,
-            targetRow,
-            targetCol,
-            playerKey,
-            players;
+        let rowOffset = -range;
+        let colOffset = -range;
+        let targetRow;
+        let targetCol;
+        let playerKey;
+        let players;
 
         for (; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
@@ -777,24 +772,24 @@ class Board {
      * @param {Number} [range=playerViewRangePlusOne] - A specific range to define "nearby" to be, otherwise uses the player view range + 1.
      */
     emitToNearbyPlayers(row, col, eventNameID, data, range) {
-        let nearbyRange = playerViewRange,
-            nearbyRangePlusOne = playerViewRangePlusOne;
+        let nearbyRange = playerViewRange;
+        let nearbyRangePlusOne = playerViewRangePlusOne;
 
         if (range !== undefined) {
             nearbyRange = range;
             nearbyRangePlusOne = range + 1;
         }
 
-        const grid = this.grid;
+        const { grid } = this;
 
-        let rowOffset = -nearbyRange,
-            colOffset = -nearbyRange,
-            targetRow,
-            targetCol,
-            propIndex = 0,
-            players,
-            ownPropNames,
-            socket;
+        let rowOffset = -nearbyRange;
+        let colOffset = -nearbyRange;
+        let targetRow;
+        let targetCol;
+        let propIndex = 0;
+        let players;
+        let ownPropNames;
+        let socket;
 
         for (; rowOffset < nearbyRangePlusOne; rowOffset += 1) {
             for (colOffset = -nearbyRange; colOffset < nearbyRangePlusOne; colOffset += 1) {
@@ -852,7 +847,6 @@ class Board {
         if (direction === Directions.LEFT) {
             // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
             for (let rowOffset = -playerViewRange; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
-
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
                 if (currentRow === undefined) continue;
@@ -864,7 +858,6 @@ class Board {
         else if (direction === Directions.RIGHT) {
             // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
             for (let rowOffset = -playerViewRange; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
-
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
                 if (currentRow === undefined) continue;
@@ -876,7 +869,6 @@ class Board {
         else if (direction === Directions.UP) {
             // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
             for (let colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
-
                 currentRow = this.grid[row - playerViewRange];
                 // Check for invalid array index access.
                 if (currentRow === undefined) continue;
@@ -888,7 +880,6 @@ class Board {
         else {
             // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
             for (let colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
-
                 currentRow = this.grid[row + playerViewRange];
                 // Check for invalid array index access.
                 if (currentRow === undefined) continue;
@@ -897,7 +888,6 @@ class Board {
                 this.emitToPlayers(currentRow[col + colOffset].players, eventNameID, data);
             }
         }
-
     }
 
     /**
@@ -917,7 +907,7 @@ class Board {
 
         if (rowOffset === 0 && colOffset === 0) return Directions.UP;
 
-        Utils.error("A valid offset wasn't given to Board.rowColOffsetToDirection, row: " + rowOffset + ", col: " + colOffset);
+        Utils.error(`A valid offset wasn't given to Board.rowColOffsetToDirection, row: ${rowOffset}, col: ${colOffset}`);
     }
 
     /**
@@ -928,7 +918,7 @@ class Board {
     directionToRowColOffset(direction) {
         const offset = {
             row: 0,
-            col: 0
+            col: 0,
         };
 
         if (direction === Directions.UP) {
@@ -947,23 +937,22 @@ class Board {
             offset.col = 1;
             return offset;
         }
-        Utils.error("A valid direction wasn't given to Board.directionToRowColOffset, direction: " + direction);
+        Utils.error(`A valid direction wasn't given to Board.directionToRowColOffset, direction: ${direction}`);
     }
 
     getRowColsToSides(direction, row, col) {
         if (direction === Directions.UP || direction === Directions.DOWN) {
             return [
-                { row: row, col: col - 1 },
-                { row: row, col: col + 1 }
+                { row, col: col - 1 },
+                { row, col: col + 1 },
             ];
         }
         // If it is not up or down, it must be left or right.
-        else {
-            return [
-                { row: row - 1, col: col },
-                { row: row + 1, col: col }
-            ];
-        }
+
+        return [
+            { row: row - 1, col },
+            { row: row + 1, col },
+        ];
     }
 
     /**
@@ -975,15 +964,15 @@ class Board {
      */
     getRowColInFront(direction, row, col) {
         if (Number.isInteger(row) === false) {
-            Utils.error("A valid number wasn't given to Board.getRowColInFront, row: " + row);
+            Utils.error(`A valid number wasn't given to Board.getRowColInFront, row: ${row}`);
         }
         if (Number.isInteger(col) === false) {
-            Utils.error("A valid number wasn't given to Board.getRowColInFront, col: " + col);
+            Utils.error(`A valid number wasn't given to Board.getRowColInFront, col: ${col}`);
         }
 
         const front = {
             row,
-            col
+            col,
         };
 
         if (direction === Directions.UP) {
@@ -1002,7 +991,7 @@ class Board {
             front.col += 1;
             return front;
         }
-        Utils.error(" A valid direction wasn't given to Board.getRowColInFront, direction: " + direction);
+        Utils.error(` A valid direction wasn't given to Board.getRowColInFront, direction: ${direction}`);
     }
 
     /**
@@ -1017,7 +1006,7 @@ class Board {
     getRowColOnOppositeSide(midRow, midCol, fromRow, fromCol) {
         const opposite = {
             row: midRow,
-            col: midCol
+            col: midCol,
         };
         // On the same row, so could be a column difference.
         if (fromRow === midRow) {
@@ -1033,9 +1022,9 @@ class Board {
     /**
      * Gets the tile on this board at the given position.
      * Returns false if the position is invalid.
-     * @param {Number} row 
+     * @param {Number} row
      * @param {Number} col
-     * @returns {BoardTile} 
+     * @returns {BoardTile}
      */
     getTileAt(row, col) {
         // TODO: replace cases of ...board.grid[row][col] manaual tile validity checks with this method.
@@ -1049,10 +1038,10 @@ class Board {
     /**
      * Gets the tile on this board in front of the given position.
      * Returns false if the position is invalid.
-     * @param {String} direction 
-     * @param {Number} row 
-     * @param {Number} col 
-     * @returns {BoardTile} 
+     * @param {String} direction
+     * @param {Number} row
+     * @param {Number} col
+     * @returns {BoardTile}
      */
     getTileInFront(direction, row, col) {
         const front = this.getRowColInFront(direction, row, col);
@@ -1063,9 +1052,9 @@ class Board {
     /**
      * Gets the tile on this board behind (other side from direction) of the given position.
      * Returns false if the position is invalid.
-     * @param {String} direction 
-     * @param {Number} row 
-     * @param {Number} col 
+     * @param {String} direction
+     * @param {Number} row
+     * @param {Number} col
      */
     getTileBehind(direction, row, col) {
         const behind = this.getRowColInFront(OppositeDirections[direction], row, col);
@@ -1081,39 +1070,38 @@ class Board {
      */
     isTileBuildable(row, col) {
         // Check this board is the overworld. Can only build on the overworld.
-        if (this !== boardsObject["overworld"]) {
+        if (this !== boardsObject.overworld) {
             return false;
         }
 
         // Check there is nothing in the way.
-        const grid = this.grid;
+        const { grid } = this;
         if (grid[row] === undefined) return false;
         /** @type {BoardTile} */
         const boardTile = grid[row][col];
         if (boardTile === undefined) return false;
         // Breakables can be occupied (moved over) if broken, but they should never be able to be built on.
         if (boardTile.static !== null) {
-            //console.log("  has a static");
+            // console.log("  has a static");
             return false;
         }
         if (boardTile.safeZone === true) {
-            //console.log("  is a safe zone");
+            // console.log("  is a safe zone");
             return false;
         }
         if (boardTile.groundType.canBeBuiltOn === false) {
-            //console.log("  ground type can not be built on");
+            // console.log("  ground type can not be built on");
             return false;
         }
         if (boardTile.containsAnyDestroyables() === true) {
-            //console.log("  has a destroyable");
+            // console.log("  has a destroyable");
             return false;
         }
 
-        //console.log("  is buildable");
+        // console.log("  is buildable");
 
         return true;
     }
-
 }
 
 Board.tileSize = 16;
@@ -1123,11 +1111,11 @@ Board.tileSize = 16;
 * @param {String} dataFileName
 */
 Board.createClientBoardData = (dataFileName) => {
-    const mapData = require("../../map/" + dataFileName + ".json");
+    const mapData = require(`../../map/${dataFileName}.json`);
     const mapProperties = Utils.arrayToObject(mapData.properties, "name", "value");
 
     // Skip disabled maps.
-    if (mapProperties["Disabled"] === true) {
+    if (mapProperties.Disabled === true) {
         Utils.message("Skipping disabled map:", dataFileName);
         return;
     }
@@ -1139,24 +1127,24 @@ Board.createClientBoardData = (dataFileName) => {
         return;
     }
 
-    var i = 0,
-        j = 0,
-        len = 0,
-        layer,
-        findLayer = function (layerName) {
-            for (var i = 0; i < mapData.layers.length; i += 1) {
-                if (mapData.layers[i].name === layerName) {
-                    return mapData.layers[i];
-                }
+    let i = 0;
+    const j = 0;
+    let len = 0;
+    let layer;
+    const findLayer = function (layerName) {
+        for (let i = 0; i < mapData.layers.length; i += 1) {
+            if (mapData.layers[i].name === layerName) {
+                return mapData.layers[i];
             }
-            Utils.warning("Couldn't find tilemap layer '" + layerName + "' for board " + this.name + ".");
-            return false;
-        };
+        }
+        Utils.warning(`Couldn't find tilemap layer '${layerName}' for board ${this.name}.`);
+        return false;
+    };
 
-    let clientData = {
+    const clientData = {
         name: dataFileName,
         groundGrid: [],
-        staticsGrid: []
+        staticsGrid: [],
     };
 
     let tilesData;
@@ -1189,7 +1177,7 @@ Board.createClientBoardData = (dataFileName) => {
             mapTile = tilesData[i] - 1;
 
             if (groundTileset.tiles[mapTile] === undefined) {
-                Utils.error("Invalid/empty map tile found while creating client board data: " + this.name + " at row: " + row + ", col: " + col);
+                Utils.error(`Invalid/empty map tile found while creating client board data: ${this.name} at row: ${row}, col: ${col}`);
             }
             // Get and separate the type from the prefix using the tile GID.
             type = groundTileset.tiles[mapTile].type;
@@ -1202,7 +1190,7 @@ Board.createClientBoardData = (dataFileName) => {
             clientData.groundGrid[row][col] = mapTile;
             // Check that the type of this tile is a valid one.
             if (!GroundTypes[type]) {
-                Utils.warning("Invalid ground mapTile type: " + type);
+                Utils.warning(`Invalid ground mapTile type: ${type}`);
             }
             // Move to the next column.
             col += 1;
@@ -1215,9 +1203,9 @@ Board.createClientBoardData = (dataFileName) => {
          * Each cell that the client expects should be of [tileID, data], where tileID
          * is the ID of the tile on the texture to render, and data is any other
          * optional config that the client tile might expect.
-         * @param {Number} row 
-         * @param {Number} col 
-         * @param {Number} tileID 
+         * @param {Number} row
+         * @param {Number} col
+         * @param {Number} tileID
          * @param {*} [data]
          */
         constructor(row, col, tileID, data) {
@@ -1327,28 +1315,28 @@ Board.createClientBoardData = (dataFileName) => {
             if (EntitiesList[type]) {
                 const config = {};
 
-                if (mapObject.properties["Disabled"]) {
+                if (mapObject.properties.Disabled) {
                     Utils.warning("Map object is disabled in map data:", mapObject);
                     continue;
                 }
 
                 switch (type) {
-                    case "DungeonPortal":
-                        // Check the dungeon portal properties are valid.
-                        if (mapObject.properties === undefined) {
-                            Utils.error("No properties set on dungeon portal in map data:", mapObject);
-                            continue;
-                        }
+                case "DungeonPortal":
+                    // Check the dungeon portal properties are valid.
+                    if (mapObject.properties === undefined) {
+                        Utils.error("No properties set on dungeon portal in map data:", mapObject);
+                        continue;
+                    }
 
-                        config.dungeonName = mapObject.properties["DungeonName"];
+                    config.dungeonName = mapObject.properties.DungeonName;
 
-                        // Check the dungeon manager to link to exists.
-                        if (!DungeonManagersList.ByName["dungeon-" + config.dungeonName]) {
-                            Utils.warning("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Dungeon name:", config.dungeonName);
-                            continue;
-                        }
+                    // Check the dungeon manager to link to exists.
+                    if (!DungeonManagersList.ByName[`dungeon-${config.dungeonName}`]) {
+                        Utils.warning("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Dungeon name:", config.dungeonName);
+                        continue;
+                    }
 
-                        break;
+                    break;
                 }
 
                 // Create a new entity of the type of this tile.
@@ -1360,13 +1348,12 @@ Board.createClientBoardData = (dataFileName) => {
                 // If a dungeon portal, add the dungeon ID to the data.
                 if (EntityType === EntitiesList.DungeonPortal) {
                     // Get the ID of the dungeon manager this dungeon portal links to.
-                    new ClientStaticTile(row, col, objectID, DungeonManagersList.ByName["dungeon-" + config.dungeonName].id);
+                    new ClientStaticTile(row, col, objectID, DungeonManagersList.ByName[`dungeon-${config.dungeonName}`].id);
                 }
                 // If a overworld portal, just add the tile ID.
                 if (EntityType === EntitiesList.OverworldPortal) {
                     new ClientStaticTile(row, col, objectID);
                 }
-
             }
             else {
                 // If a GUI trigger, just write the data to the client. No server entity needed.
@@ -1377,17 +1364,17 @@ Board.createClientBoardData = (dataFileName) => {
                     for (let rowOffset = 0; rowOffset < objectRows; rowOffset += 1) {
                         for (let colOffset = 0; colOffset < objectCols; colOffset += 1) {
                             new ClientStaticTile(row + rowOffset, col + colOffset, objectID, {
-                                name: mapObject.properties["Name"],
-                                panelName: mapObject.properties["PanelName"],
-                                panelNameTextDefID: mapObject.properties["PanelNameTextDefID"],
-                                contentFileName: mapObject.properties["ContentFileName"],
-                                contentTextDefID: mapObject.properties["ContentTextDefID"],
+                                name: mapObject.properties.Name,
+                                panelName: mapObject.properties.PanelName,
+                                panelNameTextDefID: mapObject.properties.PanelNameTextDefID,
+                                contentFileName: mapObject.properties.ContentFileName,
+                                contentTextDefID: mapObject.properties.ContentTextDefID,
                             });
                         }
                     }
                 }
                 else {
-                    //Utils.warning("Entity type doesn't exist for configurable object type: " + type);
+                    // Utils.warning("Entity type doesn't exist for configurable object type: " + type);
                 }
             }
         }
@@ -1396,18 +1383,18 @@ Board.createClientBoardData = (dataFileName) => {
     // Save the client map data that was extracted.
     const json = JSON.stringify(clientData);
 
-    //console.log("client data to save:", json);
+    // console.log("client data to save:", json);
 
     Utils.checkDirectoryExists("../client/src/assets/maps");
 
     // Write the data to the file in the client files.
-    fs.writeFileSync("../client/src/assets/maps/" + dataFileName + ".json", json, "utf8");
+    fs.writeFileSync(`../client/src/assets/maps/${dataFileName}.json`, json, "utf8");
 
-    Utils.message("Map data written to client: " + dataFileName);
+    Utils.message(`Map data written to client: ${dataFileName}`);
 };
 
 module.exports = Board;
 
-const boardsObject = require("./BoardsList").boardsObject;
+const { boardsObject } = require("./BoardsList");
 const DungeonManagersList = require("../dungeon/DungeonManagersList");
 const settings = require("../../settings");

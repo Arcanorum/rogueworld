@@ -100,13 +100,13 @@ class Projectile extends Movable {
 
     /**
      * Checks if the entity collided with can be hit by any of the damage types this projectile deals.
-     * @param {Entity} entity 
+     * @param {Entity} entity
      */
     canDamageTypeCollideWithTarget(entity) {
         // Check the entity is immune to anything.
         if (entity.damageTypeImmunities) {
             // Check every type of this damage.
-            for (let type of this.damageTypes) {
+            for (const type of this.damageTypes) {
                 // If the entity is immune to the current type, check the net one.
                 if (entity.damageTypeImmunities.includes(type)) {
                     continue;
@@ -130,7 +130,7 @@ class Projectile extends Movable {
 
         // Check if it is over any other destroyables.
         let destroyable;
-        for (let dynamicKey in currentBoardTile.destroyables) {
+        for (const dynamicKey in currentBoardTile.destroyables) {
             if (currentBoardTile.destroyables.hasOwnProperty(dynamicKey) === false) continue;
 
             destroyable = currentBoardTile.destroyables[dynamicKey];
@@ -217,7 +217,7 @@ class Projectile extends Movable {
 
         // Should damage be dealt after below conditions are applied.
         let dealDamage = true;
-        let damageAmount = this.damageAmount;
+        let { damageAmount } = this;
 
         // Can the collidee be damaged.
         if (collidee.hitPoints === null) dealDamage = false;
@@ -231,10 +231,8 @@ class Projectile extends Movable {
                 if (collidee.isLowBlocked() === false) dealDamage = false;
             }
         }
-        else {
-            if (collidee instanceof Static) {
-                if (collidee.isHighBlocked() === false) dealDamage = false;
-            }
+        else if (collidee instanceof Static) {
+            if (collidee.isHighBlocked() === false) dealDamage = false;
         }
 
         if (this.hasBackStabBonus === true) {
@@ -258,14 +256,13 @@ class Projectile extends Movable {
                 new Damage({
                     amount: damageAmount,
                     types: this.damageTypes,
-                    armourPiercing: this.damageArmourPiercing
+                    armourPiercing: this.damageArmourPiercing,
                 }),
-                this.source
+                this.source,
             );
 
             this.destroy();
         }
-
     }
 
     /**
@@ -303,7 +300,6 @@ class Projectile extends Movable {
             // Make the other projectile belong to the source of this one, so it damages them when reflected back at them.
             collidee.source = this.source;
             this.destroy();
-            return;
         }
     }
 
@@ -312,7 +308,7 @@ class Projectile extends Movable {
      * @param {String} specificValuesName - Set to use a specific set of values instead of whatever matches the name of this entity class.
      */
     assignModHitPointConfigs(specificValuesName) {
-        const valuesName = this.constructor.name
+        const valuesName = this.constructor.name;
         const modHitPointConfig = ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName];
         if (modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
 
@@ -321,7 +317,6 @@ class Projectile extends Movable {
         if (modHitPointConfig.damageArmourPiercing) this.damageArmourPiercing = modHitPointConfig.damageArmourPiercing;
         if (modHitPointConfig.healAmount) this.healAmount = modHitPointConfig.healAmount;
     }
-
 }
 module.exports = Projectile;
 
@@ -330,8 +325,8 @@ Projectile.abstract = true;
 const Character = require("../characters/Character");
 const Static = require("../../../statics/Static");
 const Damage = require("../../../../gameplay/Damage");
-const ProjWind = require("../projectiles/ProjWind");
-const ProjSuperWind = require("../projectiles/ProjSuperWind");
+const ProjWind = require("./ProjWind");
+const ProjSuperWind = require("./ProjSuperWind");
 
 /**
  * How many board tiles can this projectile can move before it is destroyed.
@@ -383,7 +378,7 @@ Projectile.prototype.range = 5;
  */
 Projectile.prototype.CollisionTypes = {
     Melee: 1,
-    Ranged: 2
+    Ranged: 2,
 };
 
 /**

@@ -21,8 +21,7 @@ class Movable extends Destroyable {
         // need to be told to add this entity, so tell any players at the edge of the view range in the direction this entity moved.
         this.board.emitToPlayersAtViewRange(this.row, this.col, this.board.rowColOffsetToDirection(byRows, byCols),
             this.EventsList.add_entity,
-            this.getEmittableProperties({})
-        );
+            this.getEmittableProperties({}));
         // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that only calls getEmittableProperties
         // if any other players have been found, as the current way calls it for every move, even if there is nobody else seeing it,
         // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that a another
@@ -103,7 +102,6 @@ class Movable extends Destroyable {
         this.direction = direction;
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, { id: this.id, direction: this.direction });
     }
-
 }
 
 Movable.abstract = true;

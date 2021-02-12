@@ -2,8 +2,7 @@ const Weapon = require("./Weapon");
 const ProjectileType = require("../../../entities/destroyables/movables/projectiles/ProjSuperFire");
 
 class EternalFlame extends Weapon {
-
-    onUsed (direction) {
+    onUsed(direction) {
         // Get the tile next to the user, in the direction they used this item in.
         const targetPosition = this.owner.board.getRowColInFront(direction, this.owner.row, this.owner.col);
         // Get the positions to the sides of that position.
@@ -15,13 +14,12 @@ class EternalFlame extends Weapon {
                 col: position.col,
                 board: this.owner.board,
                 source: this.owner,
-                direction: direction
+                direction,
             }).emitToNearbyPlayers();
         });
 
         super.onUsed(direction);
     }
-
 }
 
 EternalFlame.translationID = "Eternal Flame";

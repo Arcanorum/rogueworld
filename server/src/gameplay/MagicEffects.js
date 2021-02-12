@@ -33,7 +33,6 @@ class MagicEffect {
     onTimeUp() {
         this.remove();
     }
-
 }
 MagicEffect.prototype.duration = 10000;
 
@@ -52,7 +51,7 @@ class Curse extends MagicEffect {
         this.character.curse = null;
         // TODO: this effect should have been removed already before the board is nulled on the char, but board is sometimes null already...
         // this check is just a temp hack around the problem :/
-        if(this.character.board){
+        if (this.character.board) {
             this.character.board.emitToNearbyPlayers(this.character.row, this.character.col, this.character.EventsList.curse_removed, this.character.id);
         }
         super.remove();
@@ -72,12 +71,11 @@ class Enchantment extends MagicEffect {
 
     remove() {
         this.character.enchantment = null;
-        if(this.character.board){
+        if (this.character.board) {
             this.character.board.emitToNearbyPlayers(this.character.row, this.character.col, this.character.EventsList.enchantment_removed, this.character.id);
         }
         super.remove();
     }
-
 }
 
 class Ward extends Enchantment {
@@ -116,9 +114,9 @@ class Deathbind extends Curse {
 Deathbind.prototype.duration = 300000; // 5 mins.
 
 const MagicEffects = {
-    Ward: Ward,
-    Pacify: Pacify,
-    Deathbind: Deathbind,
+    Ward,
+    Pacify,
+    Deathbind,
 };
 
 module.exports = MagicEffects;

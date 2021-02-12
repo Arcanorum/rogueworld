@@ -1,7 +1,6 @@
 const Mob = require("../Mob");
 
 class Zombie extends Mob {
-
     claim(master) {
         this.master = master;
         this.faction = master.faction;
@@ -29,14 +28,13 @@ class Zombie extends Mob {
                     return;
                 }
                 // Master is too far away. Teleport to master.
-                else {
-                    // If on the same board, move to master.
-                    if (this.master.board === this.board) this.reposition(this.master.row, this.master.col);
-                    // On a different board, move to that board.
-                    else this.changeBoard(this.board, this.master.board, this.master.row, this.master.col);
 
-                    return;
-                }
+                // If on the same board, move to master.
+                if (this.master.board === this.board) this.reposition(this.master.row, this.master.col);
+                // On a different board, move to that board.
+                else this.changeBoard(this.board, this.master.board, this.master.row, this.master.col);
+
+                return;
             }
         }
         // Check if the target is now dead. Might have been killed since the last time this mob moved.
@@ -57,7 +55,7 @@ class Zombie extends Mob {
             return false;
         }
         // Vertical distance.
-        else if (Math.abs(this.row - this.master.row) > 10) {
+        if (Math.abs(this.row - this.master.row) > 10) {
             return false;
         }
         return true;

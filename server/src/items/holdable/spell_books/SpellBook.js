@@ -1,8 +1,7 @@
-const Utils = require("./../../../Utils");
+const Utils = require("../../../Utils");
 const Holdable = require("../Holdable");
 
 class SpellBook extends Holdable {
-
     constructor(config) {
         super(config);
 
@@ -23,7 +22,7 @@ class SpellBook extends Holdable {
     }
 
     useWhileHeld(direction) {
-        const owner = this.owner;
+        const { owner } = this;
 
         if (owner.energy < this.useEnergyCost) {
             return;
@@ -32,7 +31,9 @@ class SpellBook extends Holdable {
         const front = owner.board.getRowColInFront(direction || owner.direction, owner.row, owner.col);
 
         // Cast the current spell, giving it a config object.
-        this.currentSpell({ row: front.row, col: front.col, board: owner.board, direction: direction || owner.direction, source: this.owner });
+        this.currentSpell({
+            row: front.row, col: front.col, board: owner.board, direction: direction || owner.direction, source: this.owner,
+        });
 
         owner.modEnergy(-this.useEnergyCost);
 
@@ -46,9 +47,9 @@ class SpellBook extends Holdable {
      */
     changeSpell(spellNumber) {
         // Check the spell exists. Might be invalid input.
-        if (this["spell" + spellNumber] === undefined) return;
+        if (this[`spell${spellNumber}`] === undefined) return;
 
-        this.currentSpell = this["spell" + spellNumber];
+        this.currentSpell = this[`spell${spellNumber}`];
     }
 
     spell1() { }
@@ -58,7 +59,6 @@ class SpellBook extends Holdable {
     spell3() { }
 
     spell4() { }
-
 }
 
 SpellBook.abstract = true;
@@ -83,7 +83,7 @@ SpellBook.prototype.spell4IconSource = "Spell 4 icon source not set.";
 
 SpellBook.prototype.useEnergyCost = 3;
 
-var spellBookTypeNumberCounter = 1;
+let spellBookTypeNumberCounter = 1;
 // A type number is an ID for this kind of book, so the client knows which icons and info to add to the spell book panel.
 // Used to send a number to get the spell book name from the spell book type catalogue, instead of a lengthy string of the item name.
 // All spell books that appear on the client must be registered with SpellBook.prototype.registerSpellBookType().
@@ -94,7 +94,7 @@ SpellBook.prototype.registerSpellBookType = function () {
 
     spellBookTypeNumberCounter += 1;
 
-    //Utils.message("Registering spell book type: ", this);
+    // Utils.message("Registering spell book type: ", this);
 };
 
 module.exports = SpellBook;

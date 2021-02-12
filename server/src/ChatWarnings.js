@@ -1,9 +1,9 @@
 const Utils = require("./Utils");
 
-var counter = 0;
+let counter = 0;
 function registerChatWarningID() {
     counter += 1;
-    //Utils.message("Registering chat warning, ID: ", counter);
+    // Utils.message("Registering chat warning, ID: ", counter);
     return counter;
 }
 
@@ -13,10 +13,11 @@ const ChatWarnings = {
 };
 
 // Write the warning message definition IDs to the client, so the client knows what message text to use for each warning.
-const fs = require('fs');
+const fs = require("fs");
+
 let dataToWrite = {};
 
-for (let key in ChatWarnings) {
+for (const key in ChatWarnings) {
     // Don't check prototype properties.
     if (ChatWarnings.hasOwnProperty(key) === false) continue;
     // Add this chat warning ID to the catalogue.
@@ -30,7 +31,7 @@ dataToWrite = JSON.stringify(dataToWrite);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/ChatWarnings.json', dataToWrite);
+fs.writeFileSync("../client/src/catalogues/ChatWarnings.json", dataToWrite);
 
 Utils.message("Chat warnings catalogue written to file.");
 

@@ -1,8 +1,7 @@
-const GroundTypes = require('./GroundTypes');
+const GroundTypes = require("./GroundTypes");
 
 class BoardTile {
-
-    constructor () {
+    constructor() {
         /**
          * The ground. Paths, dirt, water, lava, etc. Empty by default (no entities should be able to occupy this tile).
          * @type {GroundTile}
@@ -54,8 +53,8 @@ class BoardTile {
      * Whether this tile is currently being low blocked by the static on it, if there is one.
      * @returns {Boolean}
      */
-    isLowBlocked () {
-        if(this.static === null) return false;
+    isLowBlocked() {
+        if (this.static === null) return false;
 
         return this.static.isLowBlocked();
     }
@@ -64,8 +63,8 @@ class BoardTile {
      * Whether this tile is currently being high blocked by the static on it, if there is one.
      * @returns {Boolean}
      */
-    isHighBlocked () {
-        if(this.static === null) return false;
+    isHighBlocked() {
+        if (this.static === null) return false;
 
         return this.static.isHighBlocked();
     }
@@ -74,16 +73,14 @@ class BoardTile {
      * Checks if this tile contains any destroyable entities. Is the destroyable object empty.
      * @returns {Boolean}
      */
-    containsAnyDestroyables () {
+    containsAnyDestroyables() {
         // Check if there are any own properties on the destroyables object.
-        if(Object.keys(this.destroyables).length === 0){
+        if (Object.keys(this.destroyables).length === 0) {
             return false;
         }
-        else {
-            return true;
-        }
-    }
 
+        return true;
+    }
 }
 // Easy access to the list of ground types.
 BoardTile.prototype.GroundTypes = GroundTypes;

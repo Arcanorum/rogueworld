@@ -1,4 +1,4 @@
-const Interactable = require('../Interactable');
+const Interactable = require("../Interactable");
 
 class Exit extends Interactable {
     /**
@@ -39,13 +39,12 @@ class Exit extends Interactable {
         if (interactedBy instanceof Player === false) return;
 
         // Reposition them to somewhere within the entrance bounds.
-        let position = this.targetEntrance.getRandomPosition();
+        const position = this.targetEntrance.getRandomPosition();
 
         // Move the character to the board that this exit leads to.
         interactedBy.changeBoard(this.board, this.targetBoard, position.row, position.col);
     }
-
 }
 module.exports = Exit;
 
-const Player = require('../../../destroyables/movables/characters/Player');
+const Player = require("../../../destroyables/movables/characters/Player");

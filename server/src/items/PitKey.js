@@ -1,11 +1,9 @@
 const Item = require("./Item");
 
 class PitKey extends Item {
-
-    use () {
+    use() {
         this.useGatheringTool();
     }
-
 }
 
 PitKey.translationID = "Pit key";

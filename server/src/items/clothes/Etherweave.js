@@ -1,18 +1,17 @@
 const Clothes = require("./Clothes");
-const StatNames = require("../../stats/Statset").prototype.StatNames;
+const { StatNames } = require("../../stats/Statset").prototype;
 
 class Etherweave extends Clothes {
-
-    modDurability(){
+    modDurability() {
         // Overwrite this with nothing so it doesn't lose durability.
         // TODO: change this to be propery check based on Item proto.
     }
 
-    onDamaged (amount, source) {
+    onDamaged(amount, source) {
         // Check the entity can be damaged.
-        if(source.damage){
+        if (source.damage) {
             // Only give the player energy if they have glory.
-            if(this.owner.glory > Math.abs(amount)){
+            if (this.owner.glory > Math.abs(amount)) {
                 this.owner.modGlory(amount);
                 // Give energy when damaged.
                 this.owner.modEnergy(Math.abs(amount));
@@ -21,7 +20,6 @@ class Etherweave extends Clothes {
 
         super.onDamaged(amount, source);
     }
-
 }
 
 Etherweave.translationID = "Mage robe";
@@ -30,7 +28,7 @@ Etherweave.prototype.useGloryCost = 10;
 Etherweave.prototype.category = Clothes.prototype.categories.Clothing;
 Etherweave.prototype.defenceBonus = 20;
 Etherweave.prototype.statBonuses = {
-    [StatNames.Magic]: 2
+    [StatNames.Magic]: 2,
 };
 
 module.exports = Etherweave;

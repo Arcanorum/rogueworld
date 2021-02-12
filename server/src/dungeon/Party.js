@@ -1,4 +1,5 @@
-const Utils = require('../Utils');
+const Utils = require("../Utils");
+
 const idCounter = new Utils.Counter();
 
 class Party {
@@ -6,7 +7,6 @@ class Party {
      * @param {Player} player - The player that created this party, who will be the leader.
      */
     constructor(dungeonManager, player) {
-
         this.id = idCounter.getNext();
 
         /**
@@ -14,7 +14,7 @@ class Party {
          */
         this.inDungeon = false;
 
-        //this.dungeonManager = dungeonManager;
+        // this.dungeonManager = dungeonManager;
 
         /**
          * @type {Array.<Player>} A list of players in this party. [0] is the party leader.
@@ -35,11 +35,10 @@ class Party {
     }
 
     destroy() {
-        //delete this.dungeonManager;
+        // delete this.dungeonManager;
         delete this.members;
         delete this.kickedList;
     }
-
 }
 
 module.exports = Party;

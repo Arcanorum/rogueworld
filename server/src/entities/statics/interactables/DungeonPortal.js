@@ -1,4 +1,4 @@
-const Interactable = require('./Interactable');
+const Interactable = require("./Interactable");
 
 class DungeonPortal extends Interactable {
     /**
@@ -13,7 +13,7 @@ class DungeonPortal extends Interactable {
 
         // Link the dungeon manager to this portal.
         /** @type {DungeonManager} */
-        this.dungeonManager = DungeonManagersList.ByName["dungeon-" + config.dungeonName];
+        this.dungeonManager = DungeonManagersList.ByName[`dungeon-${config.dungeonName}`];
 
         if (!this.dungeonManager) {
             Utils.error("Cannot create dungeon portal entity, the target dungeon manager is not in the dungeon managers list. Config:", config);
@@ -39,10 +39,9 @@ class DungeonPortal extends Interactable {
 
         this.dungeonManager.start(player, this);
     }
-
 }
 module.exports = DungeonPortal;
 
-const Utils = require('../../../Utils');
-const Player = require('../../destroyables/movables/characters/Player');
-const DungeonManagersList = require('../../../dungeon/DungeonManagersList');
+const Utils = require("../../../Utils");
+const Player = require("../../destroyables/movables/characters/Player");
+const DungeonManagersList = require("../../../dungeon/DungeonManagersList");

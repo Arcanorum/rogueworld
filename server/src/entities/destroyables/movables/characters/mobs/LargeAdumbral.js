@@ -69,7 +69,7 @@ class LargeAdumbral extends Mob {
 }
 module.exports = LargeAdumbral;
 
-const MediumAdumbral = require("./../../characters/mobs/MediumAdumbral");
+const MediumAdumbral = require("./MediumAdumbral");
 const DayPhases = require("../../../../../DayPhases");
 const Damage = require("../../../../../gameplay/Damage");
 const Heal = require("../../../../../gameplay/Heal");

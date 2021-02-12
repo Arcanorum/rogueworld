@@ -10,30 +10,27 @@ class GroundTile {
      * @param {Boolean} [config.canBeBuiltOn=false] - Whether this tile can be built on (clan structures).
      * @param {Function} [config.StatusEffect=null] - A status effect class that can be applied to entities that stand on it.
      */
-    constructor (config) {
-
+    constructor(config) {
         this.name = config.name;
 
-        if(config.damageConfig){
+        if (config.damageConfig) {
             this.damageAmount = config.damageConfig.amount;
             this.damageTypes = config.damageConfig.types;
             this.damageArmourPiercing = config.damageConfig.armourPiercing;
         }
 
-        if(config.canBeStoodOn === false) this.canBeStoodOn = false;
+        if (config.canBeStoodOn === false) this.canBeStoodOn = false;
 
-        if(config.canBeBuiltOn === true) this.canBeBuiltOn = true;
+        if (config.canBeBuiltOn === true) this.canBeBuiltOn = true;
 
-        if(config.StatusEffect) this.StatusEffect = config.StatusEffect || null;
+        if (config.StatusEffect) this.StatusEffect = config.StatusEffect || null;
 
-        if(this.damageAmount > 0) this.hazardous = true;
+        if (this.damageAmount > 0) this.hazardous = true;
 
-        if(this.StatusEffect !== null){
-            if(this.StatusEffect.prototype.hazardous === true) this.hazardous = true;
+        if (this.StatusEffect !== null) {
+            if (this.StatusEffect.prototype.hazardous === true) this.hazardous = true;
         }
-
     }
-
 }
 GroundTile.prototype.damageAmount = 0;
 GroundTile.prototype.damageTypes = [];

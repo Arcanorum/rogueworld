@@ -1,4 +1,4 @@
-const Breakable = require('./Breakable');
+const Breakable = require("./Breakable");
 
 class WoodDoor extends Breakable {
     /**
@@ -12,12 +12,12 @@ class WoodDoor extends Breakable {
         super(config);
 
         // If it belongs to a clan, add the specific properties for clan structures.
-        //if(config.clan !== undefined){
+        // if(config.clan !== undefined){
         //    this.clan = config.clan;
         //    this.clan.addStructure(this); // TODO clean this stuff out of NPC structures, add it only to ClanStructure types.
         //    this.hitPoints = 20;
         //    this.maxHitPoints = 20;
-        //}
+        // }
     }
 
     interaction(interactedBy) {
@@ -28,11 +28,11 @@ class WoodDoor extends Breakable {
         if (interactedBy.energy < this.interactionEnergyCost) return;
 
         // Don't do anything if this is owned by a clan, and the character isn't a member of that clan.
-        //if(this.clan !== null){
+        // if(this.clan !== null){
         //    // The character might not have a clan property, so will be
         //    // undefined, but they both can't be null due to the above check. TODO clean
         //    if(this.clan !== interactedBy.clan) return;
-        //}
+        // }
 
         // Reduce their energy by the interaction cost.
         interactedBy.modEnergy(-this.interactionEnergyCost);

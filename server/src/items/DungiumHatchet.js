@@ -1,11 +1,9 @@
 const Item = require("./Item");
 
 class DungiumHatchet extends Item {
-
-    use () {
+    use() {
         this.useGatheringTool();
     }
-
 }
 
 DungiumHatchet.translationID = "Dungium hatchet";

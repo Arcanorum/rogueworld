@@ -1,5 +1,5 @@
 const ItemsList = {
-    LIST: this
+    LIST: this,
 };
 
 module.exports = ItemsList;

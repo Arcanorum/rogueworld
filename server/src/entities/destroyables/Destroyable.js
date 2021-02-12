@@ -41,7 +41,6 @@ class Destroyable extends Entity {
 
         super.onDestroy();
     }
-
 }
 
 Destroyable.abstract = true;

@@ -1,14 +1,12 @@
 const Item = require("./Item");
-const Cured = require("../gameplay/StatusEffects").Cured;
+const { Cured } = require("../gameplay/StatusEffects");
 
 class CurePotion extends Item {
-
-    onUsed () {
+    onUsed() {
         this.owner.addStatusEffect(Cured);
 
         super.onUsed();
     }
-
 }
 
 CurePotion.translationID = "Cure potion";

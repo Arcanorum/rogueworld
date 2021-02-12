@@ -1,4 +1,4 @@
-const Static = require('./Static');
+const Static = require("./Static");
 
 class Entrance extends Static {
     /**
@@ -19,9 +19,9 @@ class Entrance extends Static {
         this.right = config.col + config.width - 1;
 
         // Make this entrance occupy all of the static spaces of the area it covers, so clans can't build over them.
-        let colOffset,
-            rowOffset,
-            grid = this.board.grid;
+        let colOffset;
+        let rowOffset;
+        const { grid } = this.board;
         for (colOffset = 0; colOffset < config.width; colOffset += 1) {
             for (rowOffset = 0; rowOffset < config.height; rowOffset += 1) {
                 grid[this.row + rowOffset][this.col + colOffset].static = this;
@@ -39,10 +39,9 @@ class Entrance extends Static {
     getRandomPosition() {
         return {
             row: Math.round(Math.random() * (this.top - this.bottom) + this.bottom),
-            col: Math.round(Math.random() * (this.left - this.right) + this.right)
+            col: Math.round(Math.random() * (this.left - this.right) + this.right),
         };
     }
-
 }
 
 module.exports = Entrance;

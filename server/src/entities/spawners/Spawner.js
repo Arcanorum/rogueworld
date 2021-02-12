@@ -35,17 +35,15 @@ class Spawner extends Entity {
         this.dropList = null;
 
         if (config.dropList) {
-            const splitList = config.dropList.split(',\n');
+            const splitList = config.dropList.split(",\n");
 
             this.dropList = [];
 
             splitList.forEach((itemName) => {
-
                 this.dropList.push(new Drop({
-                    itemName: itemName,
-                    dropRate: 100
+                    itemName,
+                    dropRate: 100,
                 }));
-
             });
         }
 
@@ -119,8 +117,8 @@ class Spawner extends Entity {
             {
                 row: randomPosition.row,
                 col: randomPosition.col,
-                board: this.board
-            }
+                board: this.board,
+            },
         );
 
         // If this spawner creates test entities, specify them here.
@@ -140,7 +138,7 @@ class Spawner extends Entity {
 
         // Make sure this is a spawnable type of entity.
         if (entity.spawner === undefined) {
-            Utils.warning("Trying to create an entity from a spawner that doesn't have a `spawner` property, type: " + entity.constructor.name);
+            Utils.warning(`Trying to create an entity from a spawner that doesn't have a \`spawner\` property, type: ${entity.constructor.name}`);
         }
         else {
             entity.spawner = this;
@@ -175,6 +173,6 @@ module.exports = Spawner;
 
 Spawner.abstract = true;
 
-const Utils = require('../../Utils');
-const World = require('../../World');
-const Drop = require('../../gameplay/Drop');
+const Utils = require("../../Utils");
+const World = require("../../World");
+const Drop = require("../../gameplay/Drop");

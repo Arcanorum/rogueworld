@@ -1,11 +1,9 @@
 const Item = require("./Item");
 
 class IronHatchet extends Item {
-
-    use () {
+    use() {
         this.useGatheringTool();
     }
-
 }
 
 IronHatchet.translationID = "Iron hatchet";

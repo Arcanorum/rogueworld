@@ -1,11 +1,9 @@
 const Item = require("./Item");
 
 class FighterKey extends Item {
-
-    use () {
+    use() {
         this.useGatheringTool();
     }
-
 }
 
 FighterKey.translationID = "Fighter key";

@@ -6,7 +6,8 @@ const DungeonManagersList = require("./dungeon/DungeonManagersList");
 const EventsList = require("./EventsList");
 const ValidDirections = require("./entities/Entity").prototype.OppositeDirections;
 const CraftingManager = require("./crafting/CraftingManager");
-const Charter = undefined; //require("./entities/statics/interactables/breakables/crafting stations/Charter");
+
+const Charter = undefined; // require("./entities/statics/interactables/breakables/crafting stations/Charter");
 const DungeonPortal = require("./entities/statics/interactables/DungeonPortal");
 const AccountManager = require("./AccountManager");
 
@@ -19,7 +20,7 @@ function heartbeat() {
 }
 
 function ping() {
-    //console.log("ping");
+    // console.log("ping");
     wss.clients.forEach(pingEach);
 }
 
@@ -34,7 +35,7 @@ function closeConnection(clientSocket) {
 }
 
 function pingEach(clientSocket) {
-    //console.log("each ws: ", ws.isAlive);
+    // console.log("each ws: ", ws.isAlive);
     if (clientSocket.isAlive === false) {
         closeConnection(clientSocket);
     }
@@ -42,12 +43,12 @@ function pingEach(clientSocket) {
     clientSocket.ping(noop);
 }
 
-//var pinger = 0;
+// var pinger = 0;
 // How often to ping each client to see if the connection is still alive.
 const pingRate = 30000;
-const interval = setInterval(function () {
-    //pinger += 1;
-    //console.log("ping: " + pinger);
+const interval = setInterval(() => {
+    // pinger += 1;
+    // console.log("ping: " + pinger);
     ping();
 }, pingRate);
 
@@ -57,12 +58,12 @@ const interval = setInterval(function () {
  * @param {Object} [data]
  */
 const sendEvent = function (eventNameID, data) {
-    //console.log("sending, eventNameID: ", eventNameID);
-    //console.log("sending, data: ", data);
-    //console.log(this);
+    // console.log("sending, eventNameID: ", eventNameID);
+    // console.log("sending, data: ", data);
+    // console.log(this);
     // Check the connection is in the ready state.
     if (this.readyState === 1) {
-        this.send(JSON.stringify({ eventNameID: eventNameID, data: data }));
+        this.send(JSON.stringify({ eventNameID, data }));
     }
 };
 
@@ -72,16 +73,16 @@ const sendEvent = function (eventNameID, data) {
  * @param {Object} [data]
  */
 wss.broadcastToInGame = function broadcast(eventNameID, data) {
-    wss.clients.forEach(function broadcastEach(client) {
+    wss.clients.forEach((client) => {
         if (client.readyState === 1) {
             if (client.inGame === true) {
-                client.send(JSON.stringify({ eventNameID: eventNameID, data: data }));
+                client.send(JSON.stringify({ eventNameID, data }));
             }
         }
     });
 };
 
-wss.on("connection", function (clientSocket) {
+wss.on("connection", (clientSocket) => {
     clientSocket.isAlive = true;
     clientSocket.on("pong", heartbeat);
 
@@ -91,7 +92,7 @@ wss.on("connection", function (clientSocket) {
     // Don't need to create an instance of the function for each socket, just refer to the same one.
     clientSocket.sendEvent = sendEvent;
 
-    clientSocket.on("message", function (payload) {
+    clientSocket.on("message", (payload) => {
         let parsedMessage;
         try {
             parsedMessage = JSON.parse(payload);
@@ -101,22 +102,20 @@ wss.on("connection", function (clientSocket) {
             return;
         }
 
-        const eventName = parsedMessage.eventName;
+        const { eventName } = parsedMessage;
 
         // Check there is a response function to run for the event.
         if (eventResponses[eventName] !== undefined) {
             eventResponses[eventName](clientSocket, parsedMessage.data);
         }
-
     });
 
-    clientSocket.on("close", function () {
+    clientSocket.on("close", () => {
         Utils.message("Client socket close event.");
         if (clientSocket.inGame === false) return;
 
         world.removePlayer(clientSocket);
     });
-
 });
 
 /**
@@ -125,7 +124,7 @@ wss.on("connection", function (clientSocket) {
  * @param {String} data.password
  */
 eventResponses.log_in = (clientSocket, data) => {
-    //console.log("log in:", data);
+    // console.log("log in:", data);
     if (!data) return;
     if (!data.username) return;
     if (!data.password) return;
@@ -204,11 +203,9 @@ eventResponses.create_account = (clientSocket, data) => {
                 if (error.code === 11000) {
                     // Username already taken.
                     clientSocket.sendEvent(EventsList.create_account_failure, { messageID: "Username taken" });
-                    return;
                 }
             }
-        }
-    );
+        });
 };
 
 eventResponses.change_password = (clientSocket, data) => {
@@ -220,7 +217,7 @@ eventResponses.change_password = (clientSocket, data) => {
 };
 
 eventResponses.mv_u = function (clientSocket) {
-    //console.log("move player up");
+    // console.log("move player up");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
 
@@ -231,7 +228,7 @@ eventResponses.mv_u = function (clientSocket) {
 };
 
 eventResponses.mv_d = function (clientSocket) {
-    //console.log("move player down");
+    // console.log("move player down");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
 
@@ -242,7 +239,7 @@ eventResponses.mv_d = function (clientSocket) {
 };
 
 eventResponses.mv_l = function (clientSocket) {
-    //console.log("move player left");
+    // console.log("move player left");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
 
@@ -253,7 +250,7 @@ eventResponses.mv_l = function (clientSocket) {
 };
 
 eventResponses.mv_r = function (clientSocket) {
-    //console.log("move player right");
+    // console.log("move player right");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
 
@@ -271,7 +268,7 @@ eventResponses.chat = function (clientSocket, data) {
     if (!data) return;
     if (clientSocket.inGame === false) return;
 
-    const entity = clientSocket.entity;
+    const { entity } = clientSocket;
 
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
@@ -298,7 +295,7 @@ eventResponses.melee_attack = (clientSocket, data) => {
  * @param {String} data - The key of the inventory slot of the item to equip.
  */
 eventResponses.use_item = function (clientSocket, data) {
-    //console.log("use item, data:", data);
+    // console.log("use item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -318,7 +315,7 @@ eventResponses.use_item = function (clientSocket, data) {
  * @param {String} data - The direction to use the selected holdable item in.
  */
 eventResponses.use_held_item = function (clientSocket, data) {
-    //console.log("use item, data:", data);
+    // console.log("use item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Check the data is a valid direction.
@@ -365,13 +362,13 @@ eventResponses.spell_selected = function (clientSocket, data) {
  * @param {String} data - The key of the inventory slot of the item to drop.
  */
 eventResponses.drop_item = function (clientSocket, data) {
-    //console.log("drop item event:", data);
+    // console.log("drop item event:", data);
     if (!data) return;
 
     if (clientSocket.inGame === false) return;
 
     /** @type {Player} */
-    const entity = clientSocket.entity;
+    const { entity } = clientSocket;
 
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
@@ -416,7 +413,7 @@ eventResponses.swap_inventory_slots = function (clientSocket, data) {
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
 
-    //console.log("swap invent slots event:", data);
+    // console.log("swap invent slots event:", data);
 
     if (data.slotKeyFrom === undefined) return;
     if (data.slotKeyTo === undefined) return;
@@ -430,7 +427,7 @@ eventResponses.swap_inventory_slots = function (clientSocket, data) {
  * @param {Array} data.inventorySlotKeys - An array of the inventory slot names of the items to use.
  */
 eventResponses.craft = function (clientSocket, data) {
-    //console.log("craft, data:", data);
+    // console.log("craft, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -445,7 +442,7 @@ eventResponses.craft = function (clientSocket, data) {
  * @param {Number} data.bankSlotIndex
  */
 eventResponses.bank_deposit_item = function (clientSocket, data) {
-    //console.log("bank_deposit_item, data:", data);
+    // console.log("bank_deposit_item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -460,7 +457,7 @@ eventResponses.bank_deposit_item = function (clientSocket, data) {
  * @param {Number} data.bankSlotIndex
  */
 eventResponses.bank_withdraw_item = function (clientSocket, data) {
-    //console.log("bank_withdraw_item, data:", data);
+    // console.log("bank_withdraw_item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -488,7 +485,7 @@ eventResponses.bank_swap_slots = function (clientSocket, data) {
  * @param {Object} data - The ID of a dungeon manager.
  */
 eventResponses.get_dungeon_parties = (clientSocket, data) => {
-    //console.log("get_parties:", data);
+    // console.log("get_parties:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -535,7 +532,7 @@ eventResponses.focus_dungeon = (clientSocket, data) => {
  * @param {Number} data - The ID of a dungeon portal entity.
  */
 eventResponses.create_dungeon_party = (clientSocket, data) => {
-    //console.log("create_dungeon_party:", data);
+    // console.log("create_dungeon_party:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -580,7 +577,6 @@ eventResponses.leave_dungeon_party = (clientSocket, data) => {
 
     dungeonManager.removePlayerFromParty(clientSocket.entity);
 };
-
 
 eventResponses.kick_dungeon_party_member = (clientSocket, data) => {
     if (!data) return;
@@ -659,7 +655,7 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
  * @param {Number} data.col - The col of the merchant that was interacted with.
  */
 eventResponses.shop_buy_item = function (clientSocket, data) {
-    //console.log("shop buy item event, data:", data);
+    // console.log("shop buy item event, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -737,7 +733,7 @@ eventResponses.get_clan_values = function (clientSocket) {
 };
 
 eventResponses.task_claim_reward = function (clientSocket, data) {
-    //console.log("task claim reward, data:", data);
+    // console.log("task claim reward, data:", data);
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;

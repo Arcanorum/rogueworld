@@ -1,4 +1,4 @@
-const Destroyable = require('../Destroyable');
+const Destroyable = require("../Destroyable");
 
 class Pickup extends Destroyable {
     /**
@@ -9,7 +9,7 @@ class Pickup extends Destroyable {
      * @param {Number} [config.durability = null] - How much durability this pickup (and its item form) has. Null durability items don't degrade.
      * @param {Number} [config.maxDurability = null] - How much durability this pickup (and its item form) can have.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         config.board.addPickup(this);
@@ -19,13 +19,13 @@ class Pickup extends Destroyable {
         this.maxDurability = config.maxDurability || config.durability || null;
 
         // Add a self-destruct timer to pickups that are not in a dungeon.
-        if(!this.board.dungeon){
+        if (!this.board.dungeon) {
             // A timer to auto destroy this item if it isn't picked up within the given time.
             this.lifespanTimeout = setTimeout(this.destroy.bind(this), 1000 * 60);
         }
     }
 
-    onDestroy () {
+    onDestroy() {
         clearTimeout(this.lifespanTimeout);
 
         this.board.removePickup(this);
@@ -33,10 +33,9 @@ class Pickup extends Destroyable {
         super.onDestroy();
     }
 
-    onDropped (droppedBy) {}
+    onDropped(droppedBy) {}
 
-    onPickedUp (pickedUpBy) {}
-
+    onPickedUp(pickedUpBy) {}
 }
 
 Pickup.abstract = true;
@@ -45,7 +44,7 @@ Pickup.abstract = true;
  * The type of item to be added to the inventory of the character that picks this pickup up. The class itself, NOT an instance of it.
  * @type {Function}
  */
-Pickup.prototype.ItemType = 'Item type not set.';
+Pickup.prototype.ItemType = "Item type not set.";
 
 /**
  * If this entity is created by a spawner, this is a reference to it. The spawner itself will set this when it creates the entity.
@@ -55,7 +54,7 @@ Pickup.prototype.spawner = null;
 
 /**
  * The percent chance this item will be dropped when rolled from a mob drop list.
- * From 0 to 100 (percent), including 100 but not 0, as 0 would mean the item 
+ * From 0 to 100 (percent), including 100 but not 0, as 0 would mean the item
  * can never drop, so pointless to have it on a drop list.
  * @type {Number}
  */

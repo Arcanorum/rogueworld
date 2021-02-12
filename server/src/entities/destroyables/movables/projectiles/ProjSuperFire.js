@@ -32,10 +32,18 @@ class ProjSuperFire extends ProjFire {
         }
 
         // Create a new projectile in each direction.
-        new ProjFire({ row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source }).emitToNearbyPlayers();
-        new ProjFire({ row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source }).emitToNearbyPlayers();
-        new ProjFire({ row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source }).emitToNearbyPlayers();
-        new ProjFire({ row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source }).emitToNearbyPlayers();
+        new ProjFire({
+            row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjFire({
+            row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjFire({
+            row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjFire({
+            row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source,
+        }).emitToNearbyPlayers();
 
         // If it can have status effects, apply burning.
         if (collidee.statusEffects !== undefined) {
@@ -47,10 +55,9 @@ class ProjSuperFire extends ProjFire {
 
         this.destroy();
     }
-
 }
 module.exports = ProjSuperFire;
 
 const Pickup = require("../../pickups/Pickup");
 const Static = require("../../../statics/Static");
-const Burn = require("./../../../../gameplay/StatusEffects").Burn;
+const { Burn } = require("../../../../gameplay/StatusEffects");

@@ -1,19 +1,19 @@
 // Parse and convert the text translations file into easily accessible JSON.
 // Text definitions are defined at https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0
 
-const XLSX = require('xlsx');
-const fs = require('fs');
+const XLSX = require("xlsx");
+const fs = require("fs");
 const Utils = require("./Utils");
 
-const workbook = XLSX.readFile('Dungeonz.io translations.xlsx');
+const workbook = XLSX.readFile("Dungeonz.io translations.xlsx");
 
 const firstSheetName = workbook.SheetNames[0];
 // Get the worksheet.
 const worksheet = workbook.Sheets[firstSheetName];
 // Some characters to loop though, to go across the columns.
-const chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
-let defsAsJSON = {};
-const idNameCol = 'A';
+const chars = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"];
+const defsAsJSON = {};
+const idNameCol = "A";
 // The row that the language names are on.
 const languageNameRow = 8;
 // The row that the first definition is on for each column.
@@ -71,7 +71,6 @@ while (true) {
         // Go back up to the first definition row so it can start looping down again.
         currentDefRow = firstDefRow;
     }
-
 }
 
 // Write the text defs to the client.
@@ -83,6 +82,6 @@ dataToWrite = JSON.stringify(defsAsJSON);
 Utils.checkClientCataloguesExists();
 
 // Write the data to the file in the client files.
-fs.writeFileSync('../client/src/catalogues/TextDefinitions.json', dataToWrite);
+fs.writeFileSync("../client/src/catalogues/TextDefinitions.json", dataToWrite);
 
 Utils.message("Text definitions catalogue written to file.");

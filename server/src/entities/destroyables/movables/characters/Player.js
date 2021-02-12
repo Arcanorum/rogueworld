@@ -1,5 +1,6 @@
 const settings = require("../../../../../settings");
 const Character = require("./Character");
+
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
@@ -31,7 +32,7 @@ class Player extends Character {
          * The entrance that this player entity will respawn into.
          * @type {Entrance}
          */
-        this.respawnEntrance = config.respawnEntrance || BoardsList.boardsObject["overworld"].entrances[respawnEntranceName];
+        this.respawnEntrance = config.respawnEntrance || BoardsList.boardsObject.overworld.entrances[respawnEntranceName];
 
         /**
          * This can't be on the prototype, as changing the contents would change it for every instance of this class.
@@ -70,7 +71,6 @@ class Player extends Character {
         this.focusedDungeonManager = null;
 
         this.connectionCheckTimeout = setTimeout(this.checkWebsocketConnectionIsAlive.bind(this), checkWebsocketConnectionIsAliveRate);
-
     }
 
     checkWebsocketConnectionIsAlive() {
@@ -103,7 +103,7 @@ class Player extends Character {
         // Drop all items in inventory.
         // Don't need to check the board tile to drop on, as
         // if they player is already stood on it, it is valid.
-        for (let slotKey in this.inventory) {
+        for (const slotKey in this.inventory) {
             if (this.inventory.hasOwnProperty(slotKey) === false) continue;
             item = this.inventory[slotKey];
             // Check the item slot is valid, and not empty.
@@ -112,7 +112,7 @@ class Player extends Character {
             item.drop();
         }
 
-        // If the player is currently in a dungeon, remove 
+        // If the player is currently in a dungeon, remove
         // them from it before leaving that dungeon board.
         if (this.board.dungeon) {
             this.board.dungeon.removePlayerFromParty(this);
@@ -129,7 +129,7 @@ class Player extends Character {
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
     remove() {
-        // If the player is looking at a dungeon interface, they 
+        // If the player is looking at a dungeon interface, they
         // might be in a party, so they need removing from that.
         if (this.focusedDungeonManager) {
             this.focusedDungeonManager.removePlayerFromParty(this);
@@ -163,15 +163,17 @@ class Player extends Character {
      * @returns {Array}
      */
     getEmittableInventory() {
-        let emittableInventory = [];
+        const emittableInventory = [];
         let item;
 
-        for (let slotKey in this.inventory) {
+        for (const slotKey in this.inventory) {
             if (this.inventory.hasOwnProperty(slotKey) === false) continue;
             // Skip empty slots.
             if (this.inventory[slotKey] === null) continue;
             item = this.inventory[slotKey];
-            emittableInventory.push({ typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability });
+            emittableInventory.push({
+                typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability,
+            });
         }
 
         return emittableInventory;
@@ -185,7 +187,7 @@ class Player extends Character {
         this.regenEnergy();
 
         // Reposition them to somewhere within the respawn entrance bounds.
-        let position = this.respawnEntrance.getRandomPosition();
+        const position = this.respawnEntrance.getRandomPosition();
 
         this.changeBoard(this.board, this.respawnEntrance.board, position.row, position.col);
 
@@ -224,17 +226,16 @@ class Player extends Character {
             // Don't move if dead.
             if (this.hitPoints < 1) return false;
 
-            let dynamicsAtViewRangeData = this.board.getDynamicsAtViewRangeData(this.row, this.col, this.direction);
+            const dynamicsAtViewRangeData = this.board.getDynamicsAtViewRangeData(this.row, this.col, this.direction);
 
             // Don't bother sending the event if no dynamics were found.
             if (dynamicsAtViewRangeData !== false) {
                 // Tell the player any dynamics that they can now see in the direction they moved.
                 this.socket.sendEvent(
                     this.EventsList.add_entities,
-                    dynamicsAtViewRangeData
+                    dynamicsAtViewRangeData,
                 );
             }
-
         }
     }
 
@@ -291,9 +292,9 @@ class Player extends Character {
                 new Damage({
                     amount: Math.floor(damage.amount * 0.25),
                     types: damage.types,
-                    armourPiercing: damage.armourPiercing
+                    armourPiercing: damage.armourPiercing,
                 }),
-                damagedBy
+                damagedBy,
             );
         }
 
@@ -310,13 +311,13 @@ class Player extends Character {
         // Need to check if there is a board, as the board will be nulled if the player dies, but they can be revived.
         if (fromBoard) {
             fromBoard.removePlayer(this);
-        };
+        }
 
         super.changeBoard(fromBoard, toBoard, toRow, toCol);
 
-        // If the player is currently in a dungeon, remove 
+        // If the player is currently in a dungeon, remove
         // them from it before leaving that dungeon board.
-        // If they are respawning after dying as the last 
+        // If they are respawning after dying as the last
         // person in the dungeon, then the dungeon would have
         // already been destroyed, so check the board exists too.
         if (fromBoard && fromBoard.dungeon) {
@@ -329,10 +330,10 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.change_board, {
             boardName: this.board.name,
             boardAlwaysNight: this.board.alwaysNight,
-            boardIsDungeon: this.board.dungeon ? true : false,
+            boardIsDungeon: !!this.board.dungeon,
             playerRow: this.row,
             playerCol: this.col,
-            dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col)
+            dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col),
         });
     }
 
@@ -387,10 +388,10 @@ class Player extends Character {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(
                 this.EventsList.deactivate_clothing,
-                { slotKey: this.clothing.slotKey, typeNumber: this.clothing.typeNumber }
+                { slotKey: this.clothing.slotKey, typeNumber: this.clothing.typeNumber },
             );
 
-            for (let statKey in this.clothing.statBonuses) {
+            for (const statKey in this.clothing.statBonuses) {
                 if (this.clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
 
                 this.stats[statKey].levelModifier -= this.clothing.statBonuses[statKey];
@@ -400,10 +401,10 @@ class Player extends Character {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent(
                 this.EventsList.activate_clothing,
-                { slotKey: clothing.slotKey, typeNumber: clothing.typeNumber }
+                { slotKey: clothing.slotKey, typeNumber: clothing.typeNumber },
             );
 
-            for (let statKey in clothing.statBonuses) {
+            for (const statKey in clothing.statBonuses) {
                 if (clothing.statBonuses.hasOwnProperty(statKey) === false) continue;
 
                 this.stats[statKey].levelModifier += clothing.statBonuses[statKey];
@@ -461,7 +462,7 @@ class Player extends Character {
         if (slotKey !== undefined) {
             // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. "abcd").
             if (this.inventory[slotKey] !== null) {
-                Utils.error("Attempt to add item to character inventory at already occupied slot: " + slotKey + ", item: " + item.constructor.name);
+                Utils.error(`Attempt to add item to character inventory at already occupied slot: ${slotKey}, item: ${item.constructor.name}`);
             }
         }
         // No slot key specified, get the first empty one.
@@ -479,7 +480,9 @@ class Player extends Character {
         item.slotKey = slotKey;
 
         // Tell the player an item was added to their inventory.
-        this.socket.sendEvent(this.EventsList.add_item, { typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability });
+        this.socket.sendEvent(this.EventsList.add_item, {
+            typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability,
+        });
     }
 
     /**
@@ -527,7 +530,7 @@ class Player extends Character {
         if (!boardTile) return;
 
         let target;
-        for (let key in boardTile.destroyables) {
+        for (const key in boardTile.destroyables) {
             const entity = boardTile.destroyables[key];
             if (entity.hitPoints) {
                 target = entity;
@@ -538,7 +541,7 @@ class Player extends Character {
 
         target.damage(new Damage({
             amount: playerMeleeModHitPointConfig.damageAmount,
-            types: playerMeleeModHitPointConfig.damageTypes
+            types: playerMeleeModHitPointConfig.damageTypes,
         }), this);
     }
 
@@ -563,7 +566,7 @@ class Player extends Character {
         let pickup = null;
 
         // Get the first entity in the pickups list.
-        for (let pickupKey in boardTile.pickups) {
+        for (const pickupKey in boardTile.pickups) {
             if (boardTile.pickups[pickupKey] === undefined) continue;
             pickup = boardTile.pickups[pickupKey];
             break;
@@ -587,7 +590,7 @@ class Player extends Character {
      * @return {String}
      */
     getEmptyInventorySlotKey() {
-        for (let slotKey in this.inventory) {
+        for (const slotKey in this.inventory) {
             if (this.inventory.hasOwnProperty(slotKey) === false) continue;
             // If an empty slot is found, return the key for it.
             if (this.inventory[slotKey] === null) {
@@ -604,7 +607,7 @@ class Player extends Character {
      */
     isInventoryFull() {
         // Check that the character that interacted with this node has space in their inventory.
-        for (let slot in this.inventory) {
+        for (const slot in this.inventory) {
             if (this.inventory.hasOwnProperty(slot) === false) continue;
             // If an empty slot is found, stop looping.
             if (this.inventory[slot] === null) return false;
@@ -621,7 +624,7 @@ class Player extends Character {
      * @param {Function} Item - The class to check for instances of. NOT an instance of the class.
      */
     removeFromInventoryByItemType(Item) {
-        for (let slot in this.inventory) {
+        for (const slot in this.inventory) {
             if (this.inventory.hasOwnProperty(slot) === false) continue;
             if (this.inventory[slot] instanceof Item) {
                 this.inventory[slot].destroy();
@@ -632,7 +635,6 @@ class Player extends Character {
         // No item of the given type was found.
         return false;
     }
-
 }
 module.exports = Player;
 

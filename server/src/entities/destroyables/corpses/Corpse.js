@@ -1,17 +1,16 @@
-const Destroyable = require('../Destroyable');
+const Destroyable = require("../Destroyable");
 
 class Corpse extends Destroyable {
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         this.timeout = setTimeout(this.destroy.bind(this), 10000);
     }
 
-    destroy () {
+    destroy() {
         clearTimeout(this.timeout);
         super.destroy();
     }
-
 }
 
 Corpse.abstract = true;

@@ -48,7 +48,6 @@ class Static extends Entity {
         if (this.blocking === false) return false;
         return this._highBlocked;
     }
-
 }
 
 /**

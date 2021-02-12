@@ -1,4 +1,4 @@
-const Exit = require('./Exit');
+const Exit = require("./Exit");
 
 class OverworldPortal extends Exit {
     /**
@@ -18,10 +18,9 @@ class OverworldPortal extends Exit {
         this.activeState = true;
 
         // Tell any nearby players that this portal can now be interacted with.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.active_state, this.row + "-" + this.col);
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.active_state, `${this.row}-${this.col}`);
     }
-
 }
 module.exports = OverworldPortal;
 
-const DungeonManagersList = require('../../../../dungeon/DungeonManagersList');
+const DungeonManagersList = require("../../../../dungeon/DungeonManagersList");

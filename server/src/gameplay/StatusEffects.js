@@ -35,7 +35,7 @@ class StatusEffect {
             this.appliedTo.row,
             this.appliedTo.col,
             this._startEffectEventName,
-            this.appliedTo.id
+            this.appliedTo.id,
         );
 
         // Set the duration to be the default for new effects.
@@ -44,7 +44,7 @@ class StatusEffect {
         if (this._effectOnStart === true) {
             this._effect();
             // Check again if the applicant is now dead, might have been killed be the above effect.
-            if(this.appliedTo.hitPoints < 1) return;
+            if (this.appliedTo.hitPoints < 1) return;
         }
         // Clear the existing effect loop, or the loops will be stacked (and
         // there won't be a reference to the stacked ones to stop them manually).
@@ -57,7 +57,7 @@ class StatusEffect {
         this._effectLoop = setTimeout(this._effect.bind(this), this._effectRate);
     }
 
-    _effect(){
+    _effect() {
         if (this.shouldContinueEffect() === false) {
             this.stop();
             return;
@@ -68,12 +68,12 @@ class StatusEffect {
                 new Damage({
                     amount: this._damageAmount,
                     types: this._damageTypes,
-                    armourPiercing: this._damageArmourPiercing
+                    armourPiercing: this._damageArmourPiercing,
                 }),
-                this.source
+                this.source,
             );
             // Stop this effect if the thing it is applied to died from the damage above.
-            if(this.appliedTo.hitPoints < 1){
+            if (this.appliedTo.hitPoints < 1) {
                 this.stop();
                 return;
             }
@@ -81,7 +81,7 @@ class StatusEffect {
         // Or if this effect heals what it is applied to, heal them.
         else if (this._healAmount) {
             this.appliedTo.heal(
-                new Heal(this._healAmount)
+                new Heal(this._healAmount),
             );
         }
         this._effectsRemaining -= 1;
@@ -119,7 +119,6 @@ class StatusEffect {
     shouldContinueEffect() {
         return true;
     }
-
 }
 /** @type {String} The name of this effect, to be used as an ID in any lists of status effects. */
 StatusEffect.prototype.effectName = "";
@@ -146,7 +145,6 @@ StatusEffect.prototype._stopEffectEventName = "";
 StatusEffect.prototype.hazardous = false;
 
 class Burn extends StatusEffect {
-
     shouldContinueEffect() {
         // If it is water, remove burning if it is applied.
         // Can't walk into deep water.
@@ -167,6 +165,7 @@ class Burn extends StatusEffect {
     }
 }
 const burnDamageConfig = require("./ModHitPointConfigs").Burn;
+
 Burn.prototype._effectOnStart = true;
 Burn.prototype._damageAmount = burnDamageConfig.damageAmount;
 Burn.prototype._damageTypes = burnDamageConfig.damageTypes;
@@ -177,7 +176,6 @@ Burn.prototype._stopEffectEventName = EventsList.effect_stop_burn;
 Burn.prototype.hazardous = true;
 
 class Poison extends StatusEffect {
-
     shouldStart() {
         // If the target is cured, don't apply the poison effect.
         if (this.appliedTo.statusEffects[StatusEffects.Cured.name] !== undefined) {
@@ -208,6 +206,7 @@ class Poison extends StatusEffect {
     }
 }
 const poisonDamageConfig = require("./ModHitPointConfigs").Poison;
+
 Poison.prototype._damageAmount = poisonDamageConfig.damageAmount;
 Poison.prototype._damageTypes = poisonDamageConfig.damageTypes;
 Poison.prototype._damageArmourPiercing = poisonDamageConfig.damageArmourPiercing;
@@ -219,6 +218,7 @@ Poison.prototype.hazardous = true;
 
 class Disease extends StatusEffect { }
 const diseaseDamageConfig = require("./ModHitPointConfigs").Disease;
+
 Disease.prototype._damageAmount = diseaseDamageConfig.damageAmount;
 Disease.prototype._damageTypes = diseaseDamageConfig.damageTypes;
 Disease.prototype._damageArmourPiercing = diseaseDamageConfig.damageArmourPiercing;
@@ -230,6 +230,7 @@ Disease.prototype.hazardous = true;
 
 class HealthRegen extends StatusEffect { }
 HealthRegen.prototype._healAmount = require("./ModHitPointConfigs").HealthRegen.healAmount;
+
 HealthRegen.prototype._startingEffectsRemaining = 5;
 HealthRegen.prototype._startEffectEventName = EventsList.effect_start_health_regen;
 HealthRegen.prototype._stopEffectEventName = EventsList.effect_stop_health_regen;
@@ -253,12 +254,12 @@ Cured.prototype._startEffectEventName = EventsList.effect_start_cured;
 Cured.prototype._stopEffectEventName = EventsList.effect_stop_cured;
 
 const StatusEffects = {
-    Burn: Burn,
-    Poison: Poison,
-    Disease: Disease,
-    HealthRegen: HealthRegen,
-    EnergyRegen: EnergyRegen,
-    Cured: Cured
+    Burn,
+    Poison,
+    Disease,
+    HealthRegen,
+    EnergyRegen,
+    Cured,
 };
 
 module.exports = StatusEffects;

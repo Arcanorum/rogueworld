@@ -20,12 +20,15 @@
     "verbose": true
   },
   "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "express": "^4.17.1",
     "mongoose": "^5.7.5",
     "node-webhooks": "^1.4.2",
+    "require-dir": "^1.2.0",
     "ws": "^5.2.2",
-    "xlsx": "^0.13.5",
-    "require-dir": "^1.2.0"
+    "xlsx": "^0.13.5"
   },
   "dependencies": {
     "js-yaml": "^3.14.0",

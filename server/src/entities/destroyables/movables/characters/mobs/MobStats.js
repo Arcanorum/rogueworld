@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const yaml = require("js-yaml");
 const Utils = require("./../../../../../Utils");
 const Factions = require("../../../../../gameplay/Factions");
@@ -117,7 +118,7 @@ const MobStatsList = {};
 let defaultMobStats;
 
 try {
-    const MobValues = yaml.safeLoad(fs.readFileSync(__dirname + "/MobValues.yml", "utf8"));
+    const MobValues = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/MobValues.yml"), "utf8"));
     
     MobValues.forEach((rawConfig) => {
         if(rawConfig.name === "Default"){

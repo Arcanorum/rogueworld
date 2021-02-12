@@ -1,4 +1,5 @@
 const fs   = require("fs");
+const path = require("path");
 const yaml = require("js-yaml");
 const Utils = require("./Utils");
 const ItemsList = require("./ItemsList");
@@ -43,7 +44,7 @@ const populateList = () => {
 
     try {
         // Load all of the pure config items from the item configs list.
-        const itemConfigs = yaml.safeLoad(fs.readFileSync(__dirname + "/items/ItemValues.yml", "utf8"));
+        const itemConfigs = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/ItemValues.yml"), "utf8"));
     
         itemConfigs.forEach((config) => {
             ItemsList[config.name] = makeClass(config);
@@ -95,7 +96,7 @@ const initialiseList = () => {
 
     try {
         // Get the pure config items values again to finish setting them up, now that the classes are created.
-        const itemConfigs = yaml.safeLoad(fs.readFileSync(__dirname + "/items/ItemValues.yml", "utf8"));
+        const itemConfigs = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/ItemValues.yml"), "utf8"));
     
         itemConfigs.forEach((config) => {
             ItemsList[config.name].loadConfig(config);

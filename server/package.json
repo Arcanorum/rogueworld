@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon --exec npm start"
+    "dev": "nodemon --exec npm start",
+    "lint": "eslint 'src/**' --fix"
   },
   "keywords": [],
   "author": "",

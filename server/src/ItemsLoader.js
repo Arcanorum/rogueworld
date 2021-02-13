@@ -23,6 +23,7 @@ const makeClass = (config) => {
     if (config.extends) {
         const pathToCheck = `${__dirname}/items/${config.extends}.js`;
         if (fs.existsSync(pathToCheck)) {
+            // eslint-disable-next-line global-require, import/no-dynamic-require
             SuperClass = require(`./items/${config.extends}`);
         }
         else {
@@ -42,29 +43,18 @@ const makeClass = (config) => {
 const populateList = () => {
     Utils.message("Populating items list.");
 
-    try {
-        // Load all of the pure config items from the item configs list.
-        const itemConfigs = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/ItemValues.yml"), "utf8"));
-
-        itemConfigs.forEach((config) => {
-            ItemsList[config.name] = makeClass(config);
-        });
-    }
-    catch (error) {
-        Utils.error(error);
-    }
-
-    // Import all of the files for items that have their own file/custom class.
+    // Import all of the files for items that have their own class file for specific logic.
+    // eslint-disable-next-line global-require
     require("require-dir")("items", {
         recurse: true,
         mapKey: (value, baseName) => {
             if (typeof value === "function") {
                 if (ItemsList[baseName]) {
-                    Utils.error(`Cannot load item "${baseName}", as it already exists in the items list. Each item can have an entry in the ItemValues.yml item config list, or a class file, but not both.`);
+                    Utils.error(`Cannot load item "${baseName}", as it already exists in the items list.`);
                 }
                 // Don't add abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
-                if (value.hasOwnProperty("abstract")) return;
+                if (Object.prototype.hasOwnProperty.call(value, "abstract")) return;
 
                 value.assignPickupType(baseName);
                 value.prototype.typeName = baseName;
@@ -73,6 +63,26 @@ const populateList = () => {
             }
         },
     });
+
+    try {
+        // Load all of the item configs.
+        const itemConfigs = yaml.safeLoad(
+            fs.readFileSync(
+                path.resolve("./src/configs/ItemValues.yml"), "utf8",
+            ),
+        );
+
+        itemConfigs.forEach((config) => {
+            // Only generate a class for this item if one doesn't already
+            // exist, as it might have it's own special logic file.
+            if (!ItemsList[config.name]) {
+                ItemsList[config.name] = makeClass(config);
+            }
+        });
+    }
+    catch (error) {
+        Utils.error(error);
+    }
 
     // Check all of the items are valid. i.e. are a class/function.
     Object.entries(ItemsList).forEach(([name, itemType]) => {
@@ -97,7 +107,11 @@ const initialiseList = () => {
 
     try {
         // Get the pure config items values again to finish setting them up, now that the classes are created.
-        const itemConfigs = yaml.safeLoad(fs.readFileSync(path.resolve("./configs/ItemValues.yml"), "utf8"));
+        const itemConfigs = yaml.safeLoad(
+            fs.readFileSync(
+                path.resolve("./src/configs/ItemValues.yml"), "utf8",
+            ),
+        );
 
         itemConfigs.forEach((config) => {
             ItemsList[config.name].loadConfig(config);
@@ -114,16 +128,12 @@ const createCatalogue = () => {
     // Write the registered item types to the client, so the client knows what item to add for each type number.
     let dataToWrite = {};
 
-    for (const itemTypeKey in ItemsList) {
-        // Don't check prototype properties.
-        if (ItemsList.hasOwnProperty(itemTypeKey) === false) continue;
-
-        const itemType = ItemsList[itemTypeKey];
+    Object.values(ItemsList).forEach((itemType) => {
         const itemPrototype = itemType.prototype;
         // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
-        if (itemPrototype === undefined) continue;
+        if (itemPrototype === undefined) return;
         // Only add registered types.
-        if (itemPrototype.typeNumber === "Type not registered.") continue;
+        if (itemPrototype.typeNumber === "Type not registered.") return;
         // Add this item type to the type catalogue.
         dataToWrite[itemPrototype.typeNumber] = {
             typeNumber: itemPrototype.typeNumber,
@@ -131,7 +141,7 @@ const createCatalogue = () => {
             iconSource: itemType.iconSource,
             soundType: itemType.soundType,
         };
-    }
+    });
 
     dataToWrite = JSON.stringify(dataToWrite);
 

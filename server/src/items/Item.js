@@ -191,7 +191,6 @@ class Item {
 
     static loadConfig(config) {
         // Load anything else that hasn't already been set by the loadConfig method of a subclass.
-        // console.log("item.loadconfig");
 
         this.translationID = config.translationID;
         this.iconSource = config.iconSource;

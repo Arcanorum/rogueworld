@@ -29,7 +29,7 @@ async function init() {
     require("./src/items/holdable/spell_books/SpellBooksList");
     require("./src/ChatWarnings");
 
-    //const clanManager = require("./src/ClanManager");
+    // const clanManager = require("./src/ClanManager");
     const world = require("./src/World");
     world.init();
 
@@ -46,14 +46,14 @@ async function init() {
         world.accountManager.saveAllPlayersData(wss);
 
         // Save the clans data.
-        //clanManager.saveDataToFile();
+        // clanManager.saveDataToFile();
 
         Utils.message("Exitting");
 
         process.exit();
     }
 
-    //process.on("cleanup", cleanUp);
+    // process.on("cleanup", cleanUp);
 
     // Do cleaning before exiting.
     process.on("exit", async () => {
@@ -61,7 +61,7 @@ async function init() {
 
         cleanUp();
 
-        //process.emit("cleanup");
+        // process.emit("cleanup");
     });
 
     // Catch Ctrl+C event and exit normally.
@@ -105,14 +105,14 @@ async function init() {
     // Rebuild the client as some of the resources it uses might have been updated by the server init.
     // Should only need to do this for a prod build, as the Webpack dev server should take care of
     // detecting changes and rebuilding the client during development.
-    if(settings.DEV_MODE === false){
+    if (settings.DEV_MODE === false) {
         exec("cd .. && npm run client", (error, stdout, stderr) => {
             if (error || stderr) {
                 Utils.error(error || stderr);
             }
             // Uncomment to see the output logs of building the client.
             // Utils.message(stdout);
-    
+
             Utils.message("Finished building client.");
         });
     }

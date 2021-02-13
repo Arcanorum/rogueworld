@@ -362,6 +362,15 @@
   iconSource: icon-blood-gem
   craftingExpValue: 40
 
+- name: Bluecap
+  translationID: Bluecap
+  iconSource: icon-bluecap
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+  baseDurability: 1
+  useDurabilityCost: 1
+
 - name: Cotton
   translationID: Cotton
   iconSource: icon-cotton

@@ -28,6 +28,18 @@
 
 # Clothes
 
+- name: ArmorOfIre
+  extends: clothes/Clothes
+  translationID: Armor of Ire
+  iconSource: icon-dungium-armour
+  soundType: Fabric clothing
+  category: Clothing
+  useGloryCost: 10
+  baseDurability: 1000
+  defenceBonus: 100
+  statBonuses:
+    Melee: 2
+
 - name: Cloak
   extends: clothes/Clothes
   translationID: Cloak
@@ -60,6 +72,18 @@
   defenceBonus: 60
   statBonuses:
     Melee: 3
+
+- name: Etherweave
+  extends: clothes/Clothes
+  translationID: Etherweave
+  iconSource: icon-mage-robe
+  soundType: Fabric clothing
+  category: Clothing
+  useGloryCost: 10
+  baseDurability: 1000
+  defenceBonus: 20
+  statBonuses:
+    Magic: 2
 
 - name: IronArmour
   extends: clothes/Clothes
@@ -134,6 +158,18 @@
 
 # Holdable - Weapons
 
+- name: BloodStaff
+  extends: holdable/weapons/Weapon
+  translationID: Blood staff
+  iconSource: icon-blood-staff
+  soundType: Magic weapon
+  ProjectileType: ProjBloodBolt
+  category: Weapon
+  baseDurability: 30
+  useDurabilityCost: 1
+  useEnergyCost: 2
+  expGivenStatName: Magic
+
 - name: CopperSword
   extends: holdable/weapons/Weapon
   translationID: Copper sword
@@ -181,6 +217,20 @@
   useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
+
+- name: EternalFlame
+  extends: holdable/weapons/Weapon
+  translationID: Eternal Flame
+  iconSource: icon-super-fire-staff
+  soundType: Magic weapon
+  ProjectileType: ProjSuperFire
+  category: Weapon
+  useGloryCost: 10
+  baseDurability: 1000
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
 
 - name: FireStaff
   extends: holdable/weapons/Weapon
@@ -287,6 +337,32 @@
   useEnergyCost: 1
   expGivenStatName: Ranged
 
+- name: Stormcaller
+  extends: holdable/weapons/Weapon
+  translationID: Stormcaller
+  iconSource: icon-super-wind-staff
+  soundType: Magic weapon
+  ProjectileType: ProjSuperWind
+  category: Weapon
+  useGloryCost: 10
+  baseDurability: 1000
+  useDurabilityCost: 1
+  useEnergyCost: 1
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
+- name: SuperBloodStaff
+  extends: holdable/weapons/Weapon
+  translationID: Super blood staff
+  iconSource: icon-super-blood-staff
+  ProjectileType: ProjSuperBloodBolt
+  category: Weapon
+  baseDurability: 30
+  useDurabilityCost: 1
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
 - name: SuperFireStaff
   extends: holdable/weapons/Weapon
   translationID: Super fire staff
@@ -376,14 +452,38 @@
   iconSource: icon-cotton
   craftingExpValue: 5
 
+- name: CurePotion
+  translationID: Cure potion
+  iconSource: icon-cure-potion
+  soundType: Drink
+  craftingExpValue: 40
+  baseDurability: 6
+  useDurabilityCost: 1
+
 - name: DungiumBar
   translationID: Dungium bar
   iconSource: icon-dungium-bar
 
+- name: DungiumHatchet
+  translationID: Dungium hatchet
+  iconSource: icon-dungium-hatchet
+  category: Hatchet
+  baseDurability: 50
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
+
 - name: DungiumOre
   translationID: Dungium ore
   iconSource: icon-dungium-ore
-  
+
+- name: DungiumPickaxe
+  translationID: Dungium pickaxe
+  iconSource: icon-dungium-pickaxe
+  category: Pickaxe
+  baseDurability: 50
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
+
 - name: DungiumRod
   translationID: Dungium rod
   iconSource: icon-dungium-rod
@@ -391,7 +491,14 @@
 - name: DungiumSheet
   translationID: Dungium sheet
   iconSource: icon-dungium-sheet
-  
+
+- name: EnergyPotion
+  translationID: "Energy potion"
+  iconSource: icon-energy-potion
+  craftingExpValue: 20
+  baseDurability: 5
+  useDurabilityCost: 1
+
 - name: ExpOrbArmoury
   translationID: "Exp orb: Armoury"
   iconSource: icon-exp-orb
@@ -464,6 +571,12 @@
   translationID: Feathers
   iconSource: icon-feathers
 
+- name: FighterKey
+  translationID: Fighter key
+  iconSource: icon-fighter-key
+  baseDurability: 1
+  category: FighterKey
+
 - name: FireGem
   translationID: Fire gem
   iconSource: icon-fire-gem
@@ -473,13 +586,51 @@
   translationID: Fir logs
   iconSource: icon-fir-logs
 
+- name: GloryOrb
+  translationID: Glory orb
+  iconSource: icon-glory-orb
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: Greencap
+  translationID: Greencap
+  iconSource: icon-greencap
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+  baseDurability: 1
+  useDurabilityCost: 1
+
+- name: HealthPotion
+  translationID: Health potion
+  iconSource: icon-health-potion
+  craftingExpValue: 20
+  baseDurability: 5
+  useDurabilityCost: 1
+
 - name: IronBar
   translationID: Iron bar
   iconSource: icon-iron-bar
 
+- name: IronHatchet
+  translationID: Iron hatchet
+  iconSource: icon-iron-hatchet
+  category: Hatchet
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
+
 - name: IronOre
   translationID: Iron ore
   iconSource: icon-iron-ore
+
+- name: IronPickaxe
+  translationID: Iron pickaxe
+  iconSource: icon-iron-pickaxe
+  category: Pickaxe
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
   
 - name: IronRod
   translationID: Iron rod
@@ -493,9 +644,25 @@
   translationID: Noctis bar
   iconSource: icon-noctis-bar
 
+- name: NoctisHatchet
+  translationID: Noctis hatchet
+  iconSource: icon-noctis-hatchet
+  category: Hatchet
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
+
 - name: NoctisOre
   translationID: Noctis ore
   iconSource: icon-noctis-ore
+
+- name: NoctisPickaxe
+  translationID: Noctis pickaxe
+  iconSource: icon-noctis-pickaxe
+  category: Pickaxe
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
   
 - name: NoctisRod
   translationID: Noctis rod
@@ -512,6 +679,21 @@
 - name: PalmLogs
   translationID: Palm logs
   iconSource: icon-palm-logs
+
+- name: PitKey
+  translationID: Pit key
+  iconSource: icon-pit-key
+  baseDurability: 1
+  category: PitKey
+
+- name: Redcap
+  translationID: Redcap
+  iconSource: icon-redcap
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+  baseDurability: 1
+  useDurabilityCost: 1
 
 - name: SpruceLogs
   translationID: Spruce logs

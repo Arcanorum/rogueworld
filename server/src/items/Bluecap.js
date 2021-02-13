@@ -8,12 +8,4 @@ class Bluecap extends Item {
     }
 }
 
-Bluecap.translationID = "Bluecap";
-Bluecap.iconSource = "icon-bluecap";
-Bluecap.prototype.craftingExpValue = 10;
-Bluecap.prototype.expGivenStatName = Bluecap.prototype.StatNames.Potionry;
-Bluecap.prototype.expGivenOnUse = 5;
-Bluecap.prototype.baseDurability = 1;
-Bluecap.prototype.useDurabilityCost = 1;
-
 module.exports = Bluecap;

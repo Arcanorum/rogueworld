@@ -1,5 +1,4 @@
 const Clothes = require("./Clothes");
-const { StatNames } = require("../../stats/Statset").prototype;
 
 class ArmorOfIre extends Clothes {
     modDurability() {
@@ -20,14 +19,5 @@ class ArmorOfIre extends Clothes {
         super.onDamaged(damage, source);
     }
 }
-
-ArmorOfIre.translationID = "Dungium armour";
-ArmorOfIre.iconSource = "icon-dungium-armour";
-ArmorOfIre.prototype.useGloryCost = 12;
-ArmorOfIre.prototype.category = Clothes.prototype.categories.Clothing;
-ArmorOfIre.prototype.defenceBonus = 100;
-ArmorOfIre.prototype.statBonuses = {
-    [StatNames.Melee]: 2,
-};
 
 module.exports = ArmorOfIre;

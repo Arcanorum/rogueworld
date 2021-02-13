@@ -1,5 +1,4 @@
 const Weapon = require("./Weapon");
-const ProjectileType = require("../../../entities/destroyables/movables/projectiles/ProjBloodBolt");
 const ModHitPointConfigs = require("../../../gameplay/ModHitPointConfigs");
 const Damage = require("../../../gameplay/Damage");
 
@@ -9,19 +8,11 @@ class BloodStaff extends Weapon {
         this.owner.damage(new Damage({
             amount: ModHitPointConfigs.ProjBloodBolt.damageAmount * 0.5,
             types: ModHitPointConfigs.ProjBloodBolt.damageTypes,
+            armourPiercing: 100, // Avoid damaging own clothes when using blood staffs.
         }));
 
         super.onUsed();
     }
 }
-
-BloodStaff.translationID = "Blood staff";
-BloodStaff.iconSource = "icon-blood-staff";
-BloodStaff.prototype.ProjectileType = ProjectileType;
-BloodStaff.prototype.category = Weapon.prototype.categories.Weapon;
-BloodStaff.prototype.baseDurability = 30;
-BloodStaff.prototype.useDurabilityCost = 1;
-BloodStaff.prototype.useEnergyCost = 2;
-BloodStaff.prototype.expGivenStatName = BloodStaff.prototype.StatNames.Magic;
 
 module.exports = BloodStaff;

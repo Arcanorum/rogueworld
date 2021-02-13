@@ -11,10 +11,4 @@ class HealthPotion extends Item {
     }
 }
 
-HealthPotion.translationID = "Health potion";
-HealthPotion.iconSource = "icon-health-potion";
-HealthPotion.prototype.craftingExpValue = 20;
-HealthPotion.prototype.baseDurability = 5;
-HealthPotion.prototype.useDurabilityCost = 1;
-
 module.exports = HealthPotion;

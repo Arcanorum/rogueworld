@@ -8,9 +8,4 @@ class GloryOrb extends Item {
     }
 }
 
-GloryOrb.translationID = "Glory orb";
-GloryOrb.iconSource = "icon-glory-orb";
-GloryOrb.prototype.baseDurability = 1;
-GloryOrb.prototype.useDurabilityCost = 1;
-
 module.exports = GloryOrb;

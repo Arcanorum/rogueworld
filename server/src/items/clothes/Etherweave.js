@@ -1,5 +1,4 @@
 const Clothes = require("./Clothes");
-const { StatNames } = require("../../stats/Statset").prototype;
 
 class Etherweave extends Clothes {
     modDurability() {
@@ -21,14 +20,5 @@ class Etherweave extends Clothes {
         super.onDamaged(amount, source);
     }
 }
-
-Etherweave.translationID = "Mage robe";
-Etherweave.iconSource = "icon-mage-robe";
-Etherweave.prototype.useGloryCost = 10;
-Etherweave.prototype.category = Clothes.prototype.categories.Clothing;
-Etherweave.prototype.defenceBonus = 20;
-Etherweave.prototype.statBonuses = {
-    [StatNames.Magic]: 2,
-};
 
 module.exports = Etherweave;

@@ -1,4 +1,6 @@
 const Movable = require("../Movable");
+const GroundTypes = require("../../../../board/GroundTypes");
+const Damage = require("../../../../gameplay/Damage");
 
 class Character extends Movable {
     /**
@@ -71,12 +73,22 @@ class Character extends Movable {
             // If should keep processing after curse has fired, create a corpse.
             if (this.curse.onCharacterDeath() === true) {
                 // If this character has a corpse type, create a new corpse of the specified type.
-                if (this.CorpseType !== null) new this.CorpseType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
+                if (this.CorpseType !== null) {
+                    new this.CorpseType({
+                        row: this.row,
+                        col: this.col,
+                        board: this.board,
+                    }).emitToNearbyPlayers();
+                }
             }
         }
-        else {
-            // No curse. Just create the corpse.
-            if (this.CorpseType !== null) new this.CorpseType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
+        // No curse. Just create the corpse.
+        else if (this.CorpseType !== null) {
+            new this.CorpseType({
+                row: this.row,
+                col: this.col,
+                board: this.board,
+            }).emitToNearbyPlayers();
         }
         // Destroy this character.
         this.destroy();
@@ -118,7 +130,7 @@ class Character extends Movable {
      * @returns {Boolean}
      */
     move(byRows, byCols) {
-        if (!this.board) return;
+        if (!this.board) return false;
 
         // Get the direction from the move offset.
         const direction = this.board.rowColOffsetToDirection(byRows, byCols);
@@ -217,19 +229,12 @@ class Character extends Movable {
     }
 
     removeStatusEffects() {
-        for (const effectKey in this.statusEffects) {
-            if (this.statusEffects.hasOwnProperty(effectKey) === false) continue;
-
-            this.statusEffects[effectKey].stop();
-        }
+        Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
     }
 }
 module.exports = Character;
 
 Character.abstract = true;
-
-const GroundTypes = require("../../../../board/GroundTypes");
-const Damage = require("../../../../gameplay/Damage");
 
 // Give each character easy access to the factions list.
 Character.prototype.Factions = require("../../../../gameplay/Factions");

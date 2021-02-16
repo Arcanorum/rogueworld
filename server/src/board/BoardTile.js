@@ -22,6 +22,15 @@ class BoardTile {
         this.static = null;
 
         /**
+         * Entities that do not have a definite existence, and so must be sent dynamically to the player.
+         * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
+         * Should NOT occupy a tile that has an active blocking static.
+         * Accessed by their entity ID.
+         * @type {Object}
+         */
+        this.destroyables = {};
+
+        /**
          * A sepearate list of destroyables that can be picked up by players and added to their inventory.
          * Anything in here should also be in the destroyables list.
          * They don't interact with anything else, so less filtering other entities when being picked up.
@@ -30,15 +39,6 @@ class BoardTile {
          * @type {Object}
          */
         this.pickups = {};
-
-        /**
-         * Entities that do not have a definite existence, and so must be sent dynamically to the player.
-         * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
-         * Should NOT occupy a tile that has an active blocking static.
-         * Accessed by their entity ID.
-         * @type {Object}
-         */
-        this.destroyables = {};
 
         /**
          * A separate list of destroyables just for Players, mainly for emitting events, less messing around filtering other entities.
@@ -80,6 +80,38 @@ class BoardTile {
         }
 
         return true;
+    }
+
+    /**
+     * Adds the dynamics of a tile to a given list.
+     * Useful for building a view of what the player can
+     * see in an area, or at the edge of their view range.
+     * @param {Array} dynamicsList
+     */
+    addToDynamicsList(dynamicsList) {
+        const { destroyables } = this;
+        // Get all of the destroyable entities on this board tile.
+        Object.values(destroyables).forEach((destroyable) => {
+            // Add the relevant data of this entity to the data to return.
+            dynamicsList.push(
+                destroyable.getEmittableProperties({}),
+            );
+        });
+
+        // The static of this tile may be interactable, so also get the state of it if it isn't
+        // in its default state.
+        const interactable = this.static;
+        // Check there is actually one there.
+        if (interactable !== null) {
+            // Check if it is not in its default state. If not, add it to the data.
+            // Also checks if it is actually an interactable.
+            if (interactable.activeState === false) {
+                // Add the relevant data of this entity to the data to return.
+                dynamicsList.push(
+                    interactable.getEmittableProperties({}),
+                );
+            }
+        }
     }
 }
 // Easy access to the list of ground types.

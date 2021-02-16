@@ -23,6 +23,12 @@ module.exports = {
         "no-param-reassign": [
             "off",
         ],
+        "no-new": [
+            "off",
+        ],
+        "import/no-dynamic-require": [
+            "off",
+        ],
         "class-methods-use-this": [
             "off",
         ],

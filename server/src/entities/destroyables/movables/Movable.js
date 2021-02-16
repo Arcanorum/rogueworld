@@ -15,16 +15,25 @@ class Movable extends Destroyable {
         else if (byCols) this.reposition(this.row, this.col + byCols);
 
         // Tell the players in this zone that this dynamic has moved.
-        this.board.emitToNearbyPlayers(origRow, origCol, this.EventsList.moved, { id: this.id, row: this.row, col: this.col });
+        this.board.emitToNearbyPlayers(
+            origRow,
+            origCol,
+            this.EventsList.moved,
+            { id: this.id, row: this.row, col: this.col },
+        );
 
         // Only the players that can already see this dynamic will move it, but for ones that this has just come in range of, they will
         // need to be told to add this entity, so tell any players at the edge of the view range in the direction this entity moved.
-        this.board.emitToPlayersAtViewRange(this.row, this.col, this.board.rowColOffsetToDirection(byRows, byCols),
+        this.board.emitToPlayersAtViewRange(
+            this.row,
+            this.col,
+            this.board.rowColOffsetToDirection(byRows, byCols),
             this.EventsList.add_entity,
-            this.getEmittableProperties({}));
+            this.getEmittableProperties({}),
+        );
         // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that only calls getEmittableProperties
         // if any other players have been found, as the current way calls it for every move, even if there is nobody else seeing it,
-        // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that a another
+        // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that another
         // player is found on, instead of just once and use it if needed.
 
         this.postMove();
@@ -58,14 +67,24 @@ class Movable extends Destroyable {
      */
     repositionAndEmitToNearbyPlayers(toRow, toCol) {
         // Tell the players in this zone that this dynamic has moved.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.moved, { id: this.id, row: toRow, col: toCol });
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.moved,
+            { id: this.id, row: toRow, col: toCol },
+        );
 
         // Do the movement.
         this.reposition(toRow, toCol);
 
         // Only the players that can already see this dynamic will move it, but for ones that this has just
         // come in range of, they will need to be told to add this entity, so tell any nearby players.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.add_entity, this.getEmittableProperties({}));
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.add_entity,
+            this.getEmittableProperties({}),
+        );
     }
 
     /**
@@ -78,7 +97,12 @@ class Movable extends Destroyable {
         // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
         if (fromBoard) {
             // Tell players around this entity on the previous board to remove it.
-            fromBoard.emitToNearbyPlayers(this.row, this.col, this.EventsList.remove_entity, this.id);
+            fromBoard.emitToNearbyPlayers(
+                this.row,
+                this.col,
+                this.EventsList.remove_entity,
+                this.id,
+            );
 
             // Remove this entity from the board it is currently in before adding to the next board.
             // Don't use Movable.reposition as that would only move it around on the same board, not between boards.
@@ -92,7 +116,12 @@ class Movable extends Destroyable {
         this.board.addDestroyable(this);
 
         // Tell players around this entity on the new board to add it.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.add_entity, this.getEmittableProperties({}));
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.add_entity,
+            this.getEmittableProperties({}),
+        );
     }
 
     /**
@@ -100,7 +129,12 @@ class Movable extends Destroyable {
      */
     modDirection(direction) {
         this.direction = direction;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, { id: this.id, direction: this.direction });
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.change_direction,
+            { id: this.id, direction: this.direction },
+        );
     }
 }
 

@@ -50,7 +50,7 @@ const createCatalogue = () => {
         // Don't check prototype properties.
         if (EntitiesList.hasOwnProperty(entityTypeKey) === false) continue;
         // Only add registered types.
-        if (EntitiesList[entityTypeKey].prototype.typeNumber === "Type not registered.") continue;
+        if (!EntitiesList[entityTypeKey].prototype.typeNumber) continue;
         // Add this entity type to the type catalogue.
         dataToWrite[EntitiesList[entityTypeKey].prototype.typeNumber] = entityTypeKey;
     }

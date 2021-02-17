@@ -295,7 +295,7 @@ Entity.prototype.EventsList = require("../EventsList");
 // A type number is an ID for all entities that appear on the client, so the client knows which entity to add.
 // Used to send a number to get the entity name from the entity type catalogue, instead of a lengthy string of the entity name.
 // All entities that appear on the client must be registered with ENTITY.prototype.registerEntityType().
-Entity.prototype.typeNumber = "Type not registered.";
+Entity.prototype.typeNumber = null;
 
 /**
  * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.

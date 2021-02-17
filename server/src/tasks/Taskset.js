@@ -53,8 +53,8 @@ class Taskset {
         Object.entries(this.list).forEach(([taskID, task]) => {
             const rewardItemTypeNumbers = [];
 
-            task.rewardItemTypes.forEach((itemType, i) => {
-                if (!itemType) return;
+            task.rewardItemTypes.forEach((ItemType, i) => {
+                if (!ItemType) return;
                 rewardItemTypeNumbers[i] = task.rewardItemTypes[i].prototype.typeNumber;
             });
 

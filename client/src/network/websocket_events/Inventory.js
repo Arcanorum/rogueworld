@@ -19,7 +19,7 @@ export default () => {
     };
 
     eventResponses.inventory_full = () => {
-        window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Inventory full warning"));
+        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Inventory full warning"));
     };
 
     /**
@@ -35,7 +35,7 @@ export default () => {
     };
 
     eventResponses.item_broken = () => {
-        window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Item broken warning"));
+        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Item broken warning"));
     };
 
     eventResponses.item_dropped = (data) => {

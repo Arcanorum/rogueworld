@@ -252,6 +252,7 @@
   category: Weapon
   useGloryCost: 15
   expGivenStatName: Melee
+  baseDurability: 1000
 
 - name: IronDagger
   extends: holdable/weapons/Weapon

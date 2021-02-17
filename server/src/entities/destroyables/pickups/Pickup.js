@@ -6,17 +6,14 @@ class Pickup extends Destroyable {
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
-     * @param {Number} [config.durability = null] - How much durability this pickup (and its item form) has. Null durability items don't degrade.
-     * @param {Number} [config.maxDurability = null] - How much durability this pickup (and its item form) can have.
+     * @param {ItemConfig} [config.itemConfig]
      */
     constructor(config) {
         super(config);
 
         config.board.addPickup(this);
 
-        this.durability = config.durability || null;
-
-        this.maxDurability = config.maxDurability || config.durability || null;
+        this.itemConfig = config.itemConfig;
 
         // Add a self-destruct timer to pickups that are not in a dungeon.
         if (!this.board.dungeon) {
@@ -42,6 +39,7 @@ Pickup.abstract = true;
 
 /**
  * The type of item to be added to the inventory of the character that picks this pickup up. The class itself, NOT an instance of it.
+ * Set in Item.assignPickupType on server start.
  * @type {Function}
  */
 Pickup.prototype.ItemType = "Item type not set.";
@@ -61,5 +59,12 @@ Pickup.prototype.spawner = null;
 Pickup.prototype.dropRate = 20;
 
 Pickup.prototype.spawnRate = 20000;
+
+/**
+ * The configuration of the item that this pickup represents.
+ * If not defined after instantiation, then it iwll use the defaults from the ItemType.
+ * @type {ItemConfig}
+ */
+Pickup.prototype.itemConfig = null;
 
 module.exports = Pickup;

@@ -2,9 +2,9 @@ const Utils = require("../Utils");
 const ItemsList = require("../ItemsList");
 
 class StockItem {
-    constructor(itemType, basePrice, price) {
+    constructor(ItemType, basePrice, price) {
         /** @type {Function} */
-        this.ItemType = itemType || ItemsList.OakLogs;
+        this.ItemType = ItemType || ItemsList.OakLogs;
         /** The minimum price of this item.
          * @type {Number} */
         this.basePrice = basePrice || 100;

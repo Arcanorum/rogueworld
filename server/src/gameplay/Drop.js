@@ -1,4 +1,3 @@
-const fs = require("fs");
 const Pickup = require("../entities/destroyables/pickups/Pickup");
 const Utils = require("../Utils");
 const ItemsList = require("../ItemsList");

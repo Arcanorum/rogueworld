@@ -1,4 +1,6 @@
 const Entity = require("../Entity");
+const Utils = require("../../Utils");
+const ItemConfig = require("../../inventory/ItemConfig");
 
 class Spawner extends Entity {
     /**
@@ -10,13 +12,15 @@ class Spawner extends Entity {
      * @param {Number} [config.maxAtOnce=1] - The maximum amount of entities this spawner can have at once.
      * @param {Number} [config.spawnRate=20000] - How often this spawner creates a new entity, in ms.
      * @param {Boolean} [config.testing=undefined] - Is this spawner being used to spawn test entities. Useful for not having a spam of console logs for all of an entity type.
-     * @param {String} [config.dropList=undefined] - Any special item drop list that the entities spawned should use instead of their class one.
+     * @param {Object} [config.itemConfig=undefined] - PICKUPS ONLY. The config of the item that any pickups spawned represent.
      */
     constructor(config) {
         super(config);
 
         this.EntityType = config.entityType;
+
         this.maxAtOnce = config.maxAtOnce || 0;
+
         this.spawnRate = config.spawnRate || config.entityType.prototype.spawnRate || 60000;
         if (this.spawnRate < 1) {
             Utils.error("Spawner with invalid spawnRate. Config:", config);
@@ -31,20 +35,11 @@ class Spawner extends Entity {
         }
 
         this.currentlySpawned = 0;
+
         this.testing = config.testing;
-        this.dropList = null;
 
-        if (config.dropList) {
-            const splitList = config.dropList.split(",\n");
-
-            this.dropList = [];
-
-            splitList.forEach((itemName) => {
-                this.dropList.push(new Drop({
-                    itemName,
-                    dropRate: 100,
-                }));
-            });
+        if (config.itemConfig) {
+            this.itemConfig = config.itemConfig;
         }
 
         // Add this spawner to the list of spawners on the board it is on.
@@ -107,7 +102,12 @@ class Spawner extends Entity {
             return false;
         }
 
-        if (this.EntityType.prototype.checkSpawnCriteria(boardTile, this.board.dayPhase) === false) {
+        const spawnCriteriaMet = this.EntityType.prototype.checkSpawnCriteria(
+            boardTile,
+            this.board.dayPhase,
+        );
+
+        if (spawnCriteriaMet === false) {
             // Restart the spawn.
             this.addSpawnTimeout();
             return false;
@@ -126,12 +126,17 @@ class Spawner extends Entity {
             entity.testing = true;
         }
 
-        // If this spawner uses a specific drop list, specify it here.
-        if (this.dropList !== null) {
-            // Check it is an entity that should have a drop list.
-            if (entity.dropList) {
-                entity.dropList = this.dropList;
-            }
+        // Pickups can have an item config passed to them to customise the pickup contents.
+        if (this.itemConfig) {
+            entity.itemConfig = this.itemConfig;
+
+            // Need to create the item config new each time, or different
+            // pickups will share the same config which can be mutated.
+            entity.itemConfig = new ItemConfig({
+                ItemType: this.itemConfig.ItemType,
+                quantity: this.itemConfig.quantity,
+                durability: this.itemConfig.durability,
+            });
         }
 
         if (this.dungeonKeys) entity.dungeonKeys = this.dungeonKeys;
@@ -146,7 +151,12 @@ class Spawner extends Entity {
 
         this.currentlySpawned += 1;
 
-        this.board.emitToNearbyPlayers(entity.row, entity.col, entity.EventsList.add_entity, entity.getEmittableProperties({}));
+        this.board.emitToNearbyPlayers(
+            entity.row,
+            entity.col,
+            entity.EventsList.add_entity,
+            entity.getEmittableProperties({}),
+        );
 
         return true;
     }
@@ -173,6 +183,4 @@ module.exports = Spawner;
 
 Spawner.abstract = true;
 
-const Utils = require("../../Utils");
-const World = require("../../World");
 const Drop = require("../../gameplay/Drop");

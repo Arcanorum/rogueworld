@@ -29,18 +29,18 @@ class BankAccount {
     /**
      * Add an item to this bank account.
      * @param {Number} slotIndex
-     * @param {Function} itemType
+     * @param {Function} ItemType
      * @param {Number=null} durability
      * @param {Number=null} maxDurability
      */
-    addItemToBankAccount(slotIndex, itemType, durability, maxDurability) {
+    addItemToBankAccount(slotIndex, ItemType, durability, maxDurability) {
         if (slotIndex === undefined) return;
-        if (itemType === undefined) return;
+        if (ItemType === undefined) return;
         /** @type {BankItem} */
         const bankItem = this.items[slotIndex];
-        bankItem.itemTypeName = itemType.prototype.typeName;
-        bankItem.durability = durability || itemType.prototype.baseDurability || null;
-        bankItem.maxDurability = maxDurability || itemType.prototype.baseDurability || null;
+        bankItem.itemTypeName = ItemType.prototype.typeName;
+        bankItem.durability = durability || ItemType.prototype.baseDurability || null;
+        bankItem.maxDurability = maxDurability || ItemType.prototype.baseDurability || null;
     }
 
     /**

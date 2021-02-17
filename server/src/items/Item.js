@@ -8,36 +8,16 @@ const typeNumberCounter = new Utils.Counter();
 
 class Item {
     /**
-     * @param {Number} [config.durability = null]
-     * @param {Number} [config.maxDurability = null]
+     * @param {ItemConfig} config.itemConfig
      */
     constructor(config) {
-        const durability = parseInt(config.durability, 10);
-        const maxDurability = parseInt(config.maxDurability, 10);
-
-        /**
-         * How much durability this item has.
-         * @type {Number|null}
-         */
-        this.durability = durability || maxDurability || this.baseDurability;
-
-        /**
-         * How much durability this item can have. Can change, such as when crafted by a player with levels in the crafting stat used.
-         * @type {Number|null}
-         */
-        this.maxDurability = maxDurability || durability || this.baseDurability;
+        this.itemConfig = config.itemConfig;
 
         /**
          * The player that owns this item.
          * @type {Player|null}
          */
         this.owner = null;
-
-        /**
-         * The key of the inventory slot that this item is in.
-         * @type {String|null}
-         */
-        this.slotKey = null;
     }
 
     static registerItemType() {
@@ -144,23 +124,33 @@ class Item {
     }
 
     /**
-     *
+     * @param {Number} amount
+     */
+    modQuantity(amount) {
+        // Check a valid value was given.
+        if (!amount) return;
+
+        this.itemConfig.modQuantity(amount);
+
+        // TODO: update client to show new quantity value for this item
+    }
+
+    /**
      * @param {Number} amount
      */
     modDurability(amount) {
         // Check a valid value was given.
         if (!amount) return;
 
-        this.durability += amount;
-        this.durability = Math.floor(this.durability);
+        this.itemConfig.modDurability(amount);
 
         // Make sure it doesn't go above max durability if repaired.
-        if (this.durability > this.maxDurability) {
-            this.durability = this.maxDurability;
+        if (this.itemConfig.durability > this.itemConfig.maxDurability) {
+            this.itemConfig.durability = this.itemConfig.maxDurability;
         }
 
         // Check if the item is now broken.
-        if (this.durability < 1) {
+        if (this.itemConfig.durability < 1) {
             // Tell the player their item broke.
             this.owner.socket.sendEvent(this.owner.EventsList.item_broken);
             // Destroy this broken item.
@@ -170,7 +160,7 @@ class Item {
             // Tell the player the new durability.
             this.owner.socket.sendEvent(
                 this.owner.EventsList.durability_value,
-                { durability: this.durability, slotKey: this.slotKey },
+                { durability: this.itemConfig.durability, slotKey: this.slotKey },
             );
         }
     }
@@ -211,6 +201,19 @@ class Item {
                 }
             }
         });
+
+        // Check for conflicting config properties.
+        // Can only have the stackable properties or the unstackable properties, never both.
+        if (this.prototype.baseQuantity && this.prototype.baseDurability) {
+            Utils.error("Item type cannot have both `baseQuantity` and `baseDurability`. Item:", this);
+        }
+
+        // If neither have been set, then assume it is a single unit of a stackable
+        // item, as that is the most common kind of item type and it would be
+        // annoying to have to set `baseQuantity: 1` on so many item configs.
+        if (!this.prototype.baseQuantity && !this.prototype.baseDurability) {
+            this.prototype.baseQuantity = 1;
+        }
     }
 }
 
@@ -245,10 +248,24 @@ Item.prototype.typeNumber = "Type not registered.";
 Item.prototype._destroyed = false;
 
 /**
- * The lowest durability this item can have at full durability.
+ * The default durability for this item when no specific durability is specified.
+ * Defined in the item config values list.
  * @type {Number}
  */
 Item.prototype.baseDurability = null;
+
+/**
+ * The default quantity for this item when no specific quantity is specified.
+ * Defined in the item config values list.
+ * @type {Number}
+ */
+Item.prototype.baseQuantity = null;
+
+/**
+ * How much this item (or each unit of a stack) contributes to the total weight of the owner.
+ * @type {Number}
+ */
+Item.prototype.unitWeight = 0;
 
 /**
  * How much durability is taken from this item when it is used.
@@ -264,6 +281,12 @@ Item.prototype.useDurabilityCost = 0;
 Item.prototype.craftingExpValue = 10;
 
 Item.prototype.StatNames = StatNames;
+
+// TODO: make this a config list, allow multiple kinds of exp to be gained.
+// - statName: Toolery
+//   expGiven: 15
+// - statName: Weaponry
+//   expGiven: 20
 Item.prototype.expGivenStatName = null;
 Item.prototype.expGivenOnUse = 0;
 

@@ -85,16 +85,17 @@ const populateList = () => {
     }
 
     // Check all of the items are valid. i.e. are a class/function.
-    Object.entries(ItemsList).forEach(([name, itemType]) => {
+    Object.entries(ItemsList).forEach(([name, ItemType]) => {
         // Skip the list itself.
         if (name === "LIST") return;
+        if (name === "BY_CODE") return;
 
-        if (typeof itemType !== "function") {
+        if (typeof ItemType !== "function") {
             Utils.error("Invalid item type added to ItemsList:", name);
         }
 
         // Need to do the registering here, so both the items from the config list and the ones loaded from file are done.
-        itemType.registerItemType();
+        ItemType.registerItemType();
     });
 
     Utils.message("Finished populating items list.");
@@ -128,8 +129,8 @@ const createCatalogue = () => {
     // Write the registered item types to the client, so the client knows what item to add for each type number.
     let dataToWrite = {};
 
-    Object.values(ItemsList).forEach((itemType) => {
-        const itemPrototype = itemType.prototype;
+    Object.values(ItemsList).forEach((ItemType) => {
+        const itemPrototype = ItemType.prototype;
         // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
         if (itemPrototype === undefined) return;
         // Only add registered types.
@@ -137,9 +138,9 @@ const createCatalogue = () => {
         // Add this item type to the type catalogue.
         dataToWrite[itemPrototype.typeNumber] = {
             typeNumber: itemPrototype.typeNumber,
-            translationID: itemType.translationID,
-            iconSource: itemType.iconSource,
-            soundType: itemType.soundType,
+            translationID: ItemType.translationID,
+            iconSource: ItemType.iconSource,
+            soundType: ItemType.soundType,
         };
     });
 

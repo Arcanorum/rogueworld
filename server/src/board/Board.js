@@ -327,24 +327,73 @@ class Board {
                     }
 
                     switch (type) {
-                    case "SpawnerArea":
+                    case "SpawnerArea": {
                         // Check if spawners have been disabled in the settings.
                         if (settings.DISABLE_SPAWNER_AREAS) return;
 
                         config.width = mapObject.width / this.tileSize;
                         config.height = mapObject.height / this.tileSize;
                         config.entityType = EntitiesList[mapObjProps.EntityClassName];
+                        // Check the entity type to create is valid.
+                        if (!config.entityType) {
+                            Utils.warning(`Invalid spawner configuration. Entity type to spawn doesn't exist: ${mapObjProps.EntityClassName}. Skipping.`);
+                            return;
+                        }
                         config.maxAtOnce = mapObjProps.MaxAtOnce;
                         config.spawnRate = mapObjProps.SpawnRate;
                         config.testing = mapObjProps.Testing;
-                        config.dropList = mapObjProps.DropList;
+
+                        const isPickup = (config.entityType.prototype
+                            instanceof EntitiesList.AbstractClasses.Pickup);
+
+                        // Check the item config properties are only added to a pickup spawner.
                         if (
-                            mapObjProps.RedKeys
-                                    || mapObjProps.GreenKeys
-                                    || mapObjProps.BlueKeys
-                                    || mapObjProps.YellowKeys
-                                    || mapObjProps.BrownKeys
+                            mapObjProps.ItemQuantity
+                            || mapObjProps.ItemDurability
                         ) {
+                            if (!isPickup) {
+                                Utils.warning("Messy spawner configuration. Item config property found on a non-pickup spawner. Only pickup spawners should have item config properties. Map object:", mapObject);
+                            }
+
+                            if (mapObjProps.ItemQuantity && mapObjProps.ItemDurability) {
+                                Utils.error("Invalid spawner configuration. Pickup spawners cannot have both `ItemQuantity` and `ItemDurability` properties. Map object:", mapObject);
+                            }
+
+                            console.log("before making itemconfig");
+
+                            // Need to create the item config new each time a pickup is spawned, or different
+                            // pickups will share the same config which can be mutated, so don't use an actual
+                            // instance of ItemConfig, just pass the props along and the spawner will take
+                            // care of making the ItemConfig instances.
+                            config.itemConfig = {
+                                ItemType: config.entityType.prototype.ItemType,
+                                quantity: mapObjProps.ItemQuantity,
+                                durability: mapObjProps.ItemDurability,
+                            };
+                        }
+
+                        // Make sure that a item config prop is still given, even if there are no
+                        // custom item config properties on the map object.
+                        if (isPickup && !config.itemConfig) {
+                            config.itemConfig = {
+                                ItemType: config.entityType.prototype.ItemType,
+                            };
+                        }
+
+                        // Check the dungeon key properties are only added to a mob spawner.
+                        if (mapObjProps.RedKeys
+                            || mapObjProps.GreenKeys
+                            || mapObjProps.BlueKeys
+                            || mapObjProps.YellowKeys
+                            || mapObjProps.BrownKeys
+                        ) {
+                            const isMob = (config.entityType.prototype
+                                instanceof EntitiesList.AbstractClasses.Mob);
+
+                            if (!isMob) {
+                                Utils.warning("Messy spawner configuration. Dungeon keys property found on a non-mob spawner. Only mob spawners should have dungeon keys properties. Map object:", mapObject);
+                            }
+
                             config.dungeonKeys = {};
                             const { dungeonKeys } = config;
                             if (mapObjProps.RedKeys) dungeonKeys.red = mapObjProps.RedKeys;
@@ -353,17 +402,14 @@ class Board {
                             if (mapObjProps.YellowKeys) dungeonKeys.yellow = mapObjProps.YellowKeys;
                             if (mapObjProps.BrownKeys) dungeonKeys.brown = mapObjProps.BrownKeys;
                         }
-                        // Check the entity type to create is valid.
-                        if (config.entityType === undefined) {
-                            Utils.warning("Spawner invalid configuration. Entity type to spawn doesn't exist:", mapObjProps.EntityClassName);
-                            return;
-                        }
                         break;
-                    case "Exit":
+                    }
+                    case "Exit": {
                         config.targetBoard = mapObjProps.TargetBoard;
                         config.targetEntranceName = mapObjProps.TargetEntranceName;
                         break;
-                    case "DungeonPortal":
+                    }
+                    case "DungeonPortal": {
                         // Check the dungeon portal properties are valid.
                         if (mapObjProps === undefined) {
                             Utils.error("No properties set on dungeon portal in map data:", mapObject);
@@ -382,12 +428,14 @@ class Board {
                         }
 
                         break;
-                    case "OverworldPortal":
+                    }
+                    case "OverworldPortal": {
                         config.targetBoard = mapObjProps.TargetBoard;
                         config.targetEntranceName = mapObjProps.TargetEntranceName;
                         config.activeState = mapObjProps.ActiveState;
                         break;
-                    case "Entrance":
+                    }
+                    case "Entrance": {
                         config.width = mapObject.width / this.tileSize;
                         config.height = mapObject.height / this.tileSize;
                         config.entranceName = mapObjProps.EntranceName;
@@ -395,6 +443,7 @@ class Board {
                             dungeonStartEntranceFound = true;
                         }
                         break;
+                    }
                     default:
                         // No default.
                     }

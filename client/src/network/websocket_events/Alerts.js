@@ -39,14 +39,14 @@ export default () => {
     };
 
     eventResponses.cannot_drop_here = () => {
-        window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Drop item blocked warning"));
+        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Drop item blocked warning"));
     };
 
     eventResponses.hatchet_needed = () => {
-        window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Hatchet needed warning"));
+        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Hatchet needed warning"));
     };
 
     eventResponses.pickaxe_needed = () => {
-        window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Pickaxe needed warning"));
+        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Pickaxe needed warning"));
     };
 };

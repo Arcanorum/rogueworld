@@ -6,6 +6,7 @@ const BankAccount = require("../../../../BankAccount");
 const Statset = require("../../../../stats/Statset");
 const Taskset = require("../../../../tasks/Taskset");
 const Damage = require("../../../../gameplay/Damage");
+const Inventory = require("../../../../inventory/Inventory");
 
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
@@ -43,22 +44,7 @@ class Player extends Character {
             || BoardsList.boardsObject.overworld.entrances[respawnEntranceName]
         );
 
-        /**
-         * This can't be on the prototype, as changing the contents would change it for every instance of this class.
-         * @type {{slot1: Item, slot2: Item, slot3: Item, slot4: Item, slot5: Item, slot6: Item, slot7: Item, slot8: Item, slot9: Item, slot0: Item}}
-         */
-        this.inventory = {
-            slot1: null,
-            slot2: null,
-            slot3: null,
-            slot4: null,
-            slot5: null,
-            slot6: null,
-            slot7: null,
-            slot8: null,
-            slot9: null,
-            slot0: null,
-        };
+        this.inventory = new Inventory();
 
         this.nextMoveTime = 0;
         this.isMovePending = false;
@@ -594,14 +580,19 @@ class Player extends Character {
         // Check it has a pickup item on it. Might be nothing there.
         if (!pickup) return;
 
-        // Check the inventory isn't full.
-        if (this.isInventoryFull() === true) return;
+        const { itemConfig } = pickup;
 
-        // Get the first empty inventory slot.
-        this.addToInventory(new pickup.ItemType({
-            durability: pickup.durability,
-            maxDurability: pickup.maxDurability,
-        }));
+        // Check there is enough space to fit this item.
+        if (!this.inventory.canItemBeAdded(itemConfig)) {
+            return;
+        }
+
+        try {
+            this.inventory.addItem(itemConfig);
+        }
+        catch (error) {
+            Utils.warning("Cannot add item to player inventory. Error:", error);
+        }
 
         pickup.destroy();
     }

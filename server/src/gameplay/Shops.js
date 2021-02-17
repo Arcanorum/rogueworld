@@ -48,14 +48,14 @@ class Shop {
      *
      * @param {Player} buyer - The player entity that wants to buy an item from this shop.
      * @param {Number} index - The index of the item in the clients stock list for this shop.
-     * @param {String} itemTypeNumber - The item on display.
+     * @param {String} itemTypeCode - The item on display.
      * @param {Number} price - How much it is on display for.
      */
-    sellStock(buyer, index, itemTypeNumber, price) {
+    sellStock(buyer, index, itemTypeCode, price) {
         // Check the stock index is valid.
         if (this.stock[index] === undefined) return;
 
-        if (this.checkStock(index, itemTypeNumber, price) === false) return;
+        if (this.checkStock(index, itemTypeCode, price) === false) return;
         // Check they can afford the item.
         if (buyer.glory < price) return;
         // Check they have inventory space.
@@ -96,14 +96,14 @@ class ShopClan extends Shop {
      * So check the index of the thing to buy, the type, and the price,
      * to make sure they are the same as what the player sees.
      * @param {Number} index - The index of the item in the clients stock list for this shop.
-     * @param {String} itemTypeNumber - The item on display.
+     * @param {String} itemTypeCode - The item on display.
      * @param {Number} price - How much it is on display for.
      * @returns {Boolean} Whether the stock is valid.
      */
-    checkStock(index, itemTypeNumber, price) {
+    checkStock(index, itemTypeCode, price) {
         const stockItem = this.stock[index];
         if (stockItem === undefined) return false;
-        if (stockItem.ItemType.prototype.typeNumber !== itemTypeNumber) return false;
+        if (stockItem.ItemType.prototype.typeCode !== itemTypeCode) return false;
         if (stockItem.price !== price) return false;
 
         return true;
@@ -401,7 +401,7 @@ for (const shopKey in ShopTypes) {
             Utils.message("Invalid item type on shop. Check all items defined in ItemsListByName are valid.");
         }
 
-        dataToWrite[shopKey][i] = stock[i].ItemType.prototype.typeNumber;
+        dataToWrite[shopKey][i] = stock[i].ItemType.prototype.typeCode;
     }
 }
 

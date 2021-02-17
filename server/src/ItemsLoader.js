@@ -89,9 +89,6 @@ const populateList = () => {
         if (typeof ItemType !== "function") {
             Utils.error("Invalid item type added to ItemsList:", name);
         }
-
-        // Need to do the registering here, so both the items from the config list and the ones loaded from file are done.
-        ItemType.registerItemType();
     });
 
     Utils.message("Finished populating items list.");
@@ -142,10 +139,10 @@ const createCatalogue = () => {
         // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
         if (itemPrototype === undefined) return;
         // Only add registered types.
-        if (itemPrototype.typeNumber === "Type not registered.") return;
+        if (!itemPrototype.typeCode) return;
         // Add this item type to the type catalogue.
-        dataToWrite[itemPrototype.typeNumber] = {
-            typeNumber: itemPrototype.typeNumber,
+        dataToWrite[itemPrototype.typeCode] = {
+            typeCode: itemPrototype.typeCode,
             translationID: ItemType.translationID,
             iconSource: ItemType.iconSource,
             soundType: ItemType.soundType,

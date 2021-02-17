@@ -9,7 +9,7 @@ export default () => {
     eventResponses.add_item = (data) => {
         // console.log("add item event:", data);
         window.gameScene.player.inventory[data.slotKey].fill(
-            ItemTypes[data.typeNumber], data.durability, data.maxDurability,
+            ItemTypes[data.typeCode], data.durability, data.maxDurability,
         );
     };
 
@@ -27,11 +27,11 @@ export default () => {
      * food, firing an arrow, etc. Generally when an item to lose durability.
      * Does NOT trigger for item state changes, like equipping/unequipping an item.
      * @param {*} data
-     * @param {Number} data.typeNumber
+     * @param {Number} data.typeCode
      */
     eventResponses.item_used = (data) => {
         // console.log("item used event:", data);
-        window.gameScene.soundManager.items.playUsedSound(data.itemTypeNumber);
+        window.gameScene.soundManager.items.playUsedSound(data.itemTypeCode);
     };
 
     eventResponses.item_broken = () => {
@@ -39,14 +39,14 @@ export default () => {
     };
 
     eventResponses.item_dropped = (data) => {
-        window.gameScene.soundManager.items.playDroppedSound(data.itemTypeNumber);
+        window.gameScene.soundManager.items.playDroppedSound(data.itemTypeCode);
     };
 
     eventResponses.equip_clothes = (data) => {
         // console.log("equip_clothes:", data);
         const { clothes } = window.gameScene.dynamics[data.id].spriteContainer;
         clothes.visible = true;
-        clothes.clothesName = ItemTypes[data.typeNumber].translationID;
+        clothes.clothesName = ItemTypes[data.typeCode].translationID;
         clothes.setFrame(
             clothes.clothesFrames[clothes.clothesName][clothes.parentContainer.direction],
         );
@@ -77,7 +77,7 @@ export default () => {
         slot.equipped.style.visibility = "visible";
 
         window.gameScene.soundManager.items.playEquippedSound(
-            data.itemTypeNumber,
+            data.itemTypeCode,
         );
     };
 
@@ -96,7 +96,7 @@ export default () => {
         setAttackCursor();
         // Play sound when an item is held (i.e. a weapon).
         window.gameScene.soundManager.items.playEquippedSound(
-            data.itemTypeNumber,
+            data.itemTypeCode,
         );
     };
 
@@ -109,7 +109,7 @@ export default () => {
         setDefaultCursor();
 
         window.gameScene.soundManager.items.playUnequippedSound(
-            data.itemTypeNumber,
+            data.itemTypeCode,
         );
     };
 

@@ -33,9 +33,9 @@ class Task {
         // Add this task to the player's task list.
         player.tasks.list[taskType.taskID] = this;
 
-        const rewardItemTypeNumbers = [];
+        const rewardItemTypeCodes = [];
         for (let i = 0; i < rewardItemTypes.length; i += 1) {
-            rewardItemTypeNumbers.push(rewardItemTypes[i].prototype.typeNumber);
+            rewardItemTypeCodes.push(rewardItemTypes[i].prototype.typeCode);
         }
 
         // Tell the client to add the task.
@@ -43,7 +43,7 @@ class Task {
             taskID: taskType.taskID,
             progress: this.progress,
             completionThreshold: this.completionThreshold,
-            rewardItemTypeNumbers,
+            rewardItemTypeCodes,
             rewardGlory: this.rewardGlory,
         });
     }

@@ -104,7 +104,7 @@ class BankAccount {
 
         this.player.socket.sendEvent(this.player.EventsList.bank_item_deposited, {
             slotIndex: bankSlotIndex,
-            typeNumber: inventoryItem.typeNumber,
+            typeCode: inventoryItem.typeCode,
             durability: bankItem.durability,
             maxDurability: bankItem.maxDurability,
         });
@@ -145,10 +145,8 @@ class BankAccount {
             // Check if it already has an item in it. If so, deposit that item.
             if (inventoryItem !== null) {
                 // The data to store, before the item is destroyed.
-                const { durability } = inventoryItem;
-                const { maxDurability } = inventoryItem;
+                const { durability, maxDurability, typeCode } = inventoryItem;
                 const itemTypeName = inventoryItem.typeName;
-                const { typeNumber } = inventoryItem;
 
                 // Remove the item from the inventory slot.
                 inventoryItem.destroy();
@@ -165,7 +163,7 @@ class BankAccount {
                 // Tell the client the item that was in the slot they withdrew to is now in the bank.
                 this.player.socket.sendEvent(this.player.EventsList.bank_item_deposited, {
                     slotIndex: bankSlotIndex,
-                    typeNumber,
+                    typeCode,
                     durability,
                     maxDurability,
                 });
@@ -213,7 +211,7 @@ class BankAccount {
             item = this.items[i];
 
             emittableItems.push({
-                typeNumber: ItemsList.BY_NAME[item.itemTypeName].prototype.typeNumber,
+                typeCode: ItemsList.BY_NAME[item.itemTypeName].prototype.typeCode,
                 slotIndex: i,
                 durability: item.durability,
                 maxDurability: item.maxDurability,

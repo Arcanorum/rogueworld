@@ -15,13 +15,13 @@ import claimButtonBorderValidImage from "../../../../../assets/images/gui/panels
 import claimButtonBorderInvalidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-invalid.png";
 import Player from "../../../../../shared/state/Player";
 
-function RewardItem({ rewardItemTypeNumber }) {
+function RewardItem({ rewardItemTypeCode }) {
     return (
         <div className="reward-item-cont">
-            {rewardItemTypeNumber && (
+            {rewardItemTypeCode && (
                 <img
                   className="reward-item"
-                  src={ItemIconList[ItemTypes[rewardItemTypeNumber].iconSource]}
+                  src={ItemIconList[ItemTypes[rewardItemTypeCode].iconSource]}
                 />
             )}
         </div>
@@ -29,7 +29,7 @@ function RewardItem({ rewardItemTypeNumber }) {
 }
 
 RewardItem.propTypes = {
-    rewardItemTypeNumber: PropTypes.number.isRequired,
+    rewardItemTypeCode: PropTypes.number.isRequired,
 };
 
 function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
@@ -60,8 +60,8 @@ function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
                 {`${task.progress}/${task.completionThreshold}`}
             </div>
             <div className={`slot-cell reward-cont ${completed ? "completed" : ""}`}>
-                {task.rewardItemTypeNumbers.map((typeNumber) => (
-                    <RewardItem key={typeNumber} rewardItemTypeNumber={typeNumber} />
+                {task.rewardItemTypeCodes.map((typeCode) => (
+                    <RewardItem key={typeCode} rewardItemTypeCode={typeCode} />
                 ))}
             </div>
         </div>

@@ -32,7 +32,7 @@ for (const stationKey in CraftingManager.StationRecipes) {
         }
         // Add this recipe to the catalogue.
         dataToWrite[stationKey][recipeKey] = {
-            resultTypeNumber: station[recipeKey].result.prototype.typeNumber,
+            resultTypeNumber: station[recipeKey].result.prototype.typeCode,
             // stationTypeNumber: recipe.stationTypeNumber
         };
     }

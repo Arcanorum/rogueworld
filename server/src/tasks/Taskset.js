@@ -51,18 +51,18 @@ class Taskset {
         const emittableTasks = {};
 
         Object.entries(this.list).forEach(([taskID, task]) => {
-            const rewardItemTypeNumbers = [];
+            const rewardItemTypeCodes = [];
 
             task.rewardItemTypes.forEach((ItemType, i) => {
                 if (!ItemType) return;
-                rewardItemTypeNumbers[i] = task.rewardItemTypes[i].prototype.typeNumber;
+                rewardItemTypeCodes[i] = task.rewardItemTypes[i].prototype.typeCode;
             });
 
             emittableTasks[taskID] = {
                 taskID: task.taskType.taskID,
                 progress: task.progress,
                 completionThreshold: task.completionThreshold,
-                rewardItemTypeNumbers,
+                rewardItemTypeCodes,
                 rewardGlory: task.rewardGlory,
             };
         });

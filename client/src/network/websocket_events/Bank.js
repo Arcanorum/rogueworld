@@ -5,7 +5,7 @@ export default () => {
     eventResponses.bank_item_deposited = (data) => {
         // console.log("bank_item_deposited, data:", data);
         window.gameScene.player.bankManager.addItemToContents(
-            data.slotIndex, ItemTypes[data.typeNumber], data.durability, data.maxDurability,
+            data.slotIndex, ItemTypes[data.typeCode], data.durability, data.maxDurability,
         );
     };
 

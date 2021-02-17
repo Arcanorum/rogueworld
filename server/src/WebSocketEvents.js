@@ -674,7 +674,7 @@ eventResponses.shop_buy_item = function (clientSocket, data) {
     const rowDist = Math.abs(player.row - entity.row);
     const colDist = Math.abs(player.col - entity.col);
     if ((rowDist + colDist) < 3) {
-        entity.shop.sellStock(player, data.index, data.itemTypeNumber, data.price);
+        entity.shop.sellStock(player, data.index, data.itemTypeCode, data.price);
     }
 };
 

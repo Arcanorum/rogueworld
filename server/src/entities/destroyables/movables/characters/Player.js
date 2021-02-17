@@ -157,7 +157,7 @@ class Player extends Character {
     }
 
     getEmittableProperties(properties) {
-        if (this.clothing !== null) properties.clothingTypeNumber = this.clothing.typeNumber;
+        if (this.clothing !== null) properties.clothingTypeCode = this.clothing.typeCode;
         return super.getEmittableProperties(properties);
     }
 
@@ -176,7 +176,7 @@ class Player extends Character {
         //     if (this.inventory[slotKey] === null) continue;
         //     item = this.inventory[slotKey];
         //     emittableInventory.push({
-        //         typeNumber: item.typeNumber, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability,
+        //         typeCode: item.typeCode, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability,
         //     });
         // }
 
@@ -403,7 +403,7 @@ class Player extends Character {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(
                 this.EventsList.deactivate_clothing,
-                { slotKey: this.clothing.slotKey, typeNumber: this.clothing.typeNumber },
+                { slotKey: this.clothing.slotKey, typeCode: this.clothing.typeCode },
             );
 
             Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
@@ -414,7 +414,7 @@ class Player extends Character {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent(
                 this.EventsList.activate_clothing,
-                { slotKey: clothing.slotKey, typeNumber: clothing.typeNumber },
+                { slotKey: clothing.slotKey, typeCode: clothing.typeCode },
             );
 
             Object.entries(clothing.statBonuses).forEach(([statKey, statBonus]) => {
@@ -433,14 +433,14 @@ class Player extends Character {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(this.EventsList.deactivate_holding, {
                 slotKey: this.holding.slotKey,
-                itemTypeNumber: this.holding.typeNumber,
+                itemTypeCode: this.holding.typeCode,
             });
         }
         else {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent(this.EventsList.activate_holding, {
                 slotKey: holding.slotKey,
-                itemTypeNumber: holding.typeNumber,
+                itemTypeCode: holding.typeCode,
             });
         }
         // Do this after, or this.holding would have already been nulled, so won't have a slot key to send to the client.
@@ -492,7 +492,7 @@ class Player extends Character {
 
         // Tell the player an item was added to their inventory.
         this.socket.sendEvent(this.EventsList.add_item, {
-            typeNumber: item.typeNumber,
+            typeCode: item.typeCode,
             slotKey: item.slotKey,
             durability: item.durability,
             maxDurability: item.maxDurability,

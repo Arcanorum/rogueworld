@@ -4,7 +4,6 @@ const EntitiesList = require("../EntitiesList");
 const { StatNames } = require("../stats/Statset").prototype;
 
 const { getRandomIntInclusive } = Utils;
-const typeNumberCounter = new Utils.Counter();
 
 class Item {
     /**
@@ -18,12 +17,6 @@ class Item {
          * @type {Player|null}
          */
         this.owner = null;
-    }
-
-    static registerItemType() {
-        this.prototype.typeNumber = typeNumberCounter.getNext();
-
-        // Utils.message("Registering item type: ", this.prototype.typeNumber);
     }
 
     /**
@@ -60,7 +53,7 @@ class Item {
         // the client might like to know right away (i.e. to play a sound effect).
         this.owner.socket.sendEvent(
             this.owner.EventsList.item_used,
-            { itemTypeNumber: this.typeNumber },
+            { typeCode: this.typeCode },
         );
     }
 
@@ -229,17 +222,14 @@ Item.translationID = "Translation ID name not set.";
 
 Item.iconSource = "Icon source not set.";
 
-Item.prototype.typeName = "Type name not set.";
+Item.prototype.typeName = null;
+
+Item.prototype.typeCode = null;
 
 // Give all Items easy access to the finished EntitiesList.
 // Needs to be done when all entities are finished initing,
 // or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};
-
-// A type number is an ID for this kind of item, so the client knows which item to add to the inventory bar.
-// Used to send a number to get the item name from the item type catalogue, instead of a lengthy string of the item name.
-// All items that appear on the client must be registered with [ITEM_TYPE].registerItemType().
-Item.prototype.typeNumber = "Type not registered.";
 
 /**
  * Whether this item has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.

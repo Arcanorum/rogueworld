@@ -27,12 +27,12 @@ const CraftingManager = {
             Utils.error(`Adding crafting recipe named "${config.name}". No result specified.`);
         }
 
-        let recipeCode = `${config.comp1.prototype.typeNumber}-`;
+        let recipeCode = `${config.comp1.prototype.typeCode}-`;
         let statXPGiven = config.comp1.prototype.craftingExpValue;
-        if (config.comp2 !== undefined) { recipeCode += `${config.comp2.prototype.typeNumber}-`; statXPGiven += config.comp2.prototype.craftingExpValue; }
-        if (config.comp3 !== undefined) { recipeCode += `${config.comp3.prototype.typeNumber}-`; statXPGiven += config.comp3.prototype.craftingExpValue; }
-        if (config.comp4 !== undefined) { recipeCode += `${config.comp4.prototype.typeNumber}-`; statXPGiven += config.comp4.prototype.craftingExpValue; }
-        if (config.comp5 !== undefined) { recipeCode += `${config.comp5.prototype.typeNumber}-`; statXPGiven += config.comp5.prototype.craftingExpValue; }
+        if (config.comp2 !== undefined) { recipeCode += `${config.comp2.prototype.typeCode}-`; statXPGiven += config.comp2.prototype.craftingExpValue; }
+        if (config.comp3 !== undefined) { recipeCode += `${config.comp3.prototype.typeCode}-`; statXPGiven += config.comp3.prototype.craftingExpValue; }
+        if (config.comp4 !== undefined) { recipeCode += `${config.comp4.prototype.typeCode}-`; statXPGiven += config.comp4.prototype.craftingExpValue; }
+        if (config.comp5 !== undefined) { recipeCode += `${config.comp5.prototype.typeCode}-`; statXPGiven += config.comp5.prototype.craftingExpValue; }
 
         if (config.statXPGiven !== undefined) statXPGiven = config.statXPGiven;
 
@@ -95,7 +95,7 @@ const CraftingManager = {
             item = inventory[inventorySlotKeys[i]];
             if (item === undefined) continue;
             if (item === null) continue;
-            recipeCode += `${item.typeNumber}-`;
+            recipeCode += `${item.typeCode}-`;
             if (item.durability !== null) {
                 durabilityCount += 1;
                 totalPercentRemaining += item.durability / item.maxDurability;

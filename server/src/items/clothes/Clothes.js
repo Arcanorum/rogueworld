@@ -46,7 +46,7 @@ class Clothes extends Item {
             // Add the defence bonus of this item to the owner.
             this.owner.modDefence(+this.defenceBonus);
             // Tell nearby players the owner entity is now wearing this clothing item.
-            owner.board.emitToNearbyPlayers(owner.row, owner.col, owner.EventsList.equip_clothes, { id: owner.id, typeNumber: this.typeNumber });
+            owner.board.emitToNearbyPlayers(owner.row, owner.col, owner.EventsList.equip_clothes, { id: owner.id, typeCode: this.typeCode });
         }
     }
 

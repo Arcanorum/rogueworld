@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").NoctisOre;
+const Item = require("../../../../ItemsList").BY_NAME.NoctisOre;
 
 class NoctisOre extends ResourceNode {}
 

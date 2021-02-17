@@ -49,7 +49,7 @@ const populateList = () => {
         recurse: true,
         mapKey: (value, baseName) => {
             if (typeof value === "function") {
-                if (ItemsList[baseName]) {
+                if (ItemsList.BY_NAME[baseName]) {
                     Utils.error(`Cannot load item "${baseName}", as it already exists in the items list.`);
                 }
                 // Don't add abstract classes.
@@ -59,7 +59,7 @@ const populateList = () => {
                 value.assignPickupType(baseName);
                 value.prototype.typeName = baseName;
 
-                ItemsList[baseName] = value;
+                ItemsList.BY_NAME[baseName] = value;
             }
         },
     });
@@ -75,8 +75,8 @@ const populateList = () => {
         itemConfigs.forEach((config) => {
             // Only generate a class for this item if one doesn't already
             // exist, as it might have it's own special logic file.
-            if (!ItemsList[config.name]) {
-                ItemsList[config.name] = makeClass(config);
+            if (!ItemsList.BY_NAME[config.name]) {
+                ItemsList.BY_NAME[config.name] = makeClass(config);
             }
         });
     }
@@ -85,11 +85,7 @@ const populateList = () => {
     }
 
     // Check all of the items are valid. i.e. are a class/function.
-    Object.entries(ItemsList).forEach(([name, ItemType]) => {
-        // Skip the list itself.
-        if (name === "LIST") return;
-        if (name === "BY_CODE") return;
-
+    Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
         if (typeof ItemType !== "function") {
             Utils.error("Invalid item type added to ItemsList:", name);
         }
@@ -115,7 +111,18 @@ const initialiseList = () => {
         );
 
         itemConfigs.forEach((config) => {
-            ItemsList[config.name].loadConfig(config);
+            // console.log("loading item config:", config);
+            if (!config.code) {
+                Utils.error("Item config missing type code:", config);
+            }
+
+            if (ItemsList.BY_CODE[config.code]) {
+                Utils.error(`Cannot initialise item for code "${config.code}", as it already exists in the items list. Item codes must be unique.`);
+            }
+
+            ItemsList.BY_NAME[config.name].loadConfig(config);
+            // Add a reference to the item by its type code.
+            ItemsList.BY_CODE[config.code] = ItemsList.BY_NAME[config.name];
         });
     }
     catch (error) {
@@ -123,13 +130,14 @@ const initialiseList = () => {
     }
 
     Utils.message("Finished initialising items list. ItemsList is ready to use.");
+    console.log("done items list?", ItemsList);
 };
 
 const createCatalogue = () => {
     // Write the registered item types to the client, so the client knows what item to add for each type number.
     let dataToWrite = {};
 
-    Object.values(ItemsList).forEach((ItemType) => {
+    Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
         const itemPrototype = ItemType.prototype;
         // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
         if (itemPrototype === undefined) return;

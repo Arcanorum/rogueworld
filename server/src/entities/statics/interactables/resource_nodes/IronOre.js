@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").IronOre;
+const Item = require("../../../../ItemsList").BY_NAME.IronOre;
 
 class IronOre extends ResourceNode {}
 

@@ -1,33 +1,33 @@
 const CraftingManager = require("../CraftingManager");
 const EntitiesList = require("../../EntitiesList");
-const ItemsList = require("../../ItemsList");
+const ItemsListByName = require("../../ItemsList").BY_NAME;
 const { StatNames } = require("../../stats/Statset").prototype;
 const TaskTypes = require("../../tasks/TaskTypes");
 
 CraftingManager.addRecipe({ // Health potion
-    result: ItemsList.HealthPotion,
+    result: ItemsListByName.HealthPotion,
     craftingStat: StatNames.Potionry,
     stationType: EntitiesList.Laboratory,
-    comp1: ItemsList.Redcap,
-    comp2: ItemsList.Redcap,
+    comp1: ItemsListByName.Redcap,
+    comp2: ItemsListByName.Redcap,
     taskCrafted: TaskTypes.CraftHealthPotions,
 });
 
 CraftingManager.addRecipe({ // Energy potion
-    result: ItemsList.EnergyPotion,
+    result: ItemsListByName.EnergyPotion,
     craftingStat: StatNames.Potionry,
     stationType: EntitiesList.Laboratory,
-    comp1: ItemsList.Bluecap,
-    comp2: ItemsList.Bluecap,
+    comp1: ItemsListByName.Bluecap,
+    comp2: ItemsListByName.Bluecap,
     taskCrafted: TaskTypes.CraftEnergyPotions,
 });
 
 CraftingManager.addRecipe({ // Cure potion
-    result: ItemsList.CurePotion,
+    result: ItemsListByName.CurePotion,
     craftingStat: StatNames.Potionry,
     stationType: EntitiesList.Laboratory,
-    comp1: ItemsList.Redcap,
-    comp2: ItemsList.Redcap,
-    comp3: ItemsList.Greencap,
+    comp1: ItemsListByName.Redcap,
+    comp2: ItemsListByName.Redcap,
+    comp3: ItemsListByName.Greencap,
     taskCrafted: TaskTypes.CraftCurePotions,
 });

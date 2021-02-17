@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").SpruceLogs;
+const Item = require("../../../../ItemsList").BY_NAME.SpruceLogs;
 
 class SpruceTree extends ResourceNode {}
 

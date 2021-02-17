@@ -1,4 +1,4 @@
-const ItemsList = require("../ItemsList");
+const ItemsListByName = require("../ItemsList").BY_NAME;
 
 /**
  * A list of potential rewards to be given on completion of a task.
@@ -6,19 +6,19 @@ const ItemsList = require("../ItemsList");
  */
 const RewardsList = [];
 
-RewardsList.push(ItemsList.ExpOrbMelee);
-RewardsList.push(ItemsList.ExpOrbRanged);
-RewardsList.push(ItemsList.ExpOrbMagic);
-RewardsList.push(ItemsList.ExpOrbGathering);
-RewardsList.push(ItemsList.ExpOrbWeaponry);
-RewardsList.push(ItemsList.ExpOrbArmoury);
-RewardsList.push(ItemsList.ExpOrbToolery);
-RewardsList.push(ItemsList.ExpOrbPotionry);
-RewardsList.push(ItemsList.WindGem);
-RewardsList.push(ItemsList.FireGem);
-RewardsList.push(ItemsList.BloodGem);
-RewardsList.push(ItemsList.BookOfLight);
-RewardsList.push(ItemsList.BookOfSouls);
-RewardsList.push(ItemsList.VampireFang);
+RewardsList.push(ItemsListByName.ExpOrbMelee);
+RewardsList.push(ItemsListByName.ExpOrbRanged);
+RewardsList.push(ItemsListByName.ExpOrbMagic);
+RewardsList.push(ItemsListByName.ExpOrbGathering);
+RewardsList.push(ItemsListByName.ExpOrbWeaponry);
+RewardsList.push(ItemsListByName.ExpOrbArmoury);
+RewardsList.push(ItemsListByName.ExpOrbToolery);
+RewardsList.push(ItemsListByName.ExpOrbPotionry);
+RewardsList.push(ItemsListByName.WindGem);
+RewardsList.push(ItemsListByName.FireGem);
+RewardsList.push(ItemsListByName.BloodGem);
+RewardsList.push(ItemsListByName.BookOfLight);
+RewardsList.push(ItemsListByName.BookOfSouls);
+RewardsList.push(ItemsListByName.VampireFang);
 
 module.exports = RewardsList;

@@ -35,8 +35,6 @@ async function init() {
 
     require("./src/CatalogueBuilders").buildDungeonPrompts();
 
-    // Create a finished reference to the list of items. Mainly useful for the BankManager.
-    require("./src/ItemsList").LIST = require("./src/ItemsList");
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
     require("./src/items/Item").prototype.EntitiesList = require("./src/EntitiesList");
 

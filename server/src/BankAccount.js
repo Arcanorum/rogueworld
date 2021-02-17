@@ -57,10 +57,10 @@ class BankAccount {
     }
 
     addStarterItems() {
-        this.addItemToBankAccount(0, ItemsList.IronSword);
-        this.addItemToBankAccount(1, ItemsList.HealthPotion);
-        this.addItemToBankAccount(5, ItemsList.OakBow);
-        this.addItemToBankAccount(6, ItemsList.IronArrows);
+        this.addItemToBankAccount(0, ItemsList.BY_NAME.IronSword);
+        this.addItemToBankAccount(1, ItemsList.BY_NAME.HealthPotion);
+        this.addItemToBankAccount(5, ItemsList.BY_NAME.OakBow);
+        this.addItemToBankAccount(6, ItemsList.BY_NAME.IronArrows);
     }
 
     /**
@@ -91,13 +91,13 @@ class BankAccount {
         // If there is something already in this bank slot, withdraw it to the inventory in place of the item being deposited.
         if (bankItem.itemTypeName !== null) {
             // Create a new item of the type that was stored in this slot in the bank.
-            this.player.addToInventory(new ItemsList.LIST[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }), inventorySlotKey);
+            this.player.addToInventory(new ItemsList.BY_NAME[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }), inventorySlotKey);
         }
 
         // Add the data of the item being deposited to the bank slot.
         this.addItemToBankAccount(
             bankSlotIndex,
-            ItemsList[itemTypeName],
+            ItemsList.BY_NAME[itemTypeName],
             durability,
             maxDurability,
         );
@@ -130,7 +130,7 @@ class BankAccount {
         // If a specific inventory slot wasn't given to withdraw to, no need to check if it has something in it as the first empty slot will be used.
         if (inventorySlotKey === undefined) {
             // Withdraw the item.
-            this.player.addToInventory(new ItemsList.LIST[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }));
+            this.player.addToInventory(new ItemsList.BY_NAME[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }));
             // Empty the bank slot, as nothing is being put in it from the inventory.
             this.removeItemFromBankAccount(bankSlotIndex);
 
@@ -154,11 +154,11 @@ class BankAccount {
                 inventoryItem.destroy();
 
                 // Withdraw the item.
-                this.player.addToInventory(new ItemsList.LIST[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }), inventorySlotKey);
+                this.player.addToInventory(new ItemsList.BY_NAME[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }), inventorySlotKey);
                 // Add the data of the item being deposited to the bank slot.
                 this.addItemToBankAccount(
                     bankSlotIndex,
-                    ItemsList.LIST[bankItem.itemTypeName],
+                    ItemsList.BY_NAME[bankItem.itemTypeName],
                     durability,
                     maxDurability,
                 );
@@ -173,7 +173,7 @@ class BankAccount {
             // Inventory slot is empty.
             else {
                 // Withdraw the item.
-                this.player.addToInventory(new ItemsList.LIST[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }), inventorySlotKey);
+                this.player.addToInventory(new ItemsList.BY_NAME[bankItem.itemTypeName]({ durability: bankItem.durability, maxDurability: bankItem.maxDurability }), inventorySlotKey);
                 // The items has been withdrawn, empty the bank slot.
                 this.removeItemFromBankAccount(bankSlotIndex);
 
@@ -213,7 +213,7 @@ class BankAccount {
             item = this.items[i];
 
             emittableItems.push({
-                typeNumber: ItemsList.LIST[item.itemTypeName].prototype.typeNumber,
+                typeNumber: ItemsList.BY_NAME[item.itemTypeName].prototype.typeNumber,
                 slotIndex: i,
                 durability: item.durability,
                 maxDurability: item.maxDurability,

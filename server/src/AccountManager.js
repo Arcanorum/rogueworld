@@ -237,13 +237,13 @@ module.exports = {
         const { bankItems } = account;
         for (let i = 0, len = bankItems.length; i < len; i += 1) {
             // Check the type of item to add is valid. Might have been removed (or renamed) since this player last logged in. Also checks for null.
-            if (ItemsList[bankItems[i].itemTypeName] === undefined) {
+            if (ItemsList.BY_NAME[bankItems[i].itemTypeName] === undefined) {
                 continue;
             }
 
             entity.bankAccount.addItemToBankAccount(
                 i,
-                ItemsList[bankItems[i].itemTypeName], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type name.
+                ItemsList.BY_NAME[bankItems[i].itemTypeName], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type name.
                 bankItems[i].durability,
                 bankItems[i].maxDurability,
             );
@@ -254,9 +254,9 @@ module.exports = {
         for (const slotKey in inventory) {
             if (inventory.hasOwnProperty(slotKey) === false) continue;
             // Check the type of item to add is valid. Might have been removed (or renamed) since this player last logged in. Also checks for null.
-            if (ItemsList[inventory[slotKey].itemTypeName] === undefined) continue;
+            if (ItemsList.BY_NAME[inventory[slotKey].itemTypeName] === undefined) continue;
 
-            entity.addToInventory(new ItemsList[inventory[slotKey].itemTypeName]({
+            entity.addToInventory(new ItemsList.BY_NAME[inventory[slotKey].itemTypeName]({
                 durability: inventory[slotKey].durability,
                 maxDurability: inventory[slotKey].maxDurability,
             }));
@@ -292,13 +292,13 @@ module.exports = {
             for (let i = 0; i < taskData.rewardItemTypeNames.length; i += 1) {
                 // Check the item to add still exists.
                 // Might have been removed (or renamed) since this player last logged in.
-                if (ItemsList[taskData.rewardItemTypeNames[i]] === undefined) {
+                if (ItemsList.BY_NAME[taskData.rewardItemTypeNames[i]] === undefined) {
                     // Add something else instead to compensate.
                     rewardItemTypes.push(Utils.getRandomElement(RewardsList));
                     continue;
                 }
 
-                rewardItemTypes.push(ItemsList[taskData.rewardItemTypeNames[i]]);
+                rewardItemTypes.push(ItemsList.BY_NAME[taskData.rewardItemTypeNames[i]]);
             }
 
             new Task.Task(entity, TaskTypes[savedTaskKey], taskData.progress, taskData.completionThreshold, rewardItemTypes, taskData.rewardGlory);

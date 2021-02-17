@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").DungiumOre;
+const Item = require("../../../../ItemsList").BY_NAME.DungiumOre;
 
 class DungiumOre extends ResourceNode {}
 

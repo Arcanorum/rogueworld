@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").Greencap;
+const Item = require("../../../../ItemsList").BY_NAME.Greencap;
 
 class GreenMushroom extends ResourceNode {}
 

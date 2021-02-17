@@ -4,7 +4,7 @@ const ItemsList = require("../ItemsList");
 
 class Drop {
     constructor(config) {
-        if (!ItemsList[config.itemName]) {
+        if (!ItemsList.BY_NAME[config.itemName]) {
             Utils.error(`Cannot add to drop list. Drop item name "${config.itemName}" does not exist in the items list.
          Check the name of the item to add is correct, and that it is in the items list.`);
         }
@@ -13,7 +13,7 @@ class Drop {
          * The item pickup entity to be created when this item is dropped.
          * @type {Function}
          */
-        this.pickupType = ItemsList[config.itemName].prototype.PickupType;
+        this.pickupType = ItemsList.BY_NAME[config.itemName].prototype.PickupType;
 
         if (typeof this.pickupType !== "function") {
             Utils.error("Cannot add to drop list, pickup entity is not a function/class. Is it disabled?:", config.itemName);

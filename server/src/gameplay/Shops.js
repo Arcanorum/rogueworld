@@ -1,10 +1,10 @@
 const Utils = require("../Utils");
-const ItemsList = require("../ItemsList");
+const ItemsListByName = require("../ItemsList").BY_NAME;
 
 class StockItem {
     constructor(ItemType, basePrice, price) {
         /** @type {Function} */
-        this.ItemType = ItemType || ItemsList.OakLogs;
+        this.ItemType = ItemType || ItemsListByName.OakLogs;
         /** The minimum price of this item.
          * @type {Number} */
         this.basePrice = basePrice || 100;
@@ -165,8 +165,8 @@ class ShopTutorial extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.IronHatchet, 0));
-        this.addStock(new StockItem(ItemsList.IronPickaxe, 0));
+        this.addStock(new StockItem(ItemsListByName.IronHatchet, 0));
+        this.addStock(new StockItem(ItemsListByName.IronPickaxe, 0));
     }
 }
 
@@ -175,82 +175,82 @@ class ShopOmni extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.OakLogs, 0));
-        this.addStock(new StockItem(ItemsList.IronOre, 0));
-        this.addStock(new StockItem(ItemsList.DungiumOre, 0));
-        this.addStock(new StockItem(ItemsList.NoctisOre, 0));
-        this.addStock(new StockItem(ItemsList.Cotton, 0));
-        this.addStock(new StockItem(ItemsList.Feathers, 0));
-        this.addStock(new StockItem(ItemsList.WindGem, 0));
-        this.addStock(new StockItem(ItemsList.FireGem, 0));
-        this.addStock(new StockItem(ItemsList.BloodGem, 0));
+        this.addStock(new StockItem(ItemsListByName.OakLogs, 0));
+        this.addStock(new StockItem(ItemsListByName.IronOre, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumOre, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisOre, 0));
+        this.addStock(new StockItem(ItemsListByName.Cotton, 0));
+        this.addStock(new StockItem(ItemsListByName.Feathers, 0));
+        this.addStock(new StockItem(ItemsListByName.WindGem, 0));
+        this.addStock(new StockItem(ItemsListByName.FireGem, 0));
+        this.addStock(new StockItem(ItemsListByName.BloodGem, 0));
 
-        this.addStock(new StockItem(ItemsList.Redcap, 0));
-        this.addStock(new StockItem(ItemsList.Greencap, 0));
-        this.addStock(new StockItem(ItemsList.Bluecap, 0));
-        this.addStock(new StockItem(ItemsList.HealthPotion, 0));
-        this.addStock(new StockItem(ItemsList.EnergyPotion, 0));
-        this.addStock(new StockItem(ItemsList.CurePotion, 0));
+        this.addStock(new StockItem(ItemsListByName.Redcap, 0));
+        this.addStock(new StockItem(ItemsListByName.Greencap, 0));
+        this.addStock(new StockItem(ItemsListByName.Bluecap, 0));
+        this.addStock(new StockItem(ItemsListByName.HealthPotion, 0));
+        this.addStock(new StockItem(ItemsListByName.EnergyPotion, 0));
+        this.addStock(new StockItem(ItemsListByName.CurePotion, 0));
 
-        this.addStock(new StockItem(ItemsList.IronDagger, 0));
-        this.addStock(new StockItem(ItemsList.IronSword, 0));
-        this.addStock(new StockItem(ItemsList.IronHammer, 0));
-        this.addStock(new StockItem(ItemsList.IronArmour, 0));
-        this.addStock(new StockItem(ItemsList.DungiumDagger, 0));
-        this.addStock(new StockItem(ItemsList.DungiumSword, 0));
-        this.addStock(new StockItem(ItemsList.DungiumHammer, 0));
-        this.addStock(new StockItem(ItemsList.DungiumArmour, 0));
-        this.addStock(new StockItem(ItemsList.NoctisDagger, 0));
-        this.addStock(new StockItem(ItemsList.NoctisSword, 0));
-        this.addStock(new StockItem(ItemsList.NoctisHammer, 0));
-        this.addStock(new StockItem(ItemsList.NoctisArmour, 0));
+        this.addStock(new StockItem(ItemsListByName.IronDagger, 0));
+        this.addStock(new StockItem(ItemsListByName.IronSword, 0));
+        this.addStock(new StockItem(ItemsListByName.IronHammer, 0));
+        this.addStock(new StockItem(ItemsListByName.IronArmour, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumDagger, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumSword, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumHammer, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumArmour, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisDagger, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisSword, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisHammer, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisArmour, 0));
 
-        this.addStock(new StockItem(ItemsList.VampireFang, 0));
+        this.addStock(new StockItem(ItemsListByName.VampireFang, 0));
 
-        this.addStock(new StockItem(ItemsList.Shuriken, 0));
-        this.addStock(new StockItem(ItemsList.IronArrows, 0));
-        this.addStock(new StockItem(ItemsList.DungiumArrows, 0));
-        this.addStock(new StockItem(ItemsList.NoctisArrows, 0));
-        this.addStock(new StockItem(ItemsList.OakBow, 0));
-        this.addStock(new StockItem(ItemsList.Cloak, 0));
-        this.addStock(new StockItem(ItemsList.NinjaGarb, 0));
+        this.addStock(new StockItem(ItemsListByName.Shuriken, 0));
+        this.addStock(new StockItem(ItemsListByName.IronArrows, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumArrows, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisArrows, 0));
+        this.addStock(new StockItem(ItemsListByName.OakBow, 0));
+        this.addStock(new StockItem(ItemsListByName.Cloak, 0));
+        this.addStock(new StockItem(ItemsListByName.NinjaGarb, 0));
 
-        this.addStock(new StockItem(ItemsList.FireStaff, 0));
-        this.addStock(new StockItem(ItemsList.SuperFireStaff, 0));
-        this.addStock(new StockItem(ItemsList.WindStaff, 0));
-        this.addStock(new StockItem(ItemsList.SuperWindStaff, 0));
-        this.addStock(new StockItem(ItemsList.BloodStaff, 0));
-        this.addStock(new StockItem(ItemsList.SuperBloodStaff, 0));
-        this.addStock(new StockItem(ItemsList.BookOfLight, 0));
-        this.addStock(new StockItem(ItemsList.BookOfSouls, 0));
-        this.addStock(new StockItem(ItemsList.PlainRobe, 0));
-        this.addStock(new StockItem(ItemsList.MageRobe, 0));
-        this.addStock(new StockItem(ItemsList.NecromancerRobe, 0));
+        this.addStock(new StockItem(ItemsListByName.FireStaff, 0));
+        this.addStock(new StockItem(ItemsListByName.SuperFireStaff, 0));
+        this.addStock(new StockItem(ItemsListByName.WindStaff, 0));
+        this.addStock(new StockItem(ItemsListByName.SuperWindStaff, 0));
+        this.addStock(new StockItem(ItemsListByName.BloodStaff, 0));
+        this.addStock(new StockItem(ItemsListByName.SuperBloodStaff, 0));
+        this.addStock(new StockItem(ItemsListByName.BookOfLight, 0));
+        this.addStock(new StockItem(ItemsListByName.BookOfSouls, 0));
+        this.addStock(new StockItem(ItemsListByName.PlainRobe, 0));
+        this.addStock(new StockItem(ItemsListByName.MageRobe, 0));
+        this.addStock(new StockItem(ItemsListByName.NecromancerRobe, 0));
 
-        this.addStock(new StockItem(ItemsList.IronHatchet, 0));
-        this.addStock(new StockItem(ItemsList.IronPickaxe, 0));
-        this.addStock(new StockItem(ItemsList.DungiumHatchet, 0));
-        this.addStock(new StockItem(ItemsList.DungiumPickaxe, 0));
-        this.addStock(new StockItem(ItemsList.NoctisHatchet, 0));
-        this.addStock(new StockItem(ItemsList.NoctisPickaxe, 0));
+        this.addStock(new StockItem(ItemsListByName.IronHatchet, 0));
+        this.addStock(new StockItem(ItemsListByName.IronPickaxe, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumHatchet, 0));
+        this.addStock(new StockItem(ItemsListByName.DungiumPickaxe, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisHatchet, 0));
+        this.addStock(new StockItem(ItemsListByName.NoctisPickaxe, 0));
 
-        this.addStock(new StockItem(ItemsList.ExpOrbMelee, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbRanged, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbMagic, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbGathering, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbWeaponry, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbArmoury, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbToolery, 0));
-        this.addStock(new StockItem(ItemsList.ExpOrbPotionry, 0));
-        this.addStock(new StockItem(ItemsList.GloryOrb, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbMelee, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbRanged, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbMagic, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbGathering, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbWeaponry, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbArmoury, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbToolery, 0));
+        this.addStock(new StockItem(ItemsListByName.ExpOrbPotionry, 0));
+        this.addStock(new StockItem(ItemsListByName.GloryOrb, 0));
 
-        // this.addStock(new StockItem(ItemsList.Charter, 0));
-        // this.addStock(new StockItem(ItemsList.Workbench, 0));
-        // this.addStock(new StockItem(ItemsList.Furnace, 0));
-        // this.addStock(new StockItem(ItemsList.Anvil, 0));
-        // this.addStock(new StockItem(ItemsList.BankChest, 0));
-        // this.addStock(new StockItem(ItemsList.WoodWall, 0));
-        // this.addStock(new StockItem(ItemsList.WoodDoor, 0));
+        // this.addStock(new StockItem(ItemsListByName.Charter, 0));
+        // this.addStock(new StockItem(ItemsListByName.Workbench, 0));
+        // this.addStock(new StockItem(ItemsListByName.Furnace, 0));
+        // this.addStock(new StockItem(ItemsListByName.Anvil, 0));
+        // this.addStock(new StockItem(ItemsListByName.BankChest, 0));
+        // this.addStock(new StockItem(ItemsListByName.WoodWall, 0));
+        // this.addStock(new StockItem(ItemsListByName.WoodDoor, 0));
     }
 }
 
@@ -258,7 +258,7 @@ class ShopRuler extends ShopNPC {
     constructor() {
         super();
 
-        // this.addStock(new StockItem(ItemsList.Charter, 1000));
+        // this.addStock(new StockItem(ItemsListByName.Charter, 1000));
     }
 }
 
@@ -267,10 +267,10 @@ class ShopTools extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.IronHatchet, 100));
-        this.addStock(new StockItem(ItemsList.IronPickaxe, 100));
-        this.addStock(new StockItem(ItemsList.DungiumHatchet, 400));
-        this.addStock(new StockItem(ItemsList.DungiumPickaxe, 400));
+        this.addStock(new StockItem(ItemsListByName.IronHatchet, 100));
+        this.addStock(new StockItem(ItemsListByName.IronPickaxe, 100));
+        this.addStock(new StockItem(ItemsListByName.DungiumHatchet, 400));
+        this.addStock(new StockItem(ItemsListByName.DungiumPickaxe, 400));
     }
 }
 
@@ -279,10 +279,10 @@ class ShopMelee extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.IronDagger, 100));
-        this.addStock(new StockItem(ItemsList.IronSword, 200));
-        this.addStock(new StockItem(ItemsList.IronHammer, 250));
-        this.addStock(new StockItem(ItemsList.IronArmour, 500));
+        this.addStock(new StockItem(ItemsListByName.IronDagger, 100));
+        this.addStock(new StockItem(ItemsListByName.IronSword, 200));
+        this.addStock(new StockItem(ItemsListByName.IronHammer, 250));
+        this.addStock(new StockItem(ItemsListByName.IronArmour, 500));
     }
 }
 
@@ -291,11 +291,11 @@ class ShopRanged extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.Feathers, 50));
-        this.addStock(new StockItem(ItemsList.OakBow, 300));
-        this.addStock(new StockItem(ItemsList.IronArrows, 150));
-        this.addStock(new StockItem(ItemsList.Shuriken, 200));
-        this.addStock(new StockItem(ItemsList.Cloak, 500));
+        this.addStock(new StockItem(ItemsListByName.Feathers, 50));
+        this.addStock(new StockItem(ItemsListByName.OakBow, 300));
+        this.addStock(new StockItem(ItemsListByName.IronArrows, 150));
+        this.addStock(new StockItem(ItemsListByName.Shuriken, 200));
+        this.addStock(new StockItem(ItemsListByName.Cloak, 500));
     }
 }
 
@@ -304,11 +304,11 @@ class ShopMagic extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.FireStaff, 500));
-        this.addStock(new StockItem(ItemsList.WindStaff, 350));
-        this.addStock(new StockItem(ItemsList.BookOfLight, 1000));
-        this.addStock(new StockItem(ItemsList.PlainRobe, 250));
-        this.addStock(new StockItem(ItemsList.MageRobe, 500));
+        this.addStock(new StockItem(ItemsListByName.FireStaff, 500));
+        this.addStock(new StockItem(ItemsListByName.WindStaff, 350));
+        this.addStock(new StockItem(ItemsListByName.BookOfLight, 1000));
+        this.addStock(new StockItem(ItemsListByName.PlainRobe, 250));
+        this.addStock(new StockItem(ItemsListByName.MageRobe, 500));
     }
 }
 
@@ -317,8 +317,8 @@ class ShopInn extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.HealthPotion, 200));
-        this.addStock(new StockItem(ItemsList.EnergyPotion, 200));
+        this.addStock(new StockItem(ItemsListByName.HealthPotion, 200));
+        this.addStock(new StockItem(ItemsListByName.EnergyPotion, 200));
     }
 }
 
@@ -327,7 +327,7 @@ class ShopArena extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.FighterKey, 1000));
+        this.addStock(new StockItem(ItemsListByName.FighterKey, 1000));
     }
 }
 
@@ -336,11 +336,11 @@ class ShopMaterials extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.IronBar, 200));
-        this.addStock(new StockItem(ItemsList.OakLogs, 140));
-        this.addStock(new StockItem(ItemsList.Feathers, 100));
-        this.addStock(new StockItem(ItemsList.Fabric, 200));
-        this.addStock(new StockItem(ItemsList.Cotton, 120));
+        this.addStock(new StockItem(ItemsListByName.IronBar, 200));
+        this.addStock(new StockItem(ItemsListByName.OakLogs, 140));
+        this.addStock(new StockItem(ItemsListByName.Feathers, 100));
+        this.addStock(new StockItem(ItemsListByName.Fabric, 200));
+        this.addStock(new StockItem(ItemsListByName.Cotton, 120));
     }
 }
 
@@ -349,13 +349,13 @@ class ShopDwarfWeapons extends ShopNPC {
     constructor() {
         super();
 
-        this.addStock(new StockItem(ItemsList.IronHatchet, 400));
-        this.addStock(new StockItem(ItemsList.IronArrows, 400));
-        this.addStock(new StockItem(ItemsList.IronSword, 600));
-        this.addStock(new StockItem(ItemsList.IronHammer, 600));
-        this.addStock(new StockItem(ItemsList.IronArmour, 1500));
-        this.addStock(new StockItem(ItemsList.DungiumSword, 1200));
-        this.addStock(new StockItem(ItemsList.DungiumHammer, 1200));
+        this.addStock(new StockItem(ItemsListByName.IronHatchet, 400));
+        this.addStock(new StockItem(ItemsListByName.IronArrows, 400));
+        this.addStock(new StockItem(ItemsListByName.IronSword, 600));
+        this.addStock(new StockItem(ItemsListByName.IronHammer, 600));
+        this.addStock(new StockItem(ItemsListByName.IronArmour, 1500));
+        this.addStock(new StockItem(ItemsListByName.DungiumSword, 1200));
+        this.addStock(new StockItem(ItemsListByName.DungiumHammer, 1200));
     }
 }
 
@@ -398,7 +398,7 @@ for (const shopKey in ShopTypes) {
     // For every item in the stock.
     for (let i = 0; i < stock.length; i += 1) {
         if (!stock[i].ItemType.prototype) {
-            Utils.message("Invalid item type on shop. Check all items defined in ItemsList are valid.");
+            Utils.message("Invalid item type on shop. Check all items defined in ItemsListByName are valid.");
         }
 
         dataToWrite[shopKey][i] = stock[i].ItemType.prototype.typeNumber;

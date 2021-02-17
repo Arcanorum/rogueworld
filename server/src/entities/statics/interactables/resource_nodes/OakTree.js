@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").OakLogs;
+const Item = require("../../../../ItemsList").BY_NAME.OakLogs;
 
 class OakTree extends ResourceNode {}
 

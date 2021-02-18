@@ -1,3 +1,4 @@
+const fs = require("fs");
 const Utils = require("./Utils");
 
 let counter = 0;
@@ -47,7 +48,6 @@ const EventsList = {
     deactivate_holding: registerEventName(),
     defence_value: registerEventName(),
     drop_item: registerEventName(),
-    durability_value: registerEventName(),
     dungeon_door_keys: registerEventName(),
     dungeon_prompt: registerEventName(),
     effect_start_burn: registerEventName(),
@@ -77,6 +77,7 @@ const EventsList = {
     inactive_state: registerEventName(),
     item_broken: registerEventName(),
     item_dropped: registerEventName(),
+    item_modified: registerEventName(),
     item_used: registerEventName(),
     inventory_full: registerEventName(),
     join_world_success: registerEventName(),
@@ -99,17 +100,13 @@ const EventsList = {
 };
 
 // Write the event names to the client, so the client knows what event to fire for each event ID.
-const fs = require("fs");
-
 let dataToWrite = {};
 
-for (const eventTypeKey in EventsList) {
-    // Don't check prototype properties.
-    if (EventsList.hasOwnProperty(eventTypeKey) === false) continue;
+Object.entries(EventsList).forEach(([eventTypeKey, eventTypeValue]) => {
     // Add this event name to the catalogue.
     // The ID number of the event will be the key, and the key (the event name) will be the value.
-    dataToWrite[EventsList[eventTypeKey]] = eventTypeKey;
-}
+    dataToWrite[eventTypeValue] = eventTypeKey;
+});
 
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);

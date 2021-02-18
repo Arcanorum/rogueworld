@@ -32,6 +32,7 @@ class Player extends Character {
 
         this.stats = new Statset(this);
         this.tasks = new Taskset(this);
+        this.inventory = new Inventory(this);
         this.bankAccount = new BankAccount(this);
         this.bornTime = Date.now();
 
@@ -43,8 +44,6 @@ class Player extends Character {
             config.respawnEntrance
             || BoardsList.boardsObject.overworld.entrances[respawnEntranceName]
         );
-
-        this.inventory = new Inventory();
 
         this.nextMoveTime = 0;
         this.isMovePending = false;
@@ -468,36 +467,36 @@ class Player extends Character {
      * @param {Item} item - The item instance to add to the inventory.
      * @param {String} [slotKey] - A specific slot to add the item at. Must be an empty (null) slot or throws error. Should be used after Player.isInventoryFull. Leave undefined to use the first empty slot.
      */
-    addToInventory(item, slotKey) {
-        // If a slot key to add at was given, use it.
-        if (slotKey !== undefined) {
-            // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. "abcd").
-            if (this.inventory[slotKey] !== null) {
-                Utils.error(`Attempt to add item to character inventory at already occupied slot: ${slotKey}, item: ${item.constructor.name}`);
-            }
-        }
-        // No slot key specified, get the first empty one.
-        else {
-            slotKey = this.getEmptyInventorySlotKey();
-        }
+    // addToInventory(item, slotKey) {
+    //     // If a slot key to add at was given, use it.
+    //     if (slotKey !== undefined) {
+    //         // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. "abcd").
+    //         if (this.inventory[slotKey] !== null) {
+    //             Utils.error(`Attempt to add item to character inventory at already occupied slot: ${slotKey}, item: ${item.constructor.name}`);
+    //         }
+    //     }
+    //     // No slot key specified, get the first empty one.
+    //     else {
+    //         slotKey = this.getEmptyInventorySlotKey();
+    //     }
 
-        // Add the item to the character's inventory.
-        this.inventory[slotKey] = item;
+    //     // Add the item to the character's inventory.
+    //     this.inventory[slotKey] = item;
 
-        // Add the character as the owner of the item.
-        item.owner = this;
+    //     // Add the character as the owner of the item.
+    //     item.owner = this;
 
-        // Keep the slot key it is in on the item itself.
-        item.slotKey = slotKey;
+    //     // Keep the slot key it is in on the item itself.
+    //     item.slotKey = slotKey;
 
-        // Tell the player an item was added to their inventory.
-        this.socket.sendEvent(this.EventsList.add_item, {
-            typeCode: item.typeCode,
-            slotKey: item.slotKey,
-            durability: item.durability,
-            maxDurability: item.maxDurability,
-        });
-    }
+    //     // Tell the player an item was added to their inventory.
+    //     this.socket.sendEvent(this.EventsList.add_item, {
+    //         typeCode: item.typeCode,
+    //         slotKey: item.slotKey,
+    //         durability: item.durability,
+    //         maxDurability: item.maxDurability,
+    //     });
+    // }
 
     /**
      * Clears an inventory slot with a given key.

@@ -127,7 +127,6 @@ const initialiseList = () => {
     }
 
     Utils.message("Finished initialising items list. ItemsList is ready to use.");
-    console.log("done items list?", ItemsList);
 };
 
 const createCatalogue = () => {

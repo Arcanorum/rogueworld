@@ -2,6 +2,7 @@ const Utils = require("../Utils");
 const Pickup = require("../entities/destroyables/pickups/Pickup");
 const EntitiesList = require("../EntitiesList");
 const { StatNames } = require("../stats/Statset").prototype;
+const EventsList = require("../EventsList");
 
 const { getRandomIntInclusive } = Utils;
 
@@ -12,11 +13,13 @@ class Item {
     constructor(config) {
         this.itemConfig = config.itemConfig;
 
+        this.slotIndex = config.slotIndex;
+
         /**
          * The player that owns this item.
          * @type {Player|null}
          */
-        this.owner = null;
+        this.owner = config.owner;
     }
 
     /**
@@ -52,7 +55,7 @@ class Item {
         // Tell the user the item was used. Might not have had an immediate effect, but
         // the client might like to know right away (i.e. to play a sound effect).
         this.owner.socket.sendEvent(
-            this.owner.EventsList.item_used,
+            EventsList.item_used,
             { typeCode: this.typeCode },
         );
     }
@@ -78,7 +81,7 @@ class Item {
             maxDurability: this.maxDurability,
         }).emitToNearbyPlayers();
 
-        owner.socket.sendEvent(this.owner.EventsList.item_dropped);
+        owner.socket.sendEvent(EventsList.item_dropped);
 
         this.destroy();
     }
@@ -125,7 +128,15 @@ class Item {
 
         this.itemConfig.modQuantity(amount);
 
-        // TODO: update client to show new quantity value for this item
+        // Tell the player the new quantity.
+        this.owner.socket.sendEvent(
+            EventsList.item_modified,
+            {
+                slotIndex: this.slotIndex,
+                quantity: this.itemConfig.quantity,
+                totalWeight: this.itemConfig.totalWeight,
+            },
+        );
     }
 
     /**
@@ -145,15 +156,18 @@ class Item {
         // Check if the item is now broken.
         if (this.itemConfig.durability < 1) {
             // Tell the player their item broke.
-            this.owner.socket.sendEvent(this.owner.EventsList.item_broken);
+            this.owner.socket.sendEvent(EventsList.item_broken);
             // Destroy this broken item.
             this.destroy();
         }
         else {
             // Tell the player the new durability.
             this.owner.socket.sendEvent(
-                this.owner.EventsList.durability_value,
-                { durability: this.itemConfig.durability, slotKey: this.slotKey },
+                EventsList.item_modified,
+                {
+                    slotIndex: this.slotIndex,
+                    durability: this.itemConfig.durability,
+                },
             );
         }
     }
@@ -182,6 +196,11 @@ class Item {
         Object.entries(config).forEach(([key, value]) => {
             if (key === "name") {
                 this.prototype.typeName = value;
+                return;
+            }
+
+            if (key === "code") {
+                this.prototype.typeCode = value;
                 return;
             }
 

@@ -1,7 +1,10 @@
+const EventsList = require("../EventsList.js");
 const ItemConfig = require("./ItemConfig.js");
 
 class Inventory {
-    constructor() {
+    constructor(owner) {
+        this.owner = owner;
+
         this.weight = 0;
         this.maxWeight = 1000;
 
@@ -11,7 +14,7 @@ class Inventory {
     print() {
         console.log("printing inventory:");
         this.items.forEach((item) => {
-            console.log(item);
+            console.log(item.itemConfig);
         });
     }
 
@@ -103,18 +106,12 @@ class Inventory {
      * @param {ItemConfig} config
      */
     addItem(config) {
-        console.log("** inventory.addItem");
-
-        console.log("before adding to inventory:", this.items);
-
         if (!(config instanceof ItemConfig)) {
             throw new Error("Cannot add item to inventory from a config that is not an instance of ItemConfig. Config:", config);
         }
 
         if (config.quantity) {
             let quantityToAdd = this.quantityThatCanBeAdded(config);
-
-            console.log("quantity to add:", quantityToAdd);
 
             // Find if a stack for this type of item already exists.
             const found = this.items.find((item) => (
@@ -123,23 +120,15 @@ class Inventory {
                 && (item.itemConfig.quantity < item.itemConfig.MAX_QUANTITY)
             ));
 
-            console.log("item stack already exists?:", found);
-
             // Add to the existing stack.
             if (found) {
                 // Check there is enough space left in the stack to add these additional ones.
                 if ((found.itemConfig.quantity + quantityToAdd) > found.itemConfig.MAX_QUANTITY) {
                     // Not enough space. Add what can be added and keep the rest where it is.
 
-                    console.log("not enough space");
-
                     const availableQuantity = (
                         found.itemConfig.MAX_QUANTITY - found.itemConfig.quantity
                     );
-
-                    console.log("available quantity:", availableQuantity);
-
-                    // config.modQuantity(-availableQuantity);
 
                     // Add to the found stack.
                     found.modQuantity(+availableQuantity);
@@ -147,16 +136,13 @@ class Inventory {
                     // Some of the quantity to add has now been added to an existing stack,
                     // so reduce the amount that will go into the new overflow stack.
                     quantityToAdd -= availableQuantity;
-                    console.log("reduced from incoming stack, new availQuany:", quantityToAdd);
 
                     // console.log("  added to existing stack, found:", found.itemConfig);
                 }
                 else {
-                    console.log("adding to existing stack:", config.quantity);
                     found.modQuantity(+quantityToAdd);
 
                     this.updateWeight();
-                    console.log("after adding to quantity:", this.items);
                     // Don't want to add another item below, so exit now.
                     return;
                 }
@@ -165,23 +151,53 @@ class Inventory {
             // Reduce the size of the incoming stack.
             config.modQuantity(-quantityToAdd);
 
+            const slotIndex = this.items.length;
+
             // Make a new stack with just the quantity that can fit in the available weight.
-            this.items.push(new config.ItemType({
+            const item = new config.ItemType({
                 itemConfig: new ItemConfig({
                     ItemType: config.ItemType,
                     quantity: quantityToAdd,
                 }),
-            }));
+                slotIndex,
+                owner: this.owner,
+            });
+
+            this.items.push(item);
+
+            // Tell the player a new item was added to their inventory.
+            this.owner.socket.sendEvent(EventsList.add_item, {
+                slotIndex,
+                typeCode: item.typeCode,
+                quantity: item.itemConfig.quantity,
+                totalWeight: item.itemConfig.totalWeight,
+            });
         }
         // Add as an unstackable.
         else {
+            const slotIndex = this.items.length;
+
             // Add the item to the inventory as a new entry as an unstackable.
-            this.items.push(new config.ItemType({ itemConfig: config }));
+            const item = new config.ItemType({
+                itemConfig: config,
+                slotIndex,
+            });
+
+            this.items.push(item);
+
+            // Tell the player a new item was added to their inventory.
+            this.owner.socket.sendEvent(EventsList.add_item, {
+                slotIndex,
+                typeCode: item.typeCode,
+                durability: item.itemConfig.durability,
+                maxDurability: item.itemConfig.maxDurability,
+                totalWeight: item.itemConfig.totalWeight,
+            });
         }
 
         this.updateWeight();
 
-        console.log("after adding to inventory:", this.items);
+        console.log("after adding to inventory:", this.print());
     }
 }
 

@@ -7,10 +7,11 @@ const ItemTypes = {}; // temp
 
 export default () => {
     eventResponses.add_item = (data) => {
-        // console.log("add item event:", data);
-        window.gameScene.player.inventory[data.slotKey].fill(
-            ItemTypes[data.typeCode], data.durability, data.maxDurability,
-        );
+        console.log("add item event:", data);
+
+        // window.gameScene.player.inventory[data.slotKey].fill(
+        //     ItemTypes[data.typeCode], data.durability, data.maxDurability,
+        // );
     };
 
     eventResponses.remove_item = (data) => {

@@ -7,13 +7,12 @@ import tasksIcon from "../../../../../assets/images/gui/hud/tasks-icon.png";
 import { TASKS_VALUE } from "../../../../../shared/EventTypes";
 import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 import Utils from "../../../../../shared/Utils";
-import ItemIconList from "../../../../../shared/ItemIconList";
+import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
-import trackButtonBorderActiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-active.png";
+// import trackButtonBorderActiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-active.png";
 import trackButtonBorderInactiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-inactive.png";
 import claimButtonBorderValidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-valid.png";
 import claimButtonBorderInvalidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-invalid.png";
-import Player from "../../../../../shared/state/Player";
 
 function RewardItem({ rewardItemTypeCode }) {
     return (
@@ -21,7 +20,7 @@ function RewardItem({ rewardItemTypeCode }) {
             {rewardItemTypeCode && (
                 <img
                   className="reward-item"
-                  src={ItemIconList[ItemTypes[rewardItemTypeCode].iconSource]}
+                  src={ItemIconsList[ItemTypes[rewardItemTypeCode].iconSource]}
                 />
             )}
         </div>

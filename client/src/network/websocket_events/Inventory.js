@@ -2,12 +2,15 @@
 import { setAttackCursor, setDefaultCursor } from "../../shared/Cursors";
 import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
+import { InventoryState } from "../../shared/state/States";
 
 const ItemTypes = {}; // temp
 
 export default () => {
     eventResponses.add_item = (data) => {
         console.log("add item event:", data);
+
+        InventoryState.addToInventory(data);
 
         // window.gameScene.player.inventory[data.slotKey].fill(
         //     ItemTypes[data.typeCode], data.durability, data.maxDurability,
@@ -17,6 +20,14 @@ export default () => {
     eventResponses.remove_item = (data) => {
         // console.log("remove item event:", data);
         window.gameScene.player.inventory[data].empty();
+    };
+
+    eventResponses.modify_item = (data) => {
+        console.log("modify_item event:", data);
+
+        InventoryState.modifyItem(data);
+
+        // window.gameScene.player.inventory[data.slotKey].updateDurability(data.durability);
     };
 
     eventResponses.inventory_full = () => {

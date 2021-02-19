@@ -29,6 +29,7 @@ import RespawnPanel from "./panels/respawn/RespawnPanel";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
 import MapPanel from "./panels/map/MapPanel";
+import InventoryPanel from "./panels/inventory/InventoryPanel";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -41,6 +42,7 @@ const Panels = {
     Stats: Symbol("Stats"),
     Tasks: Symbol("Tasks"),
     Map: Symbol("Map"),
+    Inventory: Symbol("Inventory"),
 };
 
 function GUI() {
@@ -120,6 +122,13 @@ function GUI() {
                   }}
                   tooltip={Utils.getTextDef("Map tooltip")}
                 />
+                <PanelButton
+                  icon={inventoryIcon}
+                  onClick={() => {
+                      setShownPanel(Panels.Inventory);
+                  }}
+                  tooltip={Utils.getTextDef("Inventory tooltip")}
+                />
             </div>
 
             <div className="top-right-corner-cont gui-zoomable">
@@ -198,6 +207,11 @@ function GUI() {
                 )}
                 {shownPanel === Panels.Map && (
                 <MapPanel
+                  onCloseCallback={closePanelCallback}
+                />
+                )}
+                {shownPanel === Panels.Inventory && (
+                <InventoryPanel
                   onCloseCallback={closePanelCallback}
                 />
                 )}

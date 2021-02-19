@@ -37,6 +37,8 @@ export const CHAT_CLOSE = Symbol("CHAT_CLOSE");
 export const CHAT_OPEN = Symbol("CHAT_OPEN");
 
 // Inventory.
+export const ADD_ITEM = Symbol("ADD_ITEM");
+export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
 
 // GUI.
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");

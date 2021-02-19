@@ -68,12 +68,6 @@ export default () => {
         PlayerState.setGlory(data);
     };
 
-    eventResponses.item_modified = (data) => {
-        console.log("item_modified:", data);
-
-        // window.gameScene.player.inventory[data.slotKey].updateDurability(data.durability);
-    };
-
     eventResponses.exp_gained = (data) => {
         // console.log("exp gained, data:", data);
         window.gameScene.player.stats.list[data.statName].modExp(data.exp);

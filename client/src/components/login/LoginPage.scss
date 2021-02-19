@@ -141,6 +141,10 @@
     font-size: 1.6vw;
     transform: scale(1.05);
   }
+
+  ::placeholder {
+    font-size: 1.5vw;
+  }
 }
 
 #show-password {

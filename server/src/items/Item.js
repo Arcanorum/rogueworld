@@ -130,7 +130,7 @@ class Item {
 
         // Tell the player the new quantity.
         this.owner.socket.sendEvent(
-            EventsList.item_modified,
+            EventsList.modify_item,
             {
                 slotIndex: this.slotIndex,
                 quantity: this.itemConfig.quantity,
@@ -163,7 +163,7 @@ class Item {
         else {
             // Tell the player the new durability.
             this.owner.socket.sendEvent(
-                EventsList.item_modified,
+                EventsList.modify_item,
                 {
                     slotIndex: this.slotIndex,
                     durability: this.itemConfig.durability,

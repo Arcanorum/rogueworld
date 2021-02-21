@@ -39,7 +39,7 @@ function CreateAccountPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(CREATE_ACCOUNT_FAILURE, (msd, data) => {
+            PubSub.subscribe(CREATE_ACCOUNT_FAILURE, (msg, data) => {
                 setWarningText(Utils.getTextDef(data.messageID));
             }),
         ];

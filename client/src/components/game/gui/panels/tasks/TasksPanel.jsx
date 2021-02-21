@@ -97,7 +97,7 @@ function TasksPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(TASKS_VALUE, (msd, data) => {
+            PubSub.subscribe(TASKS_VALUE, (msg, data) => {
                 setTasks(data.new);
             }),
         ];

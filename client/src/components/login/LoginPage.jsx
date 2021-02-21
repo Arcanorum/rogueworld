@@ -71,13 +71,13 @@ function LoginPage() {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(CONNECTING, (msd, data) => {
+            PubSub.subscribe(CONNECTING, (msg, data) => {
                 setConnecting(data.new);
             }),
-            PubSub.subscribe(CONNECTED, (msd, data) => {
+            PubSub.subscribe(CONNECTED, (msg, data) => {
                 setConnected(data.new);
             }),
-            PubSub.subscribe(JOINING, (msd, data) => {
+            PubSub.subscribe(JOINING, (msg, data) => {
                 setJoining(data.new);
             }),
             PubSub.subscribe(JOINED, () => {
@@ -95,7 +95,7 @@ function LoginPage() {
             PubSub.subscribe(SOMETHING_WENT_WRONG, () => {
                 setJoinIssue(Utils.getTextDef("Something went wrong"));
             }),
-            PubSub.subscribe(WEBSOCKET_CLOSE, (msd, data) => {
+            PubSub.subscribe(WEBSOCKET_CLOSE, (msg, data) => {
                 if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET) {
                     setConnectionIssue(
                         `Could not connect to game server.

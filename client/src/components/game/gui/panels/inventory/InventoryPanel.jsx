@@ -5,27 +5,66 @@ import PanelTemplate from "../panel_template/PanelTemplate";
 import inventoryIcon from "../../../../../assets/images/gui/hud/inventory-icon.png";
 import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import "./InventoryPanel.scss";
-import { InventoryState } from "../../../../../shared/state/States";
+import { InventoryState, GUIState } from "../../../../../shared/state/States";
 import { ADD_ITEM, MODIFY_ITEM } from "../../../../../shared/EventTypes";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
 
+const formatItemValue = (value) => {
+    if (!value) return 0;
+    if (value > 999) return "+999";
+    return value;
+};
+
+const ItemTooltip = (itemConfig) => (
+    <div>
+        {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationID}`)}
+    </div>
+);
+
+function ItemSlot({ itemConfig }) {
+    return (
+        <div className="item-slot">
+            <div
+              className="details"
+              draggable={false}
+              onMouseEnter={() => {
+                  GUIState.setTooltipContent(
+                      ItemTooltip(itemConfig),
+                  );
+              }}
+              onMouseLeave={() => {
+                  GUIState.setTooltipContent(null);
+              }}
+              onClick={() => true}
+            >
+                <img
+                  src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
+                />
+                <div
+                  className={`high-contrast-text ${(itemConfig.quantity > 999 || itemConfig.durability > 999) ? "small" : ""}`}
+                >
+                    {formatItemValue(itemConfig.quantity) || formatItemValue(itemConfig.durability) || "???"}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+ItemSlot.propTypes = {
+    itemConfig: PropTypes.object.isRequired,
+};
+
 function InventoryPanel({ onCloseCallback }) {
     const [items, setItems] = useState(InventoryState.items);
 
-    const formatItemValue = (value) => {
-        if (!value) return 0;
-        if (value > 999) return "+999";
-        return value;
-    };
-
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(ADD_ITEM, (msd, data) => {
+            PubSub.subscribe(ADD_ITEM, (msg, data) => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(MODIFY_ITEM, (msd, data) => {
+            PubSub.subscribe(MODIFY_ITEM, (msg, data) => {
                 setItems([...InventoryState.items]);
             }),
         ];
@@ -62,19 +101,7 @@ function InventoryPanel({ onCloseCallback }) {
                     </div>
                     <div className="list">
                         {items.map((item) => (
-                            <div
-                              key={item.slotIndex}
-                              className="item-slot"
-                            >
-                                <img
-                                  src={ItemIconsList[ItemTypes[item.typeCode].iconSource]}
-                                />
-                                <div
-                                  className={`high-contrast-text ${(item.quantity > 999 || item.durability > 999) ? "small" : ""}`}
-                                >
-                                    {formatItemValue(item.quantity) || formatItemValue(item.durability) || "???"}
-                                </div>
-                            </div>
+                            <ItemSlot key={item.slotIndex} itemConfig={item} />
                         ))}
                     </div>
                 </div>

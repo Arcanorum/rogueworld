@@ -74,7 +74,8 @@ class Inventory {
             this.weight += item.itemConfig.totalWeight;
         });
 
-        console.log("updated total inventory weight, new weight:", this.weight);
+        // Tell the player their new inventory weight.
+        this.owner.socket.sendEvent(EventsList.inventory_weight, this.weight);
     }
 
     quantityThatCanBeAdded(config) {

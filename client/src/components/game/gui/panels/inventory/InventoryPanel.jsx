@@ -6,7 +6,7 @@ import inventoryIcon from "../../../../../assets/images/gui/hud/inventory-icon.p
 import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import "./InventoryPanel.scss";
 import { InventoryState, GUIState } from "../../../../../shared/state/States";
-import { ADD_ITEM, MODIFY_ITEM } from "../../../../../shared/EventTypes";
+import { ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT } from "../../../../../shared/EventTypes";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
@@ -58,14 +58,19 @@ ItemSlot.propTypes = {
 
 function InventoryPanel({ onCloseCallback }) {
     const [items, setItems] = useState(InventoryState.items);
+    const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
+    const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(ADD_ITEM, (msg, data) => {
+            PubSub.subscribe(ADD_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(MODIFY_ITEM, (msg, data) => {
+            PubSub.subscribe(MODIFY_ITEM, () => {
                 setItems([...InventoryState.items]);
+            }),
+            PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {
+                setInventoryWeight(data.new);
             }),
         ];
 
@@ -87,13 +92,23 @@ function InventoryPanel({ onCloseCallback }) {
             >
                 <div className="inner-cont">
                     <div className="top-bar">
-                        <div className="weight">
+                        <div
+                          className="weight"
+                          onMouseEnter={() => {
+                              GUIState.setTooltipContent(Utils.getTextDef("Total inventory weight"));
+                          }}
+                          onMouseLeave={() => {
+                              GUIState.setTooltipContent(null);
+                          }}
+                        >
                             <img
                               src={weightIcon}
                               width="32px"
                               height="32px"
                             />
-                            <span className="high-contrast-text">456/1000</span>
+                            <span className="high-contrast-text">
+                                {`${inventoryWeight}/${inventoryMaxWeight}`}
+                            </span>
                         </div>
                         <div className="search">
                             <input placeholder={Utils.getTextDef("Item search")} />

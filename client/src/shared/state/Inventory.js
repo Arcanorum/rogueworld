@@ -1,5 +1,5 @@
 import PubSub from "pubsub-js";
-import { ADD_ITEM, MODIFY_ITEM } from "../EventTypes";
+import { ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT } from "../EventTypes";
 import Utils from "../Utils";
 
 class Inventory {
@@ -48,6 +48,8 @@ class Inventory {
 
     setWeight(value) {
         this.weight = value;
+
+        PubSub.publish(MODIFY_INVENTORY_WEIGHT, { new: value });
     }
 
     setMaxWeight(value) {

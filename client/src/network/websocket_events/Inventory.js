@@ -30,6 +30,10 @@ export default () => {
         // window.gameScene.player.inventory[data.slotKey].updateDurability(data.durability);
     };
 
+    eventResponses.inventory_weight = (data) => {
+        InventoryState.setWeight(data);
+    };
+
     eventResponses.inventory_full = () => {
         // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Inventory full warning"));
     };

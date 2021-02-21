@@ -30,6 +30,7 @@ import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
 import MapPanel from "./panels/map/MapPanel";
 import InventoryPanel from "./panels/inventory/InventoryPanel";
+import Tooltip from "./tooltip/Tooltip";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -106,28 +107,28 @@ function GUI() {
                   onClick={() => {
                       setShownPanel(Panels.Stats);
                   }}
-                  tooltip={Utils.getTextDef("Avatar tooltip")}
+                  tooltipText={Utils.getTextDef("Avatar tooltip")}
                 />
                 <PanelButton
                   icon={tasksIcon}
                   onClick={() => {
                       setShownPanel(Panels.Tasks);
                   }}
-                  tooltip={Utils.getTextDef("Tasks tooltip")}
+                  tooltipText={Utils.getTextDef("Tasks tooltip")}
                 />
                 <PanelButton
                   icon={mapIcon}
                   onClick={() => {
                       setShownPanel(Panels.Map);
                   }}
-                  tooltip={Utils.getTextDef("Map tooltip")}
+                  tooltipText={Utils.getTextDef("Map tooltip")}
                 />
                 <PanelButton
                   icon={inventoryIcon}
                   onClick={() => {
                       setShownPanel(Panels.Inventory);
                   }}
-                  tooltip={Utils.getTextDef("Inventory tooltip")}
+                  tooltipText={Utils.getTextDef("Inventory tooltip")}
                 />
             </div>
 
@@ -142,19 +143,19 @@ function GUI() {
                           setShownPanel(Panels.CreateAccount);
                       }
                   }}
-                  tooltip={Utils.getTextDef("Exit tooltip")}
+                  tooltipText={Utils.getTextDef("Exit tooltip")}
                 />
 
                 <PanelButton
                   icon={discordIcon}
                   onClick={() => window.open(discordInviteLink, "_blank")}
-                  tooltip={Utils.getTextDef("Discord tooltip")}
+                  tooltipText={Utils.getTextDef("Discord tooltip")}
                 />
 
                 <PanelButton
                   icon={wikiIcon}
                   onClick={() => window.open(wikiLink, "_blank")}
-                  tooltip={Utils.getTextDef("Wikia tooltip")}
+                  tooltipText={Utils.getTextDef("Wikia tooltip")}
                 />
             </div>
 
@@ -162,13 +163,13 @@ function GUI() {
                 <PanelButton
                   icon={inventoryIcon}
                   onClick={() => null} // @TODO implement this later
-                  tooltip={Utils.getTextDef("Inventory tooltip")}
+                  tooltipText={Utils.getTextDef("Inventory tooltip")}
                 />
 
                 <PanelButton
                   icon={settingsIcon}
                   onClick={() => null} // @TODO implement this later
-                  tooltip={Utils.getTextDef("Settings tooltip")}
+                  tooltipText={Utils.getTextDef("Settings tooltip")}
                 />
             </div>
 
@@ -218,6 +219,8 @@ function GUI() {
             </div>
 
             <ChatInput />
+
+            <Tooltip />
         </div>
     );
 }

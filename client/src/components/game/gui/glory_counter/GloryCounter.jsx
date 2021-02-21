@@ -40,7 +40,7 @@ function GloryCounter() {
         <div>
             <PanelButton
               icon={gloryIcon}
-              tooltip={Utils.getTextDef("Glory tooltip")}
+              tooltipText={Utils.getTextDef("Glory tooltip")}
             />
             <AnimatedNumber
               value={glory}

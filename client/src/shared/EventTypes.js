@@ -42,6 +42,8 @@ export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
 
 // GUI.
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
+export const CURSOR_MOVE = Symbol("CURSOR_MOVE");
+export const TOOLTIP_CONTENT = Symbol("TOOLTIP_CONTENT");
 
 // Dungeon.
 export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");

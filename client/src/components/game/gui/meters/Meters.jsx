@@ -9,6 +9,8 @@ import "./Meters.scss";
 import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, ENERGY_VALUE, MAX_ENERGY_VALUE,
 } from "../../../../shared/EventTypes";
+import { GUIState } from "../../../../shared/state/States";
+import Utils from "../../../../shared/Utils";
 
 // How many of the little circle counters to show on each meter bar.
 const maxCounters = 20;
@@ -28,10 +30,11 @@ function Counters({ stat, maxStat, counterImage }) {
     });
 }
 
-function Meters() {
-    const [showHitPointTooltip, setShowHitPointTooltip] = useState(false);
-    const [showEnergyTooltip, setShowEnergyTooltip] = useState(false);
+const Tooltip = (content) => (
+    <div style={{ width: "500px" }}>{content}</div>
+);
 
+function Meters() {
     const [hitPoints, setHitPoints] = useState(0);
     const [maxHitPoints, setMaxHitPoints] = useState(0);
 
@@ -70,10 +73,12 @@ function Meters() {
                   src={hitpointIcon}
                   draggable={false}
                   onMouseEnter={() => {
-                      setShowHitPointTooltip(true);
+                      GUIState.setTooltipContent(
+                          Tooltip(Utils.getTextDef("Hitpoint tooltip")),
+                      );
                   }}
                   onMouseLeave={() => {
-                      setShowHitPointTooltip(false);
+                      GUIState.setTooltipContent(null);
                   }}
                 />
                 <div>
@@ -83,7 +88,6 @@ function Meters() {
                       counterImage={hitpointCounter}
                     />
                 </div>
-                {showHitPointTooltip && <div className="meter-tooltip generic-tooltip left">Hitpoint tooltip text</div>}
             </div>
             <div className="meter">
                 <img
@@ -91,10 +95,12 @@ function Meters() {
                   src={energyIcon}
                   draggable={false}
                   onMouseEnter={() => {
-                      setShowEnergyTooltip(true);
+                      GUIState.setTooltipContent(
+                          Tooltip(Utils.getTextDef("Energy tooltip")),
+                      );
                   }}
                   onMouseLeave={() => {
-                      setShowEnergyTooltip(false);
+                      GUIState.setTooltipContent(null);
                   }}
                 />
                 <div id="energy-counters">
@@ -104,7 +110,6 @@ function Meters() {
                       counterImage={energyCounter}
                     />
                 </div>
-                {showEnergyTooltip && <div className="meter-tooltip generic-tooltip left">Energy tooltip text</div>}
             </div>
         </div>
     );

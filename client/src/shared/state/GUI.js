@@ -1,3 +1,6 @@
+import PubSub from "pubsub-js";
+import { CURSOR_MOVE, TOOLTIP_CONTENT } from "../EventTypes";
+
 class GUI {
     cursorX = 0;
 
@@ -9,10 +12,19 @@ class GUI {
 
     chatInputStatus = false;
 
+    tooltipContent = null;
+
     constructor() {
         document.onmousemove = (event) => {
             this.setCursorX(event.clientX);
             this.setCursorY(event.clientY);
+
+            PubSub.publish(CURSOR_MOVE, {
+                new: {
+                    cursorX: this.cursorX,
+                    cursorY: this.cursorY,
+                },
+            });
         };
     }
 
@@ -38,6 +50,11 @@ class GUI {
 
     setChatInputStatus(value) {
         this.chatInputStatus = value;
+    }
+
+    setTooltipContent(content) {
+        this.tooltipContent = content;
+        PubSub.publish(TOOLTIP_CONTENT, content);
     }
 }
 

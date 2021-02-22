@@ -167,6 +167,7 @@ function InventoryPanel({ onCloseCallback }) {
                               onChange={(event) => {
                                   setSearchText(event.target.value.toLowerCase());
                               }}
+                              autoFocus
                             />
                         </div>
                     </div>

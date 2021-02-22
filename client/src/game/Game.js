@@ -11,6 +11,7 @@ import { addGameEventResponses } from "../network/websocket_events/WebSocketEven
 import {
     CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE,
 } from "../shared/EventTypes";
+import Panels from "../components/game/gui/panels/PanelsEnum";
 
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
@@ -360,14 +361,11 @@ class Game extends Phaser.Scene {
     }
 
     checkKeyFilters() {
-        // if (this.GUI) {
         // Don't move while the chat input is open.
         if (GUIState.chatInputStatus) return true;
-        // Or the create account panel.
-        // if (this.GUI.createAccountPanel.isOpen === true) return true;
-        // Or the account panel.
-        // if (this.GUI.accountPanel.isOpen === true) return true;
-        // }
+        // Or any panel is open.
+        if (GUIState.activePanel !== Panels.NONE) return true;
+
         return false;
     }
 

@@ -14,6 +14,8 @@ class GUI {
 
     tooltipContent = null;
 
+    activePanel = null;
+
     constructor() {
         document.onmousemove = (event) => {
             this.setCursorX(event.clientX);
@@ -50,6 +52,10 @@ class GUI {
 
     setChatInputStatus(value) {
         this.chatInputStatus = value;
+    }
+
+    setActivePanel(value) {
+        this.activePanel = value;
     }
 
     setTooltipContent(content) {

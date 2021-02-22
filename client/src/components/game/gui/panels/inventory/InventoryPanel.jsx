@@ -42,8 +42,8 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 </div>
             </div>
             <div className="buttons">
-                <div className="button equip">Quick equip</div>
                 <div className="button hotbar">Add to hotbar</div>
+                <div className="button equip">Quick equip</div>
                 <div className="button drop">Drop</div>
             </div>
         </div>
@@ -73,6 +73,7 @@ function ItemSlot({ itemConfig, onClick }) {
             >
                 <img
                   src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
+                  draggable={false}
                 />
                 <div
                   className={`high-contrast-text ${(itemConfig.quantity > 999 || itemConfig.durability > 999) ? "small" : ""}`}

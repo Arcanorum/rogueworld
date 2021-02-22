@@ -116,8 +116,7 @@ function TasksPanel({ onCloseCallback }) {
         // Check a slot is actually selected.
         if (selectedTaskID === null) return;
 
-        // Get the selected slot task ID.
-        ApplicationState.connection.sendEvent("task_claim_reward", selectedTaskID.container.getAttribute("taskID"));
+        ApplicationState.connection.sendEvent("task_claim_reward", selectedTaskID);
 
         // Assume it will be claimed successfully, so default the claim button.
         setClaimValid(false);

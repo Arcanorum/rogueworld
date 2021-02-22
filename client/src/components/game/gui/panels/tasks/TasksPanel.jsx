@@ -28,7 +28,7 @@ function RewardItem({ rewardItemTypeCode }) {
 }
 
 RewardItem.propTypes = {
-    rewardItemTypeCode: PropTypes.number.isRequired,
+    rewardItemTypeCode: PropTypes.string.isRequired,
 };
 
 function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {

@@ -1,3 +1,6 @@
+const yaml = require("js-yaml");
+const fs = require("fs");
+const path = require("path");
 const Utils = require("../Utils");
 const Pickup = require("../entities/destroyables/pickups/Pickup");
 const EntitiesList = require("../EntitiesList");
@@ -225,6 +228,28 @@ class Item {
         // annoying to have to set `baseQuantity: 1` on so many item configs.
         if (!this.prototype.baseQuantity && !this.prototype.baseDurability) {
             this.prototype.baseQuantity = 1;
+        }
+
+        // Check for any items that are referencing a weight class by name.
+        if (typeof this.prototype.unitWeight === "string") {
+            // Use the weight value for the corresponding weight class.
+
+            // Load all of the weight classes.
+            const WeightClasses = yaml.safeLoad(
+                fs.readFileSync(
+                    path.resolve("./src/configs/ItemWeightClasses.yml"), "utf8",
+                ),
+            );
+
+            if (!WeightClasses[this.prototype.unitWeight]) {
+                Utils.error("Item weight class name does not exist in the item weight classes list: ", this.prototype.unitWeight);
+            }
+
+            if (typeof WeightClasses[this.prototype.unitWeight] !== "number") {
+                Utils.error("The entry in the item weight class list is not a number. All weight classes must be numbers: ", this.prototype.unitWeight);
+            }
+
+            this.prototype.unitWeight = WeightClasses[this.prototype.unitWeight];
         }
     }
 }

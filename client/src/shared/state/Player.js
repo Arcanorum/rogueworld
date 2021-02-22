@@ -166,8 +166,8 @@ class Player {
         PubSub.publish(TASKS_VALUE, { new: this.tasks });
     }
 
-    modifyTaskProgress(taskID, progress) {
-        const task = this.tasks[taskID];
+    modifyTaskProgress(taskId, progress) {
+        const task = this.tasks[taskId];
 
         task.progress = progress;
 
@@ -177,6 +177,18 @@ class Player {
         }
 
         PubSub.publish(TASK_PROGRESS, { new: task });
+    }
+
+    addTask(task) {
+        this.tasks[task.taskID] = task;
+
+        PubSub.publish(TASKS_VALUE, { new: this.tasks });
+    }
+
+    removeTask(taskId) {
+        delete this.tasks[taskId];
+
+        PubSub.publish(TASKS_VALUE, { new: this.tasks });
     }
 }
 

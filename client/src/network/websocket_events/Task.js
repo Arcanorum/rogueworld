@@ -7,14 +7,10 @@ export default () => {
     };
 
     eventResponses.task_claimed = (data) => {
-        // console.log("task claimed, data:", data);
-        window.gameScene.GUI.tasksPanel.removeTask(data);
+        PlayerState.removeTask(data);
     };
 
     eventResponses.task_added = (data) => {
-        // console.log("task added, data:", data);
-        if (window.gameScene.GUI === undefined) return;
-
-        window.gameScene.GUI.tasksPanel.addTask(data);
+        PlayerState.addTask(data);
     };
 };

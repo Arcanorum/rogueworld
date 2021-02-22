@@ -40,8 +40,6 @@
                 input {
                     width: 100%;
                     height: 100%;
-                    // font-size: 1.5vw;
-                    // font-weight: bold;
                     letter-spacing: 0.1em;
                     font-family: 'Press Start 2P', cursive;
                     border: #fff solid 1px;
@@ -64,7 +62,7 @@
                     position: relative;
                     width: 64px;
                     height: 64px;
-                    background-color: $colourDB32IronGreyOpacity80;
+                    background-color: $colourDB32IronGreyOpacity50;
                     border: 4px solid $colourDB32VeryDarkPurpleOpacity80;
                     margin: 4px;
         
@@ -85,6 +83,107 @@
                         font-size: 14px;
                     }
                 }
+            }
+
+            .warning {
+                color: $colourDB32DarkGrey;
+                width: 100%;
+                font-size: 1.2rem;
+                text-align: center;
+            }
+        }
+    }
+
+    .item-options {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        
+        .info {
+            position: absolute;
+            background-color: $colourDB32VeryDarkPurpleOpacity80;
+            color: white;
+            padding: 16px;
+            margin: 8px;
+            display: flex;
+            align-content: space-between;
+            justify-content:right;
+            flex-direction: column;
+            text-align: center;
+            min-width: 250px;
+
+            .name {
+                font-weight: bold;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+            }
+
+            .description {
+                font-size: 0.8em;
+            }
+
+            .detail {
+                font-weight: bold;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+            }
+            
+            &.top {
+                top: -100px;
+
+                &.left {
+                    left: 140px;
+                    // transform: translate(120%, 0%);
+                }
+
+                &.right {
+                    right: 140px
+                    // transform: translate(-120%, 0%);
+                }
+            }
+            
+            &.bottom {
+                bottom: -100px;
+
+                &.left {
+                    left: 140px;
+                    // transform: translate(120%, 0%);
+                }
+
+                &.right {
+                    right: 140px
+                    // transform: translate(-120%, 0%);
+                }
+            }
+        }
+        
+        .buttons {
+            position: absolute;
+            background-color: $colourDB32VeryDarkPurpleOpacity80;
+            color: $colourDB32VeryDarkPurple;
+            width: 280px;
+
+            .button {
+                padding: 16px;
+                margin: 8px;
+                user-select: none;
+                &:hover {
+                    filter: brightness(120%);
+                }
+            }
+
+            .equip {
+                background-color: $colourDB32Blurple;
+            }
+
+            .hotbar {
+                background-color: $colourDB32LightBlue;
+            }
+
+            .drop {
+                background-color: $colourDB32Orange;
             }
         }
     }

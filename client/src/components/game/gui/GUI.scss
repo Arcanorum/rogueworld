@@ -41,7 +41,6 @@
     top: 10px;
     left: 10px;
     pointer-events: none;
-    //transform: translateY(-50%);
     transform-origin: top left;
   }
 
@@ -51,7 +50,6 @@
     top: 10px;
     right: 10px;
     pointer-events: none;
-    //transform: translateY(-50%);
     transform-origin: top right;
   }
 
@@ -61,8 +59,23 @@
     bottom: 10px;
     right: 10px;
     pointer-events: none;
-    //transform: translateY(-50%);
     transform-origin: bottom right;
+  }
+
+  ::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $colourDB32Grey;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: $colourDB32VeryDarkPurple;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: $colourDB32DarkPurple;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import PubSub from "pubsub-js";
 import PanelTemplate from "../panel_template/PanelTemplate";
@@ -23,7 +23,39 @@ const ItemTooltip = (itemConfig) => (
     </div>
 );
 
-function ItemSlot({ itemConfig }) {
+function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
+    return (
+        <div
+          className="item-options"
+          style={{ top: GUIState.cursorY - panelBounds.y, left: GUIState.cursorX - panelBounds.x }}
+          onMouseLeave={() => onCursorLeave()}
+        >
+            <div className={`info ${GUIState.cursorInTopSide ? "top" : "bottom"} ${GUIState.cursorInLeftSide ? "left" : "right"}`}>
+                <div className="name">
+                    {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationID}`)}
+                </div>
+                {itemConfig.durability && <div className="detail">{`(${itemConfig.durability}/${itemConfig.maxDurability})`}</div>}
+                {itemConfig.quantity && <div className="detail">{`(x${itemConfig.quantity})`}</div>}
+                <div className="detail">{`Weight: ${itemConfig.totalWeight}`}</div>
+                <div className="description">
+                    {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}
+                </div>
+            </div>
+            <div className="buttons">
+                <div className="button equip">Quick equip</div>
+                <div className="button hotbar">Add to hotbar</div>
+                <div className="button drop">Drop</div>
+            </div>
+        </div>
+    );
+}
+ItemOptions.propTypes = {
+    itemConfig: PropTypes.object.isRequired,
+    onCursorLeave: PropTypes.func.isRequired,
+    panelBounds: PropTypes.object.isRequired,
+};
+
+function ItemSlot({ itemConfig, onClick }) {
     return (
         <div className="item-slot">
             <div
@@ -37,7 +69,7 @@ function ItemSlot({ itemConfig }) {
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
               }}
-              onClick={() => true}
+              onClick={() => { onClick(itemConfig); }}
             >
                 <img
                   src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
@@ -54,12 +86,30 @@ function ItemSlot({ itemConfig }) {
 
 ItemSlot.propTypes = {
     itemConfig: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
 };
 
 function InventoryPanel({ onCloseCallback }) {
     const [items, setItems] = useState(InventoryState.items);
+    const [searchItems, setSearchItems] = useState([]);
+    const [searchText, setSearchText] = useState("");
     const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
     const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const panelRef = useRef();
+
+    const onItemPressed = (item) => {
+        setSelectedItem(item);
+    };
+
+    useEffect(() => {
+        const filteredItems = items.filter((item) => Utils
+            .getTextDef(`Item name: ${ItemTypes[item.typeCode].translationID}`)
+            .toLowerCase()
+            .includes(searchText));
+
+        setSearchItems(filteredItems);
+    }, [searchText, items]);
 
     useEffect(() => {
         const subs = [
@@ -82,7 +132,7 @@ function InventoryPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="inventory-panel centered panel-template-cont gui-zoomable">
+        <div className="inventory-panel centered panel-template-cont gui-zoomable" ref={panelRef}>
             <PanelTemplate
               width="50vw"
               height="80vh"
@@ -111,16 +161,43 @@ function InventoryPanel({ onCloseCallback }) {
                             </span>
                         </div>
                         <div className="search">
-                            <input placeholder={Utils.getTextDef("Item search")} />
+                            <input
+                              placeholder={Utils.getTextDef("Item search")}
+                              onChange={(event) => {
+                                  setSearchText(event.target.value.toLowerCase());
+                              }}
+                            />
                         </div>
                     </div>
                     <div className="list">
-                        {items.map((item) => (
-                            <ItemSlot key={item.slotIndex} itemConfig={item} />
+                        {searchText && searchItems.map((item) => (
+                            <ItemSlot
+                              key={item.slotIndex}
+                              itemConfig={item}
+                              onClick={onItemPressed}
+                            />
                         ))}
+                        {searchText && !searchItems.length && <div className="warning">No items found.</div>}
+                        {!searchText && items.map((item) => (
+                            <ItemSlot
+                              key={item.slotIndex}
+                              itemConfig={item}
+                              onClick={onItemPressed}
+                            />
+                        ))}
+                        {!searchText && !items.length && <div className="warning">Inventory is empty.</div>}
                     </div>
                 </div>
             </PanelTemplate>
+            {selectedItem && (
+                <ItemOptions
+                  itemConfig={selectedItem}
+                  onCursorLeave={() => {
+                      setSelectedItem(null);
+                  }}
+                  panelBounds={panelRef.current.getBoundingClientRect()}
+                />
+            )}
         </div>
     );
 }

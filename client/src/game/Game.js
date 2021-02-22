@@ -170,7 +170,7 @@ class Game extends Phaser.Scene {
         // Lock the camera to the player sprite.
         this.cameras.main.startFollow(this.dynamics[PlayerState.entityID].spriteContainer);
 
-        // window.addEventListener("mousedown", this.pointerDownHandler);
+        window.addEventListener("mousedown", this.pointerDownHandler.bind(this));
 
         this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
             fontFamily: "\"Courier\"",
@@ -328,10 +328,11 @@ class Game extends Phaser.Scene {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         // event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
-        if (event.target === this.GUI.gameCanvas) {
+        if (event.target.parentNode.id === "game-canvas") {
             // If the user pressed on their character sprite, pick up item.
             if (Utils.pixelDistanceBetween(
-                this.dynamics[PlayerState.entityID].spriteContainer.baseSprite,
+                this.dynamics[PlayerState.entityID].spriteContainer,
+                this.cameras.main,
                 event,
             ) < 32) {
                 ApplicationState.connection.sendEvent("pick_up_item");
@@ -355,7 +356,7 @@ class Game extends Phaser.Scene {
             //     this.player.inventory.useHeldItem(direction);
             // }
             // else { // Do a melee attack.
-            //     ApplicationState.connection.sendEvent("melee_attack", direction);
+            ApplicationState.connection.sendEvent("melee_attack", direction);
             // }
         }
     }

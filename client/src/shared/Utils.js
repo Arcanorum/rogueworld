@@ -104,13 +104,17 @@ const Utils = {
     },
 
     /**
-     * Gets the distance in pixels between a sprite and a pointer.
+     * Gets the distance in pixels between a Phaser display object and a pointer.
      * @param {Phaser.GameObject.Sprite} baseSprite
      * @param pointer
      * @returns {Number}
      */
-    pixelDistanceBetween(baseSprite, pointer) {
-        // return Math.abs(baseSprite.worldPosition.x - pointer.clientX) + Math.abs(baseSprite.worldPosition.y - pointer.clientY);
+    pixelDistanceBetween(displayObject, camera, pointer) {
+        // eslint-disable-next-line no-underscore-dangle
+        const dist = Math.abs(camera._scrollX - (displayObject.x - pointer.clientX))
+        // eslint-disable-next-line no-underscore-dangle
+        + Math.abs(camera._scrollY - (displayObject.y - pointer.clientY));
+        return dist;
     },
 
     /**

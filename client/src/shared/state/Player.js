@@ -10,6 +10,7 @@ import {
     DEFENCE_VALUE,
     STATS_VALUE,
     TASKS_VALUE,
+    TASK_PROGRESS,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -163,6 +164,19 @@ class Player {
     setTasks(tasks) {
         this.tasks = tasks;
         PubSub.publish(TASKS_VALUE, { new: this.tasks });
+    }
+
+    modifyTaskProgress(taskID, progress) {
+        const task = this.tasks[taskID];
+
+        task.progress = progress;
+
+        // Tell the player via a chat message when a task is complete.
+        if (task.progress >= task.completionThreshold) {
+            window.gameScene.chat(undefined, Utils.getTextDef("Task completed"), "#50ff7f");
+        }
+
+        PubSub.publish(TASK_PROGRESS, { new: task });
     }
 }
 

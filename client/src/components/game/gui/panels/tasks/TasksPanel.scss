@@ -54,6 +54,10 @@ $taskSlotCompleted: #6abe30;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+
+                    &.completed {
+                        background-color: $taskSlotCompleted;
+                    }
                 }
 
                 .slot-task-name {
@@ -87,10 +91,6 @@ $taskSlotCompleted: #6abe30;
                         pointer-events: none;
                     }
                 }
-            }
-
-            .completed {
-                background-color: $taskSlotCompleted;
             }
 
             .selected {

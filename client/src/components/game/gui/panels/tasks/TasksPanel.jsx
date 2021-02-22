@@ -4,7 +4,7 @@ import PubSub from "pubsub-js";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import "./TasksPanel.scss";
 import tasksIcon from "../../../../../assets/images/gui/hud/tasks-icon.png";
-import { TASKS_VALUE } from "../../../../../shared/EventTypes";
+import { TASKS_VALUE, TASK_PROGRESS } from "../../../../../shared/EventTypes";
 import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 import Utils from "../../../../../shared/Utils";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
@@ -99,6 +99,9 @@ function TasksPanel({ onCloseCallback }) {
         const subs = [
             PubSub.subscribe(TASKS_VALUE, (msg, data) => {
                 setTasks(data.new);
+            }),
+            PubSub.subscribe(TASK_PROGRESS, () => {
+                setTasks(PlayerState.tasks);
             }),
         ];
 

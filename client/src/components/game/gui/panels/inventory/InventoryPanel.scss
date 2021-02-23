@@ -65,6 +65,11 @@
                     background-color: $colourDB32IronGreyOpacity50;
                     border: 4px solid $colourDB32VeryDarkPurpleOpacity80;
                     margin: 4px;
+
+                    &:hover {
+                        transform: scale(1.1);
+                        filter: brightness(150%);
+                    }
         
                     img {
                         width: 100%;

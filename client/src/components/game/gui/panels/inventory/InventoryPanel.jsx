@@ -11,12 +11,6 @@ import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
 
-const formatItemValue = (value) => {
-    if (!value) return 0;
-    if (value > 999) return "+999";
-    return value;
-};
-
 const ItemTooltip = (itemConfig) => (
     <div>
         {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationID}`)}
@@ -24,6 +18,20 @@ const ItemTooltip = (itemConfig) => (
 );
 
 function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
+    const [isItemInHotbar] = useState(
+        InventoryState.hotbar.some((eachItem) => eachItem === itemConfig),
+    );
+
+    const addToHotbarPressed = () => {
+        InventoryState.addToHotbar(itemConfig);
+        onCursorLeave();
+    };
+
+    const removeFromHotbarPressed = () => {
+        InventoryState.removeFromHotbar(itemConfig);
+        onCursorLeave();
+    };
+
     return (
         <div
           className="item-options"
@@ -42,13 +50,15 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 </div>
             </div>
             <div className="buttons">
-                <div className="button hotbar">Add to hotbar</div>
-                <div className="button equip">Quick equip</div>
-                <div className="button drop">Drop</div>
+                {isItemInHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
+                {!isItemInHotbar && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
+                <div className="button options-equip">Quick equip</div>
+                <div className="button options-drop">Drop</div>
             </div>
         </div>
     );
 }
+
 ItemOptions.propTypes = {
     itemConfig: PropTypes.object.isRequired,
     onCursorLeave: PropTypes.func.isRequired,
@@ -78,7 +88,7 @@ function ItemSlot({ itemConfig, onClick }) {
                 <div
                   className={`high-contrast-text ${(itemConfig.quantity > 999 || itemConfig.durability > 999) ? "small" : ""}`}
                 >
-                    {formatItemValue(itemConfig.quantity) || formatItemValue(itemConfig.durability) || "???"}
+                    {Utils.formatItemValue(itemConfig.quantity) || Utils.formatItemValue(itemConfig.durability) || "???"}
                 </div>
             </div>
         </div>

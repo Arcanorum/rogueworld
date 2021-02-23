@@ -32,6 +32,7 @@ import MapPanel from "./panels/map/MapPanel";
 import InventoryPanel from "./panels/inventory/InventoryPanel";
 import Tooltip from "./tooltip/Tooltip";
 import Panels from "./panels/PanelsEnum";
+import Hotbar from "./hotbar/Hotbar";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -213,6 +214,8 @@ function GUI() {
             </div>
 
             <ChatInput />
+
+            <Hotbar />
 
             <Tooltip />
         </div>

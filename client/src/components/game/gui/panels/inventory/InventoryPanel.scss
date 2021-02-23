@@ -177,18 +177,22 @@
                 &:hover {
                     filter: brightness(120%);
                 }
-            }
 
-            .equip {
-                background-color: $colourDB32Blurple;
-            }
+                &.options-equip {
+                    background-color: $colourDB32Blurple;
+                }
+    
+                &.options-add-hotbar {
+                    background-color: $colourDB32LightBlue;
+                }
 
-            .hotbar {
-                background-color: $colourDB32LightBlue;
-            }
-
-            .drop {
-                background-color: $colourDB32Orange;
+                &.options-remove-hotbar {
+                    background-color: $colourDB32LightTan;
+                }
+    
+                &.options-drop {
+                    background-color: $colourDB32Orange;
+                }
             }
         }
     }

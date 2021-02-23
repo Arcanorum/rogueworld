@@ -1,10 +1,15 @@
 import PubSub from "pubsub-js";
-import { ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT } from "../EventTypes";
+import {
+    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, HOTBAR_ITEM,
+} from "../EventTypes";
 import Utils from "../Utils";
+
+const MAX_HOTBAR_SLOTS = 8;
 
 class Inventory {
     items = [];
 
+    // Need to keep a separate list for the hotbar as things can be rearranged.
     hotbar = [];
 
     weight = 0;
@@ -17,14 +22,24 @@ class Inventory {
         PubSub.publish(ADD_ITEM, { new: config });
 
         // Add to the hotbar if there is any available space on it.
+        if (this.hotbar.length < MAX_HOTBAR_SLOTS) {
+            this.addToHotbar(config);
+        }
     }
 
-    addToHotbar() {
+    addToHotbar(item) {
+        this.hotbar.push(item);
 
+        PubSub.publish(HOTBAR_ITEM);
+    }
+
+    removeFromHotbar(item) {
+        this.hotbar = this.hotbar.filter((eachItem) => eachItem !== item);
+
+        PubSub.publish(HOTBAR_ITEM);
     }
 
     modifyItem(config) {
-        console.log("modify");
         const item = this.items[config.slotIndex];
 
         if (!item) {

@@ -117,6 +117,12 @@ const Utils = {
         return dist;
     },
 
+    formatItemValue(value) {
+        if (!value) return 0;
+        if (value > 999) return "+999";
+        return value;
+    },
+
     /**
      * Hashes a message.
      * Useful for securing passwords before sending.

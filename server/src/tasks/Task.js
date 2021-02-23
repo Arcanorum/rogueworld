@@ -1,4 +1,5 @@
 const EventsList = require("../EventsList");
+const ItemConfig = require("../inventory/ItemConfig");
 const Utils = require("../Utils");
 const RewardsList = require("./RewardsList");
 
@@ -53,7 +54,14 @@ class Task {
         this.progress += 1;
         // Tell the player they have made progress on the task.
         // The client can work out whether it has been completed.
-        this.player.socket.sendEvent(EventsList.task_progress_made, { taskID: this.taskType.taskID, progress: this.progress });
+        this.player.socket.sendEvent(
+            EventsList.task_progress_made,
+            {
+                taskID: this.taskType.taskID,
+                progress: this.progress,
+            },
+        );
+
         if (this.progress >= this.completionThreshold) {
             this.completed = true;
         }
@@ -69,16 +77,49 @@ class Task {
         this.player.modGlory(this.rewardGlory);
 
         const { rewardItemTypes } = this;
-        for (let i = 0; i < rewardItemTypes.length; i += 1) {
-            // If they have enough inventory space to claim this reward, add to the inventory.
-            if (this.player.isInventoryFull() === false) {
-                this.player.addToInventory(new rewardItemTypes[i]({}));
+
+        rewardItemTypes.forEach((ItemType) => {
+            const itemConfig = new ItemConfig({ ItemType });
+
+            if (itemConfig.quantity) {
+                // If they have enough inventory space to claim at least some of this reward, add
+                // to the inventory.
+                if (this.player.inventory.canItemBeAdded(itemConfig)) {
+                    this.player.inventory.addItem(itemConfig);
+                }
+
+                // Check there is any of the item left. Not all
+                // of it might have been added to the inventory.
+                // Add anything remaining to the ground.
+                if (itemConfig.quantity > 0) {
+                    new ItemType.prototype.PickupType(
+                        {
+                            row: this.player.row,
+                            col: this.player.col,
+                            board: this.player.board,
+                            itemConfig,
+                        },
+                    ).emitToNearbyPlayers();
+                }
             }
-            // Otherwise add it to the ground.
-            else {
-                new rewardItemTypes[i].prototype.PickupType({ row: this.player.row, col: this.player.col, board: this.player.board }).emitToNearbyPlayers();
+            else if (itemConfig.durability) {
+                // If they have enough inventory space to claim this reward, add to the inventory.
+                if (this.player.inventory.canItemBeAdded(itemConfig)) {
+                    this.player.inventory.addItem(itemConfig);
+                }
+                else {
+                    new ItemType.prototype.PickupType(
+                        {
+                            row: this.player.row,
+                            col: this.player.col,
+                            board: this.player.board,
+                            itemConfig,
+                        },
+                    ).emitToNearbyPlayers();
+                }
             }
-        }
+        });
+
         // Tell the client to remove this task from the list.
         this.player.socket.sendEvent(EventsList.task_claimed, this.taskType.taskID);
 
@@ -89,7 +130,8 @@ class Task {
 
 class NewTask extends Task {
     /**
-     *
+     * TODO: This class is just being used for it's constructor, to do some extra
+     * stuff for new tasks. Maybe needs working into a method on the parent...
      * @param {Player} player
      * @param {Array} category
      */

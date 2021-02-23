@@ -52,7 +52,11 @@ class Inventory {
      * @param {ItemConfig} config
      */
     canItemBeAdded(config) {
+        if (!config) return false;
+
         const { ItemType } = config;
+
+        if (!ItemType) return false;
 
         if (config.quantity) {
             if (this.quantityThatCanBeAdded(config) > 0) return true;
@@ -197,8 +201,6 @@ class Inventory {
         }
 
         this.updateWeight();
-
-        console.log("after adding to inventory:", this.print());
     }
 }
 

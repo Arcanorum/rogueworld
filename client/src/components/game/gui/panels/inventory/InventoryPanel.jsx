@@ -110,6 +110,11 @@ function InventoryPanel({ onCloseCallback }) {
             .includes(searchText));
 
         setSearchItems(filteredItems);
+
+        // Also hide the tooltip, as onMouseLeave doesn't get fired when an element is removed, so
+        // if the cursor is over one of the items and showing the tooltip when someone searches, if
+        // the item gets filtered out the tooltip for it will remain visible.
+        GUIState.setTooltipContent(null);
     }, [searchText, items]);
 
     useEffect(() => {

@@ -155,8 +155,8 @@ class Player {
     setStatLevel(statName, level, nextLevelExpRequirement) {
         this.stats[statName].level = level;
         this.stats[statName].nextLevelExpRequirement = nextLevelExpRequirement;
-        // _this.GUI.statsPanel.updateSelectedStat();
-        // _this.chat(undefined, `${dungeonz.getTextDef(`Stat name: ${this.name}`)} level gained!`, "#73ff66");
+
+        window.gameScene.chat(undefined, `${Utils.getTextDef(`Stat name: ${this.stats[statName].textDefID}`)} level gained!`, "#73ff66");
 
         PubSub.publish(STATS_VALUE, { new: this.stats });
     }

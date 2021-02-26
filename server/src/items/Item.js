@@ -33,22 +33,27 @@ class Item {
     }
 
     onUsed(direction) {
+        // Keep a reference to the owner, as if the item gets destroyed when used
+        // here, owner will be nulled, but still want to be able to send events.
+        const { owner } = this;
+
         // Something might have happened to the owner of this item when it was used by them.
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
-        if (this.owner === null) return;
+        if (owner === null) return;
 
         // Check if this item gives any stat exp when used.
-        if (this.owner.stats[this.expGivenStatName] !== undefined) {
-            this.owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
+        if (owner.stats[this.expGivenStatName] !== undefined) {
+            owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
         }
 
+        // TODO: add quantity check and handle decreasing quantity, and destroying.
         // Check if this item should lose durability when used.
         if (this.useDurabilityCost > 0) {
             if (this.expGivenStatName !== null) {
                 // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
                 // Check if the durability cost should be waived based on stat level chance.
                 const waiveChance = getRandomIntInclusive(0, 99);
-                if (waiveChance <= this.owner.stats[this.expGivenStatName].level) {
+                if (waiveChance <= owner.stats[this.expGivenStatName].level) {
                     return;
                 }
             }
@@ -57,7 +62,7 @@ class Item {
 
         // Tell the user the item was used. Might not have had an immediate effect, but
         // the client might like to know right away (i.e. to play a sound effect).
-        this.owner.socket.sendEvent(
+        owner.socket.sendEvent(
             EventsList.item_used,
             { typeCode: this.typeCode },
         );
@@ -70,7 +75,7 @@ class Item {
     drop() {
         // If no pickup type set, destroy the item without leaving a pickup on the ground.
         if (this.PickupType === null) {
-            this.destroy();
+            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
             return;
         }
 
@@ -86,7 +91,7 @@ class Item {
 
         owner.socket.sendEvent(EventsList.item_dropped);
 
-        this.destroy();
+        owner.inventory.removeItemBySlotIndex(this.slotIndex);
     }
 
     useGatheringTool() {
@@ -114,12 +119,10 @@ class Item {
         if (this._destroyed === true) return;
         this._destroyed = true;
 
-        // Remove the item from the character.
-        this.owner.removeFromInventoryBySlotKey(this.slotKey);
         this.owner = null;
-        this.slotKey = null;
-        this.durability = null;
-        this.maxDurability = null;
+        this.itemConfig.destroy();
+        this.itemConfig = null;
+        this.slotIndex = null;
     }
 
     /**
@@ -160,8 +163,8 @@ class Item {
         if (this.itemConfig.durability < 1) {
             // Tell the player their item broke.
             this.owner.socket.sendEvent(EventsList.item_broken);
-            // Destroy this broken item.
-            this.destroy();
+            // Remove this broken item.
+            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
         }
         else {
             // Tell the player the new durability.

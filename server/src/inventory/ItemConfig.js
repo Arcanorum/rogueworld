@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require("uuid");
 const Utils = require("../Utils");
 
 class ItemConfig {
@@ -14,6 +15,9 @@ class ItemConfig {
      */
     constructor(config) {
         this.ItemType = config.ItemType;
+
+        // Add a unique id to stop React crying when this item is used in displaying a list...
+        this.id = uuidv4();
 
         if (!config.ItemType) Utils.error("ItemConfig constructor, config.ItemType is not a valid item type.");
 
@@ -75,6 +79,15 @@ class ItemConfig {
     modDurability(amount) {
         this.durability += amount;
         this.durability = Math.floor(this.durability);
+    }
+
+    destroy() {
+        this.ItemType = null;
+        this.id = null;
+        this.quantity = null;
+        this.durability = null;
+        this.maxDurability = null;
+        this.totalWeight = 0;
     }
 }
 

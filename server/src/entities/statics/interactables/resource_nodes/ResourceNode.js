@@ -33,7 +33,7 @@ class ResourceNode extends Interactable {
             // given has nowhere to go, so return if inventory already full.
             if (toolUsed.durability > this.interactionDurabilityCost) {
                 // Don't do anything if the inventory is full.
-                if (interactedBy.isInventoryFull() === true) return;
+                // if (interactedBy.isInventoryFull() === true) return;
             }
 
             // This needs to be before modDurability or the item might have been destroyed if it would get broken during this use.
@@ -49,7 +49,7 @@ class ResourceNode extends Interactable {
         else if (interactedBy.socket === undefined) return;
 
         // Don't do anything if the inventory is full.
-        if (interactedBy.isInventoryFull() === true) return;
+        // if (interactedBy.isInventoryFull() === true) return;
 
         // Create a new instance of the item type given by this node and add it to the character's inventory.
         interactedBy.addToInventory(new this.ItemType({}));

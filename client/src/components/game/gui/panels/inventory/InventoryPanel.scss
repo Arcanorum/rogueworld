@@ -88,6 +88,10 @@
                         font-size: 14px;
                     }
                 }
+
+                .in-hotbar {
+                    background-color: $colourDB32LightblueOpacity50;
+                }
             }
 
             .warning {
@@ -188,6 +192,12 @@
 
                 &.options-remove-hotbar {
                     background-color: $colourDB32LightTan;
+                }
+
+                &.options-full-hotbar {
+                    background-color: $colourDB32GreyOpacity50;
+                    color: $colourDB32SteelGrey;
+                    filter: brightness(100%);
                 }
     
                 &.options-drop {

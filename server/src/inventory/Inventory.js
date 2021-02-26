@@ -44,7 +44,10 @@ class Inventory {
 
         // Remove it and squash the hole it left behind.
         // The items list shouldn't be holey.
-        this.items.splice(slotIndex);
+        this.items.splice(slotIndex, 1);
+
+        // Tell the player the item was removed from their inventory.
+        this.owner.socket.sendEvent(EventsList.remove_item, slotIndex);
     }
 
     /**
@@ -141,8 +144,6 @@ class Inventory {
                     // Some of the quantity to add has now been added to an existing stack,
                     // so reduce the amount that will go into the new overflow stack.
                     quantityToAdd -= availableQuantity;
-
-                    // console.log("  added to existing stack, found:", found.itemConfig);
                 }
                 else {
                     found.modQuantity(+quantityToAdd);
@@ -174,6 +175,7 @@ class Inventory {
             this.owner.socket.sendEvent(EventsList.add_item, {
                 slotIndex,
                 typeCode: item.typeCode,
+                id: item.itemConfig.id,
                 quantity: item.itemConfig.quantity,
                 totalWeight: item.itemConfig.totalWeight,
             });
@@ -186,6 +188,7 @@ class Inventory {
             const item = new config.ItemType({
                 itemConfig: config,
                 slotIndex,
+                owner: this.owner,
             });
 
             this.items.push(item);
@@ -194,6 +197,7 @@ class Inventory {
             this.owner.socket.sendEvent(EventsList.add_item, {
                 slotIndex,
                 typeCode: item.typeCode,
+                id: item.itemConfig.id,
                 durability: item.itemConfig.durability,
                 maxDurability: item.itemConfig.maxDurability,
                 totalWeight: item.itemConfig.totalWeight,

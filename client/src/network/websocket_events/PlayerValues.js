@@ -69,14 +69,10 @@ export default () => {
     };
 
     eventResponses.exp_gained = (data) => {
-        // console.log("exp gained, data:", data);
-        window.gameScene.player.stats.list[data.statName].modExp(data.exp);
+        PlayerState.setStatExp(data.statName, data.exp);
     };
 
     eventResponses.stat_levelled = (data) => {
-        // console.log("stat levelled, data:", data);
-        window.gameScene.player.stats.list[data.statName].levelUp(
-            data.level, data.nextLevelExpRequirement,
-        );
+        PlayerState.setStatLevel(data.statName, data.level, data.nextLevelExpRequirement);
     };
 };

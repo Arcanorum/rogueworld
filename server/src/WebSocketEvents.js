@@ -295,17 +295,20 @@ eventResponses.melee_attack = (clientSocket, data) => {
  * @param {String} data - The key of the inventory slot of the item to equip.
  */
 eventResponses.use_item = function (clientSocket, data) {
-    // console.log("use item, data:", data);
-    if (!data) return;
+    console.log("use item, data:", data);
+    // Allow slot index 0 to be given.
+    if (!Number.isFinite(data)) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
 
     /** @type {Item} */
-    const item = clientSocket.entity.inventory[data];
+    const item = clientSocket.entity.inventory.items[data];
 
-    // Check the item slot is valid, and not empty.
-    if (item === undefined || item === null) return;
+    console.log("using item:", item);
+
+    // Check the given item slot index is valid.
+    if (!item) return;
 
     item.use();
 };

@@ -463,73 +463,28 @@ class Player extends Character {
     }
 
     /**
-     * Add an item to the inventory of this player.
-     * @param {Item} item - The item instance to add to the inventory.
-     * @param {String} [slotKey] - A specific slot to add the item at. Must be an empty (null) slot or throws error. Should be used after Player.isInventoryFull. Leave undefined to use the first empty slot.
-     */
-    // addToInventory(item, slotKey) {
-    //     // If a slot key to add at was given, use it.
-    //     if (slotKey !== undefined) {
-    //         // Check that slot is empty. Throw an error if it is occupied. Also catches the case that an invalid slot key was given (i.e. "abcd").
-    //         if (this.inventory[slotKey] !== null) {
-    //             Utils.error(`Attempt to add item to character inventory at already occupied slot: ${slotKey}, item: ${item.constructor.name}`);
-    //         }
-    //     }
-    //     // No slot key specified, get the first empty one.
-    //     else {
-    //         slotKey = this.getEmptyInventorySlotKey();
-    //     }
-
-    //     // Add the item to the character's inventory.
-    //     this.inventory[slotKey] = item;
-
-    //     // Add the character as the owner of the item.
-    //     item.owner = this;
-
-    //     // Keep the slot key it is in on the item itself.
-    //     item.slotKey = slotKey;
-
-    //     // Tell the player an item was added to their inventory.
-    //     this.socket.sendEvent(this.EventsList.add_item, {
-    //         typeCode: item.typeCode,
-    //         slotKey: item.slotKey,
-    //         durability: item.durability,
-    //         maxDurability: item.maxDurability,
-    //     });
-    // }
-
-    /**
-     * Clears an inventory slot with a given key.
-     * @param {String} slotKey
-     */
-    removeFromInventoryBySlotKey(slotKey) {
-        this.inventory[slotKey] = null;
-        // Tell the player to remove this item.
-        this.socket.sendEvent(this.EventsList.remove_item, slotKey);
-    }
-
-    /**
      * Swap the contents of two slots. They can be empty or occupied.
      * @param {String} slotKeyFrom
      * @param {String} slotKeyTo
      */
-    swapInventorySlots(slotKeyFrom, slotKeyTo) {
-        if (this.inventory[slotKeyFrom] === undefined) return;
-        if (this.inventory[slotKeyTo] === undefined) return;
+    // TODO: rework
+    // swapInventorySlots(slotKeyFrom, slotKeyTo) {
+    //     if (this.inventory[slotKeyFrom] === undefined) return;
+    //     if (this.inventory[slotKeyTo] === undefined) return;
 
-        const slotFrom = this.inventory[slotKeyFrom];
+    //     const slotFrom = this.inventory[slotKeyFrom];
 
-        this.inventory[slotKeyFrom] = this.inventory[slotKeyTo];
+    //     this.inventory[slotKeyFrom] = this.inventory[slotKeyTo];
 
-        this.inventory[slotKeyTo] = slotFrom;
+    //     this.inventory[slotKeyTo] = slotFrom;
 
-        if (this.inventory[slotKeyTo] !== null) {
-            this.inventory[slotKeyTo].slotKey = slotKeyTo;
-        }
-        if (this.inventory[slotKeyFrom] !== null) {
-            this.inventory[slotKeyFrom].slotKey = slotKeyFrom;
-        }
-    }
+    //     if (this.inventory[slotKeyTo] !== null) {
+    //         this.inventory[slotKeyTo].slotKey = slotKeyTo;
+    //     }
+    //     if (this.inventory[slotKeyFrom] !== null) {
+    //         this.inventory[slotKeyFrom].slotKey = slotKeyFrom;
+    //     }
+    // }
 
     attackMelee(direction) {
         // Check the direction is valid.
@@ -601,55 +556,55 @@ class Player extends Character {
      * Throws an error if no slots are empty. Should be used after Player.isInventoryFull.
      * @return {String}
      */
-    getEmptyInventorySlotKey() {
-        // TODO: items refactor
-        // for (const slotKey in this.inventory) {
-        //     if (this.inventory.hasOwnProperty(slotKey) === false) continue;
-        //     // If an empty slot is found, return the key for it.
-        //     if (this.inventory[slotKey] === null) {
-        //         return slotKey;
-        //     }
-        // }
-        // All slots are occupied. Throw an error.
-        Utils.error("getEmptyInventorySlotKey, no inventory slots are empty. Should use Player.isInventoryFull before to check if a slot is empty.");
-    }
+    // TODO: items refactor
+    // getEmptyInventorySlotKey() {
+    //     for (const slotKey in this.inventory) {
+    //         if (this.inventory.hasOwnProperty(slotKey) === false) continue;
+    //         // If an empty slot is found, return the key for it.
+    //         if (this.inventory[slotKey] === null) {
+    //             return slotKey;
+    //         }
+    //     }
+    //     // All slots are occupied. Throw an error.
+    //     Utils.error("getEmptyInventorySlotKey, no inventory slots are empty. Should use Player.isInventoryFull before to check if a slot is empty.");
+    // }
 
     /**
      * Returns whether the inventory is full (all slots occupied).
      * @return {Boolean}
      */
-    isInventoryFull() {
-        // TODO: items refactor
-        // Check that the character that interacted with this node has space in their inventory.
-        // for (const slot in this.inventory) {
-        //     if (this.inventory.hasOwnProperty(slot) === false) continue;
-        //     // If an empty slot is found, stop looping.
-        //     if (this.inventory[slot] === null) return false;
-        // }
-        // All slot are occupied. Inventory is full.
-        // Tell the player.
-        this.socket.sendEvent(this.EventsList.inventory_full);
+    // TODO: items refactor
+    // isInventoryFull() {
+    //     // Check that the character that interacted with this node has space in their inventory.
+    //     for (const slot in this.inventory) {
+    //         if (this.inventory.hasOwnProperty(slot) === false) continue;
+    //         // If an empty slot is found, stop looping.
+    //         if (this.inventory[slot] === null) return false;
+    //     }
+    //     // All slot are occupied. Inventory is full.
+    //     // Tell the player.
+    //     this.socket.sendEvent(this.EventsList.inventory_full);
 
-        return true;
-    }
+    //     return true;
+    // }
 
     /**
      * Clears the first inventory slot found that contains an instance of the specified class.
      * @param {Function} Item - The class to check for instances of. NOT an instance of the class.
      */
-    removeFromInventoryByItemType(Item) {
-        // TODO: items refactor
-        // for (const slot in this.inventory) {
-        //     if (this.inventory.hasOwnProperty(slot) === false) continue;
-        //     if (this.inventory[slot] instanceof Item) {
-        //         this.inventory[slot].destroy();
-        //         // Item type was found and removed.
-        //         return true;
-        //     }
-        // }
-        // No item of the given type was found.
-        return false;
-    }
+    // TODO: items refactor
+    // removeFromInventoryByItemType(Item) {
+    //     for (const slot in this.inventory) {
+    //         if (this.inventory.hasOwnProperty(slot) === false) continue;
+    //         if (this.inventory[slot] instanceof Item) {
+    //             this.inventory[slot].destroy();
+    //             // Item type was found and removed.
+    //             return true;
+    //         }
+    //     }
+    //     // No item of the given type was found.
+    //     return false;
+    // }
 }
 module.exports = Player;
 

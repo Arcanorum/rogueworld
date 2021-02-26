@@ -101,7 +101,7 @@ function TasksPanel({ onCloseCallback }) {
                 setTasks(data.new);
             }),
             PubSub.subscribe(TASK_PROGRESS, () => {
-                setTasks(PlayerState.tasks);
+                setTasks({ ...PlayerState.tasks });
             }),
         ];
 

@@ -6,10 +6,15 @@ import inventoryIcon from "../../../../../assets/images/gui/hud/inventory-icon.p
 import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import "./InventoryPanel.scss";
 import { InventoryState, GUIState } from "../../../../../shared/state/States";
-import { ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT } from "../../../../../shared/EventTypes";
+import {
+    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, REMOVE_ITEM,
+} from "../../../../../shared/EventTypes";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
+
+const isItemInHotbar = (itemConfig) => InventoryState.hotbar
+    .some((eachItem) => eachItem === itemConfig);
 
 const ItemTooltip = (itemConfig) => (
     <div>
@@ -18,9 +23,8 @@ const ItemTooltip = (itemConfig) => (
 );
 
 function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
-    const [isItemInHotbar] = useState(
-        InventoryState.hotbar.some((eachItem) => eachItem === itemConfig),
-    );
+    const [inHotbar] = useState(isItemInHotbar(itemConfig));
+    const [hotbarFull] = useState(InventoryState.hotbar.length >= InventoryState.MAX_HOTBAR_SLOTS);
 
     const addToHotbarPressed = () => {
         InventoryState.addToHotbar(itemConfig);
@@ -50,8 +54,9 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 </div>
             </div>
             <div className="buttons">
-                {isItemInHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
-                {!isItemInHotbar && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
+                {inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
+                {!inHotbar && hotbarFull && <div className="button options-full-hotbar">Hotbar full</div>}
+                {!inHotbar && !hotbarFull && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
                 <div className="button options-equip">Quick equip</div>
                 <div className="button options-drop">Drop</div>
             </div>
@@ -66,10 +71,26 @@ ItemOptions.propTypes = {
 };
 
 function ItemSlot({ itemConfig, onClick }) {
+    const [inHotbar, setInHotbar] = useState(isItemInHotbar(itemConfig));
+
+    useEffect(() => {
+        const subs = [
+            PubSub.subscribe(MODIFY_ITEM, () => {
+                setInHotbar(isItemInHotbar(itemConfig));
+            }),
+        ];
+
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
+    }, []);
+
     return (
         <div className="item-slot">
             <div
-              className="details"
+              className={`details ${inHotbar ? "in-hotbar" : ""}`}
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
@@ -132,6 +153,9 @@ function InventoryPanel({ onCloseCallback }) {
             PubSub.subscribe(ADD_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
+            PubSub.subscribe(REMOVE_ITEM, () => {
+                setItems([...InventoryState.items]);
+            }),
             PubSub.subscribe(MODIFY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
@@ -189,7 +213,7 @@ function InventoryPanel({ onCloseCallback }) {
                     <div className="list">
                         {searchText && searchItems.map((item) => (
                             <ItemSlot
-                              key={item.slotIndex}
+                              key={item.id}
                               itemConfig={item}
                               onClick={onItemPressed}
                             />
@@ -197,7 +221,7 @@ function InventoryPanel({ onCloseCallback }) {
                         {searchText && !searchItems.length && <div className="warning">No items found.</div>}
                         {!searchText && items.map((item) => (
                             <ItemSlot
-                              key={item.slotIndex}
+                              key={item.id}
                               itemConfig={item}
                               onClick={onItemPressed}
                             />

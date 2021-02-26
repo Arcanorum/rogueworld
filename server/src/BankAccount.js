@@ -125,7 +125,7 @@ class BankAccount {
         if (bankItem.itemTypeName === null) return;
 
         // Check there is space in the inventory to put the withdrawn item.
-        if (this.player.isInventoryFull() === true) return;
+        // if (this.player.isInventoryFull() === true) return;
 
         // If a specific inventory slot wasn't given to withdraw to, no need to check if it has something in it as the first empty slot will be used.
         if (inventorySlotKey === undefined) {

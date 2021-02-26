@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import PubSub from "pubsub-js";
 import ItemIconsList from "../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../catalogues/ItemTypes.json";
-import { HOTBAR_ITEM } from "../../../../shared/EventTypes";
-import { GUIState, InventoryState } from "../../../../shared/state/States";
+import { HOTBAR_ITEM, MODIFY_ITEM, PANEL_CHANGE } from "../../../../shared/EventTypes";
+import { ApplicationState, GUIState, InventoryState } from "../../../../shared/state/States";
 import "./Hotbar.scss";
 import Utils from "../../../../shared/Utils";
+import Panels from "../panels/PanelsEnum";
 
 const ItemTooltip = (itemConfig) => (
     <div>
@@ -19,9 +20,39 @@ const ItemTooltip = (itemConfig) => (
 );
 
 function HotbarSlot({ itemConfig }) {
+    const [inventoryPanelOpen, setInventoryPanelOpen] = useState(
+        GUIState.activePanel === Panels.Inventory,
+    );
+
+    useEffect(() => {
+        const subs = [
+            PubSub.subscribe(PANEL_CHANGE, () => {
+                setInventoryPanelOpen(GUIState.activePanel === Panels.Inventory);
+            }),
+        ];
+
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
+    }, []);
+
+    const slotPressed = () => {
+        // Clicking on the hotbar slots while the inventory is open should clear the slot.
+        if (inventoryPanelOpen) {
+            InventoryState.removeFromHotbar(itemConfig);
+        }
+        // Use the item.
+        else {
+            // Tell the game server this player wants to use this item.
+            ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+        }
+    };
+
     return (
         <div
-          className="slot"
+          className={`slot ${inventoryPanelOpen ? "remove" : ""}`}
           draggable={false}
           onMouseEnter={() => {
               GUIState.setTooltipContent(
@@ -31,7 +62,7 @@ function HotbarSlot({ itemConfig }) {
           onMouseLeave={() => {
               GUIState.setTooltipContent(null);
           }}
-        //   onClick={() => { onClick(itemConfig); }}
+          onClick={slotPressed}
         >
             <img
               src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
@@ -50,13 +81,15 @@ HotbarSlot.propTypes = {
     itemConfig: PropTypes.object.isRequired,
 };
 
-function Hotbar(params) {
+function Hotbar() {
     const [hotbarItems, setHotbarItems] = useState([]);
-    const [inventoryPanelOpen, setInventoryPanelOpen] = useState(false);
 
     useEffect(() => {
         const subs = [
             PubSub.subscribe(HOTBAR_ITEM, () => {
+                setHotbarItems([...InventoryState.hotbar]);
+            }),
+            PubSub.subscribe(MODIFY_ITEM, () => {
                 setHotbarItems([...InventoryState.hotbar]);
             }),
         ];
@@ -72,7 +105,7 @@ function Hotbar(params) {
         <div className="hotbar">
             {hotbarItems.map((item) => (
                 <HotbarSlot
-                  key={item.slotIndex}
+                  key={item.id}
                   itemConfig={item}
                 />
             ))}

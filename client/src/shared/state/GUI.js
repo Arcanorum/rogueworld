@@ -1,5 +1,5 @@
 import PubSub from "pubsub-js";
-import { CURSOR_MOVE, TOOLTIP_CONTENT } from "../EventTypes";
+import { CURSOR_MOVE, TOOLTIP_CONTENT, PANEL_CHANGE } from "../EventTypes";
 
 class GUI {
     cursorX = 0;
@@ -56,10 +56,13 @@ class GUI {
 
     setActivePanel(value) {
         this.activePanel = value;
+
+        PubSub.publish(PANEL_CHANGE, { new: value });
     }
 
     setTooltipContent(content) {
         this.tooltipContent = content;
+
         PubSub.publish(TOOLTIP_CONTENT, content);
     }
 }

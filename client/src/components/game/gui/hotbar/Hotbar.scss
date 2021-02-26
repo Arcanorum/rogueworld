@@ -38,5 +38,9 @@
             font-size: 14px;
             -webkit-text-stroke: 1px black;
         }
+
+        &.remove {
+            background-color: $colourDB32LightTanOpacity80;
+        }
     }
 }

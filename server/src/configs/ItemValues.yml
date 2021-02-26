@@ -520,8 +520,6 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: Cotton
   code: YSGN2105
@@ -537,8 +535,6 @@
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 40
-  baseDurability: 6
-  useDurabilityCost: 1
 
 - name: DungiumBar
   code: YWMQ4086
@@ -590,8 +586,6 @@
   iconSource: icon-energy-potion
   unitWeight: Potion
   craftingExpValue: 20
-  baseDurability: 5
-  useDurabilityCost: 1
 
 - name: ExpOrbArmoury
   code: FPYN6527
@@ -599,8 +593,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Armoury
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbGathering
   code: EIAQ2426
@@ -608,8 +600,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Gathering
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbMagic
   code: DFER2419
@@ -617,8 +607,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Magic
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbMelee
   code: LUUG3398
@@ -626,8 +614,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Melee
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbPotionry
   code: FNAC5053
@@ -635,8 +621,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Potionry
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbRanged
   code: RIZU4123
@@ -644,8 +628,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Ranged
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbToolery
   code: AOFN9156
@@ -653,8 +635,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Toolery
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbWeaponry
   code: FIZA1207
@@ -662,8 +642,6 @@
   iconSource: icon-exp-orb
   expGivenStatName: Weaponry
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: Fabric
   code: TMCC2407
@@ -712,8 +690,6 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: HealthPotion
   code: SMAG7657
@@ -721,8 +697,6 @@
   iconSource: icon-health-potion
   unitWeight: Potion
   craftingExpValue: 20
-  baseDurability: 5
-  useDurabilityCost: 1
 
 - name: IronBar
   code: NUKK7066
@@ -839,8 +813,6 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: SpruceLogs
   code: GIJD9170

@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "js-yaml": "^3.14.0",
-    "tile-extruder": "^2.0.6"
+    "tile-extruder": "^2.0.6",
+    "uuid": "^8.3.2"
   }
 }

@@ -11,23 +11,17 @@ export default () => {
         console.log("add item event:", data);
 
         InventoryState.addToInventory(data);
-
-        // window.gameScene.player.inventory[data.slotKey].fill(
-        //     ItemTypes[data.typeCode], data.durability, data.maxDurability,
-        // );
     };
 
     eventResponses.remove_item = (data) => {
-        // console.log("remove item event:", data);
-        window.gameScene.player.inventory[data].empty();
+        console.log("remove item event:", data);
+        InventoryState.removeFromInventory(data);
     };
 
     eventResponses.modify_item = (data) => {
         console.log("modify_item event:", data);
 
         InventoryState.modifyItem(data);
-
-        // window.gameScene.player.inventory[data.slotKey].updateDurability(data.durability);
     };
 
     eventResponses.inventory_weight = (data) => {
@@ -104,12 +98,13 @@ export default () => {
     };
 
     eventResponses.activate_holding = (data) => {
-        // window.gameScene.player.holdingItem = true;
-        // Show the equipped icon on the inventory slot.
-        window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.src = "assets/img/gui/hud/holding-icon.png";
-        window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "visible";
+        InventoryState.holding = true;
+
+        // TODO
+        // window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.src = "assets/img/gui/hud/holding-icon.png";
+        // window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "visible";
         // Change the cursor to the attack icon.
-        setAttackCursor();
+        // setAttackCursor();
         // Play sound when an item is held (i.e. a weapon).
         window.gameScene.soundManager.items.playEquippedSound(
             data.itemTypeCode,
@@ -117,12 +112,13 @@ export default () => {
     };
 
     eventResponses.deactivate_holding = (data) => {
-        // window.gameScene.player.holdingItem = false;
-        // Hide the equipped icon on the inventory slot.
-        window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
-        window.gameScene.GUI.spellBar.hide();
+        InventoryState.holding = false;
+
+        // TODO
+        // window.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
+        // window.gameScene.GUI.spellBar.hide();
         // Change the cursor back to what it was before.
-        setDefaultCursor();
+        // setDefaultCursor();
 
         window.gameScene.soundManager.items.playUnequippedSound(
             data.itemTypeCode,
@@ -134,7 +130,7 @@ export default () => {
      * @param data - The type number of the spell book being held.
      */
     eventResponses.activate_spell_book = (data) => {
-        window.gameScene.GUI.spellBar.changeSpellBook(data[1]);
-        window.gameScene.GUI.spellBar.show();
+        // window.gameScene.GUI.spellBar.changeSpellBook(data[1]);
+        // window.gameScene.GUI.spellBar.show();
     };
 };

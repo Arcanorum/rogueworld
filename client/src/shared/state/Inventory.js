@@ -1,10 +1,8 @@
 import PubSub from "pubsub-js";
 import {
-    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, HOTBAR_ITEM,
+    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, HOTBAR_ITEM, REMOVE_ITEM,
 } from "../EventTypes";
 import Utils from "../Utils";
-
-const MAX_HOTBAR_SLOTS = 8;
 
 class Inventory {
     items = [];
@@ -12,53 +10,81 @@ class Inventory {
     // Need to keep a separate list for the hotbar as things can be rearranged.
     hotbar = [];
 
+    MAX_HOTBAR_SLOTS = 8;
+
+    holding = null;
+
+    clothing = null;
+
+    ammunition = null;
+
     weight = 0;
 
     maxWeight = 0;
 
-    addToInventory(config) {
-        this.items.push(config);
+    addToInventory(itemConfig) {
+        this.items.push(itemConfig);
 
-        PubSub.publish(ADD_ITEM, { new: config });
+        PubSub.publish(ADD_ITEM, itemConfig);
 
         // Add to the hotbar if there is any available space on it.
-        if (this.hotbar.length < MAX_HOTBAR_SLOTS) {
-            this.addToHotbar(config);
+        if (this.hotbar.length < this.MAX_HOTBAR_SLOTS) {
+            this.addToHotbar(itemConfig);
         }
     }
 
-    addToHotbar(item) {
-        this.hotbar.push(item);
-
-        PubSub.publish(HOTBAR_ITEM);
-    }
-
-    removeFromHotbar(item) {
-        this.hotbar = this.hotbar.filter((eachItem) => eachItem !== item);
-
-        PubSub.publish(HOTBAR_ITEM);
-    }
-
-    modifyItem(config) {
-        const item = this.items[config.slotIndex];
+    removeFromInventory(slotIndex) {
+        const item = this.items[slotIndex];
 
         if (!item) {
-            Utils.warning("Cannot modify item in inventory. No slot index given. Config:", config);
+            Utils.warning("Cannot remove item from inventory. Invalid slot index given. Config:", slotIndex);
             return;
         }
 
-        if (config.quantity) {
-            item.quantity = config.quantity;
-            item.totalWeight = config.totalWeight;
-        }
-        else if (config.durability) {
-            item.durability = config.durability;
-        }
-        else {
-            Utils.warning("Cannot modify item in inventory. No quantity or durability given. Config:", config);
+        this.items.splice(slotIndex, 1);
+
+        PubSub.publish(REMOVE_ITEM, item);
+
+        // Remove it from the hotbar if it was on it.
+        this.removeFromHotbar(item);
+    }
+
+    addToHotbar(itemConfig) {
+        if (this.hotbar.length >= this.MAX_HOTBAR_SLOTS) return;
+
+        this.hotbar.push(itemConfig);
+
+        PubSub.publish(HOTBAR_ITEM);
+        PubSub.publish(MODIFY_ITEM);
+    }
+
+    removeFromHotbar(itemConfig) {
+        this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
+
+        PubSub.publish(HOTBAR_ITEM);
+        PubSub.publish(MODIFY_ITEM);
+    }
+
+    modifyItem(itemConfig) {
+        const item = this.items[itemConfig.slotIndex];
+
+        if (!item) {
+            Utils.warning("Cannot modify item in inventory. Invalid slot index given. Config:", itemConfig);
+            return;
         }
 
-        PubSub.publish(MODIFY_ITEM, { new: config });
+        if (itemConfig.quantity) {
+            item.quantity = itemConfig.quantity;
+            item.totalWeight = itemConfig.totalWeight;
+        }
+        else if (itemConfig.durability) {
+            item.durability = itemConfig.durability;
+        }
+        else {
+            Utils.warning("Cannot modify item in inventory. No quantity or durability given. Config:", itemConfig);
+        }
+
+        PubSub.publish(MODIFY_ITEM, { new: itemConfig });
     }
 
     setWeight(value) {

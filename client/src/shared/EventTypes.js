@@ -39,6 +39,7 @@ export const CHAT_OPEN = Symbol("CHAT_OPEN");
 
 // Inventory.
 export const ADD_ITEM = Symbol("ADD_ITEM");
+export const REMOVE_ITEM = Symbol("REMOVE_ITEM");
 export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
 export const MODIFY_INVENTORY_WEIGHT = Symbol("MODIFY_INVENTORY_WEIGHT");
 export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");
@@ -47,6 +48,7 @@ export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
 export const CURSOR_MOVE = Symbol("CURSOR_MOVE");
 export const TOOLTIP_CONTENT = Symbol("TOOLTIP_CONTENT");
+export const PANEL_CHANGE = Symbol("PANEL_CHANGE");
 
 // Dungeon.
 export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");

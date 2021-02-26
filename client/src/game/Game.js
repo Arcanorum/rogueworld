@@ -6,7 +6,9 @@ import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
-import { ApplicationState, GUIState, PlayerState } from "../shared/state/States";
+import {
+    ApplicationState, GUIState, InventoryState, PlayerState,
+} from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
     CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE,
@@ -352,12 +354,14 @@ class Game extends Phaser.Scene {
             else direction = "u";
 
             // Try to use the held item if one is selected.
-            // if (this.player.holdingItem) {
-            //     this.player.inventory.useHeldItem(direction);
-            // }
-            // else { // Do a melee attack.
-            ApplicationState.connection.sendEvent("melee_attack", direction);
-            // }
+            if (InventoryState.holding) {
+                // Tell the game server this player wants to use this item.
+                ApplicationState.connection.sendEvent("use_held_item", direction);
+            }
+            // Do a melee attack.
+            else {
+                ApplicationState.connection.sendEvent("melee_attack", direction);
+            }
         }
     }
 

@@ -59,7 +59,7 @@ class Shop {
         // Check they can afford the item.
         if (buyer.glory < price) return;
         // Check they have inventory space.
-        if (buyer.isInventoryFull() === true) return;
+        // if (buyer.isInventoryFull() === true) return;
 
         // Create a new item and give it to the entity.
         buyer.addToInventory(new this.stock[index].ItemType({}));

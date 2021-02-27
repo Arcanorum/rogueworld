@@ -4,6 +4,7 @@ import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 import { CREATE_ACCOUNT_FAILURE, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE } from "../../shared/EventTypes";
 import { ApplicationState } from "../../shared/state/States";
+import dungeonz from "../../shared/Global";
 
 export default () => {
     eventResponses.create_account_success = () => {
@@ -35,18 +36,18 @@ export default () => {
     };
 
     eventResponses.chat_warning = (data) => {
-        window.gameScene.chat(undefined, Utils.getTextDef(ChatWarnings[data]), "#ffa54f");
+        dungeonz.gameScene.chat(undefined, Utils.getTextDef(ChatWarnings[data]), "#ffa54f");
     };
 
     eventResponses.cannot_drop_here = () => {
-        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Drop item blocked warning"));
+        // dungeonz.gameScene.GUI.textCounterSetText(dungeonz.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Drop item blocked warning"));
     };
 
     eventResponses.hatchet_needed = () => {
-        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Hatchet needed warning"));
+        // dungeonz.gameScene.GUI.textCounterSetText(dungeonz.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Hatchet needed warning"));
     };
 
     eventResponses.pickaxe_needed = () => {
-        // window.gameScene.GUI.textCounterSetText(window.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Pickaxe needed warning"));
+        // dungeonz.gameScene.GUI.textCounterSetText(dungeonz.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Pickaxe needed warning"));
     };
 };

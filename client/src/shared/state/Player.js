@@ -12,6 +12,7 @@ import {
     TASKS_VALUE,
     TASK_PROGRESS,
 } from "../EventTypes";
+import dungeonz from "../Global";
 import Utils from "../Utils";
 
 class Player {
@@ -156,7 +157,7 @@ class Player {
         this.stats[statName].level = level;
         this.stats[statName].nextLevelExpRequirement = nextLevelExpRequirement;
 
-        window.gameScene.chat(undefined, `${Utils.getTextDef(`Stat name: ${this.stats[statName].textDefID}`)} level gained!`, "#73ff66");
+        dungeonz.gameScene.chat(undefined, `${Utils.getTextDef(`Stat name: ${this.stats[statName].textDefID}`)} level gained!`, "#73ff66");
 
         PubSub.publish(STATS_VALUE, { new: this.stats });
     }
@@ -173,7 +174,7 @@ class Player {
 
         // Tell the player via a chat message when a task is complete.
         if (task.progress >= task.completionThreshold) {
-            window.gameScene.chat(undefined, Utils.getTextDef("Task completed"), "#50ff7f");
+            dungeonz.gameScene.chat(undefined, Utils.getTextDef("Task completed"), "#50ff7f");
         }
 
         PubSub.publish(TASK_PROGRESS, { new: task });

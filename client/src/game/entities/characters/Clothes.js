@@ -1,4 +1,5 @@
 import ItemTypes from "../../../catalogues/ItemTypes.json";
+import dungeonz from "../../../shared/Global";
 import Sprite from "../Sprite";
 
 class Clothes extends Sprite {
@@ -37,7 +38,7 @@ class Clothes extends Sprite {
         ];
         const addAnimationSet = (setName, baseFrameName) => {
             directions.forEach((direction) => {
-                window.gameScene.anims.create({
+                dungeonz.gameScene.anims.create({
                     key: `${setName}-${direction}`,
                     defaultTextureKey,
                     frames: generateFrames(baseFrameName, direction),

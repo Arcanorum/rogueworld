@@ -1,5 +1,6 @@
 import DungeonPrompts from "../catalogues/DungeonPrompts.json";
 import TextDefs from "../catalogues/TextDefinitions.json";
+import dungeonz from "./Global";
 
 /**
  * @type {Object}
@@ -89,5 +90,7 @@ gameConfig.SCALED_TILE_SIZE = gameConfig.TILE_SIZE * gameConfig.GAME_SCALE;
  * Declared after, so tile size is defined.
  */
 gameConfig.CENTER_OFFSET = gameConfig.SCALED_TILE_SIZE * 0.5;
+
+dungeonz.gameConfig = gameConfig;
 
 export default gameConfig;

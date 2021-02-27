@@ -4,6 +4,7 @@ import eventResponses from "./websocket_events/EventResponses";
 import { ApplicationState } from "../shared/state/States";
 import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from "../shared/EventTypes";
 import Utils from "../shared/Utils";
+import dungeonz from "../shared/Global";
 
 let serverURL = "";
 
@@ -45,10 +46,10 @@ const getErrorCategory = () => {
  */
 export const connectToGameServer = () => {
     // If the game is running in dev mode (localhost), connect without SSL.
-    if (window.host === "local") {
+    if (dungeonz.host === "local") {
         serverURL = "ws://127.0.0.4:4567";
     }
-    else if (window.host === "test") {
+    else if (dungeonz.host === "test") {
         serverURL = "wss://test.dungeonz.io:443";
     }
     else {

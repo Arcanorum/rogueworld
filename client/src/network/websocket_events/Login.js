@@ -37,7 +37,7 @@ export default () => {
         Utils.message(data);
 
         // Keep the join world data, to pass to the game state create method.
-        window.joinWorldData = data;
+        ApplicationState.joinWorldData = data;
 
         ApplicationState.setJoined(true);
 

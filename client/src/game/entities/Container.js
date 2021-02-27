@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import dungeonz from "../../shared/Global";
 
 /**
  * A wrapper around the core Phaser container, for some common things that might be used by any entity containers.
@@ -6,8 +7,8 @@ import Phaser from "phaser";
  */
 class Container extends Phaser.GameObjects.Container {
     constructor(x, y) {
-        super(window.gameScene, x, y);
-        window.gameScene.add.existing(this);
+        super(dungeonz.gameScene, x, y);
+        dungeonz.gameScene.add.existing(this);
     }
 
     /**
@@ -60,7 +61,7 @@ class Container extends Phaser.GameObjects.Container {
      * Add a text object to this sprite to use as the damage indicator.
      */
     addDamageMarker() {
-        this.damageMarker = window.gameScene.add.text(0, 0, -99, {
+        this.damageMarker = dungeonz.gameScene.add.text(0, 0, -99, {
             fontFamily: "'Press Start 2P'",
             fontSize: 20,
             align: "center",
@@ -81,7 +82,7 @@ class Container extends Phaser.GameObjects.Container {
      */
     addDisplayName(displayName) {
         // The anchor is still in the top left, so offset by half the width to center the text.
-        this.displayName = window.gameScene.add.text(0, -6, displayName, {
+        this.displayName = dungeonz.gameScene.add.text(0, -6, displayName, {
             fontFamily: "'Press Start 2P'",
             fontSize: 20,
             align: "center",

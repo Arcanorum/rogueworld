@@ -14,6 +14,7 @@ import {
     CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
+import dungeonz from "../shared/Global";
 
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
@@ -27,12 +28,9 @@ class Game extends Phaser.Scene {
         Utils.message("Game init");
 
         // Make this state globally accessible.
-        window.gameScene = this;
+        dungeonz.gameScene = this;
 
-        const data = window.joinWorldData;
-        // Game has loaded ok. Clear the backup timeouts.
-        clearTimeout(window.joinWorldStartTimeout);
-        clearTimeout(window.joinWorldReloadTimeout);
+        const data = ApplicationState.joinWorldData;
 
         /**
          * The name of the board the player is on. This has nothing to do with a dungeon instance that this board might be for.
@@ -226,10 +224,10 @@ class Game extends Phaser.Scene {
                     );
                 }
             }),
-            PubSub.subscribe(CHAT_OPEN, (data) => { // can't use word data due to shadowing
+            PubSub.subscribe(CHAT_OPEN, () => {
                 GUIState.setChatInputStatus(true);
             }),
-            PubSub.subscribe(CHAT_CLOSE, (data) => { // can't use word data due to shadowing
+            PubSub.subscribe(CHAT_CLOSE, () => {
                 GUIState.setChatInputStatus(false);
             }),
         ];
@@ -259,7 +257,7 @@ class Game extends Phaser.Scene {
         }
 
         // Show an FPS counter.
-        if (window.devMode) {
+        if (dungeonz.devMode) {
             this.fpsText.setText(`FPS:${Math.floor(this.game.loop.actualFps)}`);
         }
     }
@@ -331,6 +329,10 @@ class Game extends Phaser.Scene {
         // event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
         if (event.target.parentNode.id === "game-canvas") {
+            if (!this.dynamics[PlayerState.entityID]) {
+                console.log("pointerDownHandler, playerstate?", PlayerState);
+                console.log("- dynamics?", this.dynamics);
+            }
             // If the user pressed on their character sprite, pick up item.
             if (Utils.pixelDistanceBetween(
                 this.dynamics[PlayerState.entityID].spriteContainer,
@@ -514,7 +516,7 @@ class Game extends Phaser.Scene {
      * @param {Number} data.col
      */
     updateStatic(data) {
-        if (window.gameScene.statics[`${data.row}-${data.col}`] === undefined) {
+        if (dungeonz.gameScene.statics[`${data.row}-${data.col}`] === undefined) {
             // The static is not yet added to the grid. Wait a bit for the current player tween to
             // finish and the edge is loaded, by which point the static tile should have been added.
             setTimeout(this.tilemap.updateStaticTile.bind(this.tilemap), 500, `${data.row}-${data.col}`, false);
@@ -569,7 +571,7 @@ class Game extends Phaser.Scene {
 
         // Add the sprite to the world group, as it extends sprite but
         // overwrites the constructor so doesn't get added automatically.
-        // window.gameScene.add.existing(dynamicSpriteContainer);
+        // dungeonz.gameScene.add.existing(dynamicSpriteContainer);
 
         if (dynamicSpriteContainer.centered === true) {
             dynamicSpriteContainer.setOrigin(0.5);
@@ -712,13 +714,13 @@ class Game extends Phaser.Scene {
             }
         }
 
-        const chatText = window.gameScene.add.text(0, -12, message, style);
+        const chatText = dungeonz.gameScene.add.text(0, -12, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);
         chatText.setOrigin(0.5);
         chatText.setScale(0.3);
         // Make the chat message scroll up.
-        window.gameScene.tweens.add({
+        dungeonz.gameScene.tweens.add({
             targets: chatText,
             duration: gameConfig.CHAT_BASE_LIFESPAN + (60 * message.length),
             y: "-=30",

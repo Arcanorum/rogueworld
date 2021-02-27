@@ -14,6 +14,8 @@ class Application {
 
     joined = false;
 
+    joinWorldData = null;
+
     loading = false;
 
     loadAccepted = true;

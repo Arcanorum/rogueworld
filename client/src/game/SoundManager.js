@@ -1,4 +1,5 @@
 import ItemTypes from "../catalogues/ItemTypes.json";
+import dungeonz from "../shared/Global";
 import Utils from "../shared/Utils";
 
 class Music {
@@ -23,7 +24,7 @@ class Music {
         this.currentBackgroundMusic = sound;
 
         // Fade playing the audio in.
-        window.gameScene.tweens.add({
+        dungeonz.gameScene.tweens.add({
             targets: this.currentBackgroundMusic,
             volume: {
                 getStart() {

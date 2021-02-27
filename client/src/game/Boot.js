@@ -7,6 +7,7 @@ import gameAtlasData from "../assets/images/game-atlas.json";
 import groundTileset from "../assets/images/ground.png";
 import staticsTileset from "../assets/images/statics.png";
 import highlightImage from "../assets/images/gui/highlight.png";
+import dungeonz from "../shared/Global";
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
@@ -42,7 +43,7 @@ class Boot extends Phaser.Scene {
     create() {
         Utils.message("Boot create");
 
-        window.gameScene = this;
+        dungeonz.gameScene = this;
 
         // Keep the game running even when the window loses focus.
         this.events.on("hidden", () => {
@@ -60,9 +61,9 @@ class Boot extends Phaser.Scene {
         }, false);
 
         // If not on desktop, enable the virtual D-pad.
-        gameConfig.virtualDPadEnabled = !window.gameScene.sys.game.device.os.desktop;
+        gameConfig.virtualDPadEnabled = !dungeonz.gameScene.sys.game.device.os.desktop;
 
-        if (window.devMove === false) {
+        if (dungeonz.devMove === false) {
             // Disable the right click context menu on the game in prod.
             document.getElementById("game_cont").addEventListener("contextmenu", (event) => event.preventDefault());
         }

@@ -1,7 +1,7 @@
 // import SpellBookTypes from "../../catalogues/SpellBookTypes.json";
 
 import eventResponses from "./EventResponses";
-
+import dungeonz from "../../shared/Global";
 import Utils from "../../shared/Utils";
 import Login from "./Login";
 import Inventory from "./Inventory";
@@ -46,28 +46,28 @@ export const addGameEventResponses = () => {
 
     eventResponses.change_day_phase = (data) => {
         // console.log("changing day phase:", data);
-        window.gameScene.dayPhase = data;
+        dungeonz.gameScene.dayPhase = data;
 
-        if (window.gameScene.boardAlwaysNight === false) {
+        if (dungeonz.gameScene.boardAlwaysNight === false) {
             // Make the darkness layer invisible during day time.
-            if (window.gameScene.dayPhase === window.gameScene.DayPhases.Day) {
-                window.gameScene.tilemap.darknessSpritesContainer.visible = false;
+            if (dungeonz.gameScene.dayPhase === dungeonz.gameScene.DayPhases.Day) {
+                dungeonz.gameScene.tilemap.darknessSpritesContainer.visible = false;
             }
             else {
-                window.gameScene.tilemap.darknessSpritesContainer.visible = true;
-                window.gameScene.tilemap.updateDarknessGrid();
+                dungeonz.gameScene.tilemap.darknessSpritesContainer.visible = true;
+                dungeonz.gameScene.tilemap.updateDarknessGrid();
             }
         }
     };
 
     eventResponses.chat = (data) => {
         // console.log("chat:", data);
-        window.gameScene.chat(data.id, data.message);
+        dungeonz.gameScene.chat(data.id, data.message);
     };
 
     eventResponses.shop_prices = (data) => {
         // console.log("shop prices, data:", data);
-        window.gameScene.GUI.shopPanel.updatePrices(data);
+        dungeonz.gameScene.GUI.shopPanel.updatePrices(data);
     };
 };
 

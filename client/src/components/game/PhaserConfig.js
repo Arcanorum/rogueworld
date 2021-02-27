@@ -1,12 +1,13 @@
 import Phaser from "phaser";
 import Boot from "../../game/Boot";
 import Game from "../../game/Game";
+import dungeonz from "../../shared/Global";
 
 /**
  * @type {Phaser.Scene}
  * A global reference to the currently running Phaser scene.
  */
-window.gameScene = {};
+dungeonz.gameScene = {};
 
 export default () => {
     const config = {
@@ -31,7 +32,7 @@ export default () => {
     const game = new Phaser.Game(config);
 
     game.events.on("destroy", () => {
-        window.gameScene = {};
+        dungeonz.gameScene = {};
     });
 
     return game;

@@ -1,4 +1,5 @@
 import gameConfig from "../../../shared/GameConfig";
+import dungeonz from "../../../shared/Global";
 import Projectile from "./Projectile";
 
 class Entity extends Projectile {
@@ -9,7 +10,7 @@ class Entity extends Projectile {
     }
 
     onMove() {
-        window.gameScene.tilemap.updateDarknessGrid();
+        dungeonz.gameScene.tilemap.updateDarknessGrid();
     }
 }
 

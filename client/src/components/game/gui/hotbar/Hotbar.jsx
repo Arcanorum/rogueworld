@@ -3,11 +3,16 @@ import PropTypes from "prop-types";
 import PubSub from "pubsub-js";
 import ItemIconsList from "../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../catalogues/ItemTypes.json";
-import { HOTBAR_ITEM, MODIFY_ITEM, PANEL_CHANGE } from "../../../../shared/EventTypes";
+import {
+    HOLDING_ITEM, HOTBAR_ITEM, MODIFY_ITEM, PANEL_CHANGE,
+} from "../../../../shared/EventTypes";
 import { ApplicationState, GUIState, InventoryState } from "../../../../shared/state/States";
 import "./Hotbar.scss";
 import Utils from "../../../../shared/Utils";
 import Panels from "../panels/PanelsEnum";
+import holdingIcon from "../../../../assets/images/gui/hud/hotbar/holding-icon.png";
+import ammunitionIcon from "../../../../assets/images/gui/hud/hotbar/ammunition-icon.png";
+import clothingIcon from "../../../../assets/images/gui/hud/hotbar/clothing-icon.png";
 
 const ItemTooltip = (itemConfig) => (
     <div>
@@ -23,11 +28,15 @@ function HotbarSlot({ itemConfig }) {
     const [inventoryPanelOpen, setInventoryPanelOpen] = useState(
         GUIState.activePanel === Panels.Inventory,
     );
+    const [isHolding, setIsHolding] = useState(false);
 
     useEffect(() => {
         const subs = [
             PubSub.subscribe(PANEL_CHANGE, () => {
                 setInventoryPanelOpen(GUIState.activePanel === Panels.Inventory);
+            }),
+            PubSub.subscribe(HOLDING_ITEM, () => {
+                setIsHolding(itemConfig.slotIndex === InventoryState.holding);
             }),
         ];
 
@@ -52,7 +61,7 @@ function HotbarSlot({ itemConfig }) {
 
     return (
         <div
-          className={`slot ${inventoryPanelOpen ? "remove" : ""}`}
+          className={`slot ${inventoryPanelOpen ? "remove" : ""} ${isHolding ? "holding" : ""}`}
           draggable={false}
           onMouseEnter={() => {
               GUIState.setTooltipContent(
@@ -64,6 +73,7 @@ function HotbarSlot({ itemConfig }) {
           }}
           onClick={slotPressed}
         >
+            {isHolding && <img src={holdingIcon} className="holding-icon" />}
             <img
               src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
               draggable={false}

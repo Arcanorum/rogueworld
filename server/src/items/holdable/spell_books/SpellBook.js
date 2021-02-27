@@ -17,7 +17,7 @@ class SpellBook extends Holdable {
 
         if (this.owner.holding === this) {
             // Tell the player a spell book was equipped, so they should show the button to open the spell book panel.
-            this.owner.socket.sendEvent(this.owner.EventsList.activate_spell_book, [this.slotKey, this.spellBookTypeNumber]);
+            this.owner.socket.sendEvent(this.owner.EventsList.activate_spell_book, [this.slotIndex, this.spellBookTypeNumber]);
         }
     }
 

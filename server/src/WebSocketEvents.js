@@ -410,78 +410,78 @@ eventResponses.pick_up_item = function (clientSocket) {
  * @param {String} data.slotKeyFrom - The key of the slot to swap from.
  * @param {String} data.slotKeyTo - The key of the slot to swap to.
  */
-eventResponses.swap_inventory_slots = function (clientSocket, data) {
-    if (!data) return;
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
+// eventResponses.swap_inventory_slots = function (clientSocket, data) {
+//     if (!data) return;
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
 
-    // console.log("swap invent slots event:", data);
+//     // console.log("swap invent slots event:", data);
 
-    if (data.slotKeyFrom === undefined) return;
-    if (data.slotKeyTo === undefined) return;
+//     if (data.slotKeyFrom === undefined) return;
+//     if (data.slotKeyTo === undefined) return;
 
-    clientSocket.entity.swapInventorySlots(data.slotKeyFrom, data.slotKeyTo);
-};
+//     clientSocket.entity.swapInventorySlots(data.slotKeyFrom, data.slotKeyTo);
+// };
 
 /**
  * @param {*} clientSocket
  * @param {Number} data.stationTypeNumber - The type number of the crafting station to use.
  * @param {Array} data.inventorySlotKeys - An array of the inventory slot names of the items to use.
  */
-eventResponses.craft = function (clientSocket, data) {
-    // console.log("craft, data:", data);
-    if (!data) return;
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
+// eventResponses.craft = function (clientSocket, data) {
+//     // console.log("craft, data:", data);
+//     if (!data) return;
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
 
-    CraftingManager.craft(clientSocket.entity, data.stationTypeNumber, data.inventorySlotKeys);
-};
-
-/**
- * @param {*} clientSocket
- * @param {String} data.inventorySlotKey
- * @param {Number} data.bankSlotIndex
- */
-eventResponses.bank_deposit_item = function (clientSocket, data) {
-    // console.log("bank_deposit_item, data:", data);
-    if (!data) return;
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
-
-    clientSocket.entity.bankAccount.depositItem(data.inventorySlotKey, data.bankSlotIndex);
-};
+//     CraftingManager.craft(clientSocket.entity, data.stationTypeNumber, data.inventorySlotKeys);
+// };
 
 /**
  * @param {*} clientSocket
  * @param {String} data.inventorySlotKey
  * @param {Number} data.bankSlotIndex
  */
-eventResponses.bank_withdraw_item = function (clientSocket, data) {
-    // console.log("bank_withdraw_item, data:", data);
-    if (!data) return;
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
+// eventResponses.bank_deposit_item = function (clientSocket, data) {
+//     // console.log("bank_deposit_item, data:", data);
+//     if (!data) return;
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
 
-    clientSocket.entity.bankAccount.withdrawItem(data.bankSlotIndex, data.inventorySlotKey);
-};
+//     clientSocket.entity.bankAccount.depositItem(data.inventorySlotKey, data.bankSlotIndex);
+// };
+
+/**
+ * @param {*} clientSocket
+ * @param {String} data.inventorySlotKey
+ * @param {Number} data.bankSlotIndex
+ */
+// eventResponses.bank_withdraw_item = function (clientSocket, data) {
+//     // console.log("bank_withdraw_item, data:", data);
+//     if (!data) return;
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
+
+//     clientSocket.entity.bankAccount.withdrawItem(data.bankSlotIndex, data.inventorySlotKey);
+// };
 
 /**
  * @param {*} clientSocket
  * @param {Number} data.fromSlotIndex
  * @param {Number} data.toSlotIndex
  */
-eventResponses.bank_swap_slots = function (clientSocket, data) {
-    if (!data) return;
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
+// eventResponses.bank_swap_slots = function (clientSocket, data) {
+//     if (!data) return;
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
 
-    clientSocket.entity.bankAccount.swapItems(data.fromSlotIndex, data.toSlotIndex);
-};
+//     clientSocket.entity.bankAccount.swapItems(data.fromSlotIndex, data.toSlotIndex);
+// };
 
 /**
  * @param {*} clientSocket

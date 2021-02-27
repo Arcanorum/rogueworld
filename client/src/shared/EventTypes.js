@@ -43,6 +43,7 @@ export const REMOVE_ITEM = Symbol("REMOVE_ITEM");
 export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
 export const MODIFY_INVENTORY_WEIGHT = Symbol("MODIFY_INVENTORY_WEIGHT");
 export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");
+export const HOLDING_ITEM = Symbol("HOLDING_ITEM");
 
 // GUI.
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");

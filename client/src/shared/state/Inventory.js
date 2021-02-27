@@ -1,6 +1,6 @@
 import PubSub from "pubsub-js";
 import {
-    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, HOTBAR_ITEM, REMOVE_ITEM,
+    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, HOTBAR_ITEM, REMOVE_ITEM, HOLDING_ITEM,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -100,6 +100,13 @@ class Inventory {
 
     setMaxWeight(value) {
         this.maxWeight = value;
+    }
+
+    setHolding(value) {
+        // Allow slot index of 0 (falsy).
+        this.holding = (value || value === 0) || null;
+
+        PubSub.publish(HOLDING_ITEM, value);
     }
 }
 

@@ -10,6 +10,8 @@
     user-select: none;
     
     .slot {
+        display: flex;
+        justify-content: center;
         position: relative;
         border: 4px solid $colourDB32VeryDarkPurple;
         width: 48px;
@@ -19,6 +21,17 @@
         &:hover {
             transform: scale(1.1);
             filter: brightness(150%);
+        }
+
+        .holding-icon {
+            position: absolute;
+            top: -15px;
+            width: 56px;
+            height: auto;
+        }
+
+        &.holding {
+            background-color: $colourDB32OrangeOpacity50;
         }
 
         img {

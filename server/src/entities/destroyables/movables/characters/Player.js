@@ -402,7 +402,7 @@ class Player extends Character {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(
                 this.EventsList.deactivate_clothing,
-                { slotKey: this.clothing.slotKey, typeCode: this.clothing.typeCode },
+                { slotIndex: this.clothing.slotIndex },
             );
 
             Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
@@ -413,7 +413,7 @@ class Player extends Character {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent(
                 this.EventsList.activate_clothing,
-                { slotKey: clothing.slotKey, typeCode: clothing.typeCode },
+                { slotIndex: clothing.slotIndex },
             );
 
             Object.entries(clothing.statBonuses).forEach(([statKey, statBonus]) => {
@@ -431,15 +431,13 @@ class Player extends Character {
         if (holding === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent(this.EventsList.deactivate_holding, {
-                slotKey: this.holding.slotKey,
-                itemTypeCode: this.holding.typeCode,
+                slotIndex: this.holding.slotIndex,
             });
         }
         else {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent(this.EventsList.activate_holding, {
-                slotKey: holding.slotKey,
-                itemTypeCode: holding.typeCode,
+                slotIndex: holding.slotIndex,
             });
         }
         // Do this after, or this.holding would have already been nulled, so won't have a slot key to send to the client.
@@ -452,11 +450,11 @@ class Player extends Character {
     modAmmunition(ammunition) {
         if (ammunition === null) {
             // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent(this.EventsList.deactivate_ammunition, this.ammunition.slotKey);
+            this.socket.sendEvent(this.EventsList.deactivate_ammunition, this.ammunition.slotIndex);
         }
         else {
             // Tell the player to show the ammunition icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent(this.EventsList.activate_ammunition, ammunition.slotKey);
+            this.socket.sendEvent(this.EventsList.activate_ammunition, ammunition.slotIndex);
         }
         // Do this after, or this.ammunition would have already been nulled, so won't have a slot key to send to the client.
         this.ammunition = ammunition;
@@ -464,25 +462,25 @@ class Player extends Character {
 
     /**
      * Swap the contents of two slots. They can be empty or occupied.
-     * @param {String} slotKeyFrom
-     * @param {String} slotKeyTo
+     * @param {String} slotIndexFrom
+     * @param {String} slotIndexTo
      */
     // TODO: rework
-    // swapInventorySlots(slotKeyFrom, slotKeyTo) {
-    //     if (this.inventory[slotKeyFrom] === undefined) return;
-    //     if (this.inventory[slotKeyTo] === undefined) return;
+    // swapInventorySlots(slotIndexFrom, slotIndexTo) {
+    //     if (this.inventory[slotIndexFrom] === undefined) return;
+    //     if (this.inventory[slotIndexTo] === undefined) return;
 
-    //     const slotFrom = this.inventory[slotKeyFrom];
+    //     const slotFrom = this.inventory[slotIndexFrom];
 
-    //     this.inventory[slotKeyFrom] = this.inventory[slotKeyTo];
+    //     this.inventory[slotIndexFrom] = this.inventory[slotIndexTo];
 
-    //     this.inventory[slotKeyTo] = slotFrom;
+    //     this.inventory[slotIndexTo] = slotFrom;
 
-    //     if (this.inventory[slotKeyTo] !== null) {
-    //         this.inventory[slotKeyTo].slotKey = slotKeyTo;
+    //     if (this.inventory[slotIndexTo] !== null) {
+    //         this.inventory[slotIndexTo].slotIndex = slotIndexTo;
     //     }
-    //     if (this.inventory[slotKeyFrom] !== null) {
-    //         this.inventory[slotKeyFrom].slotKey = slotKeyFrom;
+    //     if (this.inventory[slotIndexFrom] !== null) {
+    //         this.inventory[slotIndexFrom].slotIndex = slotIndexFrom;
     //     }
     // }
 
@@ -510,13 +508,13 @@ class Player extends Character {
 
     /**
      * Use the item at the given slot.
-     * @param {String} slotKey
+     * @param {String} slotIndex
      */
-    useItem(slotKey) {
+    useItem(slotIndex) {
         // Check that slot is valid.
-        if (this.inventory[slotKey] === undefined) return false;
+        if (this.inventory[slotIndex] === undefined) return false;
 
-        this.inventory[slotKey].use();
+        this.inventory[slotIndex].use();
 
         return true;
     }

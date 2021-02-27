@@ -55,37 +55,38 @@ export default () => {
 
     eventResponses.equip_clothes = (data) => {
         // console.log("equip_clothes:", data);
-        const { clothes } = dungeonz.gameScene.dynamics[data.id].spriteContainer;
-        clothes.visible = true;
-        clothes.clothesName = ItemTypes[data.typeCode].translationID;
-        clothes.setFrame(
-            clothes.clothesFrames[clothes.clothesName][clothes.parentContainer.direction],
-        );
+        // const { clothes } = dungeonz.gameScene.dynamics[data.id].spriteContainer;
+        // clothes.visible = true;
+        // clothes.clothesName = ItemTypes[data.typeCode].translationID;
+        // clothes.setFrame(
+        //     clothes.clothesFrames[clothes.clothesName][clothes.parentContainer.direction],
+        // );
     };
 
     eventResponses.unequip_clothes = (data) => {
         // console.log("unequip clothes:", data);
-        dungeonz.gameScene.dynamics[data].spriteContainer.clothes.visible = false;
+        // dungeonz.gameScene.dynamics[data].spriteContainer.clothes.visible = false;
     };
 
     eventResponses.activate_ammunition = (data) => {
         // Show the equipped icon on the inventory slot.
-        const slot = dungeonz.gameScene.GUI.inventoryBar.slots[data];
-        slot.equipped.src = "assets/img/gui/hud/ammunition-icon.png";
-        slot.equipped.style.visibility = "visible";
+
+        // const slot = dungeonz.gameScene.GUI.inventoryBar.slots[data];
+        // slot.equipped.src = "assets/img/gui/hud/ammunition-icon.png";
+        // slot.equipped.style.visibility = "visible";
     };
 
     eventResponses.deactivate_ammunition = (data) => {
         // Hide the equipped icon on the inventory slot.
-        dungeonz.gameScene.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+        // dungeonz.gameScene.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
     };
 
     eventResponses.activate_clothing = (data) => {
         // console.log("activate_clothing:", data);
         // Show the equipped icon on the inventory slot.
-        const slot = dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey];
-        slot.equipped.src = "assets/img/gui/hud/clothing-icon.png";
-        slot.equipped.style.visibility = "visible";
+        // const slot = dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey];
+        // slot.equipped.src = "assets/img/gui/hud/clothing-icon.png";
+        // slot.equipped.style.visibility = "visible";
 
         dungeonz.gameScene.soundManager.items.playEquippedSound(
             data.itemTypeCode,
@@ -95,11 +96,13 @@ export default () => {
     eventResponses.deactivate_clothing = (data) => {
         // console.log("deactivate_clothing:", data);
         // Hide the equipped icon on the inventory slot.
-        dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
+        // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
     };
 
     eventResponses.activate_holding = (data) => {
-        InventoryState.holding = true;
+        console.log("activate_holding:", data);
+
+        InventoryState.setHolding(data.slotIndex);
 
         // TODO
         // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.src = "assets/img/gui/hud/holding-icon.png";
@@ -113,7 +116,9 @@ export default () => {
     };
 
     eventResponses.deactivate_holding = (data) => {
-        InventoryState.holding = false;
+        console.log("deactivate_holding:", data);
+
+        InventoryState.setHolding(null);
 
         // TODO
         // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";

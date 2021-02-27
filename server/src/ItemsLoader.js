@@ -108,7 +108,6 @@ const initialiseList = () => {
         );
 
         itemConfigs.forEach((config) => {
-            // console.log("loading item config:", config);
             if (!config.code) {
                 Utils.error("Item config missing type code:", config);
             }
@@ -120,6 +119,14 @@ const initialiseList = () => {
             ItemsList.BY_NAME[config.name].loadConfig(config);
             // Add a reference to the item by its type code.
             ItemsList.BY_CODE[config.code] = ItemsList.BY_NAME[config.name];
+
+            const ItemTypeProto = ItemsList.BY_NAME[config.name].prototype;
+
+            // Mark any items that do something when used.
+            if (ItemTypeProto.expGivenOnUse
+                || ItemTypeProto.onUsed !== Item.prototype.onUsed) {
+                ItemTypeProto.hasUseEffect = true;
+            }
         });
     }
     catch (error) {

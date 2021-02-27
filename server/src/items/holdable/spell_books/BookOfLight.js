@@ -122,7 +122,6 @@ BookOfLight.iconSource = "icon-book-of-light";
 BookOfLight.prototype.baseDurability = 30;
 BookOfLight.prototype.expGivenStatName = BookOfLight.prototype.StatNames.Magic;
 BookOfLight.prototype.expGivenOnUse = 10;
-BookOfLight.prototype.useDurabilityCost = 1;
 
 // Spell specific stuff.
 BookOfLight.prototype.registerSpellBookType();

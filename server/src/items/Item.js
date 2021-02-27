@@ -32,7 +32,7 @@ class Item {
         this.onUsed();
     }
 
-    onUsed(direction) {
+    onUsed() {
         // Keep a reference to the owner, as if the item gets destroyed when used
         // here, owner will be nulled, but still want to be able to send events.
         const { owner } = this;
@@ -41,31 +41,34 @@ class Item {
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
         if (owner === null) return;
 
-        // Check if this item gives any stat exp when used.
-        if (owner.stats[this.expGivenStatName] !== undefined) {
-            owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
-        }
-
-        // TODO: add quantity check and handle decreasing quantity, and destroying.
-        // Check if this item should lose durability when used.
-        if (this.useDurabilityCost > 0) {
-            if (this.expGivenStatName !== null) {
-                // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
-                // Check if the durability cost should be waived based on stat level chance.
-                const waiveChance = getRandomIntInclusive(0, 99);
-                if (waiveChance <= owner.stats[this.expGivenStatName].level) {
-                    return;
-                }
+        if (this.hasUseEffect) {
+            // Check if this item gives any stat exp when used.
+            if (owner.stats[this.expGivenStatName] !== undefined) {
+                owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
             }
-            this.modDurability(-this.useDurabilityCost);
-        }
 
-        // Tell the user the item was used. Might not have had an immediate effect, but
-        // the client might like to know right away (i.e. to play a sound effect).
-        owner.socket.sendEvent(
-            EventsList.item_used,
-            { typeCode: this.typeCode },
-        );
+            if (this.itemConfig.quantity) {
+                this.modQuantity(-1);
+            }
+            else if (this.itemConfig.durability) {
+                if (this.expGivenStatName !== null) {
+                    // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
+                    // Check if the durability cost should be waived based on stat level chance.
+                    const waiveChance = getRandomIntInclusive(0, 99);
+                    if (waiveChance <= owner.stats[this.expGivenStatName].level) {
+                        return;
+                    }
+                }
+                this.modDurability(-1);
+            }
+
+            // Tell the user the item was used. Might not have had an immediate effect, but
+            // the client might like to know right away (i.e. to play a sound effect).
+            owner.socket.sendEvent(
+                EventsList.item_used,
+                { typeCode: this.typeCode },
+            );
+        }
     }
 
     equip() { }
@@ -134,15 +137,22 @@ class Item {
 
         this.itemConfig.modQuantity(amount);
 
-        // Tell the player the new quantity.
-        this.owner.socket.sendEvent(
-            EventsList.modify_item,
-            {
-                slotIndex: this.slotIndex,
-                quantity: this.itemConfig.quantity,
-                totalWeight: this.itemConfig.totalWeight,
-            },
-        );
+        // Check if the stack is now empty.
+        if (this.itemConfig.quantity < 1) {
+            // Remove this broken item.
+            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
+        }
+        else {
+            // Tell the player the new quantity.
+            this.owner.socket.sendEvent(
+                EventsList.modify_item,
+                {
+                    slotIndex: this.slotIndex,
+                    quantity: this.itemConfig.quantity,
+                    totalWeight: this.itemConfig.totalWeight,
+                },
+            );
+        }
     }
 
     /**
@@ -153,11 +163,6 @@ class Item {
         if (!amount) return;
 
         this.itemConfig.modDurability(amount);
-
-        // Make sure it doesn't go above max durability if repaired.
-        if (this.itemConfig.durability > this.itemConfig.maxDurability) {
-            this.itemConfig.durability = this.itemConfig.maxDurability;
-        }
 
         // Check if the item is now broken.
         if (this.itemConfig.durability < 1) {
@@ -305,13 +310,6 @@ Item.prototype.baseQuantity = null;
 Item.prototype.unitWeight = 0;
 
 /**
- * How much durability is taken from this item when it is used.
- * If this is a gathering tool, the durability cost is on the resource node entity it is used on instead.
- * @type {Number}
- */
-Item.prototype.useDurabilityCost = 0;
-
-/**
  * How much crafting exp this item contributes to the recipe it is used in.
  * @type {Number}
  */
@@ -347,5 +345,12 @@ Item.prototype.category = null;
  * @type {Function}
  */
 Item.prototype.PickupType = null;
+
+/**
+ * A flag of wether this item type does something when used, such as creating a projectile, restoring HP, or giving stat exp.
+ * Not all items are "usable" as such, e.g. materials.
+ * @type {Boolean}
+ */
+Item.prototype.hasUseEffect = false;
 
 module.exports = Item;

@@ -43,6 +43,11 @@ class Inventory {
 
         this.items.splice(slotIndex, 1);
 
+        // Update the slot indexes of the items.
+        this.items.forEach((eachItem, index) => {
+            eachItem.slotIndex = index;
+        });
+
         PubSub.publish(REMOVE_ITEM, item);
 
         // Remove it from the hotbar if it was on it.

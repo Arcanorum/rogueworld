@@ -193,7 +193,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 2
   expGivenStatName: Magic
 
@@ -207,7 +206,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -221,7 +219,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -235,7 +232,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -249,7 +245,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -264,7 +259,6 @@
   unitWeight: Staff
   useGloryCost: 10
   baseDurability: 1000
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
@@ -278,7 +272,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 2
   expGivenStatName: Magic
 
@@ -305,7 +298,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -319,7 +311,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -333,7 +324,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -347,7 +337,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -361,7 +350,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -375,7 +363,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -389,7 +376,6 @@
   category: Weapon
   unitWeight: 3
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Ranged
 
@@ -404,7 +390,6 @@
   unitWeight: Staff
   useGloryCost: 10
   baseDurability: 1000
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
@@ -418,7 +403,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
@@ -432,7 +416,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
@@ -446,7 +429,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
@@ -460,7 +442,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
@@ -473,7 +454,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 2
   expGivenStatName: Magic
 
@@ -487,7 +467,6 @@
   category: Weapon
   unitWeight: Bow
   baseDurability: 200
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Ranged
 
@@ -499,7 +478,6 @@
   category: Weapon
   unitWeight: Bow
   baseDurability: 200
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Ranged
 
@@ -680,7 +658,6 @@
   translationID: Glory orb
   iconSource: icon-glory-orb
   baseDurability: 1
-  useDurabilityCost: 1
 
 - name: Greencap
   code: DTCV1640

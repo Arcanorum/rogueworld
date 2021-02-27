@@ -46,6 +46,11 @@ class Inventory {
         // The items list shouldn't be holey.
         this.items.splice(slotIndex, 1);
 
+        // Update the slot indexes of the items.
+        this.items.forEach((item, index) => {
+            item.slotIndex = index;
+        });
+
         // Tell the player the item was removed from their inventory.
         this.owner.socket.sendEvent(EventsList.remove_item, slotIndex);
     }

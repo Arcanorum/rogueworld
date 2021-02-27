@@ -132,7 +132,6 @@ BookOfSouls.iconSource = "icon-book-of-souls";
 BookOfSouls.prototype.baseDurability = 30;
 BookOfSouls.prototype.expGivenStatName = BookOfSouls.prototype.StatNames.Magic;
 BookOfSouls.prototype.expGivenOnUse = 10;
-BookOfSouls.prototype.useDurabilityCost = 1;
 
 // Spell specific stuff.
 BookOfSouls.prototype.registerSpellBookType();

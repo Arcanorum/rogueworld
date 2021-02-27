@@ -3,6 +3,7 @@
     left: 50%;
     bottom: 80px;
     transform: translateX(-50%);
+    pointer-events: none;
 }
 
 .meter {
@@ -16,5 +17,4 @@
     height: 16px;
     padding: 1px;
     margin-top: 12px;
-    pointer-events: auto;
 }

@@ -62,6 +62,12 @@ function HotbarSlot({ itemConfig }) {
     const slotPressed = () => {
         // Clicking on the hotbar slots while the inventory is open should clear the slot.
         if (inventoryPanelOpen) {
+            // If the item in this slot is equipped, unequip it first.
+            if (itemConfig === InventoryState.holding
+            || itemConfig === InventoryState.ammunition
+            || itemConfig === InventoryState.clothing) {
+                ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+            }
             InventoryState.removeFromHotbar(itemConfig);
         }
         // Use the item.

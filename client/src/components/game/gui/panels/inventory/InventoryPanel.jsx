@@ -46,8 +46,8 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 <div className="name">
                     {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>
-                {itemConfig.durability && <div className="detail">{`(${itemConfig.durability}/${itemConfig.maxDurability})`}</div>}
-                {itemConfig.quantity && <div className="detail">{`(x${itemConfig.quantity})`}</div>}
+                {itemConfig.durability && <div className="detail">{`${itemConfig.durability}/${itemConfig.maxDurability}`}</div>}
+                {itemConfig.quantity && <div className="detail">{`x${itemConfig.quantity}`}</div>}
                 <div className="detail">{`Weight: ${itemConfig.totalWeight}`}</div>
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}

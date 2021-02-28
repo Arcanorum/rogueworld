@@ -23,7 +23,7 @@
             filter: brightness(150%);
         }
 
-        .holding-icon {
+        .equipped-icon {
             position: absolute;
             top: -15px;
             width: 56px;
@@ -32,6 +32,14 @@
 
         &.holding {
             background-color: $colourDB32OrangeOpacity50;
+        }
+
+        &.ammunition {
+            background-color: $colourDB32YellowOpacity50;
+        }
+
+        &.clothing {
+            background-color: $colourDB32SteelGreyOpacity50;
         }
 
         img {

@@ -1,6 +1,12 @@
 import PubSub from "pubsub-js";
 import {
-    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, HOTBAR_ITEM, REMOVE_ITEM, HOLDING_ITEM,
+    ADD_ITEM,
+    MODIFY_ITEM,
+    MODIFY_INVENTORY_WEIGHT,
+    HOTBAR_ITEM, REMOVE_ITEM,
+    HOLDING_ITEM,
+    AMMUNITION_ITEM,
+    CLOTHING_ITEM,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -107,6 +113,20 @@ class Inventory {
         this.holding = (value || value === 0) || null;
 
         PubSub.publish(HOLDING_ITEM, value);
+    }
+
+    setAmmunition(value) {
+        // Allow slot index of 0 (falsy).
+        this.ammunition = (value || value === 0) || null;
+
+        PubSub.publish(AMMUNITION_ITEM, value);
+    }
+
+    setClothing(value) {
+        // Allow slot index of 0 (falsy).
+        this.clothing = (value || value === 0) || null;
+
+        PubSub.publish(CLOTHING_ITEM, value);
     }
 }
 

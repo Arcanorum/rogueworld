@@ -1,27 +1,23 @@
-// import ItemTypes from "../catalogues/ItemTypes";
+import ItemTypes from "../../catalogues/ItemTypes.json";
 import { setAttackCursor, setDefaultCursor } from "../../shared/Cursors";
 import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 import { InventoryState } from "../../shared/state/States";
 import dungeonz from "../../shared/Global";
 
-const ItemTypes = {}; // temp
-
 export default () => {
     eventResponses.add_item = (data) => {
-        console.log("add item event:", data);
-
+        // console.log("add item event:", data);
         InventoryState.addToInventory(data);
     };
 
     eventResponses.remove_item = (data) => {
-        console.log("remove item event:", data);
+        // console.log("remove item event:", data);
         InventoryState.removeFromInventory(data);
     };
 
     eventResponses.modify_item = (data) => {
-        console.log("modify_item event:", data);
-
+        // console.log("modify_item event:", data);
         InventoryState.modifyItem(data);
     };
 
@@ -54,81 +50,74 @@ export default () => {
     };
 
     eventResponses.equip_clothes = (data) => {
-        // console.log("equip_clothes:", data);
-        // const { clothes } = dungeonz.gameScene.dynamics[data.id].spriteContainer;
-        // clothes.visible = true;
-        // clothes.clothesName = ItemTypes[data.typeCode].translationID;
-        // clothes.setFrame(
-        //     clothes.clothesFrames[clothes.clothesName][clothes.parentContainer.direction],
-        // );
+        const { clothes } = dungeonz.gameScene.dynamics[data.id].spriteContainer;
+        clothes.visible = true;
+        clothes.clothesName = ItemTypes[data.typeCode].translationID;
+        clothes.setFrame(
+            clothes.clothesFrames[clothes.clothesName][clothes.parentContainer.direction],
+        );
     };
 
     eventResponses.unequip_clothes = (data) => {
-        // console.log("unequip clothes:", data);
-        // dungeonz.gameScene.dynamics[data].spriteContainer.clothes.visible = false;
+        dungeonz.gameScene.dynamics[data].spriteContainer.clothes.visible = false;
     };
 
     eventResponses.activate_ammunition = (data) => {
         // Show the equipped icon on the inventory slot.
-
-        // const slot = dungeonz.gameScene.GUI.inventoryBar.slots[data];
-        // slot.equipped.src = "assets/img/gui/hud/ammunition-icon.png";
-        // slot.equipped.style.visibility = "visible";
+        const item = InventoryState.items[data];
+        InventoryState.setAmmunition(item);
     };
 
-    eventResponses.deactivate_ammunition = (data) => {
+    eventResponses.deactivate_ammunition = () => {
         // Hide the equipped icon on the inventory slot.
-        // dungeonz.gameScene.GUI.inventoryBar.slots[data].equipped.style.visibility = "hidden";
+        InventoryState.setAmmunition(null);
     };
 
     eventResponses.activate_clothing = (data) => {
-        // console.log("activate_clothing:", data);
+        console.log("activate_clothing:", data);
         // Show the equipped icon on the inventory slot.
-        // const slot = dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey];
-        // slot.equipped.src = "assets/img/gui/hud/clothing-icon.png";
-        // slot.equipped.style.visibility = "visible";
+        const item = InventoryState.items[data];
+
+        InventoryState.setClothing(item);
 
         dungeonz.gameScene.soundManager.items.playEquippedSound(
-            data.itemTypeCode,
+            item.typeCode,
         );
     };
 
-    eventResponses.deactivate_clothing = (data) => {
-        // console.log("deactivate_clothing:", data);
-        // Hide the equipped icon on the inventory slot.
-        // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
+    eventResponses.deactivate_clothing = () => {
+        console.log("deactivate_clothing");
+
+        InventoryState.setClothing(null);
     };
 
     eventResponses.activate_holding = (data) => {
-        console.log("activate_holding:", data);
+        const item = InventoryState.items[data];
 
-        InventoryState.setHolding(data.slotIndex);
+        InventoryState.setHolding(item);
 
-        // TODO
-        // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.src = "assets/img/gui/hud/holding-icon.png";
-        // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "visible";
-        // Change the cursor to the attack icon.
-        // setAttackCursor();
         // Play sound when an item is held (i.e. a weapon).
         dungeonz.gameScene.soundManager.items.playEquippedSound(
-            data.itemTypeCode,
+            item.typeCode,
         );
+
+        // TODO
+        // Change the cursor to the attack icon.
+        // setAttackCursor();
     };
 
-    eventResponses.deactivate_holding = (data) => {
-        console.log("deactivate_holding:", data);
+    eventResponses.deactivate_holding = () => {
+        const item = InventoryState.holding;
+
+        dungeonz.gameScene.soundManager.items.playUnequippedSound(
+            item.typeCode,
+        );
 
         InventoryState.setHolding(null);
 
         // TODO
-        // dungeonz.gameScene.GUI.inventoryBar.slots[data.slotKey].equipped.style.visibility = "hidden";
-        // dungeonz.gameScene.GUI.spellBar.hide();
         // Change the cursor back to what it was before.
         // setDefaultCursor();
-
-        dungeonz.gameScene.soundManager.items.playUnequippedSound(
-            data.itemTypeCode,
-        );
     };
 
     /**

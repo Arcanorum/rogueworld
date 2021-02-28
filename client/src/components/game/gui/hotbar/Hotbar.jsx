@@ -4,6 +4,8 @@ import PubSub from "pubsub-js";
 import ItemIconsList from "../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../catalogues/ItemTypes.json";
 import {
+    AMMUNITION_ITEM,
+    CLOTHING_ITEM,
     HOLDING_ITEM, HOTBAR_ITEM, MODIFY_ITEM, PANEL_CHANGE,
 } from "../../../../shared/EventTypes";
 import { ApplicationState, GUIState, InventoryState } from "../../../../shared/state/States";
@@ -28,7 +30,11 @@ function HotbarSlot({ itemConfig }) {
     const [inventoryPanelOpen, setInventoryPanelOpen] = useState(
         GUIState.activePanel === Panels.Inventory,
     );
-    const [isHolding, setIsHolding] = useState(false);
+    const [isHolding, setIsHolding] = useState(itemConfig === InventoryState.holding);
+    const [isAmmunition, setIsAmmunition] = useState(
+        itemConfig === InventoryState.ammunition,
+    );
+    const [isClothing, setIsClothing] = useState(itemConfig === InventoryState.clothing);
 
     useEffect(() => {
         const subs = [
@@ -36,7 +42,13 @@ function HotbarSlot({ itemConfig }) {
                 setInventoryPanelOpen(GUIState.activePanel === Panels.Inventory);
             }),
             PubSub.subscribe(HOLDING_ITEM, () => {
-                setIsHolding(itemConfig.slotIndex === InventoryState.holding);
+                setIsHolding(itemConfig === InventoryState.holding);
+            }),
+            PubSub.subscribe(AMMUNITION_ITEM, () => {
+                setIsAmmunition(itemConfig === InventoryState.ammunition);
+            }),
+            PubSub.subscribe(CLOTHING_ITEM, () => {
+                setIsClothing(itemConfig === InventoryState.clothing);
             }),
         ];
 
@@ -61,7 +73,7 @@ function HotbarSlot({ itemConfig }) {
 
     return (
         <div
-          className={`slot ${inventoryPanelOpen ? "remove" : ""} ${isHolding ? "holding" : ""}`}
+          className={`slot ${inventoryPanelOpen ? "remove" : ""} ${isHolding ? "holding" : ""} ${isAmmunition ? "ammunition" : ""} ${isClothing ? "clothing" : ""}`}
           draggable={false}
           onMouseEnter={() => {
               GUIState.setTooltipContent(
@@ -73,7 +85,9 @@ function HotbarSlot({ itemConfig }) {
           }}
           onClick={slotPressed}
         >
-            {isHolding && <img src={holdingIcon} className="holding-icon" />}
+            {isHolding && <img src={holdingIcon} className="equipped-icon" />}
+            {isAmmunition && <img src={ammunitionIcon} className="equipped-icon" />}
+            {isClothing && <img src={clothingIcon} className="equipped-icon" />}
             <img
               src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
               draggable={false}

@@ -55,6 +55,7 @@ class Clothes extends Sprite {
         addAnimationSet("Iron armour", "iron-armour");
         addAnimationSet("Dungium armour", "dungium-armour");
         addAnimationSet("Noctis armour", "noctis-armour");
+        addAnimationSet("Armour of Ire", "dungium-armour");
     }
 
     moveAnimCompleted() {
@@ -111,6 +112,12 @@ Clothes.prototype.clothesFrames = {
         down: "noctis-armour-down-1",
         left: "noctis-armour-left-1",
         right: "noctis-armour-right-1",
+    },
+    "Armor of Ire": {
+        up: "dungium-armour-up-1",
+        down: "dungium-armour-down-1",
+        left: "dungium-armour-left-1",
+        right: "dungium-armour-right-1",
     },
 };
 

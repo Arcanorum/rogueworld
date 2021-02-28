@@ -400,10 +400,7 @@ class Player extends Character {
     modClothing(clothing) {
         if (clothing === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent(
-                this.EventsList.deactivate_clothing,
-                { slotIndex: this.clothing.slotIndex },
-            );
+            this.socket.sendEvent(this.EventsList.deactivate_clothing);
 
             Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
                 this.stats[statKey].levelModifier -= statBonus;
@@ -411,10 +408,7 @@ class Player extends Character {
         }
         else {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent(
-                this.EventsList.activate_clothing,
-                { slotIndex: clothing.slotIndex },
-            );
+            this.socket.sendEvent(this.EventsList.activate_clothing, clothing.slotIndex);
 
             Object.entries(clothing.statBonuses).forEach(([statKey, statBonus]) => {
                 this.stats[statKey].levelModifier += statBonus;
@@ -430,15 +424,11 @@ class Player extends Character {
     modHolding(holding) {
         if (holding === null) {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent(this.EventsList.deactivate_holding, {
-                slotIndex: this.holding.slotIndex,
-            });
+            this.socket.sendEvent(this.EventsList.deactivate_holding);
         }
         else {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent(this.EventsList.activate_holding, {
-                slotIndex: holding.slotIndex,
-            });
+            this.socket.sendEvent(this.EventsList.activate_holding, holding.slotIndex);
         }
         // Do this after, or this.holding would have already been nulled, so won't have a slot key to send to the client.
         this.holding = holding;
@@ -450,7 +440,7 @@ class Player extends Character {
     modAmmunition(ammunition) {
         if (ammunition === null) {
             // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent(this.EventsList.deactivate_ammunition, this.ammunition.slotIndex);
+            this.socket.sendEvent(this.EventsList.deactivate_ammunition);
         }
         else {
             // Tell the player to show the ammunition icon on the inventory slot of the item that was equipped.

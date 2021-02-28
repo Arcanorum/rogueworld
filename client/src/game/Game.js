@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import PubSub from "pubsub-js";
 import EntityTypes from "../catalogues/EntityTypes.json";
+import ItemTypes from "../catalogues/ItemTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
@@ -16,6 +17,7 @@ import {
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
 
+gameConfig.ItemTypes = ItemTypes;
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
 

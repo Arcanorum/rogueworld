@@ -26,6 +26,13 @@ class Ammunition extends Item {
         this.equip();
     }
 
+    onUsed() {
+        // Use this empty onUsed method to override the Item.prototype.onUsed one, or this item
+        // type will be flagged as unusable and therefore won't have it's quantity reduced when
+        // another item (i.e. a bow) uses it.
+        super.onUsed();
+    }
+
     /**
      * Use this ammunition item. Equips/removes it as the ammo used by the owner.
      */

@@ -141,17 +141,16 @@ const createCatalogue = () => {
     let dataToWrite = {};
 
     Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
-        const itemPrototype = ItemType.prototype;
-        // Catches the LIST reference thing that is set up at the end of server init, which won't have a type number at all.
-        if (itemPrototype === undefined) return;
+        const ItemTypePrototype = ItemType.prototype;
         // Only add registered types.
-        if (!itemPrototype.typeCode) return;
+        if (!ItemTypePrototype.typeCode) return;
         // Add this item type to the type catalogue.
-        dataToWrite[itemPrototype.typeCode] = {
-            typeCode: itemPrototype.typeCode,
+        dataToWrite[ItemTypePrototype.typeCode] = {
+            typeCode: ItemTypePrototype.typeCode,
             translationID: ItemType.translationID,
             iconSource: ItemType.iconSource,
             soundType: ItemType.soundType,
+            hasUseEffect: ItemTypePrototype.hasUseEffect,
         };
     });
 

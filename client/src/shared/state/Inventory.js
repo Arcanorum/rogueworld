@@ -1,4 +1,5 @@
 import PubSub from "pubsub-js";
+import ItemTypes from "../../catalogues/ItemTypes.json";
 import {
     ADD_ITEM,
     MODIFY_ITEM,
@@ -35,7 +36,10 @@ class Inventory {
 
         // Add to the hotbar if there is any available space on it.
         if (this.hotbar.length < this.MAX_HOTBAR_SLOTS) {
-            this.addToHotbar(itemConfig);
+            // Only add if it is usable.
+            if (ItemTypes[itemConfig.typeCode].hasUseEffect) {
+                this.addToHotbar(itemConfig);
+            }
         }
     }
 

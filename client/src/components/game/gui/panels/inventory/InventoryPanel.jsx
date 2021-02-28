@@ -25,6 +25,7 @@ const ItemTooltip = (itemConfig) => (
 function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
     const [inHotbar] = useState(isItemInHotbar(itemConfig));
     const [hotbarFull] = useState(InventoryState.hotbar.length >= InventoryState.MAX_HOTBAR_SLOTS);
+    const [hasUseEffect] = useState(ItemTypes[itemConfig.typeCode].hasUseEffect);
 
     const addToHotbarPressed = () => {
         InventoryState.addToHotbar(itemConfig);
@@ -54,10 +55,10 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 </div>
             </div>
             <div className="buttons">
-                {inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
-                {!inHotbar && hotbarFull && <div className="button options-full-hotbar">Hotbar full</div>}
-                {!inHotbar && !hotbarFull && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
-                <div className="button options-equip">Quick equip</div>
+                {hasUseEffect && inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
+                {hasUseEffect && !inHotbar && hotbarFull && <div className="button options-full-hotbar">Hotbar full</div>}
+                {hasUseEffect && !inHotbar && !hotbarFull && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
+                {hasUseEffect && <div className="button options-equip">Quick equip</div>}
                 <div className="button options-drop">Drop</div>
             </div>
         </div>

@@ -4,8 +4,8 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --exec npm start"
+    "start": "node generateLeafletMap.js && node index.js",
+    "dev": "node generateLeafletMap.js && nodemon --exec npm start"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +28,7 @@
     "require-dir": "^1.2.0"
   },
   "dependencies": {
+    "img2-leaflet-tiles": "^1.1.0",
     "js-yaml": "^3.14.0",
     "tile-extruder": "^2.0.6"
   }

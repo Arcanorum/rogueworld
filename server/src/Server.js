@@ -20,6 +20,11 @@ if (settings.DEV_MODE) {
     });
 }
 
+app.get('/map/:z/:x/:y', function (req, res) {
+    const {z, x, y} = req.params;
+    res.sendFile(path.join(__dirname, `../map/leaflet-map/${z}/${x}/${y}`));
+});
+
 httpServer = http.createServer(app).listen(httpPort);
 
 wss = new WebSocket.Server({

@@ -4,5 +4,18 @@
     background-color: $colourDB32White;
 
     .inner-cont {
+        height: 100%;
+        width: 100%;
+    }
+
+    .leaflet-container {
+        border-radius: 1.5rem;
+        height: 100%;
+        width: 100%;
+    }
+
+    .leaflet-div-icon {
+        background: transparent;
+        border: none;
     }
 }

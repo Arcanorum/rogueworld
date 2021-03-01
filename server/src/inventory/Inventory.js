@@ -224,7 +224,7 @@ class Inventory {
 
         // If no pickup type set, destroy the item without leaving a pickup on the ground.
         if (!item.PickupType) {
-            owner.inventory.removeItemBySlotIndex(slotIndex);
+            this.removeItemBySlotIndex(slotIndex);
             return;
         }
 
@@ -255,12 +255,48 @@ class Inventory {
                 itemConfig: item.itemConfig,
             }).emitToNearbyPlayers();
 
-            owner.inventory.removeItemBySlotIndex(slotIndex);
+            this.removeItemBySlotIndex(slotIndex);
         }
 
         this.updateWeight();
 
         owner.socket.sendEvent(EventsList.item_dropped);
+    }
+
+    /**
+     * Drops all items in this inventory to the ground as pickups.
+     */
+    dropAllItems() {
+        // Don't need to check the board tile to drop on, as
+        // if they player is already stood on it, it is valid.
+        const { owner } = this;
+
+        this.items.forEach((item) => {
+            // If no pickup type set, destroy the item without leaving a pickup on the ground.
+            if (!item.PickupType) {
+                this.removeItemBySlotIndex(item.slotIndex);
+                return;
+            }
+
+            // Add a pickup entity of that item to the board.
+            new item.PickupType({
+                row: owner.row,
+                col: owner.col,
+                board: owner.board,
+                itemConfig: item.itemConfig,
+            }).emitToNearbyPlayers();
+
+            // Let the item clean itself up.
+            item.destroy();
+        });
+
+        // Reset the inventory.
+        this.items = [];
+
+        // Tell the player all items were removed from their inventory.
+        this.owner.socket.sendEvent(EventsList.remove_all_items);
+
+        this.updateWeight();
     }
 }
 

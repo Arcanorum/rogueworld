@@ -7,7 +7,7 @@ import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import "./InventoryPanel.scss";
 import { InventoryState, GUIState, ApplicationState } from "../../../../../shared/state/States";
 import {
-    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, REMOVE_ITEM,
+    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, REMOVE_ITEM, REMOVE_ALL_ITEMS,
 } from "../../../../../shared/EventTypes";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
@@ -260,6 +260,9 @@ function InventoryPanel({ onCloseCallback }) {
                 setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(REMOVE_ITEM, () => {
+                setItems([...InventoryState.items]);
+            }),
+            PubSub.subscribe(REMOVE_ALL_ITEMS, () => {
                 setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_ITEM, () => {

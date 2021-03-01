@@ -86,6 +86,7 @@ const EventsList = {
     pickaxe_needed: registerEventName(),
     player_died: registerEventName(),
     player_respawn: registerEventName(),
+    remove_all_items: registerEventName(),
     remove_entity: registerEventName(),
     remove_item: registerEventName(),
     shop_prices: registerEventName(),

@@ -97,22 +97,7 @@ class Player extends Character {
     }
 
     onDestroy() {
-        /** @type {Item} */
-        let item;
-
-        // Drop all items in inventory.
-        // Don't need to check the board tile to drop on, as
-        // if they player is already stood on it, it is valid.
-
-        // TODO: items refactor
-        // for (const slotKey in this.inventory) {
-        //     if (this.inventory.hasOwnProperty(slotKey) === false) continue;
-        //     item = this.inventory[slotKey];
-        //     // Check the item slot is valid, and not empty.
-        //     if (item === null) continue;
-        //     // Add a pickup entity of that item to the board.
-        //     item.drop();
-        // }
+        this.inventory.dropAllItems();
 
         // If the player is currently in a dungeon, remove
         // them from it before leaving that dungeon board.

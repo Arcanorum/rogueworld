@@ -8,6 +8,7 @@ import {
     HOLDING_ITEM,
     AMMUNITION_ITEM,
     CLOTHING_ITEM,
+    REMOVE_ALL_ITEMS,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -62,6 +63,18 @@ class Inventory {
 
         // Remove it from the hotbar if it was on it.
         this.removeFromHotbar(item);
+    }
+
+    removeAllFromInventory() {
+        this.items.forEach((item) => {
+            // Remove it from the hotbar if it was on it.
+            this.removeFromHotbar(item);
+        });
+
+        // Reset the inventory.
+        this.items = [];
+
+        PubSub.publish(REMOVE_ALL_ITEMS);
     }
 
     addToHotbar(itemConfig) {

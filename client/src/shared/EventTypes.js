@@ -40,6 +40,7 @@ export const CHAT_OPEN = Symbol("CHAT_OPEN");
 // Inventory.
 export const ADD_ITEM = Symbol("ADD_ITEM");
 export const REMOVE_ITEM = Symbol("REMOVE_ITEM");
+export const REMOVE_ALL_ITEMS = Symbol("REMOVE_ALL_ITEMS");
 export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
 export const MODIFY_INVENTORY_WEIGHT = Symbol("MODIFY_INVENTORY_WEIGHT");
 export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");

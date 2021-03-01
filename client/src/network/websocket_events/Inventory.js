@@ -16,6 +16,10 @@ export default () => {
         InventoryState.removeFromInventory(data);
     };
 
+    eventResponses.remove_all_items = () => {
+        InventoryState.removeAllFromInventory();
+    };
+
     eventResponses.modify_item = (data) => {
         // console.log("modify_item event:", data);
         InventoryState.modifyItem(data);

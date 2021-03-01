@@ -22,6 +22,12 @@ class Clothes extends Item {
         this.equip();
     }
 
+    onUsed() {
+        // Use this empty onUsed method to override the Item.prototype.onUsed one, or this item
+        // type will be flagged as unusable and therefore won't be equippable, as it is equipped on use.
+        super.onUsed();
+    }
+
     /**
      * Use this clothing item. Typically wears/removes it from the owner.
      */
@@ -32,7 +38,12 @@ class Clothes extends Item {
         if (owner.clothing === this) {
             this.unequip();
             // Tell nearby players the owner entity is now wearing nothing.
-            owner.board.emitToNearbyPlayers(owner.row, owner.col, owner.EventsList.unequip_clothes, owner.id);
+            owner.board.emitToNearbyPlayers(
+                owner.row,
+                owner.col,
+                owner.EventsList.unequip_clothes,
+                owner.id,
+            );
         }
         // Owner is trying to wear something else.
         else {
@@ -46,7 +57,12 @@ class Clothes extends Item {
             // Add the defence bonus of this item to the owner.
             this.owner.modDefence(+this.defenceBonus);
             // Tell nearby players the owner entity is now wearing this clothing item.
-            owner.board.emitToNearbyPlayers(owner.row, owner.col, owner.EventsList.equip_clothes, { id: owner.id, typeCode: this.typeCode });
+            owner.board.emitToNearbyPlayers(
+                owner.row,
+                owner.col,
+                owner.EventsList.equip_clothes,
+                { id: owner.id, typeCode: this.typeCode },
+            );
         }
     }
 

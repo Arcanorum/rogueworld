@@ -151,6 +151,7 @@ const createCatalogue = () => {
             iconSource: ItemType.iconSource,
             soundType: ItemType.soundType,
             hasUseEffect: ItemTypePrototype.hasUseEffect,
+            equippable: ItemTypePrototype.equip !== Item.prototype.equip,
         };
     });
 

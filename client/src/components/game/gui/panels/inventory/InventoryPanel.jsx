@@ -83,6 +83,7 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
     const [inHotbar] = useState(isItemInHotbar(itemConfig));
     const [hotbarFull] = useState(InventoryState.hotbar.length >= InventoryState.MAX_HOTBAR_SLOTS);
     const [hasUseEffect] = useState(ItemTypes[itemConfig.typeCode].hasUseEffect);
+    const [isEquippable] = useState(ItemTypes[itemConfig.typeCode].equippable);
     const [showDropOptions, setShowDropOptions] = useState(false);
 
     const addToHotbarPressed = () => {
@@ -93,6 +94,30 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
 
     const removeFromHotbarPressed = () => {
         InventoryState.removeFromHotbar(itemConfig);
+
+        // Unequip it if it was equipped, otherwise it will
+        // still be usable even though not on the hotbar.
+        if (InventoryState.holding === itemConfig
+            || InventoryState.ammunition === itemConfig
+            || InventoryState.clothing === itemConfig) {
+            // Immediately use the item, which for an equippable, will equip it.
+            ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+        }
+
+        onCursorLeave();
+    };
+
+    const quickEquipPressed = () => {
+        InventoryState.addToHotbar(itemConfig);
+        // Immediately use the item, which for an equippable, will equip it.
+        ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+
+        onCursorLeave();
+    };
+
+    const quickUsePressed = () => {
+        // Immediately use the item.
+        ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
 
         onCursorLeave();
     };
@@ -126,9 +151,10 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
             {!showDropOptions && (
             <div className="buttons">
                 {hasUseEffect && inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
-                {hasUseEffect && !inHotbar && hotbarFull && <div className="button options-full-hotbar">Hotbar full</div>}
-                {hasUseEffect && !inHotbar && !hotbarFull && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
-                {hasUseEffect && <div className="button options-equip">Quick equip</div>}
+                {hasUseEffect && hotbarFull && !inHotbar && <div className="button options-full-hotbar">Hotbar full</div>}
+                {hasUseEffect && !hotbarFull && !inHotbar && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
+                {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className="button options-equip" onClick={quickEquipPressed}>Quick equip</div>}
+                {hasUseEffect && !isEquippable && <div className="button options-equip" onClick={quickUsePressed}>Quick use</div>}
                 {itemConfig.durability && <div className="button options-drop" onClick={dropPressed}>Drop</div>}
                 {itemConfig.quantity > 1 && <div className="button options-drop" onClick={() => { setShowDropOptions(true); }}>Drop</div>}
                 {itemConfig.quantity === 1 && <div className="button options-drop" onClick={dropPressed}>Drop</div>}

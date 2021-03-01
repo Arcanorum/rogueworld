@@ -17,6 +17,22 @@ FULL_DAY_DURATION_MINUTES: 24
 # Will make any dungeons that require key drops for locked doors impossible to complete.
 DISABLE_SPAWNER_AREAS: false
 
+# The board (map) to spawn players onto.
+# Must be an existing, permanent instance, not a dynamically added
+# board like for dungeons, which are created on demand.
+PLAYER_SPAWN_BOARD_NAME: overworld
+
+# The entrance bounds to spawn players within.
+# Must be found on the given board given for PLAYER_SPAWN_BOARD_NAME.
+# Some common overworld spawn entrances:
+# city-spawn (Default player spawn)
+# test-island (Dev area for easy access to most things)
+# mage-tower-library-stairs (Mage tower ground floor)
+# portal-ring-druid-village (Next to the druid village)
+# west-pyramid (West Pyramid dungeon entrance)
+# blood-halls (Blood Halls dungeon entrance)
+PLAYER_SPAWN_ENTRANCE_NAME: city-spawn
+
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.
 PLAYER_MOVE_DELAY: 250

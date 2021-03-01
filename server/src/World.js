@@ -23,8 +23,6 @@ const dayPhaseRate = fullDayDuration / dayPhaseCycle.length;
 Utils.message("Full day duration:", settings.FULL_DAY_DURATION_MINUTES, "minutes.");
 Utils.message("Day phase rate:", dayPhaseRate / 60000, "minutes.");
 
-const defaultSpawnEntranceName = settings.DEV_MODE ? "test-island" : "city-spawn";
-
 const world = {
 
     accountManager: AccountManager,
@@ -243,13 +241,13 @@ const world = {
         }
 
         // Start them in the overworld if they have played before.
-        const randomPosition = this.boardsObject["overworld"].entrances[defaultSpawnEntranceName].getRandomPosition();
+        const randomPosition = this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME].entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME].getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
-            board: this.boardsObject["overworld"],
+            board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
             displayName: account.displayName,
             socket: clientSocket,
         });
@@ -293,20 +291,20 @@ const world = {
             return;
         }
 
-        const randomPosition = this.boardsObject["tutorial"].entrances["spawn"].getRandomPosition();
+        const randomPosition = this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME].entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME].getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
-            board: this.boardsObject["tutorial"],
+            board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
             displayName: displayName,
             socket: clientSocket
         });
 
         // Give the new player some starting tasks, as they are NOT added automatically for player entities.
         playerEntity.tasks.addStartingTasks();
-        // New accounts get some free stuff in their bank in the tutorial, so add those properties.
+        // New accounts get some free stuff in their bank, so add those properties.
         playerEntity.bankAccount.addStarterItems();
 
         const dataToSend = this.getPlayerDataToSend(playerEntity);

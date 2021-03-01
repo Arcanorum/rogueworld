@@ -497,19 +497,6 @@ class Player extends Character {
     }
 
     /**
-     * Use the item at the given slot.
-     * @param {String} slotIndex
-     */
-    useItem(slotIndex) {
-        // Check that slot is valid.
-        if (this.inventory[slotIndex] === undefined) return false;
-
-        this.inventory[slotIndex].use();
-
-        return true;
-    }
-
-    /**
      * @static
      */
     pickUpItem() {

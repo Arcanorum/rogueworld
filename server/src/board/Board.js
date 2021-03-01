@@ -359,8 +359,6 @@ class Board {
                                 Utils.error("Invalid spawner configuration. Pickup spawners cannot have both `ItemQuantity` and `ItemDurability` properties. Map object:", mapObject);
                             }
 
-                            console.log("before making itemconfig");
-
                             // Need to create the item config new each time a pickup is spawned, or different
                             // pickups will share the same config which can be mutated, so don't use an actual
                             // instance of ItemConfig, just pass the props along and the spawner will take

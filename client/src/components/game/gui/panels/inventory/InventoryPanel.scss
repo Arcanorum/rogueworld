@@ -144,12 +144,10 @@
 
                 &.left {
                     left: 140px;
-                    // transform: translate(120%, 0%);
                 }
 
                 &.right {
                     right: 140px
-                    // transform: translate(-120%, 0%);
                 }
             }
             
@@ -158,12 +156,10 @@
 
                 &.left {
                     left: 140px;
-                    // transform: translate(120%, 0%);
                 }
 
                 &.right {
                     right: 140px
-                    // transform: translate(-120%, 0%);
                 }
             }
         }
@@ -178,6 +174,7 @@
                 padding: 16px;
                 margin: 8px;
                 user-select: none;
+
                 &:hover {
                     filter: brightness(120%);
                 }
@@ -202,6 +199,68 @@
     
                 &.options-drop {
                     background-color: $colourDB32Orange;
+                }
+            }
+
+            .input-bar {
+                display: inline-flex;
+                
+                .clear {
+                    padding: 8px;
+                    background-color: $colourDB32Red;
+                    color: white;
+                    font-size: 2rem;
+                }
+
+                input {
+                    font-size: 2rem;
+                    width: 80%;
+                    height: 20px;
+                    letter-spacing: 0.1em;
+                    font-family: 'Press Start 2P', cursive;
+                    border: #fff solid 1px;
+                    text-align: center;
+                }
+            }
+
+            .number-buttons {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+
+                .number-button {
+                    padding-top: 16px;
+                    padding-bottom: 16px;
+                    margin: 8px;
+                    text-align: center;
+                    user-select: none;
+                    
+                    &:hover {
+                        filter: brightness(120%);
+                    }
+    
+                    &.options-add-1 {
+                        background-color: $colourDB32LimeGreen;
+                    }
+    
+                    &.options-add-10 {
+                        background-color: $colourDB32Green;
+                    }
+    
+                    &.options-add-100 {
+                        background-color: green;
+                    }
+    
+                    &.options-remove-1 {
+                        background-color: $colourDB32LightTan;
+                    }
+    
+                    &.options-remove-10 {
+                        background-color: $colourDB32DarkTan;
+                    }
+    
+                    &.options-remove-100 {
+                        background-color: $colourDB32Orange;
+                    }
                 }
             }
         }

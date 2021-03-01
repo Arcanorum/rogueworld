@@ -16,11 +16,11 @@ class Drop {
         this.pickupType = ItemsList.BY_NAME[config.itemName].prototype.PickupType;
 
         if (typeof this.pickupType !== "function") {
-            Utils.error("Cannot add to drop list, pickup entity is not a function/class. Is it disabled?:", config.itemName);
+            Utils.error(`Cannot add to drop list, pickup entity is not a function/class. Is it disabled?: ${config.itemName}`);
         }
 
         if (this.pickupType.prototype instanceof Pickup === false) {
-            Utils.error(`Cannot add to drop list, imported entity type does not extend type Pickup. Config:${config}`);
+            Utils.error(`Cannot add to drop list, imported entity type does not extend type Pickup. Config: ${config}`);
         }
 
         /**

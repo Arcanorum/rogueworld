@@ -5,7 +5,7 @@ import PanelTemplate from "../panel_template/PanelTemplate";
 import inventoryIcon from "../../../../../assets/images/gui/hud/inventory-icon.png";
 import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import "./InventoryPanel.scss";
-import { InventoryState, GUIState } from "../../../../../shared/state/States";
+import { InventoryState, GUIState, ApplicationState } from "../../../../../shared/state/States";
 import {
     ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, REMOVE_ITEM,
 } from "../../../../../shared/EventTypes";
@@ -22,18 +22,87 @@ const ItemTooltip = (itemConfig) => (
     </div>
 );
 
+function DropOptions({ itemConfig, onCursorLeave }) {
+    const [dropQuantity, setDropQuantity] = useState(1);
+
+    useEffect(() => {
+        // Prevent the drop amount going over the actual quantity.
+        if (dropQuantity > itemConfig.quantity) {
+            setDropQuantity(itemConfig.quantity);
+        }
+        // Prevent negative drop amount. They will want to drop at least 1.
+        if (dropQuantity < 1) {
+            setDropQuantity(1);
+        }
+    }, [dropQuantity]);
+
+    const modDropQuantity = (amount) => {
+        setDropQuantity(dropQuantity + amount);
+    };
+
+    const inputChanged = (event) => {
+        setDropQuantity(parseInt(event.target.value || 0, 10));
+    };
+
+    const dropPressed = () => {
+        ApplicationState.connection.sendEvent("drop_item", {
+            slotIndex: itemConfig.slotIndex,
+            quantity: dropQuantity,
+        });
+
+        onCursorLeave();
+    };
+
+    return (
+        <div className="buttons">
+            <div className="number-buttons">
+                <div className="number-button options-add-1" onClick={() => { modDropQuantity(1); }}>+1</div>
+                <div className="number-button options-add-10" onClick={() => { modDropQuantity(10); }}>+10</div>
+                <div className="number-button options-add-100" onClick={() => { modDropQuantity(100); }}>+100</div>
+            </div>
+            <div className="number-buttons">
+                <div className="number-button options-remove-1" onClick={() => { modDropQuantity(-1); }}>-1</div>
+                <div className="number-button options-remove-10" onClick={() => { modDropQuantity(-10); }}>-10</div>
+                <div className="number-button options-remove-100" onClick={() => { modDropQuantity(-100); }}>-100</div>
+            </div>
+            <div className="input-bar">
+                <div className="button clear" onClick={() => { setDropQuantity(1); }}>x</div>
+                <input className="button" type="number" min="1" value={dropQuantity} onChange={inputChanged} />
+            </div>
+            <div className="button options-drop" onClick={dropPressed}>Drop</div>
+        </div>
+    );
+}
+
+DropOptions.propTypes = {
+    itemConfig: PropTypes.object.isRequired,
+    onCursorLeave: PropTypes.func.isRequired,
+};
+
 function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
     const [inHotbar] = useState(isItemInHotbar(itemConfig));
     const [hotbarFull] = useState(InventoryState.hotbar.length >= InventoryState.MAX_HOTBAR_SLOTS);
     const [hasUseEffect] = useState(ItemTypes[itemConfig.typeCode].hasUseEffect);
+    const [showDropOptions, setShowDropOptions] = useState(false);
 
     const addToHotbarPressed = () => {
         InventoryState.addToHotbar(itemConfig);
+
         onCursorLeave();
     };
 
     const removeFromHotbarPressed = () => {
         InventoryState.removeFromHotbar(itemConfig);
+
+        onCursorLeave();
+    };
+
+    const dropPressed = () => {
+        ApplicationState.connection.sendEvent("drop_item", {
+            slotIndex: itemConfig.slotIndex,
+            quantity: itemConfig.quantity,
+        });
+
         onCursorLeave();
     };
 
@@ -54,13 +123,23 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                     {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>
             </div>
+            {!showDropOptions && (
             <div className="buttons">
                 {hasUseEffect && inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
                 {hasUseEffect && !inHotbar && hotbarFull && <div className="button options-full-hotbar">Hotbar full</div>}
                 {hasUseEffect && !inHotbar && !hotbarFull && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
                 {hasUseEffect && <div className="button options-equip">Quick equip</div>}
-                <div className="button options-drop">Drop</div>
+                {itemConfig.durability && <div className="button options-drop" onClick={dropPressed}>Drop</div>}
+                {itemConfig.quantity > 1 && <div className="button options-drop" onClick={() => { setShowDropOptions(true); }}>Drop</div>}
+                {itemConfig.quantity === 1 && <div className="button options-drop" onClick={dropPressed}>Drop</div>}
             </div>
+            )}
+            {showDropOptions && (
+            <DropOptions
+              itemConfig={itemConfig}
+              onCursorLeave={onCursorLeave}
+            />
+            )}
         </div>
     );
 }

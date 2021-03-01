@@ -18,43 +18,6 @@ class Inventory {
         });
     }
 
-    useItem(slotIndex) {
-        const item = this.items[slotIndex];
-        if (!item) return;
-
-        const isStackable = !!item.quantity;
-
-        this.items[slotIndex].use();
-
-        if (isStackable && item.quantity < 1) {
-            // The item was stackable, but now the stack is empty, so remove it.
-            this.removeItemBySlotIndex(slotIndex);
-        }
-        else if (!isStackable && item.durability < 1) {
-            // The item broke, so remove it.
-            this.removeItemBySlotIndex(slotIndex);
-        }
-    }
-
-    removeItemBySlotIndex(slotIndex) {
-        if (!this.items[slotIndex]) return;
-
-        // Let the item clean itself up first.
-        this.items[slotIndex].destroy();
-
-        // Remove it and squash the hole it left behind.
-        // The items list shouldn't be holey.
-        this.items.splice(slotIndex, 1);
-
-        // Update the slot indexes of the items.
-        this.items.forEach((item, index) => {
-            item.slotIndex = index;
-        });
-
-        // Tell the player the item was removed from their inventory.
-        this.owner.socket.sendEvent(EventsList.remove_item, slotIndex);
-    }
-
     /**
      *
      * @param {ItemConfig} config
@@ -80,14 +43,18 @@ class Inventory {
     }
 
     updateWeight() {
+        const originalWeight = this.weight;
         this.weight = 0;
 
         this.items.forEach((item) => {
             this.weight += item.itemConfig.totalWeight;
         });
 
-        // Tell the player their new inventory weight.
-        this.owner.socket.sendEvent(EventsList.inventory_weight, this.weight);
+        // Only send if it has changed.
+        if (this.weight !== originalWeight) {
+            // Tell the player their new inventory weight.
+            this.owner.socket.sendEvent(EventsList.inventory_weight, this.weight);
+        }
     }
 
     quantityThatCanBeAdded(config) {
@@ -210,6 +177,90 @@ class Inventory {
         }
 
         this.updateWeight();
+    }
+
+    useItem(slotIndex) {
+        const item = this.items[slotIndex];
+        if (!item) return;
+
+        item.use();
+
+        this.updateWeight();
+    }
+
+    removeItemBySlotIndex(slotIndex) {
+        if (!this.items[slotIndex]) return;
+
+        // Let the item clean itself up first.
+        this.items[slotIndex].destroy();
+
+        // Remove it and squash the hole it left behind.
+        // The items list shouldn't be holey.
+        this.items.splice(slotIndex, 1);
+
+        // Update the slot indexes of the items.
+        this.items.forEach((item, index) => {
+            item.slotIndex = index;
+        });
+
+        // Tell the player the item was removed from their inventory.
+        this.owner.socket.sendEvent(EventsList.remove_item, slotIndex);
+    }
+
+    dropItem(slotIndex, quantity) {
+        const item = this.items[slotIndex];
+        if (!item) return;
+
+        const { owner } = this;
+
+        const boardTile = owner.getBoardTile();
+
+        // Check the board tile the player is standing on doesn't already have an item or interactable on it.
+        if (boardTile.isLowBlocked() === true) {
+            // TODO: figure out what to do about this.
+            // clientSocket.sendEvent(EventsList.cannot_drop_here);
+            return;
+        }
+
+        // If no pickup type set, destroy the item without leaving a pickup on the ground.
+        if (!item.PickupType) {
+            owner.inventory.removeItemBySlotIndex(slotIndex);
+            return;
+        }
+
+        // If a quantity to drop was given, only drop that amount, and keep the rest in the inventory.
+        if (quantity && item.itemConfig.quantity && quantity < item.itemConfig.quantity) {
+            // Remove from the stack.
+            item.modQuantity(-quantity);
+
+            // Add a pickup entity of that item to the board,
+            // with only the given quantity.
+            new item.PickupType({
+                row: owner.row,
+                col: owner.col,
+                board: owner.board,
+                itemConfig: new ItemConfig({
+                    ItemType: item.itemConfig.ItemType,
+                    quantity,
+                }),
+            }).emitToNearbyPlayers();
+        }
+        // Drop the whole thing.
+        else {
+            // Add a pickup entity of that item to the board.
+            new item.PickupType({
+                row: owner.row,
+                col: owner.col,
+                board: owner.board,
+                itemConfig: item.itemConfig,
+            }).emitToNearbyPlayers();
+
+            owner.inventory.removeItemBySlotIndex(slotIndex);
+        }
+
+        this.updateWeight();
+
+        owner.socket.sendEvent(EventsList.item_dropped);
     }
 }
 

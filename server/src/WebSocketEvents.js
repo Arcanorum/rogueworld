@@ -295,22 +295,14 @@ eventResponses.melee_attack = (clientSocket, data) => {
  * @param {String} data - The key of the inventory slot of the item to equip.
  */
 eventResponses.use_item = function (clientSocket, data) {
-    console.log("use item, data:", data);
+    // console.log("use item, data:", data);
     // Allow slot index 0 to be given.
     if (!Number.isFinite(data)) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
 
-    /** @type {Item} */
-    const item = clientSocket.entity.inventory.items[data];
-
-    console.log("using item:", item);
-
-    // Check the given item slot index is valid.
-    if (!item) return;
-
-    item.use();
+    clientSocket.entity.inventory.useItem(data);
 };
 
 /**
@@ -337,8 +329,8 @@ eventResponses.use_held_item = function (clientSocket, data) {
     /** @type {Holdable} */
     const item = clientSocket.entity.holding;
 
-    // Check the item slot is valid, and not empty.
-    if (item === undefined || item === null) return;
+    // Check the item is valid.
+    if (!item) return;
 
     clientSocket.entity.performAction(item.useWhileHeld, item, data);
 };
@@ -367,7 +359,6 @@ eventResponses.spell_selected = function (clientSocket, data) {
 eventResponses.drop_item = function (clientSocket, data) {
     // console.log("drop item event:", data);
     if (!data) return;
-
     if (clientSocket.inGame === false) return;
 
     /** @type {Player} */
@@ -376,21 +367,7 @@ eventResponses.drop_item = function (clientSocket, data) {
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
 
-    /** @type {Item} */
-    const item = clientSocket.entity.inventory[data];
-
-    // Check the item slot is valid, and not empty.
-    if (item === undefined || item === null) return;
-
-    const boardTile = entity.getBoardTile();
-
-    // Check the board tile the player is standing on doesn't already have an item or interactable on it.
-    if (boardTile.isLowBlocked() === true) {
-        clientSocket.sendEvent(EventsList.cannot_drop_here);
-        return;
-    }
-
-    item.drop();
+    clientSocket.entity.inventory.dropItem(data.slotIndex, data.quantity);
 };
 
 /**

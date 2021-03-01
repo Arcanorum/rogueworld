@@ -80,15 +80,6 @@ class ItemConfig {
         this.durability += amount;
         this.durability = Math.floor(this.durability);
     }
-
-    destroy() {
-        this.ItemType = null;
-        this.id = null;
-        this.quantity = null;
-        this.durability = null;
-        this.maxDurability = null;
-        this.totalWeight = 0;
-    }
 }
 
 ItemConfig.prototype.MAX_QUANTITY = 9999;

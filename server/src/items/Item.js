@@ -51,14 +51,14 @@ class Item {
                 this.modQuantity(-1);
             }
             else if (this.itemConfig.durability) {
-                if (this.expGivenStatName !== null) {
-                    // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
-                    // Check if the durability cost should be waived based on stat level chance.
-                    const waiveChance = getRandomIntInclusive(0, 99);
-                    if (waiveChance <= owner.stats[this.expGivenStatName].level) {
-                        return;
-                    }
-                }
+                // if (this.expGivenStatName !== null) {
+                //     // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
+                //     // Check if the durability cost should be waived based on stat level chance.
+                //     const waiveChance = getRandomIntInclusive(0, 99);
+                //     if (waiveChance <= owner.stats[this.expGivenStatName].level) {
+                //         return;
+                //     }
+                // }
                 this.modDurability(-1);
             }
 
@@ -74,28 +74,6 @@ class Item {
     equip() { }
 
     unequip() { }
-
-    drop() {
-        // If no pickup type set, destroy the item without leaving a pickup on the ground.
-        if (this.PickupType === null) {
-            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
-            return;
-        }
-
-        const { owner } = this;
-        // Add a pickup entity of that item to the board.
-        new this.PickupType({
-            row: owner.row,
-            col: owner.col,
-            board: owner.board,
-            durability: this.durability,
-            maxDurability: this.maxDurability,
-        }).emitToNearbyPlayers();
-
-        owner.socket.sendEvent(EventsList.item_dropped);
-
-        owner.inventory.removeItemBySlotIndex(this.slotIndex);
-    }
 
     useGatheringTool() {
         // Get position of the grid tile in front of the owner of this item.
@@ -123,7 +101,6 @@ class Item {
         this._destroyed = true;
 
         this.owner = null;
-        this.itemConfig.destroy();
         this.itemConfig = null;
         this.slotIndex = null;
     }
@@ -139,7 +116,8 @@ class Item {
 
         // Check if the stack is now empty.
         if (this.itemConfig.quantity < 1) {
-            // Remove this broken item.
+            // Remove this empty item stack.
+            // This needs to be done here as some items can use each other (e.g. bows using arrows).
             this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
         }
         else {
@@ -169,6 +147,7 @@ class Item {
             // Tell the player their item broke.
             this.owner.socket.sendEvent(EventsList.item_broken);
             // Remove this broken item.
+            // This needs to be done here as some items can use each other (e.g. bows using arrows).
             this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
         }
         else {

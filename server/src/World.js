@@ -23,8 +23,6 @@ const dayPhaseRate = fullDayDuration / dayPhaseCycle.length;
 Utils.message("Full day duration:", settings.FULL_DAY_DURATION_MINUTES, "minutes.");
 Utils.message("Day phase rate:", dayPhaseRate / 60000, "minutes.");
 
-const defaultSpawnEntranceName = settings.DEV_MODE ? "test-island" : "city-spawn";
-
 const world = {
 
     accountManager: AccountManager,
@@ -98,10 +96,10 @@ const world = {
         }
 
         let alwaysNight = false;
-        if (mapProperties.AlwaysNight == undefined) Utils.warning(`Map data is missing property: "AlwaysNight". Using default (false). On map: ${dataFileName}`);
+        if (mapProperties.AlwaysNight === undefined) Utils.warning(`Map data is missing property: "AlwaysNight". Using default (false). On map: ${dataFileName}`);
         if (mapProperties.AlwaysNight === true) alwaysNight = true;
 
-        if (mapProperties.IsDungeon == undefined) Utils.warning(`Map data is missing property: "IsDungeon". Using default (false). On map: ${dataFileName}`);
+        if (mapProperties.IsDungeon === undefined) Utils.warning(`Map data is missing property: "IsDungeon". Using default (false). On map: ${dataFileName}`);
         if (mapProperties.IsDungeon === true) {
             if (!mapProperties.Difficulty) Utils.warning(`Dungeon map is missing property: "Difficulty". Using default. On map: ${dataFileName}`);
             if (!mapProperties.NameDefinitionID) Utils.warning(`Dungeon map is missing property: "NameDefinitionID". Using default. On map: ${dataFileName}`);
@@ -159,7 +157,10 @@ const world = {
                             exit.destroy();
                             continue;
                         }
-                        if (this.boardsObject[exit.targetBoard].entrances[exit.targetEntrance] === undefined) {
+                        if (this
+                            .boardsObject[exit.targetBoard]
+                            .entrances[exit.targetEntrance]
+                            === undefined) {
                             exit.destroy();
                             continue;
                         }
@@ -217,7 +218,10 @@ const world = {
             tasks: playerEntity.tasks.getEmittableTasks(),
         };
         // Get the things this player can see.
-        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
+        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(
+            playerEntity.row,
+            playerEntity.col,
+        );
 
         return dataToSend;
     },
@@ -242,13 +246,16 @@ const world = {
         }
 
         // Start them in the overworld if they have played before.
-        const randomPosition = this.boardsObject.overworld.entrances[defaultSpawnEntranceName].getRandomPosition();
+        const randomPosition = this
+            .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
+            .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
+            .getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
-            board: this.boardsObject.overworld,
+            board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
             displayName: account.displayName,
             socket: clientSocket,
         });
@@ -292,20 +299,23 @@ const world = {
             return;
         }
 
-        const randomPosition = this.boardsObject.tutorial.entrances.spawn.getRandomPosition();
+        const randomPosition = this
+            .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
+            .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
+            .getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
-            board: this.boardsObject.tutorial,
+            board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
             displayName,
             socket: clientSocket,
         });
 
         // Give the new player some starting tasks, as they are NOT added automatically for player entities.
         playerEntity.tasks.addStartingTasks();
-        // New accounts get some free stuff in their bank in the tutorial, so add those properties.
+        // New accounts get some free stuff in their bank, so add those properties.
         playerEntity.bankAccount.addStarterItems();
 
         const dataToSend = this.getPlayerDataToSend(playerEntity);

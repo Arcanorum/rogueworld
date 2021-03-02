@@ -12,8 +12,6 @@ const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
 
-const respawnEntranceName = settings.DEV_MODE ? "test-island" : "city-spawn";
-
 class Player extends Character {
     /**
      * @param {Number} config.row
@@ -42,7 +40,9 @@ class Player extends Character {
          */
         this.respawnEntrance = (
             config.respawnEntrance
-            || BoardsList.boardsObject.overworld.entrances[respawnEntranceName]
+            || BoardsList
+                .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
+                .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
         );
 
         this.nextMoveTime = 0;

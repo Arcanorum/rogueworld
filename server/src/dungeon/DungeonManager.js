@@ -4,9 +4,6 @@ const settings = require("../../settings");
 
 const idCounter = new Utils.Counter();
 
-// Use the test island spawn if in dev mode.
-const defaultEvictionEntranceName = settings.DEV_MODE ? "test-island" : "city-spawn";
-
 class DungeonManager {
     /**
      * @param {Object} config
@@ -87,8 +84,8 @@ class DungeonManager {
          */
         this.nameDefinitionID = `Dungeon name: ${config.nameDefinitionID}`;
 
-        this.evictionBoard = config.evictionMapName || "overworld";
-        this.evictionEntrance = config.evictionEntranceName || defaultEvictionEntranceName;
+        this.evictionBoard = config.evictionMapName || settings.PLAYER_SPAWN_BOARD_NAME;
+        this.evictionEntrance = config.evictionEntranceName || settings.PLAYER_SPAWN_ENTRANCE_NAME;
 
         /**
          * How much glory a player must pay to enter.

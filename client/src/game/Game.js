@@ -8,7 +8,7 @@ import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 import {
-    ApplicationState, GUIState, InventoryState, PlayerState,
+    ApplicationState, GUIState, InventoryState, PlayerState, resetStates,
 } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
@@ -155,9 +155,9 @@ class Game extends Phaser.Scene {
         this.tilemap.loadMap(this.currentBoardName);
 
         // Add the entities that are visible on start.
-        for (let i = 0; i < this.dynamicsData.length; i += 1) {
-            this.addEntity(this.dynamicsData[i]);
-        }
+        this.dynamicsData.forEach((dynamicData) => {
+            this.addEntity(dynamicData);
+        });
 
         this.tilemap.updateDarknessGrid();
 
@@ -172,7 +172,8 @@ class Game extends Phaser.Scene {
         // Lock the camera to the player sprite.
         this.cameras.main.startFollow(this.dynamics[PlayerState.entityID].spriteContainer);
 
-        window.addEventListener("mousedown", this.pointerDownHandler.bind(this));
+        this.boundPointerDownHandler = this.pointerDownHandler.bind(this);
+        document.addEventListener("mousedown", this.boundPointerDownHandler);
 
         this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
             fontFamily: "\"Courier\"",
@@ -233,6 +234,8 @@ class Game extends Phaser.Scene {
                 GUIState.setChatInputStatus(false);
             }),
         ];
+
+        this.events.on("destroy", this.shutdown, this);
     }
 
     update() {
@@ -265,15 +268,18 @@ class Game extends Phaser.Scene {
     }
 
     shutdown() {
-        // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
-        document.removeEventListener("keydown", this.keyDownHandler);
+        Utils.message("Game shutdown:", this);
 
-        window.removeEventListener("mousedown", this.pointerDownHandler);
+        // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
+        document.removeEventListener("keydown", this.boundKeyDownHandler);
+        document.removeEventListener("mousedown", this.boundPointerDownHandler);
 
         // Clean up subscriptions before stopping the game.
         this.subs.forEach((sub) => {
             PubSub.unsubscribe(sub);
         });
+
+        resetStates();
     }
 
     /**
@@ -331,10 +337,6 @@ class Game extends Phaser.Scene {
         // event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
         if (event.target.parentNode.id === "game-canvas") {
-            if (!this.dynamics[PlayerState.entityID]) {
-                console.log("pointerDownHandler, playerstate?", PlayerState);
-                console.log("- dynamics?", this.dynamics);
-            }
             // If the user pressed on their character sprite, pick up item.
             if (Utils.pixelDistanceBetween(
                 this.dynamics[PlayerState.entityID].spriteContainer,
@@ -438,7 +440,8 @@ class Game extends Phaser.Scene {
 
     setupKeyboardControls() {
         // Add the handler for keyboard events.
-        document.addEventListener("keydown", this.keyDownHandler.bind(this));
+        this.boundKeyDownHandler = this.keyDownHandler.bind(this);
+        document.addEventListener("keydown", this.boundKeyDownHandler);
 
         this.keyboardKeys = this.input.keyboard.addKeys(
             {

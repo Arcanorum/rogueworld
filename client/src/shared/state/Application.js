@@ -4,30 +4,34 @@ import {
 } from "../EventTypes";
 
 class Application {
-    connection = null;
-
-    connecting = false;
-
-    connected = false;
-
-    joining = false;
-
-    joined = false;
-
-    joinWorldData = null;
-
-    loading = false;
-
-    loadAccepted = true;
-
-    loggedIn = false;
-
     constructor() {
+        this.init();
+
         PubSub.subscribe(WEBSOCKET_CLOSE, () => {
             this.setConnected(false);
             this.setConnecting(false);
             this.setJoined(false);
         });
+    }
+
+    init() {
+        this.connection = null;
+
+        this.connecting = false;
+
+        this.connected = false;
+
+        this.joining = false;
+
+        this.joined = false;
+
+        this.joinWorldData = null;
+
+        this.loading = false;
+
+        this.loadAccepted = true;
+
+        this.loggedIn = false;
     }
 
     setConnecting(value) {

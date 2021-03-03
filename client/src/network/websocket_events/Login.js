@@ -8,6 +8,7 @@ import {
 
 export default () => {
     Utils.message("Adding login events");
+
     eventResponses.something_went_wrong = () => {
         ApplicationState.setJoining(false);
 

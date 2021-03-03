@@ -13,22 +13,28 @@ import {
 import Utils from "../Utils";
 
 class Inventory {
-    items = [];
+    constructor() {
+        this.init();
+    }
 
-    // Need to keep a separate list for the hotbar as things can be rearranged.
-    hotbar = [];
+    init() {
+        this.items = [];
 
-    MAX_HOTBAR_SLOTS = 8;
+        // Need to keep a separate list for the hotbar as things can be rearranged.
+        this.hotbar = [];
 
-    holding = null;
+        this.MAX_HOTBAR_SLOTS = 8;
 
-    clothing = null;
+        this.holding = null;
 
-    ammunition = null;
+        this.clothing = null;
 
-    weight = 0;
+        this.ammunition = null;
 
-    maxWeight = 0;
+        this.weight = 0;
+
+        this.maxWeight = 0;
+    }
 
     addToInventory(itemConfig) {
         this.items.push(itemConfig);

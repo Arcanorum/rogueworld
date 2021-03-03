@@ -55,7 +55,8 @@ class Boot extends Phaser.Scene {
         }, this);
 
         // Make sure the window always has focus when clicked on. Fixes not detecting input when iframed.
-        window.addEventListener("click", () => {
+        // TODO: Need to clean this up. in this scene, or in game scene destroy event?
+        document.addEventListener("click", () => {
             // console.log("click");
             window.focus();
         }, false);

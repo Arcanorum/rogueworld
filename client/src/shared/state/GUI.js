@@ -2,21 +2,9 @@ import PubSub from "pubsub-js";
 import { CURSOR_MOVE, TOOLTIP_CONTENT, PANEL_CHANGE } from "../EventTypes";
 
 class GUI {
-    cursorX = 0;
-
-    cursorY = 0;
-
-    cursorInLeftSide = false;
-
-    cursorInTopSide = false;
-
-    chatInputStatus = false;
-
-    tooltipContent = null;
-
-    activePanel = null;
-
     constructor() {
+        this.init();
+
         document.onmousemove = (event) => {
             this.setCursorX(event.clientX);
             this.setCursorY(event.clientY);
@@ -28,6 +16,22 @@ class GUI {
                 },
             });
         };
+    }
+
+    init() {
+        this.cursorX = 0;
+
+        this.cursorY = 0;
+
+        this.cursorInLeftSide = false;
+
+        this.cursorInTopSide = false;
+
+        this.chatInputStatus = false;
+
+        this.tooltipContent = null;
+
+        this.activePanel = null;
     }
 
     setCursorX(value) {

@@ -1,12 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-const Utils = require("../../../../../Utils");
-const Factions = require("../../../../../gameplay/Factions");
-const Behaviours = require("../../../../../gameplay/Behaviours");
-const Drop = require("../../../../../gameplay/Drop");
-const Damage = require("../../../../../gameplay/Damage");
-const EntitiesList = require("../../../../../EntitiesList");
+const Utils = require("../Utils");
+const Factions = require("./Factions");
+const Behaviours = require("./Behaviours");
+const Drop = require("./Drop");
+const Damage = require("./Damage");
+const EntitiesList = require("../EntitiesList");
 
 /**
  * Gets the value to use for a mob for a given property.

@@ -13,14 +13,28 @@ class Drop {
          * The item pickup entity to be created when this item is dropped.
          * @type {Function}
          */
-        this.pickupType = ItemsList.BY_NAME[config.itemName].prototype.PickupType;
+        this.PickupType = ItemsList.BY_NAME[config.itemName].prototype.PickupType;
 
-        if (typeof this.pickupType !== "function") {
+        if (typeof this.PickupType !== "function") {
             Utils.error(`Cannot add to drop list, pickup entity is not a function/class. Is it disabled?: ${config.itemName}`);
         }
 
-        if (this.pickupType.prototype instanceof Pickup === false) {
-            Utils.error(`Cannot add to drop list, imported entity type does not extend type Pickup. Config: ${config}`);
+        if (this.PickupType.prototype instanceof Pickup === false) {
+            Utils.error("Cannot add to drop list, imported entity type does not extend type Pickup. Config:", config);
+        }
+
+        if(config.quantity){
+            if(!ItemsList.BY_NAME[config.itemName].prototype.baseQuantity){
+                Utils.error("Cannot add to drop list, drop config specifies quantity for non-stackable item type. Config:", config);
+            }
+            this.quantity = config.quantity;
+        }
+
+        if(config.durability){
+            if(!ItemsList.BY_NAME[config.itemName].prototype.baseDurability){
+                Utils.error("Cannot add to drop list, drop config specifies durability for stackable item type. Config:", config);
+            }
+            this.durability = config.durability;
         }
 
         /**
@@ -51,7 +65,7 @@ class Drop {
         }
         // Otherwise use the item pickup default drop rate if it is defined.
         else {
-            this.dropRate = this.pickupType.prototype.dropRate;
+            this.dropRate = this.PickupType.prototype.dropRate;
         }
     }
 }

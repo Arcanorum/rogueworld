@@ -112,7 +112,16 @@ class Mob extends Character {
                 // Do the roll.
                 if (dropConfig.dropRate >= Utils.getRandomIntInclusive(1, 100)) {
                     // Create a new pickup which will be added to the board.
-                    new dropConfig.pickupType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
+                    new dropConfig.PickupType({
+                        row: this.row,
+                        col: this.col,
+                        board: this.board,
+                        itemConfig: new ItemConfig({
+                            ItemType: dropConfig.PickupType.prototype.ItemType,
+                            quantity: dropConfig.quantity,
+                            durability: dropConfig.durability,
+                        }),
+                    }).emitToNearbyPlayers();
                 }
             }
         });
@@ -1740,7 +1749,7 @@ class Mob extends Character {
     }
 
     static loadMobStats() {
-        Mob.StatValues = require("./MobStats");
+        Mob.StatValues = require("../../../../../gameplay/MobStats");
     }
 }
 module.exports = Mob;
@@ -1749,6 +1758,7 @@ Mob.abstract = true;
 
 const Player = require("../Player");
 const Damage = require("../../../../../gameplay/Damage");
+const ItemConfig = require("../../../../../inventory/ItemConfig");
 
 Mob.StatValues = null;
 

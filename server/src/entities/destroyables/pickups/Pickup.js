@@ -1,3 +1,4 @@
+const ItemConfig = require("../../../inventory/ItemConfig");
 const Destroyable = require("../Destroyable");
 
 class Pickup extends Destroyable {
@@ -13,7 +14,7 @@ class Pickup extends Destroyable {
 
         config.board.addPickup(this);
 
-        this.itemConfig = config.itemConfig;
+        this.itemConfig = config.itemConfig || new ItemConfig({ItemType: this.ItemType});
 
         // Add a self-destruct timer to pickups that are not in a dungeon.
         if (!this.board.dungeon) {

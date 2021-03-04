@@ -104,6 +104,8 @@ async function init() {
     // Should only need to do this for a prod build, as the Webpack dev server should take care of
     // detecting changes and rebuilding the client during development.
     if (settings.DEV_MODE === false) {
+        Utils.message("In prod mode. Starting to build client.");
+
         exec("cd .. && npm run client", (error, stdout, stderr) => {
             if (error || stderr) {
                 Utils.error(error || stderr);

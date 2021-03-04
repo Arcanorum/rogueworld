@@ -103,6 +103,12 @@ And then do a fresh reinstall of the packages.
 
 `npm i`
 
+### Out of memory when building client
+
+The CRA build process may use up more memory than is available on your server (such as for a 1GB VPS), in which case some swap space can be allocated for extra memory to be able to finish the build.
+
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
+
 ### Update Ubuntu
 
 `apt-get update && apt-get upgrade`

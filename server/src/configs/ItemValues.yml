@@ -375,7 +375,7 @@
   ProjectileType: ProjShuriken
   category: Weapon
   unitWeight: 3
-  baseDurability: 50
+  baseQuantity: 5
   useEnergyCost: 1
   expGivenStatName: Ranged
 

@@ -1,3 +1,4 @@
+const ItemConfig = require("../../../../inventory/ItemConfig");
 const Interactable = require("../Interactable");
 
 class ResourceNode extends Interactable {
@@ -16,6 +17,8 @@ class ResourceNode extends Interactable {
         // Don't do anything if the character doesn't have enough energy to interact with this node.
         if (interactedBy.energy < this.interactionEnergyCost) return;
 
+        const itemConfig = new ItemConfig({ ItemType: this.ItemType });
+
         // Check if a particular tool is needed to harvest this node.
         if (this.requiredToolCategory !== null) {
             // Don't do anything if no tool was used. Might have been walked into.
@@ -32,8 +35,8 @@ class ResourceNode extends Interactable {
             // If it still exists, then it occupies a slot, meaning the item
             // given has nowhere to go, so return if inventory already full.
             if (toolUsed.durability > this.interactionDurabilityCost) {
-                // Don't do anything if the inventory is full.
-                // if (interactedBy.isInventoryFull() === true) return;
+                // Don't do anything if there isn't enough space in the inventory to receive the resource item.
+                if (!interactedBy.inventory.canItemBeAdded(itemConfig)) return;
             }
 
             // This needs to be before modDurability or the item might have been destroyed if it would get broken during this use.
@@ -42,17 +45,17 @@ class ResourceNode extends Interactable {
             // Reduce the durability of the tool used.
             // This needs to be before the below isInventoryFull check, as there is a special
             // case when a tool would be destroyed by being used on this node, thus freeing up
-            // a space for the item it gives.
+            // space for the item it gives.
             toolUsed.modDurability(-this.interactionDurabilityCost);
         }
         // No tool required. Check it is actually a player, as only players have an inventory.
         else if (interactedBy.socket === undefined) return;
 
-        // Don't do anything if the inventory is full.
-        // if (interactedBy.isInventoryFull() === true) return;
+        // Don't do anything if there isn't enough space in the inventory to receive the resource item.
+        if (!interactedBy.inventory.canItemBeAdded(itemConfig)) return;
 
         // Create a new instance of the item type given by this node and add it to the character's inventory.
-        interactedBy.addToInventory(new this.ItemType({}));
+        interactedBy.inventory.addItem(itemConfig);
 
         // Reduce their energy by the interaction cost.
         interactedBy.modEnergy(-this.interactionEnergyCost);

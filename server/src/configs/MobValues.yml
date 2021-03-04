@@ -129,16 +129,18 @@
 
 - name: Berserker
   gloryValue: 60
+  maxHitPoints: 150
   defence: 40
   viewRange: 5
-  moveRate: 600
-  projectileAttackType: IronSword
+  attackRate: 1000
+  moveRate: 500
+  projectileAttackType: DungiumSword
   faction: Barbarians
   corpseType: Human
   dropList:
-    - itemName: IronOre
-    - itemName: IronBar
-    - itemName: IronSword
+    - itemName: DungiumOre
+    - itemName: DungiumBar
+    - itemName: DungiumSword
     - itemName: Redcap
 
 - name: Mage

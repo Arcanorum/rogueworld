@@ -4,17 +4,24 @@
     bottom: 80px;
     transform: translateX(-50%);
     pointer-events: none;
-}
 
-.meter {
-    position: relative;
-    display: flex;
-    user-select: none;
-}
+    .inventory-button {
+        position: absolute;
+        left: 0;
+        transform: translate(-100%, -50%);
+        top: 50%;
+    }
 
-.meter-counter {
-    width: 16px;
-    height: 16px;
-    padding: 1px;
-    margin-top: 12px;
+    .meter {
+        position: relative;
+        display: flex;
+        user-select: none;
+
+        .meter-counter {
+            width: 16px;
+            height: 16px;
+            padding: 1px;
+            margin-top: 12px;
+        }
+    }
 }

@@ -11,6 +11,9 @@ import {
 } from "../../../../shared/EventTypes";
 import { GUIState } from "../../../../shared/state/States";
 import Utils from "../../../../shared/Utils";
+import inventoryIcon from "../../../../assets/images/gui/hud/inventory-icon.png";
+import PanelButton from "../panel_button/PanelButton";
+import Panels from "../panels/PanelsEnum";
 
 // How many of the little circle counters to show on each meter bar.
 const maxCounters = 20;
@@ -67,6 +70,15 @@ function Meters() {
 
     return (
         <div className="meters gui-zoomable">
+            <div className="inventory-button">
+                <PanelButton
+                  icon={inventoryIcon}
+                  onClick={() => {
+                      GUIState.setActivePanel(Panels.Inventory);
+                  }}
+                  tooltipText={Utils.getTextDef("Inventory tooltip")}
+                />
+            </div>
             <div className="meter">
                 <img
                   className="gui-icon"

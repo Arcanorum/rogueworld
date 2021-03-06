@@ -18,10 +18,9 @@ import mapIcon from "../../../assets/images/gui/hud/map-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
-import inventoryIcon from "../../../assets/images/gui/hud/inventory-icon.png";
 import settingsIcon from "../../../assets/images/gui/hud/settings/settings-icon.png";
 import {
-    DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, POSITION_VALUE,
+    DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, PANEL_CHANGE, POSITION_VALUE,
 } from "../../../shared/EventTypes";
 import ChatInput from "./chat_input/ChatInput";
 import DungeonPanel from "./panels/dungeon/DungeonPanel";
@@ -30,6 +29,7 @@ import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
 import MapPanel from "./panels/map/MapPanel";
 import InventoryPanel from "./panels/inventory/InventoryPanel";
+import SettingsPanel from "./panels/settings/SettingsPanel";
 import Tooltip from "./tooltip/Tooltip";
 import Panels from "./panels/PanelsEnum";
 import Hotbar from "./hotbar/Hotbar";
@@ -65,6 +65,11 @@ function GUI() {
                 // If the player died, show the respawn panel.
                 if (data.new <= 0) {
                     setShownPanel(Panels.Respawn);
+                }
+            }),
+            PubSub.subscribe(PANEL_CHANGE, () => {
+                if (GUIState.activePanel === Panels.Inventory) {
+                    setShownPanel(Panels.Inventory);
                 }
             }),
         ];
@@ -118,13 +123,6 @@ function GUI() {
                   }}
                   tooltipText={Utils.getTextDef("Map tooltip")}
                 />
-                <PanelButton
-                  icon={inventoryIcon}
-                  onClick={() => {
-                      setShownPanel(Panels.Inventory);
-                  }}
-                  tooltipText={Utils.getTextDef("Inventory tooltip")}
-                />
             </div>
 
             <div className="top-right-corner-cont gui-zoomable">
@@ -142,6 +140,14 @@ function GUI() {
                 />
 
                 <PanelButton
+                  icon={settingsIcon}
+                  onClick={() => {
+                      setShownPanel(Panels.Settings);
+                  }}
+                  tooltipText={Utils.getTextDef("Settings tooltip")}
+                />
+
+                <PanelButton
                   icon={discordIcon}
                   onClick={() => window.open(discordInviteLink, "_blank")}
                   tooltipText={Utils.getTextDef("Discord tooltip")}
@@ -154,19 +160,7 @@ function GUI() {
                 />
             </div>
 
-            <div className="bottom-right-corner-cont gui-zoomable">
-                <PanelButton
-                  icon={inventoryIcon}
-                  onClick={() => null} // @TODO implement this later
-                  tooltipText={Utils.getTextDef("Inventory tooltip")}
-                />
-
-                <PanelButton
-                  icon={settingsIcon}
-                  onClick={() => null} // @TODO implement this later
-                  tooltipText={Utils.getTextDef("Settings tooltip")}
-                />
-            </div>
+            <div className="bottom-right-corner-cont gui-zoomable" />
 
             <DungeonTimer />
             <DungeonKeys />
@@ -179,6 +173,11 @@ function GUI() {
                 )}
                 {shownPanel === Panels.Account && (
                 <AccountPanel
+                  onCloseCallback={closePanelCallback}
+                />
+                )}
+                {shownPanel === Panels.Settings && (
+                <SettingsPanel
                   onCloseCallback={closePanelCallback}
                 />
                 )}

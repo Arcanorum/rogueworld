@@ -10,6 +10,7 @@ import {
     CLOTHING_ITEM,
     REMOVE_ALL_ITEMS,
 } from "../EventTypes";
+import gameConfig from "../GameConfig";
 import Utils from "../Utils";
 
 class Inventory {
@@ -41,11 +42,14 @@ class Inventory {
 
         PubSub.publish(ADD_ITEM, itemConfig);
 
-        // Add to the hotbar if there is any available space on it.
-        if (this.hotbar.length < this.MAX_HOTBAR_SLOTS) {
-            // Only add if it is usable.
-            if (ItemTypes[itemConfig.typeCode].hasUseEffect) {
-                this.addToHotbar(itemConfig);
+        // Only add automatically if the setting for it is set.
+        if (gameConfig.addToHotbar) {
+            // Add to the hotbar if there is any available space on it.
+            if (this.hotbar.length < this.MAX_HOTBAR_SLOTS) {
+                // Only add if it is usable.
+                if (ItemTypes[itemConfig.typeCode].hasUseEffect) {
+                    this.addToHotbar(itemConfig);
+                }
             }
         }
     }

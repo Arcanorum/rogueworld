@@ -2,14 +2,11 @@
 
 .map-panel {
     background-color: $colourDB32White;
-
-    .inner-cont {
-        height: 100%;
-        width: 100%;
-    }
+    pointer-events: none;
 
     .leaflet-container {
-        border-radius: 1.5rem;
+        pointer-events: auto;
+        z-index: -1;
         height: 100%;
         width: 100%;
     }

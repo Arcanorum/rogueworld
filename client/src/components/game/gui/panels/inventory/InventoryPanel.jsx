@@ -194,7 +194,7 @@ function ItemSlot({ itemConfig, onClick }) {
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
-                      <ItemTooltip itemConfig={itemConfig} />,
+                      <ItemTooltip itemTypeCode={itemConfig.typeCode} />,
                   );
               }}
               onMouseLeave={() => {

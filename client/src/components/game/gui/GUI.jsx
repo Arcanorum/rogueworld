@@ -18,7 +18,7 @@ import mapIcon from "../../../assets/images/gui/hud/map-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
-import settingsIcon from "../../../assets/images/gui/hud/settings/settings-icon.png";
+import settingsIcon from "../../../assets/images/gui/panels/settings/settings-icon.png";
 import {
     DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, PANEL_CHANGE, POSITION_VALUE,
 } from "../../../shared/EventTypes";

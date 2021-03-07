@@ -12,16 +12,10 @@ import {
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
+import ItemTooltip from "../../item_tooltip/ItemTooltip";
 
 const isItemInHotbar = (itemConfig) => InventoryState.hotbar
     .some((eachItem) => eachItem === itemConfig);
-
-const ItemTooltip = (itemConfig) => (
-    <div>
-        {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationID}`)}
-    </div>
-);
-
 function DropOptions({ itemConfig, onCursorLeave }) {
     const [dropQuantity, setDropQuantity] = useState(1);
 
@@ -200,7 +194,7 @@ function ItemSlot({ itemConfig, onClick }) {
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
-                      ItemTooltip(itemConfig),
+                      <ItemTooltip itemConfig={itemConfig} />,
                   );
               }}
               onMouseLeave={() => {

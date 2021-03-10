@@ -5,7 +5,6 @@ const SpellBook = require("./items/holdable/spell_books/SpellBook");
 const DungeonManagersList = require("./dungeon/DungeonManagersList");
 const EventsList = require("./EventsList");
 const ValidDirections = require("./entities/Entity").prototype.OppositeDirections;
-const CraftingManager = require("./crafting/CraftingManager");
 
 const Charter = undefined; // require("./entities/statics/interactables/breakables/crafting stations/Charter");
 const DungeonPortal = require("./entities/statics/interactables/DungeonPortal");

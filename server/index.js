@@ -1,11 +1,12 @@
-require("./settings");
+/* eslint-disable global-require */
 const fs = require("fs");
 const { exec } = require("child_process");
 const { extrudeTilesetToImage } = require("tile-extruder");
+const settings = require("./settings");
 const Utils = require("./src/Utils");
 const ItemsLoader = require("./src/ItemsLoader");
 const EntitiesLoader = require("./src/EntitiesLoader");
-const settings = require("./settings");
+const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
 
 Utils.message("Start of index");
 
@@ -18,8 +19,12 @@ async function init() {
     ItemsLoader.initialiseList();
     EntitiesLoader.initialiseList();
 
+    // Do this after the items list is set up, as the recipes need to check the items they use are valid.
+    CraftingRecipesLoader.populateList();
+
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();
+    CraftingRecipesLoader.createCatalogue();
 
     const AccountManager = require("./src/AccountManager");
     await AccountManager.setup();

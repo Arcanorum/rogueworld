@@ -228,7 +228,7 @@ class Item {
                 ),
             );
 
-            if (!WeightClasses[this.prototype.unitWeight]) {
+            if (WeightClasses[this.prototype.unitWeight] === undefined) {
                 Utils.error("Item weight class name does not exist in the item weight classes list: ", this.prototype.unitWeight);
             }
 

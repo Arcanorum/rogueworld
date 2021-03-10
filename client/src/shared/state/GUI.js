@@ -1,5 +1,7 @@
 import PubSub from "pubsub-js";
-import { CURSOR_MOVE, TOOLTIP_CONTENT, PANEL_CHANGE } from "../EventTypes";
+import {
+    CURSOR_MOVE, TOOLTIP_CONTENT, CRAFTING_STATION, PANEL_CHANGE,
+} from "../EventTypes";
 
 class GUI {
     constructor() {
@@ -32,6 +34,8 @@ class GUI {
         this.tooltipContent = null;
 
         this.activePanel = null;
+
+        this.craftingStation = null;
     }
 
     setCursorX(value) {
@@ -62,6 +66,16 @@ class GUI {
         this.activePanel = value;
 
         PubSub.publish(PANEL_CHANGE, { new: value });
+    }
+
+    setCraftingStation(typeNumber, name, icon) {
+        this.craftingStation = {
+            typeNumber,
+            name,
+            icon,
+        };
+
+        PubSub.publish(CRAFTING_STATION, this.craftingStation);
     }
 
     setTooltipContent(content) {

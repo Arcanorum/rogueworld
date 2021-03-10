@@ -9,6 +9,7 @@ const Panels = {
     Tasks: Symbol("Tasks"),
     Map: Symbol("Map"),
     Inventory: Symbol("Inventory"),
+    Crafting: Symbol("Crafting"),
 };
 
 export default Panels;

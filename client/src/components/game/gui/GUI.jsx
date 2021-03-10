@@ -33,6 +33,7 @@ import SettingsPanel from "./panels/settings/SettingsPanel";
 import Tooltip from "./tooltip/Tooltip";
 import Panels from "./panels/PanelsEnum";
 import Hotbar from "./hotbar/Hotbar";
+import CraftingPanel from "./panels/crafting/CraftingPanel";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -68,9 +69,7 @@ function GUI() {
                 }
             }),
             PubSub.subscribe(PANEL_CHANGE, () => {
-                if (GUIState.activePanel === Panels.Inventory) {
-                    setShownPanel(Panels.Inventory);
-                }
+                setShownPanel(GUIState.activePanel);
             }),
         ];
 
@@ -207,6 +206,11 @@ function GUI() {
                 )}
                 {shownPanel === Panels.Inventory && (
                 <InventoryPanel
+                  onCloseCallback={closePanelCallback}
+                />
+                )}
+                {shownPanel === Panels.Crafting && (
+                <CraftingPanel
                   onCloseCallback={closePanelCallback}
                 />
                 )}

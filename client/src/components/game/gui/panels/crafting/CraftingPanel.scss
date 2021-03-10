@@ -1,0 +1,224 @@
+@import "../../../../../shared/Variables";
+
+.crafting-panel {
+    background-color: $colourDB32SteelGreyOpacity80;
+
+    .inner-cont {
+        display: grid;
+        grid-template-columns: auto 300px;
+        height: 100%;
+
+        .list-cont {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            overflow-y: auto;
+            border-right: 8px solid $colourDB32VeryDarkPurple;
+
+            .top-bar {
+                height: 50px;
+                display: grid;
+                grid-template-columns: auto 1fr;
+                align-items: center;
+                color: black;
+                background-color: $colourDB32IronGreyOpacity80;
+                border-bottom: 8px solid $colourDB32VeryDarkPurple;
+    
+                .weight {
+                    font-size: 14px;
+                    margin-left: 40px;
+    
+                    img {
+                        margin-top: 4px;
+                    }
+    
+                    span {
+                        margin-left: 10px;
+                        text-align: left;
+                    }
+                }
+    
+                .search {
+                    justify-self: right;
+                    margin-left: 10px;
+                    margin-right: 40px;
+                    height: 50%;
+    
+                    input {
+                        width: 100%;
+                        height: 100%;
+                        letter-spacing: 0.1em;
+                        font-family: 'Press Start 2P', cursive;
+                        border: #fff solid 1px;
+                        padding-left: 14px;
+                    }
+                }
+            }
+    
+            .list {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                overflow-y: auto;
+                margin: 10px;
+    
+                .item-slot {
+                    position: relative;
+                    
+                    .details {
+                        position: relative;
+                        width: 64px;
+                        height: 64px;
+                        background-color: $colourDB32IronGreyOpacity50;
+                        border: 4px solid $colourDB32VeryDarkPurpleOpacity80;
+                        margin: 4px;
+    
+                        &:hover {
+                            transform: scale(1.1);
+                            filter: brightness(150%);
+                        }
+            
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+    
+                        div {
+                            position: absolute;
+                            text-align: right;
+                            right: 0;
+                            bottom: 0;
+                            font-size: 18px;
+                        }
+                        
+                        .small {
+                            font-size: 14px;
+                        }
+                    }
+    
+                    .in-hotbar {
+                        background-color: $colourDB32LightblueOpacity50;
+                    }
+                }
+    
+                .warning {
+                    color: $colourDB32DarkGrey;
+                    width: 100%;
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+            }
+        }
+
+        .selection-cont {
+            display: grid;
+            grid-template-rows: auto auto 1fr auto;
+            padding: 10px;
+            text-align: center;
+            color: $colourDB32Black;
+            overflow: hidden;
+            position: relative;
+
+            &.unselected {
+                opacity: 0.5;
+            }
+
+            .name {
+                font-size: 1.2rem;
+            }
+
+            .icon-cont {
+                position: relative;
+                width: 64px;
+                height: 64px;
+                margin: 8px;
+                justify-self: center;
+                
+                .icon {
+                    height: 64px;
+                }
+
+                .amount {
+                    position: absolute;
+                    text-align: right;
+                    right: 0px;
+                    bottom: 0;
+                    font-size: 18px;
+                }
+
+                .info {
+                    position: absolute;
+                    width: 32px;
+                    height: 32px;
+                    top: 50%;
+                    right: -48px;
+                    transform: translateY(-50%);
+
+                    &:hover {
+                        filter: brightness(150%);
+                    }
+                }
+            }
+
+            .ingredients-list {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+                overflow-y: auto;
+                background-color: $colourDB32WhiteOpacity50;
+                text-align: left;
+                margin-bottom: 8px;
+
+                .row {
+                    display: inline-flex;
+                    align-items: center;
+                    
+                    .icon {
+                        width: 48px;
+                        min-width: 48px;
+                        margin: 8px;
+                    }
+    
+                    .text {
+                        font-size: 1.4rem;
+    
+                        &.invalid {
+                            color: $colourDB32Red;
+                        }
+                    }
+
+                    .space {
+                        width: 8px;
+                    }
+                }
+            }
+
+            .button-cont {
+                display: grid;
+                position: relative;
+                width: 100%;
+
+                img {
+                    position: relative;
+                    align-self: center;
+                    justify-self: center;
+                    width: 90%;
+                }
+
+                div {
+                    position: absolute;
+                    align-self: center;
+                    justify-self: center;
+                    font-size: 1.2rem;
+                }
+
+                &.valid {
+                    &:hover {
+                        filter: brightness(150%);
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+}

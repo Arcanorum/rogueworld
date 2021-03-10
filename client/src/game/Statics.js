@@ -3,8 +3,13 @@ import PubSub from "pubsub-js";
 import { DUNGEON_PORTAL_PRESSED } from "../shared/EventTypes";
 import gameConfig from "../shared/GameConfig";
 import dungeonz from "../shared/Global";
-import { PlayerState } from "../shared/state/States";
+import { GUIState, PlayerState } from "../shared/state/States";
+import anvilIcon from "../assets/images/gui/panels/crafting/anvil.png";
+import furnaceIcon from "../assets/images/gui/panels/crafting/furnace.png";
+import workbenchIcon from "../assets/images/gui/panels/crafting/workbench.png";
+import laboratoryIcon from "../assets/images/gui/panels/crafting/laboratory.png";
 import Utils from "../shared/Utils";
+import Panels from "../components/game/gui/panels/PanelsEnum";
 // import { setAttackCursor, setDefaultCursor, setHandCursor } from "./Cursors";
 
 /**
@@ -287,8 +292,12 @@ class CraftingStation extends Static {
 class Anvil extends CraftingStation {
     onPressed() {
         if (this.isWithinPressableRange()) {
-            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Anvil"), "assets/img/gui/panels/anvil.png");
+            GUIState.setCraftingStation(
+                this.stationTypeNumber,
+                Utils.getTextDef("Anvil"),
+                anvilIcon,
+            );
+            GUIState.setActivePanel(Panels.Crafting);
         }
     }
 }
@@ -301,8 +310,12 @@ class Furnace extends CraftingStation {
 
     onPressed() {
         if (this.isWithinPressableRange()) {
-            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Furnace"), "assets/img/gui/panels/furnace.png");
+            GUIState.setCraftingStation(
+                this.stationTypeNumber,
+                Utils.getTextDef("Furnace"),
+                furnaceIcon,
+            );
+            GUIState.setActivePanel(Panels.Crafting);
         }
     }
 }
@@ -310,8 +323,12 @@ class Furnace extends CraftingStation {
 class Laboratory extends CraftingStation {
     onPressed() {
         if (this.isWithinPressableRange()) {
-            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Laboratory"), "assets/img/gui/panels/laboratory.png");
+            GUIState.setCraftingStation(
+                this.stationTypeNumber,
+                Utils.getTextDef("Laboratory"),
+                laboratoryIcon,
+            );
+            GUIState.setActivePanel(Panels.Crafting);
         }
     }
 }
@@ -319,8 +336,12 @@ class Laboratory extends CraftingStation {
 class Workbench extends CraftingStation {
     onPressed() {
         if (this.isWithinPressableRange()) {
-            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Workbench"), "assets/img/gui/panels/workbench.png");
+            GUIState.setCraftingStation(
+                this.stationTypeNumber,
+                Utils.getTextDef("Workbench"),
+                workbenchIcon,
+            );
+            GUIState.setActivePanel(Panels.Crafting);
         }
     }
 }

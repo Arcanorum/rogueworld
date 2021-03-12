@@ -402,18 +402,17 @@ eventResponses.pick_up_item = function (clientSocket) {
 
 /**
  * @param {*} clientSocket
- * @param {Number} data.stationTypeNumber - The type number of the crafting station to use.
- * @param {Array} data.inventorySlotKeys - An array of the inventory slot names of the items to use.
+ * @param {Number} data - The index in the crafting recipes list of the thing to craft.
  */
-// eventResponses.craft = function (clientSocket, data) {
-//     // console.log("craft, data:", data);
-//     if (!data) return;
-//     if (clientSocket.inGame === false) return;
-//     // Ignore this event if they are dead.
-//     if (clientSocket.entity.hitPoints <= 0) return;
+eventResponses.craft_item = function (clientSocket, data) {
+    // Allow 0.
+    if (!Number.isFinite(data)) return;
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    if (clientSocket.entity.hitPoints <= 0) return;
 
-//     CraftingManager.craft(clientSocket.entity, data.stationTypeNumber, data.inventorySlotKeys);
-// };
+    clientSocket.entity.craft(data);
+};
 
 /**
  * @param {*} clientSocket

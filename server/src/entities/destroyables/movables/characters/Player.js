@@ -11,6 +11,8 @@ const Inventory = require("../../../../inventory/Inventory");
 const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
 const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
+const CraftingRecipesList = require("../../../../crafting/CraftingRecipesList");
+const ItemConfig = require("../../../../inventory/ItemConfig");
 
 class Player extends Character {
     /**
@@ -337,6 +339,13 @@ class Player extends Character {
     }
 
     modGlory(amount) {
+        if (!Number.isFinite(amount)) {
+            Utils.warning("Player.modGlory, amount is not a number:", amount);
+            // eslint-disable-next-line no-console
+            console.trace();
+            return;
+        }
+
         this.glory += amount;
         this.glory = Math.floor(this.glory);
 
@@ -565,6 +574,106 @@ class Player extends Character {
     //     // No item of the given type was found.
     //     return false;
     // }
+
+    /**
+     *
+     * @param {Number} recipeIndex
+     */
+    craft(recipeIndex) {
+        if (Number.isFinite(recipeIndex) === false) return;
+
+        const recipe = CraftingRecipesList[recipeIndex];
+
+        if (!recipe) return;
+
+        // Check the player is stood next to any of the valid types of crafting station for this recipe.
+        recipe.stationTypes.some((stationType) => (
+            this.isAdjacentToStaticType(stationType.typeNumber)));
+
+        // Check the player has all of the required ingredients.
+        const { items } = this.inventory;
+        const hasEveryIngredient = recipe.ingredients.every((ingredient) => (
+            items.some((item) => (
+                item.itemConfig.ItemType === ingredient.ItemType
+                && item.itemConfig.quantity >= ingredient.quantity
+            ))
+        ));
+
+        if (!hasEveryIngredient) {
+            return;
+        }
+
+        // Calculate the amount of bonus durability/quantity for the result item.
+        let averageCraftingLevel = 0;
+
+        recipe.statNames.forEach((statName) => {
+            averageCraftingLevel += this.stats[statName].level;
+        });
+
+        // Divide by the number of stats used, rounded down.
+        averageCraftingLevel = Math.floor(averageCraftingLevel /= recipe.statNames.length);
+
+        const craftingStatBonusMultiplier = settings.CRAFTING_STAT_BONUS_MULTIPLIER || 1;
+
+        const percentCraftingBonus = averageCraftingLevel * craftingStatBonusMultiplier * 0.01;
+
+        let resultDurability = recipe.result.baseDurability;
+        let resultQuantity = recipe.result.baseQuantity;
+
+        if (recipe.result.baseDurability) {
+            resultDurability = (
+                recipe.result.baseDurability // The minimum amount.
+                + (recipe.result.baseDurability * percentCraftingBonus) // The bonus amount.
+            );
+        }
+
+        if (recipe.result.baseQuantity) {
+            resultQuantity = (
+                recipe.result.baseQuantity // The minimum amount.
+                + (recipe.result.baseQuantity * percentCraftingBonus) // The bonus amount.
+            );
+        }
+
+        // Remove the items from the crafter that were used in the recipe.
+        recipe.ingredients.forEach((ingredient) => {
+            this.inventory.removeQuantityByItemType(ingredient.quantity, ingredient.ItemType);
+        });
+
+        const itemConfig = new ItemConfig({
+            ItemType: recipe.result.ItemType,
+            quantity: resultQuantity,
+            durability: resultDurability,
+        });
+
+        this.inventory.addItem(itemConfig);
+
+        // Check there is any of the item left.
+        // Due to stat levels being able to increase the quantity of an item (and therefore it's
+        // total weight), not all of it might have been able to fit into the inventory, so some
+        // might be left over. Add anything remaining to the ground.
+        if (itemConfig.quantity > 0) {
+            new itemConfig.ItemType.prototype.PickupType(
+                {
+                    row: this.row,
+                    col: this.col,
+                    board: this.board,
+                    itemConfig,
+                },
+            ).emitToNearbyPlayers();
+        }
+
+        // Divide the exp among all the stats that this recipe gives exp to.
+        const sharedExp = recipe.expGiven / recipe.statNames.length;
+        recipe.statNames.forEach((statName) => {
+            this.stats[statName].gainExp(sharedExp);
+        });
+
+        // Don't give the full exp amount as glory, it is a bit too much.
+        this.modGlory(recipe.expGiven * 0.5);
+
+        // TODO
+        // this.tasks.progressTask(recipe.taskIDCrafted);
+    }
 }
 module.exports = Player;
 

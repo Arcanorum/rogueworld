@@ -47,3 +47,12 @@ PLAYER_MAX_ENERGY: 20
 
 # How long each energy point takes to regenerate. (ms)
 PLAYER_ENERGY_REGEN_RATE: 1000
+
+# How much to multiply the crafting bonus by.
+# The crafting bonus is how much percent extra durability/quantity is added to crafted items, and
+# is determined by the average of the players stats that are listed in the stats for the recipe.
+# So if a recipe uses the stats Weaponry and Toolery, it will take the average of the player's
+# Weaponry and Toolery stats and multiply that by this setting value.
+# With an average stat level of 7 and with a crafting bonus multiplier of 2, the crafted item will
+# have 14% more durability/quantity than its base amount.
+CRAFTING_STAT_BONUS_MULTIPLIER: 1

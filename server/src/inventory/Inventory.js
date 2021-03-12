@@ -118,7 +118,11 @@ class Inventory {
                     quantityToAdd -= availableQuantity;
                 }
                 else {
+                    // Enough space. Add them all.
                     found.modQuantity(+quantityToAdd);
+
+                    // Reduce the size of the incoming stack.
+                    config.modQuantity(-quantityToAdd);
 
                     this.updateWeight();
                     // Don't want to add another item below, so exit now.
@@ -205,6 +209,21 @@ class Inventory {
 
         // Tell the player the item was removed from their inventory.
         this.owner.socket.sendEvent(EventsList.remove_item, slotIndex);
+    }
+
+    removeQuantityByItemType(quantity, ItemType) {
+        // Check it is actually a stackable.
+        if (!ItemType.prototype.baseQuantity) return;
+
+        // Find an item in the inventory of the given type.
+        const found = this.items.find((item) => item.itemConfig.ItemType === ItemType);
+
+        if (!found) return;
+
+        // Reduce the quantity.
+        found.modQuantity(-quantity);
+
+        this.updateWeight();
     }
 
     dropItem(slotIndex, quantity) {

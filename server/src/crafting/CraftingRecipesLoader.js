@@ -64,6 +64,20 @@ const populateList = () => {
                 Utils.error("Invalid crafting recipe. Exp given isn't a positive number:", config.expGiven);
             }
 
+            // If no exp amount is given, use the sum of the ingredients.
+            if (!config.expGiven) {
+                let totalIngredientsExp = 0;
+
+                config.ingredients.forEach((ingredient) => {
+                    totalIngredientsExp += (
+                        ItemsList.BY_NAME[ingredient.itemName].prototype.craftingExpValue
+                        * ingredient.quantity
+                    );
+                });
+
+                craftingRecipeConfig.expGiven = totalIngredientsExp;
+            }
+
             // Check all of the item names used in the recipe are valid items.
             config.ingredients.forEach((ingredient) => {
                 if (!ItemsList.BY_NAME[ingredient.itemName]) {
@@ -93,7 +107,7 @@ const populateList = () => {
                 }
             }
 
-            // Check the total weight of the ingredients is not higher than the item to craft,
+            // Check the weight of the item to craft is not more than the total weight of the ingredients,
             // or they might end up with more than max carry weight after crafting.
             {
                 let totalIngredientsWeight = 0;
@@ -108,12 +122,12 @@ const populateList = () => {
                 config.ingredients.forEach((ingredient) => {
                     totalIngredientsWeight += (
                         ItemsList.BY_NAME[ingredient.itemName].prototype.unitWeight
-                    * ingredient.quantity
+                        * ingredient.quantity
                     );
                 });
 
-                if (totalIngredientsWeight > resultWeight) {
-                    Utils.error("Invalid crafting recipe. Total ingredients weight is greater than the result item type weight for ingredients:", config.ingredients, "\nand result:", config.result);
+                if (resultWeight > totalIngredientsWeight) {
+                    Utils.error(`Invalid crafting recipe. Result item weight (${resultWeight}) is greater than the total ingredients weight (${totalIngredientsWeight}) for recipe config:`, config);
                 }
             }
 
@@ -131,16 +145,18 @@ const createCatalogue = () => {
     // Write the recipes to the client.
     let dataToWrite = [];
 
-    Object.values(CraftingRecipesList).forEach((craftingRecipe) => {
+    Object.values(CraftingRecipesList).forEach((craftingRecipe, index) => {
         // Add this recipe to the recipes catalogue.
         dataToWrite.push({
             // Add a unique id to stop React crying when this recipe is used in displaying a list...
             id: uuidv4(),
+            index, // Add the index of this entry in the recipes list, so the client can send it to identify the recipe when crafting.
             stationTypeNumbers: craftingRecipe.stationTypes.map(
                 (stationType) => stationType.prototype.typeNumber,
             ),
             ingredients: craftingRecipe.ingredients.map(
                 (ingredient) => ({
+                    id: uuidv4(), // To shut React up...
                     itemTypeCode: ingredient.ItemType.prototype.typeCode,
                     quantity: ingredient.quantity,
                 }),

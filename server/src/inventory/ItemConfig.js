@@ -82,7 +82,7 @@ class ItemConfig {
     }
 }
 
-ItemConfig.prototype.MAX_QUANTITY = 9999;
+ItemConfig.prototype.MAX_QUANTITY = 99999;
 
 /**
  * The size of the stack of this item.

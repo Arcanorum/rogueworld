@@ -109,7 +109,12 @@ class Entity {
     onHeal(heal) {
         const amount = Math.floor(heal.amount);
         this.hitPoints += amount;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.heal, { id: this.id, amount });
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.heal,
+            { id: this.id, amount },
+        );
     }
 
     /**
@@ -143,7 +148,12 @@ class Entity {
         }
         // Entity is still alive. Tell nearby players.
         else {
-            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.damage, { id: this.id, amount: -damage.amount });
+            this.board.emitToNearbyPlayers(
+                this.row,
+                this.col,
+                this.EventsList.damage,
+                { id: this.id, amount: -damage.amount },
+            );
         }
     }
 
@@ -196,7 +206,12 @@ class Entity {
      */
     emitToNearbyPlayers() {
         // Tell all players around this one (including itself) that this one has joined.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.add_entity, this.getEmittableProperties({}));
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.add_entity,
+            this.getEmittableProperties({}),
+        );
         return this;
     }
 

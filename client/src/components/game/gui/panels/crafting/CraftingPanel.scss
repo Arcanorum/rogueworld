@@ -93,10 +93,14 @@
                         .small {
                             font-size: 14px;
                         }
-                    }
-    
-                    .in-hotbar {
-                        background-color: $colourDB32LightblueOpacity50;
+
+                        &.invalid {
+                            opacity: 0.5;
+                        }
+
+                        &.selected {
+                            background-color: $colourDB32WhiteOpacity50;
+                        }
                     }
                 }
     

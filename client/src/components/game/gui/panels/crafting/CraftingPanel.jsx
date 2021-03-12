@@ -11,8 +11,11 @@ import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import CraftingRecipes from "../../../../../catalogues/CraftingRecipes.json";
 import Utils from "../../../../../shared/Utils";
 import "./CraftingPanel.scss";
-import { GUIState, InventoryState } from "../../../../../shared/state/States";
+import { ApplicationState, GUIState, InventoryState } from "../../../../../shared/state/States";
 import ItemTooltip from "../../item_tooltip/ItemTooltip";
+import {
+    ADD_ITEM, MODIFY_INVENTORY_WEIGHT, MODIFY_ITEM, REMOVE_ITEM,
+} from "../../../../../shared/EventTypes";
 
 const findAmountInInventory = (ingredient) => {
     const found = InventoryState.items.find(
@@ -26,8 +29,33 @@ const findAmountInInventory = (ingredient) => {
     return 0;
 };
 
+const checkPlayerHasEveryIngredient = (recipe) => (
+    recipe.ingredients.every((ingredient) => (
+        findAmountInInventory(ingredient)) >= ingredient.quantity)
+);
+
 function IngredientRow({ ingredient }) {
-    const [amountInInventory] = useState(findAmountInInventory(ingredient));
+    const [amountInInventory, setAmountInInventory] = useState(findAmountInInventory(ingredient));
+
+    useEffect(() => {
+        const subs = [
+            PubSub.subscribe(ADD_ITEM, () => {
+                setAmountInInventory(findAmountInInventory(ingredient));
+            }),
+            PubSub.subscribe(REMOVE_ITEM, () => {
+                setAmountInInventory(findAmountInInventory(ingredient));
+            }),
+            PubSub.subscribe(MODIFY_ITEM, () => {
+                setAmountInInventory(findAmountInInventory(ingredient));
+            }),
+        ];
+
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
+    }, []);
 
     return (
         <div className="row">
@@ -36,6 +64,7 @@ function IngredientRow({ ingredient }) {
                   ItemTypes[ingredient.itemTypeCode].iconSource
               ]}
               className="icon"
+              draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
                       <ItemTooltip
@@ -60,11 +89,33 @@ IngredientRow.propTypes = {
     ingredient: PropTypes.object.isRequired,
 };
 
-function RecipeSlot({ recipe, canBeCrafted, onClick }) {
+function RecipeSlot({ recipe, selected, onClick }) {
+    const [canBeCrafted, setCanBeCrafted] = useState(checkPlayerHasEveryIngredient(recipe));
+
+    useEffect(() => {
+        const subs = [
+            PubSub.subscribe(ADD_ITEM, () => {
+                setCanBeCrafted(checkPlayerHasEveryIngredient(recipe));
+            }),
+            PubSub.subscribe(REMOVE_ITEM, () => {
+                setCanBeCrafted(checkPlayerHasEveryIngredient(recipe));
+            }),
+            PubSub.subscribe(MODIFY_ITEM, () => {
+                setCanBeCrafted(checkPlayerHasEveryIngredient(recipe));
+            }),
+        ];
+
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
+    }, []);
+
     return (
         <div className="item-slot">
             <div
-              className={`details ${canBeCrafted ? "craftable" : ""}`}
+              className={`details ${canBeCrafted ? "" : "invalid"} ${selected ? "selected" : ""}`}
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
@@ -92,11 +143,12 @@ function RecipeSlot({ recipe, canBeCrafted, onClick }) {
 
 RecipeSlot.propTypes = {
     recipe: PropTypes.object.isRequired,
-    canBeCrafted: PropTypes.bool.isRequired,
+    selected: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
 };
 
 function CraftingPanel({ onCloseCallback }) {
+    const [items, setItems] = useState(InventoryState.items);
     const [recipes, setRecipes] = useState(CraftingRecipes.filter((recipe) => {
         // Get all of the recipes that are valid at this crafting station type.
         if (recipe.stationTypeNumbers.some(
@@ -117,18 +169,21 @@ function CraftingPanel({ onCloseCallback }) {
         setSelectedRecipe(recipe);
     };
 
+    const onCraftPressed = () => {
+        if (!selectedRecipe) return;
+        if (!playerHasIngredients) return;
+
+        ApplicationState.connection.sendEvent("craft_item", selectedRecipe.index);
+    };
+
     useEffect(() => {
         if (selectedRecipe) {
-            // Check if the player has all of the required ingredients.
-            const hasEveryIngredient = selectedRecipe.ingredients.every((ingredient) => (
-                InventoryState.items.find(() => findAmountInInventory(ingredient))));
-
-            setPlayerHasIngredients(hasEveryIngredient);
+            setPlayerHasIngredients(checkPlayerHasEveryIngredient(selectedRecipe));
         }
         else {
             setPlayerHasIngredients(false);
         }
-    }, [selectedRecipe]);
+    }, [selectedRecipe, items]);
 
     useEffect(() => {
         const filteredRecipes = recipes.filter((recipe) => Utils
@@ -145,6 +200,29 @@ function CraftingPanel({ onCloseCallback }) {
         // the slot gets filtered out the tooltip for it will remain visible.
         GUIState.setTooltipContent(null);
     }, [searchText, recipes]);
+
+    useEffect(() => {
+        const subs = [
+            PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {
+                setInventoryWeight(data.new);
+            }),
+            PubSub.subscribe(ADD_ITEM, () => {
+                setItems([...InventoryState.items]);
+            }),
+            PubSub.subscribe(REMOVE_ITEM, () => {
+                setItems([...InventoryState.items]);
+            }),
+            PubSub.subscribe(MODIFY_ITEM, () => {
+                setItems([...InventoryState.items]);
+            }),
+        ];
+
+        return () => {
+            subs.forEach((sub) => {
+                PubSub.unsubscribe(sub);
+            });
+        };
+    }, []);
 
     return (
         <div className="crafting-panel centered panel-template-cont gui-zoomable">
@@ -171,6 +249,7 @@ function CraftingPanel({ onCloseCallback }) {
                                   src={weightIcon}
                                   width="32px"
                                   height="32px"
+                                  draggable={false}
                                 />
                                 <span className="high-contrast-text">
                                     {`${inventoryWeight}/${inventoryMaxWeight}`}
@@ -191,7 +270,7 @@ function CraftingPanel({ onCloseCallback }) {
                                 <RecipeSlot
                                   key={recipe.id}
                                   recipe={recipe}
-                                  canBeCrafted
+                                  selected={selectedRecipe === recipe}
                                   onClick={onRecipePressed}
                                 />
                             ))}
@@ -200,7 +279,7 @@ function CraftingPanel({ onCloseCallback }) {
                                 <RecipeSlot
                                   key={recipe.id}
                                   recipe={recipe}
-                                  canBeCrafted
+                                  selected={selectedRecipe === recipe}
                                   onClick={onRecipePressed}
                                 />
                             ))}
@@ -218,7 +297,13 @@ function CraftingPanel({ onCloseCallback }) {
                         <div className="icon-cont">
                             {selectedRecipe && (
                                 <>
-                                    <img src={ItemIconsList[ItemTypes[selectedRecipe.result.itemTypeCode].iconSource]} className="icon" />
+                                    <img
+                                      src={ItemIconsList[
+                                          ItemTypes[selectedRecipe.result.itemTypeCode].iconSource
+                                      ]}
+                                      className="icon"
+                                      draggable={false}
+                                    />
                                     <div className="amount high-contrast-text">
                                         {selectedRecipe.result.baseQuantity
                                         || selectedRecipe.result.baseDurability}
@@ -226,6 +311,7 @@ function CraftingPanel({ onCloseCallback }) {
                                     <img
                                       src={infoIcon}
                                       className="info"
+                                      draggable={false}
                                       onMouseEnter={() => {
                                           GUIState.setTooltipContent("Show item details");
                                       }}
@@ -237,19 +323,25 @@ function CraftingPanel({ onCloseCallback }) {
                             )}
                         </div>
                         <div className="ingredients-list">
-                            {selectedRecipe && selectedRecipe.ingredients.map((ingredient) => (
+                            {selectedRecipe
+                            && selectedRecipe.ingredients.map((ingredient) => (
                                 <IngredientRow
-                                  key={Math.random()} // Shut React up, as this array doesn't change.
+                                  key={ingredient.id}
                                   ingredient={ingredient}
                                 />
                             ))}
                         </div>
-                        <div className={`button-cont ${(selectedRecipe && playerHasIngredients) ? "valid" : ""}`}>
-                            <img src={
+                        <div
+                          className={`button-cont ${(selectedRecipe && playerHasIngredients) ? "valid" : ""}`}
+                          onClick={onCraftPressed}
+                        >
+                            <img
+                              src={
                                 (selectedRecipe && playerHasIngredients)
                                     ? craftButtonBorderValid
                                     : craftButtonBorderInvalid
                                 }
+                              draggable={false}
                             />
                             <div>{(selectedRecipe && playerHasIngredients) ? Utils.getTextDef("Craft") : ""}</div>
                         </div>

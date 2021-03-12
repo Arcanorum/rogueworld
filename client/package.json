@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run pack && react-scripts start",
-    "build": "npm run pack && react-scripts build",
+    "build": "npm run pack && react-scripts --max-old-space-size=2048 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "npm run eslint && npm run stylelint",

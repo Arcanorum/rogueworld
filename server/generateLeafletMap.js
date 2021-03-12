@@ -28,5 +28,7 @@ fs.stat(outputPath, function(err, stat) {
             zoomLevels: zoomLevels,
             shouldLog: false, // log info
         });
+
+        Utils.message("Done!");
     }
 });

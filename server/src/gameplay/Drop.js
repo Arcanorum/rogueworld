@@ -23,15 +23,15 @@ class Drop {
             Utils.error("Cannot add to drop list, imported entity type does not extend type Pickup. Config:", config);
         }
 
-        if(config.quantity){
-            if(!ItemsList.BY_NAME[config.itemName].prototype.baseQuantity){
+        if (config.quantity) {
+            if (!ItemsList.BY_NAME[config.itemName].prototype.baseQuantity) {
                 Utils.error("Cannot add to drop list, drop config specifies quantity for non-stackable item type. Config:", config);
             }
             this.quantity = config.quantity;
         }
 
-        if(config.durability){
-            if(!ItemsList.BY_NAME[config.itemName].prototype.baseDurability){
+        if (config.durability) {
+            if (!ItemsList.BY_NAME[config.itemName].prototype.baseDurability) {
                 Utils.error("Cannot add to drop list, drop config specifies durability for stackable item type. Config:", config);
             }
             this.durability = config.durability;

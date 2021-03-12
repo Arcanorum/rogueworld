@@ -4,22 +4,22 @@ MetalSword: 40
 MetalHammer: 50
 Staff: 40
 Bow: 40
-Arrow: 2
+Arrow: 1
 
 # Clothing
-MetalArmour: 100
-Cloak: 80
-Robe: 60
+MetalArmour: 80
+Cloak: 60
+Robe: 50
 
 # Tools
 GatheringTool: 30
 
 # Resources/ingredients.
-GenericMaterial: 2
-Logs: 2
-Ore: 3
+GenericMaterial: 4
+Logs: 4
+Ore: 5
 PotionIngredient: 2
 Gem: 2
 
 # Consumables
-Potion: 10
+Potion: 8

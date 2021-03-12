@@ -84,7 +84,7 @@
     - itemName: HealthPotion
     - itemName: IronBar
     - itemName: IronSword
-    - itemName: DungiumSheet
+    - itemName: DungiumBar
       dropRate: 10
 
 - name: Commander

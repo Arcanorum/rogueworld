@@ -374,7 +374,7 @@
   soundType: Metal weapon
   ProjectileType: ProjShuriken
   category: Weapon
-  unitWeight: 3
+  unitWeight: 2
   baseQuantity: 5
   useEnergyCost: 1
   expGivenStatName: Ranged
@@ -546,18 +546,6 @@
   expGivenStatName: Gathering
   expGivenOnUse: 10
 
-- name: DungiumRod
-  code: IBQD7373
-  translationID: Dungium rod
-  iconSource: icon-dungium-rod
-  unitWeight: Ore
-  
-- name: DungiumSheet
-  code: VQCA8751
-  translationID: Dungium sheet
-  iconSource: icon-dungium-sheet
-  unitWeight: Ore
-
 - name: EnergyPotion
   code: FPEV2793
   translationID: "Energy potion"
@@ -706,18 +694,6 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  
-- name: IronRod
-  code: WSGZ4152
-  translationID: Iron rod
-  iconSource: icon-iron-rod
-  unitWeight: Ore
-  
-- name: IronSheet
-  code: ZBJS2040
-  translationID: Iron sheet
-  iconSource: icon-iron-sheet
-  unitWeight: Ore
 
 - name: NoctisBar
   code: XWSA3111
@@ -750,18 +726,6 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  
-- name: NoctisRod
-  code: DOKO2126
-  translationID: Noctis rod
-  iconSource: icon-noctis-rod
-  unitWeight: Ore
-  
-- name: NoctisSheet
-  code: IXEL4646
-  translationID: Noctis sheet
-  iconSource: icon-noctis-sheet
-  unitWeight: Ore
 
 - name: OakLogs
   code: KPNK4602

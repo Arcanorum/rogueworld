@@ -1,4 +1,3 @@
-
 // const Item = require("./Item");
 
 // class ItemCharter extends Item {
@@ -25,8 +24,8 @@
 //     }
 
 // }
-// 
- // module.exports = ItemCharter;
+//
+// module.exports = ItemCharter;
 
 // ItemCharter.prototype.registerItemType();
 // ItemCharter.translationID = "Charter";

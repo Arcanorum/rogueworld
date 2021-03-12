@@ -3,7 +3,7 @@ const Utils = require("../Utils");
 const TaskCategories = {
     Kill: [],
     Gather: [],
-    Craft: []
+    Craft: [],
 };
 
 const TaskTypes = {};
@@ -16,7 +16,7 @@ class TaskType {
      */
     constructor(taskID, category) {
         if (TaskTypes[taskID] !== undefined) {
-            Utils.error("Cannot create new task type, task name already exists in task types list: " + taskID);
+            Utils.error(`Cannot create new task type, task name already exists in task types list: ${taskID}`);
         }
         this.taskID = taskID;
         this.otherTasks = [];
@@ -33,7 +33,7 @@ TaskTypes.KillRats = new TaskType("KillRats", TaskCategories.Kill);
 TaskTypes.KillBats = new TaskType("KillBats", TaskCategories.Kill);
 TaskTypes.KillHawks = new TaskType("KillHawks", TaskCategories.Kill);
 TaskTypes.KillGoblins = new TaskType("KillGoblins", TaskCategories.Kill);
-//TaskTypes.KillSnoovirs =        new TaskType("KillSnoovirs",        TaskCategories.Kill);
+// TaskTypes.KillSnoovirs =        new TaskType("KillSnoovirs",        TaskCategories.Kill);
 TaskTypes.KillScamps = new TaskType("KillScamps", TaskCategories.Kill);
 TaskTypes.KillZombies = new TaskType("KillZombies", TaskCategories.Kill);
 TaskTypes.KillVampires = new TaskType("KillVampires", TaskCategories.Kill);
@@ -85,7 +85,6 @@ TaskTypes.CraftNinjaGarbs = new TaskType("CraftNinjaGarbs", TaskCategories.Craft
 TaskTypes.CraftPlainRobes = new TaskType("CraftPlainRobes", TaskCategories.Craft);
 TaskTypes.CraftMageRobes = new TaskType("CraftMageRobes", TaskCategories.Craft);
 TaskTypes.CraftNecromancerRobes = new TaskType("CraftNecromancerRobes", TaskCategories.Craft);
-
 
 // Precompute the list of other task types in the same category for every task type.
 

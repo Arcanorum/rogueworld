@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import PubSub from "pubsub-js";
 import { DUNGEON_PORTAL_PRESSED } from "../shared/EventTypes";
 import gameConfig from "../shared/GameConfig";
+import dungeonz from "../shared/Global";
 import { PlayerState } from "../shared/state/States";
 import Utils from "../shared/Utils";
 // import { setAttackCursor, setDefaultCursor, setHandCursor } from "./Cursors";
@@ -62,13 +63,13 @@ const TileIDInactiveFrames = {
 class Static extends Phaser.GameObjects.Container {
     constructor(config) {
         super(
-            window.gameScene,
+            dungeonz.gameScene,
             config.col * gameConfig.SCALED_TILE_SIZE,
             config.row * gameConfig.SCALED_TILE_SIZE,
         );
 
         // Add them to the scene here as this doesn't happen automatically when extending a gameobject class.
-        window.gameScene.add.existing(this);
+        dungeonz.gameScene.add.existing(this);
 
         // The world position of this tile. NOT where it is in any display grids; it doesn't need updating.
         this.row = config.row;
@@ -96,7 +97,7 @@ class Static extends Phaser.GameObjects.Container {
             });
 
             this.tileSprite.on("pointerout", () => {
-                // if (window.gameScene.player.holdingItem) {
+                // if (dungeonz.gameScene.player.holdingItem) {
                 //     // setAttackCursor();
                 // }
                 // else {
@@ -104,7 +105,7 @@ class Static extends Phaser.GameObjects.Container {
                 // }
             });
 
-            window.gameScene.interactables[this.id] = this;
+            dungeonz.gameScene.interactables[this.id] = this;
         }
 
         this.setScale(gameConfig.GAME_SCALE);
@@ -127,34 +128,34 @@ class Static extends Phaser.GameObjects.Container {
         }
 
         // Add this static to the statics list.
-        if (window.gameScene.statics[this.id] === undefined) {
-            window.gameScene.statics[this.id] = this;
+        if (dungeonz.gameScene.statics[this.id] === undefined) {
+            dungeonz.gameScene.statics[this.id] = this;
         }
 
         this.on("destroy", () => {
-            delete window.gameScene.statics[this.id];
+            delete dungeonz.gameScene.statics[this.id];
 
             // If this was a light source, need to update the darkness grid.
-            if (window.gameScene.lightSources[this.id]) {
-                delete window.gameScene.lightSources[this.id];
-                window.gameScene.tilemap.updateDarknessGrid();
+            if (dungeonz.gameScene.lightSources[this.id]) {
+                delete dungeonz.gameScene.lightSources[this.id];
+                dungeonz.gameScene.tilemap.updateDarknessGrid();
             }
 
             // If this was a light source, need to update the darkness grid.
-            if (window.gameScene.interactables[this.id]) {
-                delete window.gameScene.interactables[this.id];
+            if (dungeonz.gameScene.interactables[this.id]) {
+                delete dungeonz.gameScene.interactables[this.id];
             }
         });
     }
 
     addTileSprite(frame) {
-        this.tileSprite = window.gameScene.add.sprite(0, 0, "statics-tileset", frame);
+        this.tileSprite = dungeonz.gameScene.add.sprite(0, 0, "statics-tileset", frame);
         this.tileSprite.setOrigin(0.5);
         this.add(this.tileSprite);
     }
 
     addHighlightSprite() {
-        this.highlightSprite = window.gameScene.add.sprite(0, 0, "highlight");
+        this.highlightSprite = dungeonz.gameScene.add.sprite(0, 0, "highlight");
         this.highlightSprite.setOrigin(0.5);
         this.highlightSprite.setVisible(false);
         this.add(this.highlightSprite);
@@ -167,7 +168,7 @@ class Static extends Phaser.GameObjects.Container {
     onPressed() { }
 
     isWithinPressableRange() {
-        const player = window.gameScene.dynamics[PlayerState.entityID];
+        const player = dungeonz.gameScene.dynamics[PlayerState.entityID];
         const distFromPlayer = Math.abs(this.row - player.row) // Row dist.
             + Math.abs(this.col - player.col); // Col dist.
 
@@ -197,7 +198,7 @@ class Static extends Phaser.GameObjects.Container {
 //         this.panelNameTextDefID = data.panelNameTextDefID;
 //         this.contentTextDefID = data.contentTextDefID;
 //         this.contentFileName = data.contentFileName;
-//         this.panel = window.gameScene.GUI[data.panelName];
+//         this.panel = dungeonz.gameScene.GUI[data.panelName];
 //         // Don't show the yellow square.
 //         this.tileID = 0;
 
@@ -286,8 +287,8 @@ class CraftingStation extends Static {
 class Anvil extends CraftingStation {
     onPressed() {
         if (this.isWithinPressableRange()) {
-            window.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            window.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Anvil"), "assets/img/gui/panels/anvil.png");
+            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Anvil"), "assets/img/gui/panels/anvil.png");
         }
     }
 }
@@ -300,8 +301,8 @@ class Furnace extends CraftingStation {
 
     onPressed() {
         if (this.isWithinPressableRange()) {
-            window.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            window.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Furnace"), "assets/img/gui/panels/furnace.png");
+            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Furnace"), "assets/img/gui/panels/furnace.png");
         }
     }
 }
@@ -309,8 +310,8 @@ class Furnace extends CraftingStation {
 class Laboratory extends CraftingStation {
     onPressed() {
         if (this.isWithinPressableRange()) {
-            window.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            window.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Laboratory"), "assets/img/gui/panels/laboratory.png");
+            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Laboratory"), "assets/img/gui/panels/laboratory.png");
         }
     }
 }
@@ -318,8 +319,8 @@ class Laboratory extends CraftingStation {
 class Workbench extends CraftingStation {
     onPressed() {
         if (this.isWithinPressableRange()) {
-            window.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-            window.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Workbench"), "assets/img/gui/panels/workbench.png");
+            dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
+            dungeonz.gameScene.GUI.craftingPanel.show(Utils.getTextDef("Workbench"), "assets/img/gui/panels/workbench.png");
         }
     }
 }
@@ -332,7 +333,7 @@ class BankChest extends Static {
 
     onPressed() {
         if (this.isWithinPressableRange()) {
-            window.gameScene.GUI.bankPanel.show();
+            dungeonz.gameScene.GUI.bankPanel.show();
         }
     }
 }
@@ -477,8 +478,8 @@ function addStaticTile(row, col, tileData) {
     });
         // If this static type emits light, add it to the light sources list.
     if (staticTile.spriteContainer.lightDistance > 0) {
-        window.gameScene.lightSources[staticTile.id] = staticTile;
-        window.gameScene.tilemap.updateDarknessGrid();
+        dungeonz.gameScene.lightSources[staticTile.id] = staticTile;
+        dungeonz.gameScene.tilemap.updateDarknessGrid();
     }
 
     return staticTile;

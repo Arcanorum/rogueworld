@@ -1,4 +1,5 @@
 import gameConfig from "../../../shared/GameConfig";
+import dungeonz from "../../../shared/Global";
 import Sprite from "../Sprite";
 
 class Pickup extends Sprite {
@@ -10,7 +11,7 @@ class Pickup extends Sprite {
         this.setOrigin(0.5);
 
         // Starts this sprite doing a bobbing in-out effect.
-        window.gameScene.tweens.add({
+        dungeonz.gameScene.tweens.add({
             targets: this,
             duration: 1000,
             scale: this.scaleX * 0.8,

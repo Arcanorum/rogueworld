@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").Bluecap;
+const Item = require("../../../../ItemsList").BY_NAME.Bluecap;
 
 class BlueMushroom extends ResourceNode {}
 

@@ -1,4 +1,5 @@
 import ItemTypes from "../catalogues/ItemTypes.json";
+import dungeonz from "../shared/Global";
 import Utils from "../shared/Utils";
 
 class Music {
@@ -23,7 +24,7 @@ class Music {
         this.currentBackgroundMusic = sound;
 
         // Fade playing the audio in.
-        window.gameScene.tweens.add({
+        dungeonz.gameScene.tweens.add({
             targets: this.currentBackgroundMusic,
             volume: {
                 getStart() {
@@ -82,25 +83,25 @@ class ItemSounds {
         };
     }
 
-    playEquippedSound(itemTypeNumber) {
-        this.playSoundType(this.sounds.equipped, itemTypeNumber);
+    playEquippedSound(itemTypeCode) {
+        this.playSoundType(this.sounds.equipped, itemTypeCode);
     }
 
-    playUnequippedSound(itemTypeNumber) {
-        this.playSoundType(this.sounds.unequipped, itemTypeNumber);
+    playUnequippedSound(itemTypeCode) {
+        this.playSoundType(this.sounds.unequipped, itemTypeCode);
     }
 
-    playUsedSound(itemTypeNumber) {
-        this.playSoundType(this.sounds.used, itemTypeNumber);
+    playUsedSound(itemTypeCode) {
+        this.playSoundType(this.sounds.used, itemTypeCode);
     }
 
-    playDroppedSound(itemTypeNumber) {
-        this.playSoundType(this.sounds.dropped, itemTypeNumber);
+    playDroppedSound(itemTypeCode) {
+        this.playSoundType(this.sounds.dropped, itemTypeCode);
     }
 
     // eslint-disable-next-line class-methods-use-this
-    playSoundType(scope, itemTypeNumber) {
-        const itemType = ItemTypes[itemTypeNumber];
+    playSoundType(scope, itemTypeCode) {
+        const itemType = ItemTypes[itemTypeCode];
 
         // Play the specific sound for the sound type of this item if one is defined.
         if (itemType && itemType.soundType && scope[itemType.soundType]) {

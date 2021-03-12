@@ -1,4 +1,5 @@
 import ItemTypes from "../../../catalogues/ItemTypes.json";
+import dungeonz from "../../../shared/Global";
 import Sprite from "../Sprite";
 
 class Clothes extends Sprite {
@@ -8,8 +9,8 @@ class Clothes extends Sprite {
         this.direction = config.direction || "d";
 
         // If clothes were specified (a character came into range already wearing something), then use those clothes.
-        if (config.clothingTypeNumber !== undefined) {
-            this.clothesName = ItemTypes[config.clothingTypeNumber].translationID;
+        if (config.clothingTypeCode !== undefined) {
+            this.clothesName = ItemTypes[config.clothingTypeCode].translationID;
         }
         // No clothes, don't show the clothes sprite.
         else {
@@ -37,7 +38,7 @@ class Clothes extends Sprite {
         ];
         const addAnimationSet = (setName, baseFrameName) => {
             directions.forEach((direction) => {
-                window.gameScene.anims.create({
+                dungeonz.gameScene.anims.create({
                     key: `${setName}-${direction}`,
                     defaultTextureKey,
                     frames: generateFrames(baseFrameName, direction),
@@ -54,6 +55,7 @@ class Clothes extends Sprite {
         addAnimationSet("Iron armour", "iron-armour");
         addAnimationSet("Dungium armour", "dungium-armour");
         addAnimationSet("Noctis armour", "noctis-armour");
+        addAnimationSet("Armour of Ire", "dungium-armour");
     }
 
     moveAnimCompleted() {
@@ -110,6 +112,12 @@ Clothes.prototype.clothesFrames = {
         down: "noctis-armour-down-1",
         left: "noctis-armour-left-1",
         right: "noctis-armour-right-1",
+    },
+    "Armor of Ire": {
+        up: "dungium-armour-up-1",
+        down: "dungium-armour-down-1",
+        left: "dungium-armour-left-1",
+        right: "dungium-armour-right-1",
     },
 };
 

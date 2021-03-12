@@ -10,60 +10,66 @@ import {
     DEFENCE_VALUE,
     STATS_VALUE,
     TASKS_VALUE,
+    TASK_PROGRESS,
 } from "../EventTypes";
+import dungeonz from "../Global";
 import Utils from "../Utils";
 
 class Player {
-    entityID = null;
-
-    row = 0;
-
-    col = 0;
-
-    // Why is the linter complaining about this??
-    // eslint-disable-next-line react/static-property-placement
-    displayName = "";
-
-    hitPoints = 0;
-
-    maxHitPoints = 0;
-
-    energy = 0;
-
-    maxEnergy = 0;
-
-    glory = 0;
-
-    defence = 0;
-
-    stats = {
-        Melee: {
-            textDefID: "Melee", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Ranged: {
-            textDefID: "Ranged", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Magic: {
-            textDefID: "Magic", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Gathering: {
-            textDefID: "Gathering", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Weaponry: {
-            textDefID: "Weaponry", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Armoury: {
-            textDefID: "Armoury", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Toolery: {
-            textDefID: "Toolery", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
-        Potionry: {
-            textDefID: "Potionry", level: 0, exp: 0, nextLevelExpRequirement: 0,
-        },
+    constructor() {
+        this.init();
     }
 
-    tasks = {};
+    init() {
+        this.entityID = null;
+
+        this.row = 0;
+
+        this.col = 0;
+
+        this.displayName = "";
+
+        this.hitPoints = 0;
+
+        this.maxHitPoints = 0;
+
+        this.energy = 0;
+
+        this.maxEnergy = 0;
+
+        this.glory = 0;
+
+        this.defence = 0;
+
+        this.stats = {
+            Melee: {
+                textDefID: "Melee", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Ranged: {
+                textDefID: "Ranged", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Magic: {
+                textDefID: "Magic", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Gathering: {
+                textDefID: "Gathering", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Weaponry: {
+                textDefID: "Weaponry", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Armoury: {
+                textDefID: "Armoury", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Toolery: {
+                textDefID: "Toolery", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+            Potionry: {
+                textDefID: "Potionry", level: 0, exp: 0, nextLevelExpRequirement: 0,
+            },
+        };
+
+        this.tasks = {};
+    }
 
     setRow(value) {
         const old = this.row;
@@ -154,14 +160,39 @@ class Player {
     setStatLevel(statName, level, nextLevelExpRequirement) {
         this.stats[statName].level = level;
         this.stats[statName].nextLevelExpRequirement = nextLevelExpRequirement;
-        // _this.GUI.statsPanel.updateSelectedStat();
-        // _this.chat(undefined, `${dungeonz.getTextDef(`Stat name: ${this.name}`)} level gained!`, "#73ff66");
+
+        dungeonz.gameScene.chat(undefined, `${Utils.getTextDef(`Stat name: ${this.stats[statName].textDefID}`)} level gained!`, "#73ff66");
 
         PubSub.publish(STATS_VALUE, { new: this.stats });
     }
 
     setTasks(tasks) {
         this.tasks = tasks;
+        PubSub.publish(TASKS_VALUE, { new: this.tasks });
+    }
+
+    modifyTaskProgress(taskId, progress) {
+        const task = this.tasks[taskId];
+
+        task.progress = progress;
+
+        // Tell the player via a chat message when a task is complete.
+        if (task.progress >= task.completionThreshold) {
+            dungeonz.gameScene.chat(undefined, Utils.getTextDef("Task completed"), "#50ff7f");
+        }
+
+        PubSub.publish(TASK_PROGRESS, { new: task });
+    }
+
+    addTask(task) {
+        this.tasks[task.taskID] = task;
+
+        PubSub.publish(TASKS_VALUE, { new: this.tasks });
+    }
+
+    removeTask(taskId) {
+        delete this.tasks[taskId];
+
         PubSub.publish(TASKS_VALUE, { new: this.tasks });
     }
 }

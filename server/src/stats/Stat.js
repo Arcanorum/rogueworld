@@ -1,18 +1,18 @@
-const EventsList = require('./../EventsList');
+const EventsList = require("../EventsList");
 
 class Stat {
     /**
      * @param {Player} player - The entity of the player that owns the stat set that this stat is a part of.
      * @param {String} name - The name of this stat, such as "Melee", "Mining", "Stamina".
      */
-    constructor (player, name) {
+    constructor(player, name) {
         /**
          * The owner of this stat.
          * @type {Player}
          */
         this.player = player;
 
-        this.name = name || 'Unnamed stat';
+        this.name = name || "Unnamed stat";
 
         /**
          * Their proficiency in this stat.
@@ -52,38 +52,37 @@ class Stat {
          */
         this.expRequirementIncreaseAmount = 100;
 
-        //this.calculateCurrentLevel(); DONE IN ACCOUNT MANAGER
+        // this.calculateCurrentLevel(); DONE IN ACCOUNT MANAGER
     }
 
-    calculateCurrentLevel () {
+    calculateCurrentLevel() {
         // Keep increasing their level as long as they have enough exp for the next level.
-        while((this.exp >= this.nextLevelExpRequirement) && (this.level < this.maxLevel)){
+        while ((this.exp >= this.nextLevelExpRequirement) && (this.level < this.maxLevel)) {
             this.levelUp();
         }
     }
 
-    gainExp (amount) {
+    gainExp(amount) {
         this.exp += amount;
 
-        this.player.socket.sendEvent(EventsList.exp_gained, {statName: this.name, exp: this.exp});
+        this.player.socket.sendEvent(EventsList.exp_gained, { statName: this.name, exp: this.exp });
 
-        if(this.level < this.maxLevel){
-            if(this.exp >= this.nextLevelExpRequirement){
+        if (this.level < this.maxLevel) {
+            if (this.exp >= this.nextLevelExpRequirement) {
                 this.levelUp();
 
-                this.player.socket.sendEvent(EventsList.stat_levelled, {statName: this.name, level: this.level, nextLevelExpRequirement: this.nextLevelExpRequirement});
+                this.player.socket.sendEvent(EventsList.stat_levelled, { statName: this.name, level: this.level, nextLevelExpRequirement: this.nextLevelExpRequirement });
             }
         }
     }
 
-    levelUp () {
+    levelUp() {
         this.level += 1;
 
-        this.expRequirementIncreaseAmount = this.expRequirementIncreaseAmount * this.expRequirementIncreaseMultiplier;
+        this.expRequirementIncreaseAmount *= this.expRequirementIncreaseMultiplier;
 
         this.nextLevelExpRequirement += Math.floor(this.expRequirementIncreaseAmount);
     }
-
 }
 
 module.exports = Stat;

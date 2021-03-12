@@ -74,8 +74,8 @@ function StatsPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(STATS_VALUE, (msd, data) => {
-                setStats(data.new);
+            PubSub.subscribe(STATS_VALUE, (msg, data) => {
+                setStats({ ...data.new });
             }),
         ];
 

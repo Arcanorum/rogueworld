@@ -1,5 +1,4 @@
-# Production/Development mode. Useful for opting in/out of certain prod or dev features, such as
-# changing the default player spawn entrance from the main city to the dev island.
+# Production/Development mode.
 DEV_MODE: true
 
 # Silence warning messages. Useful for development when still messing around with stuff and to

@@ -1,11 +1,9 @@
 const Projectile = require("./Projectile");
 
 class ProjIronDagger extends Projectile {
-
-    handleCollision (collidee) {
+    handleCollision(collidee) {
         this.damageCollidee(collidee);
     }
-
 }
 module.exports = ProjIronDagger;
 

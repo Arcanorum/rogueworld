@@ -1,5 +1,6 @@
 import DungeonPrompts from "../catalogues/DungeonPrompts.json";
 import TextDefs from "../catalogues/TextDefinitions.json";
+import dungeonz from "./Global";
 
 /**
  * @type {Object}
@@ -48,14 +49,19 @@ const gameConfig = {
     language: "English",
     /**
      * @type {Boolean}
-     * Whether audio is enabled.
+     * Whether usable items will be automatically added to the hotbar when picked up if there is a free hotbar slot.
      */
-    audioEnabled: true,
+    addToHotbar: true,
     /**
      * @type {Number}
-     * The volume of the audio. 0 is no audio, 100 is full volume. Can't use floats due to imperfect decimal precision.
+     * The volume of the music. 0 is no music, 100 is full volume. Can't use floats due to imperfect decimal precision.
      */
-    audioLevel: 50,
+    musicVolume: 50,
+    /**
+     * @type {Number}
+     * The volume of the sound effects. 0 is no effects, 100 is full volume. Can't use floats due to imperfect decimal precision.
+     */
+    effectsVolume: 50,
     /**
      * @type {Number}
      * The current percent zoom level for all elements with the gui_zoomable style class.
@@ -89,5 +95,7 @@ gameConfig.SCALED_TILE_SIZE = gameConfig.TILE_SIZE * gameConfig.GAME_SCALE;
  * Declared after, so tile size is defined.
  */
 gameConfig.CENTER_OFFSET = gameConfig.SCALED_TILE_SIZE * 0.5;
+
+dungeonz.gameConfig = gameConfig;
 
 export default gameConfig;

@@ -4,7 +4,6 @@ class Taskset {
      * @param {Player} owner
      */
     constructor(owner) {
-
         this.owner = owner;
 
         this.list = {};
@@ -15,7 +14,7 @@ class Taskset {
      * @param {Task} task
      * @param {Number} [progress] - Optional progress to start this task at.
      */
-    /*addTask (task, progress) {
+    /* addTask (task, progress) {
         // Don't add the task if there is already one with that ID.
         if(this.list[task.taskID] !== undefined){
             console.log("* WARNING: Attempt to add a task progress with a task ID that is already in use:", task.taskType.name);
@@ -26,7 +25,7 @@ class Taskset {
 
         // Tell the client to add the task.
         //this.owner.socket.sendEvent(this.owner.EventsList.task_added, {taskID: task.taskID, progress: this.list[task.taskID].progress});
-    }*/
+    } */
 
     /**
      * Increase the progress made in this task.
@@ -40,42 +39,41 @@ class Taskset {
     // The owner has no task progress so far, give them the starting tasks.
     addStartingTasks() {
         this.owner.tasks.list = {};
-        new Task.Task(this.owner, TaskTypes.KillRats, 0, 5, [ItemsList.IronHammer], 500);
-        new Task.Task(this.owner, TaskTypes.KillBats, 0, 5, [ItemsList.IronArmour], 500);
-        new Task.Task(this.owner, TaskTypes.GatherIronOre, 0, 5, [ItemsList.DungiumPickaxe], 500);
-        new Task.Task(this.owner, TaskTypes.GatherCotton, 0, 5, [ItemsList.ExpOrbGathering], 500);
-        new Task.Task(this.owner, TaskTypes.CraftIronDaggers, 0, 5, [ItemsList.NoctisDagger], 500);
-        new Task.Task(this.owner, TaskTypes.CraftPlainRobes, 0, 5, [ItemsList.ExpOrbArmoury], 500);
+        new Task.Task(this.owner, TaskTypes.KillRats, 0, 5, [ItemsListByName.IronHammer], 500);
+        new Task.Task(this.owner, TaskTypes.KillBats, 0, 5, [ItemsListByName.IronArmour], 500);
+        new Task.Task(this.owner, TaskTypes.GatherIronOre, 0, 5, [ItemsListByName.DungiumPickaxe], 500);
+        new Task.Task(this.owner, TaskTypes.GatherCotton, 0, 5, [ItemsListByName.ExpOrbGathering], 500);
+        new Task.Task(this.owner, TaskTypes.CraftIronDaggers, 0, 5, [ItemsListByName.NoctisDagger], 500);
+        new Task.Task(this.owner, TaskTypes.CraftPlainRobes, 0, 5, [ItemsListByName.ExpOrbArmoury], 500);
     }
 
     getEmittableTasks() {
         const emittableTasks = {};
 
         Object.entries(this.list).forEach(([taskID, task]) => {
-            const rewardItemTypeNumbers = [];
+            const rewardItemTypeCodes = [];
 
-            task.rewardItemTypes.forEach((itemType, i) => {
-                if (!itemType) return;
-                rewardItemTypeNumbers[i] = task.rewardItemTypes[i].prototype.typeNumber;
+            task.rewardItemTypes.forEach((ItemType, i) => {
+                if (!ItemType) return;
+                rewardItemTypeCodes[i] = task.rewardItemTypes[i].prototype.typeCode;
             });
 
             emittableTasks[taskID] = {
                 taskID: task.taskType.taskID,
                 progress: task.progress,
                 completionThreshold: task.completionThreshold,
-                rewardItemTypeNumbers: rewardItemTypeNumbers,
+                rewardItemTypeCodes,
                 rewardGlory: task.rewardGlory,
-            }
+            };
         });
 
         return emittableTasks;
     }
-
 }
 
 module.exports = Taskset;
 
-//const TaskProgress = require("./TaskProgress.js");
+// const TaskProgress = require("./TaskProgress.js");
 const Task = require("./Task");
 const TaskTypes = require("./TaskTypes");
-const ItemsList = require("../ItemsList");
+const ItemsListByName = require("../ItemsList").BY_NAME;

@@ -276,7 +276,7 @@ function DungeonPanel({ onCloseCallback, dungeonPortal }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(DUNGEON_PARTIES, (msd, data) => {
+            PubSub.subscribe(DUNGEON_PARTIES, (msg, data) => {
                 setParties(data);
             }),
         ];

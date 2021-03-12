@@ -1,4 +1,3 @@
-
 // const Item = require("./Item");
 
 // class ItemWorkbench extends Item {
@@ -24,8 +23,8 @@
 //     }
 
 // }
-// 
- // module.exports = ItemWorkbench;
+//
+// module.exports = ItemWorkbench;
 
 // const Workbench = require('../entities/interactables/crafting stations/Workbench');
 

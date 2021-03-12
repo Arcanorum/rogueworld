@@ -16,24 +16,24 @@ let dataToWrite = {};
 
 let station;
 
-for (let stationKey in CraftingManager.StationRecipes) {
+for (const stationKey in CraftingManager.StationRecipes) {
     // Don't check prototype properties.
     if (CraftingManager.StationRecipes.hasOwnProperty(stationKey) === false) continue;
     station = CraftingManager.StationRecipes[stationKey];
 
     dataToWrite[stationKey] = {};
 
-    for (let recipeKey in station) {
+    for (const recipeKey in station) {
         if (station.hasOwnProperty(recipeKey) === false) continue;
-        
-        if(!station[recipeKey].result) {
+
+        if (!station[recipeKey].result) {
             console.log(station[recipeKey]);
             Utils.error(`Cannot add crafting recipe for recipe combo "${recipeKey}" in station "${station[recipeKey]}"`);
         }
         // Add this recipe to the catalogue.
         dataToWrite[stationKey][recipeKey] = {
-            resultTypeNumber: station[recipeKey].result.prototype.typeNumber
-            //stationTypeNumber: recipe.stationTypeNumber
+            resultTypeNumber: station[recipeKey].result.prototype.typeCode,
+            // stationTypeNumber: recipe.stationTypeNumber
         };
     }
 }

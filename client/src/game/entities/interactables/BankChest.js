@@ -1,5 +1,5 @@
 // const Sprite = function (x, y, config) {
-//     Phaser.GameObjects.Sprite.call(this, window.gameScene, x, y, "game-atlas", "bank-chest");
+//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", "bank-chest");
 //     this.setScale(GAME_SCALE);
 
 //     this.interactable = true;
@@ -10,7 +10,7 @@
 // Sprite.prototype.constructor = Sprite;
 
 // Sprite.prototype.interactedByPlayer = function () {
-//     window.gameScene.GUI.bankPanel.show();
+//     dungeonz.gameScene.GUI.bankPanel.show();
 // };
 
 // export default Sprite;

@@ -30,7 +30,7 @@ function DefenceCounter() {
         <div>
             <PanelButton
               icon={defenceIcon}
-              tooltip={Utils.getTextDef("Defence tooltip")}
+              tooltipText={Utils.getTextDef("Defence tooltip")}
             />
             <AnimatedNumber
               value={defence}

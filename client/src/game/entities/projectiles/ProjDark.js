@@ -1,3 +1,4 @@
+import dungeonz from "../../../shared/Global";
 import Projectile from "./Projectile";
 
 class Entity extends Projectile {
@@ -7,7 +8,7 @@ class Entity extends Projectile {
     }
 
     static setupAnimations() {
-        window.gameScene.anims.create({
+        dungeonz.gameScene.anims.create({
             key: "dark-spin",
             defaultTextureKey: "game-atlas",
             frames: [

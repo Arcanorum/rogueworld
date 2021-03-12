@@ -33,10 +33,18 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
         }
 
         // Create a new projectile in each direction.
-        new ProjBloodBolt({ row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source }).emitToNearbyPlayers();
-        new ProjBloodBolt({ row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source }).emitToNearbyPlayers();
-        new ProjBloodBolt({ row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source }).emitToNearbyPlayers();
-        new ProjBloodBolt({ row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source }).emitToNearbyPlayers();
+        new ProjBloodBolt({
+            row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjBloodBolt({
+            row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjBloodBolt({
+            row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjBloodBolt({
+            row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source,
+        }).emitToNearbyPlayers();
 
         if (collidee instanceof Character) {
             // Don't cause self-damage for whoever created this projectile.
@@ -46,25 +54,24 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
                 new Damage({
                     amount: this.damageAmount,
                     types: this.damageTypes,
-                    armourPiercing: this.armourPiercing
+                    armourPiercing: this.armourPiercing,
                 }),
-                this.source
+                this.source,
             );
             // Blood bolt heals HP on hit.
             this.source.heal(
-                new Heal(this.healAmount)
+                new Heal(this.healAmount),
             );
         }
 
         this.destroy();
     }
-
 }
 module.exports = ProjSuperBloodBolt;
 
 const Pickup = require("../../pickups/Pickup");
 const Static = require("../../../statics/Static");
-const Character = require("../../../destroyables/movables/characters/Character");
+const Character = require("../characters/Character");
 const Damage = require("../../../../gameplay/Damage");
 const Heal = require("../../../../gameplay/Heal");
 

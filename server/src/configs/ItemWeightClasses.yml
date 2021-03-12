@@ -1,0 +1,25 @@
+# Weapons
+MetalDagger: 30
+MetalSword: 40
+MetalHammer: 50
+Staff: 40
+Bow: 40
+Arrow: 2
+
+# Clothing
+MetalArmour: 100
+Cloak: 80
+Robe: 60
+
+# Tools
+GatheringTool: 30
+
+# Resources/ingredients.
+GenericMaterial: 2
+Logs: 2
+Ore: 3
+PotionIngredient: 2
+Gem: 2
+
+# Consumables
+Potion: 10

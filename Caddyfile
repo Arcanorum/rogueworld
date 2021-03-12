@@ -1,6 +1,6 @@
 localhost, dungeonz.io, test.dungeonz.io
 
-root * ./client
+root * ./client/build
 file_server
 
 @websockets {

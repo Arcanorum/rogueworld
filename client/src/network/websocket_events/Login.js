@@ -8,6 +8,7 @@ import {
 
 export default () => {
     Utils.message("Adding login events");
+
     eventResponses.something_went_wrong = () => {
         ApplicationState.setJoining(false);
 
@@ -37,7 +38,7 @@ export default () => {
         Utils.message(data);
 
         // Keep the join world data, to pass to the game state create method.
-        window.joinWorldData = data;
+        ApplicationState.joinWorldData = data;
 
         ApplicationState.setJoined(true);
 

@@ -3,24 +3,25 @@
     left: 50%;
     bottom: 80px;
     transform: translateX(-50%);
-}
+    pointer-events: none;
 
-.meter {
-    position: relative;
-    display: flex;
-    user-select: none;
-}
+    .inventory-button {
+        position: absolute;
+        left: 0;
+        transform: translate(-100%, -50%);
+        top: 50%;
+    }
 
-.meter-counter {
-    width: 16px;
-    height: 16px;
-    padding: 1px;
-    margin-top: 12px;
-    pointer-events: auto;
-}
+    .meter {
+        position: relative;
+        display: flex;
+        user-select: none;
 
-.meter-tooltip {
-    bottom: 0;
-    margin-top: 0;
-    margin-bottom: 20px;
+        .meter-counter {
+            width: 16px;
+            height: 16px;
+            padding: 1px;
+            margin-top: 12px;
+        }
+    }
 }

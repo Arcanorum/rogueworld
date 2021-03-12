@@ -1,7 +1,7 @@
 // const Sprite = function (x, y, config) {
 //     this.activeStateFrame = "overworld-portal";
 
-//     Phaser.GameObjects.Sprite.call(this, window.gameScene, x, y, "game-atlas", this.activeStateFrame);
+//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", this.activeStateFrame);
 
 //     this.setScale(GAME_SCALE);
 // };

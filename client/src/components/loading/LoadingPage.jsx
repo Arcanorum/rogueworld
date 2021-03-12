@@ -12,7 +12,7 @@ function LoadingPage() {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(LOADING, (msd, data) => {
+            PubSub.subscribe(LOADING, (msg, data) => {
                 setLoading(data.new);
             }),
         ];

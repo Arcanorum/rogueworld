@@ -1,17 +1,23 @@
 import Phaser from "phaser";
 import PubSub from "pubsub-js";
 import EntityTypes from "../catalogues/EntityTypes.json";
+import ItemTypes from "../catalogues/ItemTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
-import { ApplicationState, GUIState, PlayerState } from "../shared/state/States";
+import {
+    ApplicationState, GUIState, InventoryState, PlayerState, resetStates,
+} from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
     CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE,
 } from "../shared/EventTypes";
+import Panels from "../components/game/gui/panels/PanelsEnum";
+import dungeonz from "../shared/Global";
 
+gameConfig.ItemTypes = ItemTypes;
 gameConfig.EntityTypes = EntityTypes;
 gameConfig.EntitiesList = EntitiesList;
 
@@ -24,12 +30,9 @@ class Game extends Phaser.Scene {
         Utils.message("Game init");
 
         // Make this state globally accessible.
-        window.gameScene = this;
+        dungeonz.gameScene = this;
 
-        const data = window.joinWorldData;
-        // Game has loaded ok. Clear the backup timeouts.
-        clearTimeout(window.joinWorldStartTimeout);
-        clearTimeout(window.joinWorldReloadTimeout);
+        const data = ApplicationState.joinWorldData;
 
         /**
          * The name of the board the player is on. This has nothing to do with a dungeon instance that this board might be for.
@@ -152,9 +155,9 @@ class Game extends Phaser.Scene {
         this.tilemap.loadMap(this.currentBoardName);
 
         // Add the entities that are visible on start.
-        for (let i = 0; i < this.dynamicsData.length; i += 1) {
-            this.addEntity(this.dynamicsData[i]);
-        }
+        this.dynamicsData.forEach((dynamicData) => {
+            this.addEntity(dynamicData);
+        });
 
         this.tilemap.updateDarknessGrid();
 
@@ -169,7 +172,8 @@ class Game extends Phaser.Scene {
         // Lock the camera to the player sprite.
         this.cameras.main.startFollow(this.dynamics[PlayerState.entityID].spriteContainer);
 
-        // window.addEventListener("mousedown", this.pointerDownHandler);
+        this.boundPointerDownHandler = this.pointerDownHandler.bind(this);
+        document.addEventListener("mousedown", this.boundPointerDownHandler);
 
         this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
             fontFamily: "\"Courier\"",
@@ -223,13 +227,15 @@ class Game extends Phaser.Scene {
                     );
                 }
             }),
-            PubSub.subscribe(CHAT_OPEN, (data) => { // can't use word data due to shadowing
+            PubSub.subscribe(CHAT_OPEN, () => {
                 GUIState.setChatInputStatus(true);
             }),
-            PubSub.subscribe(CHAT_CLOSE, (data) => { // can't use word data due to shadowing
+            PubSub.subscribe(CHAT_CLOSE, () => {
                 GUIState.setChatInputStatus(false);
             }),
         ];
+
+        this.events.on("destroy", this.shutdown, this);
     }
 
     update() {
@@ -256,21 +262,24 @@ class Game extends Phaser.Scene {
         }
 
         // Show an FPS counter.
-        if (window.devMode) {
+        if (dungeonz.devMode) {
             this.fpsText.setText(`FPS:${Math.floor(this.game.loop.actualFps)}`);
         }
     }
 
     shutdown() {
-        // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
-        document.removeEventListener("keydown", this.keyDownHandler);
+        Utils.message("Game shutdown:", this);
 
-        window.removeEventListener("mousedown", this.pointerDownHandler);
+        // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
+        document.removeEventListener("keydown", this.boundKeyDownHandler);
+        document.removeEventListener("mousedown", this.boundPointerDownHandler);
 
         // Clean up subscriptions before stopping the game.
         this.subs.forEach((sub) => {
             PubSub.unsubscribe(sub);
         });
+
+        resetStates();
     }
 
     /**
@@ -327,10 +336,11 @@ class Game extends Phaser.Scene {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         // event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
-        if (event.target === this.GUI.gameCanvas) {
+        if (event.target.parentNode.id === "game-canvas") {
             // If the user pressed on their character sprite, pick up item.
             if (Utils.pixelDistanceBetween(
-                this.dynamics[PlayerState.entityID].spriteContainer.baseSprite,
+                this.dynamics[PlayerState.entityID].spriteContainer,
+                this.cameras.main,
                 event,
             ) < 32) {
                 ApplicationState.connection.sendEvent("pick_up_item");
@@ -350,24 +360,23 @@ class Game extends Phaser.Scene {
             else direction = "u";
 
             // Try to use the held item if one is selected.
-            // if (this.player.holdingItem) {
-            //     this.player.inventory.useHeldItem(direction);
-            // }
-            // else { // Do a melee attack.
-            //     ApplicationState.connection.sendEvent("melee_attack", direction);
-            // }
+            if (InventoryState.holding) {
+                // Tell the game server this player wants to use this item.
+                ApplicationState.connection.sendEvent("use_held_item", direction);
+            }
+            // Do a melee attack.
+            else {
+                ApplicationState.connection.sendEvent("melee_attack", direction);
+            }
         }
     }
 
     checkKeyFilters() {
-        // if (this.GUI) {
         // Don't move while the chat input is open.
         if (GUIState.chatInputStatus) return true;
-        // Or the create account panel.
-        // if (this.GUI.createAccountPanel.isOpen === true) return true;
-        // Or the account panel.
-        // if (this.GUI.accountPanel.isOpen === true) return true;
-        // }
+        // Or any panel is open.
+        if (GUIState.activePanel !== Panels.NONE) return true;
+
         return false;
     }
 
@@ -431,7 +440,8 @@ class Game extends Phaser.Scene {
 
     setupKeyboardControls() {
         // Add the handler for keyboard events.
-        document.addEventListener("keydown", this.keyDownHandler.bind(this));
+        this.boundKeyDownHandler = this.keyDownHandler.bind(this);
+        document.addEventListener("keydown", this.boundKeyDownHandler);
 
         this.keyboardKeys = this.input.keyboard.addKeys(
             {
@@ -511,7 +521,7 @@ class Game extends Phaser.Scene {
      * @param {Number} data.col
      */
     updateStatic(data) {
-        if (window.gameScene.statics[`${data.row}-${data.col}`] === undefined) {
+        if (dungeonz.gameScene.statics[`${data.row}-${data.col}`] === undefined) {
             // The static is not yet added to the grid. Wait a bit for the current player tween to
             // finish and the edge is loaded, by which point the static tile should have been added.
             setTimeout(this.tilemap.updateStaticTile.bind(this.tilemap), 500, `${data.row}-${data.col}`, false);
@@ -566,7 +576,7 @@ class Game extends Phaser.Scene {
 
         // Add the sprite to the world group, as it extends sprite but
         // overwrites the constructor so doesn't get added automatically.
-        // window.gameScene.add.existing(dynamicSpriteContainer);
+        // dungeonz.gameScene.add.existing(dynamicSpriteContainer);
 
         if (dynamicSpriteContainer.centered === true) {
             dynamicSpriteContainer.setOrigin(0.5);
@@ -709,13 +719,13 @@ class Game extends Phaser.Scene {
             }
         }
 
-        const chatText = window.gameScene.add.text(0, -12, message, style);
+        const chatText = dungeonz.gameScene.add.text(0, -12, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);
         chatText.setOrigin(0.5);
         chatText.setScale(0.3);
         // Make the chat message scroll up.
-        window.gameScene.tweens.add({
+        dungeonz.gameScene.tweens.add({
             targets: chatText,
             duration: gameConfig.CHAT_BASE_LIFESPAN + (60 * message.length),
             y: "-=30",

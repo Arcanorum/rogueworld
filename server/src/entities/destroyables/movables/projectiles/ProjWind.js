@@ -1,8 +1,7 @@
 const Projectile = require("./Projectile");
 
 class ProjWind extends Projectile {
-
-    handleCollision (collidee) {
+    handleCollision(collidee) {
         // Ignore other wind projectiles.
         if (collidee instanceof ProjWind) return;
         if (collidee instanceof ProjSuperWind) return;
@@ -13,16 +12,15 @@ class ProjWind extends Projectile {
             new Damage({
                 amount: this.damageAmount,
                 types: this.damageTypes,
-                armourPiercing: this.damageArmourPiercing
+                armourPiercing: this.damageArmourPiercing,
             }),
-            this.source
+            this.source,
         );
     }
-
 }
 module.exports = ProjWind;
 
-const Damage = require('../../../../gameplay/Damage');
+const Damage = require("../../../../gameplay/Damage");
 const ProjSuperWind = require("./ProjSuperWind");
 
 ProjWind.prototype.assignModHitPointConfigs();

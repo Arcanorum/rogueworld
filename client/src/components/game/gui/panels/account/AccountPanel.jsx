@@ -40,11 +40,11 @@ function AccountPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(CHANGE_PASSWORD_SUCCESS, (msd, data) => {
+            PubSub.subscribe(CHANGE_PASSWORD_SUCCESS, (msg, data) => {
                 setWarningText(Utils.getTextDef("Password changed"));
                 setPasswordChanged(true);
             }),
-            PubSub.subscribe(CHANGE_PASSWORD_FAILURE, (msd, data) => {
+            PubSub.subscribe(CHANGE_PASSWORD_FAILURE, (msg, data) => {
                 setWarningText(Utils.getTextDef(data.messageID));
             }),
         ];

@@ -1,8 +1,6 @@
-
-const Spawner = require('./Spawner');
+const Spawner = require("./Spawner");
 
 class SpawnerArea extends Spawner {
-
     /**
      * @param {Object} config
      * @param {Number} config.row - For SpawnAreas, this is the top row.
@@ -30,9 +28,8 @@ class SpawnerArea extends Spawner {
     getRandomPosition() {
         return {
             row: Math.round(Math.random() * (this.top - this.bottom) + this.bottom),
-            col: Math.round(Math.random() * (this.left - this.right) + this.right)
+            col: Math.round(Math.random() * (this.left - this.right) + this.right),
         };
     }
-
 }
 module.exports = SpawnerArea;

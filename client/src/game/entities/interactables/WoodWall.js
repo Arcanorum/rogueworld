@@ -1,5 +1,5 @@
 // const Sprite = function (x, y, config) {
-//     Phaser.GameObjects.Sprite.call(this, window.gameScene, x, y, "game-atlas", "wood-wall");
+//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", "wood-wall");
 //     this.setScale(GAME_SCALE);
 
 //     this.addDamageMarker();

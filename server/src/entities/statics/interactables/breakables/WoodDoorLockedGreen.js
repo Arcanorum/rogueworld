@@ -1,7 +1,6 @@
-const Breakable = require('./Breakable');
+const Breakable = require("./Breakable");
 
 class WoodDoorLockedGreen extends Breakable {
-
     interaction(interactedBy) {
         // Don't do anything to this door if it is not active.
         if (this.activeState === false) return;
@@ -29,7 +28,6 @@ class WoodDoorLockedGreen extends Breakable {
         // If the door was successfully activated (nothing standing on the open door), make it block things.
         if (this.activeState === true) this.blocking = true;
     }
-
 }
 module.exports = WoodDoorLockedGreen;
 

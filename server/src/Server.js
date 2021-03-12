@@ -1,6 +1,7 @@
 const Utils = require("./Utils");
 const path = require("path");
 const express = require("express");
+
 const app = express();
 const WebSocket = require("ws");
 const http = require("http");
@@ -28,12 +29,12 @@ app.get('/map/:z/:x/:y', function (req, res) {
 httpServer = http.createServer(app).listen(httpPort);
 
 wss = new WebSocket.Server({
-    server: httpServer
+    server: httpServer,
 });
 
 Utils.message("Started HTTP and WS servers on port", httpPort);
 
 module.exports = {
     app,
-    wss
+    wss,
 };

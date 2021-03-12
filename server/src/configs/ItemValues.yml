@@ -1,105 +1,150 @@
 # Ammunition
 
 - name: DungiumArrows
+  code: ONCE9214
   extends: ammunition/Ammunition
   translationID: Dungium arrows
   iconSource: icon-dungium-arrows
+  unitWeight: Arrow
   ProjectileType: ProjDungiumArrow
-  baseDurability: 50
-  useDurabilityCost: 1
+  baseQuantity: 5
 
 - name: IronArrows
+  code: EFQV6850
   extends: ammunition/Ammunition
   translationID: Iron arrows
   iconSource: icon-iron-arrows
+  baseQuantity: 5
   ProjectileType: ProjIronArrow
-  baseDurability: 50
-  useDurabilityCost: 1
+  unitWeight: Arrow
 
 - name: NoctisArrows
+  code: GOWQ7155
   extends: ammunition/Ammunition
   translationID: Noctis arrows
   iconSource: icon-noctis-arrows
+  unitWeight: Arrow
   ProjectileType: ProjNoctisArrow
-  baseDurability: 50
-  useDurabilityCost: 1
+  baseQuantity: 5
 
 # Clan structures
 
 # Clothes
 
+- name: ArmorOfIre
+  code: CFBO6832
+  extends: clothes/Clothes
+  translationID: Armor of Ire
+  iconSource: icon-dungium-armour
+  soundType: Fabric clothing
+  category: Clothing
+  unitWeight: MetalArmour
+  useGloryCost: 10
+  baseDurability: 1000
+  defenceBonus: 100
+  statBonuses:
+    Melee: 2
+
 - name: Cloak
+  code: XVXP6397
   extends: clothes/Clothes
   translationID: Cloak
   iconSource: icon-cloak
   soundType: Fabric clothing
   category: Clothing
+  unitWeight: Cloak
   baseDurability: 100
   defenceBonus: 25
   statBonuses:
     Ranged: 1
 
 - name: CopperArmour
+  code: EZZH7691
   extends: clothes/Clothes
   translationID: Copper armour
   iconSource: icon-copper-armour
   soundType: Metal clothing
   category: Clothing
+  unitWeight: MetalArmour
   baseDurability: 100
   defenceBonus: 40
   statBonuses:
     Melee: 1
 
 - name: DungiumArmour
+  code: JKYL4271
   extends: clothes/Clothes
   translationID: Dungium armour
   iconSource: icon-dungium-armour
   soundType: Metal clothing
   category: Clothing
+  unitWeight: MetalArmour
   baseDurability: 200
   defenceBonus: 60
   statBonuses:
     Melee: 3
 
+- name: Etherweave
+  code: CAMJ8537
+  extends: clothes/Clothes
+  translationID: Etherweave
+  iconSource: icon-mage-robe
+  soundType: Fabric clothing
+  category: Clothing
+  unitWeight: Robe
+  useGloryCost: 10
+  baseDurability: 1000
+  defenceBonus: 20
+  statBonuses:
+    Magic: 2
+
 - name: IronArmour
+  code: XEBH5037
   extends: clothes/Clothes
   translationID: Iron armour
   iconSource: icon-iron-armour
   soundType: Metal clothing
   category: Clothing
+  unitWeight: MetalArmour
   baseDurability: 150
   defenceBonus: 50
   statBonuses:
     Melee: 2
 
 - name: MageRobe
+  code: UIQB4427
   extends: clothes/Clothes
   translationID: Mage robe
   iconSource: icon-mage-robe
   soundType: Fabric clothing
   category: Clothing
+  unitWeight: Robe
   baseDurability: 100
   defenceBonus: 20
   statBonuses:
     Magic: 1
 
 - name: NecromancerRobe
+  code: HNOI4167
   extends: clothes/Clothes
   translationID: Necromancer robe
   iconSource: icon-necromancer-robe
   soundType: Fabric clothing
   category: Clothing
+  unitWeight: Robe
   baseDurability: 100
   defenceBonus: 20
   statBonuses:
     Magic: 1
 
 - name: NinjaGarb
+  code: MYJZ0020
   extends: clothes/Clothes
   translationID: Ninja garb
   iconSource: icon-ninja-garb
   soundType: Fabric clothing
   category: Clothing
+  unitWeight: Cloak
   baseDurability: 100
   defenceBonus: 30
   statBonuses:
@@ -107,22 +152,26 @@
     Ranged: 1
 
 - name: NoctisArmour
+  code: OELK7246
   extends: clothes/Clothes
   translationID: Noctis armour
   iconSource: icon-noctis-armour
   soundType: Metal clothing
   category: Clothing
+  unitWeight: MetalArmour
   baseDurability: 200 
   defenceBonus: 70
   statBonuses:
     Melee: 4
 
 - name: PlainRobe
+  code: RBKW4762
   extends: clothes/Clothes
   translationID: Plain robe
   iconSource: icon-plain-robe
   soundType: Fabric clothing
   category: Clothing
+  unitWeight: Robe
   baseDurability: 100
   defenceBonus: 20
   statBonuses:
@@ -134,385 +183,629 @@
 
 # Holdable - Weapons
 
+- name: BloodStaff
+  code: CRMZ8928
+  extends: holdable/weapons/Weapon
+  translationID: Blood staff
+  iconSource: icon-blood-staff
+  soundType: Magic weapon
+  ProjectileType: ProjBloodBolt
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 2
+  expGivenStatName: Magic
+
 - name: CopperSword
+  code: SMLW0053
   extends: holdable/weapons/Weapon
   translationID: Copper sword
   iconSource: icon-copper-sword
   soundType: Metal weapon
   ProjectileType: ProjCopperSword
   category: Weapon
+  unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: DungiumDagger
+  code: EDBL4872
   extends: holdable/weapons/Weapon
   translationID: Dungium dagger
   iconSource: icon-dungium-dagger
   soundType: Metal weapon
   ProjectileType: ProjDungiumDagger
   category: Weapon
+  unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: DungiumHammer
+  code: LBVC0112
   extends: holdable/weapons/Weapon
   translationID: Dungium hammer
   iconSource: icon-dungium-hammer
   soundType: Metal weapon
   ProjectileType: ProjDungiumHammer
   category: Weapon
+  unitWeight: MetalHammer
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: DungiumSword
+  code: OFLM3602
   extends: holdable/weapons/Weapon
   translationID: Dungium sword
   iconSource: icon-dungium-sword
   soundType: Metal weapon
   ProjectileType: ProjDungiumSword
   category: Weapon
+  unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
+- name: EternalFlame
+  code: HDYY9831
+  extends: holdable/weapons/Weapon
+  translationID: Eternal Flame
+  iconSource: icon-super-fire-staff
+  soundType: Magic weapon
+  ProjectileType: ProjSuperFire
+  category: Weapon
+  unitWeight: Staff
+  useGloryCost: 10
+  baseDurability: 1000
+  useEnergyCost: 1
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
 - name: FireStaff
+  code: JZYO3459
   extends: holdable/weapons/Weapon
   translationID: Fire staff
   iconSource: icon-fire-staff
   ProjectileType: ProjFire
   category: Weapon
+  unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 2
   expGivenStatName: Magic
 
 - name: HammerOfGlory
+  code: OWEF7178
   extends: holdable/weapons/Weapon
   translationID: Hammer of glory
   iconSource: icon-iron-hammer
   soundType: Metal weapon
   ProjectileType: ProjHammerOfGlory
   category: Weapon
+  unitWeight: MetalHammer
   useGloryCost: 15
   expGivenStatName: Melee
+  baseDurability: 1000
 
 - name: IronDagger
+  code: WFCA0984
   extends: holdable/weapons/Weapon
   translationID: Iron dagger
   iconSource: icon-iron-dagger
   soundType: Metal weapon
   ProjectileType: ProjIronDagger
   category: Weapon
+  unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: IronHammer
+  code: BRCX5152
   extends: holdable/weapons/Weapon
   translationID: Iron hammer
   iconSource: icon-iron-hammer
   soundType: Metal weapon
   ProjectileType: ProjIronHammer
   category: Weapon
+  unitWeight: MetalHammer
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: IronSword
+  code: ZUUW4723
   extends: holdable/weapons/Weapon
   translationID: Iron sword
   iconSource: icon-iron-sword
   soundType: Metal weapon
   ProjectileType: ProjIronSword
   category: Weapon
+  unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: NoctisDagger
+  code: EMGG7774
   extends: holdable/weapons/Weapon
   translationID: Noctis dagger
   iconSource: icon-noctis-dagger
   soundType: Metal weapon
   ProjectileType: ProjNoctisDagger
   category: Weapon
+  unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: NoctisHammer
+  code: FYOP1681
   extends: holdable/weapons/Weapon
   translationID: Noctis hammer
   iconSource: icon-noctis-hammer
   soundType: Metal weapon
   ProjectileType: ProjNoctisHammer
   category: Weapon
+  unitWeight: MetalHammer
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: NoctisSword
+  code: BPHJ9303
   extends: holdable/weapons/Weapon
   translationID: Noctis sword
   iconSource: icon-noctis-sword
   soundType: Metal weapon
   ProjectileType: ProjNoctisSword
   category: Weapon
+  unitWeight: MetalSword
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: Shuriken
+  code: FKUT5967
   extends: holdable/weapons/Weapon
   translationID: Shuriken
   iconSource: icon-shuriken
   soundType: Metal weapon
   ProjectileType: ProjShuriken
   category: Weapon
-  baseDurability: 50
-  useDurabilityCost: 1
+  unitWeight: 3
+  baseQuantity: 5
   useEnergyCost: 1
   expGivenStatName: Ranged
 
+- name: Stormcaller
+  code: YNIU9709
+  extends: holdable/weapons/Weapon
+  translationID: Stormcaller
+  iconSource: icon-super-wind-staff
+  soundType: Magic weapon
+  ProjectileType: ProjSuperWind
+  category: Weapon
+  unitWeight: Staff
+  useGloryCost: 10
+  baseDurability: 1000
+  useEnergyCost: 1
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
+- name: SuperBloodStaff
+  code: FZBN5698
+  extends: holdable/weapons/Weapon
+  translationID: Super blood staff
+  iconSource: icon-super-blood-staff
+  ProjectileType: ProjSuperBloodBolt
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  canUseIntoHighBlockedTile: false
+
 - name: SuperFireStaff
+  code: CPAO5445
   extends: holdable/weapons/Weapon
   translationID: Super fire staff
   iconSource: icon-super-fire-staff
   ProjectileType: ProjSuperFire
   category: Weapon
+  unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
 
 - name: SuperWindStaff
+  code: SGBE8487
   extends: holdable/weapons/Weapon
   translationID: Super wind staff
   iconSource: icon-super-wind-staff
   ProjectileType: ProjSuperWind
   category: Weapon
+  unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
 
 - name: VampireFang
+  code: VSVM7178
   extends: holdable/weapons/Weapon
   translationID: Vampire fang
   iconSource: icon-vampire-fang
   ProjectileType: ProjVampireFang
   category: Weapon
+  unitWeight: MetalDagger
   baseDurability: 50
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: WindStaff
+  code: TMOR5543
   extends: holdable/weapons/Weapon
   translationID: Wind staff
   iconSource: icon-wind-staff
   ProjectileType: ProjWind
   category: Weapon
+  unitWeight: Staff
   baseDurability: 30
-  useDurabilityCost: 1
   useEnergyCost: 2
   expGivenStatName: Magic
 
 # Holdable - Weapons - Bows
 
 - name: FirBow
+  code: JQHL5966
   extends: holdable/weapons/bows/Bow
   translationID: Fir bow
   iconSource: icon-fir-bow
   category: Weapon
+  unitWeight: Bow
   baseDurability: 200
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Ranged
 
 - name: OakBow
+  code: MIIE6860
   extends: holdable/weapons/bows/Bow
   translationID: Oak bow
   iconSource: icon-oak-bow
   category: Weapon
+  unitWeight: Bow
   baseDurability: 200
-  useDurabilityCost: 1
   useEnergyCost: 1
   expGivenStatName: Ranged
 
 # Everything else
 
 - name: BloodGem
+  code: SFTP8910
   translationID: Blood gem
   iconSource: icon-blood-gem
+  unitWeight: Gem
   craftingExpValue: 40
 
+- name: Bluecap
+  code: NKJQ0632
+  translationID: Bluecap
+  iconSource: icon-bluecap
+  unitWeight: PotionIngredient
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+
 - name: Cotton
+  code: YSGN2105
   translationID: Cotton
   iconSource: icon-cotton
+  unitWeight: GenericMaterial
   craftingExpValue: 5
 
+- name: CurePotion
+  code: AZEM3259
+  translationID: Cure potion
+  iconSource: icon-cure-potion
+  soundType: Drink
+  unitWeight: Potion
+  craftingExpValue: 40
+
 - name: DungiumBar
+  code: YWMQ4086
   translationID: Dungium bar
   iconSource: icon-dungium-bar
+  unitWeight: Ore
+
+- name: DungiumHatchet
+  code: NIWY6955
+  translationID: Dungium hatchet
+  iconSource: icon-dungium-hatchet
+  category: Hatchet
+  unitWeight: GatheringTool
+  baseDurability: 50
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
 
 - name: DungiumOre
+  code: OGGT9699
   translationID: Dungium ore
   iconSource: icon-dungium-ore
-  
+  unitWeight: Ore
+
+- name: DungiumPickaxe
+  code: HGKW8248
+  translationID: Dungium pickaxe
+  iconSource: icon-dungium-pickaxe
+  category: Pickaxe
+  unitWeight: GatheringTool
+  baseDurability: 50
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
+
 - name: DungiumRod
+  code: IBQD7373
   translationID: Dungium rod
   iconSource: icon-dungium-rod
+  unitWeight: Ore
   
 - name: DungiumSheet
+  code: VQCA8751
   translationID: Dungium sheet
   iconSource: icon-dungium-sheet
-  
+  unitWeight: Ore
+
+- name: EnergyPotion
+  code: FPEV2793
+  translationID: "Energy potion"
+  iconSource: icon-energy-potion
+  unitWeight: Potion
+  craftingExpValue: 20
+
 - name: ExpOrbArmoury
+  code: FPYN6527
   translationID: "Exp orb: Armoury"
   iconSource: icon-exp-orb
   expGivenStatName: Armoury
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbGathering
+  code: EIAQ2426
   translationID: "Exp orb: Gathering"
   iconSource: icon-exp-orb
   expGivenStatName: Gathering
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbMagic
+  code: DFER2419
   translationID: "Exp orb: Magic"
   iconSource: icon-exp-orb
   expGivenStatName: Magic
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbMelee
+  code: LUUG3398
   translationID: "Exp orb: Melee"
   iconSource: icon-exp-orb
   expGivenStatName: Melee
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbPotionry
+  code: FNAC5053
   translationID: "Exp orb: Potionry"
   iconSource: icon-exp-orb
   expGivenStatName: Potionry
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbRanged
+  code: RIZU4123
   translationID: "Exp orb: Ranged"
   iconSource: icon-exp-orb
   expGivenStatName: Ranged
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbToolery
+  code: AOFN9156
   translationID: "Exp orb: Toolery"
   iconSource: icon-exp-orb
   expGivenStatName: Toolery
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: ExpOrbWeaponry
+  code: FIZA1207
   translationID: "Exp orb: Weaponry"
   iconSource: icon-exp-orb
   expGivenStatName: Weaponry
   expGivenOnUse: 100
-  baseDurability: 1
-  useDurabilityCost: 1
 
 - name: Fabric
+  code: TMCC2407
   translationID: Fabric
   iconSource: icon-fabric
+  unitWeight: GenericMaterial
 
 - name: Feathers
+  code: GSYP8310
   translationID: Feathers
   iconSource: icon-feathers
+  unitWeight: 1
+
+- name: FighterKey
+  code: AMGH8457
+  translationID: Fighter key
+  iconSource: icon-fighter-key
+  baseDurability: 1
+  category: FighterKey
 
 - name: FireGem
+  code: XHSO3018
   translationID: Fire gem
   iconSource: icon-fire-gem
+  unitWeight: Gem
   craftingExpValue: 40
 
 - name: FirLogs
+  code: YHNK7312
   translationID: Fir logs
   iconSource: icon-fir-logs
+  unitWeight: Logs
+
+- name: GloryOrb
+  code: VRAS0927
+  translationID: Glory orb
+  iconSource: icon-glory-orb
+  baseDurability: 1
+
+- name: Greencap
+  code: DTCV1640
+  translationID: Greencap
+  iconSource: icon-greencap
+  unitWeight: PotionIngredient
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+
+- name: HealthPotion
+  code: SMAG7657
+  translationID: Health potion
+  iconSource: icon-health-potion
+  unitWeight: Potion
+  craftingExpValue: 20
 
 - name: IronBar
+  code: NUKK7066
   translationID: Iron bar
   iconSource: icon-iron-bar
+  unitWeight: Ore
+
+- name: IronHatchet
+  code: TNBM9295
+  translationID: Iron hatchet
+  iconSource: icon-iron-hatchet
+  unitWeight: GatheringTool
+  category: Hatchet
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
 
 - name: IronOre
+  code: QXIX4238
   translationID: Iron ore
   iconSource: icon-iron-ore
+  unitWeight: Ore
+
+- name: IronPickaxe
+  code: HGST8704
+  translationID: Iron pickaxe
+  iconSource: icon-iron-pickaxe
+  category: Pickaxe
+  unitWeight: GatheringTool
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
   
 - name: IronRod
+  code: WSGZ4152
   translationID: Iron rod
   iconSource: icon-iron-rod
+  unitWeight: Ore
   
 - name: IronSheet
+  code: ZBJS2040
   translationID: Iron sheet
   iconSource: icon-iron-sheet
+  unitWeight: Ore
 
 - name: NoctisBar
+  code: XWSA3111
   translationID: Noctis bar
   iconSource: icon-noctis-bar
+  unitWeight: Ore
+
+- name: NoctisHatchet
+  code: CTPW6414
+  translationID: Noctis hatchet
+  iconSource: icon-noctis-hatchet
+  category: Hatchet
+  unitWeight: GatheringTool
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
 
 - name: NoctisOre
+  code: LVQF9484
   translationID: Noctis ore
   iconSource: icon-noctis-ore
+  unitWeight: Ore
+
+- name: NoctisPickaxe
+  code: LOEF4388
+  translationID: Noctis pickaxe
+  iconSource: icon-noctis-pickaxe
+  category: Pickaxe
+  unitWeight: GatheringTool
+  baseDurability: 40
+  expGivenStatName: Gathering
+  expGivenOnUse: 10
   
 - name: NoctisRod
+  code: DOKO2126
   translationID: Noctis rod
   iconSource: icon-noctis-rod
+  unitWeight: Ore
   
 - name: NoctisSheet
+  code: IXEL4646
   translationID: Noctis sheet
   iconSource: icon-noctis-sheet
+  unitWeight: Ore
 
 - name: OakLogs
+  code: KPNK4602
   translationID: Oak logs
   iconSource: icon-oak-logs
+  unitWeight: Logs
 
 - name: PalmLogs
+  code: EIYO7730
   translationID: Palm logs
   iconSource: icon-palm-logs
+  unitWeight: Logs
+
+- name: PitKey
+  code: NRQI3219
+  translationID: Pit key
+  iconSource: icon-pit-key
+  baseDurability: 1
+  category: PitKey
+
+- name: Redcap
+  code: BYKI5361
+  translationID: Redcap
+  iconSource: icon-redcap
+  unitWeight: PotionIngredient
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
 
 - name: SpruceLogs
+  code: GIJD9170
   translationID: Spruce logs
   iconSource: icon-spruce-logs
+  unitWeight: Logs
 
 - name: String
+  code: ETGI7171
   translationID: String
   iconSource: icon-string
+  unitWeight: 1
 
 - name: WindGem
+  code: ODWX2496
   translationID: Wind gem
   iconSource: icon-wind-gem
+  unitWeight: Gem
   craftingExpValue: 40

@@ -26,12 +26,8 @@
  </objecttype>
  <objecttype name="Spawner" color="#a0a0a4">
   <property name="EntityClassName" type="string" default=""/>
-  <property name="MaxAtOnce" type="int" default="0"/>
-  <property name="SpawnRate" type="int" default="0"/>
  </objecttype>
  <objecttype name="SpawnerArea" color="#a0a0a4">
   <property name="EntityClassName" type="string"/>
-  <property name="MaxAtOnce" type="int" default="0"/>
-  <property name="SpawnRate" type="int" default="0"/>
  </objecttype>
 </objecttypes>

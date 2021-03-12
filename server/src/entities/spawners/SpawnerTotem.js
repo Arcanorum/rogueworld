@@ -1,8 +1,6 @@
-
-const Spawner = require('./Spawner');
+const Spawner = require("./Spawner");
 
 class SpawnerTotem extends Spawner {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -25,7 +23,6 @@ class SpawnerTotem extends Spawner {
 
         return this.positionOffsets[keys[keys.length * Math.random() << 0]];
     }
-
 }
 module.exports = SpawnerTotem;
 

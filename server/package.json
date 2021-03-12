@@ -4,8 +4,10 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start": "node generateLeafletMap.js && node index.js",
-    "dev": "node generateLeafletMap.js && nodemon --exec npm start"
+    "start": "node index.js",
+    "dev": "nodemon --exec npm start",
+    "build-map": "node generateLeafletMap.js",
+    "lint": "eslint 'src/**' --fix"
   },
   "keywords": [],
   "author": "",
@@ -20,16 +22,19 @@
     "verbose": true
   },
   "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "express": "^4.17.1",
     "mongoose": "^5.7.5",
     "node-webhooks": "^1.4.2",
+    "require-dir": "^1.2.0",
     "ws": "^5.2.2",
-    "xlsx": "^0.13.5",
-    "require-dir": "^1.2.0"
+    "xlsx": "^0.13.5"
   },
   "dependencies": {
-    "img2-leaflet-tiles": "^1.1.0",
     "js-yaml": "^3.14.0",
-    "tile-extruder": "^2.0.6"
+    "tile-extruder": "^2.0.6",
+    "uuid": "^8.3.2"
   }
 }

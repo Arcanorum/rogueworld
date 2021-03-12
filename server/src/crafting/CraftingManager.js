@@ -18,32 +18,32 @@ const CraftingManager = {
      * @param {Number} [config.statXPGiven] - A specific amount of XP given for crafting this item. Default will use the sum of the craftingExpValues of each component.
      * @param {TaskType} [config.taskCrafted] - What task will crafting this item give progress towards.
      */
-    addRecipe: function (config) {
-        if(config.comp1 === undefined) {
+    addRecipe(config) {
+        if (config.comp1 === undefined) {
             Utils.error(`Adding crafting recipe named "${config.name}". No components specified.`);
         }
 
-        if(config.result === undefined) {
+        if (config.result === undefined) {
             Utils.error(`Adding crafting recipe named "${config.name}". No result specified.`);
         }
 
-        let recipeCode = config.comp1.prototype.typeNumber + "-";
+        let recipeCode = `${config.comp1.prototype.typeCode}-`;
         let statXPGiven = config.comp1.prototype.craftingExpValue;
-        if(config.comp2 !== undefined){ recipeCode += config.comp2.prototype.typeNumber + "-"; statXPGiven += config.comp2.prototype.craftingExpValue }
-        if(config.comp3 !== undefined){ recipeCode += config.comp3.prototype.typeNumber + "-"; statXPGiven += config.comp3.prototype.craftingExpValue }
-        if(config.comp4 !== undefined){ recipeCode += config.comp4.prototype.typeNumber + "-"; statXPGiven += config.comp4.prototype.craftingExpValue }
-        if(config.comp5 !== undefined){ recipeCode += config.comp5.prototype.typeNumber + "-"; statXPGiven += config.comp5.prototype.craftingExpValue }
+        if (config.comp2 !== undefined) { recipeCode += `${config.comp2.prototype.typeCode}-`; statXPGiven += config.comp2.prototype.craftingExpValue; }
+        if (config.comp3 !== undefined) { recipeCode += `${config.comp3.prototype.typeCode}-`; statXPGiven += config.comp3.prototype.craftingExpValue; }
+        if (config.comp4 !== undefined) { recipeCode += `${config.comp4.prototype.typeCode}-`; statXPGiven += config.comp4.prototype.craftingExpValue; }
+        if (config.comp5 !== undefined) { recipeCode += `${config.comp5.prototype.typeCode}-`; statXPGiven += config.comp5.prototype.craftingExpValue; }
 
-        if(config.statXPGiven !== undefined) statXPGiven = config.statXPGiven;
+        if (config.statXPGiven !== undefined) statXPGiven = config.statXPGiven;
 
         const stationTypeNumber = config.stationType.prototype.typeNumber;
 
-        if(this.StationRecipes[stationTypeNumber] === undefined){
+        if (this.StationRecipes[stationTypeNumber] === undefined) {
             this.StationRecipes[stationTypeNumber] = {};
         }
 
         let taskIDCrafted;
-        if(config.taskCrafted === undefined || config.taskCrafted.taskID === undefined){
+        if (config.taskCrafted === undefined || config.taskCrafted.taskID === undefined) {
             taskIDCrafted = null;
         }
         else {
@@ -61,7 +61,7 @@ const CraftingManager = {
             /** @type {Number} */
             stationTypeNumber,
             /** @type {String} */
-            taskIDCrafted
+            taskIDCrafted,
         };
     },
 
@@ -72,13 +72,13 @@ const CraftingManager = {
      * @param {Array} inventorySlotKeys
      * @returns {*}
      */
-    craft: function (crafter, stationTypeNumber, inventorySlotKeys) {
-        if(Array.isArray(inventorySlotKeys) === false) return;
+    craft(crafter, stationTypeNumber, inventorySlotKeys) {
+        if (Array.isArray(inventorySlotKeys) === false) return;
         // Check for any duplicate values in the components.
         // Someone might try to use the same inventory item for multiple components.
-        if((new Set(inventorySlotKeys)).size !== inventorySlotKeys.length) return;
+        if ((new Set(inventorySlotKeys)).size !== inventorySlotKeys.length) return;
         // Check the station type number is valid. Might have been invalid input.
-        if(this.StationRecipes[stationTypeNumber] === undefined) return;
+        if (this.StationRecipes[stationTypeNumber] === undefined) return;
 
         let recipeCode = "";
         // How many of the components have a durability.
@@ -87,36 +87,36 @@ const CraftingManager = {
         let totalPercentImproved = 0;
 
         let item;
-        const inventory = crafter.inventory;
-        for(let i=0; i<inventorySlotKeys.length; i+=1){
+        const { inventory } = crafter;
+        for (let i = 0; i < inventorySlotKeys.length; i += 1) {
             // Only string names of each slot to use should be in the components.
-            if(typeof inventorySlotKeys[i] !== "string") return;
+            if (typeof inventorySlotKeys[i] !== "string") return;
 
             item = inventory[inventorySlotKeys[i]];
-            if(item === undefined) continue;
-            if(item === null) continue;
-            recipeCode += item.typeNumber + "-";
-            if(item.durability !== null){
+            if (item === undefined) continue;
+            if (item === null) continue;
+            recipeCode += `${item.typeCode}-`;
+            if (item.durability !== null) {
                 durabilityCount += 1;
                 totalPercentRemaining += item.durability / item.maxDurability;
                 totalPercentImproved += item.maxDurability / item.baseDurability;
             }
         }
 
-        let recipe = this.StationRecipes[stationTypeNumber][recipeCode];
+        const recipe = this.StationRecipes[stationTypeNumber][recipeCode];
 
-        if(recipe === undefined) return;
+        if (recipe === undefined) return;
 
         // Check the player is stood next to the correct type of crafting station.
-        if(crafter.isAdjacentToStaticType(stationTypeNumber) === false){
+        if (crafter.isAdjacentToStaticType(stationTypeNumber) === false) {
             return;
         }
 
         let resultDurability = null;
         let resultMaxDurability = null;
         // If the item to be crafted has a durability, it is affected by some crafting stat of the crafter.
-        if(recipe.result.prototype.baseDurability !== null){
-            if(durabilityCount > 0){
+        if (recipe.result.prototype.baseDurability !== null) {
+            if (durabilityCount > 0) {
                 const maxDurabilityPercentImproved = totalPercentImproved / durabilityCount;
                 const durabilityPercentRemaining = totalPercentRemaining / durabilityCount;
                 resultMaxDurability = Math.trunc(recipe.result.prototype.baseDurability * maxDurabilityPercentImproved * (1 + (crafter.stats[recipe.craftingStat].level / 20)));
@@ -133,19 +133,19 @@ const CraftingManager = {
         crafter.stats[recipe.craftingStat].gainExp(recipe.statXPGiven * 0.5);
 
         // Remove the items from the crafter that were used in the recipe.
-        for(let i=0; i<inventorySlotKeys.length; i+=1){
+        for (let i = 0; i < inventorySlotKeys.length; i += 1) {
             item = inventory[inventorySlotKeys[i]];
-            if(item === undefined) continue;
-            if(item === null) continue;
+            if (item === undefined) continue;
+            if (item === null) continue;
             item.destroy();
         }
 
-        crafter.addToInventory(new recipe.result({durability: resultDurability, maxDurability: resultMaxDurability}));
+        crafter.addToInventory(new recipe.result({ durability: resultDurability, maxDurability: resultMaxDurability }));
 
         crafter.modGlory(recipe.statXPGiven);
 
         crafter.tasks.progressTask(recipe.taskIDCrafted);
-    }
+    },
 
 };
 

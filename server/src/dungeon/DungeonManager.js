@@ -1,5 +1,5 @@
-const Utils = require('../Utils');
-const Difficulties = require('./Difficulties');
+const Utils = require("../Utils");
+const Difficulties = require("./Difficulties");
 const settings = require("../../settings");
 
 const idCounter = new Utils.Counter();
@@ -35,7 +35,7 @@ class DungeonManager {
         this.boardConfig = {
             name: config.name,
             mapData: config.mapData,
-            alwaysNight: config.alwaysNight
+            alwaysNight: config.alwaysNight,
         };
 
         this.maxPlayers = config.maxPlayers || 6;
@@ -63,11 +63,13 @@ class DungeonManager {
         if (config.difficultyName) {
             difficulty = Difficulties[config.difficultyName];
             // Check the given difficulty name is valid.
-            if (!difficulty) Utils.error(
-                "Dungeon difficulty name is invalid.",
-                "Difficulty name: ", config.difficultyName + ". On map:", config.name,
-                '\nValid difficulties:\n', Difficulties
-            );
+            if (!difficulty) {
+                Utils.error(
+                    "Dungeon difficulty name is invalid.",
+                    "Difficulty name: ", `${config.difficultyName}. On map:`, config.name,
+                    "\nValid difficulties:\n", Difficulties,
+                );
+            }
         }
 
         /**
@@ -80,7 +82,7 @@ class DungeonManager {
          * Written to client to show the dungeon name on the dungeon prompt.
          * @type {String}
          */
-        this.nameDefinitionID = "Dungeon name: " + config.nameDefinitionID;
+        this.nameDefinitionID = `Dungeon name: ${config.nameDefinitionID}`;
 
         this.evictionBoard = config.evictionMapName || settings.PLAYER_SPAWN_BOARD_NAME;
         this.evictionEntrance = config.evictionEntranceName || settings.PLAYER_SPAWN_ENTRANCE_NAME;
@@ -106,8 +108,8 @@ class DungeonManager {
         // Update players around every portal that uses this dungeon manager.
         this.portals.forEach((portal) => {
             const directions = Object.values(portal.Directions);
-            const row = portal.row;
-            const col = portal.col;
+            const { row } = portal;
+            const { col } = portal;
             // Check the board tiles in each direction from this portal.
             directions.forEach((direction) => {
                 // Get every player stood next to this portal.
@@ -134,9 +136,7 @@ class DungeonManager {
         // Check they have enough glory to start this dungeon.
         if (player.glory < this.gloryCost) return;
         // Check they are not already in a party.
-        const currentParty = Object.values(this.parties).find((party) => {
-            return party.members.some((member) => member === player);
-        });
+        const currentParty = Object.values(this.parties).find((party) => party.members.some((member) => member === player));
         if (currentParty) return;
 
         const party = new Party(this, player);
@@ -148,7 +148,7 @@ class DungeonManager {
 
     /**
      * Remove/destroy a party from this dungeon manager.
-     * @param {Party} party 
+     * @param {Party} party
      */
     removeParty(party) {
         if (party.inDungeon === false) {
@@ -159,8 +159,8 @@ class DungeonManager {
 
     /**
      * Add a player to an existing party.
-     * @param {Player} player 
-     * @param {Number} partyID 
+     * @param {Player} player
+     * @param {Number} partyID
      */
     addPlayerToParty(player, partyID) {
         if (!player) return;
@@ -183,7 +183,7 @@ class DungeonManager {
         if (party.clanOnly) {
             // Check they are in the same clan as the party leader.
             // TODO: when clans are added
-            //if(player.clan.id !== this.members[0].clan.id) return;
+            // if(player.clan.id !== this.members[0].clan.id) return;
         }
 
         party.members.push(player);
@@ -196,13 +196,11 @@ class DungeonManager {
 
     /**
      * Remove a player from the party they are in.
-     * @param {Player} player 
+     * @param {Player} player
      */
     removePlayerFromParty(player) {
         // Find the party the player is in.
-        const party = Object.values(this.parties).find((party) => {
-            return party.members.some((member) => member === player);
-        });
+        const party = Object.values(this.parties).find((party) => party.members.some((member) => member === player));
         // Not in a party.
         if (!party) return;
 
@@ -243,7 +241,6 @@ class DungeonManager {
 
             this.updateNearbyFocusedPlayers();
         }
-
     }
 
     kickPartyMember(leader, memberID) {
@@ -251,9 +248,7 @@ class DungeonManager {
         if (leader.id === memberID) return;
 
         // Find the party the leader is in.
-        const party = Object.values(this.parties).find((party) => {
-            return party.members.some((member) => member === leader);
-        });
+        const party = Object.values(this.parties).find((party) => party.members.some((member) => member === leader));
         // Not in a party.
         if (!party) return;
 
@@ -279,26 +274,21 @@ class DungeonManager {
     getPartiesData() {
         return Object
             .values(this.parties)
-            .filter((party) => {
+            .filter((party) =>
                 // Ignore parties that are in a dungeon already.
-                return party.inDungeon === false;
-            })
-            .map((party) => {
-                return {
-                    // Client needs the party ID to join a party.
-                    id: party.id,
-                    members: party.members.map((member) => {
-                        return {
-                            // Client needs the player ID so they can be identified
-                            // if they are kicked, as display names are not unique.
-                            id: member.id,
-                            displayName: member.displayName
-                        }
-                    }),
-                    kickedList: party.kickedList,
-                    clanOnly: party.clanOnly
-                }
-            });
+                party.inDungeon === false)
+            .map((party) => ({
+                // Client needs the party ID to join a party.
+                id: party.id,
+                members: party.members.map((member) => ({
+                    // Client needs the player ID so they can be identified
+                    // if they are kicked, as display names are not unique.
+                    id: member.id,
+                    displayName: member.displayName,
+                })),
+                kickedList: party.kickedList,
+                clanOnly: party.clanOnly,
+            }));
     }
 
     /**
@@ -308,9 +298,7 @@ class DungeonManager {
      */
     start(leader, dungeonPortal) {
         // Find the party the given party leader is in.
-        const party = Object.values(this.parties).find((party) => {
-            return party.members[0] === leader;
-        });
+        const party = Object.values(this.parties).find((party) => party.members[0] === leader);
         if (!party) return;
 
         if (this.checkStartCriteria(party, dungeonPortal) === false) return;
@@ -333,7 +321,7 @@ class DungeonManager {
             alwaysNight: this.boardConfig.alwaysNight,
             timeLimitMinutes: this.timeLimitMinutes,
             evictionBoard: this.evictionBoard,
-            evictionEntrance: this.evictionEntrance
+            evictionEntrance: this.evictionEntrance,
         });
 
         this.instances[instance.id] = instance;
@@ -341,7 +329,7 @@ class DungeonManager {
 
     /**
      * Destroy a dungeon instance that belongs to this dungeon manager.
-     * @param {Dungeon} instance 
+     * @param {Dungeon} instance
      */
     destroyInstance(instance) {
         instance.destroy();
@@ -349,9 +337,9 @@ class DungeonManager {
     }
 
     /**
-     * 
-     * @param {Party} party 
-     * @param {DungeonPortal} dungeonPortal 
+     *
+     * @param {Party} party
+     * @param {DungeonPortal} dungeonPortal
      */
     checkStartCriteria(party, dungeonPortal) {
         if (!dungeonPortal) {
@@ -359,7 +347,7 @@ class DungeonManager {
             return false;
         }
 
-        const members = party.members;
+        const { members } = party;
 
         // Don't allow more than the max players.
         if (members.length > this.maxPlayers) {
@@ -383,8 +371,8 @@ class DungeonManager {
 
 module.exports = DungeonManager;
 
-const Dungeon = require('./Dungeon');
-const DungeonManagersList = require('./DungeonManagersList');
-const Party = require('./Party');
-const EventsList = require('../EventsList');
-const BoardsList = require('../board/BoardsList');
+const Dungeon = require("./Dungeon");
+const DungeonManagersList = require("./DungeonManagersList");
+const Party = require("./Party");
+const EventsList = require("../EventsList");
+const BoardsList = require("../board/BoardsList");

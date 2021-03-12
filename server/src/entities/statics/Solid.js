@@ -1,4 +1,4 @@
-const Static = require('./Static');
+const Static = require("./Static");
 
 class Solid extends Static {}
 

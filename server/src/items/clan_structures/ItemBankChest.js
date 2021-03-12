@@ -1,4 +1,3 @@
-
 // const Item = require("./Item");
 
 // class ItemBankChest extends Item {
@@ -24,8 +23,8 @@
 //     }
 
 // }
-// 
- // module.exports = ItemBankChest;
+//
+// module.exports = ItemBankChest;
 
 // const BankChest = require('../entities/interactables/BankChest');
 

@@ -1,57 +1,58 @@
 import gameConfig from "../../shared/GameConfig";
+import dungeonz from "../../shared/Global";
 import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
 const tweenCompleteLeft = () => {
-    window.gameScene.tilemap.shiftMapLeft();
-    window.gameScene.playerTween = null;
+    dungeonz.gameScene.tilemap.shiftMapLeft();
+    dungeonz.gameScene.playerTween = null;
 };
 
 const tweenCompleteRight = () => {
-    window.gameScene.tilemap.shiftMapRight();
-    window.gameScene.playerTween = null;
+    dungeonz.gameScene.tilemap.shiftMapRight();
+    dungeonz.gameScene.playerTween = null;
 };
 
 const tweenCompleteUp = () => {
-    window.gameScene.tilemap.shiftMapUp();
-    window.gameScene.playerTween = null;
+    dungeonz.gameScene.tilemap.shiftMapUp();
+    dungeonz.gameScene.playerTween = null;
 };
 
 const tweenCompleteDown = () => {
-    window.gameScene.tilemap.shiftMapDown();
-    window.gameScene.playerTween = null;
+    dungeonz.gameScene.tilemap.shiftMapDown();
+    dungeonz.gameScene.playerTween = null;
 };
 
 export default () => {
     eventResponses.add_entity = (data) => {
         // console.log("add entity event:", data);
-        if (window.gameScene.addEntity === undefined) return;
-        window.gameScene.addEntity(data);
+        if (dungeonz.gameScene.addEntity === undefined) return;
+        dungeonz.gameScene.addEntity(data);
     };
 
     eventResponses.remove_entity = (data) => {
         // console.log("remove entity event:", data);
-        window.gameScene.removeDynamic(data);
+        dungeonz.gameScene.removeDynamic(data);
     };
 
     eventResponses.add_entities = (data) => {
         // console.log("add entities event");
         for (let i = 0; i < data.length; i += 1) {
-            window.gameScene.addEntity(data[i]);
+            dungeonz.gameScene.addEntity(data[i]);
         }
     };
 
     eventResponses.moved = (data) => {
         // console.log("moved: ", data);
 
-        if (window.gameScene.dynamics === undefined) {
+        if (dungeonz.gameScene.dynamics === undefined) {
             // Something went wrong... Reload the page.
             // location.reload();
             return;
         }
 
         // Get the dynamic that moved.
-        const dynamic = window.gameScene.dynamics[data.id];
+        const dynamic = dungeonz.gameScene.dynamics[data.id];
 
         // Check the entity id is valid.
         if (dynamic === undefined) return;
@@ -64,8 +65,8 @@ export default () => {
             const origCol = PlayerState.col;
 
             // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
-            if (window.gameScene.playerTween !== null) {
-                window.gameScene.playerTween.stop();
+            if (dungeonz.gameScene.playerTween !== null) {
+                dungeonz.gameScene.playerTween.stop();
             }
 
             // Do this AFTER stopping the current player tween, so it can finish with the
@@ -95,14 +96,14 @@ export default () => {
                 tweenOnCompleteFunction = tweenCompleteUp;
             }
 
-            window.gameScene.checkDynamicsInViewRange();
-            window.gameScene.tilemap.updateDarknessGrid();
-            window.gameScene.tilemap.updateDarknessGridPosition();
+            dungeonz.gameScene.checkDynamicsInViewRange();
+            dungeonz.gameScene.tilemap.updateDarknessGrid();
+            dungeonz.gameScene.tilemap.updateDarknessGridPosition();
 
             // Tween the player sprite to the target row/col.
-            window.gameScene.playerTween = window.gameScene.tweens.add({
+            dungeonz.gameScene.playerTween = dungeonz.gameScene.tweens.add({
                 targets: dynamicSpriteContainer,
-                duration: window.gameScene.moveDelay,
+                duration: dungeonz.gameScene.moveDelay,
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
                 onComplete: tweenOnCompleteFunction,
@@ -113,7 +114,7 @@ export default () => {
 
             // Check for any interactables that are now in range to be interacted with.
             const
-                { interactables } = window.gameScene;
+                { interactables } = dungeonz.gameScene;
             const interactionRange = 4;
 
             Object.values(interactables).forEach((interactable) => {
@@ -137,7 +138,7 @@ export default () => {
                 }
             });
 
-            window.gameScene.soundManager.player.playFootstep();
+            dungeonz.gameScene.soundManager.player.playFootstep();
         }
         // Another entity moved.
         else {
@@ -158,12 +159,12 @@ export default () => {
                 // Out of view range. Remove it.
                 dynamicSpriteContainer.destroy();
                 // Remove the reference to it.
-                delete window.gameScene.dynamics[dynamic.id];
+                delete dungeonz.gameScene.dynamics[dynamic.id];
                 return;
             }
 
             // Tween to the new location.
-            window.gameScene.tweens.add({
+            dungeonz.gameScene.tweens.add({
                 targets: dynamicSpriteContainer,
                 duration: dynamicSpriteContainer.moveRate || 250,
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
@@ -175,21 +176,21 @@ export default () => {
         if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove(true);
 
         // Move sprites further down the screen above ones further up.
-        window.gameScene.dynamicSpritesContainer.list.forEach((each) => {
+        dungeonz.gameScene.dynamicSpritesContainer.list.forEach((each) => {
             const otherDynamicSpriteContainer = each;
             otherDynamicSpriteContainer.z = otherDynamicSpriteContainer.y;
         });
     };
 
     eventResponses.heal = (data) => {
-        window.gameScene.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
+        dungeonz.gameScene.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
     };
 
     eventResponses.damage = (data) => {
-        const { spriteContainer } = window.gameScene.dynamics[data.id];
+        const { spriteContainer } = dungeonz.gameScene.dynamics[data.id];
         spriteContainer.onHitPointsModified(data.amount);
         // Squirt some juice.
-        window.gameScene.damageParticleEmitter.emitParticleAt(
+        dungeonz.gameScene.damageParticleEmitter.emitParticleAt(
             spriteContainer.x,
             spriteContainer.y,
         );
@@ -197,18 +198,18 @@ export default () => {
 
     eventResponses.active_state = (data) => {
         // console.log("active state change:", data);
-        window.gameScene.tilemap.updateStaticTile(data, true);
+        dungeonz.gameScene.tilemap.updateStaticTile(data, true);
     };
 
     eventResponses.inactive_state = (data) => {
         // console.log("inactive state change:", data);
-        window.gameScene.tilemap.updateStaticTile(data, false);
+        dungeonz.gameScene.tilemap.updateStaticTile(data, false);
     };
 
     eventResponses.change_direction = (data) => {
         // console.log("change_direction:", data);
         // Check the entity id is valid.
-        const dynamic = window.gameScene.dynamics[data.id];
+        const dynamic = dungeonz.gameScene.dynamics[data.id];
         if (dynamic === undefined) return;
 
         const { spriteContainer } = dynamic;

@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").SpruceLogs;
+const Item = require("../../../../ItemsList").BY_NAME.SpruceLogs;
 
 class SpruceTree extends ResourceNode {}
 
@@ -10,6 +10,6 @@ SpruceTree.prototype.reactivationRate = 20000;
 SpruceTree.prototype.requiredToolCategory = Item.prototype.categories.Hatchet;
 SpruceTree.prototype.warningEvent = SpruceTree.prototype.EventsList.hatchet_needed;
 SpruceTree.prototype.gloryGiven = 10;
-//SpruceTree.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").ChopSpruceTrees.taskID;
+// SpruceTree.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").ChopSpruceTrees.taskID;
 
 module.exports = SpruceTree;

@@ -1,4 +1,4 @@
-const Static = require('../Static');
+const Static = require("../Static");
 
 class Interactable extends Static {
     /**
@@ -32,7 +32,7 @@ class Interactable extends Static {
      * @param {Item} toolUsed
      */
     interaction(interactedBy, toolUsed) {
-        //console.log("* WARNING: Interactable entity type defined without overriding Interactable.interaction:", this.typeNumber);
+        // console.log("* WARNING: Interactable entity type defined without overriding Interactable.interaction:", this.typeNumber);
     }
 
     /**
@@ -45,7 +45,7 @@ class Interactable extends Static {
             this.activeState = true;
 
             // Tell any nearby players that this object can now be interacted with.
-            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.active_state, this.row + "-" + this.col);
+            this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.active_state, `${this.row}-${this.col}`);
         }
         // Something in the way.
         else {
@@ -66,9 +66,8 @@ class Interactable extends Static {
         }
 
         // Tell any nearby players that this object has been interacted with.
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.inactive_state, this.row + "-" + this.col);
+        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.inactive_state, `${this.row}-${this.col}`);
     }
-
 }
 module.exports = Interactable;
 
@@ -85,7 +84,7 @@ Interactable.prototype.activeState = true;
  * @type {Boolean}
  * @default true
  */
-//Interactable.prototype.DEFAULT_ACTIVE_STATE = true;
+// Interactable.prototype.DEFAULT_ACTIVE_STATE = true;
 
 /**
  * A warning event to send to the interacter, if they have done something wrong (such as using the wrong tool).

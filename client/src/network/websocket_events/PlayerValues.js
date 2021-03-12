@@ -1,13 +1,14 @@
 import PubSub from "pubsub-js";
 import { DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
+import dungeonz from "../../shared/Global";
 import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
 export default () => {
     eventResponses.change_board = (data) => {
         // console.log("change board, data:", data);
-        window.gameScene.dynamicsData = data.dynamicsData;
-        window.gameScene.boardAlwaysNight = data.boardAlwaysNight;
+        dungeonz.gameScene.dynamicsData = data.dynamicsData;
+        dungeonz.gameScene.boardAlwaysNight = data.boardAlwaysNight;
 
         PlayerState.setRow(data.playerRow);
         PlayerState.setCol(data.playerCol);
@@ -19,36 +20,36 @@ export default () => {
         }
 
         // Load the map with the given board name.
-        window.gameScene.tilemap.loadMap(data.boardName);
+        dungeonz.gameScene.tilemap.loadMap(data.boardName);
 
         // Remove the old entities.
-        const { dynamics } = window.gameScene;
+        const { dynamics } = dungeonz.gameScene;
 
         Object.keys(dynamics).forEach((key) => {
-            window.gameScene.removeDynamic(key);
+            dungeonz.gameScene.removeDynamic(key);
         });
 
         // Add the new entities.
-        const { dynamicsData } = window.gameScene;
+        const { dynamicsData } = dungeonz.gameScene;
         for (let i = 0; i < dynamicsData.length; i += 1) {
-            window.gameScene.addEntity(dynamicsData[i]);
+            dungeonz.gameScene.addEntity(dynamicsData[i]);
         }
 
         // Lock the camera to the player sprite.
-        window.gameScene.cameras.main.startFollow(
-            window.gameScene.dynamics[PlayerState.entityID].spriteContainer,
+        dungeonz.gameScene.cameras.main.startFollow(
+            dungeonz.gameScene.dynamics[PlayerState.entityID].spriteContainer,
         );
 
         // Refresh the darkness grid.
-        window.gameScene.tilemap.updateDarknessGrid();
+        dungeonz.gameScene.tilemap.updateDarknessGrid();
     };
 
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setEnergy(PlayerState.maxEnergy);
 
-        window.gameScene.soundManager.music.changeBackgroundMusic(
-            window.gameScene.soundManager.music.sounds.location.generic1,
+        dungeonz.gameScene.soundManager.music.changeBackgroundMusic(
+            dungeonz.gameScene.soundManager.music.sounds.location.generic1,
         );
     };
 
@@ -68,20 +69,11 @@ export default () => {
         PlayerState.setGlory(data);
     };
 
-    eventResponses.durability_value = (data) => {
-        // console.log("durability_value:", data);
-        window.gameScene.player.inventory[data.slotKey].updateDurability(data.durability);
-    };
-
     eventResponses.exp_gained = (data) => {
-        // console.log("exp gained, data:", data);
-        window.gameScene.player.stats.list[data.statName].modExp(data.exp);
+        PlayerState.setStatExp(data.statName, data.exp);
     };
 
     eventResponses.stat_levelled = (data) => {
-        // console.log("stat levelled, data:", data);
-        window.gameScene.player.stats.list[data.statName].levelUp(
-            data.level, data.nextLevelExpRequirement,
-        );
+        PlayerState.setStatLevel(data.statName, data.level, data.nextLevelExpRequirement);
     };
 };

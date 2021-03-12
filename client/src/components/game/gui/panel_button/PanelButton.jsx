@@ -3,9 +3,15 @@ import PropTypes from "prop-types";
 import { GUIState } from "../../../../shared/state/States";
 import "./PanelButton.scss";
 
-function PanelButton({ icon, onClick, tooltip }) {
-    const [showTooltip, setShowTooltip] = useState(false);
+function Tooltip(content) {
+    return (
+        <div className="tooltip-panel-button">
+            {content}
+        </div>
+    );
+}
 
+function PanelButton({ icon, onClick, tooltipText }) {
     return (
         <div className="panel-button">
             <img
@@ -13,21 +19,15 @@ function PanelButton({ icon, onClick, tooltip }) {
               src={icon}
               draggable={false}
               onMouseEnter={() => {
-                  setShowTooltip(true);
+                  GUIState.setTooltipContent(
+                      Tooltip(tooltipText),
+                  );
               }}
               onMouseLeave={() => {
-                  setShowTooltip(false);
+                  GUIState.setTooltipContent(null);
               }}
               onClick={onClick}
             />
-            {showTooltip && (
-            <div className={`generic-tooltip ${GUIState.cursorInTopSide ? "top" : "bottom"}
-             ${GUIState.cursorInLeftSide ? "left" : "right"}`}
-            >
-                {tooltip}
-            </div>
-            )}
-
         </div>
     );
 }
@@ -35,7 +35,7 @@ function PanelButton({ icon, onClick, tooltip }) {
 PanelButton.propTypes = {
     icon: PropTypes.string.isRequired,
     onClick: PropTypes.func,
-    tooltip: PropTypes.string.isRequired,
+    tooltipText: PropTypes.string.isRequired,
 };
 
 PanelButton.defaultProps = {

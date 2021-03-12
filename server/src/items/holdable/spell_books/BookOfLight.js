@@ -4,19 +4,18 @@ const ModHitPointConfigs = require("../../../gameplay/ModHitPointConfigs");
 const Heal = require("../../../gameplay/Heal");
 
 class BookOfLight extends SpellBook {
-
     // Heal area.
     spell1() {
         const
-            range = 1,
-            rangePlusOne = range + 1;
-        let
-            row = this.owner.row,
-            col = this.owner.col,
-            rowOffset,
-            colOffset,
-            board = this.owner.board,
-            boardTile;
+            range = 1;
+        const rangePlusOne = range + 1;
+        const
+            { row } = this.owner;
+        const { col } = this.owner;
+        let rowOffset;
+        let colOffset;
+        const { board } = this.owner;
+        let boardTile;
 
         for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
@@ -26,13 +25,13 @@ class BookOfLight extends SpellBook {
                 // Check col is valid.
                 if (boardTile === undefined) continue;
                 // Heal all nearby things that have HP.
-                for (let entityKey in boardTile.destroyables) {
+                for (const entityKey in boardTile.destroyables) {
                     if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
 
                     if (boardTile.destroyables[entityKey].modHitPoints === undefined) continue;
 
                     boardTile.destroyables[entityKey].heal(new Heal(
-                        ModHitPointConfigs.BookOfLightHealArea.healAmount
+                        ModHitPointConfigs.BookOfLightHealArea.healAmount,
                     ));
                 }
             }
@@ -42,15 +41,15 @@ class BookOfLight extends SpellBook {
     // Ward.
     spell2() {
         const
-            range = 1,
-            rangePlusOne = range + 1;
-        let
-            row = this.owner.row,
-            col = this.owner.col,
-            rowOffset,
-            colOffset,
-            board = this.owner.board,
-            boardTile;
+            range = 1;
+        const rangePlusOne = range + 1;
+        const
+            { row } = this.owner;
+        const { col } = this.owner;
+        let rowOffset;
+        let colOffset;
+        const { board } = this.owner;
+        let boardTile;
 
         for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
@@ -60,7 +59,7 @@ class BookOfLight extends SpellBook {
                 // Check col is valid.
                 if (boardTile === undefined) continue;
                 // Give all nearby characters a ward.
-                for (let dynamicKey in boardTile.destroyables) {
+                for (const dynamicKey in boardTile.destroyables) {
                     if (boardTile.destroyables.hasOwnProperty(dynamicKey) === false) continue;
 
                     // Make sure the entity can be warded. Might not be a character.
@@ -75,15 +74,15 @@ class BookOfLight extends SpellBook {
     // Cleanse.
     spell3() {
         const
-            range = 1,
-            rangePlusOne = range + 1;
-        let
-            row = this.owner.row,
-            col = this.owner.col,
-            rowOffset,
-            colOffset,
-            board = this.owner.board,
-            boardTile;
+            range = 1;
+        const rangePlusOne = range + 1;
+        const
+            { row } = this.owner;
+        const { col } = this.owner;
+        let rowOffset;
+        let colOffset;
+        const { board } = this.owner;
+        let boardTile;
 
         for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
@@ -93,7 +92,7 @@ class BookOfLight extends SpellBook {
                 // Check col is valid.
                 if (boardTile === undefined) continue;
                 // Remove curses from all nearby characters.
-                for (let dynamicKey in boardTile.destroyables) {
+                for (const dynamicKey in boardTile.destroyables) {
                     if (boardTile.destroyables.hasOwnProperty(dynamicKey) === false) continue;
 
                     if (boardTile.destroyables[dynamicKey].curse === null) continue;
@@ -113,10 +112,9 @@ class BookOfLight extends SpellBook {
             col: config.col,
             board: config.board,
             direction: config.direction,
-            source: config.source
+            source: config.source,
         }).emitToNearbyPlayers();
     }
-
 }
 
 BookOfLight.translationID = "Book of light";
@@ -124,7 +122,6 @@ BookOfLight.iconSource = "icon-book-of-light";
 BookOfLight.prototype.baseDurability = 30;
 BookOfLight.prototype.expGivenStatName = BookOfLight.prototype.StatNames.Magic;
 BookOfLight.prototype.expGivenOnUse = 10;
-BookOfLight.prototype.useDurabilityCost = 1;
 
 // Spell specific stuff.
 BookOfLight.prototype.registerSpellBookType();

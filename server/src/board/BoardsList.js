@@ -1,6 +1,6 @@
 const BoardsList = {
     boardsArray: [],
-    boardsObject: {}
+    boardsObject: {},
 };
 
 module.exports = BoardsList;

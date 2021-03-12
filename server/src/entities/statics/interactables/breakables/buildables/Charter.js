@@ -1,4 +1,3 @@
-
 // const CraftingStation = require('../crafting stations/CraftingStation');
 
 // class Charter extends CraftingStation {

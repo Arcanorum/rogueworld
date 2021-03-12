@@ -2,7 +2,7 @@ const Corpse = require("./Corpse");
 
 /**
  * @category Corpse
- * 
+ *
  * @param {Object} config
  * @param {Number} config.row The row to create this entity on.
  * @param {Number} config.col The column to create this entity on.

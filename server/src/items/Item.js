@@ -1,52 +1,28 @@
+const yaml = require("js-yaml");
+const fs = require("fs");
+const path = require("path");
 const Utils = require("../Utils");
-const Pickup = require('../entities/destroyables/pickups/Pickup');
+const Pickup = require("../entities/destroyables/pickups/Pickup");
 const EntitiesList = require("../EntitiesList");
-const StatNames = require('../stats/Statset').prototype.StatNames;
-const getRandomIntInclusive = Utils.getRandomIntInclusive;
+const { StatNames } = require("../stats/Statset").prototype;
+const EventsList = require("../EventsList");
 
-const typeNumberCounter = new Utils.Counter();
+const { getRandomIntInclusive } = Utils;
 
 class Item {
-
     /**
-     * @param {Number} [config.durability = null]
-     * @param {Number} [config.maxDurability = null]
+     * @param {ItemConfig} config.itemConfig
      */
     constructor(config) {
+        this.itemConfig = config.itemConfig;
 
-        const durability = parseInt(config.durability);
-        const maxDurability = parseInt(config.maxDurability);
-
-        /**
-         * How much durability this item has.
-         * @type {Number|null}
-         */
-        this.durability = durability || maxDurability || this.baseDurability;
-
-        /**
-         * How much durability this item can have. Can change, such as when crafted by a player with levels in the crafting stat used.
-         * @type {Number|null}
-         */
-        this.maxDurability = maxDurability || durability || this.baseDurability;
+        this.slotIndex = config.slotIndex;
 
         /**
          * The player that owns this item.
          * @type {Player|null}
          */
-        this.owner = null;
-
-        /**
-         * The key of the inventory slot that this item is in.
-         * @type {String|null}
-         */
-        this.slotKey = null;
-
-    }
-
-    static registerItemType() {
-        this.prototype.typeNumber = typeNumberCounter.getNext();
-
-        // Utils.message("Registering item type: ", this.prototype.typeNumber);
+        this.owner = config.owner;
     }
 
     /**
@@ -56,60 +32,58 @@ class Item {
         this.onUsed();
     }
 
-    onUsed(direction) {
+    onUsed() {
+        // Keep a reference to the owner, as if the item gets destroyed when used
+        // here, owner will be nulled, but still want to be able to send events.
+        const { owner } = this;
+
         // Something might have happened to the owner of this item when it was used by them.
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
-        if (this.owner === null) return;
+        if (owner === null) return;
 
-        // Check if this item gives any stat exp when used.
-        if (this.owner.stats[this.expGivenStatName] !== undefined) {
-            this.owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
-        }
-
-        // Check if this item should lose durability when used.
-        if (this.useDurabilityCost > 0) {
-            if (this.expGivenStatName !== null) {
-                // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
-                // Check if the durability cost should be waived based on stat level chance.
-                const waiveChance = getRandomIntInclusive(0, 99);
-                if (waiveChance <= this.owner.stats[this.expGivenStatName].level) {
-                    return;
-                }
+        if (this.hasUseEffect) {
+            // Check if this item gives any stat exp when used.
+            if (owner.stats[this.expGivenStatName] !== undefined) {
+                owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
             }
-            this.modDurability(-this.useDurabilityCost);
-        }
 
-        // Tell the user the item was used. Might not have had an immediate effect, but
-        // the client might like to know right away (i.e. to play a sound effect).
-        this.owner.socket.sendEvent(this.owner.EventsList.item_used, { itemTypeNumber: this.typeNumber });
+            if (this.itemConfig.quantity) {
+                this.modQuantity(-1);
+            }
+            else if (this.itemConfig.durability) {
+                // if (this.expGivenStatName !== null) {
+                //     // TODO: dunno about this, seems a bit lame now, make part of the update for chance for double items on gather, attack rate, etc.
+                //     // Check if the durability cost should be waived based on stat level chance.
+                //     const waiveChance = getRandomIntInclusive(0, 99);
+                //     if (waiveChance <= owner.stats[this.expGivenStatName].level) {
+                //         return;
+                //     }
+                // }
+                this.modDurability(-1);
+            }
+
+            // Tell the user the item was used. Might not have had an immediate effect, but
+            // the client might like to know right away (i.e. to play a sound effect).
+            owner.socket.sendEvent(
+                EventsList.item_used,
+                { typeCode: this.typeCode },
+            );
+        }
     }
 
     equip() { }
 
     unequip() { }
 
-    drop() {
-        // If no pickup type set, destroy the item without leaving a pickup on the ground.
-        if (this.PickupType === null) {
-            this.destroy();
-            return;
-        }
-
-        const owner = this.owner;
-        // Add a pickup entity of that item to the board.
-        new this.PickupType({ row: owner.row, col: owner.col, board: owner.board, durability: this.durability, maxDurability: this.maxDurability }).emitToNearbyPlayers();
-
-        owner.socket.sendEvent(this.owner.EventsList.item_dropped);
-
-        this.destroy();
-    }
-
     useGatheringTool() {
         // Get position of the grid tile in front of the owner of this item.
         const directionOffset = this.owner.board.directionToRowColOffset(this.owner.direction);
 
+        const targetRow = this.owner.row + directionOffset.row;
+        const targetCol = this.owner.col + directionOffset.col;
+
         // Get the static entity in that grid tile.
-        const interactable = this.owner.board.grid[this.owner.row + directionOffset.row][this.owner.col + directionOffset.col].static;
+        const interactable = this.owner.board.grid[targetRow][targetCol].static;
 
         // Check the tile actually has a static on it.
         if (interactable === null) return;
@@ -126,45 +100,70 @@ class Item {
         if (this._destroyed === true) return;
         this._destroyed = true;
 
-        // Remove the item from the character.
-        this.owner.removeFromInventoryBySlotKey(this.slotKey);
         this.owner = null;
-        this.slotKey = null;
-        this.durability = null;
-        this.maxDurability = null;
+        this.itemConfig = null;
+        this.slotIndex = null;
     }
 
     /**
-     *
+     * @param {Number} amount
+     */
+    modQuantity(amount) {
+        // Check a valid value was given.
+        if (!amount) return;
+
+        this.itemConfig.modQuantity(amount);
+
+        // Check if the stack is now empty.
+        if (this.itemConfig.quantity < 1) {
+            // Remove this empty item stack.
+            // This needs to be done here as some items can use each other (e.g. bows using arrows).
+            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
+        }
+        else {
+            // Tell the player the new quantity.
+            this.owner.socket.sendEvent(
+                EventsList.modify_item,
+                {
+                    slotIndex: this.slotIndex,
+                    quantity: this.itemConfig.quantity,
+                    totalWeight: this.itemConfig.totalWeight,
+                },
+            );
+        }
+    }
+
+    /**
      * @param {Number} amount
      */
     modDurability(amount) {
         // Check a valid value was given.
         if (!amount) return;
 
-        this.durability += amount;
-        this.durability = Math.floor(this.durability);
-
-        // Make sure it doesn't go above max durability if repaired.
-        if (this.durability > this.maxDurability) {
-            this.durability = this.maxDurability;
-        }
+        this.itemConfig.modDurability(amount);
 
         // Check if the item is now broken.
-        if (this.durability < 1) {
+        if (this.itemConfig.durability < 1) {
             // Tell the player their item broke.
-            this.owner.socket.sendEvent(this.owner.EventsList.item_broken);
-            // Destroy this broken item.
-            this.destroy();
+            this.owner.socket.sendEvent(EventsList.item_broken);
+            // Remove this broken item.
+            // This needs to be done here as some items can use each other (e.g. bows using arrows).
+            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
         }
         else {
             // Tell the player the new durability.
-            this.owner.socket.sendEvent(this.owner.EventsList.durability_value, { durability: this.durability, slotKey: this.slotKey });
+            this.owner.socket.sendEvent(
+                EventsList.modify_item,
+                {
+                    slotIndex: this.slotIndex,
+                    durability: this.itemConfig.durability,
+                },
+            );
         }
     }
 
     static assignPickupType(itemName) {
-        // Don't bother having a pickup type file. Just create one for each item 
+        // Don't bother having a pickup type file. Just create one for each item
         // type, as it will always be 1-1 (except items that cannot be dropped).
         class GenericPickup extends Pickup { }
         GenericPickup.prototype.ItemType = this;
@@ -174,12 +173,11 @@ class Item {
         this.prototype.PickupType = GenericPickup;
 
         // Add the pickup to the entities list, so it can still be manually instantiated, for spawners.
-        EntitiesList["Pickup" + itemName] = GenericPickup;
+        EntitiesList[`Pickup${itemName}`] = GenericPickup;
     }
 
     static loadConfig(config) {
         // Load anything else that hasn't already been set by the loadConfig method of a subclass.
-        // console.log("item.loadconfig");
 
         this.translationID = config.translationID;
         this.iconSource = config.iconSource;
@@ -188,6 +186,11 @@ class Item {
         Object.entries(config).forEach(([key, value]) => {
             if (key === "name") {
                 this.prototype.typeName = value;
+                return;
+            }
+
+            if (key === "code") {
+                this.prototype.typeCode = value;
                 return;
             }
 
@@ -200,6 +203,41 @@ class Item {
                 }
             }
         });
+
+        // Check for conflicting config properties.
+        // Can only have the stackable properties or the unstackable properties, never both.
+        if (this.prototype.baseQuantity && this.prototype.baseDurability) {
+            Utils.error("Item type cannot have both `baseQuantity` and `baseDurability`. Item:", this);
+        }
+
+        // If neither have been set, then assume it is a single unit of a stackable
+        // item, as that is the most common kind of item type and it would be
+        // annoying to have to set `baseQuantity: 1` on so many item configs.
+        if (!this.prototype.baseQuantity && !this.prototype.baseDurability) {
+            this.prototype.baseQuantity = 1;
+        }
+
+        // Check for any items that are referencing a weight class by name.
+        if (typeof this.prototype.unitWeight === "string") {
+            // Use the weight value for the corresponding weight class.
+
+            // Load all of the weight classes.
+            const WeightClasses = yaml.safeLoad(
+                fs.readFileSync(
+                    path.resolve("./src/configs/ItemWeightClasses.yml"), "utf8",
+                ),
+            );
+
+            if (!WeightClasses[this.prototype.unitWeight]) {
+                Utils.error("Item weight class name does not exist in the item weight classes list: ", this.prototype.unitWeight);
+            }
+
+            if (typeof WeightClasses[this.prototype.unitWeight] !== "number") {
+                Utils.error("The entry in the item weight class list is not a number. All weight classes must be numbers: ", this.prototype.unitWeight);
+            }
+
+            this.prototype.unitWeight = WeightClasses[this.prototype.unitWeight];
+        }
     }
 }
 
@@ -215,15 +253,14 @@ Item.translationID = "Translation ID name not set.";
 
 Item.iconSource = "Icon source not set.";
 
-Item.prototype.typeName = "Type name not set."
+Item.prototype.typeName = null;
 
-// Give all Items easy access to the finished EntitiesList. Needs to be done when all entities are finished initing, or accessing entities causes errors. Done in index.js.
+Item.prototype.typeCode = null;
+
+// Give all Items easy access to the finished EntitiesList.
+// Needs to be done when all entities are finished initing,
+// or accessing entities causes errors. Done in index.js.
 Item.prototype.EntitiesList = {};
-
-// A type number is an ID for this kind of item, so the client knows which item to add to the inventory bar.
-// Used to send a number to get the item name from the item type catalogue, instead of a lengthy string of the item name.
-// All items that appear on the client must be registered with [ITEM_TYPE].registerItemType().
-Item.prototype.typeNumber = "Type not registered.";
 
 /**
  * Whether this item has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
@@ -232,17 +269,24 @@ Item.prototype.typeNumber = "Type not registered.";
 Item.prototype._destroyed = false;
 
 /**
- * The lowest durability this item can have at full durability.
+ * The default durability for this item when no specific durability is specified.
+ * Defined in the item config values list.
  * @type {Number}
  */
 Item.prototype.baseDurability = null;
 
 /**
- * How much durability is taken from this item when it is used.
- * If this is a gathering tool, the durability cost is on the resource node entity it is used on instead.
+ * The default quantity for this item when no specific quantity is specified.
+ * Defined in the item config values list.
  * @type {Number}
  */
-Item.prototype.useDurabilityCost = 0;
+Item.prototype.baseQuantity = null;
+
+/**
+ * How much this item (or each unit of a stack) contributes to the total weight of the owner.
+ * @type {Number}
+ */
+Item.prototype.unitWeight = 0;
 
 /**
  * How much crafting exp this item contributes to the recipe it is used in.
@@ -251,6 +295,12 @@ Item.prototype.useDurabilityCost = 0;
 Item.prototype.craftingExpValue = 10;
 
 Item.prototype.StatNames = StatNames;
+
+// TODO: make this a config list, allow multiple kinds of exp to be gained.
+// - statName: Toolery
+//   expGiven: 15
+// - statName: Weaponry
+//   expGiven: 20
 Item.prototype.expGivenStatName = null;
 Item.prototype.expGivenOnUse = 0;
 
@@ -274,5 +324,12 @@ Item.prototype.category = null;
  * @type {Function}
  */
 Item.prototype.PickupType = null;
+
+/**
+ * A flag of wether this item type does something when used, such as creating a projectile, restoring HP, or giving stat exp.
+ * Not all items are "usable" as such, e.g. materials.
+ * @type {Boolean}
+ */
+Item.prototype.hasUseEffect = false;
 
 module.exports = Item;

@@ -3,6 +3,7 @@ import NPCShopTypes from "../../../catalogues/NPCShopTypes.json";
 import gameConfig from "../../../shared/GameConfig";
 import Utils from "../../../shared/Utils";
 import { PlayerState } from "../../../shared/state/States";
+import dungeonz from "../../../shared/Global";
 
 class Merchant extends Container {
     constructor(x, y, config) {
@@ -12,7 +13,7 @@ class Merchant extends Container {
         this.entityId = config.id;
         this.npcShopType = NPCShopTypes.Arena;
 
-        this.baseSprite = window.gameScene.add.sprite(0, 0, "game-atlas", "trader-basic-1");
+        this.baseSprite = dungeonz.gameScene.add.sprite(0, 0, "game-atlas", "trader-basic-1");
         this.baseSprite.setOrigin(0.5);
         this.add(this.baseSprite);
 
@@ -32,11 +33,11 @@ class Merchant extends Container {
 
     onPointerDown() {
         // Check they are within trading range.
-        const entity = window.gameScene.dynamics[this.entityId];
+        const entity = dungeonz.gameScene.dynamics[this.entityId];
         const rowDist = Math.abs(PlayerState.row - entity.row);
         const colDist = Math.abs(PlayerState.col - entity.col);
         if ((rowDist + colDist) < 3) {
-            window.gameScene.GUI.shopPanel.show(
+            dungeonz.gameScene.GUI.shopPanel.show(
                 this.entityId, this.displayName.text, this.npcShopType,
             );
         }

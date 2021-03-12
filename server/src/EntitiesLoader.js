@@ -12,16 +12,16 @@ const populateList = () => {
             if (typeof value === "function") {
                 // Don't do any additional setup for abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
-                if(value.hasOwnProperty("abstract")) {
+                if (value.hasOwnProperty("abstract")) {
                     EntitiesList.AbstractClasses[baseName] = value;
                     return;
-                };
+                }
 
                 value.registerEntityType();
 
                 EntitiesList[baseName] = value;
             }
-        }
+        },
     });
 
     Utils.message("Finished populating entities list.");
@@ -35,7 +35,7 @@ const initialiseList = () => {
     Mob.loadMobStats();
 
     Object.values(EntitiesList).forEach((EntityType) => {
-        if(EntityType.assignMobValues) EntityType.assignMobValues();
+        if (EntityType.assignMobValues) EntityType.assignMobValues();
     });
 
     Utils.message("Finished initialising entities list. EntitiesList is ready to use.");
@@ -45,12 +45,12 @@ const createCatalogue = () => {
     // Write the registered entity types to the client, so the client knows what entity to add for each type number.
     let dataToWrite = {};
 
-    for (let entityTypeKey in EntitiesList) {
-        if(entityTypeKey === "AbstractClasses") continue;
+    for (const entityTypeKey in EntitiesList) {
+        if (entityTypeKey === "AbstractClasses") continue;
         // Don't check prototype properties.
         if (EntitiesList.hasOwnProperty(entityTypeKey) === false) continue;
         // Only add registered types.
-        if (EntitiesList[entityTypeKey].prototype.typeNumber === "Type not registered.") continue;
+        if (!EntitiesList[entityTypeKey].prototype.typeNumber) continue;
         // Add this entity type to the type catalogue.
         dataToWrite[EntitiesList[entityTypeKey].prototype.typeNumber] = entityTypeKey;
     }

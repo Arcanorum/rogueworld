@@ -7,6 +7,7 @@ import brownKeyIcon from "../../../../assets/images/gui/hud/dungeon_keys/brown-k
 import greenKeyIcon from "../../../../assets/images/gui/hud/dungeon_keys/green-key.png";
 import redKeyIcon from "../../../../assets/images/gui/hud/dungeon_keys/red-key.png";
 import yellowKeyIcon from "../../../../assets/images/gui/hud/dungeon_keys/yellow-key.png";
+import dungeonz from "../../../../shared/Global";
 
 const KeyColourIcons = {
     blue: blueKeyIcon,
@@ -44,7 +45,7 @@ function DungeonKeys() {
 
                 // If a key has been gained, play the key pickup sound.
                 if (newKeysCount > keys.length) {
-                    window.gameScene.soundManager.sounds.dungeonKeyGained.play();
+                    dungeonz.gameScene.soundManager.sounds.dungeonKeyGained.play();
                 }
 
                 setKeys(newKeys);

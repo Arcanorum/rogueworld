@@ -1,4 +1,3 @@
-
 class Damage {
     /**
      * A model of damage to be dealt.
@@ -8,22 +7,22 @@ class Damage {
      * @param {Number} [config.armourPiercing=0] How much armour this damage will ignore. 0 to 1.
      */
     constructor(config) {
-        if(config.amount) this.amount = config.amount;
-        if(config.types) this.types = config.types;
-        if(config.armourPiercing) this.armourPiercing = config.armourPiercing;
+        if (config.amount) this.amount = config.amount;
+        if (config.types) this.types = config.types;
+        if (config.armourPiercing) this.armourPiercing = config.armourPiercing;
     }
 
     /**
      * Checks if any of the types of this damage are not on a given entitys damage type immunity list.
-     * @param {Entity} entity 
+     * @param {Entity} entity
      */
-    canAffectTarget (entity) {
-         // Check the entity is immune to anything.
-        if(entity.damageTypeImmunities){
+    canAffectTarget(entity) {
+        // Check the entity is immune to anything.
+        if (entity.damageTypeImmunities) {
             // Check every type of this damage.
-            for(let type of this.types){
+            for (const type of this.types) {
                 // If the entity is immune to the current type, check the net one.
-                if(entity.damageTypeImmunities.includes(type)){
+                if (entity.damageTypeImmunities.includes(type)) {
                     continue;
                 }
                 // Entity is not immune to this damage type, they can be affected.
@@ -35,14 +34,13 @@ class Damage {
         }
         return false;
     }
-    
 }
 module.exports = Damage;
 
 /**
  * A list of the kinds of damage that this damage will deal.
  * Some entities can only be hit by projectiles of a certain type.
- * i.e. A normal sword would be physical, and would pass through 
+ * i.e. A normal sword would be physical, and would pass through
  * a ghost, but an enchanted sword would be physical and magical,
  * so would hit the ghost, as the ghost takes magic type damage.
  * @type {Number}
@@ -74,7 +72,7 @@ Damage.prototype.amount = 0;
  * @type {Array.<Number>}
  */
 Damage.prototype.types = [
-    Damage.Types.Physical
+    Damage.Types.Physical,
 ];
 
 /**

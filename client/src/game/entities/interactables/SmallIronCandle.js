@@ -2,7 +2,7 @@
 //     this.activeStateFrame = "small-iron-candle";
 //     this.inactiveStateFrame = "small-iron-candle-inactive";
 
-//     Phaser.GameObjects.Sprite.call(this, window.gameScene, x, y, "game-atlas", this.activeStateFrame);
+//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", this.activeStateFrame);
 
 //     if (config.activeState === true) {
 //         this.setFrame(this.activeStateFrame);
@@ -18,7 +18,7 @@
 // Sprite.prototype.constructor = Sprite;
 
 // Sprite.prototype.onMove = function () {
-//     window.gameScene.tilemap.updateDarknessGrid();
+//     dungeonz.gameScene.tilemap.updateDarknessGrid();
 // };
 
 // Sprite.prototype.lightDistance = 8;

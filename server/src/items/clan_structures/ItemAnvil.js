@@ -1,4 +1,3 @@
-
 // const Item = require("../Item");
 
 // class ItemAnvil extends Item {
@@ -24,8 +23,8 @@
 //     }
 
 // }
-// 
- // module.exports = ItemAnvil;
+//
+// module.exports = ItemAnvil;
 
 // const Anvil = require('../entities/interactables/crafting stations/Anvil');
 

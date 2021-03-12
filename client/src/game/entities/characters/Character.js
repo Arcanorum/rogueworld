@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import gameConfig from "../../../shared/GameConfig";
+import dungeonz from "../../../shared/Global";
 import Utils from "../../../shared/Utils";
 import Container from "../Container";
 
@@ -19,7 +20,7 @@ class Character extends Container {
         if (this.baseFrames) {
             frame = this.baseFrames[this.direction] || this.baseFrames.down;
         }
-        this.baseSprite = window.gameScene.add.sprite(0, 0, "game-atlas", frame);
+        this.baseSprite = dungeonz.gameScene.add.sprite(0, 0, "game-atlas", frame);
         // this.baseSprite.baseFrames = baseFrames;
         this.baseSprite.setFrame(frame);
         this.baseSprite.setOrigin(0.5);
@@ -33,12 +34,12 @@ class Character extends Container {
         this.poisonEffect = this.addEffect("poison-effect-1");
         this.burnEffect = this.addEffect("burn-effect-1");
 
-        this.curseIcon = window.gameScene.add.sprite(-6, -10, "game-atlas", "curse-icon");
+        this.curseIcon = dungeonz.gameScene.add.sprite(-6, -10, "game-atlas", "curse-icon");
         this.curseIcon.setOrigin(0.5);
         this.add(this.curseIcon);
         this.curseIcon.visible = false;
 
-        this.enchantmentIcon = window.gameScene.add.sprite(6, -10, "game-atlas", "enchantment-icon");
+        this.enchantmentIcon = dungeonz.gameScene.add.sprite(6, -10, "game-atlas", "enchantment-icon");
         this.enchantmentIcon.setOrigin(0.5);
         this.add(this.enchantmentIcon);
         this.enchantmentIcon.visible = false;
@@ -57,7 +58,7 @@ class Character extends Container {
 
     onDestroy() {
         // Squirt a lot of juice on death.
-        window.gameScene.damageParticleEmitter.emitParticleAt(
+        dungeonz.gameScene.damageParticleEmitter.emitParticleAt(
             this.x,
             this.y,
             Phaser.Math.Between(15, 25),
@@ -81,7 +82,7 @@ class Character extends Container {
     }
 
     addEffect(frameName) {
-        const sprite = window.gameScene.add.sprite(0, 0, "game-atlas", frameName);
+        const sprite = dungeonz.gameScene.add.sprite(0, 0, "game-atlas", frameName);
         sprite.setOrigin(0.5);
         sprite.visible = false;
         this.add(sprite);
@@ -117,7 +118,7 @@ class Character extends Container {
     }
 
     static setupAnimations() {
-        window.gameScene.anims.create({
+        dungeonz.gameScene.anims.create({
             key: "energy-regen",
             defaultTextureKey: "game-atlas",
             frames: [
@@ -129,7 +130,7 @@ class Character extends Container {
             showOnStart: true,
         });
 
-        window.gameScene.anims.create({
+        dungeonz.gameScene.anims.create({
             key: "health-regen",
             defaultTextureKey: "game-atlas",
             frames: [
@@ -141,7 +142,7 @@ class Character extends Container {
             showOnStart: true,
         });
 
-        window.gameScene.anims.create({
+        dungeonz.gameScene.anims.create({
             key: "cured",
             defaultTextureKey: "game-atlas",
             frames: [
@@ -153,7 +154,7 @@ class Character extends Container {
             showOnStart: true,
         });
 
-        window.gameScene.anims.create({
+        dungeonz.gameScene.anims.create({
             key: "poison",
             defaultTextureKey: "game-atlas",
             frames: [
@@ -165,7 +166,7 @@ class Character extends Container {
             showOnStart: true,
         });
 
-        window.gameScene.anims.create({
+        dungeonz.gameScene.anims.create({
             key: "burn",
             defaultTextureKey: "game-atlas",
             frames: [
@@ -211,7 +212,7 @@ class Character extends Container {
         }
 
         directions.forEach((direction) => {
-            window.gameScene.anims.create({
+            dungeonz.gameScene.anims.create({
                 // i.e. "knight-up"
                 key: `${setName}-${direction}`,
                 defaultTextureKey,

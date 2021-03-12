@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require('../../../../ItemsList').Cotton;
+const Item = require("../../../../ItemsList").BY_NAME.Cotton;
 
 class CottonPlant extends ResourceNode {}
 

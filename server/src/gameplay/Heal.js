@@ -11,10 +11,9 @@ class Heal {
     /**
      * Override for same function in Damage. This will heal anything that can be healed.
      */
-    canAffectTarget () {
+    canAffectTarget() {
         return true;
     }
-    
 }
 module.exports = Heal;
 

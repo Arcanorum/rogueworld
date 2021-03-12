@@ -1,7 +1,6 @@
-const Interactable = require('../../Interactable');
+const Interactable = require("../../Interactable");
 
 class CraftingStation extends Interactable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -12,6 +11,5 @@ class CraftingStation extends Interactable {
     constructor(config) {
         super(config);
     }
-
 }
 module.exports = CraftingStation;

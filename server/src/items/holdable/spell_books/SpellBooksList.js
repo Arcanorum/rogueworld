@@ -1,5 +1,6 @@
 const fs = require("fs");
 const Utils = require("../../../Utils");
+
 const SpellBookList = {
     BookOfLight: require("./BookOfLight"),
     BookOfSouls: require("./BookOfSouls"),
@@ -8,7 +9,7 @@ const SpellBookList = {
 // Write the registered spell book types to the client, so the client knows what spell book data to use for each type number.
 let dataToWrite = {};
 
-for (let itemTypeKey in SpellBookList) {
+for (const itemTypeKey in SpellBookList) {
     // Don't check prototype properties.
     if (SpellBookList.hasOwnProperty(itemTypeKey) === false) continue;
 
@@ -25,7 +26,7 @@ for (let itemTypeKey in SpellBookList) {
         spell1IconSource: itemPrototype.spell1IconSource,
         spell2IconSource: itemPrototype.spell2IconSource,
         spell3IconSource: itemPrototype.spell3IconSource,
-        spell4IconSource: itemPrototype.spell4IconSource
+        spell4IconSource: itemPrototype.spell4IconSource,
     };
 }
 

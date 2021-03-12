@@ -1,5 +1,5 @@
 // const Sprite = function (x, y, config) {
-//     Phaser.GameObjects.Sprite.call(this, window.gameScene, x, y, "game-atlas", "anvil");
+//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", "anvil");
 //     this.setScale(GAME_SCALE);
 
 //     this.stationTypeNumber = config.typeNumber;
@@ -12,8 +12,8 @@
 // Sprite.prototype.constructor = Sprite;
 
 // Sprite.prototype.interactedByPlayer = function () {
-//     window.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
-//     window.gameScene.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), "assets/img/gui/panels/anvil.png");
+//     dungeonz.gameScene.craftingManager.stationTypeNumber = this.stationTypeNumber;
+//     dungeonz.gameScene.GUI.craftingPanel.show(dungeonz.getTextDef("Anvil"), "assets/img/gui/panels/anvil.png");
 // };
 
 // export default Sprite;

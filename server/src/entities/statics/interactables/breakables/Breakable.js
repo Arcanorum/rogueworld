@@ -1,9 +1,8 @@
-const Interactable = require('../Interactable');
+const Interactable = require("../Interactable");
 
 function nothing() { }
 
 class Breakable extends Interactable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -15,19 +14,19 @@ class Breakable extends Interactable {
         super(config);
 
         // If this breakable is in a dungeon or a safe zone, remove all of the hitpoints related properties so it cannot be broken.
-        //if(this.board.dungeon === true){ TODO uncomment this when buildings are made damagable again
+        // if(this.board.dungeon === true){ TODO uncomment this when buildings are made damagable again
         //    this.hitPoints = null;
         //    this.maxHitPoints = null;
         //    this.onModHitPoints = nothing;
         //    this.onAllHitPointsLost = nothing;
         //    this.onDamage = nothing;
         //    this.onHeal = nothing;
-        //}
+        // }
     }
 
     isLowBlocked() {
         if (this.blocking === false) return false;
-        //if((this.hitPoints > 0) === true) return true;
+        // if((this.hitPoints > 0) === true) return true;
         if (this._lowBlocked === true) return true;
 
         return false;
@@ -36,7 +35,7 @@ class Breakable extends Interactable {
     isHighBlocked() {
         if (this.blocking === false) return false;
         // Don't use <=, as null <= 0 is true for some reason... JS...
-        //if((this.hitPoints > 0) === true) return true;
+        // if((this.hitPoints > 0) === true) return true;
         if (this._highBlocked === true) return true;
 
         return false;
@@ -50,7 +49,7 @@ class Breakable extends Interactable {
      * @param {Number} amount - How much to decrease by.
      * @param {Entity} [source] - The entity that caused this damage.
      */
-    /*onDamage (amount, source) {
+    /* onDamage (amount, source) {
         console.log("breakable ondamage:", amount);
 
         this.hitPoints += amount;
@@ -65,12 +64,12 @@ class Breakable extends Interactable {
         else {
             this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.breakable_damaged, {id: this.row + "-" + this.col, amount: amount});
         }
-    }*/
+    } */
 
     /**
      * All hitpoints have been lost. This breakable is now broken.
      */
-    /*onAllHitPointsLost () {
+    /* onAllHitPointsLost () {
         console.log("breakable onallHPlost:");
         // The breakable might be waiting to reactive when broken. Deal with the timeout that would fire.
         clearTimeout(this.reactivationTimer);
@@ -90,20 +89,20 @@ class Breakable extends Interactable {
     getEmittableProperties (properties) {
         properties.brokenState = this.hitPoints <= 0;
         return super.getEmittableProperties(properties);
-    }*/
+    } */
 
     /**
      * @param {Character} interactedBy
      * @param {Item} toolUsed
      */
     interaction(interactedBy, toolUsed) {
-        //console.log("* WARNING: Breakable entity type defined without overriding Breakable.interaction:", this.typeNumber);
+        // console.log("* WARNING: Breakable entity type defined without overriding Breakable.interaction:", this.typeNumber);
     }
 
     /**
      * Make this breakable not broken any more.
      */
-    /*repair () {
+    /* repair () {
         // Check there are no obstructions on the object before repairing it.
         if(this.board.grid[this.row][this.col].containsAnyDestroyables() === false){
             // Nothing in the way. Repair this object.
@@ -118,22 +117,21 @@ class Breakable extends Interactable {
             // Restart the timer to activate this object.
             this.repairTimer = setTimeout(this.repair.bind(this), this.repairRate);
         }
-    }*/
-
+    } */
 }
 module.exports = Breakable;
 
-//Breakable.prototype.hitPoints = 100;
-//Breakable.prototype.maxHitPoints = 100;
+// Breakable.prototype.hitPoints = 100;
+// Breakable.prototype.maxHitPoints = 100;
 
 /**
  * How long (in ms) before repair after being broken.
  * @type {Number}
  */
-//Breakable.prototype.repairRate = 10000;
+// Breakable.prototype.repairRate = 10000;
 
 /**
  * The ID of the timer that will repair this object. Used to stop timers before they fire.
  * @type {Number}
  */
-//Breakable.prototype.repairTimer = null;
+// Breakable.prototype.repairTimer = null;

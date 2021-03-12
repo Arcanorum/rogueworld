@@ -1,7 +1,6 @@
-const Breakable = require('../Breakable');
+const Breakable = require("../Breakable");
 
 class Buildable extends Breakable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -9,7 +8,7 @@ class Buildable extends Breakable {
      * @param {Board} config.board
      * @param {Number} [config.activeState = true] - Whether this entity is already active when created.
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
         // Buildables are special entities that occupy the static slot of the tile they are on, like a
         // normal static, but are also added to the destroyables list so they can be send dynamically.
@@ -21,12 +20,12 @@ class Buildable extends Breakable {
          * @type {Boolean}
          */
         this.activeState = true;
-        if(config.activeState !== undefined) this.activeState = config.activeState;
+        if (config.activeState !== undefined) this.activeState = config.activeState;
     }
 
-    onAllHitPointsLost () {
+    onAllHitPointsLost() {
         // Prevent multiple destruction of entities.
-        if(this._destroyed === true) return;
+        if (this._destroyed === true) return;
 
         this._destroyed = true;
 
@@ -34,7 +33,7 @@ class Buildable extends Breakable {
         clearTimeout(this.reactivationTimer);
 
         // If this belonged to a clan, remove this from it.
-        if(this.clan !== null){
+        if (this.clan !== null) {
             this.clan.removeStructure(this);
         }
 
@@ -45,7 +44,7 @@ class Buildable extends Breakable {
         this.board.removeDestroyable(this);
     }
 
-    getEmittableProperties (properties) {
+    getEmittableProperties(properties) {
         return super.getEmittableProperties(properties);
     }
 
@@ -53,20 +52,19 @@ class Buildable extends Breakable {
      * @param {Character} interactedBy
      * @param {Item} toolUsed
      */
-    interaction (interactedBy, toolUsed) {
-        //console.log("* WARNING: Buildable entity type defined without overriding Buildable.interaction:", this.typeNumber);
+    interaction(interactedBy, toolUsed) {
+        // console.log("* WARNING: Buildable entity type defined without overriding Buildable.interaction:", this.typeNumber);
     }
 
     /**
      *
      */
-    activate () {}
+    activate() {}
 
     /**
      *
      */
-    deactivate () {}
-
+    deactivate() {}
 }
 module.exports = Buildable;
 

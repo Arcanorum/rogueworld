@@ -32,10 +32,18 @@ class ProjSuperWind extends ProjWind {
         }
 
         // Create a new projectile in each direction.
-        new ProjWind({ row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source }).emitToNearbyPlayers();
-        new ProjWind({ row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source }).emitToNearbyPlayers();
-        new ProjWind({ row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source }).emitToNearbyPlayers();
-        new ProjWind({ row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source }).emitToNearbyPlayers();
+        new ProjWind({
+            row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjWind({
+            row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjWind({
+            row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source,
+        }).emitToNearbyPlayers();
+        new ProjWind({
+            row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source,
+        }).emitToNearbyPlayers();
 
         this.pushBackCollidee(collidee);
 
@@ -43,14 +51,13 @@ class ProjSuperWind extends ProjWind {
             new Damage({
                 amount: this.damageAmount,
                 types: this.damageTypes,
-                armourPiercing: this.damageArmourPiercing
+                armourPiercing: this.damageArmourPiercing,
             }),
-            this.source
+            this.source,
         );
 
         this.destroy();
     }
-
 }
 module.exports = ProjSuperWind;
 

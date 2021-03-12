@@ -73,7 +73,7 @@ class Mob extends Character {
                 if (this.wanderDistance > 0) {
                     this.wanderDistance -= 1;
                     // Move in the current direction.
-                    let offset = this.board.directionToRowColOffset(this.direction);
+                    const offset = this.board.directionToRowColOffset(this.direction);
                     // Check if there is a damaging tile in front.
                     if (this.checkForMoveHazards(offset.row, offset.col) === false) return false;
                     super.move(offset.row, offset.col);
@@ -98,9 +98,7 @@ class Mob extends Character {
             // If the target is out of the attack line, move closer.
             if (this.isEntityWithinAttackLine(this.target) === false) {
                 this.moveTowardsEntity(this.target);
-                return;
             }
-
         }
     }
 
@@ -114,7 +112,16 @@ class Mob extends Character {
                 // Do the roll.
                 if (dropConfig.dropRate >= Utils.getRandomIntInclusive(1, 100)) {
                     // Create a new pickup which will be added to the board.
-                    new dropConfig.pickupType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
+                    new dropConfig.PickupType({
+                        row: this.row,
+                        col: this.col,
+                        board: this.board,
+                        itemConfig: new ItemConfig({
+                            ItemType: dropConfig.PickupType.prototype.ItemType,
+                            quantity: dropConfig.quantity,
+                            durability: dropConfig.durability,
+                        }),
+                    }).emitToNearbyPlayers();
                 }
             }
         });
@@ -138,18 +145,17 @@ class Mob extends Character {
         else {
             this.onMove();
         }
-
     }
 
     moveTowardsEntity(entity) {
         const
-            col = this.col,
-            row = this.row,
-            targetCol = entity.col,
-            targetRow = entity.row,
-            horiDist = Math.abs(this.col - entity.col),
-            vertDist = Math.abs(this.row - entity.row),
-            grid = this.board.grid;
+            { col } = this;
+        const { row } = this;
+        const targetCol = entity.col;
+        const targetRow = entity.row;
+        const horiDist = Math.abs(this.col - entity.col);
+        const vertDist = Math.abs(this.row - entity.row);
+        const { grid } = this.board;
 
         // TODO: also stop them from targetting if the line of sight is broken to the target (stops them bumming walls all day)
 
@@ -343,16 +349,16 @@ class Mob extends Character {
             }
         }
 
-        //TODO: perhaps do something here with a `lastPosition` and/or `lastKnownTargetPosition` check to stop it moving back and forward when stuck against a wall or corner, especially when target hasn't moved.
+        // TODO: perhaps do something here with a `lastPosition` and/or `lastKnownTargetPosition` check to stop it moving back and forward when stuck against a wall or corner, especially when target hasn't moved.
     }
 
     /**
      * Move this entity away from the tile it is on. Tries to go up, down, left, then right.
      */
     moveAwayFromCurrentTile() {
-        const col = this.col,
-            row = this.row,
-            grid = this.board.grid;
+        const { col } = this;
+        const { row } = this;
+        const { grid } = this.board;
 
         // If above isn't blocked, move there.
         /** @type {BoardTile} */
@@ -373,20 +379,18 @@ class Mob extends Character {
         // Right.
         if (grid[row][col + 1].isLowBlocked() === false) {
             super.move(0, +1);
-            return;
         }
-
     }
 
     moveAwayFromTarget() {
         const
-            col = this.col,
-            row = this.row,
-            targetCol = this.target.col,
-            targetRow = this.target.row,
-            horiDist = Math.abs(this.col - this.target.col),
-            vertDist = Math.abs(this.row - this.target.row),
-            grid = this.board.grid;
+            { col } = this;
+        const { row } = this;
+        const targetCol = this.target.col;
+        const targetRow = this.target.row;
+        const horiDist = Math.abs(this.col - this.target.col);
+        const vertDist = Math.abs(this.row - this.target.row);
+        const { grid } = this.board;
 
         // If target is further away horizontally than vertically, attempt to move away them horizontally.
         if (horiDist > vertDist) {
@@ -452,7 +456,6 @@ class Mob extends Character {
                             super.move(-1, 0);
                         }
                     }
-
                 }
             }
         }
@@ -575,9 +578,8 @@ class Mob extends Character {
                 return;
             }
             // Damaged by a hostile or neutral mob, target it.
-            else {
-                this.target = damagedBy;
-            }
+
+            this.target = damagedBy;
         }
         super.onDamage(damage, damagedBy);
     }
@@ -632,7 +634,7 @@ class Mob extends Character {
 
         this.target.damage(new Damage({
             amount: this.meleeDamageAmount,
-            types: [Damage.Types.Physical]
+            types: [Damage.Types.Physical],
         }), this);
 
         this.onAttackSuccess();
@@ -651,13 +653,13 @@ class Mob extends Character {
         // Face the target if not already doing so.
         this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
 
-        const offset = this.board.directionToRowColOffset(this.direction),
-            grid = this.board.grid,
-            thisRow = this.row,
-            thisCol = this.col,
-            targetRow = this.target.row,
-            targetCol = this.target.col,
-            attackRange = this.attackRange + 1; // +1 as the tile this entity is currently on counts as one space.
+        const offset = this.board.directionToRowColOffset(this.direction);
+        const { grid } = this.board;
+        const thisRow = this.row;
+        const thisCol = this.col;
+        const targetRow = this.target.row;
+        const targetCol = this.target.col;
+        const attackRange = this.attackRange + 1; // +1 as the tile this entity is currently on counts as one space.
         let boardTile;
 
         // Check there is nothing blocking the line of sight, such as a wall.
@@ -666,7 +668,9 @@ class Mob extends Character {
             if (boardTile.isHighBlocked() === true) return;
             if (targetRow === thisRow + (offset.row * i)) {
                 if (targetCol === thisCol + (offset.col * i)) {
-                    new this.projectileAttackType({ row: thisRow + offset.row, col: thisCol + offset.col, board: this.board, direction: this.direction, source: this }).emitToNearbyPlayers({});
+                    new this.projectileAttackType({
+                        row: thisRow + offset.row, col: thisCol + offset.col, board: this.board, direction: this.direction, source: this,
+                    }).emitToNearbyPlayers({});
                     this.onAttackSuccess();
                     return;
                 }
@@ -703,27 +707,27 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSUp() {
-        const viewRange = this.viewRange,
-            row = this.row,
-            col = this.col,
-            grid = this.board.grid;
-        let forwardVisibleRange = viewRange,
-            sideVisibleRange,
-            rowOffset,
-            colOffset,
-            /** @type {BoardTile} */
-            boardTile,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Destroyable|Mob} */
-            destroyable,
-            /** @type {Number} */
-            distBetween,
-            nearestDist = viewRange + 1,
-            /** @type {Entity} */
-            nearestEntity = null;
+        const { viewRange } = this;
+        const { row } = this;
+        const { col } = this;
+        const { grid } = this.board;
+        let forwardVisibleRange = viewRange;
+        let sideVisibleRange;
+        let rowOffset;
+        let colOffset;
+        /** @type {BoardTile} */
+        let boardTile;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Destroyable|Mob} */
+        let destroyable;
+        /** @type {Number} */
+        let distBetween;
+        let nearestDist = viewRange + 1;
+        /** @type {Entity} */
+        let nearestEntity = null;
 
         // Check down the middle.
         outerLoop:
@@ -917,27 +921,27 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSDown() {
-        const viewRange = this.viewRange,
-            row = this.row,
-            col = this.col,
-            grid = this.board.grid;
-        let forwardVisibleRange = viewRange,
-            sideVisibleRange,
-            rowOffset,
-            colOffset,
-            /** @type {BoardTile} */
-            boardTile,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Destroyable|Mob} */
-            destroyable,
-            /** @type {Number} */
-            distBetween,
-            nearestDist = viewRange + 1,
-            /** @type {Entity} */
-            nearestEntity = null;
+        const { viewRange } = this;
+        const { row } = this;
+        const { col } = this;
+        const { grid } = this.board;
+        let forwardVisibleRange = viewRange;
+        let sideVisibleRange;
+        let rowOffset;
+        let colOffset;
+        /** @type {BoardTile} */
+        let boardTile;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Destroyable|Mob} */
+        let destroyable;
+        /** @type {Number} */
+        let distBetween;
+        let nearestDist = viewRange + 1;
+        /** @type {Entity} */
+        let nearestEntity = null;
 
         // Check down the middle.
         outerLoop:
@@ -1128,31 +1132,30 @@ class Mob extends Character {
         }
 
         return nearestEntity;
-
     }
 
     getNearestHostileInLOSLeft() {
-        const viewRange = this.viewRange,
-            row = this.row,
-            col = this.col,
-            grid = this.board.grid;
-        let forwardVisibleRange = viewRange,
-            sideVisibleRange,
-            rowOffset,
-            colOffset,
-            /** @type {BoardTile} */
-            boardTile,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Destroyable|Mob} */
-            destroyable,
-            /** @type {Number} */
-            distBetween,
-            nearestDist = viewRange + 1,
-            /** @type {Entity} */
-            nearestEntity = null;
+        const { viewRange } = this;
+        const { row } = this;
+        const { col } = this;
+        const { grid } = this.board;
+        let forwardVisibleRange = viewRange;
+        let sideVisibleRange;
+        let rowOffset;
+        let colOffset;
+        /** @type {BoardTile} */
+        let boardTile;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Destroyable|Mob} */
+        let destroyable;
+        /** @type {Number} */
+        let distBetween;
+        let nearestDist = viewRange + 1;
+        /** @type {Entity} */
+        let nearestEntity = null;
 
         // Check down the middle.
         outerLoop:
@@ -1351,27 +1354,27 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSRight() {
-        const viewRange = this.viewRange,
-            row = this.row,
-            col = this.col,
-            grid = this.board.grid;
-        let forwardVisibleRange = viewRange,
-            sideVisibleRange,
-            rowOffset,
-            colOffset,
-            /** @type {BoardTile} */
-            boardTile,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Destroyable|Mob} */
-            destroyable,
-            /** @type {Number} */
-            distBetween,
-            nearestDist = viewRange + 1,
-            /** @type {Entity} */
-            nearestEntity = null;
+        const { viewRange } = this;
+        const { row } = this;
+        const { col } = this;
+        const { grid } = this.board;
+        let forwardVisibleRange = viewRange;
+        let sideVisibleRange;
+        let rowOffset;
+        let colOffset;
+        /** @type {BoardTile} */
+        let boardTile;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Destroyable|Mob} */
+        let destroyable;
+        /** @type {Number} */
+        let distBetween;
+        let nearestDist = viewRange + 1;
+        /** @type {Entity} */
+        let nearestEntity = null;
 
         // Check down the middle.
         outerLoop:
@@ -1573,33 +1576,31 @@ class Mob extends Character {
      * Gets the nearest entity to this mob that it considers hostile, according to its faction status.
      */
     getNearestHostile() {
-        let rowOffset = -this.viewRange,
-            colOffset = -this.viewRange,
-            viewRange = this.viewRange,
-            viewRangePlusOne = viewRange + 1,
-            gridRow,
-            /** @type {Object} */
-            destroyables,
-            /** @type {String} */
-            entityKey,
-            /** @type {Destroyable|Mob} */
-            destroyable,
-            /** @type {Number} */
-            distBetween,
-            nearestDist = viewRangePlusOne,
-            /** @type {Entity} */
-            nearestEntity = null;
+        let rowOffset = -this.viewRange;
+        let colOffset = -this.viewRange;
+        const { viewRange } = this;
+        const viewRangePlusOne = viewRange + 1;
+        let gridRow;
+        /** @type {Object} */
+        let destroyables;
+        /** @type {String} */
+        let entityKey;
+        /** @type {Destroyable|Mob} */
+        let destroyable;
+        /** @type {Number} */
+        let distBetween;
+        let nearestDist = viewRangePlusOne;
+        /** @type {Entity} */
+        let nearestEntity = null;
 
         // Search all tiles within the view range to find a target.
         for (; rowOffset < viewRangePlusOne; rowOffset += 1) {
-
             gridRow = this.board.grid[this.row + rowOffset];
 
             // Check the row is valid.
             if (gridRow === undefined) continue;
 
             for (colOffset = -viewRange; colOffset < viewRangePlusOne; colOffset += 1) {
-
                 // Check the col is valid.
                 if (gridRow[this.col + colOffset] === undefined) continue;
 
@@ -1607,7 +1608,7 @@ class Mob extends Character {
 
                 for (entityKey in destroyables) {
                     if (destroyables.hasOwnProperty(entityKey) === false) continue;
-                    destroyable = destroyables[entityKey];//TODO: if using this function again, check the isHostileToCharacter faction.
+                    destroyable = destroyables[entityKey];// TODO: if using this function again, check the isHostileToCharacter faction.
 
                     // Ignore anything that isn't a character.
                     if (destroyable instanceof Character === false) continue;
@@ -1687,17 +1688,17 @@ class Mob extends Character {
 
         // Get the position behind the target.
         const behindTile = this.board.getTileBehind(this.target.direction, this.target.row, this.target.col);
-        if(!behindTile) return;
+        if (!behindTile) return;
 
         // Check the tile behind them isn't blocked before moving.
         if (behindTile.isLowBlocked()) return;
-        
+
         // Avoid teleporting onto hazards.
-        if(behindTile.groundType.hazardous) return;
+        if (behindTile.groundType.hazardous) return;
 
         const behindOffset = this.board.directionToRowColOffset(this.OppositeDirections[this.target.direction]);
         // Move behind the target if possible.
-        if(this.repositionAndEmitToNearbyPlayers(this.target.row + behindOffset.row, this.target.col + behindOffset.col) === false) return;
+        if (this.repositionAndEmitToNearbyPlayers(this.target.row + behindOffset.row, this.target.col + behindOffset.col) === false) return;
         // Face the target's back.
         this.modDirection(this.target.direction);
     }
@@ -1712,7 +1713,7 @@ class Mob extends Character {
         }
 
         // Avoid teleporting onto hazards if the target is standing on one.
-        if(this.target.getBoardTile().groundType.hazardous) return;
+        if (this.target.getBoardTile().groundType.hazardous) return;
 
         // Cannot reach their back. Teleport onto the same tile instead.
         this.repositionAndEmitToNearbyPlayers(this.target.row, this.target.col);
@@ -1732,15 +1733,15 @@ class Mob extends Character {
         this.prototype.viewRange = statValues.viewRange;
         this.prototype.moveRate = statValues.moveRate;
         if (this.prototype.moveRate === 0) {
-            // If the move rate is 0, make them unable to move, or 
+            // If the move rate is 0, make them unable to move, or
             // they will have unlimited move speed/teleport to target.
-            this.prototype.move = () => { }
+            this.prototype.move = () => { };
         }
         this.prototype.wanderRate = statValues.wanderRate;
         this.prototype.targetSearchRate = statValues.targetSearchRate;
         this.prototype.attackRate = statValues.attackRate;
         this.prototype.meleeDamageAmount = statValues.meleeDamageAmount;
-        if (statValues.projectileAttackType !== null) this.prototype.projectileAttackType = require("./../../" + statValues.projectileAttackType);
+        if (statValues.projectileAttackType !== null) this.prototype.projectileAttackType = require(`./../../${statValues.projectileAttackType}`);
         this.prototype.CorpseType = statValues.corpseType;
         this.prototype.faction = statValues.faction;
         this.prototype.behaviour = statValues.behaviour;
@@ -1748,9 +1749,8 @@ class Mob extends Character {
     }
 
     static loadMobStats() {
-        Mob.StatValues = require("./MobStats");
+        Mob.StatValues = require("../../../../../gameplay/MobStats");
     }
-
 }
 module.exports = Mob;
 
@@ -1758,6 +1758,7 @@ Mob.abstract = true;
 
 const Player = require("../Player");
 const Damage = require("../../../../../gameplay/Damage");
+const ItemConfig = require("../../../../../inventory/ItemConfig");
 
 Mob.StatValues = null;
 
@@ -1785,7 +1786,7 @@ Mob.prototype.viewRange = 0;
  */
 Mob.prototype.moveRate = 1000;
 
-/******************** WANDER ********************/
+/** ****************** WANDER ******************* */
 /**
  * How often (in ms) this mob looks for a new position within the wander range to wander towards. Lower is more often.
  * @type {Number}
@@ -1801,14 +1802,14 @@ Mob.prototype.wanderOffset = null;
  * The maximum amount of tiles this mob can travel at most per wander.
  * @type {Number}
  */
-//Mob.prototype.maxWanderRange = 10; TODO remove?
+// Mob.prototype.maxWanderRange = 10; TODO remove?
 /**
  * How many tiles this mob will travel from its current position every time it decides to wander.
  * @type {Number}
  */
-//Mob.prototype.wanderRange = Mob.prototype.maxWanderRange; TODO remove?
+// Mob.prototype.wanderRange = Mob.prototype.maxWanderRange; TODO remove?
 
-/******************** ATTACK ********************/
+/** ****************** ATTACK ******************* */
 /**
  * How often (in ms) this mob searches for a new target if it doesn't already have one. If it already has a target, it will stay focused on that instead. Lower is more often.
  * @type {Number}

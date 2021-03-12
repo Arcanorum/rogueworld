@@ -28,6 +28,7 @@ export const GLORY_VALUE = Symbol("GLORY_VALUE");
 export const DEFENCE_VALUE = Symbol("DEFENCE_VALUE");
 export const STATS_VALUE = Symbol("STATS_VALUE");
 export const TASKS_VALUE = Symbol("TASKS_VALUE");
+export const TASK_PROGRESS = Symbol("TASK_PROGRESS");
 
 // Keyboard.
 export const ENTER_KEY = Symbol("ENTER_KEY");
@@ -37,9 +38,21 @@ export const CHAT_CLOSE = Symbol("CHAT_CLOSE");
 export const CHAT_OPEN = Symbol("CHAT_OPEN");
 
 // Inventory.
+export const ADD_ITEM = Symbol("ADD_ITEM");
+export const REMOVE_ITEM = Symbol("REMOVE_ITEM");
+export const REMOVE_ALL_ITEMS = Symbol("REMOVE_ALL_ITEMS");
+export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
+export const MODIFY_INVENTORY_WEIGHT = Symbol("MODIFY_INVENTORY_WEIGHT");
+export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");
+export const HOLDING_ITEM = Symbol("HOLDING_ITEM");
+export const AMMUNITION_ITEM = Symbol("AMMUNITION_ITEM");
+export const CLOTHING_ITEM = Symbol("CLOTHING_ITEM");
 
 // GUI.
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
+export const CURSOR_MOVE = Symbol("CURSOR_MOVE");
+export const TOOLTIP_CONTENT = Symbol("TOOLTIP_CONTENT");
+export const PANEL_CHANGE = Symbol("PANEL_CHANGE");
 
 // Dungeon.
 export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");

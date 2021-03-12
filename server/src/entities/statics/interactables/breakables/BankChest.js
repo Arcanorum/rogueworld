@@ -1,7 +1,6 @@
-const Breakable = require('./Breakable');
+const Breakable = require("./Breakable");
 
 class BankChest extends Breakable {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -9,17 +8,16 @@ class BankChest extends Breakable {
      * @param {Board} config.board
      * @param {Clan} config.clan
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         // If it belongs to a clan, add the specific properties for clan structures.
-        //if(config.clan !== undefined){
+        // if(config.clan !== undefined){
         //    this.clan = config.clan;
         //    this.clan.addStructure(this); TODO clean
         //    this.hitPoints = 10;
         //    this.maxHitPoints = 10;
-        //}
+        // }
     }
-
 }
 module.exports = BankChest;

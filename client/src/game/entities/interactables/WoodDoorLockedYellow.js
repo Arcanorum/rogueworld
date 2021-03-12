@@ -2,7 +2,7 @@
 //     this.activeStateFrame = "wood-door-locked-yellow";
 //     this.inactiveStateFrame = "wood-door-inactive";
 
-//     Phaser.GameObjects.Sprite.call(this, window.gameScene, x, y, "game-atlas", this.activeStateFrame);
+//     Phaser.GameObjects.Sprite.call(this, dungeonz.gameScene, x, y, "game-atlas", this.activeStateFrame);
 
 //     if (config.activeState === true) {
 //         this.setFrame(this.activeStateFrame);

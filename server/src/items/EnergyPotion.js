@@ -1,22 +1,14 @@
 const Item = require("./Item");
-const EnergyRegen = require("../gameplay/StatusEffects").EnergyRegen;
+const { EnergyRegen } = require("../gameplay/StatusEffects");
 
 class EnergyPotion extends Item {
-
-    onUsed () {
+    onUsed() {
         // Don't waste a use on max energy.
-        if(this.owner.energy === this.owner.maxEnergy) return;
+        if (this.owner.energy === this.owner.maxEnergy) return;
         this.owner.addStatusEffect(EnergyRegen);
 
         super.onUsed();
     }
-
 }
-
-EnergyPotion.translationID = "Energy potion";
-EnergyPotion.iconSource = "icon-energy-potion";
-EnergyPotion.prototype.craftingExpValue = 20;
-EnergyPotion.prototype.baseDurability = 5;
-EnergyPotion.prototype.useDurabilityCost = 1;
 
 module.exports = EnergyPotion;

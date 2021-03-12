@@ -2,7 +2,7 @@ const { wss } = require("./Server");
 const Utils = require("./Utils");
 const settings = require("../settings");
 const AccountManager = require("./AccountManager");
-//const clanManager = require("./gameplay/ClanManager");
+// const clanManager = require("./gameplay/ClanManager");
 const DungeonManager = require("./dungeon/DungeonManager");
 const DungeonManagersList = require("./dungeon/DungeonManagersList");
 const EventsList = require("./EventsList");
@@ -61,12 +61,11 @@ const world = {
                     Board.createClientBoardData(parsed.name);
                 }
             }
-
         });
 
         // Load the clans into the game world after the boards are
         // created, or there will be nothing to add the structures to.
-        //clanManager.loadDataFromFile();
+        // clanManager.loadDataFromFile();
 
         // Wire up all of the exits to the entrances of each board.
         // Need to do this after the boards have been created, otherwise
@@ -86,39 +85,39 @@ const world = {
      * @returns {Boolean} - Whether the world should continue any other setup that involves this board.
      */
     createBoard(dataFileName) {
-        const data = require("../map/" + dataFileName + ".json");
+        const data = require(`../map/${dataFileName}.json`);
 
         const mapProperties = Utils.arrayToObject(data.properties, "name", "value");
 
         // Skip disabled maps.
-        if (mapProperties["Disabled"] === true) {
+        if (mapProperties.Disabled === true) {
             Utils.message("Skipping disabled map:", dataFileName);
             return false;
         }
 
         let alwaysNight = false;
-        if (mapProperties["AlwaysNight"] == undefined) Utils.warning(`Map data is missing property: "AlwaysNight". Using default (false). On map: ${dataFileName}`);
-        if (mapProperties["AlwaysNight"] === true) alwaysNight = true;
+        if (mapProperties.AlwaysNight === undefined) Utils.warning(`Map data is missing property: "AlwaysNight". Using default (false). On map: ${dataFileName}`);
+        if (mapProperties.AlwaysNight === true) alwaysNight = true;
 
-        if (mapProperties["IsDungeon"] == undefined) Utils.warning(`Map data is missing property: "IsDungeon". Using default (false). On map: ${dataFileName}`);
-        if (mapProperties["IsDungeon"] === true) {
-            if (!mapProperties["Difficulty"]) Utils.warning(`Dungeon map is missing property: "Difficulty". Using default. On map: ${dataFileName}`);
-            if (!mapProperties["NameDefinitionID"]) Utils.warning(`Dungeon map is missing property: "NameDefinitionID". Using default. On map: ${dataFileName}`);
-            if (!mapProperties["MaxPlayers"]) Utils.warning(`Dungeon map is missing property: "MaxPlayers". Using default. On map: ${dataFileName}`);
-            if (!mapProperties["TimeLimitMinutes"]) Utils.warning(`Dungeon map is missing property: "TimeLimitMinutes". Using default. On map: ${dataFileName}`);
-            if (!mapProperties["EvictionMapName"]) Utils.warning(`Dungeon map is missing property: "EvictionMapName". Using default. On map: ${dataFileName}`);
-            if (!mapProperties["EvictionEntranceName"]) Utils.warning(`Dungeon map is missing property: "EvictionEntranceName". Using default. On map: ${dataFileName}`);
+        if (mapProperties.IsDungeon === undefined) Utils.warning(`Map data is missing property: "IsDungeon". Using default (false). On map: ${dataFileName}`);
+        if (mapProperties.IsDungeon === true) {
+            if (!mapProperties.Difficulty) Utils.warning(`Dungeon map is missing property: "Difficulty". Using default. On map: ${dataFileName}`);
+            if (!mapProperties.NameDefinitionID) Utils.warning(`Dungeon map is missing property: "NameDefinitionID". Using default. On map: ${dataFileName}`);
+            if (!mapProperties.MaxPlayers) Utils.warning(`Dungeon map is missing property: "MaxPlayers". Using default. On map: ${dataFileName}`);
+            if (!mapProperties.TimeLimitMinutes) Utils.warning(`Dungeon map is missing property: "TimeLimitMinutes". Using default. On map: ${dataFileName}`);
+            if (!mapProperties.EvictionMapName) Utils.warning(`Dungeon map is missing property: "EvictionMapName". Using default. On map: ${dataFileName}`);
+            if (!mapProperties.EvictionEntranceName) Utils.warning(`Dungeon map is missing property: "EvictionEntranceName". Using default. On map: ${dataFileName}`);
 
             new DungeonManager({
                 name: dataFileName,
-                nameDefinitionID: mapProperties["NameDefinitionID"],
+                nameDefinitionID: mapProperties.NameDefinitionID,
                 mapData: data,
                 alwaysNight,
-                maxPlayers: mapProperties["MaxPlayers"],
-                timeLimitMinutes: mapProperties["TimeLimitMinutes"],
-                difficultyName: mapProperties["Difficulty"],
-                evictionMapName: mapProperties["EvictionMapName"],
-                evictionEntranceName: mapProperties["EvictionEntranceName"]
+                maxPlayers: mapProperties.MaxPlayers,
+                timeLimitMinutes: mapProperties.TimeLimitMinutes,
+                difficultyName: mapProperties.Difficulty,
+                evictionMapName: mapProperties.EvictionMapName,
+                evictionEntranceName: mapProperties.EvictionEntranceName,
             });
 
             // Stop here. Don't create a board for a dungeon map, as they are created
@@ -139,11 +138,11 @@ const world = {
 
     linkExits() {
         let
-            row,
-            rowLen,
-            col,
-            colLen,
-            exit;
+            row;
+        let rowLen;
+        let col;
+        let colLen;
+        let exit;
 
         this.boardsArray.forEach((board) => {
             // For each row in the board grid.
@@ -158,7 +157,10 @@ const world = {
                             exit.destroy();
                             continue;
                         }
-                        if (this.boardsObject[exit.targetBoard].entrances[exit.targetEntrance] === undefined) {
+                        if (this
+                            .boardsObject[exit.targetBoard]
+                            .entrances[exit.targetEntrance]
+                            === undefined) {
                             exit.destroy();
                             continue;
                         }
@@ -190,7 +192,7 @@ const world = {
 
     /**
      * Prepares any data that a client will need to know as soon as it starts the game state.
-     * @param {Player} playerEntity 
+     * @param {Player} playerEntity
      */
     getPlayerDataToSend(playerEntity) {
         const dataToSend = {};
@@ -216,7 +218,10 @@ const world = {
             tasks: playerEntity.tasks.getEmittableTasks(),
         };
         // Get the things this player can see.
-        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(playerEntity.row, playerEntity.col);
+        dataToSend.dynamicsData = playerEntity.board.getNearbyDynamicsData(
+            playerEntity.row,
+            playerEntity.col,
+        );
 
         return dataToSend;
     },
@@ -241,7 +246,10 @@ const world = {
         }
 
         // Start them in the overworld if they have played before.
-        const randomPosition = this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME].entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME].getRandomPosition();
+        const randomPosition = this
+            .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
+            .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
+            .getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
@@ -291,15 +299,18 @@ const world = {
             return;
         }
 
-        const randomPosition = this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME].entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME].getRandomPosition();
+        const randomPosition = this
+            .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
+            .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
+            .getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
             board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
-            displayName: displayName,
-            socket: clientSocket
+            displayName,
+            socket: clientSocket,
         });
 
         // Give the new player some starting tasks, as they are NOT added automatically for player entities.
@@ -371,7 +382,7 @@ const world = {
         }
 
         setTimeout(world.progressTime, dayPhaseRate);
-    }
+    },
 
 };
 

@@ -1,9 +1,10 @@
+const fs = require("fs");
 const Utils = require("./Utils");
 
-var counter = 0;
+let counter = 0;
 function registerEventName() {
     counter += 1;
-    //Utils.message("Registering event name, ID: ", counter);
+    // Utils.message("Registering event name, ID: ", counter);
     return counter;
 }
 
@@ -46,8 +47,6 @@ const EventsList = {
     deactivate_clothing: registerEventName(),
     deactivate_holding: registerEventName(),
     defence_value: registerEventName(),
-    drop_item: registerEventName(),
-    durability_value: registerEventName(),
     dungeon_door_keys: registerEventName(),
     dungeon_prompt: registerEventName(),
     effect_start_burn: registerEventName(),
@@ -73,18 +72,21 @@ const EventsList = {
     hatchet_needed: registerEventName(),
     heal: registerEventName(),
     hit_point_value: registerEventName(),
-    invalid_login_details: registerEventName(),
     inactive_state: registerEventName(),
+    invalid_login_details: registerEventName(),
+    inventory_weight: registerEventName(),
     item_broken: registerEventName(),
     item_dropped: registerEventName(),
     item_used: registerEventName(),
     inventory_full: registerEventName(),
     join_world_success: registerEventName(),
     key_needed: registerEventName(),
+    modify_item: registerEventName(),
     parties: registerEventName(),
     pickaxe_needed: registerEventName(),
     player_died: registerEventName(),
     player_respawn: registerEventName(),
+    remove_all_items: registerEventName(),
     remove_entity: registerEventName(),
     remove_item: registerEventName(),
     shop_prices: registerEventName(),
@@ -99,16 +101,13 @@ const EventsList = {
 };
 
 // Write the event names to the client, so the client knows what event to fire for each event ID.
-const fs = require("fs");
 let dataToWrite = {};
 
-for (let eventTypeKey in EventsList) {
-    // Don't check prototype properties.
-    if (EventsList.hasOwnProperty(eventTypeKey) === false) continue;
+Object.entries(EventsList).forEach(([eventTypeKey, eventTypeValue]) => {
     // Add this event name to the catalogue.
     // The ID number of the event will be the key, and the key (the event name) will be the value.
-    dataToWrite[EventsList[eventTypeKey]] = eventTypeKey;
-}
+    dataToWrite[eventTypeValue] = eventTypeKey;
+});
 
 // Turn the data into a string.
 dataToWrite = JSON.stringify(dataToWrite);

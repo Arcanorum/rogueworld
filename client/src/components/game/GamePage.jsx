@@ -16,7 +16,7 @@ function GamePage() {
         ApplicationState.setLoading(true);
 
         const subs = [
-            PubSub.subscribe(LOAD_ACCEPTED, (msd, data) => {
+            PubSub.subscribe(LOAD_ACCEPTED, (msg, data) => {
                 // Wait for the user to accept the finished load,
                 // in case they want to finish reading a hint.
                 setLoadFinished(data.new);

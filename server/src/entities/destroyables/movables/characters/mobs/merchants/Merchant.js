@@ -4,12 +4,12 @@ class Merchant extends Mob {
     /**
      * Prevent merchants from ever being moved.
      */
-    move () {}
+    move() {}
 
     /**
      * Prevent merchants from ever being killed.
      */
-    modHitPoints () {}
+    modHitPoints() {}
 
     modDirection() {}
 

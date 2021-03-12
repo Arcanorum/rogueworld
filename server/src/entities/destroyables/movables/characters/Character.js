@@ -1,4 +1,6 @@
 const Movable = require("../Movable");
+const GroundTypes = require("../../../../board/GroundTypes");
+const Damage = require("../../../../gameplay/Damage");
 
 class Character extends Movable {
     /**
@@ -37,25 +39,25 @@ class Character extends Movable {
         if (damage.canAffectTarget(this) === false) return;
 
         // Apply the damage reduction multiplier from defence bonuses.
-        //console.log("char ondamage, damage:", damage.amount);
+        // console.log("char ondamage, damage:", damage.amount);
         if (this.defence >= 0) {
-            //console.log("has defence:", this.defence);
+            // console.log("has defence:", this.defence);
             let effectiveDefence = this.defence;
             if (damage.armourPiercing > 0) {
                 const apPercentage = damage.armourPiercing / 100;
                 effectiveDefence = this.defence - (this.defence * apPercentage);
-                //console.log("  armour piercing:", apPercentage);
+                // console.log("  armour piercing:", apPercentage);
             }
-            //console.log("effective defence:", effectiveDefence);
+            // console.log("effective defence:", effectiveDefence);
             const multipler = (100 / (100 + effectiveDefence));
-            damage.amount = damage.amount * multipler;
-            //console.log("  after mod:", damage.amount);
+            damage.amount *= multipler;
+            // console.log("  after mod:", damage.amount);
         }
         // Negative defence means bonus damage multiplier.
         else {
-            //console.log("no defence");
-            damage.amount = damage.amount * (2 - (100 / (100 - (this.defence))));
-            //console.log("  after mod:", damage.amount);
+            // console.log("no defence");
+            damage.amount *= (2 - (100 / (100 - (this.defence))));
+            // console.log("  after mod:", damage.amount);
         }
 
         // Minimum damage is 1.
@@ -71,12 +73,22 @@ class Character extends Movable {
             // If should keep processing after curse has fired, create a corpse.
             if (this.curse.onCharacterDeath() === true) {
                 // If this character has a corpse type, create a new corpse of the specified type.
-                if (this.CorpseType !== null) new this.CorpseType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
+                if (this.CorpseType !== null) {
+                    new this.CorpseType({
+                        row: this.row,
+                        col: this.col,
+                        board: this.board,
+                    }).emitToNearbyPlayers();
+                }
             }
         }
-        else {
-            // No curse. Just create the corpse.
-            if (this.CorpseType !== null) new this.CorpseType({ row: this.row, col: this.col, board: this.board }).emitToNearbyPlayers();
+        // No curse. Just create the corpse.
+        else if (this.CorpseType !== null) {
+            new this.CorpseType({
+                row: this.row,
+                col: this.col,
+                board: this.board,
+            }).emitToNearbyPlayers();
         }
         // Destroy this character.
         this.destroy();
@@ -118,7 +130,7 @@ class Character extends Movable {
      * @returns {Boolean}
      */
     move(byRows, byCols) {
-        if (!this.board) return;
+        if (!this.board) return false;
 
         // Get the direction from the move offset.
         const direction = this.board.rowColOffsetToDirection(byRows, byCols);
@@ -140,7 +152,7 @@ class Character extends Movable {
             if (boardTile.static.interaction !== undefined) {
                 boardTile.static.interaction(this);
 
-                // Might have interacted with a portal or 
+                // Might have interacted with a portal or
                 // something which could have changed the board.
                 // Check if we are still on the same board.
                 if (currentBoard !== this.board) {
@@ -172,7 +184,7 @@ class Character extends Movable {
     }
 
     postMove() {
-        const groundType = this.board.grid[this.row][this.col].groundType;
+        const { groundType } = this.board.grid[this.row][this.col];
 
         // Add the status effect FIRST, in case they die from the damage below, so they
         // don't have status effect while dead, as they should have all been removed.
@@ -186,14 +198,14 @@ class Character extends Movable {
                 new Damage({
                     amount: groundType.damageAmount,
                     types: groundType.damageTypes,
-                    armourPiercing: groundType.damageArmourPiercing
-                })
+                    armourPiercing: groundType.damageArmourPiercing,
+                }),
             );
         }
     }
 
     repositionAndEmitToNearbyPlayers(toRow, toCol) {
-        if(this.board.grid[toRow][toCol].groundType.canBeStoodOn === false) return false;
+        if (this.board.grid[toRow][toCol].groundType.canBeStoodOn === false) return false;
         super.repositionAndEmitToNearbyPlayers(toRow, toCol);
         return true;
     }
@@ -217,20 +229,12 @@ class Character extends Movable {
     }
 
     removeStatusEffects() {
-        for (let effectKey in this.statusEffects) {
-            if (this.statusEffects.hasOwnProperty(effectKey) === false) continue;
-
-            this.statusEffects[effectKey].stop();
-        }
+        Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
     }
-
 }
 module.exports = Character;
 
 Character.abstract = true;
-
-const GroundTypes = require("../../../../board/GroundTypes");
-const Damage = require("../../../../gameplay/Damage");
 
 // Give each character easy access to the factions list.
 Character.prototype.Factions = require("../../../../gameplay/Factions");
@@ -252,7 +256,7 @@ Character.prototype.damageTypeImmunities = [];
 
 /**
  * How much the damage reduction multipler should reduce incoming damage by.
- * 
+ *
  * Defence does not block damage outright, but instead follows an curve that
  * gives more effective HP with each point.
  * @see Character.onDamage for damage formula.

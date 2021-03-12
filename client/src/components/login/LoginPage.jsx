@@ -48,10 +48,10 @@ function LoginPage() {
                 joinGameNewCharacter(newCharacterName);
             }
             else if (!username) {
-                setJoinIssue("Username required.");
+                setJoinIssue(Utils.getTextDef("Username required"));
             }
             else if (!password) {
-                setJoinIssue("Password required.");
+                setJoinIssue(Utils.getTextDef("Password required"));
             }
             else {
                 // Log in to an existing account.
@@ -71,37 +71,31 @@ function LoginPage() {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(CONNECTING, (msd, data) => {
+            PubSub.subscribe(CONNECTING, (msg, data) => {
                 setConnecting(data.new);
             }),
-            PubSub.subscribe(CONNECTED, (msd, data) => {
+            PubSub.subscribe(CONNECTED, (msg, data) => {
                 setConnected(data.new);
             }),
-            PubSub.subscribe(JOINING, (msd, data) => {
+            PubSub.subscribe(JOINING, (msg, data) => {
                 setJoining(data.new);
             }),
             PubSub.subscribe(JOINED, () => {
                 // Start the game state.
             }),
             PubSub.subscribe(INVALID_LOGIN_DETAILS, () => {
-                setJoinIssue("Invalid username or password.");
+                setJoinIssue(Utils.getTextDef("Invalid login details"));
             }),
             PubSub.subscribe(ALREADY_LOGGED_IN, () => {
-                setJoinIssue("That account is already logged in.");
+                setJoinIssue(Utils.getTextDef("Already logged in"));
             }),
             PubSub.subscribe(WORLD_FULL, () => {
-                setJoinIssue(
-                    `Game is full.
-                    Wow... :o`,
-                );
+                setJoinIssue(Utils.getTextDef("Game full"));
             }),
             PubSub.subscribe(SOMETHING_WENT_WRONG, () => {
-                setJoinIssue(
-                    `Something went wrong.
-                    Awkward... :/`,
-                );
+                setJoinIssue(Utils.getTextDef("Something went wrong"));
             }),
-            PubSub.subscribe(WEBSOCKET_CLOSE, (msd, data) => {
+            PubSub.subscribe(WEBSOCKET_CLOSE, (msg, data) => {
                 if (data === ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET) {
                     setConnectionIssue(
                         `Could not connect to game server.
@@ -199,10 +193,10 @@ function LoginPage() {
             <div className="center-text-cont">
                 {connectionIssue && <div className="connection-issue scale-up-center">{connectionIssue}</div>}
                 {joinIssue && <div className="connection-issue scale-up-center">{joinIssue}</div>}
-                {connectionIssue && <div className="scale-up-center">Reconnect</div>}
-                {connecting && <div className="scale-up-center">Connecting to game server...</div>}
-                {connected && !joining && <div className="scale-up-center">Play</div>}
-                {joining && <div className="scale-up-center">Joining game world...</div>}
+                {connectionIssue && <div className="scale-up-center">{Utils.getTextDef("Reconnect")}</div>}
+                {connecting && <div className="scale-up-center">{Utils.getTextDef("Connecting to game server")}</div>}
+                {connected && !joining && <div className="scale-up-center">{Utils.getTextDef("Play")}</div>}
+                {joining && <div className="scale-up-center">{Utils.getTextDef("Joining game world")}</div>}
             </div>
 
             <div id="main-columns">
@@ -214,7 +208,7 @@ function LoginPage() {
                               toggleShowPartners();
                           }}
                         >
-                            Partners
+                            {Utils.getTextDef("Partners")}
                         </span>
                         |
                         <span
@@ -223,7 +217,7 @@ function LoginPage() {
                               window.open("/credits", "_blank");
                           }}
                         >
-                            Credits
+                            {Utils.getTextDef("Credits")}
                         </span>
                     </div>
                 </div>
@@ -236,12 +230,16 @@ function LoginPage() {
                               id="new-character"
                               className={!loginExistingUser ? "title-button-selected" : "title-button-unselected"}
                               onClick={newCharacterPressed}
-                            />
+                            >
+                                {Utils.getTextDef("New character")}
+                            </div>
                             <div
                               id="continue"
                               className={loginExistingUser ? "title-button-selected" : "title-button-unselected"}
                               onClick={continuePressed}
-                            />
+                            >
+                                {Utils.getTextDef("Continue")}
+                            </div>
                         </div>
                         <div id="play-inputs-cont">
                             {!loginExistingUser && (
@@ -252,6 +250,7 @@ function LoginPage() {
                                       type="text"
                                       maxLength="20"
                                       value={newCharacterName}
+                                      placeholder={Utils.getTextDef("Name input")}
                                       onKeyDown={inputEnterPressed}
                                       onChange={(event) => {
                                           setNewCharacterName(event.target.value);
@@ -268,6 +267,7 @@ function LoginPage() {
                                       type="text"
                                       maxLength="50"
                                       value={username}
+                                      placeholder={Utils.getTextDef("Username input")}
                                       onKeyDown={inputEnterPressed}
                                       onChange={(event) => {
                                           setUsername(event.target.value);
@@ -279,6 +279,7 @@ function LoginPage() {
                                       type="password"
                                       maxLength="50"
                                       value={password}
+                                      placeholder={Utils.getTextDef("Password input")}
                                       onKeyDown={inputEnterPressed}
                                       onChange={(event) => {
                                           setPassword(event.target.value);
@@ -334,7 +335,7 @@ function LoginPage() {
                     <News />
                     <div />
                     <div id="language-cont" className="bottom-texts">
-                        <span id="language-text">Language</span>
+                        <span id="language-text">{Utils.getTextDef("Language")}</span>
                     </div>
                     <ul id="language-list">
                         <li id="language-english" className="language-option">English</li>

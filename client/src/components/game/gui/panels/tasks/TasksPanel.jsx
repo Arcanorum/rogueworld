@@ -4,24 +4,23 @@ import PubSub from "pubsub-js";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import "./TasksPanel.scss";
 import tasksIcon from "../../../../../assets/images/gui/hud/tasks-icon.png";
-import { TASKS_VALUE } from "../../../../../shared/EventTypes";
+import { TASKS_VALUE, TASK_PROGRESS } from "../../../../../shared/EventTypes";
 import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 import Utils from "../../../../../shared/Utils";
-import ItemIconList from "../../../../../shared/ItemIconList";
+import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
-import trackButtonBorderActiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-active.png";
+// import trackButtonBorderActiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-active.png";
 import trackButtonBorderInactiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-inactive.png";
 import claimButtonBorderValidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-valid.png";
 import claimButtonBorderInvalidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-invalid.png";
-import Player from "../../../../../shared/state/Player";
 
-function RewardItem({ rewardItemTypeNumber }) {
+function RewardItem({ rewardItemTypeCode }) {
     return (
         <div className="reward-item-cont">
-            {rewardItemTypeNumber && (
+            {rewardItemTypeCode && (
                 <img
                   className="reward-item"
-                  src={ItemIconList[ItemTypes[rewardItemTypeNumber].iconSource]}
+                  src={ItemIconsList[ItemTypes[rewardItemTypeCode].iconSource]}
                 />
             )}
         </div>
@@ -29,7 +28,7 @@ function RewardItem({ rewardItemTypeNumber }) {
 }
 
 RewardItem.propTypes = {
-    rewardItemTypeNumber: PropTypes.number.isRequired,
+    rewardItemTypeCode: PropTypes.string.isRequired,
 };
 
 function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
@@ -60,8 +59,8 @@ function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
                 {`${task.progress}/${task.completionThreshold}`}
             </div>
             <div className={`slot-cell reward-cont ${completed ? "completed" : ""}`}>
-                {task.rewardItemTypeNumbers.map((typeNumber) => (
-                    <RewardItem key={typeNumber} rewardItemTypeNumber={typeNumber} />
+                {task.rewardItemTypeCodes.map((typeCode) => (
+                    <RewardItem key={typeCode} rewardItemTypeCode={typeCode} />
                 ))}
             </div>
         </div>
@@ -98,8 +97,11 @@ function TasksPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(TASKS_VALUE, (msd, data) => {
+            PubSub.subscribe(TASKS_VALUE, (msg, data) => {
                 setTasks(data.new);
+            }),
+            PubSub.subscribe(TASK_PROGRESS, () => {
+                setTasks({ ...PlayerState.tasks });
             }),
         ];
 
@@ -114,8 +116,7 @@ function TasksPanel({ onCloseCallback }) {
         // Check a slot is actually selected.
         if (selectedTaskID === null) return;
 
-        // Get the selected slot task ID.
-        ApplicationState.connection.sendEvent("task_claim_reward", selectedTaskID.container.getAttribute("taskID"));
+        ApplicationState.connection.sendEvent("task_claim_reward", selectedTaskID);
 
         // Assume it will be claimed successfully, so default the claim button.
         setClaimValid(false);

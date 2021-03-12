@@ -1,13 +1,12 @@
 const Projectile = require("./Projectile");
 
 class ProjDark extends Projectile {
-    
-    handleCollision (collidee) {
+    handleCollision(collidee) {
         // Heal adumbrals.
-        if(
-            collidee instanceof SmallAdumbral ||
-            collidee instanceof MediumAdumbral ||
-            collidee instanceof LargeAdumbral
+        if (
+            collidee instanceof SmallAdumbral
+            || collidee instanceof MediumAdumbral
+            || collidee instanceof LargeAdumbral
         ) {
             collidee.heal(new Heal(20));
         }
@@ -15,7 +14,6 @@ class ProjDark extends Projectile {
             this.damageCollidee(collidee);
         }
     }
-    
 }
 module.exports = ProjDark;
 
@@ -27,4 +25,3 @@ const SmallAdumbral = require("../characters/mobs/SmallAdumbral");
 const MediumAdumbral = require("../characters/mobs/MediumAdumbral");
 const LargeAdumbral = require("../characters/mobs/LargeAdumbral");
 const Heal = require("../../../../gameplay/Heal");
-

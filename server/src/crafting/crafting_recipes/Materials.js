@@ -1,20 +1,20 @@
-const CraftingManager = require("./../CraftingManager");
+const CraftingManager = require("../CraftingManager");
 const EntitiesList = require("../../EntitiesList");
-const ItemsList = require("../../ItemsList");
-const StatNames = require("../../stats/Statset").prototype.StatNames;
+const ItemsListByName = require("../../ItemsList").BY_NAME;
+const { StatNames } = require("../../stats/Statset").prototype;
 const TaskTypes = require("../../tasks/TaskTypes");
 
 CraftingManager.addRecipe({ // String
-    result:         ItemsList.String,
-    craftingStat:   StatNames.Toolery,
-    stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.Cotton
+    result: ItemsListByName.String,
+    craftingStat: StatNames.Toolery,
+    stationType: EntitiesList.Workbench,
+    comp1: ItemsListByName.Cotton,
 });
 
 CraftingManager.addRecipe({ // Fabric
-    result:         ItemsList.Fabric,
-    craftingStat:   StatNames.Armoury,
-    stationType:    EntitiesList.Workbench,
-    comp1:          ItemsList.Cotton,
-    comp2:          ItemsList.Cotton
+    result: ItemsListByName.Fabric,
+    craftingStat: StatNames.Armoury,
+    stationType: EntitiesList.Workbench,
+    comp1: ItemsListByName.Cotton,
+    comp2: ItemsListByName.Cotton,
 });

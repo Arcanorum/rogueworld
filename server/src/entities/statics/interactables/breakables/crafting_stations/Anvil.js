@@ -1,7 +1,6 @@
-const CraftingStation = require('./CraftingStation');
+const CraftingStation = require("./CraftingStation");
 
 class Anvil extends CraftingStation {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -9,17 +8,16 @@ class Anvil extends CraftingStation {
      * @param {Board} config.board
      * @param {Clan} config.clan
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         // If it belongs to a clan, add the specific properties for clan structures. TODO clean up
-        //if(config.clan !== undefined){
+        // if(config.clan !== undefined){
         //    this.clan = config.clan;
         //    this.clan.addStructure(this);
         //    this.hitPoints = 10;
         //    this.maxHitPoints = 10;
-        //}
+        // }
     }
-
 }
 module.exports = Anvil;

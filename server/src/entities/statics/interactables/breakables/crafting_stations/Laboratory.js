@@ -1,7 +1,6 @@
-const CraftingStation = require('./CraftingStation');
+const CraftingStation = require("./CraftingStation");
 
 class Laboratory extends CraftingStation {
-
     /**
      * @param {Object} config
      * @param {Number} config.row
@@ -9,16 +8,16 @@ class Laboratory extends CraftingStation {
      * @param {Board} config.board
      * @param {Clan} config.clan
      */
-    constructor (config) {
+    constructor(config) {
         super(config);
 
         // If it belongs to a clan, add the specific properties for clan structures.
-        //if(config.clan !== undefined){ TODO clean
+        // if(config.clan !== undefined){ TODO clean
         //    this.clan = config.clan;
         //    this.clan.addStructure(this);
         //    this.hitPoints = 10;
         //    this.maxHitPoints = 10;
-        //}
+        // }
     }
 }
 module.exports = Laboratory;

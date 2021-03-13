@@ -15,4 +15,13 @@
         background: transparent;
         border: none;
     }
+
+    .tooltip {
+        border: 0;
+
+        // Hide the down arrow thing in the middle of the marker tooltip.
+        &::before {
+            display: none;
+        }
+    }
 }

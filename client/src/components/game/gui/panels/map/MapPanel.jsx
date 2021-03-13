@@ -30,17 +30,13 @@ function LocationMarker() {
             }
 
             setPosition(newPosition);
-
-            console.log("clicked", e);
         },
     });
 
     return position === null ? null : (
         <Marker position={position}>
             <Tooltip direction="top" offset={[-15, -10]} opacity={1} permanent>
-                {position.lat}
-                ,
-                {position.lng}
+                { `${position.lat}, ${position.lng}` }
             </Tooltip>
         </Marker>
     );
@@ -74,9 +70,7 @@ function MapPanel({ onCloseCallback }) {
                         <Tooltip direction="top" offset={[-15, -10]} opacity={1} permanent>
                             You
                             <br />
-                            { leafletConfig.center[0] }
-                            ,
-                            { leafletConfig.center[1] }
+                            { `${leafletConfig.center[0]}, ${leafletConfig.center[1]}` }
                         </Tooltip>
                     </Marker>
                     <LocationMarker />

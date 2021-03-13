@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
-    MapContainer as Map, TileLayer, Marker, Popup, useMapEvents, Tooltip,
+    MapContainer as Map, TileLayer, Marker, useMapEvents, Tooltip,
 } from "react-leaflet";
 import { CRS } from "leaflet";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import mapIcon from "../../../../../assets/images/gui/hud/map-icon.png";
 import "./MapPanel.scss";
-import { PlayerState } from "../../../../../shared/state/States";
+import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 
 function LocationMarker() {
     const [position, setPosition] = useState(null);
@@ -36,7 +36,6 @@ function LocationMarker() {
     });
 
     return position === null ? null : (
-        // eslint-disable-next-line react/jsx-props-no-spreading
         <Marker position={position}>
             <Tooltip direction="top" offset={[-15, -10]} opacity={1} permanent>
                 {position.lat}
@@ -48,17 +47,9 @@ function LocationMarker() {
 }
 
 function MapPanel({ onCloseCallback }) {
-    const [markers, addMarkers] = useState([]);
-
     const leafletConfig = {
         center: [-PlayerState.row + 32, PlayerState.col - 248],
-        // center: [-100, 250],
         zoom: 3,
-    };
-
-    const addMarker = (e) => {
-        console.log("adding", e);
-        addMarkers([...markers, e.latlng]);
     };
 
     return (
@@ -78,7 +69,7 @@ function MapPanel({ onCloseCallback }) {
                   crs={CRS.Simple}
                   doubleClickZoom={false}
                 >
-                    <TileLayer onClick={(e) => console.log("Hello")} url="http://127.0.0.1:4567/map/{z}/{x}/{y}.png" />
+                    <TileLayer url={`${ApplicationState.httpServerURL}/map/{z}/{x}/{y}.png`} />
                     <Marker position={leafletConfig.center}>
                         <Tooltip direction="top" offset={[-15, -10]} opacity={1} permanent>
                             You

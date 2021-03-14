@@ -35,6 +35,7 @@ function LocationMarker() {
 
             lat = parseInt(lat, 10);
             lng = parseInt(lng, 10);
+            lng += 0.5;
 
             let newPosition = { lat, lng };
 
@@ -62,9 +63,8 @@ function LocationMarker() {
 function MapPanel({ onCloseCallback }) {
     const leafletConfig = {
         center: [
-            // The center is a decimal (with the extra half tile), so round down for display.
-            Math.floor(-PlayerState.row + 32),
-            Math.floor(PlayerState.col - 248 + 0.5),
+            -PlayerState.row + 32,
+            PlayerState.col - 248 + 0.5,
         ],
         zoom: 3,
     };
@@ -100,7 +100,8 @@ function MapPanel({ onCloseCallback }) {
                         <Tooltip className="press-start-font tooltip" direction="top" offset={[0, -44]} opacity={1} permanent>
                             You
                             <br />
-                            { `${leafletConfig.center[0]}, ${leafletConfig.center[1]}` }
+                            {/* The center is a decimal (with the extra half tile), so round down for display. */}
+                            { `${Math.floor(leafletConfig.center[0])}, ${Math.floor(leafletConfig.center[1])}` }
                         </Tooltip>
                     </Marker>
                     <LocationMarker />

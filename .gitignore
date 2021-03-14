@@ -29,3 +29,4 @@ server/node_modules
 server/settings.yml
 server/PlayerDataDump.json
 server/test.js
+server/map/leaflet-map

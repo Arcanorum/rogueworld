@@ -6,8 +6,6 @@ import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from "../shared/EventTypes";
 import Utils from "../shared/Utils";
 import dungeonz from "../shared/Global";
 
-let serverURL = "";
-
 export const ConnectionCloseTypes = {
     // No connection made yet. User has no internet access.
     CANNOT_CONNECT_NO_INTERNET: Symbol("CANNOT_CONNECT_NO_INTERNET"),
@@ -47,14 +45,21 @@ const getErrorCategory = () => {
 export const connectToGameServer = () => {
     // If the game is running in dev mode (localhost), connect without SSL.
     if (dungeonz.host === "local") {
-        serverURL = "ws://127.0.0.4:4567";
+        const serverBaseURL = "127.0.0.1:4567";
+        ApplicationState.httpServerURL = `http://${serverBaseURL}`;
+        ApplicationState.websocketServerURL = `ws://${serverBaseURL}`;
     }
     else if (dungeonz.host === "test") {
-        serverURL = "wss://test.dungeonz.io:443";
+        // Test mode. Connect to public test server, which should be using SSL.
+        const serverBaseURL = "test.dungeonz.io:443";
+        ApplicationState.httpServerURL = `https://${serverBaseURL}`;
+        ApplicationState.websocketServerURL = `wss://${serverBaseURL}`;
     }
     else {
         // Deployment mode. Connect to live server, which should be using SSL.
-        serverURL = "wss://dungeonz.io:443";
+        const serverBaseURL = "dungeonz.io:443";
+        ApplicationState.httpServerURL = `https://${serverBaseURL}`;
+        ApplicationState.websocketServerURL = `wss://${serverBaseURL}`;
     }
 
     if (ApplicationState.connected || ApplicationState.connecting) {
@@ -62,7 +67,7 @@ export const connectToGameServer = () => {
     }
 
     // Connect to the game server.
-    ApplicationState.connection = new WebSocket(serverURL);
+    ApplicationState.connection = new WebSocket(ApplicationState.websocketServerURL);
 
     ApplicationState.setConnecting(true);
 

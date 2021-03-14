@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --exec npm start",
+    "build-map": "node generateLeafletMap.js",
     "lint": "eslint 'src/**' --fix"
   },
   "keywords": [],
@@ -32,6 +33,7 @@
     "xlsx": "^0.13.5"
   },
   "dependencies": {
+    "img2-leaflet-tiles": "^1.1.0",
     "js-yaml": "^3.14.0",
     "tile-extruder": "^2.0.6",
     "uuid": "^8.3.2"

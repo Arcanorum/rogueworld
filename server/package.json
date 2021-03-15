@@ -16,6 +16,7 @@
     "ignore": [
       ".git",
       "node_modules/**/node_modules",
+      "map/leaflet-map",
       "PlayerDataDump.json"
     ],
     "ext": "js,json,yml,css,scss,html,txt,png,xlsx",

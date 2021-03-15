@@ -3,7 +3,7 @@
 
 const XLSX = require("xlsx");
 const fs = require("fs");
-const Utils = require("./Utils");
+const Utils = require("../Utils");
 
 const workbook = XLSX.readFile("Dungeonz.io translations.xlsx");
 
@@ -45,7 +45,9 @@ while (true) {
     // Check there is a value at this row for the current language.
     if (worksheet[currentLanguageCol + currentDefRow] !== undefined) {
         // Add the value.
-        currentLanguageDefs[worksheet[idNameCol + currentDefRow].v] = worksheet[currentLanguageCol + currentDefRow].v;
+        currentLanguageDefs[
+            worksheet[idNameCol + currentDefRow].v
+        ] = worksheet[currentLanguageCol + currentDefRow].v;
     }
 
     // Go down a row to the next definition.

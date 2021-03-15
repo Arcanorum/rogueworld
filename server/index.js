@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 require("./settings");
 const fs = require("fs");
 const { exec } = require("child_process");
@@ -21,11 +22,11 @@ async function init() {
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();
 
-    const AccountManager = require("./src/AccountManager");
+    const AccountManager = require("./src/account/AccountManager");
     await AccountManager.setup();
 
     require("./src/WebSocketEvents");
-    require("./src/TextDefinitionsParser");
+    require("./src/scripts/TextDefinitionsParser");
     require("./src/items/holdable/spell_books/SpellBooksList");
     require("./src/ChatWarnings");
 
@@ -33,7 +34,7 @@ async function init() {
     const world = require("./src/World");
     world.init();
 
-    require("./src/CatalogueBuilders").buildDungeonPrompts();
+    require("./src/scripts/CatalogueBuilders").buildDungeonPrompts();
 
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
     require("./src/items/Item").prototype.EntitiesList = require("./src/EntitiesList");

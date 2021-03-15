@@ -1,20 +1,13 @@
-/**
- * @typedef {Function} AccountModel
- *
- * @property {String} username
- * @property {String} password
- * @property {Date} lastLogOutTime
- * @property {Boolean} isLoggedIn
- * @property {String} displayName
- * @property {Number} glory
- * @property {Array} bankItems
- * @property {Object} inventory
- * @property {Object} stats
- * @property {Object} tasks
- *
- * @param {Object} config
- */
-let AccountModel;
+const fs = require("fs");
+const mongoose = require("mongoose");
+const AccountModel = require("./AccountModel");
+
+const ItemsList = require("../ItemsList");
+const Task = require("../tasks/Task");
+const TaskTypes = require("../tasks/TaskTypes");
+const RewardsList = require("../tasks/RewardsList");
+const EventsList = require("../EventsList");
+const Utils = require("../Utils");
 
 const isSetup = false;
 
@@ -27,61 +20,33 @@ module.exports = {
         if (isSetup === true) {
             Utils.warning("Attempt to setup account manager again.");
             process.exit();
-            return;
         }
 
-        this.mongoose = require("mongoose");
-
-        await this.mongoose.connect("mongodb://localhost/accounts", {
+        await mongoose.connect("mongodb://localhost/dungeonzDB", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
         }).catch((err) => {
-            console.log("DB connect error:", err);
+            Utils.warning("DB connect error:", err);
         });
 
-        this.mongoose.connection.on("error", (err) => {
-            console.error("DB connection error:", err);
+        mongoose.connection.on("error", (err) => {
+            Utils.warning("DB connection error:", err);
             // Cannot connect to database, stop server init.
             process.exit();
         });
 
-        const accountSchema = new this.mongoose.Schema({
-            username: { type: String, required: true },
-            password: { type: String, required: true },
-            creationTime: { type: Date, default: Date.now() },
-            lastLogOutTime: { type: Date, default: Date.now() },
-            isLoggedIn: { type: Boolean, default: false },
-            displayName: { type: String, default: "Savage" },
-            glory: { type: Number, default: 0 },
-            bankItems: { type: Array, default: [] },
-            inventory: { type: Object, default: {} },
-            stats: { type: Object, default: {} },
-            tasks: { type: Object, default: {} },
-        });
-        // Create a unique index in the DB for the account username.
-        accountSchema.index("username", { unique: true });
-
-        AccountModel = this.mongoose.model("Account", accountSchema);
-
         AccountModel.ensureIndexes((err) => {
-            if (err) return console.error(err);
+            Utils.message("ensuring indexes:", err);
+            if (err) return Utils.error(err);
+            return true;
         });
 
         AccountModel.on("index", (res, error) => {
             // "_id index cannot be sparse"
-            console.log("DB index res:", res);
-            console.log("DB index error:", error);
+            Utils.message("DB index res:", res);
+            Utils.message("DB index error:", error);
         });
-
-        // Testing document.
-        // const newAcc = new AccountModel({
-        //     username: "",
-        //     displayName: "",
-        //     password: ""
-        // });
-        //
-        // newAcc.save();
 
         // Log out all of the accounts, in case they were logged in the last time the server shut down,
         // otherwise some players will not be able to log in as their accounts are already logged in.
@@ -235,85 +200,82 @@ module.exports = {
 
         // Bank.
         const { bankItems } = account;
-        for (let i = 0, len = bankItems.length; i < len; i += 1) {
-            // Check the type of item to add is valid. Might have been removed (or renamed) since this player last logged in. Also checks for null.
-            if (ItemsList.BY_NAME[bankItems[i].itemTypeName] === undefined) {
-                continue;
+
+        bankItems.forEach((bankItem, i) => {
+            // Check the type of item to add is valid.
+            // Might have been removed since this player last logged in.
+            if (!ItemsList.BY_CODE[bankItem.itemTypeCode]) {
+                return;
             }
 
             entity.bankAccount.addItemToBankAccount(
                 i,
-                ItemsList.BY_NAME[bankItems[i].itemTypeName], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type name.
-                bankItems[i].durability,
-                bankItems[i].maxDurability,
+                ItemsList.BY_CODE[bankItem.itemTypeCode], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type code.
+                bankItem.durability,
+                bankItem.maxDurability,
             );
-        }
+        });
 
         // Inventory.
         const { inventory } = account;
-        for (const slotKey in inventory) {
-            if (inventory.hasOwnProperty(slotKey) === false) continue;
-            // Check the type of item to add is valid. Might have been removed (or renamed) since this player last logged in. Also checks for null.
-            if (ItemsList.BY_NAME[inventory[slotKey].itemTypeName] === undefined) continue;
+        Object.values(inventory).forEach((itemSlot) => {
+            // Check the type of item to add is valid. Might have been removed (or renamed) since this player last logged in.
+            if (!ItemsList.BY_CODE[itemSlot.itemTypeCode]) return;
 
-            entity.addToInventory(new ItemsList.BY_NAME[inventory[slotKey].itemTypeName]({
-                durability: inventory[slotKey].durability,
-                maxDurability: inventory[slotKey].maxDurability,
+            entity.addToInventory(new ItemsList.BY_CODE[itemSlot.itemTypeCode]({
+                durability: itemSlot.durability,
+                maxDurability: itemSlot.maxDurability,
             }));
-        }
+        });
 
         // Stats exp.
         const statsExp = account.stats;
-        for (const statKey in entity.stats) {
-            if (entity.stats.hasOwnProperty(statKey) === false) continue;
+        Object.entries(entity.stats).forEach(([statKey, stat]) => {
             // Check the account has exp data on that stat. A new stat might have been added to
             // the stat set since this player last logged in, so they won't have an entry for it.
-            if (statsExp[statKey] === undefined) continue;
+            // Allow 0.
+            if (!Number.isFinite(statsExp[statKey])) return;
             // Get the exp for each stat that this account has data on.
-            entity.stats[statKey].exp = statsExp[statKey];
-            entity.stats[statKey].calculateCurrentLevel();
-        }
+            stat.exp = statsExp[statKey];
+            stat.calculateCurrentLevel();
+        });
 
         // Tasks.
-        // Catch the case that no existing task progresses were loaded successfully, so they at least have the starting ones.
-        let addStartingTasks = true;
-        const savedTasks = account.tasks;
-
-        for (const savedTaskKey in savedTasks) {
-            if (savedTasks.hasOwnProperty(savedTaskKey) === false) continue;
+        Object.entries(account.tasks).forEach(([savedTaskKey, savedTask]) => {
             // Check the type of task to add is valid.
             // Might have been removed (or renamed) since this player last logged in.
-            if (TaskTypes[savedTaskKey] === undefined) continue;
+            if (!TaskTypes[savedTaskKey]) return;
 
-            const taskData = savedTasks[savedTaskKey];
             // Check the task has a list of reward item types. Might be malformed data.
-            if (taskData.rewardItemTypeNames === undefined) continue;
-            const rewardItemTypes = [];
-            for (let i = 0; i < taskData.rewardItemTypeNames.length; i += 1) {
+            if (!savedTask.rewardItemTypeCodes) return;
+
+            const rewardItemTypes = savedTask.rewardItemTypeCodes.map((rewardItemTypeCode) => {
                 // Check the item to add still exists.
-                // Might have been removed (or renamed) since this player last logged in.
-                if (ItemsList.BY_NAME[taskData.rewardItemTypeNames[i]] === undefined) {
+                // Might have been removed since this player last logged in.
+                if (ItemsList.BY_CODE[rewardItemTypeCode] === undefined) {
                     // Add something else instead to compensate.
-                    rewardItemTypes.push(Utils.getRandomElement(RewardsList));
-                    continue;
+                    return Utils.getRandomElement(RewardsList);
                 }
 
-                rewardItemTypes.push(ItemsList.BY_NAME[taskData.rewardItemTypeNames[i]]);
-            }
+                return ItemsList.BY_CODE[rewardItemTypeCode];
+            });
 
-            new Task.Task(entity, TaskTypes[savedTaskKey], taskData.progress, taskData.completionThreshold, rewardItemTypes, taskData.rewardGlory);
+            new Task.Task(
+                entity,
+                TaskTypes[savedTaskKey],
+                savedTask.progress,
+                savedTask.completionThreshold,
+                rewardItemTypes,
+                savedTask.rewardGlory,
+            );
+        });
 
-            // Assume everything is ok.
-            addStartingTasks = false;
-        }
-
+        // Catch the case that no existing task progresses were loaded successfully, so they at least have the starting ones.
         // If they don't have enough tasks for whatever reason, give them the starting ones.
         if (Object.keys(entity.tasks.list).length < 6) {
-            addStartingTasks = true;
+            // The owner has no task progress so far, give them the starting tasks.
+            entity.tasks.addStartingTasks();
         }
-
-        // The owner has no task progress so far, give them the starting tasks.
-        if (addStartingTasks === true) entity.tasks.addStartingTasks();
     },
 
     /**
@@ -328,7 +290,7 @@ module.exports = {
     saveAllPlayersData(wss) {
         const dataToSave = [];
         // Each connected client.
-        for (const clientSocket of wss.clients) {
+        wss.clients.forEach((clientSocket) => {
             // Skip clients that are not yet fully connected.
             if (clientSocket.readyState !== 1) return;
             // Skip clients that are not in game.
@@ -339,10 +301,9 @@ module.exports = {
                 // Add the username of the account this data belongs to, so the
                 // dump handler can find their document in the accounts DB.
                 playerData.accountUsername = clientSocket.accountUsername;
-
                 dataToSave.push(playerData);
             }
-        }
+        });
 
         try {
             // Write the data to a temporary local file.
@@ -353,6 +314,7 @@ module.exports = {
             fs.writeFileSync("./PlayerDataDump.json", JSON.stringify(dataToSave));
 
             // Create a new process
+            // eslint-disable-next-line global-require
             const { spawn } = require("child_process");
             const child = spawn("node", ["./PlayerDataDumpHandler.js"], {
                 shell: true,
@@ -362,7 +324,7 @@ module.exports = {
             child.unref();
         }
         catch (err) {
-            console.log(`Error writing PlayerDataDump.json:${err.message}`);
+            Utils.message("Error writing PlayerDataDump.json: ", err.message);
         }
 
         Utils.message("Logged in players account data saved.");
@@ -386,64 +348,50 @@ module.exports = {
 
         // Bank.
         data.bankItems = entity.bankAccount.items.map((bankItem) => ({
-            // Item type name.
-            itemTypeName: bankItem.itemTypeName,
-            // Durability.
+            itemTypeCode: bankItem.itemTypeCode,
+            quantity: bankItem.quantity,
             durability: bankItem.durability,
-            // Max durability.
             maxDurability: bankItem.maxDurability,
         }));
 
         // Inventory.
         data.inventory = {};
-        for (const slotKey in entity.inventory) {
-            if (entity.inventory.hasOwnProperty(slotKey) === false) continue;
-            // Skip empty (null) slots.
-            if (entity.inventory[slotKey] === null) continue;
-            data.inventory[slotKey] = {
-                // TODO: save by unique/unchanging item codes here, instead of class name, too brittle
-                // Item type name.
-                itemTypeName: entity.inventory[slotKey].typeName,
-                // Durability.
-                durability: entity.inventory[slotKey].durability,
-                // Max durability.
-                maxDurability: entity.inventory[slotKey].maxDurability,
-            };
-        }
+        // for (const slotKey in entity.inventory) {
+        //     if (entity.inventory.hasOwnProperty(slotKey) === false) continue;
+        //     // Skip empty (null) slots.
+        //     if (entity.inventory[slotKey] === null) continue;
+        //     data.inventory[slotKey] = {
+        //         // TODO: save by unique/unchanging item codes here, instead of class name, too brittle
+        //         // Item type name.
+        //         itemTypeName: entity.inventory[slotKey].typeName,
+        //         // Durability.
+        //         durability: entity.inventory[slotKey].durability,
+        //         // Max durability.
+        //         maxDurability: entity.inventory[slotKey].maxDurability,
+        //     };
+        // }
 
         // Stats exp.
         data.stats = {};
-        for (const statKey in entity.stats) {
-            if (entity.stats.hasOwnProperty(statKey) === false) continue;
-            data.stats[statKey] = entity.stats[statKey].exp;
-        }
+        Object.entries(entity.stats).forEach(([statKey, stat]) => {
+            data.stats[statKey] = stat.exp;
+        });
 
         // Tasks.
         data.tasks = {};
-        const tasksList = entity.tasks.list;
-        for (const taskKey in tasksList) {
-            if (tasksList.hasOwnProperty(taskKey) === false) continue;
-            /** @type {Task} */
-            const task = tasksList[taskKey];
-            // Can't save the class references, so save the class names.
-            const itemTypes = task.rewardItemTypes.map((rewardItemType) => rewardItemType.prototype.typeName);
+        Object.entries(entity.tasks.list).forEach(([taskKey, task]) => {
             data.tasks[taskKey] = {
                 taskID: task.taskType.taskID,
                 progress: task.progress,
                 completionThreshold: task.completionThreshold,
                 rewardGlory: task.rewardGlory,
-                rewardItemTypeNames: itemTypes,
+                // Can't save the class references, so save the codes.
+                rewardItemTypeCodes: task.rewardItemTypes.map(
+                    (rewardItemType) => rewardItemType.prototype.typeCode,
+                ),
             };
-        }
+        });
 
         return data;
     },
 };
-
-const fs = require("fs");
-const ItemsList = require("./ItemsList");
-const Task = require("./tasks/Task");
-const TaskTypes = require("./tasks/TaskTypes");
-const RewardsList = require("./tasks/RewardsList");
-const EventsList = require("./EventsList");
-const Utils = require("./Utils");

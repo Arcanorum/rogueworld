@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const img2LeafletTile = require("img2-leaflet-tiles");
-const Utils = require("./src/Utils");
+const Utils = require("../Utils");
 
 const outputPath = path.join(__dirname, "./map/leaflet-map"); // path to folder output
 

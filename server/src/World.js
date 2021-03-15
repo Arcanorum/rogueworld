@@ -1,7 +1,7 @@
 const { wss } = require("./Server");
 const Utils = require("./Utils");
 const settings = require("../settings");
-const AccountManager = require("./AccountManager");
+const AccountManager = require("./account/AccountManager");
 // const clanManager = require("./gameplay/ClanManager");
 const DungeonManager = require("./dungeon/DungeonManager");
 const DungeonManagersList = require("./dungeon/DungeonManagersList");

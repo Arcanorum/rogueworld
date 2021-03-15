@@ -1,6 +1,6 @@
 const fs = require("fs");
-const Utils = require("./Utils");
-const DungeonManagersList = require("./dungeon/DungeonManagersList");
+const Utils = require("../Utils");
+const DungeonManagersList = require("../dungeon/DungeonManagersList");
 
 module.exports = {
     /**
@@ -10,19 +10,16 @@ module.exports = {
     buildDungeonPrompts() {
         let dataToWrite = {};
 
-        for (const dungeonManagerID in DungeonManagersList.ByID) {
-            // Don't check prototype properties.
-            if (DungeonManagersList.ByID.hasOwnProperty(dungeonManagerID) === false) continue;
+        Object.values(DungeonManagersList.ByID).forEach((dungeonManager) => {
             // Add this dungeon info to the catalogue.
-            const dungeonManager = DungeonManagersList.ByID[dungeonManagerID];
-            dataToWrite[DungeonManagersList.ByID[dungeonManagerID].id] = {
+            dataToWrite[dungeonManager.id] = {
                 id: dungeonManager.id,
                 nameDefinitionID: dungeonManager.nameDefinitionID,
                 difficulty: dungeonManager.difficultyName,
                 gloryCost: dungeonManager.gloryCost,
                 maxPlayers: dungeonManager.maxPlayers,
             };
-        }
+        });
 
         // Turn the data into a string.
         dataToWrite = JSON.stringify(dataToWrite);

@@ -1,4 +1,4 @@
-const Utils = require("./Utils");
+const Utils = require("../Utils");
 
 (() => {
     const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
@@ -15,5 +15,6 @@ const Utils = require("./Utils");
     code += Utils.getRandomElement(numbers);
 
     Utils.message("Generated item code:");
+    // eslint-disable-next-line no-console
     console.log(code);
 })();

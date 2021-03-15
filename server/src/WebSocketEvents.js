@@ -8,7 +8,7 @@ const ValidDirections = require("./entities/Entity").prototype.OppositeDirection
 
 const Charter = undefined; // require("./entities/statics/interactables/breakables/crafting stations/Charter");
 const DungeonPortal = require("./entities/statics/interactables/DungeonPortal");
-const AccountManager = require("./AccountManager");
+const AccountManager = require("./account/AccountManager");
 
 const eventResponses = {};
 

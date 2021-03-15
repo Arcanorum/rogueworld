@@ -287,18 +287,26 @@ class CraftingStation extends Static {
 
         this.stationTypeNumber = config.data;
     }
+
+    onPressed() {
+        if (!this.isWithinPressableRange()) return;
+        // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+        if (GUIState.activePanel !== Panels.NONE) return;
+
+        GUIState.setCraftingStation(
+            this.stationTypeNumber,
+            this.name,
+            this.icon,
+        );
+        GUIState.setActivePanel(Panels.Crafting);
+    }
 }
 
 class Anvil extends CraftingStation {
-    onPressed() {
-        if (this.isWithinPressableRange()) {
-            GUIState.setCraftingStation(
-                this.stationTypeNumber,
-                Utils.getTextDef("Anvil"),
-                anvilIcon,
-            );
-            GUIState.setActivePanel(Panels.Crafting);
-        }
+    constructor(config) {
+        super(config);
+        this.name = Utils.getTextDef("Anvil");
+        this.icon = anvilIcon;
     }
 }
 
@@ -306,43 +314,24 @@ class Furnace extends CraftingStation {
     constructor(config) {
         super(config);
         this.spriteContainer.lightDistance = 4;
-    }
-
-    onPressed() {
-        if (this.isWithinPressableRange()) {
-            GUIState.setCraftingStation(
-                this.stationTypeNumber,
-                Utils.getTextDef("Furnace"),
-                furnaceIcon,
-            );
-            GUIState.setActivePanel(Panels.Crafting);
-        }
+        this.name = Utils.getTextDef("Furnace");
+        this.icon = furnaceIcon;
     }
 }
 
 class Laboratory extends CraftingStation {
-    onPressed() {
-        if (this.isWithinPressableRange()) {
-            GUIState.setCraftingStation(
-                this.stationTypeNumber,
-                Utils.getTextDef("Laboratory"),
-                laboratoryIcon,
-            );
-            GUIState.setActivePanel(Panels.Crafting);
-        }
+    constructor(config) {
+        super(config);
+        this.name = Utils.getTextDef("Laboratory");
+        this.icon = laboratoryIcon;
     }
 }
 
 class Workbench extends CraftingStation {
-    onPressed() {
-        if (this.isWithinPressableRange()) {
-            GUIState.setCraftingStation(
-                this.stationTypeNumber,
-                Utils.getTextDef("Workbench"),
-                workbenchIcon,
-            );
-            GUIState.setActivePanel(Panels.Crafting);
-        }
+    constructor(config) {
+        super(config);
+        this.name = Utils.getTextDef("Workbench");
+        this.icon = workbenchIcon;
     }
 }
 

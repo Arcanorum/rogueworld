@@ -106,7 +106,7 @@ function GUI() {
                   onClick={() => {
                       setShownPanel(Panels.Stats);
                   }}
-                  tooltipText={Utils.getTextDef("Avatar tooltip")}
+                  tooltipText={Utils.getTextDef("Stats tooltip")}
                 />
                 <PanelButton
                   icon={tasksIcon}
@@ -135,7 +135,7 @@ function GUI() {
                           setShownPanel(Panels.CreateAccount);
                       }
                   }}
-                  tooltipText={Utils.getTextDef("Exit tooltip")}
+                  tooltipText={Utils.getTextDef("Account tooltip")}
                 />
 
                 <PanelButton

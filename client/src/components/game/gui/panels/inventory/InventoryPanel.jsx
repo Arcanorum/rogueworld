@@ -63,7 +63,7 @@ function DropOptions({ itemConfig, onCursorLeave }) {
                 <div className="button clear" onClick={() => { setDropQuantity(1); }}>x</div>
                 <input className="button" type="number" min="1" value={dropQuantity} onChange={inputChanged} />
             </div>
-            <div className="button options-drop" onClick={dropPressed}>Drop</div>
+            <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>
         </div>
     );
 }
@@ -144,14 +144,14 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
             </div>
             {!showDropOptions && (
             <div className="buttons">
-                {hasUseEffect && inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>Remove from hotbar</div>}
-                {hasUseEffect && hotbarFull && !inHotbar && <div className="button options-full-hotbar">Hotbar full</div>}
-                {hasUseEffect && !hotbarFull && !inHotbar && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>Add to hotbar</div>}
-                {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className="button options-equip" onClick={quickEquipPressed}>Quick equip</div>}
-                {hasUseEffect && !isEquippable && <div className="button options-equip" onClick={quickUsePressed}>Quick use</div>}
-                {itemConfig.durability && <div className="button options-drop" onClick={dropPressed}>Drop</div>}
-                {itemConfig.quantity > 1 && <div className="button options-drop" onClick={() => { setShowDropOptions(true); }}>Drop</div>}
-                {itemConfig.quantity === 1 && <div className="button options-drop" onClick={dropPressed}>Drop</div>}
+                {hasUseEffect && inHotbar && <div className="button options-remove-hotbar" onClick={removeFromHotbarPressed}>{Utils.getTextDef("Remove from hotbar")}</div>}
+                {hasUseEffect && hotbarFull && !inHotbar && <div className="button options-full-hotbar">{Utils.getTextDef("Hotbar full")}</div>}
+                {hasUseEffect && !hotbarFull && !inHotbar && <div className="button options-add-hotbar" onClick={addToHotbarPressed}>{Utils.getTextDef("Add to hotbar")}</div>}
+                {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className="button options-equip" onClick={quickEquipPressed}>{Utils.getTextDef("Quick equip")}</div>}
+                {hasUseEffect && !isEquippable && <div className="button options-equip" onClick={quickUsePressed}>{Utils.getTextDef("Quick use")}</div>}
+                {itemConfig.durability && <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>}
+                {itemConfig.quantity > 1 && <div className="button options-drop" onClick={() => { setShowDropOptions(true); }}>{Utils.getTextDef("Drop")}</div>}
+                {itemConfig.quantity === 1 && <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>}
             </div>
             )}
             {showDropOptions && (
@@ -288,7 +288,7 @@ function InventoryPanel({ onCloseCallback }) {
                         <div
                           className="weight"
                           onMouseEnter={() => {
-                              GUIState.setTooltipContent(Utils.getTextDef("Total inventory weight"));
+                              GUIState.setTooltipContent(Utils.getTextDef("Inventory weight"));
                           }}
                           onMouseLeave={() => {
                               GUIState.setTooltipContent(null);
@@ -321,7 +321,7 @@ function InventoryPanel({ onCloseCallback }) {
                               onClick={onItemPressed}
                             />
                         ))}
-                        {searchText && !searchItems.length && <div className="warning">No items found.</div>}
+                        {searchText && !searchItems.length && <div className="warning">{Utils.getTextDef("No items found")}</div>}
                         {!searchText && items.map((item) => (
                             <ItemSlot
                               key={item.id}
@@ -329,7 +329,7 @@ function InventoryPanel({ onCloseCallback }) {
                               onClick={onItemPressed}
                             />
                         ))}
-                        {!searchText && !items.length && <div className="warning">Inventory is empty.</div>}
+                        {!searchText && !items.length && <div className="warning">{Utils.getTextDef("Empty inventory")}</div>}
                     </div>
                 </div>
             </PanelTemplate>

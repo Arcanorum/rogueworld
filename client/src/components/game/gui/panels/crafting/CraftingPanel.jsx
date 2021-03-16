@@ -149,7 +149,7 @@ RecipeSlot.propTypes = {
 
 function CraftingPanel({ onCloseCallback }) {
     const [items, setItems] = useState(InventoryState.items);
-    const [recipes, setRecipes] = useState(CraftingRecipes.filter((recipe) => {
+    const [recipes] = useState(CraftingRecipes.filter((recipe) => {
         // Get all of the recipes that are valid at this crafting station type.
         if (recipe.stationTypeNumbers.some(
             (stationTypeNumber) => stationTypeNumber === GUIState.craftingStation.typeNumber,
@@ -239,7 +239,7 @@ function CraftingPanel({ onCloseCallback }) {
                             <div
                               className="weight"
                               onMouseEnter={() => {
-                                  GUIState.setTooltipContent(Utils.getTextDef("Total inventory weight"));
+                                  GUIState.setTooltipContent(Utils.getTextDef("Inventory weight"));
                               }}
                               onMouseLeave={() => {
                                   GUIState.setTooltipContent(null);
@@ -274,7 +274,7 @@ function CraftingPanel({ onCloseCallback }) {
                                   onClick={onRecipePressed}
                                 />
                             ))}
-                            {searchText && !searchRecipes.length && <div className="warning">No items found.</div>}
+                            {searchText && !searchRecipes.length && <div className="warning">{Utils.getTextDef("No items found")}</div>}
                             {!searchText && recipes.map((recipe) => (
                                 <RecipeSlot
                                   key={recipe.id}
@@ -283,7 +283,7 @@ function CraftingPanel({ onCloseCallback }) {
                                   onClick={onRecipePressed}
                                 />
                             ))}
-                            {!searchText && !recipes.length && <div className="warning">No crafting options available.</div>}
+                            {!searchText && !recipes.length && <div className="warning">{Utils.getTextDef("No crafting options")}</div>}
                         </div>
                     </div>
                     <div className={`selection-cont ${selectedRecipe ? "" : "unselected"}`}>
@@ -313,7 +313,7 @@ function CraftingPanel({ onCloseCallback }) {
                                       className="info"
                                       draggable={false}
                                       onMouseEnter={() => {
-                                          GUIState.setTooltipContent("Show item details");
+                                          GUIState.setTooltipContent(Utils.getTextDef("Show item details"));
                                       }}
                                       onMouseLeave={() => {
                                           GUIState.setTooltipContent(null);

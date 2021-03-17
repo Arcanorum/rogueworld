@@ -57,6 +57,11 @@ const populateList = () => {
                 }
             });
 
+            // Check all of the ingredients have a quantity set, or default to 1.
+            config.ingredients.forEach((ingredient) => {
+                if (!ingredient.quantity) ingredient.quantity = 1;
+            });
+
             // Check the exp given is a positive number.
             if (config.expGiven && (
                 !Number.isFinite(config.expGiven) || config.expGiven < 0)
@@ -69,8 +74,10 @@ const populateList = () => {
                 let totalIngredientsExp = 0;
 
                 config.ingredients.forEach((ingredient) => {
+                    const IngredientType = ItemsList.BY_NAME[ingredient.itemName];
+
                     totalIngredientsExp += (
-                        ItemsList.BY_NAME[ingredient.itemName].prototype.craftingExpValue
+                        IngredientType.prototype.craftingExpValue
                         * ingredient.quantity
                     );
                 });

@@ -3,7 +3,7 @@ const path = require("path");
 const img2LeafletTile = require("img2-leaflet-tiles");
 const Utils = require("../Utils");
 
-const outputPath = path.join(__dirname, "./map/leaflet-map"); // path to folder output
+const outputPath = path.join(__dirname, "./../../map/leaflet-map"); // path to folder output
 
 // check if outputPath already exists
 fs.stat(outputPath, async (err, stat) => {
@@ -14,7 +14,7 @@ fs.stat(outputPath, async (err, stat) => {
         Utils.message("leaflet-map folder not found, creating...");
         Utils.message("this may take a while...");
 
-        const inputPath = path.join(__dirname, "./map/overworld.png"); // path to input image
+        const inputPath = path.join(__dirname, "./../../map/overworld.png"); // path to input image
 
         const zoomLevels = [
             [1, 2048], // 2048 x 2048

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --exec npm start",
-    "build-map": "node GenerateLeafletMap.js",
+    "build-map": "node src/scripts/GenerateLeafletMap.js",
     "lint": "eslint 'src/**' --fix"
   },
   "keywords": [],

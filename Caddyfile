@@ -8,3 +8,4 @@ file_server
 	header Upgrade    websocket
 }
 reverse_proxy @websockets localhost:4567
+reverse_proxy /map/* localhost:4567

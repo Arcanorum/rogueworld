@@ -223,6 +223,31 @@
                     }
                 }
             }
+
+            .details {
+                position: absolute;
+                top: 0;
+                background-color: $colourDB32VeryDarkPurpleOpacity80;
+                color: white;
+                padding: 16px;
+                margin: 8px;
+                display: flex;
+                align-content: space-between;
+                justify-content:right;
+                flex-direction: column;
+                text-align: center;
+
+                .name {
+                    font-weight: bold;
+                    padding-bottom: 10px;
+                    margin-bottom: 10px;
+                    font-size: 1em;
+                }
+
+                .description {
+                    font-size: 0.8em;
+                }
+            }
         }
     }
 }

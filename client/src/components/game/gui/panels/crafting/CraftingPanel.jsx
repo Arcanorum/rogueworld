@@ -164,6 +164,7 @@ function CraftingPanel({ onCloseCallback }) {
     const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [playerHasIngredients, setPlayerHasIngredients] = useState(false);
+    const [showItemDetails, setShowItemDetails] = useState(true);
 
     const onRecipePressed = (recipe) => {
         setSelectedRecipe(recipe);
@@ -183,6 +184,8 @@ function CraftingPanel({ onCloseCallback }) {
         else {
             setPlayerHasIngredients(false);
         }
+
+        setShowItemDetails(false);
     }, [selectedRecipe, items]);
 
     useEffect(() => {
@@ -312,6 +315,7 @@ function CraftingPanel({ onCloseCallback }) {
                                       src={infoIcon}
                                       className="info"
                                       draggable={false}
+                                      onClick={() => { setShowItemDetails(true); }}
                                       onMouseEnter={() => {
                                           GUIState.setTooltipContent(Utils.getTextDef("Show item details"));
                                       }}
@@ -345,6 +349,16 @@ function CraftingPanel({ onCloseCallback }) {
                             />
                             <div>{(selectedRecipe && playerHasIngredients) ? Utils.getTextDef("Craft") : ""}</div>
                         </div>
+                        {selectedRecipe && showItemDetails && (
+                        <div className="details" onMouseLeave={() => { setShowItemDetails(false); }}>
+                            <div className="name">
+                                {Utils.getTextDef(`Item name: ${ItemTypes[selectedRecipe.result.itemTypeCode].translationID}`)}
+                            </div>
+                            <div className="description">
+                                {Utils.getTextDef(`Item description: ${ItemTypes[selectedRecipe.result.itemTypeCode].translationID}`)}
+                            </div>
+                        </div>
+                        )}
                     </div>
                 </div>
             </PanelTemplate>

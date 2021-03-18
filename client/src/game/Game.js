@@ -56,6 +56,8 @@ class Game extends Phaser.Scene {
         PlayerState.setDefence(playerData.defence);
         PlayerState.setStats(playerData.stats);
         PlayerState.setTasks(playerData.tasks);
+        InventoryState.setWeight(data.inventory.weight);
+        InventoryState.setMaxWeight(data.inventory.maxWeight);
 
         ApplicationState.setLoggedIn(data.isLoggedIn);
 

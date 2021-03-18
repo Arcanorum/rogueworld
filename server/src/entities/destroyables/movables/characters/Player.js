@@ -147,28 +147,6 @@ class Player extends Character {
         return super.getEmittableProperties(properties);
     }
 
-    /**
-     * Returns all of the items in the player's inventory, in a form that is ready to be emitted.
-     * @returns {Array}
-     */
-    getEmittableInventory() {
-        const emittableInventory = [];
-        let item;
-
-        // TODO: items refactor, move to inventory class
-        // for (const slotKey in this.inventory) {
-        //     if (this.inventory.hasOwnProperty(slotKey) === false) continue;
-        //     // Skip empty slots.
-        //     if (this.inventory[slotKey] === null) continue;
-        //     item = this.inventory[slotKey];
-        //     emittableInventory.push({
-        //         typeCode: item.typeCode, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability,
-        //     });
-        // }
-
-        return emittableInventory;
-    }
-
     respawn() {
         this.hitPoints = this.maxHitPoints;
         this.energy = this.maxEnergy;

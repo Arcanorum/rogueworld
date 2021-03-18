@@ -197,7 +197,7 @@ const world = {
     getPlayerDataToSend(playerEntity) {
         const dataToSend = {};
 
-        dataToSend.inventory = playerEntity.getEmittableInventory();
+        dataToSend.inventory = playerEntity.inventory.getEmittableInventory();
         dataToSend.bankItems = playerEntity.bankAccount.getEmittableItems();
         dataToSend.boardName = playerEntity.board.name;
         dataToSend.boardAlwaysNight = playerEntity.board.alwaysNight;

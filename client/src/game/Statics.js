@@ -342,9 +342,11 @@ class BankChest extends Static {
     }
 
     onPressed() {
-        if (this.isWithinPressableRange()) {
-            dungeonz.gameScene.GUI.bankPanel.show();
-        }
+        if (!this.isWithinPressableRange()) return;
+        // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+        if (GUIState.activePanel !== Panels.NONE) return;
+
+        GUIState.setActivePanel(Panels.Bank);
     }
 }
 

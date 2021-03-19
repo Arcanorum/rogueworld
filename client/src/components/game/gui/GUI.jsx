@@ -34,6 +34,7 @@ import Tooltip from "./tooltip/Tooltip";
 import Panels from "./panels/PanelsEnum";
 import Hotbar from "./hotbar/Hotbar";
 import CraftingPanel from "./panels/crafting/CraftingPanel";
+import BankPanel from "./panels/bank/BankPanel";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -211,6 +212,11 @@ function GUI() {
                 )}
                 {shownPanel === Panels.Crafting && (
                 <CraftingPanel
+                  onCloseCallback={closePanelCallback}
+                />
+                )}
+                {shownPanel === Panels.Bank && (
+                <BankPanel
                   onCloseCallback={closePanelCallback}
                 />
                 )}

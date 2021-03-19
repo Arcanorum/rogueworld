@@ -1,0 +1,162 @@
+@import "../../../../../shared/Variables";
+
+.bank-panel {
+    background-color: $colourDB32SteelGreyOpacity80;
+
+    .inner-cont {
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr);
+        height: 100%;
+
+        .top-bar {
+            height: 50px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            justify-items: center;
+            color: black;
+            background-color: $colourDB32IronGreyOpacity80;
+            border-bottom: 8px solid $colourDB32VeryDarkPurple;
+
+            .button {
+                height: 65%;
+
+                &.deposit {
+                    justify-self: end;
+                }
+
+                &.buy {
+                    justify-self: start;
+                }
+            }
+
+            .search {
+                justify-self: right;
+                margin-left: 10px;
+                margin-right: 30px;
+                height: 50%;
+
+                input {
+                    width: 100%;
+                    height: 100%;
+                    letter-spacing: 0.1em;
+                    font-family: 'Press Start 2P', cursive;
+                    border: #fff solid 1px;
+                    padding-left: 14px;
+                }
+            }
+        }
+
+        .headers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            .header {
+                position: relative;
+                background-color: $colourDB32GreyOpacity50;
+                text-align: center;
+                border-bottom: solid 8px $colourDB32VeryDarkPurple;
+                padding: 4px;
+                
+                .col-name {
+                    position: absolute;
+                    font-size: 1.2rem;
+                    text-align: center;
+                    top: -14px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+
+                .weight {
+                    margin-left: 10px;
+                    
+                    img {
+                        // margin-top: 4px;
+                    }
+                    
+                    span {
+                        font-size: 1.4rem;
+                        margin-left: 10px;
+                        text-align: left;
+                    }
+                }
+            }
+
+            .inventory {
+                border-right: solid 8px $colourDB32VeryDarkPurple;
+            }
+
+            .storage {
+                border-left: solid 8px $colourDB32VeryDarkPurple;
+            }
+        }
+
+        .cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            
+            .list {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                overflow-y: auto;
+                padding: 4px;
+                height: auto;
+
+                .item-slot {
+                    position: relative;
+                    
+                    .details {
+                        position: relative;
+                        width: 64px;
+                        height: 64px;
+                        background-color: $colourDB32IronGreyOpacity50;
+                        border: 4px solid $colourDB32VeryDarkPurpleOpacity80;
+                        margin: 4px;
+    
+                        &:hover {
+                            transform: scale(1.1);
+                            filter: brightness(150%);
+                        }
+            
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+    
+                        div {
+                            position: absolute;
+                            text-align: right;
+                            right: 0;
+                            bottom: 0;
+                            font-size: 18px;
+                        }
+                        
+                        .small {
+                            font-size: 14px;
+                        }
+                    }
+    
+                    .in-hotbar {
+                        background-color: $colourDB32LightblueOpacity50;
+                    }
+                }
+    
+                .warning {
+                    color: $colourDB32DarkGrey;
+                    width: 100%;
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+            }
+
+            .inventory {
+                border-right: solid 8px $colourDB32VeryDarkPurple;
+            }
+
+            .storage {
+                border-left: solid 8px $colourDB32VeryDarkPurple;
+            }
+        }
+    }
+}

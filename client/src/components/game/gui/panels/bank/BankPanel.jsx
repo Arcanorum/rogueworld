@@ -70,6 +70,8 @@ function BankPanel({ onCloseCallback }) {
     const [searchText, setSearchText] = useState("");
     const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
     const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [storageWeight, setStorageWeight] = useState(BankState.weight);
+    const [storageMaxWeight, setStorageMaxWeight] = useState(BankState.maxWeight);
     const [selectedItem, setSelectedItem] = useState(null);
 
     const onItemPressed = (item) => {
@@ -182,7 +184,7 @@ function BankPanel({ onCloseCallback }) {
                                   height="32px"
                                 />
                                 <span className="high-contrast-text">
-                                    {`${inventoryWeight}/${inventoryMaxWeight}`}
+                                    {`${storageWeight}/${storageMaxWeight}`}
                                 </span>
                             </div>
                         </div>

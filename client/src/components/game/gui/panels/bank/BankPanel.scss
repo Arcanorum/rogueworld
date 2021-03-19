@@ -53,8 +53,9 @@
 
             .header {
                 position: relative;
+                display: flex;
+                justify-content: center;
                 background-color: $colourDB32GreyOpacity50;
-                text-align: center;
                 border-bottom: solid 8px $colourDB32VeryDarkPurple;
                 padding: 4px;
                 

@@ -1,26 +1,30 @@
 import Application from "./Application";
-import Player from "./Player";
-import Inventory from "./Inventory";
+import Bank from "./Bank";
 import GUI from "./GUI";
+import Inventory from "./Inventory";
+import Player from "./Player";
 import dungeonz from "../Global";
 
 export const ApplicationState = new Application();
-export const PlayerState = new Player();
-export const InventoryState = new Inventory();
+export const BankState = new Bank();
 export const GUIState = new GUI();
+export const InventoryState = new Inventory();
+export const PlayerState = new Player();
 
 export const resetStates = () => {
     ApplicationState.init();
-    PlayerState.init();
-    InventoryState.init();
+    BankState.init();
     GUIState.init();
+    InventoryState.init();
+    PlayerState.init();
 };
 
 dungeonz.states = {
     ApplicationState,
-    PlayerState,
-    InventoryState,
+    BankState,
     GUIState,
+    InventoryState,
+    PlayerState,
     resetStates,
 };
 

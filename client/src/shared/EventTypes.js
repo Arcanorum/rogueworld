@@ -48,6 +48,11 @@ export const HOLDING_ITEM = Symbol("HOLDING_ITEM");
 export const AMMUNITION_ITEM = Symbol("AMMUNITION_ITEM");
 export const CLOTHING_ITEM = Symbol("CLOTHING_ITEM");
 
+// Bank.
+export const ADD_BANK_ITEM = Symbol("ADD_BANK_ITEM");
+export const REMOVE_BANK_ITEM = Symbol("REMOVE_BANK_ITEM");
+export const MODIFY_BANK_ITEM = Symbol("MODIFY_BANK_ITEM");
+
 // GUI.
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
 export const CURSOR_MOVE = Symbol("CURSOR_MOVE");

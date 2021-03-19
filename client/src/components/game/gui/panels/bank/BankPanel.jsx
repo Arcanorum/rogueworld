@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import PubSub from "pubsub-js";
 import Utils from "../../../../../shared/Utils";
 import PanelTemplate from "../panel_template/PanelTemplate";
-import { GUIState, InventoryState } from "../../../../../shared/state/States";
+import { BankState, GUIState, InventoryState } from "../../../../../shared/state/States";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
@@ -11,10 +11,9 @@ import bankIcon from "../../../../../assets/images/gui/panels/bank/bank-chest.pn
 import depositIcon from "../../../../../assets/images/gui/panels/bank/deposit-all-icon.png";
 import buyIcon from "../../../../../assets/images/gui/panels/bank/buy-storage-icon.png";
 import "./BankPanel.scss";
+import ItemTooltip from "../../item_tooltip/ItemTooltip";
 
 function ItemSlot({ itemConfig, onClick }) {
-    // const [inHotbar, setInHotbar] = useState(isItemInHotbar(itemConfig));
-
     useEffect(() => {
         const subs = [
             // PubSub.subscribe(MODIFY_ITEM, () => {
@@ -36,7 +35,7 @@ function ItemSlot({ itemConfig, onClick }) {
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
-                      //   <ItemTooltip itemTypeCode={itemConfig.typeCode} />,
+                      <ItemTooltip itemTypeCode={itemConfig.typeCode} />,
                   );
               }}
               onMouseLeave={() => {
@@ -65,7 +64,7 @@ ItemSlot.propTypes = {
 
 function BankPanel({ onCloseCallback }) {
     const [inventoryItems, setInventoryItems] = useState(InventoryState.items);
-    const [storageItems, setStorageItems] = useState(InventoryState.items);
+    const [storageItems, setStorageItems] = useState(BankState.items);
     const [searchInventoryItems, setSearchInventoryItems] = useState([]);
     const [searchStorageItems, setSearchStorageItems] = useState([]);
     const [searchText, setSearchText] = useState("");

@@ -108,7 +108,19 @@ function BankPanel({ onCloseCallback }) {
             >
                 <div className="inner-cont">
                     <div className="top-bar">
-                        <img src={depositIcon} className="button deposit" />
+                        <img
+                          src={depositIcon}
+                          className="button deposit"
+                          draggable={false}
+                          onMouseEnter={() => {
+                              GUIState.setTooltipContent(
+                                  Utils.getTextDef("Deposit all items"),
+                              );
+                          }}
+                          onMouseLeave={() => {
+                              GUIState.setTooltipContent(null);
+                          }}
+                        />
                         <div className="search">
                             <input
                               placeholder={Utils.getTextDef("Item search")}
@@ -118,7 +130,19 @@ function BankPanel({ onCloseCallback }) {
                               autoFocus
                             />
                         </div>
-                        <img src={buyIcon} className="button buy" />
+                        <img
+                          src={buyIcon}
+                          className="button buy"
+                          draggable={false}
+                          onMouseEnter={() => {
+                              GUIState.setTooltipContent(
+                                  Utils.getTextDef("Buy bank space"),
+                              );
+                          }}
+                          onMouseLeave={() => {
+                              GUIState.setTooltipContent(null);
+                          }}
+                        />
                     </div>
                     <div className="headers">
                         <div className="header inventory">

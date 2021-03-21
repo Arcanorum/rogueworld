@@ -25,13 +25,15 @@ import {
     MODIFY_BANK_WEIGHT,
 } from "../../../../../shared/EventTypes";
 
-const canDepositItem = (itemConfig) => {
+const canDepositItem = (itemConfig, quantity) => {
     if (!itemConfig) return false;
 
-    // For stackables, check if at least one unit of the stack can fit.
+    // For stackables, check if at least one unit of the stack can fit, or a specific amount if given.
     if (itemConfig.quantity) {
+        // Allow 0.
+        if (!Number.isFinite(quantity)) quantity = 1;
         return (
-            itemConfig.totalWeight / itemConfig.quantity
+            (itemConfig.totalWeight / itemConfig.quantity) * quantity
         ) <= (
             BankState.maxWeight - BankState.weight
         );
@@ -50,9 +52,9 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
         if (depositQuantity > itemConfig.quantity) {
             setDepositQuantity(itemConfig.quantity);
         }
-        // Prevent negative deposit amount. They will want to deposit at least 1.
-        if (depositQuantity < 1) {
-            setDepositQuantity(1);
+        // Prevent negative deposit amount.
+        if (depositQuantity < 0) {
+            setDepositQuantity(0);
         }
     }, [depositQuantity]);
 
@@ -94,7 +96,8 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 </div>
                 {itemConfig.durability && <div className="detail">{`${itemConfig.durability}/${itemConfig.maxDurability}`}</div>}
                 {itemConfig.quantity && <div className="detail">{`x${itemConfig.quantity}`}</div>}
-                <div className={`detail ${canDepositItem(itemConfig) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>
+                {itemConfig.durability && <div className={`detail ${canDepositItem(itemConfig) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
+                {itemConfig.quantity && <div className={`detail ${canDepositItem(itemConfig, depositQuantity) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>
@@ -114,10 +117,11 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                             <div className="number-button options-remove-100" onClick={() => { modDepositQuantity(-100); }}>-100</div>
                         </div>
                         <div className="input-bar">
-                            <div className="button clear" onClick={() => { setDepositQuantity(1); }}>x</div>
-                            <input className="button" type="number" min="1" value={depositQuantity} onChange={inputChanged} />
+                            <div className="button clear" onClick={() => { setDepositQuantity(0); }}>x</div>
+                            <input className="button" type="number" min="0" value={depositQuantity} onChange={inputChanged} />
                         </div>
-                        <div className="button options-deposit" onClick={depositPressed}>{Utils.getTextDef("Deposit")}</div>
+                        {depositQuantity > 0 && <div className="button options-deposit" onClick={depositPressed}>{Utils.getTextDef("Deposit")}</div>}
+                        {depositQuantity <= 0 && <div className="button options-no-space">{Utils.getTextDef("Deposit")}</div>}
                     </>
                 )}
                 {!canDepositItem(itemConfig) && <div className="button options-no-space" onClick={depositPressed}>?Not enough free space</div>}

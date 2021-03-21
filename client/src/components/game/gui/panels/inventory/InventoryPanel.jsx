@@ -28,9 +28,9 @@ function DropOptions({ itemConfig, onCursorLeave }) {
         if (dropQuantity > itemConfig.quantity) {
             setDropQuantity(itemConfig.quantity);
         }
-        // Prevent negative drop amount. They will want to drop at least 1.
-        if (dropQuantity < 1) {
-            setDropQuantity(1);
+        // Prevent negative drop amount.
+        if (dropQuantity < 0) {
+            setDropQuantity(0);
         }
     }, [dropQuantity]);
 
@@ -64,10 +64,11 @@ function DropOptions({ itemConfig, onCursorLeave }) {
                 <div className="number-button options-remove-100" onClick={() => { modDropQuantity(-100); }}>-100</div>
             </div>
             <div className="input-bar">
-                <div className="button clear" onClick={() => { setDropQuantity(1); }}>x</div>
-                <input className="button" type="number" min="1" value={dropQuantity} onChange={inputChanged} />
+                <div className="button clear" onClick={() => { setDropQuantity(0); }}>x</div>
+                <input className="button" type="number" min="0" value={dropQuantity} onChange={inputChanged} />
             </div>
-            <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>
+            {dropQuantity > 0 && <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>}
+            {dropQuantity <= 0 && <div className="button options-full-hotbar">{Utils.getTextDef("Drop")}</div>}
         </div>
     );
 }

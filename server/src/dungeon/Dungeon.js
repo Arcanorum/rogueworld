@@ -144,6 +144,7 @@ class Dungeon {
 
 module.exports = Dungeon;
 
+// TODO: move up
 const Board = require("../board/Board");
 const BoardsList = require("../board/BoardsList");
 const Exit = require("../entities/statics/interactables/exits/Exit");

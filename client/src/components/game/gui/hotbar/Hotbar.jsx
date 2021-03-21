@@ -6,7 +6,10 @@ import ItemTypes from "../../../../catalogues/ItemTypes.json";
 import {
     AMMUNITION_ITEM,
     CLOTHING_ITEM,
-    HOLDING_ITEM, HOTBAR_ITEM, MODIFY_ITEM, PANEL_CHANGE,
+    HOLDING_ITEM,
+    HOTBAR_ITEM,
+    MODIFY_INVENTORY_ITEM,
+    PANEL_CHANGE,
 } from "../../../../shared/EventTypes";
 import { ApplicationState, GUIState, InventoryState } from "../../../../shared/state/States";
 import "./Hotbar.scss";
@@ -119,7 +122,7 @@ function Hotbar() {
             PubSub.subscribe(HOTBAR_ITEM, () => {
                 setHotbarItems([...InventoryState.hotbar]);
             }),
-            PubSub.subscribe(MODIFY_ITEM, () => {
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
                 setHotbarItems([...InventoryState.hotbar]);
             }),
         ];

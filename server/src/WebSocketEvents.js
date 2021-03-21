@@ -416,18 +416,18 @@ eventResponses.craft_item = function (clientSocket, data) {
 
 /**
  * @param {*} clientSocket
- * @param {String} data.inventorySlotKey
- * @param {Number} data.bankSlotIndex
+ * @param {Number} data.slotIndex
+ * @param {Number} data.quantity
  */
-// eventResponses.bank_deposit_item = function (clientSocket, data) {
-//     // console.log("bank_deposit_item, data:", data);
-//     if (!data) return;
-//     if (clientSocket.inGame === false) return;
-//     // Ignore this event if they are dead.
-//     if (clientSocket.entity.hitPoints <= 0) return;
+eventResponses.bank_deposit_item = (clientSocket, data) => {
+    console.log("bank_deposit_item, data:", data);
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    if (clientSocket.entity.hitPoints <= 0) return;
 
-//     clientSocket.entity.bankAccount.depositItem(data.inventorySlotKey, data.bankSlotIndex);
-// };
+    clientSocket.entity.bank.depositItem(data.slotIndex, data.quantity);
+};
 
 /**
  * @param {*} clientSocket
@@ -441,7 +441,7 @@ eventResponses.craft_item = function (clientSocket, data) {
 //     // Ignore this event if they are dead.
 //     if (clientSocket.entity.hitPoints <= 0) return;
 
-//     clientSocket.entity.bankAccount.withdrawItem(data.bankSlotIndex, data.inventorySlotKey);
+//     clientSocket.entity.bank.withdrawItem(data.bankSlotIndex, data.inventorySlotKey);
 // };
 
 /**
@@ -455,7 +455,7 @@ eventResponses.craft_item = function (clientSocket, data) {
 //     // Ignore this event if they are dead.
 //     if (clientSocket.entity.hitPoints <= 0) return;
 
-//     clientSocket.entity.bankAccount.swapItems(data.fromSlotIndex, data.toSlotIndex);
+//     clientSocket.entity.bank.swapItems(data.fromSlotIndex, data.toSlotIndex);
 // };
 
 /**

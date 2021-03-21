@@ -8,7 +8,7 @@ import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 import {
-    ApplicationState, GUIState, InventoryState, PlayerState, resetStates,
+    ApplicationState, BankState, GUIState, InventoryState, PlayerState, resetStates,
 } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
@@ -56,8 +56,11 @@ class Game extends Phaser.Scene {
         PlayerState.setDefence(playerData.defence);
         PlayerState.setStats(playerData.stats);
         PlayerState.setTasks(playerData.tasks);
+        // TODO: load saved items
         InventoryState.setWeight(data.inventory.weight);
         InventoryState.setMaxWeight(data.inventory.maxWeight);
+        BankState.setWeight(data.bank.weight);
+        BankState.setMaxWeight(data.bank.maxWeight);
 
         ApplicationState.setLoggedIn(data.isLoggedIn);
 

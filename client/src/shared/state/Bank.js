@@ -1,6 +1,6 @@
 import PubSub from "pubsub-js";
 import {
-    ADD_BANK_ITEM, REMOVE_BANK_ITEM, MODIFY_BANK_ITEM,
+    ADD_BANK_ITEM, REMOVE_BANK_ITEM, MODIFY_BANK_ITEM, MODIFY_BANK_WEIGHT, MODIFY_BANK_MAX_WEIGHT,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -15,6 +15,18 @@ class Bank {
         this.weight = 0;
 
         this.maxWeight = 0;
+    }
+
+    setWeight(value) {
+        this.weight = value;
+
+        PubSub.publish(MODIFY_BANK_WEIGHT, { new: value });
+    }
+
+    setMaxWeight(value) {
+        this.maxWeight = value;
+
+        PubSub.publish(MODIFY_BANK_MAX_WEIGHT, { new: value });
     }
 
     addToBank(itemConfig) {

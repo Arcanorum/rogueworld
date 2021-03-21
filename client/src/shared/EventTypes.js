@@ -38,11 +38,13 @@ export const CHAT_CLOSE = Symbol("CHAT_CLOSE");
 export const CHAT_OPEN = Symbol("CHAT_OPEN");
 
 // Inventory.
-export const ADD_ITEM = Symbol("ADD_ITEM");
-export const REMOVE_ITEM = Symbol("REMOVE_ITEM");
-export const REMOVE_ALL_ITEMS = Symbol("REMOVE_ALL_ITEMS");
-export const MODIFY_ITEM = Symbol("MODIFY_ITEM");
+export const ADD_INVENTORY_ITEM = Symbol("ADD_INVENTORY_ITEM");
+export const REMOVE_INVENTORY_ITEM = Symbol("REMOVE_INVENTORY_ITEM");
+export const REMOVE_ALL_INVENTORY_ITEMS = Symbol("REMOVE_ALL_INVENTORY_ITEMS");
+export const MODIFY_INVENTORY_ITEM = Symbol("MODIFY_INVENTORY_ITEM");
 export const MODIFY_INVENTORY_WEIGHT = Symbol("MODIFY_INVENTORY_WEIGHT");
+
+// Hotbar.
 export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");
 export const HOLDING_ITEM = Symbol("HOLDING_ITEM");
 export const AMMUNITION_ITEM = Symbol("AMMUNITION_ITEM");
@@ -52,6 +54,8 @@ export const CLOTHING_ITEM = Symbol("CLOTHING_ITEM");
 export const ADD_BANK_ITEM = Symbol("ADD_BANK_ITEM");
 export const REMOVE_BANK_ITEM = Symbol("REMOVE_BANK_ITEM");
 export const MODIFY_BANK_ITEM = Symbol("MODIFY_BANK_ITEM");
+export const MODIFY_BANK_WEIGHT = Symbol("MODIFY_BANK_WEIGHT");
+export const MODIFY_BANK_MAX_WEIGHT = Symbol("MODIFY_BANK_MAX_WEIGHT");
 
 // GUI.
 export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");

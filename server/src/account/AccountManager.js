@@ -199,22 +199,22 @@ module.exports = {
         entity.glory = Math.floor(account.glory);
 
         // Bank.
-        const { bankItems } = account;
+        // const { bankItems } = account;
 
-        bankItems.forEach((bankItem, i) => {
-            // Check the type of item to add is valid.
-            // Might have been removed since this player last logged in.
-            if (!ItemsList.BY_CODE[bankItem.itemTypeCode]) {
-                return;
-            }
+        // bankItems.forEach((bankItem, i) => {
+        //     // Check the type of item to add is valid.
+        //     // Might have been removed since this player last logged in.
+        //     if (!ItemsList.BY_CODE[bankItem.itemTypeCode]) {
+        //         return;
+        //     }
 
-            entity.bankAccount.addItemToBankAccount(
-                i,
-                ItemsList.BY_CODE[bankItem.itemTypeCode], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type code.
-                bankItem.durability,
-                bankItem.maxDurability,
-            );
-        });
+        //     entity.bank.addItemToBankAccount(
+        //         i,
+        //         ItemsList.BY_CODE[bankItem.itemTypeCode], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type code.
+        //         bankItem.durability,
+        //         bankItem.maxDurability,
+        //     );
+        // });
 
         // Inventory.
         const { inventory } = account;
@@ -347,7 +347,7 @@ module.exports = {
         data.glory = entity.glory;
 
         // Bank.
-        data.bankItems = entity.bankAccount.items.map((bankItem) => ({
+        data.bankItems = entity.bank.items.map((bankItem) => ({
             itemTypeCode: bankItem.itemTypeCode,
             quantity: bankItem.quantity,
             durability: bankItem.durability,

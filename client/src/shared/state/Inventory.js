@@ -1,14 +1,15 @@
 import PubSub from "pubsub-js";
 import ItemTypes from "../../catalogues/ItemTypes.json";
 import {
-    ADD_ITEM,
-    MODIFY_ITEM,
+    ADD_INVENTORY_ITEM,
+    MODIFY_INVENTORY_ITEM,
     MODIFY_INVENTORY_WEIGHT,
-    HOTBAR_ITEM, REMOVE_ITEM,
+    HOTBAR_ITEM,
+    REMOVE_INVENTORY_ITEM,
     HOLDING_ITEM,
     AMMUNITION_ITEM,
     CLOTHING_ITEM,
-    REMOVE_ALL_ITEMS,
+    REMOVE_ALL_INVENTORY_ITEMS,
 } from "../EventTypes";
 import gameConfig from "../GameConfig";
 import Utils from "../Utils";
@@ -40,7 +41,7 @@ class Inventory {
     addToInventory(itemConfig) {
         this.items.push(itemConfig);
 
-        PubSub.publish(ADD_ITEM, itemConfig);
+        PubSub.publish(ADD_INVENTORY_ITEM, itemConfig);
 
         // Only add automatically if the setting for it is set.
         if (gameConfig.addToHotbar) {
@@ -69,7 +70,7 @@ class Inventory {
             eachItem.slotIndex = index;
         });
 
-        PubSub.publish(REMOVE_ITEM, item);
+        PubSub.publish(REMOVE_INVENTORY_ITEM, item);
 
         // Remove it from the hotbar if it was on it.
         this.removeFromHotbar(item);
@@ -84,7 +85,7 @@ class Inventory {
         // Reset the inventory.
         this.items = [];
 
-        PubSub.publish(REMOVE_ALL_ITEMS);
+        PubSub.publish(REMOVE_ALL_INVENTORY_ITEMS);
     }
 
     addToHotbar(itemConfig) {
@@ -93,14 +94,14 @@ class Inventory {
         this.hotbar.push(itemConfig);
 
         PubSub.publish(HOTBAR_ITEM);
-        PubSub.publish(MODIFY_ITEM);
+        PubSub.publish(MODIFY_INVENTORY_ITEM);
     }
 
     removeFromHotbar(itemConfig) {
         this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
 
         PubSub.publish(HOTBAR_ITEM);
-        PubSub.publish(MODIFY_ITEM);
+        PubSub.publish(MODIFY_INVENTORY_ITEM);
     }
 
     modifyItem(itemConfig) {
@@ -122,7 +123,7 @@ class Inventory {
             Utils.warning("Cannot modify item in inventory. No quantity or durability given. Config:", itemConfig);
         }
 
-        PubSub.publish(MODIFY_ITEM, { new: itemConfig });
+        PubSub.publish(MODIFY_INVENTORY_ITEM, { new: itemConfig });
     }
 
     setWeight(value) {

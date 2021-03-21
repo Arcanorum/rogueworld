@@ -7,7 +7,11 @@ import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import "./InventoryPanel.scss";
 import { InventoryState, GUIState, ApplicationState } from "../../../../../shared/state/States";
 import {
-    ADD_ITEM, MODIFY_ITEM, MODIFY_INVENTORY_WEIGHT, REMOVE_ITEM, REMOVE_ALL_ITEMS,
+    ADD_INVENTORY_ITEM,
+    MODIFY_INVENTORY_ITEM,
+    MODIFY_INVENTORY_WEIGHT,
+    REMOVE_INVENTORY_ITEM,
+    REMOVE_ALL_INVENTORY_ITEMS,
 } from "../../../../../shared/EventTypes";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
@@ -175,7 +179,7 @@ function ItemSlot({ itemConfig, onClick }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(MODIFY_ITEM, () => {
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
                 setInHotbar(isItemInHotbar(itemConfig));
             }),
         ];
@@ -250,16 +254,16 @@ function InventoryPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(ADD_ITEM, () => {
+            PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(REMOVE_ITEM, () => {
+            PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(REMOVE_ALL_ITEMS, () => {
+            PubSub.subscribe(REMOVE_ALL_INVENTORY_ITEMS, () => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(MODIFY_ITEM, () => {
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {

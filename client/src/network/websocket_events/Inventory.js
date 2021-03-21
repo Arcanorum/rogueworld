@@ -6,31 +6,24 @@ import { InventoryState } from "../../shared/state/States";
 import dungeonz from "../../shared/Global";
 
 export default () => {
-    eventResponses.add_item = (data) => {
-        // console.log("add item event:", data);
+    eventResponses.add_inventory_item = (data) => {
         InventoryState.addToInventory(data);
     };
 
-    eventResponses.remove_item = (data) => {
-        // console.log("remove item event:", data);
+    eventResponses.remove_inventory_item = (data) => {
         InventoryState.removeFromInventory(data);
     };
 
-    eventResponses.remove_all_items = () => {
+    eventResponses.remove_all_inventory_items = () => {
         InventoryState.removeAllFromInventory();
     };
 
-    eventResponses.modify_item = (data) => {
-        // console.log("modify_item event:", data);
+    eventResponses.modify_inventory_item = (data) => {
         InventoryState.modifyItem(data);
     };
 
     eventResponses.inventory_weight = (data) => {
         InventoryState.setWeight(data);
-    };
-
-    eventResponses.inventory_full = () => {
-        // dungeonz.gameScene.GUI.textCounterSetText(dungeonz.gameScene.GUI.inventoryBar.message, Utils.getTextDef("Inventory full warning"));
     };
 
     /**
@@ -78,7 +71,7 @@ export default () => {
     };
 
     eventResponses.activate_clothing = (data) => {
-        console.log("activate_clothing:", data);
+        // console.log("activate_clothing:", data);
         // Show the equipped icon on the inventory slot.
         const item = InventoryState.items[data];
 
@@ -90,7 +83,7 @@ export default () => {
     };
 
     eventResponses.deactivate_clothing = () => {
-        console.log("deactivate_clothing");
+        // console.log("deactivate_clothing");
 
         InventoryState.setClothing(null);
     };

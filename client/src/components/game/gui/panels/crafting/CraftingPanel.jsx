@@ -14,7 +14,7 @@ import "./CraftingPanel.scss";
 import { ApplicationState, GUIState, InventoryState } from "../../../../../shared/state/States";
 import ItemTooltip from "../../item_tooltip/ItemTooltip";
 import {
-    ADD_ITEM, MODIFY_INVENTORY_WEIGHT, MODIFY_ITEM, REMOVE_ITEM,
+    ADD_INVENTORY_ITEM, MODIFY_INVENTORY_WEIGHT, MODIFY_INVENTORY_ITEM, REMOVE_INVENTORY_ITEM,
 } from "../../../../../shared/EventTypes";
 
 const findAmountInInventory = (ingredient) => {
@@ -39,13 +39,13 @@ function IngredientRow({ ingredient }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(ADD_ITEM, () => {
+            PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
                 setAmountInInventory(findAmountInInventory(ingredient));
             }),
-            PubSub.subscribe(REMOVE_ITEM, () => {
+            PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
                 setAmountInInventory(findAmountInInventory(ingredient));
             }),
-            PubSub.subscribe(MODIFY_ITEM, () => {
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
                 setAmountInInventory(findAmountInInventory(ingredient));
             }),
         ];
@@ -94,13 +94,13 @@ function RecipeSlot({ recipe, selected, onClick }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(ADD_ITEM, () => {
+            PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
                 setCanBeCrafted(checkPlayerHasEveryIngredient(recipe));
             }),
-            PubSub.subscribe(REMOVE_ITEM, () => {
+            PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
                 setCanBeCrafted(checkPlayerHasEveryIngredient(recipe));
             }),
-            PubSub.subscribe(MODIFY_ITEM, () => {
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
                 setCanBeCrafted(checkPlayerHasEveryIngredient(recipe));
             }),
         ];
@@ -209,13 +209,13 @@ function CraftingPanel({ onCloseCallback }) {
             PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {
                 setInventoryWeight(data.new);
             }),
-            PubSub.subscribe(ADD_ITEM, () => {
+            PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(REMOVE_ITEM, () => {
+            PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
-            PubSub.subscribe(MODIFY_ITEM, () => {
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
                 setItems([...InventoryState.items]);
             }),
         ];

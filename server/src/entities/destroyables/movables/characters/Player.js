@@ -2,7 +2,7 @@ const settings = require("../../../../../settings");
 const Character = require("./Character");
 const Utils = require("../../../../Utils");
 const BoardsList = require("../../../../board/BoardsList");
-const BankAccount = require("../../../../BankAccount");
+const Bank = require("../../../../bank/Bank");
 const Statset = require("../../../../stats/Statset");
 const Taskset = require("../../../../tasks/Taskset");
 const Damage = require("../../../../gameplay/Damage");
@@ -33,7 +33,7 @@ class Player extends Character {
         this.stats = new Statset(this);
         this.tasks = new Taskset(this);
         this.inventory = new Inventory(this);
-        this.bankAccount = new BankAccount(this);
+        this.bank = new Bank(this);
         this.bornTime = Date.now();
 
         /**
@@ -484,9 +484,7 @@ class Player extends Character {
         const { itemConfig } = pickup;
 
         // Check there is enough space to fit this item.
-        if (!this.inventory.canItemBeAdded(itemConfig)) {
-            return;
-        }
+        if (!this.inventory.canItemBeAdded(itemConfig)) return;
 
         try {
             this.inventory.addItem(itemConfig);

@@ -70,15 +70,15 @@
 
                 .weight {
                     margin-left: 10px;
-                    
-                    img {
-                        // margin-top: 4px;
-                    }
-                    
+                                        
                     span {
                         font-size: 1.4rem;
                         margin-left: 10px;
                         text-align: left;
+                    }
+
+                    .no-space {
+                        color: $colourDB32Orange;
                     }
                 }
             }
@@ -157,6 +157,161 @@
 
             .storage {
                 border-left: solid 8px $colourDB32VeryDarkPurple;
+            }
+        }
+    }
+
+    .item-options {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        
+        .info {
+            position: absolute;
+            background-color: $colourDB32VeryDarkPurpleOpacity80;
+            color: white;
+            padding: 16px;
+            margin: 8px;
+            display: flex;
+            align-content: space-between;
+            justify-content:right;
+            flex-direction: column;
+            text-align: center;
+            min-width: 250px;
+
+            .name {
+                font-weight: bold;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+            }
+
+            .description {
+                font-size: 0.8em;
+            }
+
+            .detail {
+                font-weight: bold;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+
+                &.no-space {
+                    color: $colourDB32Orange;
+                }
+            }
+            
+            &.top {
+                top: -100px;
+
+                &.left {
+                    left: 140px;
+                }
+
+                &.right {
+                    right: 140px
+                }
+            }
+            
+            &.bottom {
+                bottom: -100px;
+
+                &.left {
+                    left: 140px;
+                }
+
+                &.right {
+                    right: 140px
+                }
+            }
+        }
+        
+        .buttons {
+            position: absolute;
+            background-color: $colourDB32VeryDarkPurpleOpacity80;
+            color: $colourDB32VeryDarkPurple;
+            width: 280px;
+
+            .button {
+                padding: 16px;
+                margin: 8px;
+                user-select: none;
+
+                &:hover {
+                    filter: brightness(120%);
+                }
+
+                &.options-deposit {
+                    background-color: $colourDB32Blurple;
+                }
+
+                &.options-no-space {
+                    background-color: $colourDB32GreyOpacity50;
+                    color: $colourDB32SteelGrey;
+                    filter: brightness(100%);
+                }
+            }
+
+            .input-bar {
+                display: inline-flex;
+                
+                .clear {
+                    padding: 8px;
+                    background-color: $colourDB32Red;
+                    color: white;
+                    font-size: 2rem;
+                }
+
+                input {
+                    font-size: 2rem;
+                    width: 80%;
+                    height: 20px;
+                    letter-spacing: 0.1em;
+                    font-family: 'Press Start 2P', cursive;
+                    border: #fff solid 1px;
+                    text-align: center;
+                }
+            }
+
+            .number-buttons {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+
+                .number-button {
+                    padding-top: 16px;
+                    padding-bottom: 16px;
+                    margin: 8px;
+                    text-align: center;
+                    user-select: none;
+                    
+                    &:hover {
+                        filter: brightness(120%);
+                    }
+    
+                    &.options-add-1 {
+                        background-color: $colourDB32LimeGreen;
+                    }
+    
+                    &.options-add-10 {
+                        background-color: $colourDB32Green;
+                    }
+    
+                    &.options-add-100 {
+                        background-color: green;
+                    }
+    
+                    &.options-remove-1 {
+                        background-color: $colourDB32LightTan;
+                    }
+    
+                    &.options-remove-10 {
+                        background-color: $colourDB32DarkTan;
+                    }
+    
+                    &.options-remove-100 {
+                        background-color: $colourDB32Orange;
+                    }
+                }
             }
         }
     }

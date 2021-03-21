@@ -30,5 +30,3 @@ class WoodDoorLockedRed extends Breakable {
     }
 }
 module.exports = WoodDoorLockedRed;
-
-WoodDoorLockedRed.prototype.warningEvent = WoodDoorLockedRed.prototype.EventsList.key_needed;

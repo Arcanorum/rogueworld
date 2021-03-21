@@ -38,5 +38,3 @@ module.exports = DoorLockedPit;
 DoorLockedPit.prototype.interactionDurabilityCost = 1;
 DoorLockedPit.prototype.reactivationRate = 5000;
 DoorLockedPit.prototype.requiredToolCategory = require("../../../../items/Item").prototype.categories.PitKey;
-
-DoorLockedPit.prototype.warningEvent = DoorLockedPit.prototype.EventsList.key_needed;

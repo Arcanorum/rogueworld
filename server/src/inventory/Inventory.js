@@ -8,6 +8,11 @@ class Inventory {
         this.weight = 0;
         this.maxWeight = 1000;
 
+        /**
+         * A list of the items in this bank account.
+         * Contains actual Item class instances, that can be used, equipped etc. directly.
+         * @type {Array.<Item>}
+         */
         this.items = [];
     }
 
@@ -22,7 +27,7 @@ class Inventory {
      * Returns all of the items in this inventory, in a form that is ready to be emitted.
      * @returns {Object}
      */
-    getEmittableInventory() {
+    getEmittableProperties() {
         const emittableInventory = {
             weight: this.weight,
             maxWeight: this.maxWeight,
@@ -175,7 +180,7 @@ class Inventory {
             this.items.push(item);
 
             // Tell the player a new item was added to their inventory.
-            this.owner.socket.sendEvent(EventsList.add_item, {
+            this.owner.socket.sendEvent(EventsList.add_inventory_item, {
                 slotIndex,
                 typeCode: item.typeCode,
                 id: item.itemConfig.id,
@@ -197,7 +202,7 @@ class Inventory {
             this.items.push(item);
 
             // Tell the player a new item was added to their inventory.
-            this.owner.socket.sendEvent(EventsList.add_item, {
+            this.owner.socket.sendEvent(EventsList.add_inventory_item, {
                 slotIndex,
                 typeCode: item.typeCode,
                 id: item.itemConfig.id,
@@ -235,7 +240,9 @@ class Inventory {
         });
 
         // Tell the player the item was removed from their inventory.
-        this.owner.socket.sendEvent(EventsList.remove_item, slotIndex);
+        this.owner.socket.sendEvent(EventsList.remove_inventory_item, slotIndex);
+
+        this.updateWeight();
     }
 
     removeQuantityByItemType(quantity, ItemType) {
@@ -340,7 +347,7 @@ class Inventory {
         this.items = [];
 
         // Tell the player all items were removed from their inventory.
-        this.owner.socket.sendEvent(EventsList.remove_all_items);
+        this.owner.socket.sendEvent(EventsList.remove_all_inventory_items);
 
         this.updateWeight();
     }

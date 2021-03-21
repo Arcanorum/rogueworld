@@ -38,5 +38,3 @@ module.exports = DoorLockedFighter;
 DoorLockedFighter.prototype.interactionDurabilityCost = 1;
 DoorLockedFighter.prototype.reactivationRate = 5000;
 DoorLockedFighter.prototype.requiredToolCategory = require("../../../../items/Item").prototype.categories.FighterKey;
-
-DoorLockedFighter.prototype.warningEvent = DoorLockedFighter.prototype.EventsList.key_needed;

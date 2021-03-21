@@ -9,9 +9,11 @@ class Bank {
         this.owner = owner;
 
         this.weight = 0;
-        this.maxWeight = 1000;
+
+        this.maxWeight = settings.MAX_BANK_WEIGHT || 1000;
+
         this.maxWeightUpgradeCost = (
-            this.maxWeight * settings.BANK_MAX_WEIGHT_UPGRADE_COST_MULTIPLIER
+            this.maxWeight * settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER
         );
 
         /**
@@ -36,14 +38,14 @@ class Bank {
 
         this.owner.modGlory(-this.maxWeightUpgradeCost);
 
-        this.maxWeight += 100;
+        this.maxWeight += settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE;
 
         // Tell the player their new max bank weight.
         this.owner.socket.sendEvent(EventsList.bank_max_weight, this.maxWeight);
 
         // Update the next cost based on the new max weight.
         this.maxWeightUpgradeCost = (
-            this.maxWeight * settings.BANK_MAX_WEIGHT_UPGRADE_COST_MULTIPLIER
+            this.maxWeight * settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER
         );
 
         // Tell the player the next upgrade cost.
@@ -146,7 +148,7 @@ class Bank {
 
         const depositItemConfig = new ItemConfig({
             ItemType: inventoryItem.itemConfig.ItemType,
-            quantity: inventoryItem.itemConfig.quantity,
+            quantity, // Need to check the actual amount to deposit, as they might not want to add all of it.
             durability: inventoryItem.itemConfig.durability,
             maxDurability: inventoryItem.itemConfig.maxDurability,
         });
@@ -160,8 +162,6 @@ class Bank {
             console.log("adding stackable");
             // When depositing a stackable, a quantity must be provided.
             if (!quantity) return;
-
-            // TODO
         }
         // Add unstackable.
         else {

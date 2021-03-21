@@ -1,3 +1,4 @@
+const settings = require("../../settings.js");
 const EventsList = require("../EventsList.js");
 const ItemConfig = require("./ItemConfig.js");
 
@@ -6,7 +7,7 @@ class Inventory {
         this.owner = owner;
 
         this.weight = 0;
-        this.maxWeight = 1000;
+        this.maxWeight = settings.MAX_INVENTORY_WEIGHT || 1000;
 
         /**
          * A list of the items in this bank account.

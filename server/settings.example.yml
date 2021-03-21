@@ -56,3 +56,25 @@ PLAYER_ENERGY_REGEN_RATE: 1000
 # With an average stat level of 7 and with a crafting bonus multiplier of 2, the crafted item will
 # have 14% more durability/quantity than its base amount.
 CRAFTING_STAT_BONUS_MULTIPLIER: 1
+
+# How much weight a player can carry at once.
+MAX_INVENTORY_WEIGHT: 1000
+
+# How much to increase a player's max inventory weight by for each level they have in every stat.
+# e.g. with this setting of 10, a base max inventory weight setting of 1000, and a player with 3
+# stats of levels 3, 10, and 22, then their max inventory weight would be 1350.
+# (3 + 10 + 22) * 10 = 350 + 1000 = 1350
+ADDITIONAL_MAX_INVENTORY_WEIGHT_PER_STAT_LEVEL: 10
+
+# How much weight a player can have in their bank at once.
+MAX_BANK_WEIGHT: 1000
+
+# How much to increase the player's max bank weight by for each upgrade they have bought.
+ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE: 50
+
+# How much to multiply the cost of the next max bank weight upgrade by.
+# The base cost of each upgrade is the current max weight.
+# e.g. with this setting of 2, and a current max bank weight of 1650, the cost to buy the next
+# upgrade would be 3300.
+# 1650 * 2 = 3300
+MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER: 2

@@ -1,5 +1,6 @@
 const settings = require("../../settings.js");
 const EventsList = require("../EventsList.js");
+const Utils = require("../Utils.js");
 const ItemConfig = require("./ItemConfig.js");
 
 class Inventory {
@@ -242,6 +243,25 @@ class Inventory {
 
         // Tell the player the item was removed from their inventory.
         this.owner.socket.sendEvent(EventsList.remove_inventory_item, slotIndex);
+
+        this.updateWeight();
+    }
+
+    removeQuantityFromSlot(slotIndex, quantity) {
+        const item = this.items[slotIndex];
+        if (!item) return;
+
+        // Check it is actually a stackable.
+        if (!item.itemConfig.quantity) return;
+
+        // The quantity to remove cannot be higher than the quantity in the stack.
+        if (quantity > item.itemConfig.quantity) {
+            quantity = item.itemConfig.quantity;
+            Utils.warning("Quantity to remove should not be greater than the quantity in the slot.");
+        }
+
+        // Reduce the quantity.
+        item.modQuantity(-quantity);
 
         this.updateWeight();
     }

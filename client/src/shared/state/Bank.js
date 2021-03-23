@@ -46,6 +46,8 @@ class Bank {
         this.items.splice(slotIndex, 1);
 
         // Update the slot indexes of the items.
+        // The bank items aren't stored with a true slotIndex, but
+        // the index it is added at is sent when added to the bank.
         this.items.forEach((eachItem, index) => {
             eachItem.slotIndex = index;
         });

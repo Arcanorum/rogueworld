@@ -25,7 +25,7 @@ import {
     MODIFY_BANK_WEIGHT,
 } from "../../../../../shared/EventTypes";
 
-const canDepositItem = (itemConfig, quantity) => {
+const canTransferItem = (State, itemConfig, quantity) => {
     if (!itemConfig) return false;
 
     // For stackables, check if at least one unit of the stack can fit, or a specific amount if given.
@@ -35,50 +35,67 @@ const canDepositItem = (itemConfig, quantity) => {
         return (
             (itemConfig.totalWeight / itemConfig.quantity) * quantity
         ) <= (
-            BankState.maxWeight - BankState.weight
+            State.maxWeight - State.weight
         );
     }
 
-    return itemConfig.totalWeight <= (BankState.maxWeight - BankState.weight);
+    return itemConfig.totalWeight <= (State.maxWeight - State.weight);
 };
 
-function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
-    const [depositQuantity, setDepositQuantity] = useState(1);
+function ItemOptions({
+    State, itemConfig, onCursorLeave, panelBounds,
+}) {
+    const [transferQuantity, setTransferQuantity] = useState(1);
     const [styleTop] = useState(GUIState.cursorY - panelBounds.y);
     const [styleLeft] = useState(GUIState.cursorX - panelBounds.x);
 
     useEffect(() => {
         // Prevent the deposit amount going over the actual quantity.
-        if (depositQuantity > itemConfig.quantity) {
-            setDepositQuantity(itemConfig.quantity);
+        if (transferQuantity > itemConfig.quantity) {
+            setTransferQuantity(itemConfig.quantity);
         }
         // Prevent negative deposit amount.
-        if (depositQuantity < 0) {
-            setDepositQuantity(0);
+        if (transferQuantity < 0) {
+            setTransferQuantity(0);
         }
-    }, [depositQuantity]);
+    }, [transferQuantity]);
 
-    const modDepositQuantity = (amount) => {
-        setDepositQuantity(depositQuantity + amount);
+    const modTransferQuantity = (amount) => {
+        setTransferQuantity(transferQuantity + amount);
     };
 
     const inputChanged = (event) => {
-        setDepositQuantity(parseInt(event.target.value || 0, 10));
+        setTransferQuantity(parseInt(event.target.value || 0, 10));
     };
 
-    const depositPressed = () => {
-        console.log("depositPressed");
+    const transferPressed = () => {
+        console.log("transferPressed");
 
-        if (itemConfig.quantity) {
-            ApplicationState.connection.sendEvent("bank_deposit_item", {
-                slotIndex: itemConfig.slotIndex,
-                quantity: depositQuantity,
-            });
+        if (State === InventoryState) {
+            if (itemConfig.quantity) {
+                ApplicationState.connection.sendEvent("bank_deposit_item", {
+                    slotIndex: itemConfig.slotIndex,
+                    quantity: transferQuantity,
+                });
+            }
+            else {
+                ApplicationState.connection.sendEvent("bank_deposit_item", {
+                    slotIndex: itemConfig.slotIndex,
+                });
+            }
         }
-        else {
-            ApplicationState.connection.sendEvent("bank_deposit_item", {
-                slotIndex: itemConfig.slotIndex,
-            });
+        else if (State === BankState) {
+            if (itemConfig.quantity) {
+                ApplicationState.connection.sendEvent("bank_withdraw_item", {
+                    slotIndex: itemConfig.slotIndex,
+                    quantity: transferQuantity,
+                });
+            }
+            else {
+                ApplicationState.connection.sendEvent("bank_withdraw_item", {
+                    slotIndex: itemConfig.slotIndex,
+                });
+            }
         }
 
         onCursorLeave();
@@ -96,47 +113,48 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
                 </div>
                 {itemConfig.durability && <div className="detail">{`${itemConfig.durability}/${itemConfig.maxDurability}`}</div>}
                 {itemConfig.quantity && <div className="detail">{`x${itemConfig.quantity}`}</div>}
-                {itemConfig.durability && <div className={`detail ${canDepositItem(itemConfig) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
-                {itemConfig.quantity && <div className={`detail ${canDepositItem(itemConfig, depositQuantity) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
+                {itemConfig.durability && <div className={`detail ${canTransferItem(State, itemConfig) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
+                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>
             </div>
             <div className="buttons">
-                {itemConfig.durability && canDepositItem(itemConfig) && <div className="button options-deposit" onClick={depositPressed}>{Utils.getTextDef("Deposit")}</div>}
-                {itemConfig.quantity && canDepositItem(itemConfig) && (
+                {itemConfig.durability && canTransferItem(State, itemConfig) && <div className="button options-deposit" onClick={transferPressed}>{Utils.getTextDef("Deposit")}</div>}
+                {itemConfig.quantity && canTransferItem(State, itemConfig) && (
                     <>
                         <div className="number-buttons">
-                            <div className="number-button options-add-1" onClick={() => { modDepositQuantity(1); }}>+1</div>
-                            <div className="number-button options-add-10" onClick={() => { modDepositQuantity(10); }}>+10</div>
-                            <div className="number-button options-add-100" onClick={() => { modDepositQuantity(100); }}>+100</div>
+                            <div className="number-button options-add-1" onClick={() => { modTransferQuantity(1); }}>+1</div>
+                            <div className="number-button options-add-10" onClick={() => { modTransferQuantity(10); }}>+10</div>
+                            <div className="number-button options-add-100" onClick={() => { modTransferQuantity(100); }}>+100</div>
                         </div>
                         <div className="number-buttons">
-                            <div className="number-button options-remove-1" onClick={() => { modDepositQuantity(-1); }}>-1</div>
-                            <div className="number-button options-remove-10" onClick={() => { modDepositQuantity(-10); }}>-10</div>
-                            <div className="number-button options-remove-100" onClick={() => { modDepositQuantity(-100); }}>-100</div>
+                            <div className="number-button options-remove-1" onClick={() => { modTransferQuantity(-1); }}>-1</div>
+                            <div className="number-button options-remove-10" onClick={() => { modTransferQuantity(-10); }}>-10</div>
+                            <div className="number-button options-remove-100" onClick={() => { modTransferQuantity(-100); }}>-100</div>
                         </div>
                         <div className="input-bar">
-                            <div className="button clear" onClick={() => { setDepositQuantity(0); }}>x</div>
-                            <input className="button" type="number" min="0" value={depositQuantity} onChange={inputChanged} />
+                            <div className="button clear" onClick={() => { setTransferQuantity(0); }}>x</div>
+                            <input className="button" type="number" min="0" value={transferQuantity} onChange={inputChanged} />
                         </div>
-                        {depositQuantity > 0 && <div className="button options-deposit" onClick={depositPressed}>{Utils.getTextDef("Deposit")}</div>}
-                        {depositQuantity <= 0 && <div className="button options-no-space">{Utils.getTextDef("Deposit")}</div>}
+                        {transferQuantity > 0 && <div className="button options-deposit" onClick={transferPressed}>{Utils.getTextDef("Deposit")}</div>}
+                        {transferQuantity <= 0 && <div className="button options-no-space">{Utils.getTextDef("Deposit")}</div>}
                     </>
                 )}
-                {!canDepositItem(itemConfig) && <div className="button options-no-space" onClick={depositPressed}>?Not enough free space</div>}
+                {!canTransferItem(State, itemConfig) && <div className="button options-no-space" onClick={transferPressed}>?Not enough free space</div>}
             </div>
         </div>
     );
 }
 
 ItemOptions.propTypes = {
+    State: PropTypes.object.isRequired,
     itemConfig: PropTypes.object.isRequired,
     onCursorLeave: PropTypes.func.isRequired,
     panelBounds: PropTypes.object.isRequired,
 };
 
-function ItemSlot({ itemConfig, onClick }) {
+function ItemSlot({ State, itemConfig, onClick }) {
     useEffect(() => {
         const subs = [
             // PubSub.subscribe(MODIFY_ITEM, () => {
@@ -164,7 +182,7 @@ function ItemSlot({ itemConfig, onClick }) {
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
               }}
-              onClick={() => { onClick(itemConfig); }}
+              onClick={() => { onClick(itemConfig, State); }}
             >
                 <img
                   src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}
@@ -181,6 +199,7 @@ function ItemSlot({ itemConfig, onClick }) {
 }
 
 ItemSlot.propTypes = {
+    State: PropTypes.object.isRequired,
     itemConfig: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
 };
@@ -196,10 +215,12 @@ function BankPanel({ onCloseCallback }) {
     const [storageWeight, setStorageWeight] = useState(BankState.weight);
     const [storageMaxWeight, setStorageMaxWeight] = useState(BankState.maxWeight);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [TargetState, setTargetState] = useState(InventoryState);
     const panelRef = useRef();
 
-    const onItemPressed = (item) => {
+    const onItemPressed = (item, State) => {
         setSelectedItem(item);
+        setTargetState(State);
     };
 
     useEffect(() => {
@@ -344,7 +365,7 @@ function BankPanel({ onCloseCallback }) {
                                 />
                                 {selectedItem
                                 && (
-                                <span className={`high-contrast-text ${canDepositItem(selectedItem) ? "" : "no-space"}`}>
+                                <span className={`high-contrast-text ${canTransferItem(InventoryState, selectedItem) ? "" : "no-space"}`}>
                                     {`${storageWeight}/${storageMaxWeight}`}
                                 </span>
                                 )}
@@ -362,6 +383,7 @@ function BankPanel({ onCloseCallback }) {
                             {searchText && searchInventoryItems.map((item) => (
                                 <ItemSlot
                                   key={item.id}
+                                  State={InventoryState}
                                   itemConfig={item}
                                   onClick={onItemPressed}
                                 />
@@ -370,6 +392,7 @@ function BankPanel({ onCloseCallback }) {
                             {!searchText && inventoryItems.map((item) => (
                                 <ItemSlot
                                   key={item.id}
+                                  State={InventoryState}
                                   itemConfig={item}
                                   onClick={onItemPressed}
                                 />
@@ -380,6 +403,7 @@ function BankPanel({ onCloseCallback }) {
                             {searchText && searchStorageItems.map((item) => (
                                 <ItemSlot
                                   key={item.id}
+                                  State={BankState}
                                   itemConfig={item}
                                   onClick={onItemPressed}
                                 />
@@ -388,6 +412,7 @@ function BankPanel({ onCloseCallback }) {
                             {!searchText && storageItems.map((item) => (
                                 <ItemSlot
                                   key={item.id}
+                                  State={BankState}
                                   itemConfig={item}
                                   onClick={onItemPressed}
                                 />
@@ -399,6 +424,7 @@ function BankPanel({ onCloseCallback }) {
             </PanelTemplate>
             {selectedItem && (
                 <ItemOptions
+                  State={TargetState}
                   itemConfig={selectedItem}
                   onCursorLeave={() => {
                       setSelectedItem(null);

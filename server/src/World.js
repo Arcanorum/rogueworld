@@ -316,7 +316,7 @@ const world = {
         // Give the new player some starting tasks, as they are NOT added automatically for player entities.
         playerEntity.tasks.addStartingTasks();
         // New accounts get some free stuff in their bank, so add those properties.
-        playerEntity.bankAccount.addStarterItems();
+        playerEntity.bank.addStarterItems();
 
         const dataToSend = this.getPlayerDataToSend(playerEntity);
 

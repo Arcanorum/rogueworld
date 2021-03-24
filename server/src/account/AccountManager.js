@@ -338,7 +338,7 @@ module.exports = {
     getFormattedSaveData(entity) {
         /**
          * DO NOT SAVE TYPE NUMBERS OF ANY KIND, AS THEY WILL CHANGE BETWEEN BUILDS AS THINGS ARE ADDED.
-         * Type names are fine. i.e. "IronSword"
+         * Type codes are fine, as they should never change. i.e. "ABCD1234"
          */
         const data = {};
 

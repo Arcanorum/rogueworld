@@ -179,82 +179,6 @@ class Bank {
         }
     }
 
-    removeStackable(itemConfig) {
-        // Find if a stack for this type of item already exists.
-        let { nonFullStack, slotIndex } = this.findNonFullItemTypeStack(itemConfig.ItemType);
-
-        while (nonFullStack) {
-            // Check there is enough space left in the stack to add these additional ones.
-            if ((nonFullStack.quantity + itemConfig.quantity) > nonFullStack.MAX_QUANTITY) {
-                // Not enough space. Add what can be added and keep the rest where it is, to then
-                // see if another stack of the same type exists that it can be added to instead.
-
-                const availableQuantity = (
-                    nonFullStack.MAX_QUANTITY - nonFullStack.quantity
-                );
-
-                // Add to the found stack.
-                nonFullStack.modQuantity(+availableQuantity);
-
-                // Tell the player the new quantity of the found stack.
-                this.owner.socket.sendEvent(
-                    EventsList.modify_bank_item,
-                    {
-                        slotIndex,
-                        quantity: nonFullStack.quantity,
-                        totalWeight: nonFullStack.totalWeight,
-                    },
-                );
-
-                // Some of the quantity to add has now been added to an existing stack, so reduce the amount
-                // that will go into any other stacks, or into the new overflow stack if no other stack exists.
-                itemConfig.modQuantity(-availableQuantity);
-
-                // Check if there are any other non full stacks that the remainder can be added to.
-                ({ nonFullStack, slotIndex } = this.findNonFullItemTypeStack(itemConfig.ItemType));
-            }
-            else {
-                // Enough space. Add them all.
-                nonFullStack.modQuantity(+itemConfig.quantity);
-
-                // Tell the player the new quantity of the existing stack.
-                this.owner.socket.sendEvent(
-                    EventsList.modify_bank_item,
-                    {
-                        slotIndex,
-                        quantity: nonFullStack.quantity,
-                        totalWeight: nonFullStack.totalWeight,
-                    },
-                );
-
-                // Reduce the size of the incoming stack.
-                itemConfig.modQuantity(-itemConfig.quantity);
-
-                this.updateWeight();
-
-                // Nothing left to move.
-                return;
-            }
-        }
-
-        // Check if there is anything left to add after all of the existing stacks have been filled.
-        if (itemConfig.quantity > 0) {
-            // Some left to add. Add it as a new stack.
-            const newSlotIndex = this.items.length;
-
-            this.items.push(itemConfig);
-
-            // Tell the player a new item was added to their bank.
-            this.owner.socket.sendEvent(EventsList.add_bank_item, {
-                slotIndex: newSlotIndex,
-                typeCode: itemConfig.ItemType.prototype.typeCode,
-                id: itemConfig.id,
-                quantity: itemConfig.quantity,
-                totalWeight: itemConfig.totalWeight,
-            });
-        }
-    }
-
     /**
      * @param {Number} inventorySlotIndex
      * @param {Number} quantityToDeposit - Stackables only. How much of the stack to deposit.
@@ -354,13 +278,14 @@ class Bank {
             // Check the quantity to withdraw is not more than the amount in the stack.
             if (quantityToWithdraw > bankItem.quantity) return;
 
-            this.removeStackable(withdrawItemConfig);
+            // Store the item in the inventory.
+            inventory.addItem(withdrawItemConfig);
 
             // All of the stack should have been added, so now remove it from the bank.
-            // this.removeQuantityFromSlot(
-            //     bankSlotIndex,
-            //     quantityToWithdraw,
-            // );
+            this.removeQuantityFromSlot(
+                bankSlotIndex,
+                quantityToWithdraw,
+            );
         }
         // Remove unstackable.
         else {
@@ -414,24 +339,50 @@ class Bank {
         this.updateWeight();
     }
 
-    // removeQuantityFromSlot(slotIndex, quantity) {
-    //     const item = this.items[slotIndex];
-    //     if (!item) return;
+    addStarterItems() {
+        // TODO: make a setting for the starter items to add, STARTER_BANK_ITEMS
+    }
 
-    //     // Check it is actually a stackable.
-    //     if (!item.itemConfig.quantity) return;
+    removeQuantityFromSlot(slotIndex, quantity) {
+        const item = this.items[slotIndex];
+        if (!item) return;
 
-    //     // The quantity to remove cannot be higher than the quantity in the stack.
-    //     if (quantity > item.itemConfig.quantity) {
-    //         quantity = item.itemConfig.quantity;
-    //         Utils.warning("Quantity to remove should not be greater than the quantity in the slot.");
-    //     }
+        // Check it is actually a stackable.
+        if (!item.quantity) return;
 
-    //     // Reduce the quantity.
-    //     item.modQuantity(-quantity);
+        // The quantity to remove cannot be higher than the quantity in the stack.
+        if (quantity > item.quantity) {
+            quantity = item.quantity;
+            Utils.warning("Quantity to remove should not be greater than the quantity in the slot.");
+        }
 
-    //     this.updateWeight();
-    // }
+        // Reduce the quantity.
+        item.modQuantity(-quantity);
+
+        // Tell them the new quantity in the stack.
+        if (item.quantity > 0) {
+            // Tell the player the new quantity of the found stack.
+            this.owner.socket.sendEvent(
+                EventsList.modify_bank_item,
+                {
+                    slotIndex,
+                    quantity: item.quantity,
+                    totalWeight: item.totalWeight,
+                },
+            );
+        }
+        // The stack is now empty, remove it.
+        else {
+            // Remove it from the bank and squash the hole it left behind.
+            // The items list shouldn't be holey.
+            this.items.splice(slotIndex, 1);
+
+            // Tell the player the item was removed from their bank.
+            this.owner.socket.sendEvent(EventsList.remove_bank_item, slotIndex);
+        }
+
+        this.updateWeight();
+    }
 }
 
 module.exports = Bank;

@@ -115,6 +115,17 @@ class Inventory {
         return quantityThatCanFit;
     }
 
+    findNonFullItemTypeStack(ItemType) {
+        return this.items.find((item) => {
+            if ((item.itemConfig.ItemType === ItemType)
+            // Also check if the stack is not already full.
+            && (item.itemConfig.quantity < item.itemConfig.MAX_QUANTITY)) {
+                return true;
+            }
+            return false;
+        });
+    }
+
     /**
      *
      * @param {ItemConfig} config
@@ -128,38 +139,41 @@ class Inventory {
             let quantityToAdd = this.quantityThatCanBeAdded(config);
 
             // Find if a stack for this type of item already exists.
-            const found = this.items.find((item) => (
-                (item instanceof config.ItemType)
-                // Also check if the stack is not already full.
-                && (item.itemConfig.quantity < item.itemConfig.MAX_QUANTITY)
-            ));
+            let nonFullStack = this.findNonFullItemTypeStack(config.ItemType);
 
-            // Add to the existing stack.
-            if (found) {
+            while (nonFullStack) {
                 // Check there is enough space left in the stack to add these additional ones.
-                if ((found.itemConfig.quantity + quantityToAdd) > found.itemConfig.MAX_QUANTITY) {
-                    // Not enough space. Add what can be added and keep the rest where it is.
+                if (
+                    (nonFullStack.itemConfig.quantity + quantityToAdd)
+                    > nonFullStack.itemConfig.MAX_QUANTITY
+                ) {
+                    // Not enough space. Add what can be added and keep the rest where it is, to then
+                    // see if another stack of the same type exists that it can be added to instead.
 
                     const availableQuantity = (
-                        found.itemConfig.MAX_QUANTITY - found.itemConfig.quantity
+                        nonFullStack.itemConfig.MAX_QUANTITY - nonFullStack.itemConfig.quantity
                     );
 
                     // Add to the found stack.
-                    found.modQuantity(+availableQuantity);
+                    nonFullStack.modQuantity(+availableQuantity);
 
-                    // Some of the quantity to add has now been added to an existing stack,
-                    // so reduce the amount that will go into the new overflow stack.
+                    // Some of the quantity to add has now been added to an existing stack, so reduce the amount
+                    // that will go into any other stacks, or into the new overflow stack if no other stack exists.
                     quantityToAdd -= availableQuantity;
+
+                    // Check if there are any other non full stacks that the remainder can be added to.
+                    nonFullStack = this.findNonFullItemTypeStack(config.ItemType);
                 }
                 else {
                     // Enough space. Add them all.
-                    found.modQuantity(+quantityToAdd);
+                    nonFullStack.modQuantity(+quantityToAdd);
 
                     // Reduce the size of the incoming stack.
                     config.modQuantity(-quantityToAdd);
 
                     this.updateWeight();
-                    // Don't want to add another item below, so exit now.
+
+                    // Nothing left to move, so don't add another item below.
                     return;
                 }
             }

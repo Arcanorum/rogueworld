@@ -1,5 +1,10 @@
 const { model, Schema } = require("mongoose");
 
+const integerValidator = {
+    validator: Number.isInteger,
+    message: "{VALUE} is not an integer value",
+};
+
 const itemSchema = new Schema(
     {
         typeCode: { type: String, default: "VRAS0927" }, // Glory orb
@@ -12,15 +17,15 @@ const itemSchema = new Schema(
 
 const statsSchema = new Schema(
     {
-        Melee: { type: Number, default: 0 },
-        Ranged: { type: Number, default: 0 },
-        Magic: { type: Number, default: 0 },
-        Gathering: { type: Number, default: 0 },
-        Weaponry: { type: Number, default: 0 },
-        Armoury: { type: Number, default: 0 },
-        Toolery: { type: Number, default: 0 },
-        Potionry: { type: Number, default: 0 },
-        // Clanship: { type: Number, default: 0 },
+        Melee: { type: Number, default: 0, validate: integerValidator },
+        Ranged: { type: Number, default: 0, validate: integerValidator },
+        Magic: { type: Number, default: 0, validate: integerValidator },
+        Gathering: { type: Number, default: 0, validate: integerValidator },
+        Weaponry: { type: Number, default: 0, validate: integerValidator },
+        Armoury: { type: Number, default: 0, validate: integerValidator },
+        Toolery: { type: Number, default: 0, validate: integerValidator },
+        Potionry: { type: Number, default: 0, validate: integerValidator },
+        // Clanship: { type: Number, default: 0, validate: integerValidator },
     },
     { _id: false },
 );
@@ -28,9 +33,9 @@ const statsSchema = new Schema(
 const taskSchema = new Schema(
     {
         taskID: { type: String, default: "KillRats" },
-        progress: { type: Number, default: 0 },
-        completionThreshold: { type: Number, default: 0 },
-        rewardGlory: { type: Number, default: 0 },
+        progress: { type: Number, default: 0, validate: integerValidator },
+        completionThreshold: { type: Number, default: 0, validate: integerValidator },
+        rewardGlory: { type: Number, default: 0, validate: integerValidator },
         rewardItemTypeCodes: [{ type: String, default: "VRAS0927" }],
     },
     { _id: false },
@@ -46,8 +51,8 @@ const accountSchema = new Schema(
         lastLogOutTime: { type: Date, default: Date.now() },
         isLoggedIn: { type: Boolean, default: false },
         displayName: { type: String, default: "Savage" },
-        glory: { type: Number, default: 0 },
-        bankUpgrades: { type: Number, default: 0 },
+        glory: { type: Number, default: 0, validate: integerValidator },
+        bankUpgrades: { type: Number, default: 0, validate: integerValidator },
         bankItems: [itemSchema],
         inventory: [itemSchema],
         stats: statsSchema,

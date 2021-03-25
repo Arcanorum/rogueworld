@@ -645,7 +645,6 @@
   code: VRAS0927
   translationID: Glory orb
   iconSource: icon-glory-orb
-  baseDurability: 1
 
 - name: Greencap
   code: DTCV1640

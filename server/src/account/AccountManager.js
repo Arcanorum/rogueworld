@@ -65,7 +65,7 @@ module.exports = {
     async createAccount(username, password, entity, onSuccess, onFailure) {
         const formattedData = this.getFormattedSaveData(entity);
 
-        const acc = new AccountModel({
+        const account = new AccountModel({
             username,
             password,
             isLoggedIn: true,
@@ -77,7 +77,7 @@ module.exports = {
             tasks: formattedData.tasks,
         });
 
-        await acc.save()
+        await account.save()
             .then((res) => {
                 onSuccess(res);
             })
@@ -117,40 +117,39 @@ module.exports = {
      * @param {String} password
      * @param {Function} onSuccess
      */
-    logIn(clientSocket, username, password, onSuccess) {
-        AccountModel.findOne({ username })
-            .then(async (res) => {
-                // If a document by the given username was NOT found, res will be null.
-                if (!res) {
-                    // Account doesn't exist.
-                    clientSocket.sendEvent(EventsList.invalid_login_details);
-                    return;
-                }
+    async logIn(clientSocket, username, password, onSuccess) {
+        try {
+            const account = await AccountModel.findOne({ username });
 
-                // Prevent them from logging into an account that is already logged in.
-                if (res.isLoggedIn === true) {
-                    clientSocket.sendEvent(EventsList.already_logged_in);
-                    return;
-                }
+            if (!account) {
+                // Account document doesn't exist.
+                clientSocket.sendEvent(EventsList.invalid_login_details);
+                return;
+            }
 
-                if (res.password === password) {
-                    // Success.
-                    res.isLoggedIn = true;
+            // Prevent them from logging into an account that is already logged in.
+            if (account.isLoggedIn === true) {
+                clientSocket.sendEvent(EventsList.already_logged_in);
+                return;
+            }
 
-                    await res.save();
+            if (account.password === password) {
+                // Success.
+                account.isLoggedIn = true;
 
-                    onSuccess(res);
-                }
-                // Password is incorrect.
-                else {
-                    clientSocket.sendEvent(EventsList.invalid_login_details);
-                }
-            })
-            .catch((err) => {
-                Utils.message("Account manager, log in error:", err);
-                // Failure.
-                clientSocket.sendEvent(EventsList.something_went_wrong);
-            });
+                await account.save();
+
+                onSuccess(account);
+            }
+            // Password is incorrect.
+            else {
+                clientSocket.sendEvent(EventsList.invalid_login_details);
+            }
+        }
+        catch (error) {
+            Utils.message("Account manager, log in error:", error);
+            clientSocket.sendEvent(EventsList.something_went_wrong);
+        }
     },
 
     /**
@@ -199,6 +198,8 @@ module.exports = {
         entity.glory = Math.floor(account.glory);
 
         // Bank.
+        entity.bank.loadData(account);
+
         // const { bankItems } = account;
 
         // bankItems.forEach((bankItem, i) => {

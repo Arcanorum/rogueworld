@@ -4,6 +4,8 @@ const ItemConfig = require("../inventory/ItemConfig.js");
 const BankChest = require("../entities/statics/interactables/breakables/BankChest");
 const starterBankItemConfigsList = require("./StarterBankItemConfigs").list;
 const Utils = require("../Utils.js");
+const AccountModel = require("../account/AccountModel.js");
+const ItemsList = require("../ItemsList.js");
 
 class Bank {
     constructor(owner) {
@@ -26,8 +28,45 @@ class Bank {
         this.items = [];
     }
 
+    loadData(account) {
+        // Calculate the max weight first, incase they have more items than would fit in the default max weight.
+        this.modMaxWeight(
+            (account.bankUpgrades || 0) * (settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE || 0),
+        );
+
+        // Add the stored items to this player's bank.
+        account.bankItems.forEach((bankItem) => {
+            // Check the type of item to add is valid.
+            // Might have been removed since this player last logged in.
+            if (!ItemsList.BY_CODE[bankItem.typeCode]) return;
+
+            try {
+                // Make new item config instances based on the stored data.
+                const itemConfig = new ItemConfig({
+                    ItemType: ItemsList.BY_CODE[bankItem.typeCode],
+                    quantity: bankItem.quantity,
+                    durability: bankItem.durability,
+                    maxDurability: bankItem.maxDurability,
+                });
+
+                // Store the item config in the bank.
+                if (itemConfig.quantity) {
+                    this.addStackable(itemConfig);
+                }
+                else {
+                    this.items.push(itemConfig);
+                }
+            }
+            catch (error) {
+                Utils.warning(error.message);
+            }
+        });
+
+        this.updateWeight();
+    }
+
     print() {
-        console.log("printing bank:");
+        Utils.message("Printing bank:");
         this.items.forEach((item) => {
             console.log(item);
         });
@@ -41,9 +80,17 @@ class Bank {
 
         // Tell the player their new max bank weight.
         this.owner.socket.sendEvent(EventsList.bank_max_weight, this.maxWeight);
+
+        this.updateMaxWeightUpgradeCost();
     }
 
-    buyMaxWeightUpgrade() {
+    updateMaxWeightUpgradeCost() {
+        this.maxWeightUpgradeCost = Math.floor(
+            this.maxWeight * (settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER || 0),
+        );
+    }
+
+    async buyMaxWeightUpgrade() {
         // Check the player has enough glory.
         if (this.owner.glory < this.maxWeightUpgradeCost) return;
 
@@ -51,16 +98,25 @@ class Bank {
 
         this.modMaxWeight(settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE);
 
-        // Update the next cost based on the new max weight.
-        this.maxWeightUpgradeCost = Math.floor(
-            this.maxWeight * settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER,
-        );
-
         // Tell the player the next upgrade cost.
         this.owner.socket.sendEvent(
             EventsList.bank_max_weight_upgrade_cost,
             this.maxWeightUpgradeCost,
         );
+
+        // If this player has an account, save the new bank upgrade level.
+        if (this.owner.socket.accountUsername) {
+            try {
+                const account = await AccountModel.findOne({
+                    username: this.owner.socket.accountUsername,
+                });
+                account.bankUpgrades += 1;
+                account.save();
+            }
+            catch (err) {
+                Utils.warning(err);
+            }
+        }
     }
 
     /**

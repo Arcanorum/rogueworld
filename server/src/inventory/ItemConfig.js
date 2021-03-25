@@ -19,14 +19,18 @@ class ItemConfig {
         // Add a unique id to stop React crying when this item is used in displaying a list...
         this.id = uuidv4();
 
-        if (!config.ItemType) Utils.error("ItemConfig constructor, config.ItemType is not a valid item type.");
+        if (!config.ItemType) {
+            Utils.warning("ItemConfig constructor, config.ItemType is not a valid item type.");
+            throw new Error("Failed ItemConfig validation.");
+        }
 
         if (config.quantity) {
             // Check the type itself has quantity, in case the item config
             // has the wrong properties for the item type it is for.
             // Prevents quantity being set for things that are meant to be unstackable.
             if (!this.ItemType.prototype.baseQuantity) {
-                Utils.error("Cannot create stackable item config, as given item type does not have a base quantity. Check it is actually a stackable. Config:", config);
+                Utils.warning("Cannot create stackable item config, as given item type does not have a base quantity. Check it is actually a stackable. Config:", config);
+                throw new Error("Failed ItemConfig validation.");
             }
             this.quantity = parseInt(config.quantity, 10);
 
@@ -37,7 +41,8 @@ class ItemConfig {
             // has the wrong properties for the item type it is for.
             // Prevents durability being set for things that are meant to be stackable.
             if (!this.ItemType.prototype.baseDurability) {
-                Utils.error("Cannot create unstackable item config, as given item type does not have a base durability. Check it is actually an unstackable. Config:", config);
+                Utils.warning("Cannot create unstackable item config, as given item type does not have a base durability. Check it is actually an unstackable. Config:", config);
+                throw new Error("Failed ItemConfig validation.");
             }
             this.durability = parseInt(config.durability, 10);
             this.maxDurability = parseInt(config.maxDurability || this.durability, 10);
@@ -57,7 +62,8 @@ class ItemConfig {
             this.totalWeight = this.ItemType.prototype.unitWeight;
         }
         else {
-            Utils.error("ItemConfig constructor, config does not have either `quantity` or `durability`, or either `baseQuantity` or `baseDurability` on the item type. Config:", config);
+            Utils.warning("ItemConfig constructor, config does not have either `quantity` or `durability`, or either `baseQuantity` or `baseDurability` on the item type. Config:", config);
+            throw new Error("Failed ItemConfig validation.");
         }
     }
 

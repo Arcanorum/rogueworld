@@ -13,6 +13,7 @@ const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
 const CraftingRecipesList = require("../../../../crafting/CraftingRecipesList");
 const ItemConfig = require("../../../../inventory/ItemConfig");
+const AccountModel = require("../../../../account/AccountModel");
 
 class Player extends Character {
     /**
@@ -316,7 +317,7 @@ class Player extends Character {
         });
     }
 
-    modGlory(amount) {
+    async modGlory(amount) {
         if (!Number.isFinite(amount)) {
             Utils.warning("Player.modGlory, amount is not a number:", amount);
             // eslint-disable-next-line no-console
@@ -333,6 +334,20 @@ class Player extends Character {
 
         // Tell the player their new glory amount.
         this.socket.sendEvent(this.EventsList.glory_value, this.glory);
+
+        // If this player has an account, save the new glory amount.
+        if (this.socket.accountUsername) {
+            try {
+                const account = await AccountModel.findOne({
+                    username: this.socket.accountUsername,
+                });
+                account.glory = this.glory;
+                account.save();
+            }
+            catch (err) {
+                Utils.warning(err);
+            }
+        }
     }
 
     modHitPoints(amount, source) {

@@ -209,6 +209,72 @@ class Bank {
         }
     }
 
+    quantityThatCanBeAdded(config) {
+        // Check there is enough weight capacity for any of the incoming stack to be added.
+        // Might not be able to fit all of it, but still add what can fit.
+        const incomingUnitWeight = config.ItemType.prototype.unitWeight;
+
+        // Skip the weight calculation if the item is weightless.
+        // Allow adding the entire quantity.
+        if (incomingUnitWeight <= 0) {
+            return config.quantity;
+        }
+
+        const freeWeight = this.maxWeight - this.weight;
+        const quantityThatCanFit = Math.floor(freeWeight / incomingUnitWeight);
+
+        // Don't return more than is in the incoming stack.
+        // More might be able to fit, but the stack doesn't
+        // need all of the available weight.
+        if (quantityThatCanFit >= config.quantity) {
+            return config.quantity;
+        }
+
+        return quantityThatCanFit;
+    }
+
+    /**
+     *
+     * @param {ItemConfig} config
+     */
+    canItemBeAdded(config) {
+        if (!config) return false;
+
+        const { ItemType } = config;
+
+        if (!ItemType) return false;
+
+        if (config.quantity) {
+            if (this.quantityThatCanBeAdded(config) > 0) return true;
+            return false;
+        }
+        if (config.durability) {
+            if ((this.weight + ItemType.prototype.unitWeight) > this.maxWeight) return false;
+            return true;
+        }
+
+        // Not a stackable or unstackable somehow. Prevent adding.
+        return false;
+    }
+
+    depositAllItems() {
+        const { inventory } = this.owner;
+
+        // Loop backwards to avoid dealing with shifting array indexes.
+        for (let i = inventory.items.length - 1; i >= 0; i -= 1) {
+            const item = inventory.items[i];
+            // Check there is enough space to fit this item.
+            if (!this.canItemBeAdded(item.itemConfig)) continue; // eslint-disable-line no-continue
+
+            if (item.itemConfig.quantity) {
+                this.depositItem(item.slotIndex, this.quantityThatCanBeAdded(item.itemConfig));
+            }
+            else {
+                this.depositItem(item.slotIndex);
+            }
+        }
+    }
+
     /**
      * @param {Number} inventorySlotIndex
      * @param {Number} quantityToDeposit - Stackables only. How much of the stack to deposit.

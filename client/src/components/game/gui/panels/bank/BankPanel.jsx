@@ -293,9 +293,12 @@ function BankPanel({ onCloseCallback }) {
                           src={depositIcon}
                           className="button deposit"
                           draggable={false}
+                          onClick={() => {
+                              ApplicationState.connection.sendEvent("bank_deposit_all_items");
+                          }}
                           onMouseEnter={() => {
                               GUIState.setTooltipContent(
-                                  Utils.getTextDef("Deposit all items"),
+                                  Utils.getTextDef("Deposit all"),
                               );
                           }}
                           onMouseLeave={() => {
@@ -327,7 +330,7 @@ function BankPanel({ onCloseCallback }) {
                     </div>
                     <div className="headers">
                         <div className="header inventory">
-                            <div className="col-name high-contrast-text">{Utils.getTextDef("Inventory")}</div>
+                            <div className="col-name high-contrast-text">{Utils.getTextDef("Inventory panel: name")}</div>
                             <div
                               className="weight"
                               onMouseEnter={() => {

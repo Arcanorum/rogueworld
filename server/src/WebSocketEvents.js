@@ -420,7 +420,6 @@ eventResponses.craft_item = function (clientSocket, data) {
  * @param {Number} data.quantity
  */
 eventResponses.bank_deposit_item = (clientSocket, data) => {
-    console.log("bank_deposit_item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -434,8 +433,20 @@ eventResponses.bank_deposit_item = (clientSocket, data) => {
  * @param {Number} data.slotIndex
  * @param {Number} data.quantity
  */
+eventResponses.bank_deposit_all_items = (clientSocket) => {
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    if (clientSocket.entity.hitPoints <= 0) return;
+
+    clientSocket.entity.bank.depositAllItems();
+};
+
+/**
+ * @param {*} clientSocket
+ * @param {Number} data.slotIndex
+ * @param {Number} data.quantity
+ */
 eventResponses.bank_withdraw_item = (clientSocket, data) => {
-    console.log("bank_withdraw_item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.

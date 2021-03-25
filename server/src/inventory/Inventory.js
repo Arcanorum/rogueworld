@@ -52,30 +52,6 @@ class Inventory {
         return emittableInventory;
     }
 
-    /**
-     *
-     * @param {ItemConfig} config
-     */
-    canItemBeAdded(config) {
-        if (!config) return false;
-
-        const { ItemType } = config;
-
-        if (!ItemType) return false;
-
-        if (config.quantity) {
-            if (this.quantityThatCanBeAdded(config) > 0) return true;
-            return false;
-        }
-        if (config.durability) {
-            if ((this.weight + ItemType.prototype.unitWeight) > this.maxWeight) return false;
-            return true;
-        }
-
-        // Not a stackable or unstackable somehow. Prevent adding.
-        return false;
-    }
-
     updateWeight() {
         const originalWeight = this.weight;
         this.weight = 0;
@@ -113,6 +89,30 @@ class Inventory {
         }
 
         return quantityThatCanFit;
+    }
+
+    /**
+     *
+     * @param {ItemConfig} config
+     */
+    canItemBeAdded(config) {
+        if (!config) return false;
+
+        const { ItemType } = config;
+
+        if (!ItemType) return false;
+
+        if (config.quantity) {
+            if (this.quantityThatCanBeAdded(config) > 0) return true;
+            return false;
+        }
+        if (config.durability) {
+            if ((this.weight + ItemType.prototype.unitWeight) > this.maxWeight) return false;
+            return true;
+        }
+
+        // Not a stackable or unstackable somehow. Prevent adding.
+        return false;
     }
 
     findNonFullItemTypeStack(ItemType) {

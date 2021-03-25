@@ -113,8 +113,8 @@ class Bank {
                 account.bankUpgrades += 1;
                 account.save();
             }
-            catch (err) {
-                Utils.warning(err);
+            catch (error) {
+                Utils.warning(error);
             }
         }
     }

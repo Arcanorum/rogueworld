@@ -1,4 +1,6 @@
+const AccountModel = require("../account/AccountModel");
 const EventsList = require("../EventsList");
+const Utils = require("../Utils");
 
 class Stat {
     /**
@@ -62,7 +64,7 @@ class Stat {
         }
     }
 
-    gainExp(amount) {
+    async gainExp(amount) {
         this.exp += amount;
 
         this.player.socket.sendEvent(EventsList.exp_gained, { statName: this.name, exp: this.exp });
@@ -71,7 +73,28 @@ class Stat {
             if (this.exp >= this.nextLevelExpRequirement) {
                 this.levelUp();
 
-                this.player.socket.sendEvent(EventsList.stat_levelled, { statName: this.name, level: this.level, nextLevelExpRequirement: this.nextLevelExpRequirement });
+                this.player.socket.sendEvent(
+                    EventsList.stat_levelled,
+                    {
+                        statName: this.name,
+                        level: this.level,
+                        nextLevelExpRequirement: this.nextLevelExpRequirement,
+                    },
+                );
+            }
+        }
+
+        // If this player has an account, save the new stat exp amount.
+        if (this.player.socket.accountUsername) {
+            try {
+                const account = await AccountModel.findOne({
+                    username: this.player.socket.accountUsername,
+                });
+                account.stats[this.name] = this.exp;
+                account.save();
+            }
+            catch (error) {
+                Utils.warning(error);
             }
         }
     }

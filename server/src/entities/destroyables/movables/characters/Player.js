@@ -344,8 +344,8 @@ class Player extends Character {
                 account.glory = this.glory;
                 account.save();
             }
-            catch (err) {
-                Utils.warning(err);
+            catch (error) {
+                Utils.warning(error);
             }
         }
     }

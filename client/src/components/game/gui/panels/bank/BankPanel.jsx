@@ -25,8 +25,18 @@ import {
     MODIFY_BANK_WEIGHT,
 } from "../../../../../shared/EventTypes";
 
-const canTransferItem = (State, itemConfig, quantity) => {
+const canTransferItem = (FromState, itemConfig, quantity) => {
     if (!itemConfig) return false;
+
+    // Check the other state, or it will be checking if it can move from
+    // the same side into the same side, instead of into the other side.
+    let ToState = null;
+    if (FromState === InventoryState) {
+        ToState = BankState;
+    }
+    else if (FromState === BankState) {
+        ToState = InventoryState;
+    }
 
     // For stackables, check if at least one unit of the stack can fit, or a specific amount if given.
     if (itemConfig.quantity) {
@@ -35,15 +45,15 @@ const canTransferItem = (State, itemConfig, quantity) => {
         return (
             (itemConfig.totalWeight / itemConfig.quantity) * quantity
         ) <= (
-            State.maxWeight - State.weight
+            ToState.maxWeight - ToState.weight
         );
     }
 
-    return itemConfig.totalWeight <= (State.maxWeight - State.weight);
+    return itemConfig.totalWeight <= (ToState.maxWeight - ToState.weight);
 };
 
 function ItemOptions({
-    State, itemConfig, onCursorLeave, panelBounds,
+    State, itemConfig, onCursorLeave, onTransferQuantityChanged, panelBounds,
 }) {
     const [transferQuantity, setTransferQuantity] = useState(1);
     const [styleTop] = useState(GUIState.cursorY - panelBounds.y);
@@ -58,6 +68,8 @@ function ItemOptions({
         if (transferQuantity < 0) {
             setTransferQuantity(0);
         }
+
+        onTransferQuantityChanged(transferQuantity);
     }, [transferQuantity]);
 
     const modTransferQuantity = (amount) => {
@@ -68,9 +80,15 @@ function ItemOptions({
         setTransferQuantity(parseInt(event.target.value || 0, 10));
     };
 
-    const transferPressed = () => {
-        console.log("transferPressed");
+    const getTransferButtonText = () => {
+        if (State === InventoryState) {
+            return Utils.getTextDef("Deposit");
+        }
 
+        return Utils.getTextDef("Withdraw");
+    };
+
+    const transferPressed = () => {
         if (State === InventoryState) {
             if (itemConfig.quantity) {
                 ApplicationState.connection.sendEvent("bank_deposit_item", {
@@ -112,15 +130,15 @@ function ItemOptions({
                     {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>
                 {itemConfig.durability && <div className="detail">{`${itemConfig.durability}/${itemConfig.maxDurability}`}</div>}
-                {itemConfig.quantity && <div className="detail">{`x${itemConfig.quantity}`}</div>}
+                {itemConfig.quantity && <div className="detail">{`x${transferQuantity}`}</div>}
                 {itemConfig.durability && <div className={`detail ${canTransferItem(State, itemConfig) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
-                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
+                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? "" : "no-space"}`}>{`Weight: ${transferQuantity * (itemConfig.totalWeight / itemConfig.quantity)}`}</div>}
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>
             </div>
             <div className="buttons">
-                {itemConfig.durability && canTransferItem(State, itemConfig) && <div className="button options-deposit" onClick={transferPressed}>{Utils.getTextDef("Deposit")}</div>}
+                {itemConfig.durability && canTransferItem(State, itemConfig) && <div className="button options-deposit" onClick={transferPressed}>{getTransferButtonText()}</div>}
                 {itemConfig.quantity && canTransferItem(State, itemConfig) && (
                     <>
                         <div className="number-buttons">
@@ -137,11 +155,11 @@ function ItemOptions({
                             <div className="button clear" onClick={() => { setTransferQuantity(0); }}>x</div>
                             <input className="button" type="number" min="0" value={transferQuantity} onChange={inputChanged} />
                         </div>
-                        {transferQuantity > 0 && <div className="button options-deposit" onClick={transferPressed}>{Utils.getTextDef("Deposit")}</div>}
-                        {transferQuantity <= 0 && <div className="button options-no-space">{Utils.getTextDef("Deposit")}</div>}
+                        {transferQuantity > 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-deposit" onClick={transferPressed}>{getTransferButtonText()}</div>}
+                        {transferQuantity <= 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space">{getTransferButtonText()}</div>}
                     </>
                 )}
-                {!canTransferItem(State, itemConfig) && <div className="button options-no-space" onClick={transferPressed}>?Not enough free space</div>}
+                {!canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space" onClick={transferPressed}>{Utils.getTextDef("Not enough free space")}</div>}
             </div>
         </div>
     );
@@ -151,6 +169,7 @@ ItemOptions.propTypes = {
     State: PropTypes.object.isRequired,
     itemConfig: PropTypes.object.isRequired,
     onCursorLeave: PropTypes.func.isRequired,
+    onTransferQuantityChanged: PropTypes.func.isRequired,
     panelBounds: PropTypes.object.isRequired,
 };
 
@@ -215,12 +234,25 @@ function BankPanel({ onCloseCallback }) {
     const [storageWeight, setStorageWeight] = useState(BankState.weight);
     const [storageMaxWeight, setStorageMaxWeight] = useState(BankState.maxWeight);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItemTransferQuantity, setSelectedItemTransferQuantity] = useState(0);
     const [TargetState, setTargetState] = useState(InventoryState);
     const panelRef = useRef();
 
     const onItemPressed = (item, State) => {
         setSelectedItem(item);
         setTargetState(State);
+    };
+
+    const useNotEnoughSpaceStyle = (FromState) => {
+        if (FromState === TargetState) {
+            return false;
+        }
+
+        if (selectedItem.quantity) {
+            return !canTransferItem(TargetState, selectedItem, selectedItemTransferQuantity);
+        }
+
+        return !canTransferItem(TargetState, selectedItem);
     };
 
     useEffect(() => {
@@ -345,9 +377,18 @@ function BankPanel({ onCloseCallback }) {
                                   width="32px"
                                   height="32px"
                                 />
+                                {selectedItem
+                                && (
+                                <span className={`high-contrast-text ${useNotEnoughSpaceStyle(InventoryState) ? "no-space" : ""}`}>
+                                    {`${inventoryWeight}/${inventoryMaxWeight}`}
+                                </span>
+                                )}
+                                {!selectedItem
+                                && (
                                 <span className="high-contrast-text">
                                     {`${inventoryWeight}/${inventoryMaxWeight}`}
                                 </span>
+                                )}
                             </div>
                         </div>
                         <div className="header storage">
@@ -368,7 +409,7 @@ function BankPanel({ onCloseCallback }) {
                                 />
                                 {selectedItem
                                 && (
-                                <span className={`high-contrast-text ${canTransferItem(InventoryState, selectedItem) ? "" : "no-space"}`}>
+                                <span className={`high-contrast-text ${useNotEnoughSpaceStyle(BankState) ? "no-space" : ""}`}>
                                     {`${storageWeight}/${storageMaxWeight}`}
                                 </span>
                                 )}
@@ -432,6 +473,7 @@ function BankPanel({ onCloseCallback }) {
                   onCursorLeave={() => {
                       setSelectedItem(null);
                   }}
+                  onTransferQuantityChanged={setSelectedItemTransferQuantity}
                   panelBounds={panelRef.current.getBoundingClientRect()}
                 />
             )}

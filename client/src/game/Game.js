@@ -56,9 +56,9 @@ class Game extends Phaser.Scene {
         PlayerState.setDefence(playerData.defence);
         PlayerState.setStats(playerData.stats);
         PlayerState.setTasks(playerData.tasks);
-        // TODO: load saved items
         InventoryState.setWeight(data.inventory.weight);
         InventoryState.setMaxWeight(data.inventory.maxWeight);
+        BankState.items = data.bank.items;
         BankState.setWeight(data.bank.weight);
         BankState.setMaxWeight(data.bank.maxWeight);
 

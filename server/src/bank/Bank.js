@@ -2,6 +2,7 @@ const settings = require("../../settings.js");
 const EventsList = require("../EventsList.js");
 const ItemConfig = require("../inventory/ItemConfig.js");
 const BankChest = require("../entities/statics/interactables/breakables/BankChest");
+const starterBankItemConfigsList = require("./StarterBankItemConfigs").list;
 const Utils = require("../Utils.js");
 
 class Bank {
@@ -64,7 +65,15 @@ class Bank {
             weight: this.weight,
             maxWeight: this.maxWeight,
             maxWeightUpgradeCost: this.maxWeightUpgradeCost,
-            items: [],
+            items: this.items.map((item, index) => ({
+                id: item.id,
+                slotIndex: index,
+                typeCode: item.ItemType.prototype.typeCode,
+                quantity: item.quantity,
+                durability: item.durability,
+                maxDurability: item.maxDurability,
+                totalWeight: item.totalWeight,
+            })),
         };
 
         return emittableInventory;
@@ -161,21 +170,42 @@ class Bank {
             }
         }
 
-        // Check if there is anything left to add after all of the existing stacks have been filled.
-        if (itemConfig.quantity > 0) {
-            // Some left to add. Add it as a new stack.
+        // If there is anything left to add after all of the existing stacks have been filled, then
+        // make some new stacks.
+        // This should only need to add one stack, but catces any weird cases where they somehow
+        // try to add a stack larger than the max stack size by splitting it up into smaller stacks.
+        let remainingQuantity = itemConfig.quantity;
+        while (remainingQuantity > 0) {
+            let stackQuantity = itemConfig.quantity;
+            // Add the stack being added to the bank as it is.
+            let newStack = itemConfig;
+
+            if (itemConfig.quantity > itemConfig.MAX_QUANTITY) {
+                stackQuantity = itemConfig.MAX_QUANTITY;
+
+                // Too much in the current stack, so split it into a new stack instead.
+                newStack = new ItemConfig({
+                    ItemType: itemConfig.ItemType,
+                    quantity: stackQuantity,
+                });
+
+                itemConfig.modQuantity(-stackQuantity);
+            }
+
             const newSlotIndex = this.items.length;
 
-            this.items.push(itemConfig);
+            this.items.push(newStack);
 
             // Tell the player a new item was added to their bank.
             this.owner.socket.sendEvent(EventsList.add_bank_item, {
                 slotIndex: newSlotIndex,
-                typeCode: itemConfig.ItemType.prototype.typeCode,
-                id: itemConfig.id,
-                quantity: itemConfig.quantity,
-                totalWeight: itemConfig.totalWeight,
+                typeCode: newStack.ItemType.prototype.typeCode,
+                id: newStack.id,
+                quantity: newStack.quantity,
+                totalWeight: newStack.totalWeight,
             });
+
+            remainingQuantity -= stackQuantity;
         }
     }
 
@@ -340,7 +370,21 @@ class Bank {
     }
 
     addStarterItems() {
-        // TODO: make a setting for the starter items to add, STARTER_BANK_ITEMS
+        starterBankItemConfigsList.forEach((starterItemConfig) => {
+            // Need to make new item config instances based on the existing ones, instead of just
+            // using those ones, so they don't get mutated as they need to be the same every time.
+            const itemConfig = new ItemConfig(starterItemConfig);
+
+            // Store the item config in the bank.
+            if (itemConfig.quantity) {
+                this.addStackable(itemConfig);
+            }
+            else {
+                this.items.push(itemConfig);
+            }
+        });
+
+        this.updateWeight();
     }
 
     removeQuantityFromSlot(slotIndex, quantity) {

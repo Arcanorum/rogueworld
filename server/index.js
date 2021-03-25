@@ -6,6 +6,7 @@ const settings = require("./settings");
 const Utils = require("./src/Utils");
 const ItemsLoader = require("./src/ItemsLoader");
 const EntitiesLoader = require("./src/EntitiesLoader");
+const StarterBankItemConfigs = require("./src/bank/StarterBankItemConfigs");
 const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
 
 Utils.message("Start of index");
@@ -21,6 +22,8 @@ async function init() {
 
     // Do this after the items list is set up, as the recipes need to check the items they use are valid.
     CraftingRecipesLoader.populateList();
+    // Same for starter bank items.
+    StarterBankItemConfigs.populateList();
 
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();

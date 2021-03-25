@@ -78,3 +78,8 @@ ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE: 50
 # upgrade would be 3300.
 # 1650 * 2 = 3300
 MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER: 2
+
+STARTER_BANK_ITEMS:
+  - itemName: HealthPotion
+    quantity: 4
+  - itemName: IronSword

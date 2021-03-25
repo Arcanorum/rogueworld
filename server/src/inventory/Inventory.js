@@ -178,31 +178,45 @@ class Inventory {
                 }
             }
 
-            // Reduce the size of the incoming stack.
-            config.modQuantity(-quantityToAdd);
+            // If there is anything left to add after all of the existing stacks have been filled, then
+            // make some new stacks.
+            // This should only need to add one stack, but catces any weird cases where they somehow
+            // try to add a stack larger than the max stack size by splitting it up into smaller stacks.
+            while (quantityToAdd > 0) {
+                let stackQuantity = quantityToAdd;
 
-            const slotIndex = this.items.length;
+                if (config.quantity > config.MAX_QUANTITY) {
+                    stackQuantity = config.MAX_QUANTITY;
+                }
 
-            // Make a new stack with just the quantity that can fit in the available weight.
-            const item = new config.ItemType({
-                itemConfig: new ItemConfig({
-                    ItemType: config.ItemType,
-                    quantity: quantityToAdd,
-                }),
-                slotIndex,
-                owner: this.owner,
-            });
+                // Reduce the size of the incoming stack.
+                config.modQuantity(-stackQuantity);
 
-            this.items.push(item);
+                const slotIndex = this.items.length;
 
-            // Tell the player a new item was added to their inventory.
-            this.owner.socket.sendEvent(EventsList.add_inventory_item, {
-                slotIndex,
-                typeCode: item.typeCode,
-                id: item.itemConfig.id,
-                quantity: item.itemConfig.quantity,
-                totalWeight: item.itemConfig.totalWeight,
-            });
+                // Make a new stack with just the quantity that can fit in the available weight.
+                const item = new config.ItemType({
+                    itemConfig: new ItemConfig({
+                        ItemType: config.ItemType,
+                        quantity: stackQuantity,
+                    }),
+                    slotIndex,
+                    owner: this.owner,
+                });
+
+                this.items.push(item);
+
+                // Tell the player a new item was added to their inventory.
+                this.owner.socket.sendEvent(EventsList.add_inventory_item, {
+                    slotIndex,
+                    typeCode: item.typeCode,
+                    id: item.itemConfig.id,
+                    quantity: item.itemConfig.quantity,
+                    totalWeight: item.itemConfig.totalWeight,
+                });
+
+                quantityToAdd -= stackQuantity;
+            }
         }
         // Add as an unstackable.
         else {

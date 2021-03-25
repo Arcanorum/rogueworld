@@ -1,6 +1,11 @@
 import PubSub from "pubsub-js";
 import {
-    ADD_BANK_ITEM, REMOVE_BANK_ITEM, MODIFY_BANK_ITEM, MODIFY_BANK_WEIGHT, MODIFY_BANK_MAX_WEIGHT,
+    ADD_BANK_ITEM,
+    REMOVE_BANK_ITEM,
+    MODIFY_BANK_ITEM,
+    MODIFY_BANK_WEIGHT,
+    MODIFY_BANK_MAX_WEIGHT,
+    MODIFY_BANK_MAX_WEIGHT_UPGRADE_COST,
 } from "../EventTypes";
 import Utils from "../Utils";
 
@@ -15,6 +20,10 @@ class Bank {
         this.weight = 0;
 
         this.maxWeight = 0;
+
+        this.maxWeightUpgradeCost = 0;
+
+        this.additionalMaxBankWeightPerUpgrade = 0;
     }
 
     setWeight(value) {
@@ -27,6 +36,12 @@ class Bank {
         this.maxWeight = value;
 
         PubSub.publish(MODIFY_BANK_MAX_WEIGHT, { new: value });
+    }
+
+    setMaxWeightUpgradeCost(value) {
+        this.maxWeightUpgradeCost = value;
+
+        PubSub.publish(MODIFY_BANK_MAX_WEIGHT_UPGRADE_COST, { new: value });
     }
 
     addToBank(itemConfig) {

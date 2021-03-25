@@ -33,20 +33,27 @@ class Bank {
         });
     }
 
+    modMaxWeight(amount) {
+        this.maxWeight += amount;
+
+        // The setting might be decimal.
+        this.maxWeight = Math.floor(this.maxWeight);
+
+        // Tell the player their new max bank weight.
+        this.owner.socket.sendEvent(EventsList.bank_max_weight, this.maxWeight);
+    }
+
     buyMaxWeightUpgrade() {
         // Check the player has enough glory.
         if (this.owner.glory < this.maxWeightUpgradeCost) return;
 
         this.owner.modGlory(-this.maxWeightUpgradeCost);
 
-        this.maxWeight += settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE;
-
-        // Tell the player their new max bank weight.
-        this.owner.socket.sendEvent(EventsList.bank_max_weight, this.maxWeight);
+        this.modMaxWeight(settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE);
 
         // Update the next cost based on the new max weight.
-        this.maxWeightUpgradeCost = (
-            this.maxWeight * settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER
+        this.maxWeightUpgradeCost = Math.floor(
+            this.maxWeight * settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER,
         );
 
         // Tell the player the next upgrade cost.
@@ -65,6 +72,7 @@ class Bank {
             weight: this.weight,
             maxWeight: this.maxWeight,
             maxWeightUpgradeCost: this.maxWeightUpgradeCost,
+            additionalMaxBankWeightPerUpgrade: settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE,
             items: this.items.map((item, index) => ({
                 id: item.id,
                 slotIndex: index,

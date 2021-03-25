@@ -21,6 +21,8 @@ const EventsList = {
     add_entities: registerEventName(),
     add_inventory_item: registerEventName(),
     already_logged_in: registerEventName(),
+    bank_max_weight: registerEventName(),
+    bank_max_weight_upgrade_cost: registerEventName(),
     bank_weight: registerEventName(),
     // breakable_broken: registerEventName(), // TODO: not used, maybe add back with bases
     // breakable_damaged: registerEventName(),

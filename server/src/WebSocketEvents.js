@@ -457,6 +457,17 @@ eventResponses.bank_withdraw_item = (clientSocket, data) => {
 
 /**
  * @param {*} clientSocket
+ */
+eventResponses.bank_buy_upgrade = (clientSocket) => {
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    if (clientSocket.entity.hitPoints <= 0) return;
+
+    clientSocket.entity.bank.buyMaxWeightUpgrade();
+};
+
+/**
+ * @param {*} clientSocket
  * @param {Number} data.fromSlotIndex
  * @param {Number} data.toSlotIndex
  */

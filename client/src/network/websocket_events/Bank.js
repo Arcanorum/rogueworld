@@ -17,4 +17,12 @@ export default () => {
     eventResponses.bank_weight = (data) => {
         BankState.setWeight(data);
     };
+
+    eventResponses.bank_max_weight = (data) => {
+        BankState.setMaxWeight(data);
+    };
+
+    eventResponses.bank_max_weight_upgrade_cost = (data) => {
+        BankState.setMaxWeightUpgradeCost(data);
+    };
 };

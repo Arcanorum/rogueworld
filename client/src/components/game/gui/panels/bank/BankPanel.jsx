@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import PubSub from "pubsub-js";
+import AnimatedNumber from "animated-number-react";
 import Utils from "../../../../../shared/Utils";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import {
-    ApplicationState, BankState, GUIState, InventoryState,
+    ApplicationState, BankState, GUIState, InventoryState, PlayerState,
 } from "../../../../../shared/state/States";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
@@ -12,6 +13,7 @@ import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import bankIcon from "../../../../../assets/images/gui/panels/bank/bank-chest.png";
 import depositIcon from "../../../../../assets/images/gui/panels/bank/deposit-all-icon.png";
 import buyIcon from "../../../../../assets/images/gui/panels/bank/buy-storage-icon.png";
+import gloryIcon from "../../../../../assets/images/gui/hud/glory-icon.png";
 import "./BankPanel.scss";
 import ItemTooltip from "../../item_tooltip/ItemTooltip";
 import {
@@ -23,7 +25,12 @@ import {
     MODIFY_BANK_ITEM,
     REMOVE_BANK_ITEM,
     MODIFY_BANK_WEIGHT,
+    MODIFY_BANK_MAX_WEIGHT,
 } from "../../../../../shared/EventTypes";
+
+const formatValue = (value) => value.toFixed(0);
+
+const textAnimationDuration = 500;
 
 const canTransferItem = (FromState, itemConfig, quantity) => {
     if (!itemConfig) return false;
@@ -50,6 +57,49 @@ const canTransferItem = (FromState, itemConfig, quantity) => {
     }
 
     return itemConfig.totalWeight <= (ToState.maxWeight - ToState.weight);
+};
+
+function UpgradeOptions({
+    onCursorLeave, panelBounds,
+}) {
+    const [styleTop] = useState(GUIState.cursorY - panelBounds.y);
+    const [styleLeft] = useState(GUIState.cursorX - panelBounds.x);
+
+    useEffect(() => {
+
+    }, []);
+
+    const upgradePressed = () => {
+        ApplicationState.connection.sendEvent("bank_buy_upgrade");
+
+        onCursorLeave();
+    };
+
+    return (
+        <div
+          className="item-options upgrade"
+          style={{ top: styleTop, left: styleLeft }}
+          onMouseLeave={() => onCursorLeave()}
+        >
+            <div className="upgrade">
+                <div className="cost">
+                    <img src={weightIcon} draggable={false} />
+                    <div className="high-contrast-text">{`+${BankState.additionalMaxBankWeightPerUpgrade}`}</div>
+                </div>
+                <div className="cost">
+                    <img src={gloryIcon} draggable={false} />
+                    <div className={`high-contrast-text ${PlayerState.glory < BankState.maxWeightUpgradeCost ? "warning" : ""}`}>{BankState.maxWeightUpgradeCost}</div>
+                </div>
+                {PlayerState.glory >= BankState.maxWeightUpgradeCost && <div className="button accept" onClick={upgradePressed}>{Utils.getTextDef("Buy")}</div>}
+                {PlayerState.glory < BankState.maxWeightUpgradeCost && <div className="button warning">{Utils.getTextDef("Not enough glory")}</div>}
+            </div>
+        </div>
+    );
+}
+
+UpgradeOptions.propTypes = {
+    onCursorLeave: PropTypes.func.isRequired,
+    panelBounds: PropTypes.object.isRequired,
 };
 
 function ItemOptions({
@@ -138,7 +188,7 @@ function ItemOptions({
                 </div>
             </div>
             <div className="buttons">
-                {itemConfig.durability && canTransferItem(State, itemConfig) && <div className="button options-deposit" onClick={transferPressed}>{getTransferButtonText()}</div>}
+                {itemConfig.durability && canTransferItem(State, itemConfig) && <div className="button options-transfer" onClick={transferPressed}>{getTransferButtonText()}</div>}
                 {itemConfig.quantity && canTransferItem(State, itemConfig) && (
                     <>
                         <div className="number-buttons">
@@ -155,7 +205,7 @@ function ItemOptions({
                             <div className="button clear" onClick={() => { setTransferQuantity(0); }}>x</div>
                             <input className="button" type="number" min="0" value={transferQuantity} onChange={inputChanged} />
                         </div>
-                        {transferQuantity > 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-deposit" onClick={transferPressed}>{getTransferButtonText()}</div>}
+                        {transferQuantity > 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-transfer" onClick={transferPressed}>{getTransferButtonText()}</div>}
                         {transferQuantity <= 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space">{getTransferButtonText()}</div>}
                     </>
                 )}
@@ -230,12 +280,13 @@ function BankPanel({ onCloseCallback }) {
     const [searchStorageItems, setSearchStorageItems] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
-    const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
     const [storageWeight, setStorageWeight] = useState(BankState.weight);
     const [storageMaxWeight, setStorageMaxWeight] = useState(BankState.maxWeight);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedItemTransferQuantity, setSelectedItemTransferQuantity] = useState(0);
     const [TargetState, setTargetState] = useState(InventoryState);
+    const [showUpgradeBankOptions, setShowUpgradeBankOptions] = useState(false);
     const panelRef = useRef();
 
     const onItemPressed = (item, State) => {
@@ -301,6 +352,9 @@ function BankPanel({ onCloseCallback }) {
             PubSub.subscribe(MODIFY_BANK_WEIGHT, (msg, data) => {
                 setStorageWeight(data.new);
             }),
+            PubSub.subscribe(MODIFY_BANK_MAX_WEIGHT, (msg, data) => {
+                setStorageMaxWeight(data.new);
+            }),
         ];
 
         return () => {
@@ -350,9 +404,10 @@ function BankPanel({ onCloseCallback }) {
                           src={buyIcon}
                           className="button buy"
                           draggable={false}
+                          onClick={() => { setShowUpgradeBankOptions(true); }}
                           onMouseEnter={() => {
                               GUIState.setTooltipContent(
-                                  Utils.getTextDef("Buy bank space"),
+                                  Utils.getTextDef("Upgrade bank"),
                               );
                           }}
                           onMouseLeave={() => {
@@ -377,18 +432,19 @@ function BankPanel({ onCloseCallback }) {
                                   width="32px"
                                   height="32px"
                                 />
-                                {selectedItem
-                                && (
-                                <span className={`high-contrast-text ${useNotEnoughSpaceStyle(InventoryState) ? "no-space" : ""}`}>
-                                    {`${inventoryWeight}/${inventoryMaxWeight}`}
+                                <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(InventoryState) ? "no-space" : ""}` : ""} `}>
+                                    <AnimatedNumber
+                                      value={inventoryWeight}
+                                      duration={textAnimationDuration}
+                                      formatValue={formatValue}
+                                    />
+                                    /
+                                    <AnimatedNumber
+                                      value={inventoryMaxWeight}
+                                      duration={textAnimationDuration}
+                                      formatValue={formatValue}
+                                    />
                                 </span>
-                                )}
-                                {!selectedItem
-                                && (
-                                <span className="high-contrast-text">
-                                    {`${inventoryWeight}/${inventoryMaxWeight}`}
-                                </span>
-                                )}
                             </div>
                         </div>
                         <div className="header storage">
@@ -407,18 +463,19 @@ function BankPanel({ onCloseCallback }) {
                                   width="32px"
                                   height="32px"
                                 />
-                                {selectedItem
-                                && (
-                                <span className={`high-contrast-text ${useNotEnoughSpaceStyle(BankState) ? "no-space" : ""}`}>
-                                    {`${storageWeight}/${storageMaxWeight}`}
+                                <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(BankState) ? "no-space" : ""}` : ""} `}>
+                                    <AnimatedNumber
+                                      value={storageWeight}
+                                      duration={textAnimationDuration}
+                                      formatValue={formatValue}
+                                    />
+                                    /
+                                    <AnimatedNumber
+                                      value={storageMaxWeight}
+                                      duration={textAnimationDuration}
+                                      formatValue={formatValue}
+                                    />
                                 </span>
-                                )}
-                                {!selectedItem
-                                && (
-                                <span className="high-contrast-text">
-                                    {`${storageWeight}/${storageMaxWeight}`}
-                                </span>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -474,6 +531,14 @@ function BankPanel({ onCloseCallback }) {
                       setSelectedItem(null);
                   }}
                   onTransferQuantityChanged={setSelectedItemTransferQuantity}
+                  panelBounds={panelRef.current.getBoundingClientRect()}
+                />
+            )}
+            {showUpgradeBankOptions && (
+                <UpgradeOptions
+                  onCursorLeave={() => {
+                      setShowUpgradeBankOptions(false);
+                  }}
                   panelBounds={panelRef.current.getBoundingClientRect()}
                 />
             )}

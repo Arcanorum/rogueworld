@@ -61,6 +61,8 @@ class Game extends Phaser.Scene {
         BankState.items = data.bank.items;
         BankState.setWeight(data.bank.weight);
         BankState.setMaxWeight(data.bank.maxWeight);
+        BankState.setMaxWeightUpgradeCost(data.bank.maxWeightUpgradeCost);
+        BankState.additionalMaxBankWeightPerUpgrade = data.bank.additionalMaxBankWeightPerUpgrade;
 
         ApplicationState.setLoggedIn(data.isLoggedIn);
 

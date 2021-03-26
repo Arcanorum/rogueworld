@@ -287,6 +287,8 @@ function BankPanel({ onCloseCallback }) {
     const [selectedItemTransferQuantity, setSelectedItemTransferQuantity] = useState(0);
     const [TargetState, setTargetState] = useState(InventoryState);
     const [showUpgradeBankOptions, setShowUpgradeBankOptions] = useState(false);
+    const [highlightStorageWeight, setHighlightStorageWeight] = useState(false);
+    const [highlightInventoryWeight, setHighlightInventoryWeight] = useState(false);
     const panelRef = useRef();
 
     const onItemPressed = (item, State) => {
@@ -375,22 +377,6 @@ function BankPanel({ onCloseCallback }) {
             >
                 <div className="inner-cont">
                     <div className="top-bar">
-                        <img
-                          src={depositIcon}
-                          className="button deposit"
-                          draggable={false}
-                          onClick={() => {
-                              ApplicationState.connection.sendEvent("bank_deposit_all_items");
-                          }}
-                          onMouseEnter={() => {
-                              GUIState.setTooltipContent(
-                                  Utils.getTextDef("Deposit all"),
-                              );
-                          }}
-                          onMouseLeave={() => {
-                              GUIState.setTooltipContent(null);
-                          }}
-                        />
                         <div className="search">
                             <input
                               placeholder={Utils.getTextDef("Item search")}
@@ -400,20 +386,6 @@ function BankPanel({ onCloseCallback }) {
                               autoFocus
                             />
                         </div>
-                        <img
-                          src={buyIcon}
-                          className="button buy"
-                          draggable={false}
-                          onClick={() => { setShowUpgradeBankOptions(true); }}
-                          onMouseEnter={() => {
-                              GUIState.setTooltipContent(
-                                  Utils.getTextDef("Upgrade bank"),
-                              );
-                          }}
-                          onMouseLeave={() => {
-                              GUIState.setTooltipContent(null);
-                          }}
-                        />
                     </div>
                     <div className="headers">
                         <div className="header inventory">
@@ -429,10 +401,9 @@ function BankPanel({ onCloseCallback }) {
                             >
                                 <img
                                   src={weightIcon}
-                                  width="32px"
-                                  height="32px"
+                                  className="icon"
                                 />
-                                <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(InventoryState) ? "no-space" : ""}` : ""} `}>
+                                <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(InventoryState) ? "no-space" : ""}` : ""}`}>
                                     <AnimatedNumber
                                       value={inventoryWeight}
                                       duration={textAnimationDuration}
@@ -445,6 +416,24 @@ function BankPanel({ onCloseCallback }) {
                                       formatValue={formatValue}
                                     />
                                 </span>
+                                <img
+                                  src={depositIcon}
+                                  className="icon button"
+                                  draggable={false}
+                                  onClick={() => {
+                                      ApplicationState.connection.sendEvent("bank_deposit_all_items");
+                                  }}
+                                  onMouseEnter={() => {
+                                      GUIState.setTooltipContent(
+                                          Utils.getTextDef("Deposit all"),
+                                      );
+                                      setHighlightInventoryWeight(true);
+                                  }}
+                                  onMouseLeave={() => {
+                                      GUIState.setTooltipContent(null);
+                                      setHighlightInventoryWeight(false);
+                                  }}
+                                />
                             </div>
                         </div>
                         <div className="header storage">
@@ -460,10 +449,13 @@ function BankPanel({ onCloseCallback }) {
                             >
                                 <img
                                   src={weightIcon}
-                                  width="32px"
-                                  height="32px"
+                                  className="icon"
                                 />
-                                <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(BankState) ? "no-space" : ""}` : ""} `}>
+                                <span className={`
+                                    high-contrast-text
+                                    ${selectedItem ? `${useNotEnoughSpaceStyle(BankState) ? "no-space" : ""}` : ""}
+                                `}
+                                >
                                     <AnimatedNumber
                                       value={storageWeight}
                                       duration={textAnimationDuration}
@@ -474,13 +466,30 @@ function BankPanel({ onCloseCallback }) {
                                       value={storageMaxWeight}
                                       duration={textAnimationDuration}
                                       formatValue={formatValue}
+                                      className={`${highlightStorageWeight ? "highlight" : ""}`}
                                     />
                                 </span>
+                                <img
+                                  src={buyIcon}
+                                  className="icon button"
+                                  draggable={false}
+                                  onClick={() => { setShowUpgradeBankOptions(true); }}
+                                  onMouseEnter={() => {
+                                      GUIState.setTooltipContent(
+                                          Utils.getTextDef("Upgrade bank"),
+                                      );
+                                      setHighlightStorageWeight(true);
+                                  }}
+                                  onMouseLeave={() => {
+                                      GUIState.setTooltipContent(null);
+                                      setHighlightStorageWeight(false);
+                                  }}
+                                />
                             </div>
                         </div>
                     </div>
                     <div className="cols">
-                        <div className="list inventory">
+                        <div className={`list inventory ${highlightInventoryWeight ? "highlight" : ""}`}>
                             {searchText && searchInventoryItems.map((item) => (
                                 <ItemSlot
                                   key={item.id}

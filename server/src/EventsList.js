@@ -74,6 +74,7 @@ const EventsList = {
     hit_point_value: registerEventName(),
     inactive_state: registerEventName(),
     invalid_login_details: registerEventName(),
+    inventory_max_weight: registerEventName(),
     inventory_weight: registerEventName(),
     item_broken: registerEventName(),
     item_dropped: registerEventName(),

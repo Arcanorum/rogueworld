@@ -1,5 +1,6 @@
 const settings = require("../../settings.js");
 const EventsList = require("../EventsList.js");
+const ItemsList = require("../ItemsList.js");
 const Utils = require("../Utils.js");
 const ItemConfig = require("./ItemConfig.js");
 
@@ -18,6 +19,41 @@ class Inventory {
         this.items = [];
     }
 
+    loadData(account) {
+        // Calculate the max weight first, in case they have more items than would fit in the default max weight.
+        this.updateMaxWeight();
+
+        // Add the stored items to this player's inventory.
+        account.inventoryItems.forEach((inventoryItem) => {
+            // Check the type of item to add is valid.
+            // Might have been removed since this player last logged in.
+            if (!ItemsList.BY_CODE[inventoryItem.typeCode]) return;
+
+            try {
+                // Make new item config instances based on the stored data.
+                const itemConfig = new ItemConfig({
+                    ItemType: ItemsList.BY_CODE[inventoryItem.typeCode],
+                    quantity: inventoryItem.quantity,
+                    durability: inventoryItem.durability,
+                    maxDurability: inventoryItem.maxDurability,
+                });
+
+                const item = new itemConfig.ItemType({
+                    itemConfig,
+                    slotIndex: this.items.length,
+                    owner: this.owner,
+                });
+
+                this.items.push(item);
+            }
+            catch (error) {
+                Utils.warning(error.message);
+            }
+        });
+
+        this.updateWeight();
+    }
+
     print() {
         console.log("printing inventory:");
         this.items.forEach((item) => {
@@ -30,26 +66,19 @@ class Inventory {
      * @returns {Object}
      */
     getEmittableProperties() {
-        const emittableInventory = {
+        return {
             weight: this.weight,
             maxWeight: this.maxWeight,
-            items: [],
+            items: this.items.map((item) => ({
+                slotIndex: item.slotIndex,
+                typeCode: item.typeCode,
+                id: item.itemConfig.id,
+                quantity: item.itemConfig.quantity,
+                durability: item.itemConfig.durability,
+                maxDurability: item.itemConfig.maxDurability,
+                totalWeight: item.itemConfig.totalWeight,
+            })),
         };
-
-        // let item;
-
-        // TODO: items refactor, move to inventory class
-        // for (const slotKey in this.inventory) {
-        //     if (this.inventory.hasOwnProperty(slotKey) === false) continue;
-        //     // Skip empty slots.
-        //     if (this.inventory[slotKey] === null) continue;
-        //     item = this.inventory[slotKey];
-        //     emittableInventory.push({
-        //         typeCode: item.typeCode, slotKey: item.slotKey, durability: item.durability, maxDurability: item.maxDurability,
-        //     });
-        // }
-
-        return emittableInventory;
     }
 
     updateWeight() {
@@ -65,6 +94,21 @@ class Inventory {
             // Tell the player their new inventory weight.
             this.owner.socket.sendEvent(EventsList.inventory_weight, this.weight);
         }
+    }
+
+    updateMaxWeight() {
+        const baseMaxWeight = settings.MAX_INVENTORY_WEIGHT || 1000;
+
+        // The setting might be decimal.
+        this.maxWeight = Math.floor(
+            baseMaxWeight + (
+                this.owner.stats.getGainedLevels()
+                * (settings.ADDITIONAL_MAX_INVENTORY_WEIGHT_PER_STAT_LEVEL || 0)
+            ),
+        );
+
+        // Tell the player their new max bank weight.
+        this.owner.socket.sendEvent(EventsList.inventory_max_weight, this.maxWeight);
     }
 
     quantityThatCanBeAdded(config) {

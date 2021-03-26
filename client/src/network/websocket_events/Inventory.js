@@ -26,6 +26,10 @@ export default () => {
         InventoryState.setWeight(data);
     };
 
+    eventResponses.inventory_max_weight = (data) => {
+        InventoryState.setMaxWeight(data);
+    };
+
     /**
      * When an item is used, such as attacking with a weapon, drinking a potion, eating
      * food, firing an arrow, etc. Generally when an item to lose durability.

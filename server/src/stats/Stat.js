@@ -105,6 +105,9 @@ class Stat {
         this.expRequirementIncreaseAmount *= this.expRequirementIncreaseMultiplier;
 
         this.nextLevelExpRequirement += Math.floor(this.expRequirementIncreaseAmount);
+
+        // Update the max inventory weight as it increases with each level.
+        this.player.inventory.updateMaxWeight();
     }
 }
 

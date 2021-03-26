@@ -24,8 +24,7 @@ class Statset {
     getEmittableStats() {
         const emittableStats = {};
 
-        for (const statName in this.StatNames) {
-            if (this.StatNames.hasOwnProperty(statName) === false) continue;
+        Object.values(this.StatNames).forEach((statName) => {
             // Check the stat name is an actual stat on the stat set.
             // Might be in the stat name list but not be an existing stat with that name.
             if (this[statName]) {
@@ -35,9 +34,28 @@ class Statset {
                     nextLevelExpRequirement: this[statName].nextLevelExpRequirement,
                 };
             }
-        }
+        });
 
         return emittableStats;
+    }
+
+    loadData(account) {
+        Object.entries(this).forEach(([statKey, stat]) => {
+            // Check the account has exp data on that stat. A new stat might have been added to
+            // the stat set since this player last logged in, so they won't have an entry for it.
+            // Allow 0.
+            if (!Number.isFinite(account.stats[statKey])) return;
+            // Get the exp for each stat that this account has data on.
+            stat.exp = account.stats[statKey];
+            stat.calculateCurrentLevel();
+        });
+    }
+
+    getGainedLevels() {
+        return Object.values(this).reduce((accumulator, stat) => (
+            // -1 to not count the default level. Only care about the ones after level 1.
+            accumulator + (stat.level - 1)
+        ), 0);
     }
 }
 

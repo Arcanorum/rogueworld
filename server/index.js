@@ -48,8 +48,8 @@ async function init() {
 
     function cleanUp() {
         Utils.message("index.js cleanup");
-        // Attempt to save the player data to local storage.
-        world.accountManager.saveAllPlayersData(wss);
+        // // Attempt to save the player data to local storage.
+        // world.accountManager.saveAllPlayersData(wss);
 
         // Save the clans data.
         // clanManager.saveDataToFile();

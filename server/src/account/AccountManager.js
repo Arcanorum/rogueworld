@@ -72,7 +72,7 @@ module.exports = {
             displayName: formattedData.displayName,
             glory: formattedData.glory,
             bankItems: formattedData.bankItems,
-            inventory: formattedData.inventory,
+            inventoryItems: formattedData.inventoryItems,
             stats: formattedData.stats,
             tasks: formattedData.tasks,
         });
@@ -174,7 +174,7 @@ module.exports = {
                 res.displayName = formattedData.displayName;
                 res.glory = formattedData.glory;
                 res.bankItems = formattedData.bankItems;
-                res.inventory = formattedData.inventory;
+                res.inventoryItems = formattedData.inventoryItems;
                 res.stats = formattedData.stats;
                 res.tasks = formattedData.tasks;
 
@@ -200,46 +200,11 @@ module.exports = {
         // Bank.
         entity.bank.loadData(account);
 
-        // const { bankItems } = account;
-
-        // bankItems.forEach((bankItem, i) => {
-        //     // Check the type of item to add is valid.
-        //     // Might have been removed since this player last logged in.
-        //     if (!ItemsList.BY_CODE[bankItem.itemTypeCode]) {
-        //         return;
-        //     }
-
-        //     entity.bank.addItemToBankAccount(
-        //         i,
-        //         ItemsList.BY_CODE[bankItem.itemTypeCode], // BankAccount.addItemToBankAccount wants the TYPE itself, not just the type code.
-        //         bankItem.durability,
-        //         bankItem.maxDurability,
-        //     );
-        // });
-
         // Inventory.
-        const { inventory } = account;
-        Object.values(inventory).forEach((itemSlot) => {
-            // Check the type of item to add is valid. Might have been removed (or renamed) since this player last logged in.
-            if (!ItemsList.BY_CODE[itemSlot.itemTypeCode]) return;
-
-            entity.addToInventory(new ItemsList.BY_CODE[itemSlot.itemTypeCode]({
-                durability: itemSlot.durability,
-                maxDurability: itemSlot.maxDurability,
-            }));
-        });
+        entity.inventory.loadData(account);
 
         // Stats exp.
-        const statsExp = account.stats;
-        Object.entries(entity.stats).forEach(([statKey, stat]) => {
-            // Check the account has exp data on that stat. A new stat might have been added to
-            // the stat set since this player last logged in, so they won't have an entry for it.
-            // Allow 0.
-            if (!Number.isFinite(statsExp[statKey])) return;
-            // Get the exp for each stat that this account has data on.
-            stat.exp = statsExp[statKey];
-            stat.calculateCurrentLevel();
-        });
+        entity.stats.loadData(account);
 
         // Tasks.
         Object.entries(account.tasks).forEach(([savedTaskKey, savedTask]) => {
@@ -288,48 +253,48 @@ module.exports = {
      * where it should be deleted if all of the updates were successful.
      * @param {Object} wss
      */
-    saveAllPlayersData(wss) {
-        const dataToSave = [];
-        // Each connected client.
-        wss.clients.forEach((clientSocket) => {
-            // Skip clients that are not yet fully connected.
-            if (clientSocket.readyState !== 1) return;
-            // Skip clients that are not in game.
-            if (clientSocket.inGame === false) return;
-            // Only log out clients that have an account username set.
-            if (clientSocket.accountUsername) {
-                const playerData = this.getFormattedSaveData(clientSocket.entity);
-                // Add the username of the account this data belongs to, so the
-                // dump handler can find their document in the accounts DB.
-                playerData.accountUsername = clientSocket.accountUsername;
-                dataToSave.push(playerData);
-            }
-        });
+    // saveAllPlayersData(wss) {
+    //     const dataToSave = [];
+    //     // Each connected client.
+    //     wss.clients.forEach((clientSocket) => {
+    //         // Skip clients that are not yet fully connected.
+    //         if (clientSocket.readyState !== 1) return;
+    //         // Skip clients that are not in game.
+    //         if (clientSocket.inGame === false) return;
+    //         // Only log out clients that have an account username set.
+    //         if (clientSocket.accountUsername) {
+    //             const playerData = this.getFormattedSaveData(clientSocket.entity);
+    //             // Add the username of the account this data belongs to, so the
+    //             // dump handler can find their document in the accounts DB.
+    //             playerData.accountUsername = clientSocket.accountUsername;
+    //             dataToSave.push(playerData);
+    //         }
+    //     });
 
-        try {
-            // Write the data to a temporary local file.
+    //     try {
+    //         // Write the data to a temporary local file.
 
-            // TODO: potential problem here where if there is a problem in PlayerDataDumpHandler
-            //  and so the temp data isn't deleted, but then the server starts again and closes
-            //  again, so will overwrite this existing temp file from last time.
-            fs.writeFileSync("./PlayerDataDump.json", JSON.stringify(dataToSave));
+    //         // TODO: potential problem here where if there is a problem in PlayerDataDumpHandler
+    //         //  and so the temp data isn't deleted, but then the server starts again and closes
+    //         //  again, so will overwrite this existing temp file from last time.
+    //         fs.writeFileSync("./PlayerDataDump.json", JSON.stringify(dataToSave));
 
-            // Create a new process
-            // eslint-disable-next-line global-require
-            const { spawn } = require("child_process");
-            const child = spawn("node", ["./PlayerDataDumpHandler.js"], {
-                shell: true,
-                detached: true, // Decouple the new process from the this one, so it can keep running after this one closes.
-            });
+    //         // Create a new process
+    //         // eslint-disable-next-line global-require
+    //         const { spawn } = require("child_process");
+    //         const child = spawn("node", ["./PlayerDataDumpHandler.js"], {
+    //             shell: true,
+    //             detached: true, // Decouple the new process from the this one, so it can keep running after this one closes.
+    //         });
 
-            child.unref();
-        }
-        catch (err) {
-            Utils.message("Error writing PlayerDataDump.json: ", err.message);
-        }
+    //         child.unref();
+    //     }
+    //     catch (err) {
+    //         Utils.message("Error writing PlayerDataDump.json: ", err.message);
+    //     }
 
-        Utils.message("Logged in players account data saved.");
-    },
+    //     Utils.message("Logged in players account data saved.");
+    // },
 
     /**
      * Creates an object with all of the relevant data from a player entity to be saved in the Accounts DB.
@@ -348,29 +313,20 @@ module.exports = {
         data.glory = entity.glory;
 
         // Bank.
-        data.bankItems = entity.bank.items.map((bankItem) => ({
-            itemTypeCode: bankItem.itemTypeCode,
-            quantity: bankItem.quantity,
-            durability: bankItem.durability,
-            maxDurability: bankItem.maxDurability,
+        data.bankItems = entity.bank.items.map((item) => ({
+            typeCode: item.ItemType.prototype.typeCode,
+            quantity: item.quantity,
+            durability: item.durability,
+            maxDurability: item.maxDurability,
         }));
 
         // Inventory.
-        data.inventory = {};
-        // for (const slotKey in entity.inventory) {
-        //     if (entity.inventory.hasOwnProperty(slotKey) === false) continue;
-        //     // Skip empty (null) slots.
-        //     if (entity.inventory[slotKey] === null) continue;
-        //     data.inventory[slotKey] = {
-        //         // TODO: save by unique/unchanging item codes here, instead of class name, too brittle
-        //         // Item type name.
-        //         itemTypeName: entity.inventory[slotKey].typeName,
-        //         // Durability.
-        //         durability: entity.inventory[slotKey].durability,
-        //         // Max durability.
-        //         maxDurability: entity.inventory[slotKey].maxDurability,
-        //     };
-        // }
+        data.inventoryItems = entity.inventory.items.map((item) => ({
+            typeCode: item.itemConfig.ItemType.prototype.typeCode,
+            quantity: item.itemConfig.quantity,
+            durability: item.itemConfig.durability,
+            maxDurability: item.itemConfig.maxDurability,
+        }));
 
         // Stats exp.
         data.stats = {};

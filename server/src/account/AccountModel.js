@@ -54,7 +54,7 @@ const accountSchema = new Schema(
         glory: { type: Number, default: 0, validate: integerValidator },
         bankUpgrades: { type: Number, default: 0, validate: integerValidator },
         bankItems: [itemSchema],
-        inventory: [itemSchema],
+        inventoryItems: [itemSchema],
         stats: statsSchema,
         tasks: [taskSchema],
     },

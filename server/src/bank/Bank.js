@@ -15,9 +15,7 @@ class Bank {
 
         this.maxWeight = settings.MAX_BANK_WEIGHT || 1000;
 
-        this.maxWeightUpgradeCost = (
-            this.maxWeight * settings.MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER
-        );
+        this.updateMaxWeightUpgradeCost();
 
         /**
          * A list of the items in this bank account.
@@ -29,7 +27,7 @@ class Bank {
     }
 
     loadData(account) {
-        // Calculate the max weight first, incase they have more items than would fit in the default max weight.
+        // Calculate the max weight first, in case they have more items than would fit in the default max weight.
         this.modMaxWeight(
             (account.bankUpgrades || 0) * (settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE || 0),
         );
@@ -54,7 +52,7 @@ class Bank {
                     this.addStackable(itemConfig);
                 }
                 else {
-                    this.items.push(itemConfig);
+                    this.addItem(itemConfig, false);
                 }
             }
             catch (error) {
@@ -70,6 +68,46 @@ class Bank {
         this.items.forEach((item) => {
             console.log(item);
         });
+    }
+
+    async addItem(itemConfig, sendEvent) {
+        const slotIndex = this.items.length;
+
+        this.items.push(itemConfig);
+
+        // Tell the player a new item was added to their bank.
+        if (sendEvent) {
+            this.owner.socket.sendEvent(EventsList.add_bank_item, {
+                slotIndex,
+                typeCode: itemConfig.ItemType.prototype.typeCode,
+                id: itemConfig.id,
+                quantity: itemConfig.quantity,
+                durability: itemConfig.durability,
+                maxDurability: itemConfig.maxDurability,
+                totalWeight: itemConfig.totalWeight,
+            });
+        }
+
+        // If this player has an account, save the new bank item level.
+        if (this.owner.socket.accountUsername) {
+            try {
+                const account = await AccountModel.findOne({
+                    username: this.owner.socket.accountUsername,
+                });
+                // Need to use Mongoose setter when modifying array by index directly.
+                // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
+                account.bankItems.set(slotIndex, {
+                    typeCode: itemConfig.ItemType.prototype.typeCode,
+                    quantity: itemConfig.quantity,
+                    durability: itemConfig.durability,
+                    maxDurability: itemConfig.maxDurability,
+                });
+                account.save();
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
     }
 
     modMaxWeight(amount) {
@@ -256,18 +294,7 @@ class Bank {
                 itemConfig.modQuantity(-stackQuantity);
             }
 
-            const newSlotIndex = this.items.length;
-
-            this.items.push(newStack);
-
-            // Tell the player a new item was added to their bank.
-            this.owner.socket.sendEvent(EventsList.add_bank_item, {
-                slotIndex: newSlotIndex,
-                typeCode: newStack.ItemType.prototype.typeCode,
-                id: newStack.id,
-                quantity: newStack.quantity,
-                totalWeight: newStack.totalWeight,
-            });
+            this.addItem(newStack, true);
 
             remainingQuantity -= stackQuantity;
         }
@@ -321,29 +348,11 @@ class Bank {
         return false;
     }
 
-    depositAllItems() {
-        const { inventory } = this.owner;
-
-        // Loop backwards to avoid dealing with shifting array indexes.
-        for (let i = inventory.items.length - 1; i >= 0; i -= 1) {
-            const item = inventory.items[i];
-            // Check there is enough space to fit this item.
-            if (!this.canItemBeAdded(item.itemConfig)) continue; // eslint-disable-line no-continue
-
-            if (item.itemConfig.quantity) {
-                this.depositItem(item.slotIndex, this.quantityThatCanBeAdded(item.itemConfig));
-            }
-            else {
-                this.depositItem(item.slotIndex);
-            }
-        }
-    }
-
     /**
      * @param {Number} inventorySlotIndex
      * @param {Number} quantityToDeposit - Stackables only. How much of the stack to deposit.
      */
-    depositItem(inventorySlotIndex, quantityToDeposit) {
+    async depositItem(inventorySlotIndex, quantityToDeposit) {
         /** @type {Item} The inventory item to deposit. */
         const inventoryItem = this.owner.inventory.items[inventorySlotIndex];
         if (!inventoryItem) return;
@@ -383,26 +392,31 @@ class Bank {
             // When depositing an unstackable, a quantity must not be provided.
             if (quantityToDeposit) return;
 
-            const slotIndex = this.items.length;
-
-            // Store the item config in the bank.
-            this.items.push(depositItemConfig);
+            this.addItem(depositItemConfig, true);
 
             // Remove it from the inventory.
             this.owner.inventory.removeItemBySlotIndex(inventorySlotIndex);
-
-            // Tell the player a new item was added to their bank.
-            this.owner.socket.sendEvent(EventsList.add_bank_item, {
-                slotIndex,
-                typeCode: depositItemConfig.ItemType.prototype.typeCode,
-                id: depositItemConfig.id,
-                durability: depositItemConfig.durability,
-                maxDurability: depositItemConfig.maxDurability,
-                totalWeight: depositItemConfig.totalWeight,
-            });
         }
 
         this.updateWeight();
+    }
+
+    depositAllItems() {
+        const { inventory } = this.owner;
+
+        // Loop backwards to avoid dealing with shifting array indexes.
+        for (let i = inventory.items.length - 1; i >= 0; i -= 1) {
+            const item = inventory.items[i];
+            // Check there is enough space to fit this item.
+            if (!this.canItemBeAdded(item.itemConfig)) continue; // eslint-disable-line no-continue
+
+            if (item.itemConfig.quantity) {
+                this.depositItem(item.slotIndex, this.quantityThatCanBeAdded(item.itemConfig));
+            }
+            else {
+                this.depositItem(item.slotIndex);
+            }
+        }
     }
 
     /**
@@ -510,7 +524,7 @@ class Bank {
                 this.addStackable(itemConfig);
             }
             else {
-                this.items.push(itemConfig);
+                this.addItem(itemConfig, false);
             }
         });
 

@@ -71,6 +71,29 @@ class Player extends Character {
             this.checkWebsocketConnectionIsAlive.bind(this),
             checkWebsocketConnectionIsAliveRate,
         );
+
+        this.autoSaveTimeout = setTimeout(
+            this.saveAccount.bind(this),
+            5000,
+        );
+    }
+
+    saveAccount() {
+        if (!this.socket) return;
+
+        if (!this.socket.account) return;
+
+        try {
+            this.socket.account.save();
+        }
+        catch (error) {
+            Utils.warning(error);
+        }
+
+        this.autoSaveTimeout = setTimeout(
+            this.saveAccount.bind(this),
+            settings.ACCOUNT_AUTO_SAVE_RATE || 15000,
+        );
     }
 
     checkWebsocketConnectionIsAlive() {
@@ -131,6 +154,7 @@ class Player extends Character {
         }
 
         clearTimeout(this.connectionCheckTimeout);
+        clearTimeout(this.autoSaveTimeout);
 
         // They might be dead when they disconnect, and so will already be removed from the board.
         // Check they are on the board/alive first.
@@ -317,7 +341,7 @@ class Player extends Character {
         });
     }
 
-    async modGlory(amount) {
+    modGlory(amount) {
         if (!Number.isFinite(amount)) {
             Utils.warning("Player.modGlory, amount is not a number:", amount);
             // eslint-disable-next-line no-console
@@ -336,17 +360,8 @@ class Player extends Character {
         this.socket.sendEvent(this.EventsList.glory_value, this.glory);
 
         // If this player has an account, save the new glory amount.
-        if (this.socket.accountUsername) {
-            try {
-                const account = await AccountModel.findOne({
-                    username: this.socket.accountUsername,
-                });
-                account.glory = this.glory;
-                account.save();
-            }
-            catch (error) {
-                Utils.warning(error);
-            }
+        if (this.socket.account) {
+            this.socket.account.glory = this.glory;
         }
     }
 

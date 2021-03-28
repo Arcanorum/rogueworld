@@ -18,11 +18,6 @@ function heartbeat() {
     this.isAlive = true;
 }
 
-function ping() {
-    // console.log("ping");
-    wss.clients.forEach(pingEach);
-}
-
 function closeConnection(clientSocket) {
     Utils.message("Closing dead connection.");
 
@@ -30,7 +25,7 @@ function closeConnection(clientSocket) {
 
     world.removePlayer(clientSocket);
 
-    return clientSocket.terminate();
+    clientSocket.terminate();
 }
 
 function pingEach(clientSocket) {
@@ -42,12 +37,17 @@ function pingEach(clientSocket) {
     clientSocket.ping(noop);
 }
 
-// var pinger = 0;
+function ping() {
+    // console.log("ping");
+    wss.clients.forEach(pingEach);
+}
+
 // How often to ping each client to see if the connection is still alive.
+// var pings = 0;
 const pingRate = 30000;
-const interval = setInterval(() => {
+setInterval(() => {
     // pinger += 1;
-    // console.log("ping: " + pinger);
+    // console.log("pings: " + pings);
     ping();
 }, pingRate);
 
@@ -56,7 +56,7 @@ const interval = setInterval(() => {
  * @param {Number} eventNameID
  * @param {Object} [data]
  */
-const sendEvent = function (eventNameID, data) {
+function sendEvent(eventNameID, data) {
     // console.log("sending, eventNameID: ", eventNameID);
     // console.log("sending, data: ", data);
     // console.log(this);
@@ -64,14 +64,14 @@ const sendEvent = function (eventNameID, data) {
     if (this.readyState === 1) {
         this.send(JSON.stringify({ eventNameID, data }));
     }
-};
+}
 
 /**
  * Broadcast to all connected clients that are in the game.
  * @param {Number} eventNameID
  * @param {Object} [data]
  */
-wss.broadcastToInGame = function broadcast(eventNameID, data) {
+wss.broadcastToInGame = (eventNameID, data) => {
     wss.clients.forEach((client) => {
         if (client.readyState === 1) {
             if (client.inGame === true) {
@@ -133,7 +133,6 @@ eventResponses.log_in = (clientSocket, data) => {
 
     AccountManager.logIn(clientSocket, data.username, data.password, (account) => {
         world.addExistingPlayer(clientSocket, account);
-        clientSocket.accountUsername = data.username;
     });
 };
 
@@ -142,7 +141,7 @@ eventResponses.log_in = (clientSocket, data) => {
  * @param {*} clientSocket
  * @param {String} data.displayName
  */
-eventResponses.new_char = function (clientSocket, data) {
+eventResponses.new_char = (clientSocket, data) => {
     // console.log("new char:", data);
     if (!data) return;
     // Don't let them join a world if they are already in one.
@@ -193,7 +192,6 @@ eventResponses.create_account = (clientSocket, data) => {
     AccountManager.createAccount(data.username, data.password, clientSocket.entity,
         () => {
             Utils.message("Create account success:", data.username);
-            clientSocket.accountUsername = data.username;
             clientSocket.sendEvent(EventsList.create_account_success);
         },
         (error) => {
@@ -215,7 +213,7 @@ eventResponses.change_password = (clientSocket, data) => {
     AccountManager.changePassword(clientSocket, data.currentPassword, data.newPassword);
 };
 
-eventResponses.mv_u = function (clientSocket) {
+eventResponses.mv_u = (clientSocket) => {
     // console.log("move player up");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
@@ -226,7 +224,7 @@ eventResponses.mv_u = function (clientSocket) {
     clientSocket.entity.move(-1, 0);
 };
 
-eventResponses.mv_d = function (clientSocket) {
+eventResponses.mv_d = (clientSocket) => {
     // console.log("move player down");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
@@ -237,7 +235,7 @@ eventResponses.mv_d = function (clientSocket) {
     clientSocket.entity.move(1, 0);
 };
 
-eventResponses.mv_l = function (clientSocket) {
+eventResponses.mv_l = (clientSocket) => {
     // console.log("move player left");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
@@ -248,7 +246,7 @@ eventResponses.mv_l = function (clientSocket) {
     clientSocket.entity.move(0, -1);
 };
 
-eventResponses.mv_r = function (clientSocket) {
+eventResponses.mv_r = (clientSocket) => {
     // console.log("move player right");
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
@@ -263,7 +261,7 @@ eventResponses.mv_r = function (clientSocket) {
  * @param {*} clientSocket
  * @param {String} data
  */
-eventResponses.chat = function (clientSocket, data) {
+eventResponses.chat = (clientSocket, data) => {
     if (!data) return;
     if (clientSocket.inGame === false) return;
 
@@ -272,7 +270,12 @@ eventResponses.chat = function (clientSocket, data) {
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
 
-    entity.board.emitToNearbyPlayers(entity.row, entity.col, EventsList.chat, { id: entity.id, message: data });
+    entity.board.emitToNearbyPlayers(
+        entity.row,
+        entity.col,
+        EventsList.chat,
+        { id: entity.id, message: data },
+    );
 };
 
 /**
@@ -293,7 +296,7 @@ eventResponses.melee_attack = (clientSocket, data) => {
  * @param {*} clientSocket
  * @param {String} data - The key of the inventory slot of the item to equip.
  */
-eventResponses.use_item = function (clientSocket, data) {
+eventResponses.use_item = (clientSocket, data) => {
     // console.log("use item, data:", data);
     // Allow slot index 0 to be given.
     if (!Number.isFinite(data)) return;
@@ -308,7 +311,7 @@ eventResponses.use_item = function (clientSocket, data) {
  * @param {*} clientSocket
  * @param {String} data - The direction to use the selected holdable item in.
  */
-eventResponses.use_held_item = function (clientSocket, data) {
+eventResponses.use_held_item = (clientSocket, data) => {
     // console.log("use item, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
@@ -338,7 +341,7 @@ eventResponses.use_held_item = function (clientSocket, data) {
  * @param {*} clientSocket
  * @param {String|Number} data - The spell number to select.
  */
-eventResponses.spell_selected = function (clientSocket, data) {
+eventResponses.spell_selected = (clientSocket, data) => {
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -355,7 +358,7 @@ eventResponses.spell_selected = function (clientSocket, data) {
  * @param {*} clientSocket
  * @param {String} data - The key of the inventory slot of the item to drop.
  */
-eventResponses.drop_item = function (clientSocket, data) {
+eventResponses.drop_item = (clientSocket, data) => {
     // console.log("drop item event:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
@@ -373,7 +376,7 @@ eventResponses.drop_item = function (clientSocket, data) {
  * Pick up an item pickup from the tile the player is on.
  * @param {*} clientSocket
  */
-eventResponses.pick_up_item = function (clientSocket) {
+eventResponses.pick_up_item = (clientSocket) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -386,7 +389,7 @@ eventResponses.pick_up_item = function (clientSocket) {
  * @param {String} data.slotKeyFrom - The key of the slot to swap from.
  * @param {String} data.slotKeyTo - The key of the slot to swap to.
  */
-// eventResponses.swap_inventory_slots = function (clientSocket, data) {
+// eventResponses.swap_inventory_slots = (clientSocket, data) => {
 //     if (!data) return;
 //     if (clientSocket.inGame === false) return;
 //     // Ignore this event if they are dead.
@@ -404,7 +407,7 @@ eventResponses.pick_up_item = function (clientSocket) {
  * @param {*} clientSocket
  * @param {Number} data - The index in the crafting recipes list of the thing to craft.
  */
-eventResponses.craft_item = function (clientSocket, data) {
+eventResponses.craft_item = (clientSocket, data) => {
     // Allow 0.
     if (!Number.isFinite(data)) return;
     if (clientSocket.inGame === false) return;
@@ -471,7 +474,7 @@ eventResponses.bank_buy_upgrade = (clientSocket) => {
  * @param {Number} data.fromSlotIndex
  * @param {Number} data.toSlotIndex
  */
-// eventResponses.bank_swap_slots = function (clientSocket, data) {
+// eventResponses.bank_swap_slots = (clientSocket, data) => {
 //     if (!data) return;
 //     if (clientSocket.inGame === false) return;
 //     // Ignore this event if they are dead.
@@ -617,7 +620,7 @@ eventResponses.start_dungeon = (clientSocket, data) => {
 /**
  * @param {*} clientSocket
  */
-eventResponses.respawn = function (clientSocket) {
+eventResponses.respawn = (clientSocket) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are alive.
     if (clientSocket.entity.hitPoints > 0) return;
@@ -631,7 +634,7 @@ eventResponses.respawn = function (clientSocket) {
  * @param {Number} data.row - The row of the merchant that was interacted with.
  * @param {Number} data.col - The col of the merchant that was interacted with.
  */
-eventResponses.get_shop_prices = function (clientSocket, data) {
+eventResponses.get_shop_prices = (clientSocket, data) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -654,7 +657,7 @@ eventResponses.get_shop_prices = function (clientSocket, data) {
  * @param {Number} data.row - The row of the merchant that was interacted with.
  * @param {Number} data.col - The col of the merchant that was interacted with.
  */
-eventResponses.shop_buy_item = function (clientSocket, data) {
+eventResponses.shop_buy_item = (clientSocket, data) => {
     // console.log("shop buy item event, data:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
@@ -678,7 +681,7 @@ eventResponses.shop_buy_item = function (clientSocket, data) {
     }
 };
 
-eventResponses.clan_join = function (clientSocket) {
+eventResponses.clan_join = (clientSocket) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -696,7 +699,7 @@ eventResponses.clan_join = function (clientSocket) {
 /**
  * @param {*} clientSocket
  */
-eventResponses.clan_leave = function (clientSocket) {
+eventResponses.clan_leave = (clientSocket) => {
     if (clientSocket.inGame === false) return;
     // Ignore if they aren't even in a clan.
     if (clientSocket.entity.clan === null) return;
@@ -704,7 +707,7 @@ eventResponses.clan_leave = function (clientSocket) {
     clientSocket.entity.clan.memberLeft(clientSocket.entity);
 };
 
-eventResponses.clan_kick = function (clientSocket, data) {
+eventResponses.clan_kick = (clientSocket, data) => {
     if (clientSocket.inGame === false) return;
     // Ignore if they aren't even in a clan.
     if (clientSocket.entity.clan === null) return;
@@ -712,7 +715,7 @@ eventResponses.clan_kick = function (clientSocket, data) {
     clientSocket.entity.clan.kickMember(data, clientSocket.entity);
 };
 
-eventResponses.clan_promote = function (clientSocket, data) {
+eventResponses.clan_promote = (clientSocket, data) => {
     if (clientSocket.inGame === false) return;
     // Ignore if they aren't even in a clan.
     if (clientSocket.entity.clan === null) return;
@@ -724,7 +727,7 @@ eventResponses.clan_promote = function (clientSocket, data) {
  * While they have the clan panel open, the client will periodically request updates of the current values of their clan details.
  * @param {*} clientSocket
  */
-eventResponses.get_clan_values = function (clientSocket) {
+eventResponses.get_clan_values = (clientSocket) => {
     if (clientSocket.inGame === false) return;
     // Ignore if they aren't even in a clan.
     if (clientSocket.entity.clan === null) return;
@@ -732,7 +735,7 @@ eventResponses.get_clan_values = function (clientSocket) {
     clientSocket.sendEvent(EventsList.clan_values, clientSocket.entity.clan.getValues());
 };
 
-eventResponses.task_claim_reward = function (clientSocket, data) {
+eventResponses.task_claim_reward = (clientSocket, data) => {
     // console.log("task claim reward, data:", data);
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.

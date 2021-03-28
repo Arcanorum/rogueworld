@@ -8,6 +8,12 @@ IGNORE_WARNINGS: false
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000
 
+# How often to save the current state of logged in players to their account in the DB.
+# State changes (glory/stat exp/inventory item/bank item/etc. modified) are done in memory and then
+# saved to the DB every interval.
+# If the server crashes between intervals, then players will lose any changes since their last save.
+ACCOUNT_AUTO_SAVE_RATE: 15000
+
 # Each game day is split up into an amount of sections, but the total length of a full day cycle
 # is always the same regardless of the ratio between dawn/day/dusk/night.
 FULL_DAY_DURATION_MINUTES: 24

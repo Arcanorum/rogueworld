@@ -340,8 +340,8 @@ const world = {
         Utils.message("World remove player, account username:", clientSocket.accountUsername);
         // If the socket had an entity, remove it from the game.
         if (clientSocket.entity !== undefined) {
-            // If they have an account username then they have an account, so log them out.
-            if (clientSocket.accountUsername) {
+            // If they have an account log them out.
+            if (clientSocket.account) {
                 AccountManager.logOut(clientSocket);
             }
 

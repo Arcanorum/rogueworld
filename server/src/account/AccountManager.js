@@ -1,13 +1,13 @@
-const fs = require("fs");
 const mongoose = require("mongoose");
 const AccountModel = require("./AccountModel");
-
 const ItemsList = require("../ItemsList");
 const Task = require("../tasks/Task");
 const TaskTypes = require("../tasks/TaskTypes");
 const RewardsList = require("../tasks/RewardsList");
 const EventsList = require("../EventsList");
 const Utils = require("../Utils");
+
+// mongoose.set("debug", true);
 
 const isSetup = false;
 
@@ -88,7 +88,7 @@ module.exports = {
 
     async changePassword(clientSocket, currentPassword, newPassword) {
         try {
-            const account = await AccountModel.findOne({ username: clientSocket.accountUsername });
+            const { account } = clientSocket;
 
             // Check the current password matches what they claim it is.
             if (account.password !== currentPassword) {
@@ -97,10 +97,9 @@ module.exports = {
             }
 
             // Update the password.
-            await AccountModel.findByIdAndUpdate(
-                account._id,
-                { password: newPassword },
-            );
+            account.password = newPassword;
+
+            await account.save();
 
             clientSocket.sendEvent(EventsList.change_password_success);
         }
@@ -139,6 +138,11 @@ module.exports = {
 
                 await account.save();
 
+                // Save the Mongoose document instance on the player account for faster
+                // operations, instead of doing a .findOne by username every time.
+                // Also helps avoid concurrency issues.
+                clientSocket.account = account;
+
                 onSuccess(account);
             }
             // Password is incorrect.
@@ -160,31 +164,27 @@ module.exports = {
     async logOut(clientSocket) {
         if (!clientSocket) return;
         if (!clientSocket.entity) return;
-        if (!clientSocket.accountUsername) return;
+        if (!clientSocket.account) return;
 
-        const formattedData = this.getFormattedSaveData(clientSocket.entity);
+        try {
+            // const formattedData = this.getFormattedSaveData(clientSocket.entity);
 
-        await AccountModel.findOne({ username: clientSocket.accountUsername })
-            .then(async (res) => {
-                // If a document by the given username was NOT found, res will be null.
-                if (!res) return;
+            clientSocket.account.lastLogOutTime = Date.now();
+            clientSocket.account.isLoggedIn = false;
+            // clientSocket.account.displayName = formattedData.displayName;
+            // clientSocket.account.glory = formattedData.glory;
+            // clientSocket.account.bankItems = formattedData.bankItems;
+            // clientSocket.account.inventoryItems = formattedData.inventoryItems;
+            // clientSocket.account.stats = formattedData.stats;
+            // clientSocket.account.tasks = formattedData.tasks;
 
-                res.lastLogOutTime = Date.now();
-                res.isLoggedIn = false;
-                res.displayName = formattedData.displayName;
-                res.glory = formattedData.glory;
-                res.bankItems = formattedData.bankItems;
-                res.inventoryItems = formattedData.inventoryItems;
-                res.stats = formattedData.stats;
-                res.tasks = formattedData.tasks;
-
-                await res.save();
-            })
-            .catch((err) => {
-                Utils.message("Account manager, log out error:", err);
-                // Failure.
-                clientSocket.sendEvent(EventsList.something_went_wrong);
-            });
+            await clientSocket.account.save();
+        }
+        catch (err) {
+            Utils.message("Account manager, log out error:", err);
+            // Failure.
+            clientSocket.sendEvent(EventsList.something_went_wrong);
+        }
     },
 
     /**
@@ -243,58 +243,6 @@ module.exports = {
             entity.tasks.addStartingTasks();
         }
     },
-
-    /**
-     * Log out all player accounts that are currently logged in.
-     * Called on server shut down, either intentionally (restart for update) or crash.
-     * This will write the savable data of all connected players to a temporary local
-     * file, as DB writes (which are async) cannot finish after process exit.
-     * That local store of player data is then used to update the DB in a new process,
-     * where it should be deleted if all of the updates were successful.
-     * @param {Object} wss
-     */
-    // saveAllPlayersData(wss) {
-    //     const dataToSave = [];
-    //     // Each connected client.
-    //     wss.clients.forEach((clientSocket) => {
-    //         // Skip clients that are not yet fully connected.
-    //         if (clientSocket.readyState !== 1) return;
-    //         // Skip clients that are not in game.
-    //         if (clientSocket.inGame === false) return;
-    //         // Only log out clients that have an account username set.
-    //         if (clientSocket.accountUsername) {
-    //             const playerData = this.getFormattedSaveData(clientSocket.entity);
-    //             // Add the username of the account this data belongs to, so the
-    //             // dump handler can find their document in the accounts DB.
-    //             playerData.accountUsername = clientSocket.accountUsername;
-    //             dataToSave.push(playerData);
-    //         }
-    //     });
-
-    //     try {
-    //         // Write the data to a temporary local file.
-
-    //         // TODO: potential problem here where if there is a problem in PlayerDataDumpHandler
-    //         //  and so the temp data isn't deleted, but then the server starts again and closes
-    //         //  again, so will overwrite this existing temp file from last time.
-    //         fs.writeFileSync("./PlayerDataDump.json", JSON.stringify(dataToSave));
-
-    //         // Create a new process
-    //         // eslint-disable-next-line global-require
-    //         const { spawn } = require("child_process");
-    //         const child = spawn("node", ["./PlayerDataDumpHandler.js"], {
-    //             shell: true,
-    //             detached: true, // Decouple the new process from the this one, so it can keep running after this one closes.
-    //         });
-
-    //         child.unref();
-    //     }
-    //     catch (err) {
-    //         Utils.message("Error writing PlayerDataDump.json: ", err.message);
-    //     }
-
-    //     Utils.message("Logged in players account data saved.");
-    // },
 
     /**
      * Creates an object with all of the relevant data from a player entity to be saved in the Accounts DB.

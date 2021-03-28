@@ -64,7 +64,7 @@ class Stat {
         }
     }
 
-    async gainExp(amount) {
+    gainExp(amount) {
         this.exp += amount;
 
         this.player.socket.sendEvent(EventsList.exp_gained, { statName: this.name, exp: this.exp });
@@ -85,17 +85,8 @@ class Stat {
         }
 
         // If this player has an account, save the new stat exp amount.
-        if (this.player.socket.accountUsername) {
-            try {
-                const account = await AccountModel.findOne({
-                    username: this.player.socket.accountUsername,
-                });
-                account.stats[this.name] = this.exp;
-                account.save();
-            }
-            catch (error) {
-                Utils.warning(error);
-            }
+        if (this.player.socket.account) {
+            this.player.socket.account.stats[this.name] = this.exp;
         }
     }
 

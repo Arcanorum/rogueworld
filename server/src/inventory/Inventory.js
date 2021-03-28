@@ -55,10 +55,44 @@ class Inventory {
     }
 
     print() {
-        console.log("printing inventory:");
+        Utils.message("Printing inventory:");
         this.items.forEach((item) => {
             console.log(item.itemConfig);
         });
+    }
+
+    pushItem(item, skipSave) {
+        const slotIndex = this.items.length;
+
+        this.items.push(item);
+
+        // Tell the player a new item was added to their inventory.
+        this.owner.socket.sendEvent(EventsList.add_inventory_item, {
+            slotIndex,
+            typeCode: item.typeCode,
+            id: item.itemConfig.id,
+            quantity: item.itemConfig.quantity,
+            durability: item.itemConfig.durability,
+            maxDurability: item.itemConfig.maxDurability,
+            totalWeight: item.itemConfig.totalWeight,
+        });
+
+        // If this player has an account, save the new bank item level.
+        if (!skipSave && this.owner.socket.account) {
+            try {
+                // Need to use Mongoose setter when modifying array by index directly.
+                // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
+                this.owner.socket.account.inventoryItems.set(slotIndex, {
+                    typeCode: item.itemConfig.ItemType.prototype.typeCode,
+                    quantity: item.itemConfig.quantity,
+                    durability: item.itemConfig.durability,
+                    maxDurability: item.itemConfig.maxDurability,
+                });
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
     }
 
     /**
@@ -248,16 +282,7 @@ class Inventory {
                     owner: this.owner,
                 });
 
-                this.items.push(item);
-
-                // Tell the player a new item was added to their inventory.
-                this.owner.socket.sendEvent(EventsList.add_inventory_item, {
-                    slotIndex,
-                    typeCode: item.typeCode,
-                    id: item.itemConfig.id,
-                    quantity: item.itemConfig.quantity,
-                    totalWeight: item.itemConfig.totalWeight,
-                });
+                this.pushItem(item);
 
                 quantityToAdd -= stackQuantity;
             }
@@ -273,17 +298,7 @@ class Inventory {
                 owner: this.owner,
             });
 
-            this.items.push(item);
-
-            // Tell the player a new item was added to their inventory.
-            this.owner.socket.sendEvent(EventsList.add_inventory_item, {
-                slotIndex,
-                typeCode: item.typeCode,
-                id: item.itemConfig.id,
-                durability: item.itemConfig.durability,
-                maxDurability: item.itemConfig.maxDurability,
-                totalWeight: item.itemConfig.totalWeight,
-            });
+            this.pushItem(item);
         }
 
         this.updateWeight();
@@ -298,7 +313,7 @@ class Inventory {
         this.updateWeight();
     }
 
-    removeItemBySlotIndex(slotIndex) {
+    removeItemBySlotIndex(slotIndex, skipSave) {
         if (!this.items[slotIndex]) return;
 
         // Let the item clean itself up first.
@@ -315,6 +330,11 @@ class Inventory {
 
         // Tell the player the item was removed from their inventory.
         this.owner.socket.sendEvent(EventsList.remove_inventory_item, slotIndex);
+
+        // If this player has an account, update their account document that the item has been removed.
+        if (!skipSave && this.owner.socket.account) {
+            this.owner.socket.account.inventoryItems.splice(slotIndex, 1);
+        }
 
         this.updateWeight();
     }

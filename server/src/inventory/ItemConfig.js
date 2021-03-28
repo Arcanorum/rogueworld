@@ -3,10 +3,12 @@ const Utils = require("../Utils");
 
 class ItemConfig {
     /**
-     * A way to pass around a configuration for an item to different systems.
-     * Can be passed straight to a pickup for it to hold as the item it represents, or from the
-     * pickup to the inventory, or bank, or where ever.
-     * Avoids having to grab and check the needed properties each time it is passed around.
+     * The main unit that all of the item related systems (inventory, bank, crafting, shops,
+     * pickups) use to understand the form/configuration of a given item.
+     * Can be passed around between these systems, such as to a pickup for it to hold as the item
+     * it represents, or from the pickup to the inventory, or from inventory to bank, or where ever.
+     * Does all necessary item type validation with the given properties, to avoid having to grab
+     * and check the needed properties each time it is passed around.
      * @param {Object} config
      * @param {Function} config.ItemType - The class/type of this item (NOT an instance).
      * @param {Number} [config.quantity]
@@ -24,32 +26,30 @@ class ItemConfig {
             throw new Error("Failed ItemConfig validation.");
         }
 
-        if (config.quantity) {
-            // Check the type itself has quantity, in case the item config
-            // has the wrong properties for the item type it is for.
-            // Prevents quantity being set for things that are meant to be unstackable.
-            if (!this.ItemType.prototype.baseQuantity) {
-                Utils.warning("Cannot create stackable item config, as given item type does not have a base quantity. Check it is actually a stackable. Config:", config);
-                throw new Error("Failed ItemConfig validation.");
-            }
+        // Check the type itself has quantity, in case the item config
+        // has the wrong properties for the item type it is for.
+        // Prevents quantity being set for things that are meant to be unstackable.
+        if (config.quantity && this.ItemType.prototype.baseQuantity) {
             this.quantity = parseInt(config.quantity, 10);
 
             this.totalWeight = this.quantity * this.ItemType.prototype.unitWeight;
         }
-        else if (config.durability) {
-            // Check the type itself has durability, in case the item config
-            // has the wrong properties for the item type it is for.
-            // Prevents durability being set for things that are meant to be stackable.
-            if (!this.ItemType.prototype.baseDurability) {
-                Utils.warning("Cannot create unstackable item config, as given item type does not have a base durability. Check it is actually an unstackable. Config:", config);
-                throw new Error("Failed ItemConfig validation.");
-            }
+        // Check the type itself has durability, in case the item config
+        // has the wrong properties for the item type it is for.
+        // Prevents durability being set for things that are meant to be stackable.
+        else if (config.durability && this.ItemType.prototype.baseDurability) {
             this.durability = parseInt(config.durability, 10);
             this.maxDurability = parseInt(config.maxDurability || this.durability, 10);
 
             this.totalWeight = this.ItemType.prototype.unitWeight;
         }
         // Default to the base values for quantity or durability.
+        // Used if no particular value is given to be used for a new item, so use the default set
+        // for that item type. Useful for things like pickup spawners that are mostly the same.
+        // Also handles the case where an item type has it's config swapped between stackable and
+        // unstackable and a saved item in an account is then loaded with the old item config (and
+        // therefore has the wrong properties set, i.e. quantity set for an unstackable), so it is
+        // still able to fall back to the new default base value for that item type.
         else if (this.ItemType.prototype.baseQuantity) {
             this.quantity = this.ItemType.prototype.baseQuantity;
 

@@ -65,6 +65,10 @@ class Task {
         if (this.progress >= this.completionThreshold) {
             this.completed = true;
         }
+
+        // if (this.player.sockets.account) {
+        //     this.player.socket.account.tasks[]
+        // }
     }
 
     claimReward() {

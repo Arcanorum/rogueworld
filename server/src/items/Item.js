@@ -130,6 +130,13 @@ class Item {
                     totalWeight: this.itemConfig.totalWeight,
                 },
             );
+
+            // If this player has an account, save the new quantity.
+            if (this.owner.socket.account) {
+                this.owner.socket.account.inventoryItems[this.slotIndex].quantity = (
+                    this.itemConfig.quantity
+                );
+            }
         }
     }
 
@@ -159,6 +166,13 @@ class Item {
                     durability: this.itemConfig.durability,
                 },
             );
+
+            // If this player has an account, save the new durability.
+            if (this.owner.socket.account) {
+                this.owner.socket.account.inventoryItems[this.slotIndex].durability = (
+                    this.itemConfig.durability
+                );
+            }
         }
     }
 

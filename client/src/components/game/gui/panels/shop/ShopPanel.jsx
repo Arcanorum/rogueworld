@@ -31,8 +31,6 @@ const canAfford = (price) => (PlayerState.glory >= price);
 function BuyOptions({
     shopItem, price, onCursorLeave, panelBounds,
 }) {
-    console.log("buyopts:", shopItem);
-
     const buyPressed = () => {
         ApplicationState.connection.sendEvent("shop_buy_item", {
             merchantId: GUIState.shop.merchantId,
@@ -56,7 +54,7 @@ function BuyOptions({
                 </div>
                 {shopItem.durability && <div className="detail">{`${shopItem.durability}/${shopItem.durability}`}</div>}
                 {shopItem.quantity && <div className="detail">{`x${shopItem.quantity}`}</div>}
-                <div className="detail">{`Weight: ${shopItem.totalWeight}`}</div>
+                <div className={`detail ${canItemFit(shopItem) ? "" : "no-space"}`}>{`Weight: ${shopItem.totalWeight}`}</div>
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[shopItem.typeCode].translationID}`)}
                 </div>
@@ -82,11 +80,15 @@ BuyOptions.propTypes = {
 };
 
 function ItemSlot({ shopItem, price, onClick }) {
+    const [canAffordThis, setCanAffordThis] = useState(canAfford(price));
+    const [canFitThis, setCanFitThis] = useState(canItemFit(shopItem));
+
     useEffect(() => {
         const subs = [
-            // PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
-            //     setInHotbar(isItemInHotbar(shopItem));
-            // }),
+            PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, () => {
+                setCanAffordThis(canAfford(price));
+                setCanFitThis(canItemFit(shopItem));
+            }),
         ];
 
         return () => {
@@ -99,7 +101,7 @@ function ItemSlot({ shopItem, price, onClick }) {
     return (
         <div className="item-slot">
             <div
-              className={`details ${canAfford(price) ? "affordable" : ""}`}
+              className={`details ${(canAffordThis && canFitThis) ? "" : "cannot-buy"}`}
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
@@ -162,7 +164,6 @@ function ShopPanel({ onCloseCallback }) {
     };
 
     const getShopPrices = () => {
-        console.log("getShopPrices");
         // Request the prices of items in this shop.
         ApplicationState.connection.sendEvent("get_shop_prices", {
             merchantId: GUIState.shop.merchantId,
@@ -198,14 +199,10 @@ function ShopPanel({ onCloseCallback }) {
                 setInventoryWeight(data.new);
             }),
             PubSub.subscribe(SHOP, (msg, data) => {
-                console.log("shop changed:", data);
-
                 // Load the stock for this shop type.
                 setItems(data.shopType.stock);
             }),
             PubSub.subscribe(STOCK_PRICES, (msg, data) => {
-                console.log("stock prices changed:", data);
-
                 setPrices(data);
             }),
         ];

@@ -67,6 +67,14 @@
                     align-items: center;
                     justify-content: center;
 
+                    &.cannot-buy {
+                        opacity: 0.5;
+
+                        &:hover {
+                            filter: brightness(100%);
+                        }
+                    }
+
                     &:hover {
                         transform: scale(1.05);
                         filter: brightness(150%);
@@ -168,6 +176,10 @@
                 font-weight: bold;
                 padding-bottom: 10px;
                 margin-bottom: 10px;
+
+                &.no-space {
+                    color: $colourDB32Orange;
+                }
             }
             
             &.top {

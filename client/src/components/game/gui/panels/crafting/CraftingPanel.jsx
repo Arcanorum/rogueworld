@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import PubSub from "pubsub-js";
+import AnimatedNumber from "animated-number-react";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import weightIcon from "../../../../../assets/images/gui/hud/weight-icon.png";
 import infoIcon from "../../../../../assets/images/gui/panels/crafting/info-icon.png";
@@ -16,6 +17,7 @@ import ItemTooltip from "../../item_tooltip/ItemTooltip";
 import {
     ADD_INVENTORY_ITEM, MODIFY_INVENTORY_WEIGHT, MODIFY_INVENTORY_ITEM, REMOVE_INVENTORY_ITEM,
 } from "../../../../../shared/EventTypes";
+import dungeonz from "../../../../../shared/Global";
 
 const findAmountInInventory = (ingredient) => {
     const found = InventoryState.items.find(
@@ -161,7 +163,7 @@ function CraftingPanel({ onCloseCallback }) {
     const [searchRecipes, setSearchRecipes] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
-    const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
     const [playerHasIngredients, setPlayerHasIngredients] = useState(false);
     const [showItemDetails, setShowItemDetails] = useState(true);
@@ -255,7 +257,17 @@ function CraftingPanel({ onCloseCallback }) {
                                   draggable={false}
                                 />
                                 <span className="high-contrast-text">
-                                    {`${inventoryWeight}/${inventoryMaxWeight}`}
+                                    <AnimatedNumber
+                                      value={inventoryWeight}
+                                      duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}
+                                      formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
+                                    />
+                                    /
+                                    <AnimatedNumber
+                                      value={inventoryMaxWeight}
+                                      duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}
+                                      formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
+                                    />
                                 </span>
                             </div>
                             <div className="search">

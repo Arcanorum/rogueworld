@@ -56,42 +56,6 @@
   result:
     itemName: Fabric
 
-# Potions
-
-- stationTypes:
-    - Laboratory
-  stats:
-    - Potionry
-  ingredients:
-    - itemName: Redcap
-      quantity: 4
-  result:
-    itemName: HealthPotion
-
-- stationTypes:
-    - Laboratory
-  stats:
-    - Potionry
-  ingredients:
-    - itemName: Bluecap
-      quantity: 4
-  result:
-    itemName: EnergyPotion
-
-- stationTypes:
-    - Laboratory
-  stats:
-    - Potionry
-  ingredients:
-    - itemName: Redcap
-      quantity: 2
-    - itemName: Greencap
-      quantity: 2
-  result:
-    itemName: CurePotion
-
-# Iron equipment
-
 - stationTypes:
     - Furnace
   stats:
@@ -100,6 +64,96 @@
     - itemName: IronOre
   result:
     itemName: IronBar
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: IronOre
+      quantity: 5
+  result:
+    itemName: IronBar
+    baseQuantity: 5
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: DungiumOre
+  result:
+    itemName: DungiumBar
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: DungiumOre
+      quantity: 5
+  result:
+    itemName: DungiumBar
+    baseQuantity: 5
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: NoctisOre
+  result:
+    itemName: NoctisBar
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: NoctisOre
+      quantity: 5
+  result:
+    itemName: NoctisBar
+    baseQuantity: 5
+
+# Potions
+
+- stationTypes:
+    - Laboratory
+  stats:
+    - Potionry
+  ingredients:
+    - itemName: Redcap
+      quantity: 8
+  result:
+    itemName: HealthPotion
+    baseQuantity: 5
+
+- stationTypes:
+    - Laboratory
+  stats:
+    - Potionry
+  ingredients:
+    - itemName: Bluecap
+      quantity: 8
+  result:
+    itemName: EnergyPotion
+    baseQuantity: 5
+
+- stationTypes:
+    - Laboratory
+  stats:
+    - Potionry
+  ingredients:
+    - itemName: Redcap
+      quantity: 4
+    - itemName: Greencap
+      quantity: 4
+  result:
+    itemName: CurePotion
+    baseQuantity: 5
+
+# Iron equipment
 
 - stationTypes:
     - Anvil
@@ -192,15 +246,6 @@
 # Dungium equipment
 
 - stationTypes:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: DungiumOre
-  result:
-    itemName: DungiumBar
-
-- stationTypes:
     - Anvil
   stats:
     - Weaponry
@@ -289,15 +334,6 @@
     itemName: DungiumArmour
 
 # Noctis equipment
-
-- stationTypes:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: NoctisOre
-  result:
-    itemName: NoctisBar
 
 - stationTypes:
     - Anvil

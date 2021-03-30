@@ -102,6 +102,13 @@ const populateList = () => {
                 Utils.error("Invalid crafting recipe. Result item type doesn't exist in the item types list for itemName:", config.result.itemName);
             }
 
+            // Check for this common mistake.
+            if (config.result.quantity) {
+                Utils.error("Invalid crafting recipe. 'quantity' given for result. Did you mean 'baseQuantity'? Result config:", config.result);
+            }
+            if (config.result.durability) {
+                Utils.error("Invalid crafting recipe. 'durability' given for result. Did you mean 'baseDurability'? Result config:", config.result);
+            }
             // Check the item type to craft can have the given quantity or durability property (is stackable or not).
             if (config.result.baseQuantity) {
                 if (!ResultItemType.prototype.baseQuantity) {

@@ -18,8 +18,8 @@ GatheringTool: 30
 GenericMaterial: 4
 Logs: 4
 Ore: 5
-PotionIngredient: 2
+PotionIngredient: 4
 Gem: 2
 
 # Consumables
-Potion: 8
+Potion: 6

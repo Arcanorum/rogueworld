@@ -11,7 +11,6 @@ import {
     InventoryState, GUIState, ApplicationState, PlayerState,
 } from "../../../../../shared/state/States";
 import {
-    GLORY_VALUE,
     MODIFY_INVENTORY_WEIGHT,
     SHOP,
     STOCK_PRICES,
@@ -154,8 +153,7 @@ function ShopPanel({ onCloseCallback }) {
     const [searchItems, setSearchItems] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
-    const [inventoryMaxWeight, setInventoryMaxWeight] = useState(InventoryState.maxWeight);
-    const [glory, setGlory] = useState(PlayerState.glory);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
     const [selectedItem, setSelectedItem] = useState(null);
     const panelRef = useRef();
 
@@ -192,9 +190,6 @@ function ShopPanel({ onCloseCallback }) {
         const getPricesLoop = setInterval(getShopPrices, 5000);
 
         const subs = [
-            PubSub.subscribe(GLORY_VALUE, () => {
-                setGlory(PlayerState.glory);
-            }),
             PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {
                 setInventoryWeight(data.new);
             }),

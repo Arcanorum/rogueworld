@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class PriestMerchant extends Merchant {}
-module.exports = PriestMerchant;
 
-// PriestMerchant.prototype.shop = new (require('./../../../../../../gameplay/Shops')).Respawns();
+PriestMerchant.prototype.shop = ShopTypesList.Inn;
+
+module.exports = PriestMerchant;

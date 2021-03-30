@@ -172,8 +172,8 @@
   dropList:
     - itemName: SuperFireStaff
       dropRate: 100
-    - itemName: BookOfLight
-      dropRate: 100
+#    - itemName: BookOfLight
+#      dropRate: 100
     - itemName: MageRobe
       dropRate: 100
     - itemName: FireGem
@@ -185,8 +185,8 @@
       rolls: 2
     - itemName: SuperFireStaff
       rolls: 2
-    - itemName: BookOfLight
-      rolls: 2
+#    - itemName: BookOfLight
+#      rolls: 2
   
 - name: Prisoner
   gloryValue: 10
@@ -455,8 +455,8 @@
     - itemName: ExpOrbMagic
       dropRate: 100
       rolls: 2
-    - itemName: BookOfSouls
-      dropRate: 100
+#    - itemName: BookOfSouls
+#      dropRate: 100
     - itemName: NecromancerRobe
       dropRate: 100
     - itemName: SuperFireStaff
@@ -514,8 +514,8 @@
       dropRate: 100
     - itemName: ExpOrbMagic
       dropRate: 100
-    - itemName: BookOfSouls
-      dropRate: 100
+#    - itemName: BookOfSouls
+#      dropRate: 100
     - itemName: NoctisArmour
       dropRate: 100
     - itemName: SuperBloodStaff

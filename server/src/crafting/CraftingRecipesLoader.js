@@ -21,7 +21,7 @@ const populateList = () => {
         );
 
         recipeConfigs.forEach((config) => {
-            const resultItemType = ItemsList.BY_NAME[config.result.itemName];
+            const ResultItemType = ItemsList.BY_NAME[config.result.itemName];
 
             const craftingRecipeConfig = {
                 stationTypes: [],
@@ -29,7 +29,7 @@ const populateList = () => {
                 expGiven: config.expGiven,
                 ingredients: [],
                 result: {
-                    ItemType: resultItemType,
+                    ItemType: ResultItemType,
                     baseQuantity: config.result.baseQuantity,
                     baseDurability: config.result.baseDurability,
                 },
@@ -98,18 +98,18 @@ const populateList = () => {
             });
 
             // Check the item type to craft is a valid item.
-            if (!resultItemType) {
+            if (!ResultItemType) {
                 Utils.error("Invalid crafting recipe. Result item type doesn't exist in the item types list for itemName:", config.result.itemName);
             }
 
             // Check the item type to craft can have the given quantity or durability property (is stackable or not).
             if (config.result.baseQuantity) {
-                if (!resultItemType.prototype.baseQuantity) {
+                if (!ResultItemType.prototype.baseQuantity) {
                     Utils.error("Invalid crafting recipe. Result base quantity given for an unstackable item type. Result config:", config.result);
                 }
             }
             if (config.result.baseDurability) {
-                if (!resultItemType.prototype.baseDurability) {
+                if (!ResultItemType.prototype.baseDurability) {
                     Utils.error("Invalid crafting recipe. Result base durability given for a stackable item type. Result config:", config.result);
                 }
             }
@@ -119,7 +119,7 @@ const populateList = () => {
             {
                 let totalIngredientsWeight = 0;
 
-                let resultWeight = resultItemType.prototype.unitWeight;
+                let resultWeight = ResultItemType.prototype.unitWeight;
 
                 // If it is a stackable, calculate the total weight of the stack.
                 if (config.result.baseQuantity) {

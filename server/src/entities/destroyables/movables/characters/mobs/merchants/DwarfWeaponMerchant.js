@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class DwarfWeaponMerchant extends Merchant {}
-module.exports = DwarfWeaponMerchant;
 
-DwarfWeaponMerchant.prototype.shop = new (require("../../../../../../gameplay/Shops")).DwarfWeapons();
+DwarfWeaponMerchant.prototype.shop = ShopTypesList.DwarfWeapons;
+
+module.exports = DwarfWeaponMerchant;

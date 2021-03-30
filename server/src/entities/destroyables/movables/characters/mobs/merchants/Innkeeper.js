@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class Innkeeper extends Merchant {}
-module.exports = Innkeeper;
 
-Innkeeper.prototype.shop = new (require("../../../../../../gameplay/Shops")).Inn();
+Innkeeper.prototype.shop = ShopTypesList.Inn;
+
+module.exports = Innkeeper;

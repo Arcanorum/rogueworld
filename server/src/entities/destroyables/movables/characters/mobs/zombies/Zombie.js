@@ -30,9 +30,18 @@ class Zombie extends Mob {
                 // Master is too far away. Teleport to master.
 
                 // If on the same board, move to master.
-                if (this.master.board === this.board) this.reposition(this.master.row, this.master.col);
+                if (this.master.board === this.board) {
+                    this.reposition(this.master.row, this.master.col);
+                }
                 // On a different board, move to that board.
-                else this.changeBoard(this.board, this.master.board, this.master.row, this.master.col);
+                else {
+                    this.changeBoard(
+                        this.board,
+                        this.master.board,
+                        this.master.row,
+                        this.master.col,
+                    );
+                }
 
                 return;
             }
@@ -74,7 +83,10 @@ class Zombie extends Mob {
         if (character instanceof Character === false) return false;
 
         // Check this mob is hostile towards the other character.
-        if (this.Factions.getRelationship(this.faction, character.faction) === this.Factions.RelationshipStatuses.Hostile) return true;
+        if (this.Factions.getRelationship(
+            this.faction, character.faction,
+        ) === this.Factions.RelationshipStatuses.Hostile
+        ) return true;
 
         return false;
     }

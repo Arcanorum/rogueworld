@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class RangedMerchant extends Merchant {}
-module.exports = RangedMerchant;
 
-RangedMerchant.prototype.shop = new (require("../../../../../../gameplay/Shops")).Ranged();
+RangedMerchant.prototype.shop = ShopTypesList.Ranged;
+
+module.exports = RangedMerchant;

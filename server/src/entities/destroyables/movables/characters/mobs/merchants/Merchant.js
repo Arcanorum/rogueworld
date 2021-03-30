@@ -20,7 +20,6 @@ Merchant.abstract = true;
 
 Merchant.prototype.maxHitPoints = 1;
 Merchant.prototype.gloryValue = 0;
-Merchant.prototype.faction = Mob.prototype.Factions.Citizens;
-Merchant.prototype.shop = undefined;
+Merchant.prototype.shop = null;
 
 module.exports = Merchant;

@@ -133,6 +133,14 @@ const initialiseList = () => {
         Utils.error(error);
     }
 
+    // Check for any item classes that don't have an entry in the ItemValues list.
+    // All item types MUST have a type code at a minimum, so check for that.
+    Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
+        if (!ItemType.prototype.typeCode) {
+            Utils.error("Invalid item type, missing typeCode. Item does not have a config in the ItemValues list:", name);
+        }
+    });
+
     Utils.message("Finished initialising items list. ItemsList is ready to use.");
 };
 
@@ -142,8 +150,6 @@ const createCatalogue = () => {
 
     Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
         const ItemTypePrototype = ItemType.prototype;
-        // Only add registered types.
-        if (!ItemTypePrototype.typeCode) return;
         // Add this item type to the type catalogue.
         dataToWrite[ItemTypePrototype.typeCode] = {
             typeCode: ItemTypePrototype.typeCode,

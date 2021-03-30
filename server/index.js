@@ -8,6 +8,7 @@ const ItemsLoader = require("./src/ItemsLoader");
 const EntitiesLoader = require("./src/EntitiesLoader");
 const StarterBankItemConfigs = require("./src/bank/StarterBankItemConfigs");
 const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
+const ShopsLoader = require("./src/shops/ShopsLoader");
 
 Utils.message("Start of index");
 
@@ -15,19 +16,21 @@ async function init() {
     const { wss } = require("./src/Server");
 
     ItemsLoader.populateList();
+    ShopsLoader.populateList();
     EntitiesLoader.populateList();
 
     ItemsLoader.initialiseList();
+    ShopsLoader.initialiseList();
     EntitiesLoader.initialiseList();
 
-    // Do this after the items list is set up, as the recipes need to check the items they use are valid.
+    // Do these after the items list is set up, as they need to check the items they use are valid.
     CraftingRecipesLoader.populateList();
-    // Same for starter bank items.
     StarterBankItemConfigs.populateList();
 
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();
     CraftingRecipesLoader.createCatalogue();
+    ShopsLoader.createCatalogue();
 
     const AccountManager = require("./src/account/AccountManager");
     await AccountManager.setup();

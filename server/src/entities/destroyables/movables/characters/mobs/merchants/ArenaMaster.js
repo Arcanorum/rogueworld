@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class ArenaMaster extends Merchant {}
-module.exports = ArenaMaster;
 
-ArenaMaster.prototype.shop = new (require("../../../../../../gameplay/Shops")).Arena();
+ArenaMaster.prototype.shop = ShopTypesList.Arena;
+
+module.exports = ArenaMaster;

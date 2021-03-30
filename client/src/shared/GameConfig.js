@@ -67,6 +67,15 @@ const gameConfig = {
      * The current percent zoom level for all elements with the gui_zoomable style class.
      */
     GUIZoom: 100,
+
+    /**
+     * @type {Number}
+     * How long an animated number transitions should take.
+     */
+    NUMBER_ANIMATION_DURATION: 500,
+
+    ANIMATED_NUMBER_FORMAT: (value) => value.toFixed(0),
+
     /**
      * @type {Boolean}
      * Whether the virtual D-pad is enabled.

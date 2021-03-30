@@ -1,0 +1,167 @@
+
+# Everything, for nothing.
+- name: Omni
+  stock:
+    - itemName: OakLogs
+    - itemName: IronOre
+    - itemName: DungiumOre
+    - itemName: NoctisOre
+    - itemName: Cotton
+    - itemName: Feathers
+    - itemName: WindGem
+    - itemName: FireGem
+    - itemName: BloodGem
+    - itemName: Redcap
+    - itemName: Greencap
+    - itemName: Bluecap
+    - itemName: HealthPotion
+    - itemName: EnergyPotion
+    - itemName: CurePotion
+    - itemName: IronDagger
+    - itemName: IronSword
+    - itemName: IronHammer
+    - itemName: IronArmour
+    - itemName: DungiumDagger
+    - itemName: DungiumSword
+    - itemName: DungiumHammer
+    - itemName: DungiumArmour
+    - itemName: NoctisDagger
+    - itemName: NoctisSword
+    - itemName: NoctisHammer
+    - itemName: NoctisArmour
+    - itemName: VampireFang
+    - itemName: Shuriken
+    - itemName: IronArrows
+    - itemName: DungiumArrows
+    - itemName: NoctisArrows
+    - itemName: OakBow
+    - itemName: Cloak
+    - itemName: NinjaGarb
+    - itemName: FireStaff
+    - itemName: SuperFireStaff
+    - itemName: WindStaff
+    - itemName: SuperWindStaff
+    - itemName: BloodStaff
+    - itemName: SuperBloodStaff
+#    - itemName: BookOfLight
+#    - itemName: BookOfSouls
+    - itemName: PlainRobe
+    - itemName: MageRobe
+    - itemName: NecromancerRobe
+    - itemName: IronHatchet
+    - itemName: IronPickaxe
+    - itemName: DungiumHatchet
+    - itemName: DungiumPickaxe
+    - itemName: NoctisHatchet
+    - itemName: NoctisPickaxe
+    - itemName: ExpOrbMelee
+    - itemName: ExpOrbRanged
+    - itemName: ExpOrbMagic
+    - itemName: ExpOrbGathering
+    - itemName: ExpOrbWeaponry
+    - itemName: ExpOrbArmoury
+    - itemName: ExpOrbToolery
+    - itemName: ExpOrbPotionry
+    - itemName: GloryOrb
+
+- name: Ruler
+  stock: []
+
+# Basic gathering tools
+- name: Tools
+  stock:
+    - itemName: IronHatchet
+      unitPrice: 150
+    - itemName: IronPickaxe
+      unitPrice: 150
+    - itemName: DungiumHatchet
+      unitPrice: 800
+    - itemName: DungiumPickaxe
+      unitPrice: 800
+
+# Melee combat gear
+- name: Melee
+  stock:
+    - itemName: IronDagger
+      unitPrice: 200
+    - itemName: IronSword
+      unitPrice: 300
+    - itemName: IronHammer
+      unitPrice: 350
+    - itemName: DungiumSword
+      unitPrice: 850
+    - itemName: IronArmour
+      unitPrice: 800
+
+# Ranged combat gear
+- name: Ranged
+  stock:
+    - itemName: OakBow
+      unitPrice: 200
+    - itemName: IronArrows
+      unitPrice: 5
+    - itemName: DungiumArrows
+      unitPrice: 20
+    - itemName: Shuriken
+      unitPrice: 7
+    - itemName: Cloak
+      unitPrice: 700
+
+# Magic combat gear
+- name: Magic
+  stock:
+    - itemName: WindStaff
+      unitPrice: 300
+    - itemName: FireStaff
+      unitPrice: 500
+    - itemName: PlainRobe
+      unitPrice: 400
+    - itemName: MageRobe
+      unitPrice: 650
+
+# Inn/bar
+- name: Inn
+  stock:
+    - itemName: HealthPotion
+      unitPrice: 250
+    - itemName: EnergyPotion
+      unitPrice: 150
+
+# PvP arena
+- name: Arena
+  stock:
+    - itemName: FighterKey
+      unitPrice: 1000
+
+# Raw materials
+- name: Materials
+  stock:
+    - itemName: IronBar
+      unitPrice: 200
+    - itemName: OakLogs
+      unitPrice: 140
+    - itemName: Feathers
+      unitPrice: 100
+    - itemName: Fabric
+      unitPrice: 200
+    - itemName: Cotton
+      unitPrice: 120
+
+# Dwarf weapons
+- name: DwarfWeapons
+  stock:
+    - itemName: IronPickaxe
+      unitPrice: 400
+    - itemName: IronArrows
+      unitPrice: 10
+    - itemName: IronSword
+      unitPrice: 600
+    - itemName: IronHammer
+      unitPrice: 650
+    - itemName: IronArmour
+      unitPrice: 1500
+    - itemName: DungiumSword
+      unitPrice: 1200
+    - itemName: DungiumHammer
+      unitPrice: 1200
+      durability: 951

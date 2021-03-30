@@ -2,8 +2,9 @@ import Container from "../Container";
 import NPCShopTypes from "../../../catalogues/NPCShopTypes.json";
 import gameConfig from "../../../shared/GameConfig";
 import Utils from "../../../shared/Utils";
-import { PlayerState } from "../../../shared/state/States";
+import { GUIState, PlayerState } from "../../../shared/state/States";
 import dungeonz from "../../../shared/Global";
+import Panels from "../../../components/game/gui/panels/PanelsEnum";
 
 class Merchant extends Container {
     constructor(x, y, config) {
@@ -32,14 +33,21 @@ class Merchant extends Container {
     }
 
     onPointerDown() {
+        // Prevent opening the shop panel when a merchant is clicked on behind and already open panel.
+        if (GUIState.activePanel !== Panels.NONE) return;
+
         // Check they are within trading range.
         const entity = dungeonz.gameScene.dynamics[this.entityId];
         const rowDist = Math.abs(PlayerState.row - entity.row);
         const colDist = Math.abs(PlayerState.col - entity.col);
         if ((rowDist + colDist) < 3) {
-            dungeonz.gameScene.GUI.shopPanel.show(
-                this.entityId, this.displayName.text, this.npcShopType,
+            GUIState.setShop(
+                this.entityId,
+                this.displayName.text,
+                this.npcShopType,
             );
+
+            GUIState.setActivePanel(Panels.Shop);
         }
     }
 }

@@ -12,6 +12,7 @@ import StatusEffects from "./StatusEffects";
 import PlayerValues from "./PlayerValues";
 import Entity from "./Entity";
 import Alerts from "./Alerts";
+import { GUIState } from "../../shared/state/States";
 
 // Add the login/home page related events immediately.
 Login(eventResponses);
@@ -66,8 +67,7 @@ export const addGameEventResponses = () => {
     };
 
     eventResponses.shop_prices = (data) => {
-        // console.log("shop prices, data:", data);
-        dungeonz.gameScene.GUI.shopPanel.updatePrices(data);
+        GUIState.setStockPrices(data);
     };
 };
 

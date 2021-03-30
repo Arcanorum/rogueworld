@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class MeleeMerchant extends Merchant {}
-module.exports = MeleeMerchant;
 
-MeleeMerchant.prototype.shop = new (require("../../../../../../gameplay/Shops")).Melee();
+MeleeMerchant.prototype.shop = ShopTypesList.Melee;
+
+module.exports = MeleeMerchant;

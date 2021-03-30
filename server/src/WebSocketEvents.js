@@ -630,11 +630,12 @@ eventResponses.respawn = (clientSocket) => {
 
 /**
  * @param {*} clientSocket
- * @param {Number} data.merchantID - The ID of a merchant entity.
+ * @param {Number} data.merchantId - The ID of a merchant entity.
  * @param {Number} data.row - The row of the merchant that was interacted with.
  * @param {Number} data.col - The col of the merchant that was interacted with.
  */
 eventResponses.get_shop_prices = (clientSocket, data) => {
+    // console.log("get_shop_prices:", data);
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -643,7 +644,7 @@ eventResponses.get_shop_prices = (clientSocket, data) => {
     // Make sure the board tile the client says the merchant is on is valid.
     const boardTile = clientSocket.entity.board.getTileAt(data.row, data.col);
     if (!boardTile) return;
-    const entity = boardTile.destroyables[data.merchantID];
+    const entity = boardTile.destroyables[data.merchantId];
     if (entity === undefined) return;
     // Check the entity actually has a shop.
     if (entity.shop === undefined) return;
@@ -653,9 +654,12 @@ eventResponses.get_shop_prices = (clientSocket, data) => {
 
 /**
  * @param {*} clientSocket
- * @param {Number} data.merchantID - The ID of a merchant entity.
+ * @param {Number} data.merchantId - The ID of a merchant entity.
  * @param {Number} data.row - The row of the merchant that was interacted with.
  * @param {Number} data.col - The col of the merchant that was interacted with.
+ * @param {Number} data.index
+ * @param {Number} data.itemTypeCode
+ * @param {Number} data.index
  */
 eventResponses.shop_buy_item = (clientSocket, data) => {
     // console.log("shop buy item event, data:", data);
@@ -667,7 +671,7 @@ eventResponses.shop_buy_item = (clientSocket, data) => {
     // Make sure the board tile the client says the merchant is on is valid.
     const boardTile = clientSocket.entity.board.getTileAt(data.row, data.col);
     if (!boardTile) return;
-    const entity = boardTile.destroyables[data.merchantID];
+    const entity = boardTile.destroyables[data.merchantId];
     if (entity === undefined) return;
     // Check the entity actually has a shop.
     if (entity.shop === undefined) return;
@@ -677,7 +681,7 @@ eventResponses.shop_buy_item = (clientSocket, data) => {
     const rowDist = Math.abs(player.row - entity.row);
     const colDist = Math.abs(player.col - entity.col);
     if ((rowDist + colDist) < 3) {
-        entity.shop.sellStock(player, data.index, data.itemTypeCode, data.price);
+        entity.shop.sellStock(player, data.index);
     }
 };
 

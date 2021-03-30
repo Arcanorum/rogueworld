@@ -2,8 +2,8 @@ const fs = require("fs");
 const Utils = require("../../../Utils");
 
 const SpellBookList = {
-    BookOfLight: require("./BookOfLight"),
-    BookOfSouls: require("./BookOfSouls"),
+    // BookOfLight: require("./BookOfLight"),
+    // BookOfSouls: require("./BookOfSouls"),
 };
 
 // Write the registered spell book types to the client, so the client knows what spell book data to use for each type number.

@@ -63,6 +63,8 @@ export const DUNGEON_PORTAL_PRESSED = Symbol("DUNGEON_PORTAL_PRESSED");
 export const CURSOR_MOVE = Symbol("CURSOR_MOVE");
 export const TOOLTIP_CONTENT = Symbol("TOOLTIP_CONTENT");
 export const CRAFTING_STATION = Symbol("CRAFTING_STATION");
+export const SHOP = Symbol("SHOP");
+export const STOCK_PRICES = Symbol("STOCK_PRICES");
 export const PANEL_CHANGE = Symbol("PANEL_CHANGE");
 
 // Dungeon.

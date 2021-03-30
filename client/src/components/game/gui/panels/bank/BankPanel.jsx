@@ -27,10 +27,7 @@ import {
     MODIFY_BANK_WEIGHT,
     MODIFY_BANK_MAX_WEIGHT,
 } from "../../../../../shared/EventTypes";
-
-const formatValue = (value) => value.toFixed(0);
-
-const textAnimationDuration = 500;
+import dungeonz from "../../../../../shared/Global";
 
 const canTransferItem = (FromState, itemConfig, quantity) => {
     if (!itemConfig) return false;
@@ -406,14 +403,14 @@ function BankPanel({ onCloseCallback }) {
                                 <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(InventoryState) ? "no-space" : ""}` : ""}`}>
                                     <AnimatedNumber
                                       value={inventoryWeight}
-                                      duration={textAnimationDuration}
-                                      formatValue={formatValue}
+                                      duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}
+                                      formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
                                     />
                                     /
                                     <AnimatedNumber
                                       value={inventoryMaxWeight}
-                                      duration={textAnimationDuration}
-                                      formatValue={formatValue}
+                                      duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}
+                                      formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
                                     />
                                 </span>
                                 <img
@@ -458,14 +455,14 @@ function BankPanel({ onCloseCallback }) {
                                 >
                                     <AnimatedNumber
                                       value={storageWeight}
-                                      duration={textAnimationDuration}
-                                      formatValue={formatValue}
+                                      duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}
+                                      formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
                                     />
                                     /
                                     <AnimatedNumber
                                       value={storageMaxWeight}
-                                      duration={textAnimationDuration}
-                                      formatValue={formatValue}
+                                      duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}
+                                      formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
                                       className={`${highlightStorageWeight ? "highlight" : ""}`}
                                     />
                                 </span>

@@ -11,6 +11,7 @@ const Panels = {
     Inventory: Symbol("Inventory"),
     Crafting: Symbol("Crafting"),
     Bank: Symbol("Bank"),
+    Shop: Symbol("Shop"),
 };
 
 export default Panels;

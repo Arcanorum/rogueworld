@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class OmniMerchant extends Merchant {}
-module.exports = OmniMerchant;
 
-OmniMerchant.prototype.shop = new (require("../../../../../../gameplay/Shops")).Omni();
+OmniMerchant.prototype.shop = ShopTypesList.Omni;
+
+module.exports = OmniMerchant;

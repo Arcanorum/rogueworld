@@ -1,6 +1,6 @@
 import PubSub from "pubsub-js";
 import {
-    CURSOR_MOVE, TOOLTIP_CONTENT, CRAFTING_STATION, PANEL_CHANGE,
+    CURSOR_MOVE, TOOLTIP_CONTENT, CRAFTING_STATION, SHOP, STOCK_PRICES, PANEL_CHANGE,
 } from "../EventTypes";
 
 class GUI {
@@ -36,6 +36,8 @@ class GUI {
         this.activePanel = null;
 
         this.craftingStation = null;
+
+        this.shop = null;
     }
 
     setCursorX(value) {
@@ -76,6 +78,23 @@ class GUI {
         };
 
         PubSub.publish(CRAFTING_STATION, this.craftingStation);
+    }
+
+    setShop(merchantId, name, shopType) {
+        this.shop = {
+            // The merchant entity that this player is trading with, to send when buying something so the server knows who to buy from.
+            merchantId,
+            name,
+            shopType,
+        };
+
+        PubSub.publish(SHOP, this.shop);
+    }
+
+    setStockPrices(value) {
+        this.shop.prices = value;
+
+        PubSub.publish(STOCK_PRICES, this.shop.prices);
     }
 
     setTooltipContent(content) {

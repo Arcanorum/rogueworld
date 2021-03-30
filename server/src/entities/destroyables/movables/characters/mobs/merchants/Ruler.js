@@ -1,6 +1,8 @@
 const Merchant = require("./Merchant");
+const ShopTypesList = require("../../../../../../shops/ShopTypesList");
 
 class Ruler extends Merchant { }
-module.exports = Ruler;
 
-Ruler.prototype.shop = new (require("../../../../../../gameplay/Shops")).Ruler();
+Ruler.prototype.shop = ShopTypesList.Ruler;
+
+module.exports = Ruler;

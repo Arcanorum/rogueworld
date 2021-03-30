@@ -47,7 +47,7 @@ function LoadingPage() {
 
             <div className="loading-hint-cont">
                 <div className="col image">
-                    <img src={hintImageBat} className="loading-hint-image" />
+                    <img src={hintImageBat} className="loading-hint-image" draggable={false} />
                 </div>
                 <div className="col loading-hint-text">
                     {hint}
@@ -60,7 +60,7 @@ function LoadingPage() {
 
             {!loading && (
             <div className="loading-play-button-cont" onClick={playPressed}>
-                <img className="loading-play-button-border" src={playButtonBorder} />
+                <img className="loading-play-button-border" src={playButtonBorder} draggable={false} />
                 <div className="loading-play-text">
                     Play
                 </div>

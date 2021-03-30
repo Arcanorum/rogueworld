@@ -21,6 +21,7 @@
 
 .loading-heading {
     font-size: 8vh;
+    user-select: none;
 }
   
 .loading-hint-cont {
@@ -46,6 +47,7 @@
 .loading-hint-text {
     font-size: 4vh;
     text-align: left;
+    user-select: none;
 }
 
 .loading-next-hint-button {
@@ -53,6 +55,7 @@
     color: $colourDB32White;
     padding: 1rem;
     cursor: pointer;
+    user-select: none;
     border: 0.1rem solid $colourDB32White;
     &:hover {
         transform: scale(1.1);
@@ -79,7 +82,8 @@
 }
 
 .loading-play-text {
-    position: absolute;
+    user-select: none;
     font-size: 6vh;
     cursor: pointer;
+    position: absolute;
 }

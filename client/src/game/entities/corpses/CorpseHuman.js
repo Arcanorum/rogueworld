@@ -3,8 +3,7 @@ import Sprite from "../Sprite";
 
 class Entity extends Sprite {
     constructor(x, y, config) {
-        config.frame = "corpse-human";
-        super(x, y, config);
+        super(x, y, config, "corpse-human");
 
         this.setScale(gameConfig.GAME_SCALE);
     }

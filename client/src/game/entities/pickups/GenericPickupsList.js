@@ -64,7 +64,7 @@ export default {
     Furnace: makeClass({ frameName: "furnace" }),
     Generator: makeClass({ frameName: "generator" }),
     Greencap: makeClass({ frameName: "greencap" }),
-    GloryOrb: makeClass({ frameName: "glory-orb " }),
+    GloryOrb: makeClass({ frameName: "glory-orb" }),
     HammerOfGlory: makeClass({ frameName: "noctis-hammer" }),
     HealthPotion: makeClass({ frameName: "health-potion" }),
     IronArmour: makeClass({ frameName: "iron-armour" }),

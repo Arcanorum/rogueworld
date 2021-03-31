@@ -48,6 +48,10 @@ class Application {
         if (value) {
             this.setConnecting(false);
         }
+        else {
+            this.setLoading(false);
+            this.setLoadAccepted(true);
+        }
     }
 
     setJoining(value) {

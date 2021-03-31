@@ -108,21 +108,21 @@ function GUI() {
                   onClick={() => {
                       setShownPanel(Panels.Stats);
                   }}
-                  tooltipText={Utils.getTextDef("Stats tooltip")}
+                  tooltipText={`${Utils.getTextDef("Stats tooltip")} ( V )`}
                 />
                 <PanelButton
                   icon={tasksIcon}
                   onClick={() => {
                       setShownPanel(Panels.Tasks);
                   }}
-                  tooltipText={Utils.getTextDef("Tasks tooltip")}
+                  tooltipText={`${Utils.getTextDef("Tasks tooltip")} ( B )`}
                 />
                 <PanelButton
                   icon={mapIcon}
                   onClick={() => {
                       setShownPanel(Panels.Map);
                   }}
-                  tooltipText={Utils.getTextDef("Map tooltip")}
+                  tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
                 />
             </div>
 

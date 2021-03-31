@@ -64,7 +64,7 @@ class Boot extends Phaser.Scene {
         // If not on desktop, enable the virtual D-pad.
         gameConfig.virtualDPadEnabled = !dungeonz.gameScene.sys.game.device.os.desktop;
 
-        if (dungeonz.devMove === false) {
+        if (dungeonz.devMode === false) {
             // Disable the right click context menu on the game in prod.
             document.getElementById("game_cont").addEventListener("contextmenu", (event) => event.preventDefault());
         }

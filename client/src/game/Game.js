@@ -183,6 +183,17 @@ class Game extends Phaser.Scene {
         this.boundPointerDownHandler = this.pointerDownHandler.bind(this);
         document.addEventListener("mousedown", this.boundPointerDownHandler);
 
+        this.input.on("pointerdown", (pointer) => {
+            if (pointer.rightButtonDown()) {
+                if (GUIState.activePanel === Panels.Inventory) {
+                    GUIState.setActivePanel(Panels.NONE);
+                }
+                else {
+                    GUIState.setActivePanel(Panels.Inventory);
+                }
+            }
+        });
+
         this.fpsText = this.add.text(10, window.innerHeight - 30, "FPS:", {
             fontFamily: "\"Courier\"",
             fontSize: "24px",
@@ -436,13 +447,24 @@ class Game extends Phaser.Scene {
         // Get the 0 - 9 keys.
         if (key > -1
             && key < 10) {
-            // console.log("num key pressed:", codeNumber);
-            // Add the "slot" part of the key to the inventory slot number.
-            this.player.inventory.useItem(`slot${key}`);
+            const hotbarItem = InventoryState.hotbar[key - 1];
+
+            if (hotbarItem) {
+                ApplicationState.connection.sendEvent("use_item", hotbarItem.slotIndex);
+            }
         }
 
         if (event.code === "KeyE") {
             ApplicationState.connection.sendEvent("pick_up_item");
+        }
+
+        if (event.code === "Space") {
+            if (GUIState.activePanel === Panels.Inventory) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setActivePanel(Panels.Inventory);
+            }
         }
     }
 
@@ -468,6 +490,12 @@ class Game extends Phaser.Scene {
                 enterChat: Phaser.Input.Keyboard.KeyCodes.ENTER,
 
                 escape: Phaser.Input.Keyboard.KeyCodes.ESC,
+
+                i: Phaser.Input.Keyboard.KeyCodes.I,
+                c: Phaser.Input.Keyboard.KeyCodes.C,
+                v: Phaser.Input.Keyboard.KeyCodes.V,
+                b: Phaser.Input.Keyboard.KeyCodes.B,
+                m: Phaser.Input.Keyboard.KeyCodes.M,
             },
         );
         // Stop the key press events from being captured by Phaser, so they
@@ -482,6 +510,12 @@ class Game extends Phaser.Scene {
             Phaser.Input.Keyboard.KeyCodes.S,
             Phaser.Input.Keyboard.KeyCodes.A,
             Phaser.Input.Keyboard.KeyCodes.D,
+
+            Phaser.Input.Keyboard.KeyCodes.I,
+            Phaser.Input.Keyboard.KeyCodes.C,
+            Phaser.Input.Keyboard.KeyCodes.V,
+            Phaser.Input.Keyboard.KeyCodes.B,
+            Phaser.Input.Keyboard.KeyCodes.M,
         ]);
 
         this.keyboardKeys.arrowUp.on("down", this.moveUpPressed, this);
@@ -511,6 +545,61 @@ class Game extends Phaser.Scene {
         this.keyboardKeys.escape.on("down", () => {
             GUIState.setActivePanel(Panels.NONE);
             GUIState.setTooltipContent(null);
+        });
+
+        this.keyboardKeys.i.on("down", () => {
+            if (this.checkKeyFilters()) return;
+
+            if (GUIState.activePanel === Panels.Inventory) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setActivePanel(Panels.Inventory);
+            }
+        });
+
+        this.keyboardKeys.c.on("down", () => {
+            if (this.checkKeyFilters()) return;
+
+            if (GUIState.activePanel === Panels.Inventory) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setActivePanel(Panels.Inventory);
+            }
+        });
+
+        this.keyboardKeys.v.on("down", () => {
+            if (this.checkKeyFilters()) return;
+
+            if (GUIState.activePanel === Panels.Stats) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setActivePanel(Panels.Stats);
+            }
+        });
+
+        this.keyboardKeys.b.on("down", () => {
+            if (this.checkKeyFilters()) return;
+
+            if (GUIState.activePanel === Panels.Tasks) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setActivePanel(Panels.Tasks);
+            }
+        });
+
+        this.keyboardKeys.m.on("down", () => {
+            if (this.checkKeyFilters()) return;
+
+            if (GUIState.activePanel === Panels.Map) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setActivePanel(Panels.Map);
+            }
         });
     }
 

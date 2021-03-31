@@ -76,7 +76,7 @@ function Meters() {
                   onClick={() => {
                       GUIState.setActivePanel(Panels.Inventory);
                   }}
-                  tooltipText={Utils.getTextDef("Inventory tooltip")}
+                  tooltipText={`${Utils.getTextDef("Inventory tooltip")} ( C, I, right-click, spacebar )`}
                 />
             </div>
             <div className="meter">

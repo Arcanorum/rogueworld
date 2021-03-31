@@ -15,7 +15,7 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
 }
 else if (window.location.hostname === "test.dungeonz.io") {
     Utils.message("Running in test mode.");
-    dungeonz.devMode = true;
+    dungeonz.devMode = false;
     dungeonz.host = "test";
 }
 else {

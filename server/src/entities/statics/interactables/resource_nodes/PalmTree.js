@@ -1,5 +1,5 @@
 const ResourceNode = require("./ResourceNode");
-const Item = require("../../../../ItemsList").BY_NAME.PalmLogs;
+const Item = require("../../../../ItemsList").BY_NAME.OakLogs;
 
 class PalmTree extends ResourceNode {}
 

@@ -6,7 +6,7 @@ import Partners from "./partners/Partners";
 import dungeonzLogo from "../../assets/images/misc/branding/dungeonz-title.png";
 import background from "../../assets/images/misc/home-background.gif";
 import notDiscordLogo from "../../assets/images/misc/branding/notdiscord-logo.png";
-import notFacebookLogo from "../../assets/images/misc/branding/notfacebook-logo.png";
+import notGithubLogo from "../../assets/images/misc/branding/notgithub-logo.png";
 import notFandomLogo from "../../assets/images/misc/branding/notfandom-logo.png";
 import notRedditLogo from "../../assets/images/misc/branding/notreddit-logo.png";
 import "./LoginPage.scss";
@@ -313,21 +313,21 @@ function LoginPage() {
                               }}
                             />
                         </div>
-                        <div id="notfacebook-button" className="antisocial-button">
-                            <img
-                              className="antisocial-icon"
-                              src={notFacebookLogo}
-                              onClick={() => {
-                                  window.open("https://www.facebook.com/sharer/sharer.php?u=dungeonz.io", "_blank");
-                              }}
-                            />
-                        </div>
                         <div id="notwiki-button" className="antisocial-button">
                             <img
                               className="antisocial-icon"
                               src={notFandomLogo}
                               onClick={() => {
                                   window.open("https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki", "_blank");
+                              }}
+                            />
+                        </div>
+                        <div id="notgithub-button" className="antisocial-button">
+                            <img
+                              className="antisocial-icon"
+                              src={notGithubLogo}
+                              onClick={() => {
+                                  window.open("https://github.com/Arcanorum/dungeonz", "_blank");
                               }}
                             />
                         </div>

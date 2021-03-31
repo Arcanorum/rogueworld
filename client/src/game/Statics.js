@@ -267,9 +267,11 @@ class DungeonPortal extends Portal {
     }
 
     onPressed() {
-        if (this.isWithinPressableRange()) {
-            PubSub.publish(DUNGEON_PORTAL_PRESSED, this);
-        }
+        if (!this.isWithinPressableRange()) return;
+        // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+        if (GUIState.activePanel !== Panels.NONE) return;
+
+        PubSub.publish(DUNGEON_PORTAL_PRESSED, this);
     }
 }
 

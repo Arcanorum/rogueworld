@@ -8,7 +8,7 @@
     "server:dev": "cd server && npm run dev",
     "client:dev": "cd client && npm run start",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
-    "itemcode": "node ./server/src/GenerateItemCode",
+    "itemcode": "node ./server/src/scripts/GenerateItemCode",
     "server:build-map": "cd server && npm run build-map"
   },
   "devDependencies": {

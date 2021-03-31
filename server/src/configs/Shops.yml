@@ -63,6 +63,9 @@
     - itemName: ExpOrbToolery
     - itemName: ExpOrbPotionry
     - itemName: GloryOrb
+    - itemName: TinyLootBox
+    - itemName: SmallLootBox
+    - itemName: MediumLootBox
 
 - name: Ruler
   stock: []

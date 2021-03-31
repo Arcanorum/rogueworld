@@ -4,8 +4,9 @@ import PubSub from "pubsub-js";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import "./TasksPanel.scss";
 import tasksIcon from "../../../../../assets/images/gui/hud/tasks-icon.png";
+import gloryIcon from "../../../../../assets/images/gui/hud/glory-icon.png";
 import { TASKS_VALUE, TASK_PROGRESS } from "../../../../../shared/EventTypes";
-import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
+import { ApplicationState, GUIState, PlayerState } from "../../../../../shared/state/States";
 import Utils from "../../../../../shared/Utils";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
@@ -13,10 +14,22 @@ import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import trackButtonBorderInactiveImage from "../../../../../assets/images/gui/panels/tasks/track-button-border-inactive.png";
 import claimButtonBorderValidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-valid.png";
 import claimButtonBorderInvalidImage from "../../../../../assets/images/gui/panels/tasks/claim-button-border-invalid.png";
+import ItemTooltip from "../../item_tooltip/ItemTooltip";
 
 function RewardItem({ rewardItemTypeCode }) {
     return (
-        <div className="reward-item-cont">
+        <div
+          className="reward-item-cont"
+          draggable={false}
+          onMouseEnter={() => {
+              GUIState.setTooltipContent(
+                  <ItemTooltip itemTypeCode={rewardItemTypeCode} />,
+              );
+          }}
+          onMouseLeave={() => {
+              GUIState.setTooltipContent(null);
+          }}
+        >
             {rewardItemTypeCode && (
                 <img
                   className="reward-item"
@@ -52,8 +65,10 @@ function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
               }
           }}
         >
-            <div className={`slot-cell slot-task-name ${completed ? "completed" : ""}`}>
-                {Utils.getTextDef(`Task ID: ${task.taskID}`)}
+            <div className={`slot-cell slot-task-name-cont ${completed ? "completed" : ""}`}>
+                <div className="slot-task-name">
+                    {Utils.getTextDef(`Task ID: ${task.taskID}`)}
+                </div>
             </div>
             <div className={`slot-cell ${completed ? "completed" : ""}`}>
                 {`${task.progress}/${task.completionThreshold}`}
@@ -62,6 +77,10 @@ function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
                 {task.rewardItemTypeCodes.map((typeCode) => (
                     <RewardItem key={typeCode} rewardItemTypeCode={typeCode} />
                 ))}
+                <div className="glory">
+                    <img src={gloryIcon} draggable={false} />
+                    <span>{task.rewardGlory}</span>
+                </div>
             </div>
         </div>
     );
@@ -98,7 +117,7 @@ function TasksPanel({ onCloseCallback }) {
     useEffect(() => {
         const subs = [
             PubSub.subscribe(TASKS_VALUE, (msg, data) => {
-                setTasks(data.new);
+                setTasks({ ...data.new });
             }),
             PubSub.subscribe(TASK_PROGRESS, () => {
                 setTasks({ ...PlayerState.tasks });
@@ -139,9 +158,9 @@ function TasksPanel({ onCloseCallback }) {
                     </div>
                     <div className="panel-template-spacer" />
                     <div className="list-cont">
-                        {tasks && Object.entries(tasks).map(([taskID, task]) => (
+                        {tasks && Object.values(tasks).map((task) => (
                             <TaskSlot
-                              key={taskID}
+                              key={task.taskID}
                               task={task}
                               setSelectedTaskID={setSelectedTaskID}
                               selectedTaskID={selectedTaskID}

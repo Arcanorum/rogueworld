@@ -60,24 +60,26 @@ $taskSlotCompleted: #6abe30;
                     }
                 }
 
-                .slot-task-name {
-                    height: auto;
-                    padding: 7px;
+                .slot-task-name-cont {
+                    .slot-task-name {
+                        height: auto;
+                        padding: 6px;
+                    }
                 }
 
+
                 .reward-cont {
-                    display: grid;
-                    grid-template-columns: 15% 15% 15% 15% auto;
-                    grid-gap: 4px;
+                    display: inline-flex;
+                    flex-wrap: wrap;
                     align-items: center;
                     justify-items: center;
 
                     .reward-item-cont {
                         position: relative;
-                        width: 100%;
+                        width: 32px;
 
                         .reward-item {
-                            width: 100%;
+                            height: 32px;
 
                             &:hover {
                                 filter: brightness(150%);
@@ -86,9 +88,18 @@ $taskSlotCompleted: #6abe30;
                         }
                     }
 
-                    .glory-icon {
-                        width: 80%;
-                        pointer-events: none;
+                    .glory {
+                        display: inline-flex;
+                        align-items: center;
+
+                        img {
+                            height: 28px;
+                            margin: 4px;
+                        }
+                        
+                        span {
+                            pointer-events: none;
+                        }
                     }
                 }
             }

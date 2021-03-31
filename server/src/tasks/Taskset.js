@@ -1,3 +1,7 @@
+const Task = require("./Task");
+const TaskTypes = require("./TaskTypes");
+const ItemsListByName = require("../ItemsList").BY_NAME;
+
 class Taskset {
     /**
      * A new set of tasks. Can be continued from what tasks the player had before.
@@ -38,13 +42,15 @@ class Taskset {
 
     // The owner has no task progress so far, give them the starting tasks.
     addStartingTasks() {
+        const { owner } = this;
+        const { TinyLootBox } = ItemsListByName;
         this.owner.tasks.list = {};
-        new Task.Task(this.owner, TaskTypes.KillRats, 0, 5, [ItemsListByName.IronHammer], 500);
-        new Task.Task(this.owner, TaskTypes.KillBats, 0, 5, [ItemsListByName.IronArmour], 500);
-        new Task.Task(this.owner, TaskTypes.GatherIronOre, 0, 5, [ItemsListByName.DungiumPickaxe], 500);
-        new Task.Task(this.owner, TaskTypes.GatherCotton, 0, 5, [ItemsListByName.ExpOrbGathering], 500);
-        new Task.Task(this.owner, TaskTypes.CraftIronDaggers, 0, 5, [ItemsListByName.NoctisDagger], 500);
-        new Task.Task(this.owner, TaskTypes.CraftPlainRobes, 0, 5, [ItemsListByName.ExpOrbArmoury], 500);
+        new Task.Task(owner, TaskTypes.KillRats, 0, 5, [TinyLootBox], 500);
+        new Task.Task(owner, TaskTypes.KillBats, 0, 5, [TinyLootBox], 500);
+        new Task.Task(owner, TaskTypes.GatherIronOre, 0, 5, [TinyLootBox], 500);
+        new Task.Task(owner, TaskTypes.GatherCotton, 0, 5, [TinyLootBox], 500);
+        new Task.Task(owner, TaskTypes.CraftIronDaggers, 0, 5, [TinyLootBox], 500);
+        new Task.Task(owner, TaskTypes.CraftPlainRobes, 0, 5, [TinyLootBox], 500);
     }
 
     getEmittableTasks() {
@@ -72,8 +78,3 @@ class Taskset {
 }
 
 module.exports = Taskset;
-
-// const TaskProgress = require("./TaskProgress.js");
-const Task = require("./Task");
-const TaskTypes = require("./TaskTypes");
-const ItemsListByName = require("../ItemsList").BY_NAME;

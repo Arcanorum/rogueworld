@@ -1,7 +1,7 @@
 const EventsList = require("../EventsList");
 const ItemConfig = require("../inventory/ItemConfig");
+const ItemsList = require("../ItemsList");
 const Utils = require("../Utils");
-const RewardsList = require("./RewardsList");
 
 class Task {
     /**
@@ -149,21 +149,28 @@ class NewTask extends Task {
             taskTypeToUse = player.tasks.list[randomTaskType.taskID].getOtherTask();
         }
 
-        // The difficulty of the task, or how much stuff to do for it, and how many rewards are given.
-        const length = Utils.getRandomIntInclusive(1, 3);
+        // The difficulty of the task, or how much stuff to do for it, and what rewards are given.
+        const difficulty = Utils.getRandomIntInclusive(1, 3);
 
         const rewardItems = [];
-        for (let i = 0; i < length; i += 1) {
-            rewardItems.push(Utils.getRandomElement(RewardsList));
+
+        if (difficulty === 1) {
+            rewardItems.push(ItemsList.BY_NAME.TinyLootBox);
+        }
+        else if (difficulty === 2) {
+            rewardItems.push(ItemsList.BY_NAME.SmallLootBox);
+        }
+        else {
+            rewardItems.push(ItemsList.BY_NAME.MediumLootBox);
         }
 
         super(
             player,
             taskTypeToUse,
             0,
-            5 * length,
+            5 * difficulty,
             rewardItems,
-            500 * length,
+            500 * difficulty,
         );
     }
 }

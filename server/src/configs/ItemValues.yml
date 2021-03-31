@@ -481,6 +481,26 @@
   useEnergyCost: 1
   expGivenStatName: Ranged
 
+# Loot boxes
+
+- name: MediumLootBox
+  code: CKKM9873
+  extends: loot_boxes/LootBox
+  translationID: Medium loot box
+  iconSource: icon-medium-loot-box
+
+- name: SmallLootBox
+  code: QNBV6059
+  extends: loot_boxes/LootBox
+  translationID: Small loot box
+  iconSource: icon-small-loot-box
+
+- name: TinyLootBox
+  code: EZCI1839
+  extends: loot_boxes/LootBox
+  translationID: Tiny loot box
+  iconSource: icon-tiny-loot-box
+
 # Everything else
 
 - name: BloodGem

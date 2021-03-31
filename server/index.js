@@ -9,6 +9,7 @@ const EntitiesLoader = require("./src/EntitiesLoader");
 const StarterBankItemConfigs = require("./src/bank/StarterBankItemConfigs");
 const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
 const ShopsLoader = require("./src/shops/ShopsLoader");
+const RewardListLoader = require("./src/tasks/RewardsListLoader");
 
 Utils.message("Start of index");
 
@@ -26,6 +27,7 @@ async function init() {
     // Do these after the items list is set up, as they need to check the items they use are valid.
     CraftingRecipesLoader.populateList();
     StarterBankItemConfigs.populateList();
+    RewardListLoader.populateList();
 
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();

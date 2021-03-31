@@ -78,6 +78,9 @@ class Clothes extends Item {
      * @param {Entity} source
      */
     damage(damage, source) {
+        // Reduce the damage taken by the piercing amount.
+        // The higher the piercing, the more damage the wearer takes and the less the clothing takes.
+        damage.amount *= ((100 - damage.armourPiercing) / 100);
         this.modDurability(-Math.abs(damage.amount));
         this.onDamaged(damage, source);
     }

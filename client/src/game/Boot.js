@@ -66,7 +66,7 @@ class Boot extends Phaser.Scene {
 
         if (dungeonz.devMode === false) {
             // Disable the right click context menu on the game in prod.
-            document.getElementById("game_cont").addEventListener("contextmenu", (event) => event.preventDefault());
+            document.getElementById("game-cont").addEventListener("contextmenu", (event) => event.preventDefault());
         }
 
         // Start the game state.

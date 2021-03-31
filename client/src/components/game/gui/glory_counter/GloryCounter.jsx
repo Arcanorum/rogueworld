@@ -5,24 +5,33 @@ import gloryIcon from "../../../../assets/images/gui/hud/glory-icon.png";
 import { GLORY_VALUE } from "../../../../shared/EventTypes";
 import PanelButton from "../panel_button/PanelButton";
 import Utils from "../../../../shared/Utils";
+import "./GloryCounter.scss";
+import dungeonz from "../../../../shared/Global";
+
+let transitionValueTimeout = 0;
 
 function GloryCounter() {
     const [glory, setGlory] = useState(0);
     // Use a string, so it will show the + when positive change.
     const [difference, setDifference] = useState("");
 
-    const formatValue = (value) => value.toFixed(0);
-
     useEffect(() => {
         const subs = [
             PubSub.subscribe(GLORY_VALUE, (msg, data) => {
-                const diff = data.old - data.new;
-                if (difference > 0) {
+                const diff = Math.abs(data.old - data.new);
+
+                if (data.new > data.old) {
                     setDifference(`+${diff}`);
                 }
                 else {
-                    setDifference(`${diff}`);
+                    setDifference(`-${diff}`);
                 }
+
+                clearTimeout(transitionValueTimeout);
+
+                transitionValueTimeout = setTimeout(() => {
+                    setDifference("");
+                }, 5000);
 
                 setGlory(data.new);
             }),
@@ -30,6 +39,8 @@ function GloryCounter() {
 
         // Cleanup.
         return () => {
+            clearTimeout(transitionValueTimeout);
+
             subs.forEach((sub) => {
                 PubSub.unsubscribe(sub);
             });
@@ -37,17 +48,17 @@ function GloryCounter() {
     }, []);
 
     return (
-        <div>
+        <div className="glory-counter">
             <PanelButton
               icon={gloryIcon}
               tooltipText={Utils.getTextDef("Glory tooltip")}
             />
             <AnimatedNumber
               value={glory}
-              formatValue={formatValue}
+              formatValue={dungeonz.gameConfig.ANIMATED_NUMBER_FORMAT}
               className="high-contrast-text"
             />
-            <div className="text-counter text-counter-transition high-contrast-text">{difference}</div>
+            {difference && <div className={`high-contrast-text ${difference >= 0 ? "glory-gained" : "glory-lost"}`}>{difference}</div>}
         </div>
     );
 }

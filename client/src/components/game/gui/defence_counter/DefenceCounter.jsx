@@ -5,6 +5,7 @@ import defenceIcon from "../../../../assets/images/gui/hud/defence-icon.png";
 import { DEFENCE_VALUE } from "../../../../shared/EventTypes";
 import Utils from "../../../../shared/Utils";
 import PanelButton from "../panel_button/PanelButton";
+import "./DefenceCounter.scss";
 
 function DefenceCounter() {
     const [defence, setDefence] = useState(0);
@@ -27,7 +28,7 @@ function DefenceCounter() {
     }, []);
 
     return (
-        <div>
+        <div className="defence-counter">
             <PanelButton
               icon={defenceIcon}
               tooltipText={Utils.getTextDef("Defence tooltip")}

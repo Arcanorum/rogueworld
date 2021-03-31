@@ -56,6 +56,10 @@ function HotbarSlot({ itemConfig }) {
         ];
 
         return () => {
+            // Hide in case the item in the hotbar was being hovered, and
+            // now can't call it's own onMouseLeave when removed.
+            GUIState.setTooltipContent(null);
+
             subs.forEach((sub) => {
                 PubSub.unsubscribe(sub);
             });

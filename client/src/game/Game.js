@@ -466,6 +466,8 @@ class Game extends Phaser.Scene {
                 shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
 
                 enterChat: Phaser.Input.Keyboard.KeyCodes.ENTER,
+
+                escape: Phaser.Input.Keyboard.KeyCodes.ESC,
             },
         );
         // Stop the key press events from being captured by Phaser, so they
@@ -504,6 +506,11 @@ class Game extends Phaser.Scene {
 
         this.keyboardKeys.enterChat.on("down", () => {
             PubSub.publish(ENTER_KEY);
+        });
+
+        this.keyboardKeys.escape.on("down", () => {
+            GUIState.setActivePanel(Panels.NONE);
+            GUIState.setTooltipContent(null);
         });
     }
 

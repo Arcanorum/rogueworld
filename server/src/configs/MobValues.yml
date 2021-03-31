@@ -116,7 +116,7 @@
 - name: Warrior
   gloryValue: 35
   defence: 40
-  viewRange: 5
+  viewRange: 7
   moveRate: 700
   projectileAttackType: IronHammer
   faction: Barbarians
@@ -131,7 +131,7 @@
   gloryValue: 60
   maxHitPoints: 150
   defence: 40
-  viewRange: 5
+  viewRange: 7
   attackRate: 1000
   moveRate: 500
   projectileAttackType: DungiumSword
@@ -145,7 +145,7 @@
 
 - name: Mage
   gloryValue: 50
-  viewRange: 6
+  viewRange: 7
   defence: 20
   faction: Mages
   corpseType: Human

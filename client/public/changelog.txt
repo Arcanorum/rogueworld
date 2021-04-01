@@ -1,3 +1,58 @@
+1/4/2021 - Items rework
+
+New:
+- Inventory
+    Every item now has a weight, and every player can hold up to a max amount of weight, across any amount of items.
+    A lot more different kinds of items can be kept in this inventory at once now.
+    Some items are now stackable, and are consumed on use, instead of having a durability.
+    The bottom bar of 10 slots has been changed to a hotbar that gives easy access to items in the inventory.
+    Max inventory weight increases as you gain more stat levels.
+- Bank reworked
+    Weight based storage, rather than slot based, so a lot more kinds of items can be stored.
+    Can be upgraded using glory.
+- Crafting reworked
+    Simplified crafting, showing all available items to craft at each crafting station, and their ingredients.
+    More different kinds of items can be required by a crafting recipe.
+    Some recipes use the average of several stats when calculating the bonus quantity/durability for the crafted item.
+- Overworld map
+    A map of the main overworld that shows your location, and is pannable and zoomable.
+- Various sound effects and music.
+- Tasks rewards reworked
+    Tasks now give loot boxes of different sizes, increasing with task length, instead giving of the items directly when claimed.
+    Loot boxes can be opened to receive a random valuable item.
+- Loading screen
+- The respawn panel now shows a random hint.
+- Keybinds to open panels.
+
+Balance:
+- Vampire island boat moved from the main city dock, to the desert town dock.
+- Added adumbral spawns to vampire island.
+- Spreaded vampire island noctis ores more around the island.
+- Added dungium ores to the warrior village mine, desert town mine, and around the desert.
+- Added more light sources to knight training arena, mage training arena, mage tower, and desert town.
+- Blood staffs no longer damage equipped armor when used.
+- Night time duration is now slightly shorter, dusk and dawn are longer.
+- Removed bow and arrows from starter bank items.
+- Added iron pickaxe and hatchet to starter bank items.
+
+Bugs:
+- Fixed "pseudo-dodging" through projectiles. Projectiles now won't pass through targets if the target moves.
+- Other tree types no longer give invalid items when gathered from.
+- Right-click to pick up items now works again.
+- Prevented being able to use only spaces for a character name.
+- Fixed rare bug where removing clothing would not show the correct defence value.
+- Crafting shurikens now gives weaponry exp instead of toolery exp.
+- Fixed duplicate tasks blocking progress for each other. New tasks should always be different from any others you already have.
+- Fixed a rare bug with glory being set to an invalid value.
+- Super staff projectiles no longer collide with corpses.
+
+Removed:
+- Tutorial map
+
+Other:
+- Replaced Facebook social link on home page with GitHub project link.
+
+
 4/12/2020 - Bugfix 7.1
 
 New:

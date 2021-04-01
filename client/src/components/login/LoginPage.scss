@@ -95,6 +95,7 @@
   cursor: pointer;
   font-size: 1vw;
   justify-items: center;
+  text-align: center;
 
   &:hover {
     filter: brightness(150%);
@@ -112,6 +113,7 @@
   color: $colourDB32White;
   font-size: 1vw;
   justify-items: center;
+  text-align: center;
 }
 
 #play-inputs-cont {

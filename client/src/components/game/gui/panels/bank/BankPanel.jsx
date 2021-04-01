@@ -178,8 +178,8 @@ function ItemOptions({
                 </div>
                 {itemConfig.durability && <div className="detail">{`${itemConfig.durability}/${itemConfig.maxDurability}`}</div>}
                 {itemConfig.quantity && <div className="detail">{`x${transferQuantity}`}</div>}
-                {itemConfig.durability && <div className={`detail ${canTransferItem(State, itemConfig) ? "" : "no-space"}`}>{`Weight: ${itemConfig.totalWeight}`}</div>}
-                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? "" : "no-space"}`}>{`Weight: ${transferQuantity * (itemConfig.totalWeight / itemConfig.quantity)}`}</div>}
+                {itemConfig.durability && <div className={`detail ${canTransferItem(State, itemConfig) ? "" : "no-space"}`}>{`${Utils.getTextDef("Weight")}: ${itemConfig.totalWeight}`}</div>}
+                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? "" : "no-space"}`}>{`${Utils.getTextDef("Weight")}: ${transferQuantity * (itemConfig.totalWeight / itemConfig.quantity)}`}</div>}
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationID}`)}
                 </div>

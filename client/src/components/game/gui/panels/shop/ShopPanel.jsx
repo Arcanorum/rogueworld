@@ -53,7 +53,7 @@ function BuyOptions({
                 </div>
                 {shopItem.durability && <div className="detail">{`${shopItem.durability}/${shopItem.durability}`}</div>}
                 {shopItem.quantity && <div className="detail">{`x${shopItem.quantity}`}</div>}
-                <div className={`detail ${canItemFit(shopItem) ? "" : "no-space"}`}>{`Weight: ${shopItem.totalWeight}`}</div>
+                <div className={`detail ${canItemFit(shopItem) ? "" : "no-space"}`}>{`${Utils.getTextDef("Weight")}: ${shopItem.totalWeight}`}</div>
                 <div className="description">
                     {Utils.getTextDef(`Item description: ${ItemTypes[shopItem.typeCode].translationID}`)}
                 </div>

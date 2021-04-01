@@ -24,6 +24,19 @@ import {
 import {
     connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
 } from "../../network/ConnectionManager";
+import dungeonz from "../../shared/Global";
+
+const Languages = [
+    { listName: "English", translationId: "English" },
+    { listName: "Français", translationId: "French" },
+    { listName: "Español", translationId: "Spanish" },
+    { listName: "Português do Brasil", translationId: "Portuguese (Brazil)" },
+    { listName: "Türkçe", translationId: "Turkish" },
+    { listName: "Deutsch", translationId: "German" },
+    { listName: "русский язык", translationId: "Russian" },
+    { listName: "Polski", translationId: "Polish" },
+    { listName: "中文", translationId: "Chinese" },
+];
 
 function LoginPage() {
     const [showPartners, setShowPartners] = useState(false);
@@ -38,6 +51,8 @@ function LoginPage() {
 
     const [connectionIssue, setConnectionIssue] = useState(null);
     const [joinIssue, setJoinIssue] = useState(null);
+
+    const [showLanguageList, setShowLanguageList] = useState(false);
 
     const playPressed = () => {
         Utils.message("Play pressed");
@@ -69,7 +84,16 @@ function LoginPage() {
         }
     };
 
+    const changeLanguage = (language) => {
+        dungeonz.gameConfig.language = language;
+
+        setShowLanguageList(false);
+    };
+
     useEffect(() => {
+        // Load the default language.
+        changeLanguage(dungeonz.gameConfig.language);
+
         const subs = [
             PubSub.subscribe(CONNECTING, (msg, data) => {
                 setConnecting(data.new);
@@ -171,19 +195,6 @@ function LoginPage() {
     const toggleShowPartners = () => {
         setShowPartners(!showPartners);
     };
-
-    // // Load the default language.
-    // changeLanguage(dungeonz.language);
-
-    // document.getElementById("language_english").onclick = function () { changeLanguage("English") };
-    // document.getElementById("language_french").onclick = function () { changeLanguage("French") };
-    // document.getElementById("language_spanish").onclick = function () { changeLanguage("Spanish") };
-    // document.getElementById("language_portuguese").onclick = function () { changeLanguage("Portuguese (Brazil)") };
-    // document.getElementById("language_turkish").onclick = function () { changeLanguage("Turkish") };
-    // document.getElementById("language_german").onclick = function () { changeLanguage("German") };
-    // document.getElementById("language_russian").onclick = function () { changeLanguage("Russian") };
-    // document.getElementById("language_polish").onclick = function () { changeLanguage("Polish") };
-    // document.getElementById("language_chinese").onclick = function () { changeLanguage("Chinese") };
 
     return (
         <div className="press-start-font">
@@ -335,18 +346,32 @@ function LoginPage() {
                     <News />
                     <div />
                     <div id="language-cont" className="bottom-texts">
-                        <span id="language-text">{Utils.getTextDef("Language")}</span>
+                        <span
+                          id="language-text"
+                          onClick={() => { setShowLanguageList(!showLanguageList); }}
+                        >
+                            {Utils.getTextDef("Language")}
+                        </span>
                     </div>
+                    {showLanguageList && (
                     <ul id="language-list">
-                        <li id="language-english" className="language-option">English</li>
-                        <li id="language-french" className="language-option">Français</li>
-                        <li id="language-spanish" className="language-option">Español</li>
-                        <li id="language-portuguese" className="language-option">Português do Brasil</li>
-                        <li id="language-turkish" className="language-option">Türkçe</li>
-                        <li id="language-german" className="language-option">Deutsch</li>
-                        <li id="language-russian" className="language-option">русский язык</li>
-                        <li id="language-polish" className="language-option">Polski</li>
-                        <li id="language-chinese" className="language-option">中文</li>
+                        {Languages.map((language) => (
+                            <li
+                              key={language.listName}
+                              className="language-option"
+                              onClick={() => { changeLanguage(language.translationId); }}
+                            >
+                                {language.listName}
+                            </li>
+                        ))}
+                        <li id="language-french" className="language-option" />
+                        <li id="language-spanish" className="language-option" />
+                        <li id="language-portuguese" className="language-option" />
+                        <li id="language-turkish" className="language-option" />
+                        <li id="language-german" className="language-option" />
+                        <li id="language-russian" className="language-option" />
+                        <li id="language-polish" className="language-option" />
+                        <li id="language-chinese" className="language-option" />
                         <li
                           id="add-translation"
                           className="language-option"
@@ -355,6 +380,7 @@ function LoginPage() {
                           }}
                         />
                     </ul>
+                    )}
                 </div>
             </div>
 

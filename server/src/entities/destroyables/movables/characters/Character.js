@@ -21,6 +21,8 @@ class Character extends Movable {
         this.displayName = config.displayName || "";
 
         this.statusEffects = {};
+
+        this.checkedColliders = [];
     }
 
     /**
@@ -186,6 +188,8 @@ class Character extends Movable {
         // Move the entity.
         super.move(byRows, byCols);
 
+        this.checkedColliders = [];
+
         return true;
     }
 
@@ -213,6 +217,16 @@ class Character extends Movable {
         Object.values(destroyables).forEach((destroyable) => {
             // console.log("postmove intersecting a destroyable:", typeof destroyable);
             if (destroyable instanceof EntitiesList.AbstractClasses.Projectile) {
+                // Might be some recursion going on with being pushed between two projectiles
+                // (i.e. winds, hammers), so don't keep the cycle going if collisions for things
+                // that have already been checked.
+                if (this.checkedColliders.includes(destroyable)) {
+                    return;
+                }
+
+                // Add to the checked list so it doesn't get done again in the same call somehow.
+                this.checkedColliders.push(destroyable);
+
                 destroyable.checkCollisions();
             }
         });

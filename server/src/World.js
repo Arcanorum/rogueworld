@@ -12,10 +12,10 @@ const DayPhases = require("./DayPhases");
 // Set up the day phase cycle.
 const dayPhaseCycle = [];
 // 11 parts day and night, 1 part transition between them.
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 11);
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 1);
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 11);
-Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Day, 10);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 3);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Night, 9);
+Utils.arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 2);
 
 const fullDayDuration = 60000 * settings.FULL_DAY_DURATION_MINUTES;
 // Keep the length of a whole day the same, regarless of how many cycle phases each day has.

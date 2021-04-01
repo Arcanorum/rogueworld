@@ -8,5 +8,5 @@ class ProjDungiumArrow extends Projectile {
 module.exports = ProjDungiumArrow;
 
 ProjDungiumArrow.prototype.assignModHitPointConfigs();
-ProjDungiumArrow.prototype.moveRate = 200;
+ProjDungiumArrow.prototype.moveRate = 150;
 ProjDungiumArrow.prototype.range = 7;

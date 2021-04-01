@@ -1,6 +1,7 @@
 const Movable = require("../Movable");
 const GroundTypes = require("../../../../board/GroundTypes");
 const Damage = require("../../../../gameplay/Damage");
+const EntitiesList = require("../../../../EntitiesList");
 
 class Character extends Movable {
     /**
@@ -143,14 +144,14 @@ class Character extends Movable {
         const currentBoard = this.board;
 
         /** @type {BoardTile} */
-        const boardTile = currentBoard.getTileAt(this.row + byRows, this.col + byCols);
+        const nextBoardTile = currentBoard.getTileAt(this.row + byRows, this.col + byCols);
 
-        if (!boardTile) return false;
+        if (!nextBoardTile) return false;
 
         // If there is an interactable ahead, interact with it.
-        if (boardTile.static !== null) {
-            if (boardTile.static.interaction !== undefined) {
-                boardTile.static.interaction(this);
+        if (nextBoardTile.static !== null) {
+            if (nextBoardTile.static.interaction !== undefined) {
+                nextBoardTile.static.interaction(this);
 
                 // Might have interacted with a portal or
                 // something which could have changed the board.
@@ -162,12 +163,12 @@ class Character extends Movable {
         }
 
         // Check path isn't blocked.
-        if (boardTile.isLowBlocked() === true) return false;
+        if (nextBoardTile.isLowBlocked() === true) return false;
 
         // Check if the next tile can be stood on.
-        if (boardTile.groundType.canBeStoodOn === false) return false;
+        if (nextBoardTile.groundType.canBeStoodOn === false) return false;
         // If it is water, take some energy.
-        if (boardTile.groundType === GroundTypes.ShallowWater) {
+        if (nextBoardTile.groundType === GroundTypes.ShallowWater) {
             // Check it has energy. Might be a mob.
             if (this.energy !== undefined) {
                 // Check the player has any energy.
@@ -177,6 +178,11 @@ class Character extends Movable {
             }
         }
 
+        // Prevent the move if they died from being hit by something above.
+        if (this._destroyed) {
+            return false;
+        }
+
         // Move the entity.
         super.move(byRows, byCols);
 
@@ -184,7 +190,7 @@ class Character extends Movable {
     }
 
     postMove() {
-        const { groundType } = this.board.grid[this.row][this.col];
+        const { groundType, destroyables } = this.getBoardTile();
 
         // Add the status effect FIRST, in case they die from the damage below, so they
         // don't have status effect while dead, as they should have all been removed.
@@ -202,6 +208,14 @@ class Character extends Movable {
                 }),
             );
         }
+
+        // Check for any projectiles they might be now colliding with.
+        Object.values(destroyables).forEach((destroyable) => {
+            // console.log("postmove intersecting a destroyable:", typeof destroyable);
+            if (destroyable instanceof EntitiesList.AbstractClasses.Projectile) {
+                destroyable.checkCollisions();
+            }
+        });
     }
 
     repositionAndEmitToNearbyPlayers(toRow, toCol) {

@@ -95,7 +95,18 @@ class Projectile extends Movable {
         // Move the entity.
         super.move(offset.row, offset.col);
 
+        // Prevent the loop from repeating if it has been destroyed by calling .move above, or any
+        // subsequent .postMove functionality, such as checking if it now collides with anything on
+        // the board tile it moved to.
+        if (this._destroyed) return;
+
         this.moveLoop = setTimeout(this.move.bind(this), this.moveRate);
+    }
+
+    postMove() {
+        this.checkCollisions();
+
+        super.postMove();
     }
 
     /**
@@ -244,7 +255,7 @@ class Projectile extends Movable {
 
         if (this.canDamageTypeCollideWithTarget(collidee) === false) {
             // TODO: test this with other damage types, havent tried with immunities
-            console.log("projectile.js damagecollidee, immune to all damage types, take no damage");
+            // console.log("projectile.js damagecollidee, immune to all damage types, take no damage");
             damageAmount = 0;
         }
 

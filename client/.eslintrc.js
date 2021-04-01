@@ -88,6 +88,7 @@ module.exports = {
             4,
         ],
         "react/forbid-prop-types": "off",
+        "react/destructuring-assignment": "off",
     },
     env: {
         es6: true,

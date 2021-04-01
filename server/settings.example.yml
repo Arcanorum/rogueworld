@@ -90,6 +90,8 @@ STARTER_BANK_ITEMS:
   - itemName: HealthPotion
     quantity: 4
   - itemName: IronSword
+  - itemName: IronHatchet
+  - itemName: IronPickaxe
 
 # How much to change the price of an NPC shop item by each time it is bought, so it can become more
 # expensive to buy if bought frequently. Cumulative. Slowly returns back to the base price for that

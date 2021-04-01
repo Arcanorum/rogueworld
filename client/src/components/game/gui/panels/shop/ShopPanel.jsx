@@ -22,7 +22,7 @@ import ItemTooltip from "../../item_tooltip/ItemTooltip";
 import dungeonz from "../../../../../shared/Global";
 
 const canItemFit = (shopItem) => (
-    (InventoryState.maxWeight - InventoryState.weight) > shopItem.totalWeight
+    (InventoryState.maxWeight - InventoryState.weight) >= shopItem.totalWeight
 );
 
 const canAfford = (price) => (PlayerState.glory >= price);

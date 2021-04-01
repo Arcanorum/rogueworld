@@ -1,4 +1,6 @@
 const ProjWind = require("./ProjWind");
+const EntitiesList = require("../../../../EntitiesList");
+const Damage = require("../../../../gameplay/Damage");
 
 class ProjSuperWind extends ProjWind {
     /**
@@ -25,24 +27,27 @@ class ProjSuperWind extends ProjWind {
         if (collidee instanceof ProjWind) return;
         if (collidee instanceof ProjSuperWind) return;
         // Ignore pickups.
-        if (collidee instanceof Pickup) return;
+        if (collidee instanceof EntitiesList.AbstractClasses.Pickup) return;
+        // Ignore corpses.
+        if (collidee instanceof EntitiesList.AbstractClasses.Corpse) return;
         // Ignore statics that are not high blocking.
-        if (collidee instanceof Static) {
+        if (collidee instanceof EntitiesList.Static) {
             if (collidee.isHighBlocked() === false) return;
         }
 
+        const { board, source } = this;
         // Create a new projectile in each direction.
         new ProjWind({
-            row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source,
+            row: this.row - 1, col: this.col, board, direction: this.Directions.UP, source,
         }).emitToNearbyPlayers();
         new ProjWind({
-            row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source,
+            row: this.row + 1, col: this.col, board, direction: this.Directions.DOWN, source,
         }).emitToNearbyPlayers();
         new ProjWind({
-            row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source,
+            row: this.row, col: this.col - 1, board, direction: this.Directions.LEFT, source,
         }).emitToNearbyPlayers();
         new ProjWind({
-            row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source,
+            row: this.row, col: this.col + 1, board, direction: this.Directions.RIGHT, source,
         }).emitToNearbyPlayers();
 
         this.pushBackCollidee(collidee);
@@ -59,10 +64,7 @@ class ProjSuperWind extends ProjWind {
         this.destroy();
     }
 }
-module.exports = ProjSuperWind;
 
-const Pickup = require("../../pickups/Pickup");
-const Static = require("../../../statics/Static");
-const Damage = require("../../../../gameplay/Damage");
+module.exports = ProjSuperWind;
 
 ProjSuperWind.prototype.assignModHitPointConfigs("ProjWind");

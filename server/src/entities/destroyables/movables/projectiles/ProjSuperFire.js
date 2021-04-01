@@ -1,4 +1,6 @@
 const ProjFire = require("./ProjFire");
+const EntitiesList = require("../../../../EntitiesList");
+const { Burn } = require("../../../../gameplay/StatusEffects");
 
 class ProjSuperFire extends ProjFire {
     /**
@@ -25,24 +27,27 @@ class ProjSuperFire extends ProjFire {
         if (collidee instanceof ProjFire) return;
         if (collidee instanceof ProjSuperFire) return;
         // Ignore pickups.
-        if (collidee instanceof Pickup) return;
+        if (collidee instanceof EntitiesList.AbstractClasses.Pickup) return;
+        // Ignore corpses.
+        if (collidee instanceof EntitiesList.AbstractClasses.Corpse) return;
         // Ignore statics that are not high blocking.
-        if (collidee instanceof Static) {
+        if (collidee instanceof EntitiesList.Static) {
             if (collidee.isHighBlocked() === false) return;
         }
 
+        const { board, source } = this;
         // Create a new projectile in each direction.
         new ProjFire({
-            row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source,
+            row: this.row - 1, col: this.col, board, direction: this.Directions.UP, source,
         }).emitToNearbyPlayers();
         new ProjFire({
-            row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source,
+            row: this.row + 1, col: this.col, board, direction: this.Directions.DOWN, source,
         }).emitToNearbyPlayers();
         new ProjFire({
-            row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source,
+            row: this.row, col: this.col - 1, board, direction: this.Directions.LEFT, source,
         }).emitToNearbyPlayers();
         new ProjFire({
-            row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source,
+            row: this.row, col: this.col + 1, board, direction: this.Directions.RIGHT, source,
         }).emitToNearbyPlayers();
 
         // If it can have status effects, apply burning.
@@ -56,8 +61,5 @@ class ProjSuperFire extends ProjFire {
         this.destroy();
     }
 }
-module.exports = ProjSuperFire;
 
-const Pickup = require("../../pickups/Pickup");
-const Static = require("../../../statics/Static");
-const { Burn } = require("../../../../gameplay/StatusEffects");
+module.exports = ProjSuperFire;

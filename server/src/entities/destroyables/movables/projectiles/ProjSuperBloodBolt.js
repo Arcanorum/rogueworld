@@ -1,4 +1,7 @@
 const ProjBloodBolt = require("./ProjBloodBolt");
+const EntitiesList = require("../../../../EntitiesList");
+const Damage = require("../../../../gameplay/Damage");
+const Heal = require("../../../../gameplay/Heal");
 
 class ProjSuperBloodBolt extends ProjBloodBolt {
     /**
@@ -26,27 +29,30 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
         if (collidee instanceof ProjBloodBolt) return;
         if (collidee instanceof ProjSuperBloodBolt) return;
         // Ignore pickups.
-        if (collidee instanceof Pickup) return;
+        if (collidee instanceof EntitiesList.AbstractClasses.Pickup) return;
+        // Ignore corpses.
+        if (collidee instanceof EntitiesList.AbstractClasses.Corpse) return;
         // Ignore statics that are not high blocking.
-        if (collidee instanceof Static) {
+        if (collidee instanceof EntitiesList.Static) {
             if (collidee.isHighBlocked() === false) return;
         }
 
+        const { board, source } = this;
         // Create a new projectile in each direction.
         new ProjBloodBolt({
-            row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this.source,
+            row: this.row - 1, col: this.col, board, direction: this.Directions.UP, source,
         }).emitToNearbyPlayers();
         new ProjBloodBolt({
-            row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this.source,
+            row: this.row + 1, col: this.col, board, direction: this.Directions.DOWN, source,
         }).emitToNearbyPlayers();
         new ProjBloodBolt({
-            row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this.source,
+            row: this.row, col: this.col - 1, board, direction: this.Directions.LEFT, source,
         }).emitToNearbyPlayers();
         new ProjBloodBolt({
-            row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this.source,
+            row: this.row, col: this.col + 1, board, direction: this.Directions.RIGHT, source,
         }).emitToNearbyPlayers();
 
-        if (collidee instanceof Character) {
+        if (collidee instanceof EntitiesList.AbstractClasses.Character) {
             // Don't cause self-damage for whoever created this projectile.
             if (collidee === this.source) return;
 
@@ -67,12 +73,7 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
         this.destroy();
     }
 }
-module.exports = ProjSuperBloodBolt;
 
-const Pickup = require("../../pickups/Pickup");
-const Static = require("../../../statics/Static");
-const Character = require("../characters/Character");
-const Damage = require("../../../../gameplay/Damage");
-const Heal = require("../../../../gameplay/Heal");
+module.exports = ProjSuperBloodBolt;
 
 ProjSuperBloodBolt.prototype.assignModHitPointConfigs("ProjBloodBolt");

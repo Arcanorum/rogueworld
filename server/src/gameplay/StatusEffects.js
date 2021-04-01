@@ -58,7 +58,7 @@ class StatusEffect {
     }
 
     _effect() {
-        if (this.shouldContinueEffect() === false) {
+        if (!this.appliedTo.board || !this.shouldContinueEffect()) {
             this.stop();
             return;
         }
@@ -104,7 +104,12 @@ class StatusEffect {
         delete this.appliedTo.statusEffects[this.effectName];
         // Don't send if they are already dead.
         if (this.appliedTo.hitPoints > 0) {
-            this.appliedTo.board.emitToNearbyPlayers(this.appliedTo.row, this.appliedTo.col, this._stopEffectEventName, this.appliedTo.id);
+            this.appliedTo.board.emitToNearbyPlayers(
+                this.appliedTo.row,
+                this.appliedTo.col,
+                this._stopEffectEventName,
+                this.appliedTo.id,
+            );
         }
     }
 
@@ -151,6 +156,8 @@ class Burn extends StatusEffect {
         if (this.appliedTo.getBoardTile().groundType === GroundTypes.ShallowWater) {
             return false;
         }
+
+        return true;
     }
 
     shouldStop() {

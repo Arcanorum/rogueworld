@@ -8,5 +8,5 @@ class ProjIronArrow extends Projectile {
 module.exports = ProjIronArrow;
 
 ProjIronArrow.prototype.assignModHitPointConfigs();
-ProjIronArrow.prototype.moveRate = 200;
+ProjIronArrow.prototype.moveRate = 100;
 ProjIronArrow.prototype.range = 7;

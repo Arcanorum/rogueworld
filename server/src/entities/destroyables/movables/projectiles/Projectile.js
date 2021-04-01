@@ -136,8 +136,10 @@ class Projectile extends Movable {
      * Check for collisions between high blocking statics, and destroyables.
      */
     checkCollisions() {
+        if (!this.shouldContinueCheckCollisionsChain()) return false;
+
         /** @type {BoardTile} */
-        const currentBoardTile = this.board.grid[this.row][this.col];
+        const currentBoardTile = this.getBoardTile();
 
         // Check if it is over any other destroyables.
         let destroyable;

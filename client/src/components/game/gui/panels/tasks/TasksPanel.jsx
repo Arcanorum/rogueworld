@@ -169,14 +169,14 @@ function TasksPanel({ onCloseCallback }) {
                     </div>
                     <div className="bottom-cont">
                         <div className="bottom-button-cont">
-                            <img
+                            {/* <img
                               className="centered bottom-button"
                               src={trackButtonBorderInactiveImage}
                               draggable={false}
                             />
                             <div className="centered bottom-text">
                                 {Utils.getTextDef("Track")}
-                            </div>
+                            </div> */}
                         </div>
                         {claimValid && (
                             <div

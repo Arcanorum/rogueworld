@@ -258,7 +258,7 @@ class Player extends Character {
         // Disable PvP in dungeon instances, as they are in a party together.
         if (this.board.dungeon) return true;
 
-        return this.board.grid[this.row][this.col].safeZone;
+        return this.getBoardTile().safeZone;
     }
 
     /**

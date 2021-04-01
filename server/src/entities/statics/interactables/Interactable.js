@@ -40,7 +40,7 @@ class Interactable extends Static {
      */
     activate() {
         // Check there are no obstructions on the object before activating it.
-        if (this.board.grid[this.row][this.col].containsAnyDestroyables() === false) {
+        if (this.getBoardTile().containsAnyDestroyables() === false) {
             // Nothing in the way. Reactivate this object.
             this.activeState = true;
 
@@ -50,7 +50,10 @@ class Interactable extends Static {
         // Something in the way.
         else {
             // Restart the timer to activate this object.
-            this.reactivationTimer = setTimeout(this.activate.bind(this), this.reactivationRate || 5000); // Use some time in case it is null.
+            this.reactivationTimer = setTimeout(
+                this.activate.bind(this),
+                this.reactivationRate || 5000, // Use some time in case it is null.
+            );
         }
     }
 

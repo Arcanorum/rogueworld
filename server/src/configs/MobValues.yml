@@ -58,10 +58,6 @@
   moveRate: 0
   wanderRate: 0
 
-- name: TutorialMerchant
-  moveRate: 0
-  wanderRate: 0
-
 - name: Citizen
   viewRange: 8
   moveRate: 850

@@ -1,4 +1,4 @@
-1/4/2021 - Items rework
+01/04/2021 - Update 8 - Items rework
 
 New:
 - Inventory

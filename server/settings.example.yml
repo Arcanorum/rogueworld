@@ -64,7 +64,7 @@ PLAYER_ENERGY_REGEN_RATE: 1000
 CRAFTING_STAT_BONUS_MULTIPLIER: 1
 
 # How much weight a player can carry at once.
-MAX_INVENTORY_WEIGHT: 1000
+MAX_INVENTORY_WEIGHT: 500
 
 # How much to increase a player's max inventory weight by for each level they have gained in every stat.
 # e.g. with this setting of 10, a base max inventory weight setting of 1000, and a player with 3

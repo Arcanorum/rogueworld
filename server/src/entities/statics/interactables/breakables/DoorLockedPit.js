@@ -15,9 +15,6 @@ class DoorLockedPit extends Breakable {
             return;
         }
 
-        // Reduce the durability of the key used.
-        toolUsed.modDurability(-this.interactionDurabilityCost);
-
         // Check any task progress was made.
         interactedBy.tasks.progressTask(this.taskIDInteracted);
 
@@ -35,6 +32,5 @@ class DoorLockedPit extends Breakable {
 }
 module.exports = DoorLockedPit;
 
-DoorLockedPit.prototype.interactionDurabilityCost = 1;
 DoorLockedPit.prototype.reactivationRate = 5000;
 DoorLockedPit.prototype.requiredToolCategory = require("../../../../items/Item").prototype.categories.PitKey;

@@ -79,12 +79,6 @@ Buildable.prototype.blocking = true;
 Buildable.prototype.interactionEnergyCost = 0;
 
 /**
- * How much durability is taken from a tool when a character uses it to interact with this.
- * @type {Number}
- */
-Buildable.prototype.interactionDurabilityCost = 0;
-
-/**
  * The category of item that must be used by a character on this node, such as "Hatchet" for trees. See Item.prototype.categories.
  * Also used for coloured locked doors, with "RedKey" opening a red lock.
  * @type {String}

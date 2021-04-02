@@ -31,13 +31,8 @@ class ResourceNode extends Interactable {
                 return;
             }
 
-            // Check whether the tool used would still exist after being used.
-            // If it still exists, then it occupies a slot, meaning the item
-            // given has nowhere to go, so return if inventory already full.
-            if (toolUsed.durability > this.interactionDurabilityCost) {
-                // Don't do anything if there isn't enough space in the inventory to receive the resource item.
-                if (!interactedBy.inventory.canItemBeAdded(itemConfig)) return;
-            }
+            // Don't do anything if there isn't enough space in the inventory to receive the resource item.
+            if (!interactedBy.inventory.canItemBeAdded(itemConfig)) return;
 
             // Reduce the durability of the tool used.
             // This needs to be before the inventory check below, as there is a special

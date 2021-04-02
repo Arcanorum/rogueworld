@@ -5,7 +5,6 @@ class PalmTree extends ResourceNode {}
 
 PalmTree.prototype.ItemType = Item;
 PalmTree.prototype.interactionEnergyCost = 2;
-PalmTree.prototype.interactionDurabilityCost = 1;
 PalmTree.prototype.reactivationRate = 20000;
 PalmTree.prototype.requiredToolCategory = Item.prototype.categories.Hatchet;
 PalmTree.prototype.warningEvent = PalmTree.prototype.EventsList.hatchet_needed;

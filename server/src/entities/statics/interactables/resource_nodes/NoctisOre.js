@@ -5,7 +5,6 @@ class NoctisOre extends ResourceNode {}
 
 NoctisOre.prototype.ItemType = Item;
 NoctisOre.prototype.interactionEnergyCost = 3;
-NoctisOre.prototype.interactionDurabilityCost = 1;
 NoctisOre.prototype.reactivationRate = 40000;
 NoctisOre.prototype.requiredToolCategory = Item.prototype.categories.Pickaxe;
 NoctisOre.prototype.warningEvent = NoctisOre.prototype.EventsList.pickaxe_needed;

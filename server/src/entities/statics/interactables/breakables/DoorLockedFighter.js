@@ -15,9 +15,6 @@ class DoorLockedFighter extends Breakable {
             return;
         }
 
-        // Reduce the durability of the key used.
-        toolUsed.modDurability(-this.interactionDurabilityCost);
-
         // Check any task progress was made.
         interactedBy.tasks.progressTask(this.taskIDInteracted);
 
@@ -35,6 +32,5 @@ class DoorLockedFighter extends Breakable {
 }
 module.exports = DoorLockedFighter;
 
-DoorLockedFighter.prototype.interactionDurabilityCost = 1;
 DoorLockedFighter.prototype.reactivationRate = 5000;
 DoorLockedFighter.prototype.requiredToolCategory = require("../../../../items/Item").prototype.categories.FighterKey;

@@ -79,6 +79,10 @@ module.exports = {
 
         await account.save()
             .then((res) => {
+                // Player is now logged into their newly created account, so attach it to them as if they
+                // have logged in normally so they can have their progress saved.
+                entity.socket.account = account;
+
                 onSuccess(res);
             })
             .catch((error) => {

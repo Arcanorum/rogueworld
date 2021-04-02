@@ -39,14 +39,11 @@ class ResourceNode extends Interactable {
                 if (!interactedBy.inventory.canItemBeAdded(itemConfig)) return;
             }
 
-            // This needs to be before modDurability or the item might have been destroyed if it would get broken during this use.
-            toolUsed.onUsed();
-
             // Reduce the durability of the tool used.
-            // This needs to be before the below isInventoryFull check, as there is a special
+            // This needs to be before the inventory check below, as there is a special
             // case when a tool would be destroyed by being used on this node, thus freeing up
             // space for the item it gives.
-            toolUsed.modDurability(-this.interactionDurabilityCost);
+            toolUsed.onUsed();
         }
         // No tool required. Check it is actually a player, as only players have an inventory.
         else if (interactedBy.socket === undefined) return;

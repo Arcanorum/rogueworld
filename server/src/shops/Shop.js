@@ -28,7 +28,7 @@ class Shop {
 
     stockSold() { }
 
-    checkStock(index, itemTypeName) {
+    checkStock(index, itemTypeCode) {
         return true;
     }
 

@@ -1,3 +1,18 @@
+03/04/2021 - Bugfix 8.1
+
+Balance:
+- Glory orb glory given: 1000 -> 500
+
+Bugs:
+- Fixed item dupe where reloading the game while dead would restore the inventory items lost on death.
+- Fixed extra glory orbs being added when logging in each time on an existing account.
+- Completing tasks no longer crashes the server.
+- Opening the priest merchant shop no longer crashes the client.
+- New accounts are now logged out properly when they close the game, so they can logging in with that account next time.
+- Fixed error when changing the password on new accounts.
+- Gathering tools no longer lose 2 durability when used.
+
+
 01/04/2021 - Update 8 - Items rework
 
 New:
@@ -47,7 +62,7 @@ Bugs:
 - Super staff projectiles no longer collide with corpses.
 
 Removed:
-- Tutorial map
+- Tutorial map.
 
 Other:
 - Replaced Facebook social link on home page with GitHub project link.

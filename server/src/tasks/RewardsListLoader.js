@@ -5,9 +5,9 @@ const RewardsList = require("./RewardsList");
 const populateList = () => {
     Utils.message("Populating task rewards list.");
 
+    RewardsList.push(ItemsListByName.GloryOrb);
     RewardsList.push(ItemsListByName.ExpOrbMelee);
     RewardsList.push(ItemsListByName.ExpOrbRanged);
-    RewardsList.push(ItemsListByName.GloryOrb);
     RewardsList.push(ItemsListByName.ExpOrbMagic);
     RewardsList.push(ItemsListByName.ExpOrbGathering);
     RewardsList.push(ItemsListByName.ExpOrbWeaponry);

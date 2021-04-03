@@ -548,7 +548,7 @@
     - itemName: IronOre
     - itemName: DungiumOre
     - itemName: IronBar
-    - itemName: IronBar
+    - itemName: DungiumBar
     - itemName: DungiumHammer
       dropRate: 10
 

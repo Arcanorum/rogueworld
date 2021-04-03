@@ -482,6 +482,7 @@
     - itemName: Fabric
     - itemName: IronOre
     - itemName: VampireFang
+      rolls: 2
 
 - name: BloodPriest
   gloryValue: 60

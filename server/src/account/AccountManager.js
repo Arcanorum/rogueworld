@@ -13,9 +13,13 @@ const isSetup = false;
 
 module.exports = {
 
+    world: null,
+
     isShutDown: false,
 
-    async setup() {
+    async setup(world) {
+        this.world = world;
+
         // Setup should only happen once.
         if (isSetup === true) {
             Utils.warning("Attempt to setup account manager again.");
@@ -137,17 +141,17 @@ module.exports = {
             }
 
             if (account.password === password) {
-                // Success.
-                account.isLoggedIn = true;
-
-                await account.save();
-
                 // Save the Mongoose document instance on the player account for faster
                 // operations, instead of doing a .findOne by username every time.
                 // Also helps avoid concurrency issues.
                 clientSocket.account = account;
 
                 onSuccess(account);
+
+                // Successfully loaded the player. Ok to mark them as logged in now.
+                account.isLoggedIn = true;
+
+                await account.save();
             }
             // Password is incorrect.
             else {
@@ -157,6 +161,10 @@ module.exports = {
         catch (error) {
             Utils.message("Account manager, log in error:", error);
             clientSocket.sendEvent(EventsList.something_went_wrong);
+
+            // Make sure they get removed from the game world so their character isn't just stood
+            // there.
+            this.world.removePlayer(clientSocket);
         }
     },
 
@@ -171,16 +179,8 @@ module.exports = {
         if (!clientSocket.account) return;
 
         try {
-            // const formattedData = this.getFormattedSaveData(clientSocket.entity);
-
             clientSocket.account.lastLogOutTime = Date.now();
             clientSocket.account.isLoggedIn = false;
-            // clientSocket.account.displayName = formattedData.displayName;
-            // clientSocket.account.glory = formattedData.glory;
-            // clientSocket.account.bankItems = formattedData.bankItems;
-            // clientSocket.account.inventoryItems = formattedData.inventoryItems;
-            // clientSocket.account.stats = formattedData.stats;
-            // clientSocket.account.tasks = formattedData.tasks;
 
             await clientSocket.account.save();
         }
@@ -265,20 +265,10 @@ module.exports = {
         data.glory = entity.glory;
 
         // Bank.
-        data.bankItems = entity.bank.items.map((item) => ({
-            typeCode: item.ItemType.prototype.typeCode,
-            quantity: item.quantity,
-            durability: item.durability,
-            maxDurability: item.maxDurability,
-        }));
+        data.bankItems = entity.bank.getSaveData();
 
         // Inventory.
-        data.inventoryItems = entity.inventory.items.map((item) => ({
-            typeCode: item.itemConfig.ItemType.prototype.typeCode,
-            quantity: item.itemConfig.quantity,
-            durability: item.itemConfig.durability,
-            maxDurability: item.itemConfig.maxDurability,
-        }));
+        data.inventoryItems = entity.inventory.getSaveData();
 
         // Stats exp.
         data.stats = {};

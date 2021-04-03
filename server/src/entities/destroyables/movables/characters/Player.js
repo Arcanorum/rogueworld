@@ -13,7 +13,6 @@ const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../gameplay/ModHitPointConfigs").PlayerMelee;
 const CraftingRecipesList = require("../../../../crafting/CraftingRecipesList");
 const ItemConfig = require("../../../../inventory/ItemConfig");
-const AccountModel = require("../../../../account/AccountModel");
 
 class Player extends Character {
     /**
@@ -25,11 +24,10 @@ class Player extends Character {
     constructor(config) {
         super(config);
 
-        config.board.addPlayer(this);
-
+        config.socket.entity = this;
         this.socket = config.socket;
 
-        config.socket.entity = this;
+        config.board.addPlayer(this);
 
         this.stats = new Statset(this);
         this.tasks = new Taskset(this);

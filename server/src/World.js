@@ -24,9 +24,6 @@ Utils.message("Full day duration:", settings.FULL_DAY_DURATION_MINUTES, "minutes
 Utils.message("Day phase rate:", dayPhaseRate / 60000, "minutes.");
 
 const world = {
-
-    accountManager: AccountManager,
-
     /** @type {Number} How many players are currently in the game. */
     playerCount: 0,
 
@@ -349,9 +346,12 @@ const world = {
             // Remove the reference to the player entity.
             delete clientSocket.entity;
         }
-        clientSocket.inGame = false;
-        // Reduce the player count.
-        this.playerCount -= 1;
+
+        if (clientSocket.inGame) {
+            clientSocket.inGame = false;
+            // Reduce the player count.
+            this.playerCount -= 1;
+        }
 
         Utils.message("Player count:", this.playerCount);
     },

@@ -20,23 +20,28 @@ class Inventory {
     }
 
     loadData(account) {
-        // Calculate the max weight first, in case they have more items than would fit in the default max weight.
-        this.updateMaxWeight();
-
         // Add the stored items to this player's inventory.
         account.inventoryItems.forEach((inventoryItem) => {
-            // Check the type of item to add is valid.
-            // Might have been removed since this player last logged in.
-            if (!ItemsList.BY_CODE[inventoryItem.typeCode]) return;
-
             try {
-                // Make new item config instances based on the stored data.
-                const itemConfig = new ItemConfig({
-                    ItemType: ItemsList.BY_CODE[inventoryItem.typeCode],
-                    quantity: inventoryItem.quantity,
-                    durability: inventoryItem.durability,
-                    maxDurability: inventoryItem.maxDurability,
-                });
+                let itemConfig;
+
+                // Check the type of item to add is valid.
+                // Might have been removed since this player last logged in.
+                if (!inventoryItem || !ItemsList.BY_CODE[inventoryItem.typeCode]) {
+                    // Give them something else instead so the slot indexes don't get messed up.
+                    itemConfig = new ItemConfig({
+                        ItemType: ItemsList.BY_NAME.GloryOrb,
+                    });
+                }
+                else {
+                    // Make new item config instances based on the stored data.
+                    itemConfig = new ItemConfig({
+                        ItemType: ItemsList.BY_CODE[inventoryItem.typeCode],
+                        quantity: inventoryItem.quantity,
+                        durability: inventoryItem.durability,
+                        maxDurability: inventoryItem.maxDurability,
+                    });
+                }
 
                 const item = new itemConfig.ItemType({
                     itemConfig,
@@ -52,6 +57,21 @@ class Inventory {
         });
 
         this.updateWeight();
+    }
+
+    /**
+     * Returns all of the items in the format to be saved to the player account.
+     * Used to do the initial save for new player accounts, otherwise the in memory document doesn't
+     * have the items they have picked up before creating the account, so they won't be saved.
+     * @returns {Array}
+     */
+    getSaveData() {
+        return this.items.map((item) => ({
+            typeCode: item.itemConfig.ItemType.prototype.typeCode,
+            quantity: item.itemConfig.quantity,
+            durability: item.itemConfig.durability,
+            maxDurability: item.itemConfig.maxDurability,
+        }));
     }
 
     print() {

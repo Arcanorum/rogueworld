@@ -26,40 +26,59 @@ class Bank {
     }
 
     loadData(account) {
-        // Calculate the max weight first, in case they have more items than would fit in the default max weight.
-        this.modMaxWeight(
-            (account.bankUpgrades || 0) * (settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE || 0),
-        );
-
         // Add the stored items to this player's bank.
         account.bankItems.forEach((bankItem) => {
-            // Check the type of item to add is valid.
-            // Might have been removed since this player last logged in.
-            if (!ItemsList.BY_CODE[bankItem.typeCode]) return;
-
             try {
-                // Make new item config instances based on the stored data.
-                const itemConfig = new ItemConfig({
-                    ItemType: ItemsList.BY_CODE[bankItem.typeCode],
-                    quantity: bankItem.quantity,
-                    durability: bankItem.durability,
-                    maxDurability: bankItem.maxDurability,
-                });
+                let itemConfig;
 
-                // Store the item config in the bank.
-                if (itemConfig.quantity) {
-                    this.addStackable(itemConfig, true);
+                // Check the type of item to add is valid.
+                // Might have been removed since this player last logged in.
+                if (!bankItem || !ItemsList.BY_CODE[bankItem.typeCode]) {
+                    // Give them something else instead so the slot indexes don't get messed up.
+                    itemConfig = new ItemConfig({
+                        ItemType: ItemsList.BY_NAME.GloryOrb,
+                    });
                 }
                 else {
-                    this.pushItem(itemConfig, false, true);
+                    // Make new item config instances based on the stored data.
+                    itemConfig = new ItemConfig({
+                        ItemType: ItemsList.BY_CODE[bankItem.typeCode],
+                        quantity: bankItem.quantity,
+                        durability: bankItem.durability,
+                        maxDurability: bankItem.maxDurability,
+                    });
                 }
+
+                // Store the item config in the bank.
+                this.items.push(itemConfig);
             }
             catch (error) {
                 Utils.warning(error.message);
             }
         });
 
+        // Calculate the max weight, including any upgrades they have bought.
+        this.modMaxWeight(
+            (account.bankUpgrades || 0) * (settings.ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE || 0),
+        );
+
         this.updateWeight();
+    }
+
+    /**
+     * Returns all of the items in the format to be saved to the player account.
+     * Used to do the initial save for new player accounts, otherwise the in memory document doesn't
+     * have the items they have picked up before creating the account, so they won't be saved.
+     * @returns {Array}
+     */
+    getSaveData() {
+        // Check for any invalid items before saving.
+        return this.items.map((item) => ({
+            typeCode: item.ItemType.prototype.typeCode,
+            quantity: item.quantity,
+            durability: item.durability,
+            maxDurability: item.maxDurability,
+        }));
     }
 
     print() {

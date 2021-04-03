@@ -34,9 +34,6 @@ async function init() {
     CraftingRecipesLoader.createCatalogue();
     ShopsLoader.createCatalogue();
 
-    const AccountManager = require("./src/account/AccountManager");
-    await AccountManager.setup();
-
     require("./src/WebSocketEvents");
     require("./src/scripts/TextDefinitionsParser");
     require("./src/items/holdable/spell_books/SpellBooksList");
@@ -45,6 +42,9 @@ async function init() {
     // const clanManager = require("./src/ClanManager");
     const world = require("./src/World");
     world.init();
+
+    const AccountManager = require("./src/account/AccountManager");
+    await AccountManager.setup(world);
 
     require("./src/scripts/CatalogueBuilders").buildDungeonPrompts();
 

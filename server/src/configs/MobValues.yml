@@ -499,6 +499,7 @@
     - itemName: BloodGem
     - itemName: NecromancerRobe
     - itemName: VampireFang
+      rolls: 2
 
 - name: BloodLord
   gloryValue: 300

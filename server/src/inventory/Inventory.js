@@ -479,8 +479,18 @@ class Inventory {
         // Reset the inventory.
         this.items = [];
 
+        // If this player has an account, save the now empty inventory.
+        if (owner.socket.account) {
+            try {
+                owner.socket.account.inventoryItems = [];
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
+
         // Tell the player all items were removed from their inventory.
-        this.owner.socket.sendEvent(EventsList.remove_all_inventory_items);
+        owner.socket.sendEvent(EventsList.remove_all_inventory_items);
 
         this.updateWeight();
     }

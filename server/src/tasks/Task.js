@@ -146,9 +146,6 @@ class NewTask extends Task {
         let taskTypeToUse = randomTaskType;
         // If the player already has this task, use a different one.
         if (player.tasks.list[randomTaskType.taskID]) {
-            console.log("tasks:", player.tasks.list);
-            console.log("new taskid:", randomTaskType.taskID);
-            console.log("existing task of same type:", player.tasks.list[randomTaskType.taskID].taskType);
             taskTypeToUse = player.tasks.list[randomTaskType.taskID].taskType.getOtherTask();
         }
 

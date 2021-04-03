@@ -267,13 +267,26 @@ Item.translationID = "Translation ID name not set.";
 
 Item.iconSource = "Icon source not set.";
 
+/**
+ * A convenience debug property of the name of this type of item. i.e. IronDagger.
+ * Should NOT be saved anywhere for anything persistent. Use `Item.prototype.typeCode` instead.
+ * @type {String}
+ */
 Item.prototype.typeName = null;
 
+/**
+ * The unique identifier of this type of item. Should be set in the item values list and never
+ * changed, as changing this would invalidate all saved items in player accounts.
+ * @type {String}
+ */
 Item.prototype.typeCode = null;
 
-// Give all Items easy access to the finished EntitiesList.
-// Needs to be done when all entities are finished initing,
-// or accessing entities causes errors. Done in index.js.
+/**
+ * Give all Items easy access to the finished EntitiesList.
+ * Needs to be done when all entities are finished initing,
+ * or accessing entities causes errors. Done in index.js.
+ * @type {Object}
+ */
 Item.prototype.EntitiesList = {};
 
 /**

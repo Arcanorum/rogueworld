@@ -318,6 +318,9 @@
   faction: HostileAnimals
   dropList:
     - itemName: Feathers
+      dropRate: 100
+    - itemName: Feathers
+      dropRate: 50
 
 - name: SandScamp
   gloryValue: 20

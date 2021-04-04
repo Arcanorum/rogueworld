@@ -3,7 +3,7 @@ import eventResponses from "./EventResponses";
 
 export default () => {
     eventResponses.task_progress_made = (data) => {
-        PlayerState.modifyTaskProgress(data.taskID, data.progress);
+        PlayerState.modifyTaskProgress(data.taskId, data.progress);
     };
 
     eventResponses.task_claimed = (data) => {

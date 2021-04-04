@@ -9,6 +9,6 @@ SpruceTree.prototype.reactivationRate = 20000;
 SpruceTree.prototype.requiredToolCategory = Item.prototype.categories.Hatchet;
 SpruceTree.prototype.warningEvent = SpruceTree.prototype.EventsList.hatchet_needed;
 SpruceTree.prototype.gloryGiven = 10;
-// SpruceTree.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").ChopSpruceTrees.taskID;
+// SpruceTree.prototype.taskIdGathered = require("../../../../tasks/TaskTypes").ChopSpruceTrees.taskId;
 
 module.exports = SpruceTree;

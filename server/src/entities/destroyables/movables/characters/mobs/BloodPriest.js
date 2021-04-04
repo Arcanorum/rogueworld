@@ -15,4 +15,4 @@ module.exports = BloodPriest;
 const ModHitPointConfigs = require("../../../../../gameplay/ModHitPointConfigs");
 const Damage = require("../../../../../gameplay/Damage");
 
-BloodPriest.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillVampires.taskID;
+BloodPriest.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillVampires.taskId;

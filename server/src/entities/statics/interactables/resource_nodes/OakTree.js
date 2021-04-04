@@ -9,6 +9,6 @@ OakTree.prototype.reactivationRate = 20000;
 OakTree.prototype.requiredToolCategory = Item.prototype.categories.Hatchet;
 OakTree.prototype.warningEvent = OakTree.prototype.EventsList.hatchet_needed;
 OakTree.prototype.gloryGiven = 6;
-OakTree.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").GatherOakLogs.taskID;
+OakTree.prototype.taskIdGathered = require("../../../../tasks/TaskTypes").GatherOakLogs.taskId;
 
 module.exports = OakTree;

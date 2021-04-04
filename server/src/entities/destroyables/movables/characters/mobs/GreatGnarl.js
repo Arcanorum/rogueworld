@@ -101,4 +101,4 @@ module.exports = GreatGnarl;
 const ProjAcorn = require("../../projectiles/ProjAcorn");
 const GrassScamp = require("./GrassScamp");
 
-GreatGnarl.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillGnarls.taskID;
+GreatGnarl.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillGnarls.taskId;

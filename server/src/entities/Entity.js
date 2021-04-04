@@ -369,9 +369,9 @@ Entity.prototype.spawnableDayPhases = {
 Entity.prototype.maxHitPoints = null;
 Entity.prototype.hitPoints = null;
 
-Entity.prototype.taskIDKilled = null;
-Entity.prototype.taskIDFrozen = null;
-Entity.prototype.taskIDBurned = null;
-Entity.prototype.taskIDInteracted = null;
-Entity.prototype.taskIDGathered = null;
-Entity.prototype.taskIDAnimated = null;
+Entity.prototype.taskIdKilled = null;
+Entity.prototype.taskIdFrozen = null;
+Entity.prototype.taskIdBurned = null;
+Entity.prototype.taskIdInteracted = null;
+Entity.prototype.taskIdGathered = null;
+Entity.prototype.taskIdAnimated = null;

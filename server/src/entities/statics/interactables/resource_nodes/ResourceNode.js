@@ -56,7 +56,7 @@ class ResourceNode extends Interactable {
         interactedBy.modGlory(this.gloryGiven);
 
         // Check any task progress was made.
-        interactedBy.tasks.progressTask(this.taskIDGathered);
+        interactedBy.tasks.progressTask(this.taskIdGathered);
 
         // Item was added to inventory, this node is now exploited.
         this.deactivate(interactedBy);

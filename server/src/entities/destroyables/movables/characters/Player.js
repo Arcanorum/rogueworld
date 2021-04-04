@@ -676,7 +676,7 @@ class Player extends Character {
         this.modGlory(recipe.expGiven * 0.5);
 
         // TODO
-        // this.tasks.progressTask(recipe.taskIDCrafted);
+        // this.tasks.progressTask(recipe.taskIdCrafted);
     }
 }
 module.exports = Player;

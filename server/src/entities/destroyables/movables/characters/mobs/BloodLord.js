@@ -12,4 +12,4 @@ module.exports = BloodLord;
 
 const Heal = require("../../../../../gameplay/Heal");
 
-BloodLord.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillVampires.taskID;
+BloodLord.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillVampires.taskId;

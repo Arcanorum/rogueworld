@@ -42,4 +42,4 @@ module.exports = Assassin;
 const ProjShuriken = require("../../projectiles/ProjShuriken");
 const ProjNoctisDagger = require("../../projectiles/ProjNoctisDagger");
 
-Assassin.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillOutlaws.taskID;
+Assassin.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillOutlaws.taskId;

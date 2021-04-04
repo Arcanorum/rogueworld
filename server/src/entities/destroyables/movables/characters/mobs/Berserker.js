@@ -13,4 +13,4 @@ class Berserker extends Mob {
 }
 module.exports = Berserker;
 
-Berserker.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillWarriors.taskID;
+Berserker.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillWarriors.taskId;

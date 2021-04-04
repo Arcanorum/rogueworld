@@ -51,7 +51,7 @@ class Mob extends Character {
         const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
         for (let i = 0; i < nearbyPlayers.length; i += 1) {
             nearbyPlayers[i].modGlory(+this.gloryValue);
-            nearbyPlayers[i].tasks.progressTask(this.taskIDKilled);
+            nearbyPlayers[i].tasks.progressTask(this.taskIdKilled);
         }
 
         this.dropItems();

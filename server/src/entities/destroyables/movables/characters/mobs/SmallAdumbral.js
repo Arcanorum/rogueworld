@@ -32,7 +32,7 @@ const DayPhases = require("../../../../../DayPhases");
 const Damage = require("../../../../../gameplay/Damage");
 const Heal = require("../../../../../gameplay/Heal");
 
-SmallAdumbral.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillAdumbrals.taskID;
+SmallAdumbral.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillAdumbrals.taskId;
 
 SmallAdumbral.prototype.spawnableDayPhases = {
     [DayPhases.Night]: true,

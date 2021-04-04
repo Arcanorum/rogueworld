@@ -3,4 +3,4 @@ const Mob = require("./Mob");
 class Warrior extends Mob {}
 module.exports = Warrior;
 
-Warrior.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillWarriors.taskID;
+Warrior.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillWarriors.taskId;

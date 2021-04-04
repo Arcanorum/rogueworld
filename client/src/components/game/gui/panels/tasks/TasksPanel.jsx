@@ -53,21 +53,21 @@ function TaskSlot({ task, setSelectedTaskID, selectedTaskID }) {
 
     return (
         <div
-          className={`slot-cont ${task.taskID === selectedTaskID ? "selected" : ""}`}
+          className={`slot-cont ${task.taskId === selectedTaskID ? "selected" : ""}`}
           onClick={() => {
               // The selected slot was selected again, deselect it.
-              if (selectedTaskID === task.taskID) {
+              if (selectedTaskID === task.taskId) {
                   setSelectedTaskID(null);
               }
               // Another slot (or none at all) is selected, select this slot instead.
               else {
-                  setSelectedTaskID(task.taskID);
+                  setSelectedTaskID(task.taskId);
               }
           }}
         >
             <div className={`slot-cell slot-task-name-cont ${completed ? "completed" : ""}`}>
                 <div className="slot-task-name">
-                    {Utils.getTextDef(`Task ID: ${task.taskID}`)}
+                    {Utils.getTextDef(`Task ID: ${task.taskId}`)}
                 </div>
             </div>
             <div className={`slot-cell ${completed ? "completed" : ""}`}>
@@ -160,7 +160,7 @@ function TasksPanel({ onCloseCallback }) {
                     <div className="list-cont">
                         {tasks && Object.values(tasks).map((task) => (
                             <TaskSlot
-                              key={task.taskID}
+                              key={task.taskId}
                               task={task}
                               setSelectedTaskID={setSelectedTaskID}
                               selectedTaskID={selectedTaskID}

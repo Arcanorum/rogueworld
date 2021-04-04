@@ -9,6 +9,6 @@ FirTree.prototype.reactivationRate = 20000;
 FirTree.prototype.requiredToolCategory = Item.prototype.categories.Hatchet;
 FirTree.prototype.warningEvent = FirTree.prototype.EventsList.hatchet_needed;
 FirTree.prototype.gloryGiven = 6;
-FirTree.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").GatherOakLogs.taskID;
+FirTree.prototype.taskIdGathered = require("../../../../tasks/TaskTypes").GatherOakLogs.taskId;
 
 module.exports = FirTree;

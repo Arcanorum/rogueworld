@@ -16,7 +16,7 @@ class DoorLockedFighter extends Breakable {
         }
 
         // Check any task progress was made.
-        interactedBy.tasks.progressTask(this.taskIDInteracted);
+        interactedBy.tasks.progressTask(this.taskIdInteracted);
 
         // The door is now open, so stop it from blocking players.
         this.deactivate();

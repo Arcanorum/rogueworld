@@ -299,7 +299,7 @@
   moveRate: 600
   meleeDamageAmount: 5
   faction: HostileAnimals
-  taskIDKilled: Rats
+  taskIdKilled: Rats
 
 - name: Bat
   gloryValue: 15

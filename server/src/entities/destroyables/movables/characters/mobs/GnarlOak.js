@@ -8,4 +8,4 @@ class GnarlOak extends Mob {
 }
 module.exports = GnarlOak;
 
-GnarlOak.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillGnarls.taskID;
+GnarlOak.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillGnarls.taskId;

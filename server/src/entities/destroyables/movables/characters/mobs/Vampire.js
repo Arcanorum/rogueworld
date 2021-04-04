@@ -28,4 +28,4 @@ module.exports = Vampire;
 const Damage = require("../../../../../gameplay/Damage");
 const Heal = require("../../../../../gameplay/Heal");
 
-Vampire.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillVampires.taskID;
+Vampire.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillVampires.taskId;

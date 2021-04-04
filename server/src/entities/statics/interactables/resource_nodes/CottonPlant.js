@@ -7,6 +7,6 @@ CottonPlant.prototype.ItemType = Item;
 CottonPlant.prototype.interactionEnergyCost = 2;
 CottonPlant.prototype.reactivationRate = 8000;
 CottonPlant.prototype.gloryGiven = 4;
-CottonPlant.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").GatherCotton.taskID;
+CottonPlant.prototype.taskIdGathered = require("../../../../tasks/TaskTypes").GatherCotton.taskId;
 
 module.exports = CottonPlant;

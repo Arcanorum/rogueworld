@@ -57,4 +57,4 @@ module.exports = MasterAssassin;
 
 const ProjShuriken = require("../../projectiles/ProjShuriken");
 
-MasterAssassin.prototype.taskIDKilled = require("../../../../../tasks/TaskTypes").KillOutlaws.taskID;
+MasterAssassin.prototype.taskIdKilled = require("../../../../../tasks/TaskTypes").KillOutlaws.taskId;

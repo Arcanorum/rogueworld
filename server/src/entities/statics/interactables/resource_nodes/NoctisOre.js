@@ -9,6 +9,6 @@ NoctisOre.prototype.reactivationRate = 40000;
 NoctisOre.prototype.requiredToolCategory = Item.prototype.categories.Pickaxe;
 NoctisOre.prototype.warningEvent = NoctisOre.prototype.EventsList.pickaxe_needed;
 NoctisOre.prototype.gloryGiven = 20;
-NoctisOre.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").GatherNoctisOre.taskID;
+NoctisOre.prototype.taskIdGathered = require("../../../../tasks/TaskTypes").GatherNoctisOre.taskId;
 
 module.exports = NoctisOre;

@@ -9,6 +9,6 @@ DungiumOre.prototype.reactivationRate = 30000;
 DungiumOre.prototype.requiredToolCategory = Item.prototype.categories.Pickaxe;
 DungiumOre.prototype.warningEvent = DungiumOre.prototype.EventsList.pickaxe_needed;
 DungiumOre.prototype.gloryGiven = 15;
-DungiumOre.prototype.taskIDGathered = require("../../../../tasks/TaskTypes").GatherDungiumOre.taskID;
+DungiumOre.prototype.taskIdGathered = require("../../../../tasks/TaskTypes").GatherDungiumOre.taskId;
 
 module.exports = DungiumOre;

@@ -107,4 +107,4 @@ Zombie.prototype.meleeDamageAmount = 2;
 Zombie.prototype.moveRate = 500;
 Zombie.prototype.viewRange = 4;
 Zombie.prototype.faction = Zombie.prototype.Factions.Zombies;
-Zombie.prototype.taskIDKilled = require("../../../../../../tasks/TaskTypes").KillZombies.taskID;
+Zombie.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillZombies.taskId;

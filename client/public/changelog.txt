@@ -1,3 +1,20 @@
+04/04/2021 - Bugfix 8.2
+
+Balance:
+- Hawk: Feathers drop rate: 20% -> 100% for 1, + 50% chance for another.
+- Vampire: Vampire fang drop rolls: 1 -> 2
+- Blood priest: Vampire fang drop rolls: 1 -> 2
+- Dwarf warrior:
+    Iron bar: 2 -> 1
+    Dungium bar: 0 -> 1
+
+Bugs:
+- Opening and closing the map panel quickly no longer crashes the server.
+- Tasks are now saved when you log out.
+
+Other:
+- Added X/Y labels for the coordinates on the player and target markers on the map panel, and formatted the values correctly.
+
 03/04/2021 - Bugfix 8.1
 
 Balance:

@@ -1,6 +1,10 @@
+const settings = require("../../settings");
 const Utils = require("../Utils");
 const Difficulties = require("./Difficulties");
-const settings = require("../../settings");
+const Dungeon = require("./Dungeon");
+const DungeonManagersList = require("./DungeonManagersList");
+const Party = require("./Party");
+const EventsList = require("../EventsList");
 
 const idCounter = new Utils.Counter();
 
@@ -136,7 +140,11 @@ class DungeonManager {
         // Check they have enough glory to start this dungeon.
         if (player.glory < this.gloryCost) return;
         // Check they are not already in a party.
-        const currentParty = Object.values(this.parties).find((party) => party.members.some((member) => member === player));
+        const currentParty = Object
+            .values(this.parties)
+            .find((party) => party.members
+                .some((member) => member === player));
+
         if (currentParty) return;
 
         const party = new Party(this, player);
@@ -200,7 +208,11 @@ class DungeonManager {
      */
     removePlayerFromParty(player) {
         // Find the party the player is in.
-        const party = Object.values(this.parties).find((party) => party.members.some((member) => member === player));
+        const party = Object
+            .values(this.parties)
+            .find((findParty) => findParty.members
+                .some((member) => member === player));
+
         // Not in a party.
         if (!party) return;
 
@@ -208,19 +220,15 @@ class DungeonManager {
             // The dungeon has already started, so just remove that player, don't disband the party.
             party.members = party.members.filter((member) => member !== player);
 
-            if (party.members.length > 0) {
-                // Tell the other party members that someone has left.
-                // TODO:
-                // party.members.forEach((member) => {
-                //     member.socket.sendEvent(EventsList.member_left, player.id);
-                // });
-            }
-            // No players left in the party, and therefore the dungeon is empty. Destroy them both.
-            else {
+            if (party.members.length <= 0) {
+                // No players left in the party, and therefore the dungeon is empty. Destroy them both.
+
                 this.removeParty(party);
 
                 // Find the dungeon instance they are in.
-                const instance = Object.values(this.instances).find((instance) => instance.party === party);
+                const instance = Object
+                    .values(this.instances)
+                    .find((findInstance) => findInstance.party === party);
 
                 if (instance) {
                     this.destroyInstance(instance);
@@ -248,7 +256,11 @@ class DungeonManager {
         if (leader.id === memberID) return;
 
         // Find the party the leader is in.
-        const party = Object.values(this.parties).find((party) => party.members.some((member) => member === leader));
+        const party = Object
+            .values(this.parties)
+            .find((findParty) => findParty.members
+                .some((member) => member === leader));
+
         // Not in a party.
         if (!party) return;
 
@@ -274,9 +286,8 @@ class DungeonManager {
     getPartiesData() {
         return Object
             .values(this.parties)
-            .filter((party) =>
-                // Ignore parties that are in a dungeon already.
-                party.inDungeon === false)
+            // Ignore parties that are in a dungeon already.
+            .filter((party) => party.inDungeon === false)
             .map((party) => ({
                 // Client needs the party ID to join a party.
                 id: party.id,
@@ -298,10 +309,13 @@ class DungeonManager {
      */
     start(leader, dungeonPortal) {
         // Find the party the given party leader is in.
-        const party = Object.values(this.parties).find((party) => party.members[0] === leader);
+        const party = Object
+            .values(this.parties)
+            .find((findParty) => findParty.members[0] === leader);
+
         if (!party) return;
 
-        if (this.checkStartCriteria(party, dungeonPortal) === false) return;
+        if (!this.checkStartCriteria(party, dungeonPortal)) return;
 
         this.createInstance(party);
 
@@ -366,13 +380,9 @@ class DungeonManager {
 
         // Reduce the party leader's glory by the entry cost.
         members[0].modGlory(-this.gloryCost);
+
+        return true;
     }
 }
 
 module.exports = DungeonManager;
-
-const Dungeon = require("./Dungeon");
-const DungeonManagersList = require("./DungeonManagersList");
-const Party = require("./Party");
-const EventsList = require("../EventsList");
-const BoardsList = require("../board/BoardsList");

@@ -20,11 +20,18 @@ if (settings.DEV_MODE) {
 }
 
 app.get("/map/:z/:x/:y", (req, res) => {
-    const { z, x, y } = req.params;
+    try {
+        const { z, x, y } = req.params;
 
-    res.sendFile(path.join(__dirname, `../map/leaflet-map/${z}/${x}/${y}`), (err) => {
-        if (err) return res.sendStatus(404);
-    });
+        res.sendFile(path.join(__dirname, `../map/leaflet-map/${z}/${x}/${y}`), (err) => {
+            if (err) {
+                res.statusCode = 404;
+            }
+        });
+    }
+    catch (err) {
+        Utils.warning(err);
+    }
 });
 
 const httpServer = http.createServer(app).listen(httpPort);

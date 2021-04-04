@@ -334,7 +334,7 @@ const world = {
      * @param {Object} clientSocket - The socket of the player entity to remove.
      */
     removePlayer(clientSocket) {
-        Utils.message("World remove player, account username:", clientSocket.accountUsername);
+        Utils.message("World remove player.");
         // If the socket had an entity, remove it from the game.
         if (clientSocket.entity !== undefined) {
             // If they have an account log them out.

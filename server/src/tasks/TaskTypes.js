@@ -11,14 +11,14 @@ const TaskTypes = {};
 class TaskType {
     /**
      *
-     * @param {String} taskID
+     * @param {String} taskId
      * @param {Array} category
      */
-    constructor(taskID, category) {
-        if (TaskTypes[taskID] !== undefined) {
-            Utils.error(`Cannot create new task type, task name already exists in task types list: ${taskID}`);
+    constructor(taskId, category) {
+        if (TaskTypes[taskId] !== undefined) {
+            Utils.error(`Cannot create new task type, task name already exists in task types list: ${taskId}`);
         }
-        this.taskID = taskID;
+        this.taskId = taskId;
         this.otherTasks = [];
         this.category = category;
         category.push(this);

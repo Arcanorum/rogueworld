@@ -185,7 +185,7 @@ class Player {
     }
 
     addTask(task) {
-        this.tasks[task.taskID] = task;
+        this.tasks[task.taskId] = task;
 
         PubSub.publish(TASKS_VALUE, { new: this.tasks });
     }

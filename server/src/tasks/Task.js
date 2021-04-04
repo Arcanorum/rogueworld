@@ -11,71 +11,98 @@ class Task {
      * @param {Number} completionThreshold - How much progress must be made to complete this task.
      * @param {Array} rewardItemTypes - The item type class references to give.
      * @param {Number} rewardGlory - How much glory to give.
+     * @param {Boolean} skipSave - Should this task not be saved to the player account. Used to avoid saving an existing
      */
-    constructor(player, taskType, progress, completionThreshold, rewardItemTypes, rewardGlory) {
+    constructor(config) {
         /** @type {Player} */
-        this.player = player;
+        this.player = config.player;
         /** @type {TaskType} */
-        this.taskType = taskType;
-        /** @type {Boolean} */
-        this.completed = false;
+        this.taskType = config.taskType;
         /** @type {Array} */
-        this.rewardItemTypes = rewardItemTypes || [];
+        this.rewardItemTypes = config.rewardItemTypes || [];
         /** @type {Number} */
-        this.rewardGlory = rewardGlory || 1;
+        this.rewardGlory = config.rewardGlory || 1;
         /** @type {Number} */
-        this.progress = progress || 0;
+        this.progress = config.progress || 0;
         /** @type {Number} */
-        this.completionThreshold = completionThreshold || 1;
-        // Check this task is completed. They might have completed it before, but not claimed it.
-        if (this.progress >= this.completionThreshold) {
-            this.completed = true;
-        }
+        this.completionThreshold = config.completionThreshold || 1;
+
         // Add this task to the player's task list.
-        player.tasks.list[taskType.taskID] = this;
+        this.player.tasks.list[this.taskType.taskId] = this;
 
         const rewardItemTypeCodes = [];
-        for (let i = 0; i < rewardItemTypes.length; i += 1) {
-            rewardItemTypeCodes.push(rewardItemTypes[i].prototype.typeCode);
+        for (let i = 0; i < this.rewardItemTypes.length; i += 1) {
+            rewardItemTypeCodes.push(this.rewardItemTypes[i].prototype.typeCode);
         }
 
         // Tell the client to add the task.
-        player.socket.sendEvent(player.EventsList.task_added, {
-            taskID: taskType.taskID,
+        this.player.socket.sendEvent(this.player.EventsList.task_added, {
+            taskId: this.taskType.taskId,
             progress: this.progress,
             completionThreshold: this.completionThreshold,
             rewardItemTypeCodes,
             rewardGlory: this.rewardGlory,
         });
+
+        // If this player has an account, save the new task.
+        if (!config.skipSave && this.player.socket.account) {
+            try {
+                const taskData = {
+                    taskId: this.taskType.taskId,
+                    progress: this.progress,
+                    completionThreshold: this.completionThreshold,
+                    rewardGlory: this.rewardGlory,
+                    rewardItemTypeCodes: this.rewardItemTypes.map(
+                        (rewardItemType) => rewardItemType.prototype.typeCode,
+                    ),
+                };
+                this.player.socket.account.tasks.set(this.taskType.taskId, taskData);
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
     }
 
     progressMade() {
-        if (this.completed === true) return;
+        if (this.progress >= this.completionThreshold) return;
         this.progress += 1;
         // Tell the player they have made progress on the task.
         // The client can work out whether it has been completed.
         this.player.socket.sendEvent(
             EventsList.task_progress_made,
             {
-                taskID: this.taskType.taskID,
+                taskId: this.taskType.taskId,
                 progress: this.progress,
             },
         );
 
-        if (this.progress >= this.completionThreshold) {
-            this.completed = true;
+        // If the player has an account, save their task progress.
+        if (this.player.socket.account) {
+            try {
+                this.player.socket.account.tasks.get(this.taskType.taskId).set("progress", this.progress);
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
         }
-
-        // if (this.player.sockets.account) {
-        //     this.player.socket.account.tasks[]
-        // }
     }
 
     claimReward() {
-        if (this.completed === false) return;
+        if (this.progress < this.completionThreshold) return;
 
         // Remove this task from the player's task list.
-        delete this.player.tasks.list[this.taskType.taskID];
+        delete this.player.tasks.list[this.taskType.taskId];
+
+        // Remove this task from their account if they are using one.
+        if (this.player.socket.account) {
+            try {
+                this.player.socket.account.tasks.delete(this.taskType.taskId);
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
 
         // Give them the rewards.
         this.player.modGlory(this.rewardGlory);
@@ -125,7 +152,7 @@ class Task {
         });
 
         // Tell the client to remove this task from the list.
-        this.player.socket.sendEvent(EventsList.task_claimed, this.taskType.taskID);
+        this.player.socket.sendEvent(EventsList.task_claimed, this.taskType.taskId);
 
         // This task has been removed, add a new one of the same type.
         new NewTask(this.player, this.taskType.category);
@@ -145,33 +172,33 @@ class NewTask extends Task {
 
         let taskTypeToUse = randomTaskType;
         // If the player already has this task, use a different one.
-        if (player.tasks.list[randomTaskType.taskID]) {
-            taskTypeToUse = player.tasks.list[randomTaskType.taskID].taskType.getOtherTask();
+        if (player.tasks.list[randomTaskType.taskId]) {
+            taskTypeToUse = player.tasks.list[randomTaskType.taskId].taskType.getOtherTask();
         }
 
         // The difficulty of the task, or how much stuff to do for it, and what rewards are given.
         const difficulty = Utils.getRandomIntInclusive(1, 3);
 
-        const rewardItems = [];
+        const rewardItemTypes = [];
 
         if (difficulty === 1) {
-            rewardItems.push(ItemsList.BY_NAME.TinyLootBox);
+            rewardItemTypes.push(ItemsList.BY_NAME.TinyLootBox);
         }
         else if (difficulty === 2) {
-            rewardItems.push(ItemsList.BY_NAME.SmallLootBox);
+            rewardItemTypes.push(ItemsList.BY_NAME.SmallLootBox);
         }
         else {
-            rewardItems.push(ItemsList.BY_NAME.MediumLootBox);
+            rewardItemTypes.push(ItemsList.BY_NAME.MediumLootBox);
         }
 
-        super(
+        super({
             player,
-            taskTypeToUse,
-            0,
-            5 * difficulty,
-            rewardItems,
-            500 * difficulty,
-        );
+            taskType: taskTypeToUse,
+            progress: 0,
+            completionThreshold: 5 * difficulty,
+            rewardItemTypes,
+            rewardGlory: 500 * difficulty,
+        });
     }
 }
 

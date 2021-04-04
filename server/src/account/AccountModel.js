@@ -32,11 +32,11 @@ const statsSchema = new Schema(
 
 const taskSchema = new Schema(
     {
-        taskID: { type: String, default: "KillRats" },
+        taskId: { type: String, default: "KillRats" },
         progress: { type: Number, default: 0, validate: integerValidator },
         completionThreshold: { type: Number, default: 0, validate: integerValidator },
         rewardGlory: { type: Number, default: 0, validate: integerValidator },
-        rewardItemTypeCodes: [{ type: String, default: "VRAS0927" }],
+        rewardItemTypeCodes: [{ type: String, default: "VRAS0927" }], // Glory orb
     },
     { _id: false },
 );
@@ -56,7 +56,7 @@ const accountSchema = new Schema(
         bankItems: [itemSchema],
         inventoryItems: [itemSchema],
         stats: statsSchema,
-        tasks: [taskSchema],
+        tasks: { type: Map, of: taskSchema },
     },
 );
 

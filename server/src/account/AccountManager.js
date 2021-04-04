@@ -3,7 +3,6 @@ const AccountModel = require("./AccountModel");
 const ItemsList = require("../ItemsList");
 const Task = require("../tasks/Task");
 const TaskTypes = require("../tasks/TaskTypes");
-const RewardsList = require("../tasks/RewardsList");
 const EventsList = require("../EventsList");
 const Utils = require("../Utils");
 
@@ -211,39 +210,40 @@ module.exports = {
         entity.stats.loadData(account);
 
         // Tasks.
-        Object.entries(account.tasks).forEach(([savedTaskKey, savedTask]) => {
+        account.tasks.forEach((taskData) => {
             // Check the type of task to add is valid.
             // Might have been removed (or renamed) since this player last logged in.
-            if (!TaskTypes[savedTaskKey]) return;
+            if (!TaskTypes[taskData.taskId]) return;
 
             // Check the task has a list of reward item types. Might be malformed data.
-            if (!savedTask.rewardItemTypeCodes) return;
+            if (!taskData.rewardItemTypeCodes) return;
 
-            const rewardItemTypes = savedTask.rewardItemTypeCodes.map((rewardItemTypeCode) => {
+            const rewardItemTypes = taskData.rewardItemTypeCodes.map((rewardItemTypeCode) => {
                 // Check the item to add still exists.
                 // Might have been removed since this player last logged in.
-                if (ItemsList.BY_CODE[rewardItemTypeCode] === undefined) {
+                if (!ItemsList.BY_CODE[rewardItemTypeCode]) {
                     // Add something else instead to compensate.
-                    return Utils.getRandomElement(RewardsList);
+                    return ItemsList.BY_NAME.GloryOrb;
                 }
 
                 return ItemsList.BY_CODE[rewardItemTypeCode];
             });
 
-            new Task.Task(
-                entity,
-                TaskTypes[savedTaskKey],
-                savedTask.progress,
-                savedTask.completionThreshold,
+            new Task.Task({
+                player: entity,
+                taskType: TaskTypes[taskData.taskId],
+                progress: taskData.progress,
+                completionThreshold: taskData.completionThreshold,
                 rewardItemTypes,
-                savedTask.rewardGlory,
-            );
+                rewardGlory: taskData.rewardGlory,
+                skipSave: true,
+            });
         });
 
-        // Catch the case that no existing task progresses were loaded successfully, so they at least have the starting ones.
-        // If they don't have enough tasks for whatever reason, give them the starting ones.
-        if (Object.keys(entity.tasks.list).length < 6) {
-            // The owner has no task progress so far, give them the starting tasks.
+        // Catch the case that not enough existing task progresses were loaded successfully, so
+        // they at least have the starting ones.
+        // If they don't have the right amount of tasks for whatever reason, give them the starting ones.
+        if (Object.keys(entity.tasks.list).length !== 6) {
             entity.tasks.addStartingTasks();
         }
     },
@@ -280,7 +280,7 @@ module.exports = {
         data.tasks = {};
         Object.entries(entity.tasks.list).forEach(([taskKey, task]) => {
             data.tasks[taskKey] = {
-                taskID: task.taskType.taskID,
+                taskId: task.taskType.taskId,
                 progress: task.progress,
                 completionThreshold: task.completionThreshold,
                 rewardGlory: task.rewardGlory,

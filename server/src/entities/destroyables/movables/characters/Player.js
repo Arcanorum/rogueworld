@@ -525,61 +525,6 @@ class Player extends Character {
     }
 
     /**
-     * Get the key of the first empty slot in the inventory.
-     * Throws an error if no slots are empty. Should be used after Player.isInventoryFull.
-     * @return {String}
-     */
-    // TODO: items refactor
-    // getEmptyInventorySlotKey() {
-    //     for (const slotKey in this.inventory) {
-    //         if (this.inventory.hasOwnProperty(slotKey) === false) continue;
-    //         // If an empty slot is found, return the key for it.
-    //         if (this.inventory[slotKey] === null) {
-    //             return slotKey;
-    //         }
-    //     }
-    //     // All slots are occupied. Throw an error.
-    //     Utils.error("getEmptyInventorySlotKey, no inventory slots are empty. Should use Player.isInventoryFull before to check if a slot is empty.");
-    // }
-
-    /**
-     * Returns whether the inventory is full (all slots occupied).
-     * @return {Boolean}
-     */
-    // TODO: items refactor
-    // isInventoryFull() {
-    //     // Check that the character that interacted with this node has space in their inventory.
-    //     for (const slot in this.inventory) {
-    //         if (this.inventory.hasOwnProperty(slot) === false) continue;
-    //         // If an empty slot is found, stop looping.
-    //         if (this.inventory[slot] === null) return false;
-    //     }
-    //     // All slot are occupied. Inventory is full.
-    //     // Tell the player.
-    //     this.socket.sendEvent(this.EventsList.inventory_full);
-
-    //     return true;
-    // }
-
-    /**
-     * Clears the first inventory slot found that contains an instance of the specified class.
-     * @param {Function} Item - The class to check for instances of. NOT an instance of the class.
-     */
-    // TODO: items refactor
-    // removeFromInventoryByItemType(Item) {
-    //     for (const slot in this.inventory) {
-    //         if (this.inventory.hasOwnProperty(slot) === false) continue;
-    //         if (this.inventory[slot] instanceof Item) {
-    //             this.inventory[slot].destroy();
-    //             // Item type was found and removed.
-    //             return true;
-    //         }
-    //     }
-    //     // No item of the given type was found.
-    //     return false;
-    // }
-
-    /**
      *
      * @param {Number} recipeIndex
      */

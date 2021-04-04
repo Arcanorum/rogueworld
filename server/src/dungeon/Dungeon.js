@@ -1,4 +1,8 @@
 const Utils = require("../Utils");
+const Board = require("../board/Board");
+const BoardsList = require("../board/BoardsList");
+const Exit = require("../entities/statics/interactables/exits/Exit");
+const EventsList = require("../EventsList");
 
 const idCounter = new Utils.Counter();
 
@@ -89,7 +93,10 @@ class Dungeon {
                         exit.destroy();
                         return;
                     }
-                    if (BoardsList.boardsObject[exit.targetBoard].entrances[exit.targetEntrance] === undefined) {
+                    if (BoardsList
+                        .boardsObject[exit.targetBoard]
+                        .entrances[exit.targetEntrance]
+                        === undefined) {
                         exit.destroy();
                         return;
                     }
@@ -143,9 +150,3 @@ class Dungeon {
 }
 
 module.exports = Dungeon;
-
-// TODO: move up
-const Board = require("../board/Board");
-const BoardsList = require("../board/BoardsList");
-const Exit = require("../entities/statics/interactables/exits/Exit");
-const EventsList = require("../EventsList");

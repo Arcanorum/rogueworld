@@ -54,7 +54,7 @@ function LocationMarker() {
     return position === null ? null : (
         <Marker position={position} icon={locationMarker}>
             <Tooltip className="press-start-font tooltip" direction="top" offset={[0, -44]} opacity={1} permanent>
-                { `${position.lat}, ${position.lng}` }
+                { `X: ${Math.abs(Math.floor(position.lng))}, Y: ${Math.abs(position.lat)}` }
             </Tooltip>
         </Marker>
     );
@@ -101,7 +101,7 @@ function MapPanel({ onCloseCallback }) {
                             You
                             <br />
                             {/* The center is a decimal (with the extra half tile), so round down for display. */}
-                            { `${Math.floor(leafletConfig.center[0])}, ${Math.floor(leafletConfig.center[1])}` }
+                            { `X: ${Math.abs(Math.floor(leafletConfig.center[1]))}, Y: ${Math.abs(leafletConfig.center[0])}` }
                         </Tooltip>
                     </Marker>
                     <LocationMarker />

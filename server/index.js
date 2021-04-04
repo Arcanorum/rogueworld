@@ -111,19 +111,19 @@ async function init() {
     // Rebuild the client as some of the resources it uses might have been updated by the server init.
     // Should only need to do this for a prod build, as the Webpack dev server should take care of
     // detecting changes and rebuilding the client during development.
-    if (settings.DEV_MODE === false) {
-        Utils.message("In prod mode. Starting to build client.");
+    // if (settings.DEV_MODE === false) {
+    //     Utils.message("In prod mode. Starting to build client.");
 
-        exec("cd .. && npm run client", (error, stdout, stderr) => {
-            if (error || stderr) {
-                Utils.error(error || stderr);
-            }
-            // Uncomment to see the output logs of building the client.
-            // Utils.message(stdout);
+    //     exec("cd .. && npm run client", (error, stdout, stderr) => {
+    //         if (error || stderr) {
+    //             Utils.error(error || stderr);
+    //         }
+    //         // Uncomment to see the output logs of building the client.
+    //         // Utils.message(stdout);
 
-            Utils.message("Finished building client.");
-        });
-    }
+    //         Utils.message("Finished building client.");
+    //     });
+    // }
 
     Utils.message("End of index. Server is good to go. :)");
     Utils.message("Game can be played at http://localhost:4567");

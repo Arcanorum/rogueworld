@@ -1,3 +1,18 @@
+05/04/2021 - Bugfix 8.3
+
+Bugs:
+- Crafting items now progresses the task if you have that task.
+    Most kind of crafting task have been combined into tasks with broader criteria.
+    i.e. instead of having "Craft iron daggers" as a task, you might have a "Craft daggers" task,
+    and/or a "Craft iron gear" task, which you can do simultaneously if you want (if you have both
+    tasks at once) by making iron arrows, and it would progress both at once.
+- Interactable objects (doors, ore rocks, trees) now use the correct frame when it comes into view.
+- Other players now show what clothing item they are wearing when they come into view.
+
+Other:
+- The FPS meter the bottom left now shows on the main game.
+
+
 04/04/2021 - Bugfix 8.2
 
 Balance:

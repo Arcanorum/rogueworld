@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import PubSub from "pubsub-js";
 import gameConfig from "../shared/GameConfig";
 import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
@@ -8,6 +9,7 @@ import groundTileset from "../assets/images/ground.png";
 import staticsTileset from "../assets/images/statics.png";
 import highlightImage from "../assets/images/gui/highlight.png";
 import dungeonz from "../shared/Global";
+import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from "../shared/EventTypes";
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
@@ -18,6 +20,14 @@ class Boot extends Phaser.Scene {
 
     preload() {
         Utils.message("Boot preload");
+
+        this.load.on("progress", (value) => {
+            PubSub.publish(LOAD_PROGRESS, value);
+        });
+
+        this.load.on("fileprogress", (file) => {
+            PubSub.publish(LOAD_FILE_PROGRESS, file.key);
+        });
 
         // Graphics.
         this.load.image("highlight", highlightImage);

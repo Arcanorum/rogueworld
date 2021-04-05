@@ -4,6 +4,8 @@ export const CONNECTED = Symbol("CONNECTED");
 export const JOINING = Symbol("JOINING");
 export const JOINED = Symbol("JOINED");
 export const LOADING = Symbol("LOADING");
+export const LOAD_PROGRESS = Symbol("LOAD_PROGRESS");
+export const LOAD_FILE_PROGRESS = Symbol("LOAD_FILE_PROGRESS");
 export const LOAD_ACCEPTED = Symbol("LOAD_ACCEPTED");
 export const LOGGED_IN = Symbol("LOGGED_IN");
 

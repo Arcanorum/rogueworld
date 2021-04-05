@@ -1,11 +1,5 @@
 @import '../shared/Variables';
 
-body {
-  overflow: hidden;
-  margin: 0;
-  background-color: $colourDB32Black;
-}
-
 img {
   image-rendering: pixelated;
   image-rendering: crisp-edges;

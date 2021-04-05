@@ -1,3 +1,6 @@
+# craftingTasks
+# Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft, 
+
 # Ammunition
 
 - name: DungiumArrows
@@ -8,6 +11,9 @@
   unitWeight: Arrow
   ProjectileType: ProjDungiumArrow
   baseQuantity: 5
+  craftingTasks:
+    - Arrows
+    - DungiumGear
 
 - name: IronArrows
   code: EFQV6850
@@ -17,6 +23,9 @@
   baseQuantity: 5
   ProjectileType: ProjIronArrow
   unitWeight: Arrow
+  craftingTasks:
+    - Arrows
+    - IronGear
 
 - name: NoctisArrows
   code: GOWQ7155
@@ -26,6 +35,9 @@
   unitWeight: Arrow
   ProjectileType: ProjNoctisArrow
   baseQuantity: 5
+  craftingTasks:
+    - Arrows
+    - NoctisGear
 
 # Clan structures
 
@@ -57,6 +69,9 @@
   defenceBonus: 25
   statBonuses:
     Ranged: 1
+  craftingTasks:
+    - Cloaks
+    - FabricGear
 
 - name: CopperArmour
   code: EZZH7691
@@ -70,6 +85,9 @@
   defenceBonus: 40
   statBonuses:
     Melee: 1
+  craftingTasks:
+    - MetalArmour
+    # - CopperGear
 
 - name: DungiumArmour
   code: JKYL4271
@@ -83,6 +101,9 @@
   defenceBonus: 60
   statBonuses:
     Melee: 3
+  craftingTasks:
+    - MetalArmour
+    - DungiumGear
 
 - name: Etherweave
   code: CAMJ8537
@@ -110,6 +131,9 @@
   defenceBonus: 50
   statBonuses:
     Melee: 2
+  craftingTasks:
+    - MetalArmour
+    - IronGear
 
 - name: MageRobe
   code: UIQB4427
@@ -123,6 +147,9 @@
   defenceBonus: 20
   statBonuses:
     Magic: 1
+  craftingTasks:
+    - Robes
+    - FabricGear
 
 - name: NecromancerRobe
   code: HNOI4167
@@ -136,6 +163,9 @@
   defenceBonus: 20
   statBonuses:
     Magic: 1
+  craftingTasks:
+    - Robes
+    - FabricGear
 
 - name: NinjaGarb
   code: MYJZ0020
@@ -150,6 +180,9 @@
   statBonuses:
     Melee: 1
     Ranged: 1
+  craftingTasks:
+    - Cloaks
+    - FabricGear
 
 - name: NoctisArmour
   code: OELK7246
@@ -163,6 +196,9 @@
   defenceBonus: 70
   statBonuses:
     Melee: 4
+  craftingTasks:
+    - MetalArmour
+    - NoctisGear
 
 - name: PlainRobe
   code: RBKW4762
@@ -176,6 +212,9 @@
   defenceBonus: 20
   statBonuses:
     Potionry: 1
+  craftingTasks:
+    - Robes
+    - FabricGear
 
 # Holdable
 
@@ -195,6 +234,8 @@
   baseDurability: 30
   useEnergyCost: 2
   expGivenStatName: Magic
+  craftingTasks:
+    - Staffs
 
 - name: CopperSword
   code: SMLW0053
@@ -208,6 +249,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Swords
+    # - CopperGear
 
 - name: DungiumDagger
   code: EDBL4872
@@ -221,6 +265,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Daggers
+    - DungiumGear
 
 - name: DungiumHammer
   code: LBVC0112
@@ -234,6 +281,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Hammers
+    - DungiumGear
 
 - name: DungiumSword
   code: OFLM3602
@@ -247,6 +297,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Swords
+    - DungiumGear
 
 - name: EternalFlame
   code: HDYY9831
@@ -274,6 +327,8 @@
   baseDurability: 30
   useEnergyCost: 2
   expGivenStatName: Magic
+  craftingTasks:
+    - Staffs
 
 - name: HammerOfGlory
   code: OWEF7178
@@ -300,6 +355,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Daggers
+    - IronGear
 
 - name: IronHammer
   code: BRCX5152
@@ -313,6 +371,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Hammers
+    - IronGear
 
 - name: IronSword
   code: ZUUW4723
@@ -326,6 +387,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Swords
+    - IronGear
 
 - name: NoctisDagger
   code: EMGG7774
@@ -339,6 +403,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Daggers
+    - NoctisGear
 
 - name: NoctisHammer
   code: FYOP1681
@@ -352,6 +419,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Hammers
+    - NoctisGear
 
 - name: NoctisSword
   code: BPHJ9303
@@ -365,6 +435,9 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
+  craftingTasks:
+    - Swords
+    - NoctisGear
 
 - name: Shuriken
   code: FKUT5967
@@ -378,6 +451,9 @@
   baseQuantity: 5
   useEnergyCost: 1
   expGivenStatName: Ranged
+  craftingTasks:
+    - Shurikens
+    - IronGear
 
 - name: Stormcaller
   code: YNIU9709
@@ -406,6 +482,8 @@
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
+  craftingTasks:
+    - Staffs
 
 - name: SuperFireStaff
   code: CPAO5445
@@ -419,6 +497,8 @@
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
+  craftingTasks:
+    - Staffs
 
 - name: SuperWindStaff
   code: SGBE8487
@@ -432,6 +512,8 @@
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
+  craftingTasks:
+    - Staffs
 
 - name: VampireFang
   code: VSVM7178
@@ -456,6 +538,8 @@
   baseDurability: 30
   useEnergyCost: 2
   expGivenStatName: Magic
+  craftingTasks:
+    - Staffs
 
 # Holdable - Weapons - Bows
 
@@ -469,6 +553,8 @@
   baseDurability: 200
   useEnergyCost: 1
   expGivenStatName: Ranged
+  craftingTasks:
+    - Bows
 
 - name: OakBow
   code: MIIE6860
@@ -480,6 +566,8 @@
   baseDurability: 200
   useEnergyCost: 1
   expGivenStatName: Ranged
+  craftingTasks:
+    - Bows  
 
 # Loot boxes
 
@@ -533,7 +621,9 @@
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 40
-
+  craftingTasks:
+    - Potions
+  
 - name: DungiumBar
   code: YWMQ4086
   translationID: Dungium bar
@@ -549,6 +639,8 @@
   baseDurability: 50
   expGivenStatName: Gathering
   expGivenOnUse: 10
+  craftingTasks:
+    - Hatchets
 
 - name: DungiumOre
   code: OGGT9699
@@ -565,6 +657,8 @@
   baseDurability: 50
   expGivenStatName: Gathering
   expGivenOnUse: 10
+  craftingTasks:
+    - Pickaxes
 
 - name: EnergyPotion
   code: FPEV2793
@@ -572,6 +666,8 @@
   iconSource: icon-energy-potion
   unitWeight: Potion
   craftingExpValue: 20
+  craftingTasks:
+    - Potions
 
 - name: ExpOrbArmoury
   code: FPYN6527
@@ -681,6 +777,8 @@
   iconSource: icon-health-potion
   unitWeight: Potion
   craftingExpValue: 20
+  craftingTasks:
+    - Potions
 
 - name: IronBar
   code: NUKK7066
@@ -697,6 +795,8 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
+  craftingTasks:
+    - Hatchets
 
 - name: IronOre
   code: QXIX4238
@@ -713,6 +813,8 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
+  craftingTasks:
+    - Pickaxes
 
 - name: NoctisBar
   code: XWSA3111
@@ -729,6 +831,8 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
+  craftingTasks:
+    - Hatchets
 
 - name: NoctisOre
   code: LVQF9484
@@ -745,6 +849,8 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
+  craftingTasks:
+    - Pickaxes
 
 - name: OakLogs
   code: KPNK4602

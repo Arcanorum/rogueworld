@@ -1,7 +1,9 @@
 const Utils = require("../Utils");
 const Task = require("./Task");
 const TaskTypes = require("./TaskTypes");
+const TaskCategories = require("./TaskCategories");
 const ItemsListByName = require("../ItemsList").BY_NAME;
+const ItemsList = require("../ItemsList");
 
 class Taskset {
     /**
@@ -33,11 +35,12 @@ class Taskset {
     } */
 
     /**
-     * Increase the progress made in this task.
+     * Increase the progress made in a task, if the player has it.
      * @param {String} taskId
      */
     progressTask(taskId) {
-        if (this.list[taskId] === undefined) return;
+        if (!this.list[taskId]) return;
+
         this.list[taskId].progressMade();
     }
 
@@ -68,8 +71,8 @@ class Taskset {
         new Task.Task({ ...config, taskType: TaskTypes.KillBats });
         new Task.Task({ ...config, taskType: TaskTypes.GatherIronOre });
         new Task.Task({ ...config, taskType: TaskTypes.GatherCotton });
-        new Task.Task({ ...config, taskType: TaskTypes.CraftIronDaggers });
-        new Task.Task({ ...config, taskType: TaskTypes.CraftPlainRobes });
+        new Task.Task({ ...config, taskType: TaskTypes.CraftDaggers });
+        new Task.Task({ ...config, taskType: TaskTypes.CraftRobes });
     }
 
     getEmittableTasks() {
@@ -93,6 +96,120 @@ class Taskset {
         });
 
         return emittableTasks;
+    }
+
+    loadData(account) {
+        try {
+            account.tasks.forEach((taskData, savedTaskKey) => {
+                // Check the type of task to add is valid, and that the key of the task data in the map in the account matches the taskId.
+                // Might have been removed (or renamed) since this player last logged in.
+                if (savedTaskKey !== taskData.taskId || !TaskTypes[taskData.taskId]) {
+                    account.tasks.delete(savedTaskKey);
+                    return;
+                }
+
+                // Check the task has a list of reward item types. Might be malformed data.
+                if (!taskData.rewardItemTypeCodes) {
+                    account.tasks.delete(savedTaskKey);
+                    return;
+                }
+
+                const rewardItemTypes = taskData.rewardItemTypeCodes.map((rewardItemTypeCode) => {
+                    // Check the item to add still exists.
+                    // Might have been removed since this player last logged in.
+                    if (!ItemsList.BY_CODE[rewardItemTypeCode]) {
+                        // Add something else instead to compensate.
+                        return ItemsList.BY_NAME.GloryOrb;
+                    }
+
+                    return ItemsList.BY_CODE[rewardItemTypeCode];
+                });
+
+                new Task.Task({
+                    player: this.owner,
+                    taskType: TaskTypes[savedTaskKey],
+                    progress: taskData.progress,
+                    completionThreshold: taskData.completionThreshold,
+                    rewardItemTypes,
+                    rewardGlory: taskData.rewardGlory,
+                    skipSave: true,
+                });
+            });
+
+            this.checkTaskListIsValid();
+        }
+        catch (error) {
+            Utils.warning(error);
+        }
+    }
+
+    checkTaskListIsValid() {
+        // If they have the right amount of tasks, skip this.
+        if (Object.keys(this.list).length === 6) return;
+
+        // If they don't for whatever reason, give them a new random one from the same task
+        // category as the missing ones.
+        const { owner: player } = this;
+
+        // Count how many tasks there are of each category.
+        const getCategoryCount = (categoryName) => {
+            let count = 0;
+            for (let i = 0, taskIds = Object.keys(this.list); i < taskIds.length; i += 1) {
+                if (taskIds[i].startsWith(categoryName)) count += 1;
+            }
+            return count;
+        };
+
+        ["Kill", "Gather", "Craft"].forEach((categoryName) => {
+            let tasksOfCategoryCount = getCategoryCount(categoryName);
+
+            while (tasksOfCategoryCount !== 2) {
+                if (tasksOfCategoryCount < 2) {
+                    // Not enough tasks. Add one.
+                    new Task.NewTask({
+                        player,
+                        category: TaskCategories[categoryName],
+                    });
+                }
+                else {
+                    // Too many tasks. Remove one.
+
+                    // Find a task they have from the given category.
+                    const taskId = Object
+                        .keys(this.list)
+                        .find((eachId) => eachId.startsWith(categoryName));
+
+                    this.list[taskId].remove();
+                }
+
+                tasksOfCategoryCount = getCategoryCount(categoryName);
+            }
+        });
+
+        // Need to do a full resave of their tasks data, or they might still have the ones that
+        // weren't able to load still in the account data.
+        if (player.socket.account) {
+            try {
+                player.socket.account.tasks.clear();
+
+                // Add each of the loaded tasks, plus any new ones, back in.
+                Object.values(this.list).forEach((task) => {
+                    const taskData = {
+                        taskId: task.taskType.taskId,
+                        progress: task.progress,
+                        completionThreshold: task.completionThreshold,
+                        rewardGlory: task.rewardGlory,
+                        rewardItemTypeCodes: task.rewardItemTypes.map(
+                            (rewardItemType) => rewardItemType.prototype.typeCode,
+                        ),
+                    };
+                    player.socket.account.tasks.set(task.taskType.taskId, taskData);
+                });
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
     }
 }
 

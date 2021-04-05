@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 const AccountModel = require("./AccountModel");
-const ItemsList = require("../ItemsList");
-const Task = require("../tasks/Task");
-const TaskTypes = require("../tasks/TaskTypes");
 const EventsList = require("../EventsList");
 const Utils = require("../Utils");
 
@@ -210,42 +207,7 @@ module.exports = {
         entity.stats.loadData(account);
 
         // Tasks.
-        account.tasks.forEach((taskData) => {
-            // Check the type of task to add is valid.
-            // Might have been removed (or renamed) since this player last logged in.
-            if (!TaskTypes[taskData.taskId]) return;
-
-            // Check the task has a list of reward item types. Might be malformed data.
-            if (!taskData.rewardItemTypeCodes) return;
-
-            const rewardItemTypes = taskData.rewardItemTypeCodes.map((rewardItemTypeCode) => {
-                // Check the item to add still exists.
-                // Might have been removed since this player last logged in.
-                if (!ItemsList.BY_CODE[rewardItemTypeCode]) {
-                    // Add something else instead to compensate.
-                    return ItemsList.BY_NAME.GloryOrb;
-                }
-
-                return ItemsList.BY_CODE[rewardItemTypeCode];
-            });
-
-            new Task.Task({
-                player: entity,
-                taskType: TaskTypes[taskData.taskId],
-                progress: taskData.progress,
-                completionThreshold: taskData.completionThreshold,
-                rewardItemTypes,
-                rewardGlory: taskData.rewardGlory,
-                skipSave: true,
-            });
-        });
-
-        // Catch the case that not enough existing task progresses were loaded successfully, so
-        // they at least have the starting ones.
-        // If they don't have the right amount of tasks for whatever reason, give them the starting ones.
-        if (Object.keys(entity.tasks.list).length !== 6) {
-            entity.tasks.addStartingTasks();
-        }
+        entity.tasks.loadData(account);
     },
 
     /**

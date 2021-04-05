@@ -6,6 +6,7 @@ const Pickup = require("../entities/destroyables/pickups/Pickup");
 const EntitiesList = require("../EntitiesList");
 const { StatNames } = require("../stats/Statset").prototype;
 const EventsList = require("../EventsList");
+const TaskTypes = require("../tasks/TaskTypes");
 
 const { getRandomIntInclusive } = Utils;
 
@@ -208,7 +209,27 @@ class Item {
                 return;
             }
 
-            // Only load properties that should actually exist on this class.
+            // Needs to be converted from just the ids into actual task type references.
+            if (key === "craftingTasks") {
+                if (!Array.isArray(value)) {
+                    Utils.error("Item config property `craftingTasks` must be an array:", config);
+                }
+
+                // Set own property for this item type, to prevent pushing into the parent (Item class) one.
+                this.prototype.craftingTaskIds = [];
+
+                value.forEach((taskName) => {
+                    const taskId = `Craft${taskName}`;
+                    // Check the task type is valid.
+                    if (!TaskTypes[taskId]) {
+                        Utils.error("Invalid task name in `craftingTasks` list. Check it is in the task types list:", taskName);
+                    }
+
+                    this.prototype.craftingTaskIds.push(taskId);
+                });
+            }
+
+            // Load whatever properties that have the same key in the config as on this class.
             if (this.prototype[key] !== undefined) {
                 // Check if the property has already been loaded by a
                 // subclass, or set on the class prototype for class files.
@@ -320,6 +341,13 @@ Item.prototype.unitWeight = 0;
  * @type {Number}
  */
 Item.prototype.craftingExpValue = 10;
+
+/**
+ * The ids of the task types that will be progressed on a player that crafts this item, from any recipe it is a result of.
+ * Can be multiple, i.e. crafting iron arrows would progress both "CraftIronGear" and "CraftArrows" tasks.
+ * @type {Array.<String>}
+ */
+Item.prototype.craftingTaskIds = [];
 
 Item.prototype.StatNames = StatNames;
 

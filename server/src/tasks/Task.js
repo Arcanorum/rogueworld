@@ -91,18 +91,7 @@ class Task {
     claimReward() {
         if (this.progress < this.completionThreshold) return;
 
-        // Remove this task from the player's task list.
-        delete this.player.tasks.list[this.taskType.taskId];
-
-        // Remove this task from their account if they are using one.
-        if (this.player.socket.account) {
-            try {
-                this.player.socket.account.tasks.delete(this.taskType.taskId);
-            }
-            catch (error) {
-                Utils.warning(error);
-            }
-        }
+        this.remove();
 
         // Give them the rewards.
         this.player.modGlory(this.rewardGlory);
@@ -155,7 +144,22 @@ class Task {
         this.player.socket.sendEvent(EventsList.task_claimed, this.taskType.taskId);
 
         // This task has been removed, add a new one of the same type.
-        new NewTask(this.player, this.taskType.category);
+        new NewTask({ player: this.player, category: this.taskType.category });
+    }
+
+    remove() {
+        // Remove this task from the player's task list.
+        delete this.player.tasks.list[this.taskType.taskId];
+
+        // Remove this task from their account if they are using one.
+        if (this.player.socket.account) {
+            try {
+                this.player.socket.account.tasks.delete(this.taskType.taskId);
+            }
+            catch (error) {
+                Utils.warning(error);
+            }
+        }
     }
 }
 
@@ -163,17 +167,17 @@ class NewTask extends Task {
     /**
      * TODO: This class is just being used for it's constructor, to do some extra
      * stuff for new tasks. Maybe needs working into a method on the parent...
-     * @param {Player} player
-     * @param {Array} category
+     * @param {Player} config.player
+     * @param {Array} config.category
      */
-    constructor(player, category) {
+    constructor(config) {
         // Get a random task from the list of tasks of the given category.
-        const randomTaskType = Utils.getRandomElement(category);
+        const randomTaskType = Utils.getRandomElement(config.category);
 
         let taskTypeToUse = randomTaskType;
         // If the player already has this task, use a different one.
-        if (player.tasks.list[randomTaskType.taskId]) {
-            taskTypeToUse = player.tasks.list[randomTaskType.taskId].taskType.getOtherTask();
+        if (config.player.tasks.list[randomTaskType.taskId]) {
+            taskTypeToUse = config.player.tasks.list[randomTaskType.taskId].taskType.getOtherTask();
         }
 
         // The difficulty of the task, or how much stuff to do for it, and what rewards are given.
@@ -192,7 +196,7 @@ class NewTask extends Task {
         }
 
         super({
-            player,
+            player: config.player,
             taskType: taskTypeToUse,
             progress: 0,
             completionThreshold: 5 * difficulty,

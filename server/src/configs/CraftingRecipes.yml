@@ -13,9 +13,6 @@
 # expGiven
 # Optional. A specific amount of exp given for crafting this item. Default will use the sum of the craftingExpValues of each ingredient.
 
-# tasks
-# Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft, 
-
 # ingredients
 # A list of the items required to craft this item. The order here is the order they will be shown in the GUI crafting panel.
 #   itemName

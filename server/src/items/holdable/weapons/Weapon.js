@@ -4,7 +4,6 @@ const EntitiesList = require("../../../EntitiesList");
 
 class Weapon extends Holdable {
     static loadConfig(config) {
-        // console.log("weapon.loadconfig");
         // Some weapon types don't need to have a preset projectile type, as they decide that later
         // for themselves (i.e. bows use the equipped arrow type when used).
         if (config.ProjectileType) {

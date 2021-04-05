@@ -4,7 +4,6 @@ const Utils = require("../../Utils");
 
 class Ammunition extends Item {
     static loadConfig(config) {
-        // console.log("ammunition.loadconfig");
         this.prototype.ProjectileType = EntitiesList[config.ProjectileType];
 
         if (!this.prototype.ProjectileType) {

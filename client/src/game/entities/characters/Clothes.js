@@ -6,7 +6,7 @@ class Clothes extends Sprite {
     constructor(config) {
         super(0, 0, config);
 
-        this.direction = config.direction || "d";
+        this.setDirection(config.direction);
 
         // If clothes were specified (a character came into range already wearing something), then use those clothes.
         if (config.clothingTypeCode !== undefined) {
@@ -60,6 +60,22 @@ class Clothes extends Sprite {
 
     moveAnimCompleted() {
         this.setFrame(this.clothesFrames[this.clothesName][this.parentContainer.direction]);
+    }
+
+    setDirection(direction) {
+        switch (direction) {
+        case "u":
+            this.direction = "up";
+            break;
+        case "d":
+            this.direction = "down";
+            break;
+        case "l":
+            this.direction = "left";
+            break;
+        default:
+            this.direction = "right";
+        }
     }
 }
 

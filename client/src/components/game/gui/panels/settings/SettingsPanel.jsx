@@ -121,22 +121,22 @@ function SettingsPanel({ onCloseCallback }) {
                                 <img src={fullscreenIcon} className="icon" />
                                 <span>Fullscreen</span>
                             </div>
-                            <div className="row">
+                            {/* <div className="row">
                                 <img src={zoomIcon} className="icon" />
                                 <span>GUI size</span>
-                            </div>
+                            </div> */}
                             <div className="row">
                                 <img src={inventoryIcon} className="icon" />
                                 <span>Add picked up items to hotbar</span>
                             </div>
-                            <div className="row">
+                            {/* <div className="row">
                                 <img src={audioIcon} className="icon" />
                                 <span>Music volume</span>
                             </div>
                             <div className="row">
                                 <img src={audioIcon} className="icon" />
                                 <span>Effects volume</span>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="col right">
                             <div className="row">
@@ -147,11 +147,11 @@ function SettingsPanel({ onCloseCallback }) {
                                   onClick={onFullscreenTogglePressed}
                                 />
                             </div>
-                            <div className="row">
+                            {/* <div className="row">
                                 <MinusButton state={guiScale} setter={setGUIScale} />
                                 <span className="value">{`${guiScale}%`}</span>
                                 <PlusButton state={guiScale} setter={setGUIScale} />
-                            </div>
+                            </div> */}
                             <div className="row">
                                 <img
                                   src={addToHotbar ? toggleActiveIcon : toggleInactiveIcon}
@@ -160,16 +160,16 @@ function SettingsPanel({ onCloseCallback }) {
                                   onClick={onAddToHotbarTogglePressed}
                                 />
                             </div>
-                            <div className="row">
+                            {/* <div className="row">
                                 <MinusButton state={musicVolume} setter={setMusicVolume} />
                                 <span className="value">{`${musicVolume}%`}</span>
                                 <PlusButton state={musicVolume} setter={setMusicVolume} />
-                            </div>
-                            <div className="row">
+                            </div> */}
+                            {/* <div className="row">
                                 <MinusButton state={effectsVolume} setter={setEffectsVolume} />
                                 <span className="value">{`${effectsVolume}%`}</span>
                                 <PlusButton state={effectsVolume} setter={setEffectsVolume} />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

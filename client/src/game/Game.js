@@ -610,7 +610,7 @@ class Game extends Phaser.Scene {
     addEntity(data) {
         // Sort the statics from the dynamics. Statics don't have an ID.
         if (data.id === undefined) {
-            // this.updateStatic(data);
+            this.updateStatic(data);
         }
         else {
             this.addDynamic(data);

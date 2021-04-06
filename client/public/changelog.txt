@@ -1,3 +1,17 @@
+06/04/2021 - Bugfix 8.4
+
+Bugs:
+- The loading screen now shows the correct loading state.
+    Added a progress bar to the loading screen that shows percent progress and files being loaded.
+- Pressing Esc key will no longer close the respawn panel.
+- The death music loop now plays while dead.
+
+Other:
+- Added more hints to the loading screen.
+- Unfinished options in the settings panel have been temporarily removed.
+- Reduced initial music volume by 50% until music volume settings are working.
+
+
 05/04/2021 - Bugfix 8.3
 
 Bugs:

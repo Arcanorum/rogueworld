@@ -543,6 +543,9 @@ class Game extends Phaser.Scene {
         });
 
         this.keyboardKeys.escape.on("down", () => {
+            // Don't allow the respawn panel to be closed.
+            if (GUIState.activePanel === Panels.Respawn) return;
+
             GUIState.setActivePanel(Panels.NONE);
             GUIState.setTooltipContent(null);
         });

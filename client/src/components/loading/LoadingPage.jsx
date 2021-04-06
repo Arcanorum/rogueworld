@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PubSub from "pubsub-js";
 import playButtonBorder from "../../assets/images/misc/play-button-border.png";
-import hintImageBat from "../../assets/images/misc/hints/bat.png";
 import "./LoadingPage.scss";
 import { LOADING, LOAD_PROGRESS, LOAD_FILE_PROGRESS } from "../../shared/EventTypes";
 import { ApplicationState } from "../../shared/state/States";
 import Utils from "../../shared/Utils";
+import Hints from "./Hints";
 
 function LoadingBar() {
     const [progress, setProgress] = useState("0%");
@@ -41,7 +41,9 @@ function LoadingBar() {
 }
 
 function LoadingPage() {
-    const [hint, setHint] = useState("Some creatures only come out at night.");
+    const [randomHints] = useState(Utils.getShuffledArray(Hints));
+    const [currentHintIndex, setCurrentHintIndex] = useState(0);
+    const [hint, setHint] = useState(randomHints[currentHintIndex]);
     const [loading, setLoading] = useState(ApplicationState.loading);
 
     useEffect(() => {
@@ -59,8 +61,18 @@ function LoadingPage() {
         };
     }, []);
 
+    useEffect(() => {
+        setHint(randomHints[currentHintIndex]);
+    }, [currentHintIndex]);
+
     const nextHintPressed = () => {
-        // ApplicationState.setLoading(false);
+        if (currentHintIndex === randomHints.length - 1) {
+            // Reset back to the start of the hints list.
+            setCurrentHintIndex(0);
+        }
+        else {
+            setCurrentHintIndex(currentHintIndex + 1);
+        }
     };
 
     const playPressed = () => {
@@ -80,10 +92,10 @@ function LoadingPage() {
 
             <div className="loading-hint-cont">
                 <div className="col image">
-                    <img src={hintImageBat} className="loading-hint-image" draggable={false} />
+                    <img src={hint.image} className="loading-hint-image" draggable={false} />
                 </div>
                 <div className="col loading-hint-text">
-                    {hint}
+                    {Utils.getTextDef(`Hint: ${hint.textDefId}`)}
                 </div>
             </div>
 

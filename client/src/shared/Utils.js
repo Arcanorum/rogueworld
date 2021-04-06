@@ -103,6 +103,15 @@ const Utils = {
         return array[Math.floor(Math.random() * array.length)];
     },
 
+    getShuffledArray(array) {
+        const shuffled = array.slice(0);
+        for (let i = shuffled.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    },
+
     /**
      * Gets the distance in pixels between a Phaser display object and a pointer.
      * @param {Phaser.GameObject.Sprite} baseSprite

@@ -238,7 +238,7 @@ class Game extends Phaser.Scene {
          * @type {Array.<String>}
          */
         this.subs = [
-            PubSub.subscribe(HITPOINTS_VALUE, (data) => {
+            PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
                 // If the player is now dead, play the death music.
                 if (data.new <= 0) {
                     this.soundManager.music.changeBackgroundMusic(

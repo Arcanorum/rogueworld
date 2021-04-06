@@ -30,13 +30,10 @@ const populateList = () => {
 const initialiseList = () => {
     Utils.message("Initialising entities list.");
 
-    const Mob = require("./entities/destroyables/movables/characters/mobs/Mob");
+    // Mobs
+    EntitiesList.AbstractClasses.Mob.loadMobStats();
 
-    Mob.loadMobStats();
-
-    Object.values(EntitiesList).forEach((EntityType) => {
-        if (EntityType.assignMobValues) EntityType.assignMobValues();
-    });
+    // Resource nodes
 
     Utils.message("Finished initialising entities list. EntitiesList is ready to use.");
 };
@@ -45,15 +42,16 @@ const createCatalogue = () => {
     // Write the registered entity types to the client, so the client knows what entity to add for each type number.
     let dataToWrite = {};
 
-    for (const entityTypeKey in EntitiesList) {
-        if (entityTypeKey === "AbstractClasses") continue;
-        // Don't check prototype properties.
-        if (EntitiesList.hasOwnProperty(entityTypeKey) === false) continue;
+    Object.entries(EntitiesList).forEach(([entityTypeKey, EntityType]) => {
+        if (entityTypeKey === "AbstractClasses") return;
         // Only add registered types.
-        if (!EntitiesList[entityTypeKey].prototype.typeNumber) continue;
+        if (!EntitiesList[entityTypeKey].prototype.typeNumber) {
+            Utils.error("Entity type is missing a type number:", EntityType);
+        }
+
         // Add this entity type to the type catalogue.
-        dataToWrite[EntitiesList[entityTypeKey].prototype.typeNumber] = entityTypeKey;
-    }
+        dataToWrite[EntityType.prototype.typeNumber] = entityTypeKey;
+    });
 
     dataToWrite = JSON.stringify(dataToWrite);
 

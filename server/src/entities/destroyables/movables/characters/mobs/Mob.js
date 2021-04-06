@@ -1,5 +1,9 @@
 const Character = require("../Character");
 const Utils = require("../../../../../Utils");
+const EntitiesList = require("../../../../../EntitiesList");
+const Player = require("../Player");
+const Damage = require("../../../../../gameplay/Damage");
+const ItemConfig = require("../../../../../inventory/ItemConfig");
 
 class Mob extends Character {
     /**
@@ -1749,16 +1753,17 @@ class Mob extends Character {
     }
 
     static loadMobStats() {
+        // eslint-disable-next-line global-require
         Mob.StatValues = require("../../../../../gameplay/MobStats");
+
+        Object.values(EntitiesList).forEach((EntityType) => {
+            if (EntityType.assignMobValues) EntityType.assignMobValues();
+        });
     }
 }
 module.exports = Mob;
 
 Mob.abstract = true;
-
-const Player = require("../Player");
-const Damage = require("../../../../../gameplay/Damage");
-const ItemConfig = require("../../../../../inventory/ItemConfig");
 
 Mob.StatValues = null;
 

@@ -210,22 +210,22 @@ class Item {
             }
 
             // Needs to be converted from just the ids into actual task type references.
-            if (key === "craftingTasks") {
+            if (key === "craftTasks") {
                 if (!Array.isArray(value)) {
-                    Utils.error("Item config property `craftingTasks` must be an array:", config);
+                    Utils.error("Item config property `craftTasks` must be an array:", config);
                 }
 
                 // Set own property for this item type, to prevent pushing into the parent (Item class) one.
-                this.prototype.craftingTaskIds = [];
+                this.prototype.craftTaskIds = [];
 
                 value.forEach((taskName) => {
                     const taskId = `Craft${taskName}`;
                     // Check the task type is valid.
                     if (!TaskTypes[taskId]) {
-                        Utils.error("Invalid task name in `craftingTasks` list. Check it is in the task types list:", taskName);
+                        Utils.error("Invalid task name in `craftTasks` list. Check it is in the task types list:", taskName);
                     }
 
-                    this.prototype.craftingTaskIds.push(taskId);
+                    this.prototype.craftTaskIds.push(taskId);
                 });
             }
 
@@ -347,7 +347,7 @@ Item.prototype.craftingExpValue = 10;
  * Can be multiple, i.e. crafting iron arrows would progress both "CraftIronGear" and "CraftArrows" tasks.
  * @type {Array.<String>}
  */
-Item.prototype.craftingTaskIds = [];
+Item.prototype.craftTaskIds = [];
 
 Item.prototype.StatNames = StatNames;
 

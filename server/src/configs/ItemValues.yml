@@ -1,4 +1,4 @@
-# craftingTasks
+# craftTasks
 # Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft, 
 
 # Ammunition
@@ -11,7 +11,7 @@
   unitWeight: Arrow
   ProjectileType: ProjDungiumArrow
   baseQuantity: 5
-  craftingTasks:
+  craftTasks:
     - Arrows
     - DungiumGear
 
@@ -23,7 +23,7 @@
   baseQuantity: 5
   ProjectileType: ProjIronArrow
   unitWeight: Arrow
-  craftingTasks:
+  craftTasks:
     - Arrows
     - IronGear
 
@@ -35,7 +35,7 @@
   unitWeight: Arrow
   ProjectileType: ProjNoctisArrow
   baseQuantity: 5
-  craftingTasks:
+  craftTasks:
     - Arrows
     - NoctisGear
 
@@ -69,7 +69,7 @@
   defenceBonus: 25
   statBonuses:
     Ranged: 1
-  craftingTasks:
+  craftTasks:
     - Cloaks
     - FabricGear
 
@@ -85,7 +85,7 @@
   defenceBonus: 40
   statBonuses:
     Melee: 1
-  craftingTasks:
+  craftTasks:
     - MetalArmour
     # - CopperGear
 
@@ -101,7 +101,7 @@
   defenceBonus: 60
   statBonuses:
     Melee: 3
-  craftingTasks:
+  craftTasks:
     - MetalArmour
     - DungiumGear
 
@@ -131,7 +131,7 @@
   defenceBonus: 50
   statBonuses:
     Melee: 2
-  craftingTasks:
+  craftTasks:
     - MetalArmour
     - IronGear
 
@@ -147,7 +147,7 @@
   defenceBonus: 20
   statBonuses:
     Magic: 1
-  craftingTasks:
+  craftTasks:
     - Robes
     - FabricGear
 
@@ -163,7 +163,7 @@
   defenceBonus: 20
   statBonuses:
     Magic: 1
-  craftingTasks:
+  craftTasks:
     - Robes
     - FabricGear
 
@@ -180,7 +180,7 @@
   statBonuses:
     Melee: 1
     Ranged: 1
-  craftingTasks:
+  craftTasks:
     - Cloaks
     - FabricGear
 
@@ -196,7 +196,7 @@
   defenceBonus: 70
   statBonuses:
     Melee: 4
-  craftingTasks:
+  craftTasks:
     - MetalArmour
     - NoctisGear
 
@@ -212,7 +212,7 @@
   defenceBonus: 20
   statBonuses:
     Potionry: 1
-  craftingTasks:
+  craftTasks:
     - Robes
     - FabricGear
 
@@ -234,7 +234,7 @@
   baseDurability: 30
   useEnergyCost: 2
   expGivenStatName: Magic
-  craftingTasks:
+  craftTasks:
     - Staffs
 
 - name: CopperSword
@@ -249,7 +249,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Swords
     # - CopperGear
 
@@ -265,7 +265,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Daggers
     - DungiumGear
 
@@ -281,7 +281,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Hammers
     - DungiumGear
 
@@ -297,7 +297,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Swords
     - DungiumGear
 
@@ -327,7 +327,7 @@
   baseDurability: 30
   useEnergyCost: 2
   expGivenStatName: Magic
-  craftingTasks:
+  craftTasks:
     - Staffs
 
 - name: HammerOfGlory
@@ -355,7 +355,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Daggers
     - IronGear
 
@@ -371,7 +371,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Hammers
     - IronGear
 
@@ -387,7 +387,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Swords
     - IronGear
 
@@ -403,7 +403,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Daggers
     - NoctisGear
 
@@ -419,7 +419,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Hammers
     - NoctisGear
 
@@ -435,7 +435,7 @@
   baseDurability: 50
   useEnergyCost: 1
   expGivenStatName: Melee
-  craftingTasks:
+  craftTasks:
     - Swords
     - NoctisGear
 
@@ -451,7 +451,7 @@
   baseQuantity: 5
   useEnergyCost: 1
   expGivenStatName: Ranged
-  craftingTasks:
+  craftTasks:
     - Shurikens
     - IronGear
 
@@ -482,7 +482,7 @@
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
-  craftingTasks:
+  craftTasks:
     - Staffs
 
 - name: SuperFireStaff
@@ -497,7 +497,7 @@
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
-  craftingTasks:
+  craftTasks:
     - Staffs
 
 - name: SuperWindStaff
@@ -512,7 +512,7 @@
   useEnergyCost: 3
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
-  craftingTasks:
+  craftTasks:
     - Staffs
 
 - name: VampireFang
@@ -538,7 +538,7 @@
   baseDurability: 30
   useEnergyCost: 2
   expGivenStatName: Magic
-  craftingTasks:
+  craftTasks:
     - Staffs
 
 # Holdable - Weapons - Bows
@@ -553,7 +553,7 @@
   baseDurability: 200
   useEnergyCost: 1
   expGivenStatName: Ranged
-  craftingTasks:
+  craftTasks:
     - Bows
 
 - name: OakBow
@@ -566,7 +566,7 @@
   baseDurability: 200
   useEnergyCost: 1
   expGivenStatName: Ranged
-  craftingTasks:
+  craftTasks:
     - Bows  
 
 # Loot boxes
@@ -621,7 +621,7 @@
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 40
-  craftingTasks:
+  craftTasks:
     - Potions
   
 - name: DungiumBar
@@ -639,7 +639,7 @@
   baseDurability: 50
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  craftingTasks:
+  craftTasks:
     - Hatchets
 
 - name: DungiumOre
@@ -657,7 +657,7 @@
   baseDurability: 50
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  craftingTasks:
+  craftTasks:
     - Pickaxes
 
 - name: EnergyPotion
@@ -666,7 +666,7 @@
   iconSource: icon-energy-potion
   unitWeight: Potion
   craftingExpValue: 20
-  craftingTasks:
+  craftTasks:
     - Potions
 
 - name: ExpOrbArmoury
@@ -777,7 +777,7 @@
   iconSource: icon-health-potion
   unitWeight: Potion
   craftingExpValue: 20
-  craftingTasks:
+  craftTasks:
     - Potions
 
 - name: IronBar
@@ -795,7 +795,7 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  craftingTasks:
+  craftTasks:
     - Hatchets
 
 - name: IronOre
@@ -813,7 +813,7 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  craftingTasks:
+  craftTasks:
     - Pickaxes
 
 - name: NoctisBar
@@ -831,7 +831,7 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  craftingTasks:
+  craftTasks:
     - Hatchets
 
 - name: NoctisOre
@@ -849,7 +849,7 @@
   baseDurability: 40
   expGivenStatName: Gathering
   expGivenOnUse: 10
-  craftingTasks:
+  craftTasks:
     - Pickaxes
 
 - name: OakLogs

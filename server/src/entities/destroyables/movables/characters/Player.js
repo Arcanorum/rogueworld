@@ -620,7 +620,7 @@ class Player extends Character {
         // Don't give the full exp amount as glory, it is a bit too much.
         this.modGlory(recipe.expGiven * 0.5);
 
-        recipe.result.ItemType.prototype.craftingTaskIds.forEach((taskTypeId) => {
+        recipe.result.ItemType.prototype.craftTaskIds.forEach((taskTypeId) => {
             this.tasks.progressTask(taskTypeId);
         });
     }

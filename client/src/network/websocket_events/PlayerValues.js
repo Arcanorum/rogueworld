@@ -49,7 +49,7 @@ export default () => {
         PlayerState.setEnergy(PlayerState.maxEnergy);
 
         dungeonz.gameScene.soundManager.music.changeBackgroundMusic(
-            dungeonz.gameScene.soundManager.music.sounds.location.generic1,
+            dungeonz.gameScene.soundManager.music.sounds.location.exploration,
         );
     };
 

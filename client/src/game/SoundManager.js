@@ -6,12 +6,12 @@ class Music {
     constructor(state) {
         this.sounds = {
             location: {
-                generic1: state.sound.add("generic-theme-1"),
+                exploration: state.sound.add("exploration-theme"),
                 generic2: state.sound.add("generic-theme-2"),
             },
         };
 
-        this.currentBackgroundMusic = this.sounds.location.generic1;
+        this.currentBackgroundMusic = this.sounds.location.exploration;
     }
 
     changeBackgroundMusic(sound) {

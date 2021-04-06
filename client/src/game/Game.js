@@ -223,7 +223,7 @@ class Game extends Phaser.Scene {
 
         // Start an initial background music playing.
         this.soundManager.music.changeBackgroundMusic(
-            this.soundManager.music.sounds.location.generic1,
+            this.soundManager.music.sounds.location.exploration,
         );
 
         // Add the websocket event responses after the game state is started.

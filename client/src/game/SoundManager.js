@@ -23,6 +23,8 @@ class Music {
 
         this.currentBackgroundMusic = sound;
 
+        this.currentBackgroundMusic.setVolume(0.5);
+
         // Fade playing the audio in.
         dungeonz.gameScene.tweens.add({
             targets: this.currentBackgroundMusic,
@@ -31,7 +33,7 @@ class Music {
                     return 0;
                 },
                 getEnd() {
-                    return 1;
+                    return 0.5;
                 },
             },
             duration: 2000,

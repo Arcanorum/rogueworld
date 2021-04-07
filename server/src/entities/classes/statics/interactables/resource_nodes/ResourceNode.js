@@ -69,22 +69,38 @@ class ResourceNode extends Interactable {
         this.deactivate(interactedBy);
     }
 
-    static assignValues() {
-        console.log("resourcenode assignValues");
+    static createClasses() {
+        try {
+            // Load all of the resource node configs.
+            const configs = yaml.safeLoad(
+                fs.readFileSync(
+                    path.resolve("./src/configs/ResourceNodes.yml"), "utf8",
+                ),
+            );
+
+            configs.forEach((config) => {
+                // Only generate a class for this entity if one doesn't already
+                // exist, as it might have it's own special logic file.
+                if (!EntitiesList[config.name]) {
+                    // Use the base ResourceNode class to extend from.
+                    class GenericResourceNode extends ResourceNode { }
+
+                    EntitiesList[config.name] = GenericResourceNode;
+                }
+            });
+        }
+        catch (error) {
+            Utils.error(error);
+        }
     }
 
     static loadConfigs() {
-        // l
-        console.log("resourcenode loading configs");
-
         try {
             const resNodeConfigs = yaml.safeLoad(
                 fs.readFileSync(
                     path.resolve("./src/configs/ResourceNodes.yml"), "utf8",
                 ),
             );
-
-            // console.log("resNodeconfigs:", resNodeConfigs);
 
             resNodeConfigs.forEach((config) => {
                 const EntityType = EntitiesList[config.name];
@@ -121,7 +137,7 @@ class ResourceNode extends Interactable {
                         // Check if the property has already been loaded by a
                         // subclass, or set on the class prototype for class files.
                         if (Object.getPrototypeOf(EntityType).prototype[key]
-                         === EntityType.prototype[key]) {
+                        === EntityType.prototype[key]) {
                             EntityType.prototype[key] = value;
                         }
                     }

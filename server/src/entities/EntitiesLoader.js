@@ -30,25 +30,7 @@ const populateList = () => {
         },
     });
 
-    // try {
-    //     // Load all of the mob configs.
-    //     const mobConfigs = yaml.safeLoad(
-    //         fs.readFileSync(
-    //             path.resolve("./src/configs/ItemValues.yml"), "utf8",
-    //         ),
-    //     );
-
-    //     mobConfigs.forEach((config) => {
-    //         // Only generate a class for this entity if one doesn't already
-    //         // exist, as it might have it's own special logic file.
-    //         if (!EntitiesList[config.name]) {
-    //             EntitiesList[config.name] = makeClass(config);
-    //         }
-    //     });
-    // }
-    // catch (error) {
-    //     Utils.error(error);
-    // }
+    EntitiesList.AbstractClasses.ResourceNode.createClasses();
 
     Utils.message("Finished populating entities list.");
 };

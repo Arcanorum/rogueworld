@@ -57,6 +57,7 @@ class MobStats {
         // If a projectile attack type is defined, use it.
         if (config.projectileAttackType !== undefined) {
             // Check a projectile file exists by the given name. Can't do a direct reference to it here, as it isn't defined yet.
+            // TODO: can do this now, with the EntitiesList instead.
             if (fs.existsSync(`./src/entities/destroyables/movables/projectiles/Proj${config.projectileAttackType}.js`) === true) {
                 this.projectileAttackType = `projectiles/Proj${config.projectileAttackType}`;
             }
@@ -123,18 +124,20 @@ try {
     );
 
     MobValues.forEach((rawConfig) => {
+        const config = {};
+
+        Object.entries(rawConfig).forEach(([key, value]) => {
+            config[key] = value;
+        });
+
         if (rawConfig.name === "Default") {
-            const config = {};
-            for (const [key, value] of Object.entries(rawConfig)) {
-                config[key] = value;
-            }
             defaultMobStats = new MobStats(config);
         }
         else {
-            const config = {};
-            for (const [key, value] of Object.entries(rawConfig)) {
-                config[key] = value;
+            if (!EntitiesList[rawConfig.name]) {
+                Utils.error("Invalid mob config. Entity type of name not found in entities list:", rawConfig.name);
             }
+
             MobStatsList[config.name] = new MobStats(config);
         }
     });

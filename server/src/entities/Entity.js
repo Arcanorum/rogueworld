@@ -373,5 +373,5 @@ Entity.prototype.taskIdKilled = null;
 Entity.prototype.taskIdFrozen = null;
 Entity.prototype.taskIdBurned = null;
 Entity.prototype.taskIdInteracted = null;
-Entity.prototype.taskIdGathered = null;
+Entity.prototype.gatherTaskId = null;
 Entity.prototype.taskIdAnimated = null;

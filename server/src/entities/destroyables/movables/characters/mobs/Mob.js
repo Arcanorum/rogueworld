@@ -1752,7 +1752,7 @@ class Mob extends Character {
         this.prototype.dropList = statValues.dropList;
     }
 
-    static loadMobStats() {
+    static loadConfigs() {
         // eslint-disable-next-line global-require
         Mob.StatValues = require("../../../../../gameplay/MobStats");
 

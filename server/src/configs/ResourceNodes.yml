@@ -1,0 +1,91 @@
+# Ores
+
+- name: IronOre
+  reactivationRate: 14000
+  interactionEnergyCost: 2
+  requiredToolCategory: Pickaxe
+  gloryGiven: 10
+  gatheringTask: IronOre
+  itemName: IronOre
+
+- name: DungiumOre
+  reactivationRate: 30000
+  interactionEnergyCost: 2
+  requiredToolCategory: Pickaxe
+  gloryGiven: 15
+  gatheringTask: DungiumOre
+  itemName: DungiumOre
+
+- name: NoctisOre
+  reactivationRate: 40000
+  interactionEnergyCost: 3
+  requiredToolCategory: Pickaxe
+  gloryGiven: 20
+  gatheringTask: NoctisOre
+  itemName: NoctisOre
+
+# Trees
+
+- name: OakTree
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  requiredToolCategory: Hatchet
+  gloryGiven: 6
+  gatheringTask: OakLogs
+  itemName: OakLogs
+
+- name: SpruceTree
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  requiredToolCategory: Hatchet
+  gloryGiven: 6
+  gatheringTask: OakLogs
+  itemName: OakLogs
+
+- name: FirTree
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  requiredToolCategory: Hatchet
+  gloryGiven: 6
+  gatheringTask: OakLogs
+  itemName: OakLogs
+
+- name: PalmTree
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  requiredToolCategory: Hatchet
+  gloryGiven: 6
+  gatheringTask: OakLogs
+  itemName: OakLogs
+
+# Mushrooms
+
+- name: BlueMushroom
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  gloryGiven: 10
+  gatheringTask: Bluecaps
+  itemName: Bluecap
+
+- name: GreenMushroom
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  gloryGiven: 10
+  gatheringTask: Greencaps
+  itemName: Greencap
+
+- name: RedMushroom
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  gloryGiven: 10
+  gatheringTask: Redcaps
+  itemName: Redcap
+
+# Other
+
+- name: CottonPlant
+  reactivationRate: 8000
+  interactionEnergyCost: 2
+  gloryGiven: 4
+  gatheringTask: Cotton
+  itemName: Cotton

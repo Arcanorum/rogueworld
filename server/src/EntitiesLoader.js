@@ -1,4 +1,6 @@
 const fs = require("fs");
+const path = require("path");
+const yaml = require("js-yaml");
 const Utils = require("./Utils");
 const EntitiesList = require("./EntitiesList");
 
@@ -6,13 +8,17 @@ const populateList = () => {
     Utils.message("Populating entities list.");
 
     // Import all of the entity files.
+    // eslint-disable-next-line global-require
     require("require-dir")("entities", {
         recurse: true,
         mapKey: (value, baseName) => {
             if (typeof value === "function") {
+                if (EntitiesList[baseName]) {
+                    Utils.error(`Cannot load entity "${baseName}", as it already exists in the entities list.`);
+                }
                 // Don't do any additional setup for abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
-                if (value.hasOwnProperty("abstract")) {
+                if (Object.prototype.hasOwnProperty.call(value, "abstract")) {
                     EntitiesList.AbstractClasses[baseName] = value;
                     return;
                 }
@@ -24,16 +30,37 @@ const populateList = () => {
         },
     });
 
+    // try {
+    //     // Load all of the mob configs.
+    //     const mobConfigs = yaml.safeLoad(
+    //         fs.readFileSync(
+    //             path.resolve("./src/configs/ItemValues.yml"), "utf8",
+    //         ),
+    //     );
+
+    //     mobConfigs.forEach((config) => {
+    //         // Only generate a class for this entity if one doesn't already
+    //         // exist, as it might have it's own special logic file.
+    //         if (!EntitiesList[config.name]) {
+    //             EntitiesList[config.name] = makeClass(config);
+    //         }
+    //     });
+    // }
+    // catch (error) {
+    //     Utils.error(error);
+    // }
+
     Utils.message("Finished populating entities list.");
 };
 
 const initialiseList = () => {
     Utils.message("Initialising entities list.");
 
-    // Mobs
-    EntitiesList.AbstractClasses.Mob.loadMobStats();
+    // Mobs.
+    EntitiesList.AbstractClasses.Mob.loadConfigs();
 
-    // Resource nodes
+    // Resource nodes.
+    EntitiesList.AbstractClasses.ResourceNode.loadConfigs();
 
     Utils.message("Finished initialising entities list. EntitiesList is ready to use.");
 };

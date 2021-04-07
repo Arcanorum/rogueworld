@@ -90,6 +90,7 @@ Interactable.prototype.activeState = true;
 // Interactable.prototype.DEFAULT_ACTIVE_STATE = true;
 
 /**
+ * // TODO: remove this junk
  * A warning event to send to the interacter, if they have done something wrong (such as using the wrong tool).
  * One of the properties in EventsList.
  * @type {Number|null}

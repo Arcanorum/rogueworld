@@ -1,6 +1,6 @@
 const settings = require("../../settings.js");
 const EventsList = require("../EventsList.js");
-const ItemsList = require("../ItemsList.js");
+const ItemsList = require("../items/ItemsList.js");
 const Utils = require("../Utils.js");
 const ItemConfig = require("./ItemConfig.js");
 

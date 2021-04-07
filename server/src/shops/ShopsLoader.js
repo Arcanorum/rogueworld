@@ -4,7 +4,7 @@ const yaml = require("js-yaml");
 const { v4: uuidv4 } = require("uuid");
 const Utils = require("../Utils");
 const ShopTypesList = require("./ShopTypesList");
-const ItemsList = require("../ItemsList");
+const ItemsList = require("../items/ItemsList");
 const ShopNPC = require("./ShopNPC");
 const StockItem = require("./StockItem");
 

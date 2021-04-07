@@ -1,5 +1,5 @@
 const Item = require("./Item");
-const { EnergyRegen } = require("../gameplay/StatusEffects");
+const { EnergyRegen } = require("../../gameplay/StatusEffects");
 
 class EnergyPotion extends Item {
     onUsed() {

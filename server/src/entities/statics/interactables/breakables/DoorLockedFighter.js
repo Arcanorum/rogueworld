@@ -33,4 +33,4 @@ class DoorLockedFighter extends Breakable {
 module.exports = DoorLockedFighter;
 
 DoorLockedFighter.prototype.reactivationRate = 5000;
-DoorLockedFighter.prototype.requiredToolCategory = require("../../../../items/Item").prototype.categories.FighterKey;
+DoorLockedFighter.prototype.requiredToolCategory = require("../../../../items/classes/Item").prototype.categories.FighterKey;

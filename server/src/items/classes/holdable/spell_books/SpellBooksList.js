@@ -1,5 +1,5 @@
 const fs = require("fs");
-const Utils = require("../../../Utils");
+const Utils = require("../../../../Utils");
 
 const SpellBookList = {
     // BookOfLight: require("./BookOfLight"),

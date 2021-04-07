@@ -2,8 +2,8 @@ const Utils = require("../Utils");
 const Task = require("./Task");
 const TaskTypes = require("./TaskTypes");
 const TaskCategories = require("./TaskCategories");
-const ItemsListByName = require("../ItemsList").BY_NAME;
-const ItemsList = require("../ItemsList");
+const ItemsListByName = require("../items/ItemsList").BY_NAME;
+const ItemsList = require("../items/ItemsList");
 
 class Taskset {
     /**

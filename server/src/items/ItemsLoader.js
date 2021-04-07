@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
-const Utils = require("./Utils");
+const Utils = require("../Utils");
 const ItemsList = require("./ItemsList");
-const Item = require("./items/Item");
+const Item = require("./classes/Item");
 
 /**
  * Creates a generic class for an item based on the Item class, or one of it's abstract subclasses.
@@ -21,10 +21,10 @@ const makeClass = (config) => {
 
     // Use a more specific type (i.e. Ammunition, Clothes) to extend from if specified.
     if (config.extends) {
-        const pathToCheck = `${__dirname}/items/${config.extends}.js`;
+        const pathToCheck = `${__dirname}/classes/${config.extends}.js`;
         if (fs.existsSync(pathToCheck)) {
             // eslint-disable-next-line global-require, import/no-dynamic-require
-            SuperClass = require(`./items/${config.extends}`);
+            SuperClass = require(`./classes/${config.extends}`);
         }
         else {
             Utils.error(`Failed to load item config from ItemValues.yml for "${config.name}".
@@ -45,7 +45,7 @@ const populateList = () => {
 
     // Import all of the files for items that have their own class file for specific logic.
     // eslint-disable-next-line global-require
-    require("require-dir")("items", {
+    require("require-dir")("classes", {
         recurse: true,
         mapKey: (value, baseName) => {
             if (typeof value === "function") {

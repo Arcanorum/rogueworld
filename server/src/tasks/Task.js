@@ -1,6 +1,6 @@
 const EventsList = require("../EventsList");
 const ItemConfig = require("../inventory/ItemConfig");
-const ItemsList = require("../ItemsList");
+const ItemsList = require("../items/ItemsList");
 const Utils = require("../Utils");
 
 class Task {

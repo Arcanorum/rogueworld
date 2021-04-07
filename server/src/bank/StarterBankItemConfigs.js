@@ -1,5 +1,5 @@
 const settings = require("../../settings.js");
-const ItemsList = require("../ItemsList.js");
+const ItemsList = require("../items/ItemsList.js");
 const ItemConfig = require("../inventory/ItemConfig.js");
 const Utils = require("../Utils.js");
 

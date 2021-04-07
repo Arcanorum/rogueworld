@@ -33,4 +33,4 @@ class DoorLockedPit extends Breakable {
 module.exports = DoorLockedPit;
 
 DoorLockedPit.prototype.reactivationRate = 5000;
-DoorLockedPit.prototype.requiredToolCategory = require("../../../../items/Item").prototype.categories.PitKey;
+DoorLockedPit.prototype.requiredToolCategory = require("../../../../items/classes/Item").prototype.categories.PitKey;

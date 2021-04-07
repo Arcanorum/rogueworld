@@ -1,6 +1,6 @@
 const Weapon = require("./Weapon");
-const ModHitPointConfigs = require("../../../gameplay/ModHitPointConfigs");
-const Damage = require("../../../gameplay/Damage");
+const ModHitPointConfigs = require("../../../../gameplay/ModHitPointConfigs");
+const Damage = require("../../../../gameplay/Damage");
 
 class BloodStaff extends Weapon {
     onUsed() {

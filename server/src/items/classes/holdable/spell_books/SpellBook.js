@@ -1,4 +1,4 @@
-const Utils = require("../../../Utils");
+const Utils = require("../../../../Utils");
 const Holdable = require("../Holdable");
 
 class SpellBook extends Holdable {
@@ -64,7 +64,7 @@ class SpellBook extends Holdable {
 SpellBook.abstract = true;
 
 // Give all spell books easy access to the list of magic effects.
-SpellBook.prototype.MagicEffects = require("../../../gameplay/MagicEffects");
+SpellBook.prototype.MagicEffects = require("../../../../gameplay/MagicEffects");
 
 /**
  * The ID of this spell in the language text definitions file.

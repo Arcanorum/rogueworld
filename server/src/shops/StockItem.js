@@ -1,4 +1,4 @@
-const ItemsListByName = require("../ItemsList").BY_NAME;
+const ItemsListByName = require("../items/ItemsList").BY_NAME;
 
 class StockItem {
     /**

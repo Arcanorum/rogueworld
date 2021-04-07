@@ -1,6 +1,6 @@
 const Item = require("../Item");
-const EntitiesList = require("../../EntitiesList");
-const Utils = require("../../Utils");
+const EntitiesList = require("../../../EntitiesList");
+const Utils = require("../../../Utils");
 
 class Ammunition extends Item {
     static loadConfig(config) {

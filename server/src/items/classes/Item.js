@@ -1,12 +1,12 @@
 const yaml = require("js-yaml");
 const fs = require("fs");
 const path = require("path");
-const Utils = require("../Utils");
-const Pickup = require("../entities/destroyables/pickups/Pickup");
-const EntitiesList = require("../EntitiesList");
-const { StatNames } = require("../stats/Statset").prototype;
-const EventsList = require("../EventsList");
-const TaskTypes = require("../tasks/TaskTypes");
+const Utils = require("../../Utils");
+const Pickup = require("../../entities/destroyables/pickups/Pickup");
+const EntitiesList = require("../../EntitiesList");
+const { StatNames } = require("../../stats/Statset").prototype;
+const EventsList = require("../../EventsList");
+const TaskTypes = require("../../tasks/TaskTypes");
 
 const { getRandomIntInclusive } = Utils;
 
@@ -227,6 +227,8 @@ class Item {
 
                     this.prototype.craftTaskIds.push(taskId);
                 });
+
+                return;
             }
 
             // Load whatever properties that have the same key in the config as on this class.

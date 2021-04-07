@@ -1,5 +1,5 @@
 const Item = require("./Item");
-const { HealthRegen } = require("../gameplay/StatusEffects");
+const { HealthRegen } = require("../../gameplay/StatusEffects");
 
 class HealthPotion extends Item {
     onUsed() {

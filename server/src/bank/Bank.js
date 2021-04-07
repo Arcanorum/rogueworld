@@ -4,7 +4,7 @@ const ItemConfig = require("../inventory/ItemConfig.js");
 const BankChest = require("../entities/statics/interactables/breakables/BankChest");
 const starterBankItemConfigsList = require("./StarterBankItemConfigs").list;
 const Utils = require("../Utils.js");
-const ItemsList = require("../ItemsList.js");
+const ItemsList = require("../items/ItemsList.js");
 
 class Bank {
     constructor(owner) {

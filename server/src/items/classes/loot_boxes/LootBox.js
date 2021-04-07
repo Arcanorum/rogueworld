@@ -1,6 +1,6 @@
-const ItemConfig = require("../../inventory/ItemConfig");
-const RewardsList = require("../../tasks/RewardsList");
-const Utils = require("../../Utils");
+const ItemConfig = require("../../../inventory/ItemConfig");
+const RewardsList = require("../../../tasks/RewardsList");
+const Utils = require("../../../Utils");
 const Item = require("../Item");
 
 class LootBox extends Item {

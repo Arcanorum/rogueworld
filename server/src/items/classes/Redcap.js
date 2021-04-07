@@ -1,5 +1,5 @@
 const Item = require("./Item");
-const Heal = require("../gameplay/Heal");
+const Heal = require("../../gameplay/Heal");
 
 class Redcap extends Item {
     onUsed() {

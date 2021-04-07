@@ -1,5 +1,5 @@
 const Item = require("./Item");
-const Damage = require("../gameplay/Damage");
+const Damage = require("../../gameplay/Damage");
 
 class Greencap extends Item {
     onUsed() {

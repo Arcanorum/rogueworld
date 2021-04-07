@@ -4,7 +4,7 @@ const { exec } = require("child_process");
 const { extrudeTilesetToImage } = require("tile-extruder");
 const settings = require("./settings");
 const Utils = require("./src/Utils");
-const ItemsLoader = require("./src/ItemsLoader");
+const ItemsLoader = require("./src/items/ItemsLoader");
 const EntitiesLoader = require("./src/EntitiesLoader");
 const StarterBankItemConfigs = require("./src/bank/StarterBankItemConfigs");
 const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
@@ -36,7 +36,7 @@ async function init() {
 
     require("./src/WebSocketEvents");
     require("./src/scripts/TextDefinitionsParser");
-    require("./src/items/holdable/spell_books/SpellBooksList");
+    // require("./src/items/holdable/spell_books/SpellBooksList");
     require("./src/ChatWarnings");
 
     // const clanManager = require("./src/ClanManager");
@@ -49,7 +49,7 @@ async function init() {
     require("./src/scripts/CatalogueBuilders").buildDungeonPrompts();
 
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
-    require("./src/items/Item").prototype.EntitiesList = require("./src/EntitiesList");
+    require("./src/items/classes/Item").prototype.EntitiesList = require("./src/EntitiesList");
 
     function cleanUp() {
         Utils.message("index.js cleanup");

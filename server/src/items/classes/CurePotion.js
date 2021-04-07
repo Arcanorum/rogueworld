@@ -1,5 +1,5 @@
 const Item = require("./Item");
-const { Cured } = require("../gameplay/StatusEffects");
+const { Cured } = require("../../gameplay/StatusEffects");
 
 class CurePotion extends Item {
     onUsed() {

@@ -1,6 +1,6 @@
 const Pickup = require("../entities/destroyables/pickups/Pickup");
 const Utils = require("../Utils");
-const ItemsList = require("../ItemsList");
+const ItemsList = require("../items/ItemsList");
 
 class Drop {
     constructor(config) {

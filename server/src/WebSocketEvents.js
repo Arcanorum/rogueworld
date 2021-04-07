@@ -1,7 +1,7 @@
 const Utils = require("./Utils");
 const { wss } = require("./Server");
 const world = require("./World");
-const SpellBook = require("./items/holdable/spell_books/SpellBook");
+// const SpellBook = require("./items/holdable/spell_books/SpellBook");
 const DungeonManagersList = require("./dungeon/DungeonManagersList");
 const EventsList = require("./EventsList");
 const ValidDirections = require("./entities/Entity").prototype.OppositeDirections;
@@ -341,18 +341,18 @@ eventResponses.use_held_item = (clientSocket, data) => {
  * @param {*} clientSocket
  * @param {String|Number} data - The spell number to select.
  */
-eventResponses.spell_selected = (clientSocket, data) => {
-    if (!data) return;
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
-    // Check they are holding a spell book.
-    if (clientSocket.entity.holding !== null) {
-        if (clientSocket.entity.holding instanceof SpellBook) {
-            clientSocket.entity.holding.changeSpell(data);
-        }
-    }
-};
+// eventResponses.spell_selected = (clientSocket, data) => {
+//     if (!data) return;
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
+//     // Check they are holding a spell book.
+//     if (clientSocket.entity.holding !== null) {
+//         if (clientSocket.entity.holding instanceof SpellBook) {
+//             clientSocket.entity.holding.changeSpell(data);
+//         }
+//     }
+// };
 
 /**
  * @param {*} clientSocket

@@ -5,7 +5,7 @@ const groundTileset = require("../../map/tilesets/ground");
 const boundariesTileset = require("../../map/tilesets/boundaries");
 const staticsTileset = require("../../map/tilesets/statics");
 const BoardTile = require("./BoardTile");
-const EntitiesList = require("../EntitiesList");
+const EntitiesList = require("../entities/EntitiesList");
 const DayPhases = require("../DayPhases");
 const settings = require("../../settings");
 const { boardsObject } = require("./BoardsList");
@@ -23,7 +23,7 @@ const playerViewRange = EntitiesList.Player.viewRange;
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
 // Precomputed value to avoid having to do `i <= playerViewRange` (2 checks), or `i < playerViewRange + 1` (repeated calculation).
 const playerViewRangePlusOne = playerViewRange + 1;
-const { Directions, OppositeDirections } = require("../entities/Entity").prototype;
+const { Directions, OppositeDirections } = require("../entities/classes/Entity").prototype;
 
 // Sum the amount of tiles in each previous tileset to get the start GID of each tileset.
 const boundariesStartGID = groundTileset.tilecount;

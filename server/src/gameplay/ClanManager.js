@@ -102,5 +102,5 @@ module.exports = clanManager;
 const fs = require("fs");
 
 const Charter = undefined; // require('./entities/statics/interactables/crafting stations/Charter');
-const EntitiesList = require("../EntitiesList");
+const EntitiesList = require("../entities/EntitiesList");
 const { boardsObject } = require("../board/BoardsList");

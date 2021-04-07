@@ -7,7 +7,7 @@ const ItemsList = require("../items/ItemsList");
 const CraftingRecipesList = require("./CraftingRecipesList");
 const CraftingRecipe = require("./CraftingRecipe");
 const Statset = require("../stats/Statset");
-const EntitiesList = require("../EntitiesList");
+const EntitiesList = require("../entities/EntitiesList");
 
 const populateList = () => {
     Utils.message("Populating crafting recipes list.");

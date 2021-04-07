@@ -390,5 +390,5 @@ module.exports = world;
 
 // Import these AFTER the world is exported.
 const Board = require("./board/Board");
-const EntitiesList = require("./EntitiesList");
-const Exit = require("./entities/statics/interactables/exits/Exit");
+const EntitiesList = require("./entities/EntitiesList");
+const Exit = require("./entities/classes/statics/interactables/exits/Exit");

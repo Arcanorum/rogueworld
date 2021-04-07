@@ -1,7 +1,7 @@
 const Utils = require("../Utils");
 const Board = require("../board/Board");
 const BoardsList = require("../board/BoardsList");
-const Exit = require("../entities/statics/interactables/exits/Exit");
+const Exit = require("../entities/classes/statics/interactables/exits/Exit");
 const EventsList = require("../EventsList");
 
 const idCounter = new Utils.Counter();

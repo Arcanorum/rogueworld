@@ -6,7 +6,7 @@ const Factions = require("./Factions");
 const Behaviours = require("./Behaviours");
 const Drop = require("./Drop");
 const Damage = require("./Damage");
-const EntitiesList = require("../EntitiesList");
+const EntitiesList = require("../entities/EntitiesList");
 
 /**
  * Gets the value to use for a mob for a given property.
@@ -58,7 +58,7 @@ class MobStats {
         if (config.projectileAttackType !== undefined) {
             // Check a projectile file exists by the given name. Can't do a direct reference to it here, as it isn't defined yet.
             // TODO: can do this now, with the EntitiesList instead.
-            if (fs.existsSync(`./src/entities/destroyables/movables/projectiles/Proj${config.projectileAttackType}.js`) === true) {
+            if (fs.existsSync(`./src/entities/classes/destroyables/movables/projectiles/Proj${config.projectileAttackType}.js`) === true) {
                 this.projectileAttackType = `projectiles/Proj${config.projectileAttackType}`;
             }
         }
@@ -81,7 +81,7 @@ class MobStats {
         // Use null corpse type if undefined. Use null directly, otherwise this might be for the default mob stats itself.
         if (config.corpseType === undefined || config.corpseType === null) this.corpseType = null;
         else {
-            if (fs.existsSync(`./src/entities/destroyables/corpses/Corpse${config.corpseType}.js`) === false) {
+            if (fs.existsSync(`./src/entities/classes/destroyables/corpses/Corpse${config.corpseType}.js`) === false) {
                 Utils.error(`Invalid corpse type given: ${config.corpseType}`);
             }
 

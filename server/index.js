@@ -5,7 +5,7 @@ const { extrudeTilesetToImage } = require("tile-extruder");
 const settings = require("./settings");
 const Utils = require("./src/Utils");
 const ItemsLoader = require("./src/items/ItemsLoader");
-const EntitiesLoader = require("./src/EntitiesLoader");
+const EntitiesLoader = require("./src/entities/EntitiesLoader");
 const StarterBankItemConfigs = require("./src/bank/StarterBankItemConfigs");
 const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
 const ShopsLoader = require("./src/shops/ShopsLoader");
@@ -49,7 +49,7 @@ async function init() {
     require("./src/scripts/CatalogueBuilders").buildDungeonPrompts();
 
     // Give all Items access to the finished EntitiesList. Needs to be done when it is finished initing, or accessing entities causes errors.
-    require("./src/items/classes/Item").prototype.EntitiesList = require("./src/EntitiesList");
+    require("./src/items/classes/Item").prototype.EntitiesList = require("./src/entities/EntitiesList");
 
     function cleanUp() {
         Utils.message("index.js cleanup");

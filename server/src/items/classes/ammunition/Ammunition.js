@@ -1,5 +1,5 @@
 const Item = require("../Item");
-const EntitiesList = require("../../../EntitiesList");
+const EntitiesList = require("../../../entities/EntitiesList");
 const Utils = require("../../../Utils");
 
 class Ammunition extends Item {

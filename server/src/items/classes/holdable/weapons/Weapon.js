@@ -1,6 +1,6 @@
 const Utils = require("../../../../Utils");
 const Holdable = require("../Holdable");
-const EntitiesList = require("../../../../EntitiesList");
+const EntitiesList = require("../../../../entities/EntitiesList");
 
 class Weapon extends Holdable {
     static loadConfig(config) {

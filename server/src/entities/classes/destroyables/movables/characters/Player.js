@@ -521,7 +521,11 @@ class Player extends Character {
             Utils.warning("Cannot add item to player inventory. Error:", error);
         }
 
-        pickup.destroy();
+        // If it is a pickup of a stackable, then there might still be some in the stack that they
+        // couldn't fit in their inventory, so check there is anything left before destroying.
+        if (pickup.itemConfig.quantity < 1) {
+            pickup.destroy();
+        }
     }
 
     /**

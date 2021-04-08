@@ -117,13 +117,13 @@ const MobStatsList = {};
 let defaultMobStats;
 
 try {
-    const MobValues = yaml.safeLoad(
+    const configs = yaml.safeLoad(
         fs.readFileSync(
-            path.resolve("./src/configs/MobValues.yml"), "utf8",
+            path.resolve("./src/configs/Mobs.yml"), "utf8",
         ),
     );
 
-    MobValues.forEach((rawConfig) => {
+    configs.forEach((rawConfig) => {
         const config = {};
 
         Object.entries(rawConfig).forEach(([key, value]) => {

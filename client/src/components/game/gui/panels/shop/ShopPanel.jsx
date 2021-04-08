@@ -60,7 +60,7 @@ function BuyOptions({
             </div>
             <div className="buttons">
                 <div className="price">
-                    <img src={gloryIcon} />
+                    <img src={gloryIcon} draggable={false} />
                     <span className={`high-contrast-text ${canAfford(price) ? "" : "cannot-afford"}`}>{price}</span>
                 </div>
                 {!canAfford(price) && <div className="button cannot-afford">{Utils.getTextDef("Not enough glory")}</div>}
@@ -127,7 +127,7 @@ function ItemSlot({ shopItem, price, onClick }) {
                     </div>
                 </div>
                 <div className="price">
-                    <img src={gloryIcon} />
+                    <img src={gloryIcon} draggable={false} />
                     <div className="high-contrast-text">
                         <AnimatedNumber
                           value={price}

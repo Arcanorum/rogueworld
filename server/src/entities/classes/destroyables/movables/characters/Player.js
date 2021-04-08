@@ -552,9 +552,7 @@ class Player extends Character {
             ))
         ));
 
-        if (!hasEveryIngredient) {
-            return;
-        }
+        if (!hasEveryIngredient) return;
 
         // Calculate the amount of bonus durability/quantity for the result item.
         let averageCraftingLevel = 0;

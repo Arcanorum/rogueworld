@@ -59,8 +59,11 @@ class ResourceNode extends Interactable {
         // Reduce their energy by the interaction cost.
         interactedBy.modEnergy(-this.interactionEnergyCost);
 
-        // Increase the glory of the character.
+        // Give them the glory of this node.
         interactedBy.modGlory(this.gloryGiven);
+
+        // Give them the gathering exp amount of this node.
+        interactedBy.stats.Gathering.gainExp(this.expGiven);
 
         // Check any task progress was made.
         interactedBy.tasks.progressTask(this.gatherTaskId);
@@ -165,3 +168,9 @@ ResourceNode.prototype.ItemType = null;
  * @type {Number}
  */
 ResourceNode.prototype.gloryGiven = 0;
+
+/**
+ * How much gathering stat exp is given to the character that exploits this node.
+ * @type {Number}
+ */
+ResourceNode.prototype.expGiven = 0;

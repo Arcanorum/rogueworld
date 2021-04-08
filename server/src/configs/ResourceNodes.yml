@@ -5,6 +5,7 @@
   interactionEnergyCost: 2
   requiredToolCategory: Pickaxe
   gloryGiven: 10
+  expGiven: 10
   gatheringTask: IronOre
   itemName: IronOre
 
@@ -13,6 +14,7 @@
   interactionEnergyCost: 2
   requiredToolCategory: Pickaxe
   gloryGiven: 15
+  expGiven: 25
   gatheringTask: DungiumOre
   itemName: DungiumOre
 
@@ -21,6 +23,7 @@
   interactionEnergyCost: 3
   requiredToolCategory: Pickaxe
   gloryGiven: 20
+  expGiven: 40
   gatheringTask: NoctisOre
   itemName: NoctisOre
 
@@ -31,6 +34,7 @@
   interactionEnergyCost: 2
   requiredToolCategory: Hatchet
   gloryGiven: 6
+  expGiven: 5
   gatheringTask: OakLogs
   itemName: OakLogs
 
@@ -39,6 +43,7 @@
   interactionEnergyCost: 2
   requiredToolCategory: Hatchet
   gloryGiven: 6
+  expGiven: 5
   gatheringTask: OakLogs
   itemName: OakLogs
 
@@ -47,6 +52,7 @@
   interactionEnergyCost: 2
   requiredToolCategory: Hatchet
   gloryGiven: 6
+  expGiven: 5
   gatheringTask: OakLogs
   itemName: OakLogs
 
@@ -55,6 +61,7 @@
   interactionEnergyCost: 2
   requiredToolCategory: Hatchet
   gloryGiven: 6
+  expGiven: 5
   gatheringTask: OakLogs
   itemName: OakLogs
 
@@ -64,6 +71,7 @@
   reactivationRate: 20000
   interactionEnergyCost: 2
   gloryGiven: 10
+  expGiven: 10
   gatheringTask: Bluecaps
   itemName: Bluecap
 
@@ -71,6 +79,7 @@
   reactivationRate: 20000
   interactionEnergyCost: 2
   gloryGiven: 10
+  expGiven: 10
   gatheringTask: Greencaps
   itemName: Greencap
 
@@ -78,6 +87,7 @@
   reactivationRate: 20000
   interactionEnergyCost: 2
   gloryGiven: 10
+  expGiven: 10
   gatheringTask: Redcaps
   itemName: Redcap
 
@@ -87,5 +97,6 @@
   reactivationRate: 8000
   interactionEnergyCost: 2
   gloryGiven: 4
+  expGiven: 10
   gatheringTask: Cotton
   itemName: Cotton

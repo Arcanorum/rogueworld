@@ -637,8 +637,6 @@
   category: Hatchet
   unitWeight: GatheringTool
   baseDurability: 50
-  expGivenStatName: Gathering
-  expGivenOnUse: 10
   craftTasks:
     - Hatchets
 
@@ -655,8 +653,6 @@
   category: Pickaxe
   unitWeight: GatheringTool
   baseDurability: 50
-  expGivenStatName: Gathering
-  expGivenOnUse: 10
   craftTasks:
     - Pickaxes
 
@@ -793,8 +789,6 @@
   unitWeight: GatheringTool
   category: Hatchet
   baseDurability: 40
-  expGivenStatName: Gathering
-  expGivenOnUse: 10
   craftTasks:
     - Hatchets
 
@@ -811,8 +805,6 @@
   category: Pickaxe
   unitWeight: GatheringTool
   baseDurability: 40
-  expGivenStatName: Gathering
-  expGivenOnUse: 10
   craftTasks:
     - Pickaxes
 
@@ -829,8 +821,6 @@
   category: Hatchet
   unitWeight: GatheringTool
   baseDurability: 40
-  expGivenStatName: Gathering
-  expGivenOnUse: 10
   craftTasks:
     - Hatchets
 
@@ -847,8 +837,6 @@
   category: Pickaxe
   unitWeight: GatheringTool
   baseDurability: 40
-  expGivenStatName: Gathering
-  expGivenOnUse: 10
   craftTasks:
     - Pickaxes
 

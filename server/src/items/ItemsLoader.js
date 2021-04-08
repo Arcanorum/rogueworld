@@ -124,6 +124,7 @@ const initialiseList = () => {
 
             // Mark any items that do something when used.
             if (ItemTypeProto.expGivenOnUse
+                || ItemTypeProto.use !== Item.prototype.use
                 || ItemTypeProto.onUsed !== Item.prototype.onUsed) {
                 ItemTypeProto.hasUseEffect = true;
             }

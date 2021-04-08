@@ -8,8 +8,6 @@ class Statset {
     constructor(owner) {
         // If adding anything else here that ISN'T an actual stat, check
         // how it affects the account saving/loading in account manager.
-        // this.owner = owner;
-
         this.Melee = new Stat(owner, this.StatNames.Melee);
         this.Ranged = new Stat(owner, this.StatNames.Ranged);
         this.Magic = new Stat(owner, this.StatNames.Magic);

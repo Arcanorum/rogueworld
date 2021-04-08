@@ -820,7 +820,7 @@
   iconSource: icon-noctis-hatchet
   category: Hatchet
   unitWeight: GatheringTool
-  baseDurability: 40
+  baseDurability: 50
   craftTasks:
     - Hatchets
 
@@ -836,7 +836,7 @@
   iconSource: icon-noctis-pickaxe
   category: Pickaxe
   unitWeight: GatheringTool
-  baseDurability: 40
+  baseDurability: 50
   craftTasks:
     - Pickaxes
 

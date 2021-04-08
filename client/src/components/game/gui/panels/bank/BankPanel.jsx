@@ -42,6 +42,9 @@ const canTransferItem = (FromState, itemConfig, quantity) => {
         ToState = InventoryState;
     }
 
+    // Allow depositting weightless items no matter what.
+    if (itemConfig.totalWeight <= 0) return true;
+
     // For stackables, check if at least one unit of the stack can fit, or a specific amount if given.
     if (itemConfig.quantity) {
         // Allow 0.

@@ -397,8 +397,10 @@ class Bank {
         if (!this.owner.isAdjacentToStaticType(BankChest.prototype.typeNumber)) return;
 
         // Check there is enough space to store all of the desired amount to deposit.
+        // Allow depositting weightless items no matter what.
         // Should be done on the client, but double-check here too.
-        if ((this.weight + depositItemConfig.totalWeight) > this.maxWeight) return;
+        if ((depositItemConfig.totalWeight > 0)
+        && ((this.weight + depositItemConfig.totalWeight) > this.maxWeight)) return;
 
         // Add if stackable.
         if (inventoryItem.itemConfig.ItemType.prototype.baseQuantity) {
@@ -470,8 +472,10 @@ class Bank {
         const { inventory } = this.owner;
 
         // Check there is enough inventory space to carry all of the desired amount to withdraw.
+        // Allow withdrawing weightless items no matter what.
         // Should be done on the client, but double-check here too.
-        if ((inventory.weight + withdrawItemConfig.totalWeight) > inventory.maxWeight) return;
+        if ((withdrawItemConfig.totalWeight > 0)
+        && ((inventory.weight + withdrawItemConfig.totalWeight) > inventory.maxWeight)) return;
 
         // Remove if stackable.
         if (bankItem.ItemType.prototype.baseQuantity) {

@@ -27,7 +27,7 @@ const makeClass = (config) => {
             SuperClass = require(`./classes/${config.extends}`);
         }
         else {
-            Utils.error(`Failed to load item config from ItemValues.yml for "${config.name}".
+            Utils.error(`Failed to load item config from Items.yml for "${config.name}".
           The class to extend from cannot be found for given "extends" property "${config.extends}".
           Full path being checked: "${pathToCheck}"`);
         }
@@ -68,7 +68,7 @@ const populateList = () => {
         // Load all of the item configs.
         const itemConfigs = yaml.safeLoad(
             fs.readFileSync(
-                path.resolve("./src/configs/ItemValues.yml"), "utf8",
+                path.resolve("./src/configs/Items.yml"), "utf8",
             ),
         );
 
@@ -103,7 +103,7 @@ const initialiseList = () => {
         // Get the pure config items values again to finish setting them up, now that the classes are created.
         const itemConfigs = yaml.safeLoad(
             fs.readFileSync(
-                path.resolve("./src/configs/ItemValues.yml"), "utf8",
+                path.resolve("./src/configs/Items.yml"), "utf8",
             ),
         );
 
@@ -133,11 +133,11 @@ const initialiseList = () => {
         Utils.error(error);
     }
 
-    // Check for any item classes that don't have an entry in the ItemValues list.
+    // Check for any item classes that don't have an entry in the Items list.
     // All item types MUST have a type code at a minimum, so check for that.
     Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
         if (!ItemType.prototype.typeCode) {
-            Utils.error("Invalid item type, missing typeCode. Item does not have a config in the ItemValues list:", name);
+            Utils.error("Invalid item type, missing typeCode. Item does not have a config in the Items list:", name);
         }
     });
 

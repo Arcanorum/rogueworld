@@ -70,7 +70,7 @@ class ItemSounds {
             equipped: {
                 default: state.sound.add("weapon-equipped"),
                 // Add what ever kinds of sounds you want a particular item to play when equipped.
-                // Should also be defined in the server item config in ItemValues.yml.
+                // Should also be defined in the server item config in Items.yml.
                 "Metal weapon": state.sound.add("weapon-equipped"),
                 "Metal clothing": state.sound.add("clothing-equipped"),
                 "Fabric clothing": state.sound.add("weapon-equipped"),
@@ -78,7 +78,7 @@ class ItemSounds {
             unequipped: { },
             used: {
                 // Add what ever kinds of sounds you want a particular item to play when used.
-                // Should also be defined in the server item config in ItemValues.yml.
+                // Should also be defined in the server item config in Items.yml.
                 // "Food": // TODO: Add food consumed sound here
                 // "Drink": // TODO: Add drink consumed sound here
             },

@@ -73,7 +73,7 @@ class ItemSounds {
                 // Should also be defined in the server item config in Items.yml.
                 "Metal weapon": state.sound.add("weapon-equipped"),
                 "Metal clothing": state.sound.add("clothing-equipped"),
-                "Fabric clothing": state.sound.add("weapon-equipped"),
+                "Fabric clothing": state.sound.add("clothing-equipped"),
             },
             unequipped: { },
             used: {

@@ -66,7 +66,7 @@ function CreateAccountPanel({ onCloseCallback }) {
                     <input
                       className="create-account-input"
                       type="text"
-                      maxLength="50"
+                      maxLength={ApplicationState.maxUsernameLength}
                       placeholder={Utils.getTextDef("Enter username")}
                       onChange={(event) => {
                           setUsername(event.target.value);

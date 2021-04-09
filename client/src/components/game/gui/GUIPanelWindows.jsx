@@ -14,6 +14,7 @@ import CraftingPanel from "./panels/crafting/CraftingPanel";
 import BankPanel from "./panels/bank/BankPanel";
 import ShopPanel from "./panels/shop/ShopPanel";
 import ChatPanel from "./panels/chat/ChatPanel";
+import ChangeNamePanel from "./panels/change_name/ChangeNamePanel";
 
 function GUIPanelWindows({ shownPanel, closePanelCallback, targetDungeonPortal }) {
     return (
@@ -30,6 +31,11 @@ function GUIPanelWindows({ shownPanel, closePanelCallback, targetDungeonPortal }
             )}
             {shownPanel === Panels.Settings && (
                 <SettingsPanel
+                  onCloseCallback={closePanelCallback}
+                />
+            )}
+            {shownPanel === Panels.ChangeName && (
+                <ChangeNamePanel
                   onCloseCallback={closePanelCallback}
                 />
             )}

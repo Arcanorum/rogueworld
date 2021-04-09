@@ -9,8 +9,31 @@ const ValidDirections = require("./entities/classes/Entity").prototype.OppositeD
 const Charter = undefined; // require("./entities/statics/interactables/breakables/crafting stations/Charter");
 const DungeonPortal = require("./entities/classes/statics/interactables/DungeonPortal");
 const AccountManager = require("./account/AccountManager");
+const settings = require("../settings");
 
 const eventResponses = {};
+
+const clientSettings = {
+    maxDisplayNameLength: settings.MAX_CHARACTER_DISPLAY_NAME_LENGTH,
+    maxUsernameLength: settings.MAX_ACCOUNT_USERNAME_LENGTH,
+    displayNameChangeCost: settings.DISPLAY_NAME_CHANGE_COST,
+};
+
+function isDisplayNameValid(displayName) {
+    // Check a display name was given.
+    if (!displayName) return false;
+
+    // Check it is a string.
+    if (typeof displayName !== "string") return false;
+
+    // Check it isn't empty, or just a space.
+    if (displayName.trim() === "") return false;
+
+    // Check it isn't too long.
+    if (displayName.length > (settings.MAX_CHARACTER_DISPLAY_NAME_LENGTH || 20)) return false;
+
+    return true;
+}
 
 function noop() { }
 
@@ -91,6 +114,8 @@ wss.on("connection", (clientSocket) => {
     // Don't need to create an instance of the function for each socket, just refer to the same one.
     clientSocket.sendEvent = sendEvent;
 
+    clientSocket.sendEvent(EventsList.settings, clientSettings);
+
     clientSocket.on("message", (payload) => {
         let parsedMessage;
         try {
@@ -127,9 +152,8 @@ eventResponses.log_in = (clientSocket, data) => {
     if (!data) return;
     if (!data.username) return;
     if (!data.password) return;
-    // Limit the username and password length. Also limited on client, but check here too.
-    // Don't check password length, as it will be encrypted and potentially very long.
-    if (data.username.length > 50) return;
+    // Don't check username length, so they can still log in even if the max username length
+    // setting has been lowered since they made the account.
 
     AccountManager.logIn(clientSocket, data.username, data.password, (account) => {
         world.addExistingPlayer(clientSocket, account);
@@ -149,18 +173,8 @@ eventResponses.new_char = (clientSocket, data) => {
 
     let displayName = "Savage";
 
-    // Check a display name was given.
-    if (data.displayName !== undefined) {
-        // Check it is a string.
-        if (typeof data.displayName === "string") {
-            // Check it isn't empty, or just a space.
-            if (data.displayName.trim() !== "") {
-                // Check it isn't too long.
-                if (data.displayName.length < 21) {
-                    displayName = data.displayName;
-                }
-            }
-        }
+    if (isDisplayNameValid(data.displayName)) {
+        displayName = data.displayName;
     }
 
     world.addNewPlayer(clientSocket, displayName);
@@ -184,7 +198,7 @@ eventResponses.create_account = (clientSocket, data) => {
     }
     // Limit the username length. Also limited on client, but check here too.
     // Don't check password length, as it will be encrypted and potentially very long.
-    if (data.username.length > 50) {
+    if (data.username.length > (settings.MAX_ACCOUNT_USERNAME_LENGTH || 50)) {
         clientSocket.sendEvent(EventsList.create_account_failure, { messageID: "Username too long" });
         return;
     }
@@ -211,6 +225,21 @@ eventResponses.change_password = (clientSocket, data) => {
     if (!data.newPassword) return;
 
     AccountManager.changePassword(clientSocket, data.currentPassword, data.newPassword);
+};
+
+eventResponses.change_display_name = (clientSocket, data) => {
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+
+    // Prevent invlaid names.
+    if (!isDisplayNameValid(data)) return;
+
+    // Check they have enough glory.
+    if (clientSocket.entity.glory < (settings.DISPLAY_NAME_CHANGE_COST || 1000)) return;
+
+    clientSocket.entity.modGlory(-(settings.DISPLAY_NAME_CHANGE_COST || 1000));
+
+    clientSocket.entity.setDisplayName(data);
 };
 
 eventResponses.mv_u = (clientSocket) => {

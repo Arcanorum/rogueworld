@@ -352,6 +352,21 @@ class BankChest extends Static {
     }
 }
 
+class Register extends Static {
+    constructor(config) {
+        config.pressableRange = 1;
+        super(config);
+    }
+
+    onPressed() {
+        if (!this.isWithinPressableRange()) return;
+        // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+        if (GUIState.activePanel !== Panels.NONE) return;
+
+        GUIState.setActivePanel(Panels.ChangeName);
+    }
+}
+
 /**
  * A list of valid statics and the classes to be used when creating each.
  * @type {Object}
@@ -463,7 +478,7 @@ const StaticClasses = {
     3025: Laboratory,
     // 3026: StorageBox,
     3027: BankChest,
-
+    3028: Register,
 };
 
 /**

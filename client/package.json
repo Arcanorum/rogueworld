@@ -17,7 +17,7 @@
     "animated-number-react": "^0.1.1",
     "leaflet": "^1.7.1",
     "node-sass": "^4.14.1",
-    "phaser": "^3.50.1",
+    "phaser": "^3.54.0",
     "prop-types": "^15.7.2",
     "pubsub-js": "^1.9.2",
     "react": "^17.0.1",

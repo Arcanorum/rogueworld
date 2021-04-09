@@ -636,7 +636,7 @@
   iconSource: icon-dungium-hatchet
   category: Hatchet
   unitWeight: GatheringTool
-  baseDurability: 50
+  baseDurability: 45
   craftTasks:
     - Hatchets
 
@@ -652,7 +652,7 @@
   iconSource: icon-dungium-pickaxe
   category: Pickaxe
   unitWeight: GatheringTool
-  baseDurability: 50
+  baseDurability: 45
   craftTasks:
     - Pickaxes
 
@@ -820,7 +820,7 @@
   iconSource: icon-noctis-hatchet
   category: Hatchet
   unitWeight: GatheringTool
-  baseDurability: 40
+  baseDurability: 50
   craftTasks:
     - Hatchets
 
@@ -836,7 +836,7 @@
   iconSource: icon-noctis-pickaxe
   category: Pickaxe
   unitWeight: GatheringTool
-  baseDurability: 40
+  baseDurability: 50
   craftTasks:
     - Pickaxes
 

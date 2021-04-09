@@ -3,6 +3,7 @@ const Panels = {
     CreateAccount: Symbol("CreateAccount"),
     Account: Symbol("Account"),
     Settings: Symbol("Settings"),
+    ChangeName: Symbol("ChangeName"),
     Respawn: Symbol("Respawn"),
     Dungeon: Symbol("Dungeon"),
     Stats: Symbol("Stats"),

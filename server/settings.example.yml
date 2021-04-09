@@ -22,6 +22,12 @@ FULL_DAY_DURATION_MINUTES: 24
 # Will make any dungeons that require key drops for locked doors impossible to complete.
 DISABLE_SPAWNER_AREAS: false
 
+# How long the player character name can be.
+MAX_CHARACTER_DISPLAY_NAME_LENGTH: 20
+
+# How long the player account username can be for new accounts.
+MAX_ACCOUNT_USERNAME_LENGTH: 50
+
 # The board (map) to spawn players onto.
 # Must be an existing, permanent instance, not a dynamically added
 # board like for dungeons, which are created on demand.
@@ -92,6 +98,9 @@ STARTER_BANK_ITEMS:
   - itemName: IronSword
   - itemName: IronHatchet
   - itemName: IronPickaxe
+
+# How much glory it costs for a player to change their character display name.
+DISPLAY_NAME_CHANGE_COST: 1000
 
 # How much to change the price of an NPC shop item by each time it is bought, so it can become more
 # expensive to buy if bought frequently. Cumulative. Slowly returns back to the base price for that

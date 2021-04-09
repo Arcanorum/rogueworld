@@ -36,6 +36,7 @@ import Hotbar from "./hotbar/Hotbar";
 import CraftingPanel from "./panels/crafting/CraftingPanel";
 import BankPanel from "./panels/bank/BankPanel";
 import ShopPanel from "./panels/shop/ShopPanel";
+import ChangeNamePanel from "./panels/change_name/ChangeNamePanel";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -179,6 +180,11 @@ function GUI() {
                 )}
                 {shownPanel === Panels.Settings && (
                 <SettingsPanel
+                  onCloseCallback={closePanelCallback}
+                />
+                )}
+                {shownPanel === Panels.ChangeName && (
+                <ChangeNamePanel
                   onCloseCallback={closePanelCallback}
                 />
                 )}

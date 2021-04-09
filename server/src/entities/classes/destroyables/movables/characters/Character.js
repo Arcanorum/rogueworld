@@ -8,7 +8,6 @@ class Character extends Movable {
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
-     * @param {String} config.displayName
      * @param {Number} config.maxHitPoints
      * @param {Number} config.maxEnergy
      * @param {Number} config.energyRegenRate - How often this character regenerates energy, in ms.
@@ -17,8 +16,6 @@ class Character extends Movable {
         super(config);
 
         this.hitPoints = this.maxHitPoints;
-
-        this.displayName = config.displayName || "";
 
         this.statusEffects = {};
 
@@ -42,25 +39,18 @@ class Character extends Movable {
         if (damage.canAffectTarget(this) === false) return;
 
         // Apply the damage reduction multiplier from defence bonuses.
-        // console.log("char ondamage, damage:", damage.amount);
         if (this.defence >= 0) {
-            // console.log("has defence:", this.defence);
             let effectiveDefence = this.defence;
             if (damage.armourPiercing > 0) {
                 const apPercentage = damage.armourPiercing / 100;
                 effectiveDefence = this.defence - (this.defence * apPercentage);
-                // console.log("  armour piercing:", apPercentage);
             }
-            // console.log("effective defence:", effectiveDefence);
             const multipler = (100 / (100 + effectiveDefence));
             damage.amount *= multipler;
-            // console.log("  after mod:", damage.amount);
         }
         // Negative defence means bonus damage multiplier.
         else {
-            // console.log("no defence");
             damage.amount *= (2 - (100 / (100 - (this.defence))));
-            // console.log("  after mod:", damage.amount);
         }
 
         // Minimum damage is 1.
@@ -115,7 +105,6 @@ class Character extends Movable {
 
     getEmittableProperties(properties) {
         properties.direction = this.direction;
-        properties.displayName = this.displayName;
         properties.moveRate = this.moveRate;
         return super.getEmittableProperties(properties);
     }
@@ -215,7 +204,6 @@ class Character extends Movable {
 
         // Check for any projectiles they might be now colliding with.
         Object.values(destroyables).forEach((destroyable) => {
-            // console.log("postmove intersecting a destroyable:", typeof destroyable);
             if (destroyable instanceof EntitiesList.AbstractClasses.Projectile) {
                 // Might be some recursion going on with being pushed between two projectiles
                 // (i.e. winds, hammers), so don't keep the cycle going if collisions for things

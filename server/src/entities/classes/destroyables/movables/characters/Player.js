@@ -13,6 +13,7 @@ const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../../gameplay/ModHitPointConfigs").PlayerMelee;
 const CraftingRecipesList = require("../../../../../crafting/CraftingRecipesList");
 const ItemConfig = require("../../../../../inventory/ItemConfig");
+const EventsList = require("../../../../../EventsList");
 
 class Player extends Character {
     /**
@@ -20,6 +21,7 @@ class Player extends Character {
      * @param {Number} config.col
      * @param {Board} config.board
      * @param {Object} config.socket
+     * @param {String} config.displayName
      */
     constructor(config) {
         super(config);
@@ -34,6 +36,8 @@ class Player extends Character {
         this.inventory = new Inventory(this);
         this.bank = new Bank(this);
         this.bornTime = Date.now();
+
+        this.displayName = config.displayName || "";
 
         /**
          * The entrance that this player entity will respawn into.
@@ -167,6 +171,7 @@ class Player extends Character {
 
     getEmittableProperties(properties) {
         if (this.clothing !== null) properties.clothingTypeCode = this.clothing.typeCode;
+        properties.displayName = this.displayName;
         return super.getEmittableProperties(properties);
     }
 
@@ -337,6 +342,26 @@ class Player extends Character {
             playerCol: this.col,
             dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col),
         });
+    }
+
+    setDisplayName(displayName) {
+        this.displayName = displayName;
+
+        // Tell every other nearby player the new name of player's character.
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            EventsList.change_display_name,
+            {
+                displayName,
+                entityId: this.id,
+            },
+        );
+
+        // If they already have an account, save the new display name.
+        if (this.socket.account) {
+            this.socket.account.displayName = displayName;
+        }
     }
 
     modGlory(amount) {

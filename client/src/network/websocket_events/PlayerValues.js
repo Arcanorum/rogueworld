@@ -44,6 +44,18 @@ export default () => {
         dungeonz.gameScene.tilemap.updateDarknessGrid();
     };
 
+    eventResponses.change_display_name = (data) => {
+        // If it the name changed for this player, then update their state.
+        if (data.entityId === PlayerState.entityID) {
+            PlayerState.setDisplayName(data.displayName);
+        }
+
+        // Update the display name text on the sprite.
+        const dynamic = dungeonz.gameScene.dynamics[data.entityId];
+
+        dynamic.spriteContainer.displayName.setText(data.displayName);
+    };
+
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setEnergy(PlayerState.maxEnergy);

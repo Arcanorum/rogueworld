@@ -25,6 +25,7 @@ import {
     connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
 } from "../../network/ConnectionManager";
 import dungeonz from "../../shared/Global";
+import { ApplicationState } from "../../shared/state/States";
 
 const Languages = [
     { listName: "English", translationId: "English" },
@@ -259,7 +260,7 @@ function LoginPage() {
                                       id="name-input"
                                       className="home-input"
                                       type="text"
-                                      maxLength="20"
+                                      maxLength={ApplicationState.maxDisplayNameLength}
                                       value={newCharacterName}
                                       placeholder={Utils.getTextDef("Name input")}
                                       onKeyDown={inputEnterPressed}
@@ -276,7 +277,11 @@ function LoginPage() {
                                       id="username-input"
                                       className="home-input"
                                       type="text"
-                                      maxLength="50"
+                                      // Max username length might have been lowered since they
+                                      // made the account, so don't be strict about length here,
+                                      // but add some kind of limit so they can't send the entire
+                                      // works of Shakespeare...
+                                      maxLength="100"
                                       value={username}
                                       placeholder={Utils.getTextDef("Username input")}
                                       onKeyDown={inputEnterPressed}

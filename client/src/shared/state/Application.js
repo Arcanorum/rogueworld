@@ -32,6 +32,12 @@ class Application {
         this.loadAccepted = true;
 
         this.loggedIn = false;
+
+        this.maxDisplayNameLength = 0;
+
+        this.maxUsernameLength = 0;
+
+        this.displayNameChangeCost = 0;
     }
 
     setConnecting(value) {

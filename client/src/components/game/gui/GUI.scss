@@ -38,7 +38,7 @@
   .top-left-corner-cont {
     position: absolute;
     display: block;
-    top: 10px;
+    top: 1vh;
     left: 10px;
     pointer-events: none;
     transform-origin: top left;
@@ -69,7 +69,7 @@
   ::-webkit-scrollbar-track {
     background: $colourDB32Grey;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: $colourDB32VeryDarkPurple;
   }

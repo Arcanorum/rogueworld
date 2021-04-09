@@ -8,6 +8,7 @@ const Panels = {
     Stats: Symbol("Stats"),
     Tasks: Symbol("Tasks"),
     Map: Symbol("Map"),
+    Chat: Symbol("Chat"),
     Inventory: Symbol("Inventory"),
     Crafting: Symbol("Crafting"),
     Bank: Symbol("Bank"),

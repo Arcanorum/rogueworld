@@ -56,16 +56,16 @@ class Entity {
      * @param {Entity} [source] - The entity that caused this change.
      */
     modHitPoints(hitPointModifier, source) {
-        const amount = Math.floor(hitPointModifier.amount);
-
-        // Catch non-integer values, or the HP will bug out.
-        if (Number.isInteger(amount) === false) return;
-
         // Make it impossible to change the HP if this entity is destroyed.
         if (this._destroyed === true) return;
 
         // Make sure this is a damagable entity.
         if (this.hitPoints === null) return;
+
+        const amount = Math.floor(hitPointModifier.amount);
+
+        // Catch non-integer values, or the HP will bug out.
+        if (Number.isInteger(amount) === false) return;
 
         // If damaged.
         if (hitPointModifier instanceof Damage) {

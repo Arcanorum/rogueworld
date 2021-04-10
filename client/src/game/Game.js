@@ -228,11 +228,11 @@ class Game extends Phaser.Scene {
             speed: { min: 200, max: 300 },
             angle: { min: 220, max: 320 },
             quantity: { min: 3, max: 7 },
-            lifespan: { min: 400, max: 600 },
-            scale: { min: gameConfig.GAME_SCALE * 0.8, max: gameConfig.GAME_SCALE * 1.2 },
+            lifespan: { min: 1800, max: 2200 },
+            scale: { min: gameConfig.GAME_SCALE * 0.4, max: gameConfig.GAME_SCALE * 0.4 },
             alpha: { start: 1, end: 0 },
             rotate: { min: 0, max: 360 },
-            gravityY: 500,
+            gravityY: 450,
             on: false,
         });
 

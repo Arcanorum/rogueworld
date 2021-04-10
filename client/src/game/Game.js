@@ -220,7 +220,23 @@ class Game extends Phaser.Scene {
         });
 
         damageParticles.setDepth(this.renderOrder.particles);
+        const skillUpParticles = this.add.particles("game-atlas");
 
+        this.skillUpParticleEmitter = skillUpParticles.createEmitter({
+            frame: ["star-particle-01", "star-particle-02", "star-particle-03", "star-particle-04", "star-particle-05"],
+            x: { min: -200, max: 200 },
+            speed: { min: 200, max: 300 },
+            angle: { min: 220, max: 320 },
+            quantity: { min: 3, max: 7 },
+            lifespan: { min: 400, max: 600 },
+            scale: { min: gameConfig.GAME_SCALE * 0.8, max: gameConfig.GAME_SCALE * 1.2 },
+            alpha: { start: 1, end: 0 },
+            rotate: { min: 0, max: 360 },
+            gravityY: 500,
+            on: false,
+        });
+
+        skillUpParticles.setDepth(this.renderOrder.particles);
         // Start an initial background music playing.
         this.soundManager.music.changeBackgroundMusic(
             this.soundManager.music.sounds.location.exploration,

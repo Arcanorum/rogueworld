@@ -1,6 +1,7 @@
 import PubSub from "pubsub-js";
+import { v4 as uuidv4 } from "uuid";
 import dungeonz from "../Global";
-import { NEW_CHAT_MESSAGE } from "../EventTypes";
+import { NEW_CHAT } from "../EventTypes";
 
 class Chat {
     // make sure to modify server/src/WebSocketEvents::eventResponses.chat too
@@ -9,6 +10,9 @@ class Chat {
         GLOBAL: "GLOBAL",
         TRADE: "TRADE",
     };
+
+    // chat limit
+    LIMIT = 500;
 
     /**
      * @param {Application} applicationState
@@ -19,7 +23,7 @@ class Chat {
     }
 
     init() {
-        this.messages = [];
+        this.chats = [];
     }
 
     send(scope, message) {
@@ -28,7 +32,15 @@ class Chat {
 
     addNewChat(data) {
         dungeonz.gameScene.chat(data.id, data.message);
-        PubSub.publish(NEW_CHAT_MESSAGE, data);
+        const newData = { ...data, id: uuidv4() }; // add unique id for react keys
+
+        this.chats = [...this.chats, newData];
+
+        if (this.chats.length > this.LIMIT) {
+            this.chats.shift();
+        }
+
+        PubSub.publish(NEW_CHAT, this.chats);
     }
 }
 

@@ -12,7 +12,7 @@
   width: 30vw;
   min-width: 360px;
   position: absolute;
-  top: 264px;
+  top: 270px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -20,7 +20,6 @@
 
   .chat-tabs-container {
     display: flex;
-    justify-content: flex-end;
     gap: 0.25rem;
   }
 

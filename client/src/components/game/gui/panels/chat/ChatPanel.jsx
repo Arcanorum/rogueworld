@@ -3,22 +3,52 @@ import PropTypes from "prop-types";
 import "./ChatPanel.scss";
 import PubSub from "pubsub-js";
 import {
-    ApplicationState, GUIState, PlayerState, ChatState,
+    GUIState, PlayerState, ChatState,
 } from "../../../../../shared/state/States";
-import { NEW_CHAT_MESSAGE, PANEL_CHANGE } from "../../../../../shared/EventTypes";
+import { NEW_CHAT, PANEL_CHANGE, SHOULD_SCROLL_CHAT } from "../../../../../shared/EventTypes";
 import Panels from "../PanelsEnum";
 import ChatLine from "./ChatLine";
 import ChatSelectScope from "./ChatSelectScope";
 
 function ChatPanel({ onCloseCallback }) {
-    const [chats, appendToChat] = useState([]);
-    const [currentChatScope, setCurrentChatScope] = useState(ChatState.CHAT_SCOPES.LOCAL);
-    const [showSelectScope, setShowSelectScope] = useState(false);
+    const [chats, setChats] = useState(ChatState.chats);
+    const [sendChatScope, setSendChatScope] = useState(ChatState.CHAT_SCOPES.LOCAL);
+    const [showSelectScopeDropdown, setShowSelectScopeDropdown] = useState(false);
     const chatContentsRef = useRef(null);
     const chatInputRef = useRef(null);
+    let autoScroll = true;
+
+    // auto scroll only if user is not scrolling upwards
+    // if user is scrolling upwards it usually means the that user is back reading (auto-scroll = on)
+    // if user scroll all the way down that means the user is done back reading (auto-scroll = off)
+    const registerChatScrollWatcher = () => {
+        let isSent = true;
+        let pendingPublish;
+
+        // throttle this so we don't blow up PubSub when user scrolls
+        // no need to remove eventListener as it is automatically removed
+        chatContentsRef.current.addEventListener("scroll", (e) => {
+            if (isSent === false) clearTimeout(pendingPublish);
+            const {
+                scrollHeight,
+                scrollTop,
+                clientHeight,
+            } = e.target;
+
+            isSent = false;
+            pendingPublish = setTimeout(() => {
+                PubSub.publish(SHOULD_SCROLL_CHAT, scrollHeight - scrollTop === clientHeight);
+                isSent = true;
+            }, 300);
+        });
+    };
 
     const scrollChatToBottom = () => {
-        chatContentsRef.current.scrollTop = chatContentsRef.current.scrollHeight;
+        if (!autoScroll) return;
+        // add some delay to properly scroll down to edge of chats
+        setTimeout(() => {
+            chatContentsRef.current.scrollTop = chatContentsRef.current.scrollHeight;
+        }, 10);
     };
 
     useEffect(() => {
@@ -28,39 +58,41 @@ function ChatPanel({ onCloseCallback }) {
                     chatInputRef.current.focus();
                 }
             }),
-
-            PubSub.subscribe(NEW_CHAT_MESSAGE, (msg, data) => {
-                appendToChat((prevChats) => [...prevChats, data]);
-
-                // add some delay to properly scroll down to edge of chats
-                setTimeout(scrollChatToBottom, 10);
+            PubSub.subscribe(NEW_CHAT, (msg, data) => {
+                setChats(data);
+                scrollChatToBottom();
+            }),
+            PubSub.subscribe(SHOULD_SCROLL_CHAT, (msg, data) => {
+                autoScroll = data;
             }),
         ];
+
+        scrollChatToBottom();
+
+        registerChatScrollWatcher();
 
         return () => {
             subs.forEach((sub) => {
                 PubSub.unsubscribe(sub);
             });
         };
-    });
+    }, []);
 
     const sendChat = (e) => {
         if (e.key === "Enter") {
             const message = e.target.value;
             if (!message) return;
 
-            ChatState.send(currentChatScope, message);
-
-            e.target.value = "";
+            ChatState.send(sendChatScope, message);
         }
     };
 
-    const toggleShowSelectScope = () => {
-        setShowSelectScope((prevVal) => !prevVal);
+    const toggleSelectScopeDropdown = () => {
+        setShowSelectScopeDropdown((prevVal) => !prevVal);
     };
 
-    const closeShowSelectScope = () => {
-        setShowSelectScope(false);
+    const closeSelectScopeDropdown = () => {
+        setShowSelectScopeDropdown(false);
     };
 
     const getScopeColor = (_scope) => {
@@ -78,7 +110,7 @@ function ChatPanel({ onCloseCallback }) {
                 { Object.values(ChatState.CHAT_SCOPES).map((_scope) => (
                     <p key={_scope} className={`chat-tab ${getScopeColor(_scope)}`}>{_scope}</p>))}
             </div>
-            <div className="chat-contents" ref={chatContentsRef} onClick={closeShowSelectScope}>
+            <div className="chat-contents" ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
                 { chats.map((chat) => (
                     <ChatLine
                       key={chat.id}
@@ -90,13 +122,13 @@ function ChatPanel({ onCloseCallback }) {
                 )) }
             </div>
             <div className="chat-box-container">
-                <p className={`player-name ${getScopeColor(currentChatScope)}`} onClick={toggleShowSelectScope}>{ `${PlayerState.displayName}:` }</p>
-                <input type="text" className="chat-box-input" maxLength={255} autoFocus autoComplete="off" onKeyDown={sendChat} ref={chatInputRef} />
+                <p className={`player-name ${getScopeColor(sendChatScope)}`} onClick={toggleSelectScopeDropdown}>{ `${PlayerState.displayName}:` }</p>
+                <input type="text" className="chat-box-input" onKeyDown={sendChat} ref={chatInputRef} maxLength={255} autoFocus autoComplete="off" />
             </div>
-            { showSelectScope && (
+            { showSelectScopeDropdown && (
             <ChatSelectScope
-              setCurrentChatScope={setCurrentChatScope}
-              closeShowSelectScope={closeShowSelectScope}
+              setSendChatScope={setSendChatScope}
+              closeSelectScopeDropdown={closeSelectScopeDropdown}
             />
             ) }
         </div>

@@ -119,6 +119,7 @@ function ChatPanel({ onCloseCallback }) {
             setSendChatScope(_scope);
         }
         setViewChatScope(_scope);
+        scrollChatToBottom();
     };
 
     const filteredChats = () => {

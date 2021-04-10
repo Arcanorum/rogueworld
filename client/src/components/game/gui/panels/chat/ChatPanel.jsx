@@ -84,6 +84,8 @@ function ChatPanel({ onCloseCallback }) {
             if (!message) return;
 
             ChatState.send(sendChatScope, message);
+
+            e.target.value = "";
         }
     };
 

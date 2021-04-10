@@ -10,8 +10,11 @@ import Panels from "../PanelsEnum";
 import ChatLine from "./ChatLine";
 import ChatSelectScope from "./ChatSelectScope";
 
+const generalChatScope = "ALL";
+
 function ChatPanel({ onCloseCallback }) {
     const [chats, setChats] = useState(ChatState.chats);
+    const [viewChatScope, setViewChatScope] = useState(generalChatScope);
     const [sendChatScope, setSendChatScope] = useState(ChatState.CHAT_SCOPES.LOCAL);
     const [showSelectScopeDropdown, setShowSelectScopeDropdown] = useState(false);
     const chatContentsRef = useRef(null);
@@ -106,25 +109,52 @@ function ChatPanel({ onCloseCallback }) {
         if (_scope === ChatState.CHAT_SCOPES.GLOBAL) return "global";
         if (_scope === ChatState.CHAT_SCOPES.TRADE) return "trade";
 
-        throw Error("Chat scope not found");
+        throw Error(`Chat scope ${_scope} not found`);
+    };
+
+    const isActiveTab = (_scope) => (viewChatScope === _scope ? "active" : "");
+
+    const handleChatTabClick = (_scope) => {
+        if (_scope !== generalChatScope) {
+            setSendChatScope(_scope);
+        }
+        setViewChatScope(_scope);
+    };
+
+    const filteredChats = () => {
+        let newChats = chats;
+
+        if (viewChatScope !== generalChatScope) {
+            newChats = newChats.filter((chat) => chat.scope === viewChatScope);
+        }
+
+        return newChats.map((chat) => (
+            <ChatLine
+              key={chat.id}
+              scope={chat.scope}
+              displayName={chat.displayName}
+              message={chat.message}
+              getScopeColor={getScopeColor}
+            />
+        ));
     };
 
     return (
         <div className="chat-container gui-zoomable">
             <div className="chat-tabs-container">
+                <p onClick={(e) => handleChatTabClick(generalChatScope)} className={`chat-tab all ${isActiveTab(generalChatScope)}`}>ALL</p>
                 { Object.values(ChatState.CHAT_SCOPES).map((_scope) => (
-                    <p key={_scope} className={`chat-tab ${getScopeColor(_scope)}`}>{_scope}</p>))}
+                    <p
+                      key={_scope}
+                      onClick={(e) => handleChatTabClick(_scope)}
+                      className={`chat-tab ${getScopeColor(_scope)} ${isActiveTab(_scope)}`}
+                    >
+                        {_scope}
+                    </p>
+                ))}
             </div>
             <div className="chat-contents" ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
-                { chats.map((chat) => (
-                    <ChatLine
-                      key={chat.id}
-                      scope={chat.scope}
-                      displayName={chat.displayName}
-                      message={chat.message}
-                      getScopeColor={getScopeColor}
-                    />
-                )) }
+                {filteredChats()}
             </div>
             <div className="chat-box-container">
                 <p className={`player-name ${getScopeColor(sendChatScope)}`} onClick={toggleSelectScopeDropdown}>{ `${PlayerState.displayName}:` }</p>

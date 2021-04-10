@@ -15,7 +15,7 @@ class Chat {
     LIMIT = 500;
 
     // save unsent chat here so we can render them again
-    pendingChat = ""
+    pendingChat = "";
 
     /**
      * @param {Application} applicationState

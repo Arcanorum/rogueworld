@@ -291,6 +291,7 @@ eventResponses.mv_r = (clientSocket) => {
  * @param {String} data
  */
 eventResponses.chat = (clientSocket, data) => {
+    // Can't use ChatState here 'cause it's located outside module
     const CHAT_SCOPES = {
         LOCAL: "LOCAL",
         GLOBAL: "GLOBAL",
@@ -306,7 +307,12 @@ eventResponses.chat = (clientSocket, data) => {
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
 
-    const dataToBroadCast = { id: entity.id, scope, message };
+    const dataToBroadCast = {
+        id: entity.id,
+        displayName: entity.displayName,
+        scope,
+        message,
+    };
 
     // send global chats
     if (data.scope !== CHAT_SCOPES.LOCAL) {

@@ -1,24 +1,34 @@
-// import PubSub from "pubsub-js";
-// import Utils from "../Utils";
+import PubSub from "pubsub-js";
+import dungeonz from "../Global";
+import { NEW_CHAT_MESSAGE } from "../EventTypes";
 
 class Chat {
-    constructor() {
+    // make sure to modify server/src/WebSocketEvents::eventResponses.chat too
+    CHAT_SCOPES = {
+        LOCAL: "LOCAL",
+        GLOBAL: "GLOBAL",
+        TRADE: "TRADE",
+    };
+
+    /**
+     * @param {Application} applicationState
+     */
+    constructor(applicationState) {
         this.init();
-        this.CHAT_SCOPES = {
-            LOCAL: "LOCAL",
-            GLOBAL: "GLOBAL",
-            TRADE: "TRADE",
-        };
+        this.applicationState = applicationState;
     }
 
     init() {
-        this.chats = [];
+        this.messages = [];
     }
 
-    addChat(chat) {
-        this.chats = [...this.chats, chat];
+    send(scope, message) {
+        this.applicationState.connection.sendEvent("chat", { scope, message });
+    }
 
-        // PubSub.publish(MODIFY_BANK_WEIGHT, { new: value });
+    addNewChat(data) {
+        dungeonz.gameScene.chat(data.id, data.message);
+        PubSub.publish(NEW_CHAT_MESSAGE, data);
     }
 }
 

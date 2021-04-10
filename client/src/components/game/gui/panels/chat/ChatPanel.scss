@@ -1,34 +1,54 @@
 @import "../../../../../shared/Variables";
+// change font if needed
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.chat-container * {
+  margin: 0;
+  padding: 0;
+}
 
 .chat-container {
   font-family: "Roboto", sans-serif;
   width: 30vw;
-  height: 30vh;
-  min-height: 200px;
   min-width: 360px;
   position: absolute;
   top: 264px;
-  background-color: rgba(64, 64, 64, 0.8);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   overflow: hidden;
 
+  .chat-tabs-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .chat-tab {
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.8;
+    background-color: rgb(48, 48, 48);
+    padding: 0.5rem;
+    border-radius: 5px 5px 0 0;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  .chat-tab:hover {
+    opacity: 1;
+  }
+
   .chat-contents {
-    padding: 0 1rem;
+    background-color: rgba(64, 64, 64, 0.8);
+    box-sizing: border-box;
+    padding: 0.5rem 1rem;
     display: flex;
     flex-direction: column;
     max-height: 25vh;
     overflow-y: scroll;
     gap: 0.5rem; // gap between chats
-
-    .chat-text {
-      word-break: break-all;
-      margin: 0;
-      //color: #6ebbd1;
-      color: white;
-    }
+    height: 30vh;
+    min-height: 200px;
   }
 
   .chat-contents::-webkit-scrollbar {
@@ -49,13 +69,31 @@
     }
 
     .player-name {
+      opacity: 0.8;
+      cursor: pointer;
       display: inline-block;
       background-color: black;
-      color: white;
       margin: 0;
-      height: 100%;
       font-weight: bold;
-      padding: 0.25rem 1rem;
+      padding: 0.25rem 0.1rem 0.25rem 1rem;
+      user-select: none;
     }
+
+    .player-name:hover {
+      opacity: 1;
+    }
+  }
+
+  // Scope colors
+  .local {
+    color: $chatLocalScope;
+  }
+
+  .global {
+    color: $chatGlobalScope;
+  }
+
+  .trade {
+    color: $chatTradeScope;
   }
 }

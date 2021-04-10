@@ -12,7 +12,7 @@ import {
 } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
-    CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE, POSITION_VALUE,
+    ENTER_KEY, HITPOINTS_VALUE, POSITION_VALUE,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
@@ -243,12 +243,6 @@ class Game extends Phaser.Scene {
                     );
                 }
             }),
-            PubSub.subscribe(CHAT_OPEN, () => {
-                GUIState.setChatInputStatus(true);
-            }),
-            PubSub.subscribe(CHAT_CLOSE, () => {
-                GUIState.setChatInputStatus(false);
-            }),
             PubSub.subscribe(POSITION_VALUE, (msg, data) => {
                 // Check the music to play.
                 const positionMusicName = this.currentMapMusicZones[`${data.new.row}-${data.new.col}`];
@@ -406,9 +400,7 @@ class Game extends Phaser.Scene {
     }
 
     checkKeyFilters() {
-        // Don't move while the chat input is open.
-        if (GUIState.chatInputStatus) return true;
-        // Or any input has focus
+        // Don't move while an input has focus
         if (document.activeElement.tagName === "INPUT") return true;
         // Or any panel is open.
         if (GUIState.activePanel !== Panels.NONE) {

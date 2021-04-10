@@ -291,19 +291,38 @@ eventResponses.mv_r = (clientSocket) => {
  * @param {String} data
  */
 eventResponses.chat = (clientSocket, data) => {
-    if (!data) return;
+    const CHAT_SCOPES = {
+        LOCAL: "LOCAL",
+        GLOBAL: "GLOBAL",
+        TRADE: "TRADE",
+    };
+
+    if (!data || !data.scope || !data.message) return;
     if (clientSocket.inGame === false) return;
 
+    const { message, scope } = data;
     const { entity } = clientSocket;
 
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
 
+    const dataToBroadCast = { id: entity.id, scope, message };
+
+    // send global chats
+    if (data.scope !== CHAT_SCOPES.LOCAL) {
+        wss.broadcastToInGame(
+            EventsList.chat,
+            dataToBroadCast,
+        );
+        return;
+    }
+
+    // send local chats
     entity.board.emitToNearbyPlayers(
         entity.row,
         entity.col,
         EventsList.chat,
-        { id: entity.id, message: data },
+        dataToBroadCast,
     );
 };
 

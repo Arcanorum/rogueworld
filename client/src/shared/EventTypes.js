@@ -35,9 +35,7 @@ export const TASK_PROGRESS = Symbol("TASK_PROGRESS");
 // Keyboard.
 export const ENTER_KEY = Symbol("ENTER_KEY");
 
-// Chat.
-export const CHAT_CLOSE = Symbol("CHAT_CLOSE");
-export const CHAT_OPEN = Symbol("CHAT_OPEN");
+// Chat
 
 // Inventory.
 export const ADD_INVENTORY_ITEM = Symbol("ADD_INVENTORY_ITEM");

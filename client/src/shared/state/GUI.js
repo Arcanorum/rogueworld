@@ -29,8 +29,6 @@ class GUI {
 
         this.cursorInTopSide = false;
 
-        this.chatInputStatus = false;
-
         this.tooltipContent = null;
 
         this.activePanel = null;
@@ -58,10 +56,6 @@ class GUI {
         else {
             this.cursorInTopSide = false;
         }
-    }
-
-    setChatInputStatus(value) {
-        this.chatInputStatus = value;
     }
 
     setActivePanel(value) {

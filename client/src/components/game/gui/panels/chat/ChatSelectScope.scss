@@ -1,0 +1,25 @@
+.chat-select-scope {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 25px;
+  min-width: 85px;
+  padding: 0.5rem 0;
+
+  .scope-text {
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    user-select: none;
+    opacity: 0.8;
+  }
+
+  .scope-text:hover {
+    opacity: 1;
+  }
+}

@@ -1119,6 +1119,7 @@ Board.createClientBoardData = (dataFileName) => {
         name: dataFileName,
         groundGrid: [],
         staticsGrid: [],
+        musicZones: {},
     };
 
     let tilesData;
@@ -1350,6 +1351,38 @@ Board.createClientBoardData = (dataFileName) => {
             }
             else {
                 // Utils.warning("Entity type doesn't exist for configurable object type: " + type);
+            }
+        });
+    }
+
+    // Check that the music zones layer exists in the map data.
+    layer = findLayer("MusicZones");
+    if (layer) {
+        // This is a object layer, not a tile one, so get the objects data.
+        objectsData = layer.objects;
+
+        // Add the entities to the world.
+        objectsData.forEach((mapObject) => {
+            // console.log("music mapobject:", mapObject);
+
+            if (mapObject.type !== "MusicZone") {
+                Utils.warning("Map object on 'MusicZones' layer is not of type 'MusicZone'. Skipping:", mapObject);
+                return;
+            }
+
+            // Convert the object position in Tiled into a row and column.
+            col = mapObject.x / Board.tileSize;
+            row = mapObject.y / Board.tileSize;
+            const objectRows = mapObject.height / Board.tileSize;
+            const objectCols = mapObject.width / Board.tileSize;
+
+            const objProperties = Utils.arrayToObject(mapObject.properties, "name", "value");
+
+            // Add it to all of the tiles this object covers.
+            for (let rowOffset = 0; rowOffset < objectRows; rowOffset += 1) {
+                for (let colOffset = 0; colOffset < objectCols; colOffset += 1) {
+                    clientData.musicZones[`${row + rowOffset}-${col + colOffset}`] = objProperties.AudioFileName;
+                }
             }
         });
     }

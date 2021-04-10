@@ -14,6 +14,9 @@ class Chat {
     // chat limit
     LIMIT = 500;
 
+    // save unsent chat here so we can render them again
+    pendingChat = ""
+
     /**
      * @param {Application} applicationState
      */
@@ -41,6 +44,10 @@ class Chat {
         }
 
         PubSub.publish(NEW_CHAT, this.chats);
+    }
+
+    setPendingChat(message) {
+        this.pendingChat = message;
     }
 }
 

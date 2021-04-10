@@ -79,6 +79,8 @@ function ChatPanel({ onCloseCallback }) {
     }, []);
 
     const sendChat = (e) => {
+        ChatState.setPendingChat(e.target.value); // not sure if this needs throttling
+
         if (e.key === "Enter") {
             const message = e.target.value;
             if (!message) return;
@@ -86,6 +88,7 @@ function ChatPanel({ onCloseCallback }) {
             ChatState.send(sendChatScope, message);
 
             e.target.value = "";
+            ChatState.setPendingChat("");
         }
     };
 
@@ -125,7 +128,7 @@ function ChatPanel({ onCloseCallback }) {
             </div>
             <div className="chat-box-container">
                 <p className={`player-name ${getScopeColor(sendChatScope)}`} onClick={toggleSelectScopeDropdown}>{ `${PlayerState.displayName}:` }</p>
-                <input type="text" className="chat-box-input" onKeyDown={sendChat} ref={chatInputRef} maxLength={255} autoFocus autoComplete="off" />
+                <input type="text" className="chat-box-input" onKeyDown={sendChat} ref={chatInputRef} defaultValue={ChatState.pendingChat} maxLength={255} autoFocus autoComplete="off" />
             </div>
             { showSelectScopeDropdown && (
             <ChatSelectScope

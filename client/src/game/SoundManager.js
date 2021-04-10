@@ -6,24 +6,44 @@ class Music {
     constructor(state) {
         this.sounds = {
             location: {
-                exploration: state.sound.add("exploration-theme"),
+                "exploration-theme": state.sound.add("exploration-theme"),
+                "city-theme": state.sound.add("city-theme"),
+                "blood-halls-theme": state.sound.add("blood-halls-theme"),
+                "desert-overworld-theme": state.sound.add("desert-overworld-theme"),
+                "forest-maze-theme": state.sound.add("forest-maze-theme"),
                 generic2: state.sound.add("generic-theme-2"),
             },
         };
 
-        this.currentBackgroundMusic = this.sounds.location.exploration;
+        this.currentBackgroundMusic = this.sounds.location.generic2;
     }
 
     changeBackgroundMusic(sound) {
-        this.currentBackgroundMusic.stop();
+        const fromMusic = this.currentBackgroundMusic;
+
+        // Fade out the current audio.
+        dungeonz.gameScene.tweens.add({
+            targets: fromMusic,
+            volume: {
+                getStart() {
+                    return 0.5;
+                },
+                getEnd() {
+                    return 0;
+                },
+            },
+            duration: 2000,
+            ease: "Linear",
+            onComplete: () => {
+                fromMusic.stop();
+            },
+        });
 
         sound.play({
             loop: true,
         });
 
         this.currentBackgroundMusic = sound;
-
-        this.currentBackgroundMusic.setVolume(0.5);
 
         // Fade playing the audio in.
         dungeonz.gameScene.tweens.add({
@@ -174,7 +194,7 @@ class SoundManager {
                 }
                 return list;
             }, {});
-        })(require.context("../assets/audio/", true, /.mp3|.ogg$/));
+        })(require.context("../assets/audio/", true, /.mp3|.ogg|.opus$/));
     }
 }
 

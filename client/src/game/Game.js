@@ -313,10 +313,9 @@ class Game extends Phaser.Scene {
             }
         }
 
-        // Show an FPS counter.
-        // if (dungeonz.devMode) {
-        this.fpsText.setText(`FPS:${Math.floor(this.game.loop.actualFps)}`);
-        // }
+        if (GUIState.showFPS) {
+            this.fpsText.setText(`FPS: ${Math.floor(this.game.loop.actualFps)}`);
+        }
     }
 
     shutdown() {

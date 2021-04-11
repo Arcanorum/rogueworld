@@ -157,6 +157,10 @@ function SettingsPanel({ onCloseCallback }) {
 
         setShowFPS(!showFPS);
 
+        if (dungeonz.gameScene.fpsText) {
+            dungeonz.gameScene.fpsText.visible = !showFPS;
+        }
+
         saveSetting("show_fps", !showFPS);
     };
 

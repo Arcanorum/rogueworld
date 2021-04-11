@@ -17,19 +17,19 @@ function ChatSelectScope({ updatePlaceHolder, setSendChatScope, closeSelectScope
               className="scope-text local"
               onClick={() => setChatScope(ChatState.CHAT_SCOPES.LOCAL.value)}
             >
-                Local
+                {ChatState.CHAT_SCOPES.LOCAL.value}
             </p>
             <p
               className="scope-text global"
               onClick={() => setChatScope(ChatState.CHAT_SCOPES.GLOBAL.value)}
             >
-                Global
+                {ChatState.CHAT_SCOPES.GLOBAL.value}
             </p>
             <p
               className="scope-text trade"
               onClick={() => setChatScope(ChatState.CHAT_SCOPES.TRADE.value)}
             >
-                Trade
+                {ChatState.CHAT_SCOPES.TRADE.value}
             </p>
         </div>
     );

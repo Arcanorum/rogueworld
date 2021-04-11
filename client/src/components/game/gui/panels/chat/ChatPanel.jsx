@@ -28,7 +28,7 @@ function ChatPanel({ onCloseCallback }) {
         let isSent = true;
         let pendingPublish;
 
-        // throttle this so we don't blow up PubSub when user scrolls
+        // debounce this so we don't blow up PubSub when user scrolls
         // no need to remove eventListener as it is automatically removed
         chatContentsRef.current.addEventListener("scroll", (e) => {
             if (isSent === false) clearTimeout(pendingPublish);
@@ -54,11 +54,13 @@ function ChatPanel({ onCloseCallback }) {
         }, 10);
     };
 
+    const focusOnChatInput = () => chatInputRef.current.focus();
+
     useEffect(() => {
         const subs = [
             PubSub.subscribe(PANEL_CHANGE, () => {
                 if (GUIState.activePanel === Panels.Chat) {
-                    chatInputRef.current.focus();
+                    focusOnChatInput();
                 }
             }),
             PubSub.subscribe(NEW_CHAT, (msg, data) => {
@@ -82,7 +84,7 @@ function ChatPanel({ onCloseCallback }) {
     }, []);
 
     const sendChat = (e) => {
-        ChatState.setPendingChat(e.target.value); // not sure if this needs throttling
+        ChatState.setPendingChat(e.target.value); // not sure if this needs debouncing
 
         if (e.key === "Enter") {
             const message = e.target.value;
@@ -119,6 +121,7 @@ function ChatPanel({ onCloseCallback }) {
             setSendChatScope(_scope);
         }
         setViewChatScope(_scope);
+        focusOnChatInput();
         scrollChatToBottom();
     };
 
@@ -143,7 +146,12 @@ function ChatPanel({ onCloseCallback }) {
     return (
         <div className="chat-container gui-zoomable">
             <div className="chat-tabs-container">
-                <p onClick={(e) => handleChatTabClick(generalChatScope)} className={`chat-tab all ${isActiveTab(generalChatScope)}`}>ALL</p>
+                <p
+                  onClick={(e) => handleChatTabClick(generalChatScope)}
+                  className={`chat-tab all ${isActiveTab(generalChatScope)}`}
+                >
+                    ALL
+                </p>
                 { Object.values(ChatState.CHAT_SCOPES).map((_scope) => (
                     <p
                       key={_scope}
@@ -158,8 +166,23 @@ function ChatPanel({ onCloseCallback }) {
                 {filteredChats()}
             </div>
             <div className="chat-box-container">
-                <p className={`player-name ${getScopeColor(sendChatScope)}`} onClick={toggleSelectScopeDropdown}>{ `${PlayerState.displayName}:` }</p>
-                <input type="text" className="chat-box-input" onKeyDown={sendChat} ref={chatInputRef} defaultValue={ChatState.pendingChat} maxLength={255} autoFocus autoComplete="off" />
+                <p
+                  className={`player-name ${getScopeColor(sendChatScope)}`}
+                  onClick={toggleSelectScopeDropdown}
+                >
+                    { `${PlayerState.displayName}:` }
+                </p>
+                <input
+                  type="text"
+                  className={`chat-box-input ${getScopeColor(sendChatScope)}`}
+                  placeholder="type message..."
+                  onKeyDown={sendChat}
+                  ref={chatInputRef}
+                  defaultValue={ChatState.pendingChat}
+                  maxLength={255}
+                  autoFocus
+                  autoComplete="off"
+                />
             </div>
             { showSelectScopeDropdown && (
             <ChatSelectScope

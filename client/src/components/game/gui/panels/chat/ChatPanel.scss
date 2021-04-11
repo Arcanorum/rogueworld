@@ -34,8 +34,26 @@
     font-weight: bold;
 
     &.active {
-      border-top: 3px solid #8c00c6;
       opacity: 1;
+      border-top-width: 3px;
+      border-top-style: solid;
+
+      // active tab colors
+      &.all {
+        border-top-color: $chatGeneralScope;
+      }
+
+      &.local {
+        border-top-color: $chatLocalScope;
+      }
+
+      &.global {
+        border-top-color: $chatGlobalScope;
+      }
+
+      &.trade {
+        border-top-color: $chatTradeScope;
+      }
     }
   }
 
@@ -67,7 +85,6 @@
       opacity: 0.9;
       flex-grow: 1;
       background-color: black;
-      color: white;
       border: none;
       outline: none;
       font-size: 1.1rem;
@@ -81,7 +98,7 @@
       background-color: black;
       margin: 0;
       font-weight: bold;
-      padding: 0.25rem 0.1rem 0.25rem 1rem;
+      padding: 0.25rem 0.25rem 0.25rem 1rem;
       user-select: none;
     }
 
@@ -91,6 +108,10 @@
   }
 
   // Scope colors
+  .all {
+    color: $chatGeneralScope;
+  }
+
   .local {
     color: $chatLocalScope;
   }

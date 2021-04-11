@@ -222,6 +222,7 @@ class Game extends Phaser.Scene {
         });
 
         damageParticles.setDepth(this.renderOrder.particles);
+
         const skillUpParticles = this.add.particles("game-atlas");
 
         this.skillUpParticleEmitter = skillUpParticles.createEmitter({

@@ -109,6 +109,25 @@
     .player-name:hover {
       opacity: 1;
     }
+
+    .send-btn {
+      background-color: transparent;
+      outline: none;
+      border: none;
+      min-width: 48px;
+      max-height: 27px;
+      width: 10%;
+      cursor: pointer;
+    }
+
+    .send-btn-icon {
+      height: 100%;
+      width: 100%;
+    }
+
+    .send-btn:active {
+      transform: scale(0.9);
+    }
   }
 
   // Scope colors

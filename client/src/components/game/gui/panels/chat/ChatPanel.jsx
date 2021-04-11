@@ -9,6 +9,7 @@ import { NEW_CHAT, PANEL_CHANGE, SHOULD_SCROLL_CHAT } from "../../../../../share
 import Panels from "../PanelsEnum";
 import ChatLine from "./ChatLine";
 import ChatSelectScope from "./ChatSelectScope";
+import enterChatIcon from "../../../../../assets/images/gui/panels/chat/enter-chat-icon.png";
 
 function ChatPanel({ onCloseCallback }) {
     const [chats, setChats] = useState(ChatState.chats);
@@ -81,19 +82,27 @@ function ChatPanel({ onCloseCallback }) {
         };
     }, []);
 
+    const sendChat = () => {
+        const message = chatInputRef.current.value;
+
+        if (!message) return;
+
+        ChatState.send(sendChatScope, message);
+
+        ChatState.setPendingChat("");
+
+        chatInputRef.current.value = "";
+    };
+
     const handleChatInputChange = (e) => {
-        ChatState.setPendingChat(e.target.value); // not sure if this needs debouncing
+        ChatState.setPendingChat(e.target.value);
 
         if (e.key === "Enter") {
-            const message = e.target.value;
-            if (!message) return;
-
-            ChatState.send(sendChatScope, message);
-
-            e.target.value = "";
-            ChatState.setPendingChat("");
+            sendChat();
         }
     };
+
+    const handleSendBtnClick = () => sendChat();
 
     const toggleSelectScopeDropdown = () => {
         setShowSelectScopeDropdown((prevVal) => !prevVal);
@@ -186,6 +195,9 @@ function ChatPanel({ onCloseCallback }) {
                   autoFocus
                   autoComplete="off"
                 />
+                <button type="button" className="send-btn" onClick={handleSendBtnClick}>
+                    <img className="send-btn-icon" src={enterChatIcon} alt="send" />
+                </button>
             </div>
             { showSelectScopeDropdown && (
             <ChatSelectScope

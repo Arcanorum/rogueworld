@@ -91,6 +91,11 @@
       letter-spacing: 0.05rem;
     }
 
+    .arrow {
+      font-weight: lighter;
+      opacity: 0.4;
+    }
+
     .player-name {
       opacity: 0.8;
       cursor: pointer;
@@ -98,7 +103,7 @@
       background-color: black;
       margin: 0;
       font-weight: bold;
-      padding: 0.25rem 0.25rem 0.25rem 1rem;
+      padding: 0.25rem 0.25rem 0.25rem 1px;
       user-select: none;
     }
 

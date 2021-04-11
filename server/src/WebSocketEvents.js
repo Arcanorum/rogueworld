@@ -299,6 +299,7 @@ eventResponses.chat = (clientSocket, data) => {
     };
 
     if (!data || !data.scope || !data.message) return;
+    if (data.message.length > 255) return;
     if (clientSocket.inGame === false) return;
 
     const { message, scope } = data;

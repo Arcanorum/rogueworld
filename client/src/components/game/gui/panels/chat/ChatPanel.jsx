@@ -170,6 +170,7 @@ function ChatPanel({ onCloseCallback }) {
                   className={`player-name ${getScopeColor(sendChatScope)}`}
                   onClick={toggleSelectScopeDropdown}
                 >
+                    <span className="arrow">{`${showSelectScopeDropdown ? "⬇" : "⬆"}`}</span>
                     { `${PlayerState.displayName}:` }
                 </p>
                 <input

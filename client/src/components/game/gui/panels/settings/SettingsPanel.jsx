@@ -8,9 +8,8 @@ import plusIcon from "../../../../../assets/images/gui/hud/plus-icon.png";
 import minusIcon from "../../../../../assets/images/gui/hud/minus-icon.png";
 import Utils from "../../../../../shared/Utils";
 import "./SettingsPanel.scss";
-import gameConfig from "../../../../../shared/GameConfig";
 import dungeonz from "../../../../../shared/Global";
-import { GUIState } from "../../../../../shared/state/States";
+import { GUIState, InventoryState } from "../../../../../shared/state/States";
 
 function MinusButton({ state, setter }) {
     return (
@@ -53,7 +52,10 @@ function SettingsPanel({ onCloseCallback }) {
     const [musicVolume, setMusicVolume] = useState(GUIState.musicVolume);
     const [effectsVolume, setEffectsVolume] = useState(GUIState.effectsVolume);
     const [guiScale, setGUIScale] = useState(GUIState.guiScale);
-    const [autoAddToHotbar, setAutoAddToHotbar] = useState(GUIState.autoAddToHotbar);
+    const [autoAddToHotbar, setAutoAddToHotbar] = useState(InventoryState.autoAddToHotbar);
+    const [profanityFilterEnabled, setProfanityFilterEnabled] = useState(
+        GUIState.profanityFilterEnabled,
+    );
     const [lightFlickerEnabled, setLightFlickerEnabled] = useState(GUIState.lightFlickerEnabled);
     const [showFPS, setShowFPS] = useState(GUIState.showFPS);
 
@@ -76,34 +78,11 @@ function SettingsPanel({ onCloseCallback }) {
         }
 
         setFullscreen(!dungeonz.gameScene.scale.isFullscreen);
-    };
 
-    const onLightFlickerTogglePressed = () => {
-        GUIState.lightFlickerEnabled = !lightFlickerEnabled;
-
-        setLightFlickerEnabled(!lightFlickerEnabled);
-
-        saveSetting("light_flicker_enabled", !lightFlickerEnabled);
-    };
-
-    const onAutoAddToHotbarTogglePressed = () => {
-        GUIState.autoAddToHotbar = !autoAddToHotbar;
-
-        setAutoAddToHotbar(!autoAddToHotbar);
-
-        saveSetting("auto_add_to_hotbar", !autoAddToHotbar);
-    };
-
-    const onShowFPSTogglePressed = () => {
-        GUIState.showFPS = !showFPS;
-
-        setAutoAddToHotbar(!showFPS);
-
-        saveSetting("show_fps", !autoAddToHotbar);
+        // Don't save fullscreen setting. They should choose if they want to go fullscreen every time they play.
     };
 
     useEffect(() => {
-        console.log("musicVolume effect:", musicVolume);
         if (musicVolume > 200) {
             setMusicVolume(200);
         }
@@ -115,7 +94,6 @@ function SettingsPanel({ onCloseCallback }) {
     }, [musicVolume]);
 
     useEffect(() => {
-        console.log("effectsVolume effect:", effectsVolume);
         if (effectsVolume > 200) {
             setEffectsVolume(200);
         }
@@ -127,7 +105,6 @@ function SettingsPanel({ onCloseCallback }) {
     }, [effectsVolume]);
 
     useEffect(() => {
-        console.log("guiscale effect:", guiScale);
         if (guiScale > 200) {
             setGUIScale(200);
         }
@@ -144,6 +121,38 @@ function SettingsPanel({ onCloseCallback }) {
 
         saveSetting("gui_scale", guiScale);
     }, [guiScale]);
+
+    const onAutoAddToHotbarTogglePressed = () => {
+        GUIState.autoAddToHotbar = !autoAddToHotbar;
+
+        setAutoAddToHotbar(!autoAddToHotbar);
+
+        saveSetting("auto_add_to_hotbar", !autoAddToHotbar);
+    };
+
+    const onProfanityFilterTogglePressed = () => {
+        GUIState.profanityFilterEnabled = !profanityFilterEnabled;
+
+        setProfanityFilterEnabled(!profanityFilterEnabled);
+
+        saveSetting("profanity_filter_enabled", !profanityFilterEnabled);
+    };
+
+    const onLightFlickerTogglePressed = () => {
+        GUIState.lightFlickerEnabled = !lightFlickerEnabled;
+
+        setLightFlickerEnabled(!lightFlickerEnabled);
+
+        saveSetting("light_flicker_enabled", !lightFlickerEnabled);
+    };
+
+    const onShowFPSTogglePressed = () => {
+        GUIState.showFPS = !showFPS;
+
+        setShowFPS(!showFPS);
+
+        saveSetting("show_fps", !showFPS);
+    };
 
     return (
         <div className="settings-panel centered panel-template-cont">
@@ -203,10 +212,25 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
+                            <span className="high-contrast-text description">Chat profanity filter</span>
+                            <div className="action">
+                                <img
+                                  src={
+                                      profanityFilterEnabled
+                                          ? toggleActiveIcon
+                                          : toggleInactiveIcon
+                                    }
+                                  className="button"
+                                  draggable={false}
+                                  onClick={onProfanityFilterTogglePressed}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
                             <span className="high-contrast-text description">Light flicker</span>
                             <div className="action">
                                 <img
-                                  src={fullscreen ? toggleActiveIcon : toggleInactiveIcon}
+                                  src={lightFlickerEnabled ? toggleActiveIcon : toggleInactiveIcon}
                                   className="button"
                                   draggable={false}
                                   onClick={onLightFlickerTogglePressed}
@@ -217,10 +241,10 @@ function SettingsPanel({ onCloseCallback }) {
                             <span className="high-contrast-text description">Show FPS</span>
                             <div className="action">
                                 <img
-                                  src={autoAddToHotbar ? toggleActiveIcon : toggleInactiveIcon}
+                                  src={showFPS ? toggleActiveIcon : toggleInactiveIcon}
                                   className="button"
                                   draggable={false}
-                                  onClick={onAutoAddToHotbarTogglePressed}
+                                  onClick={onShowFPSTogglePressed}
                                 />
                             </div>
                         </div>

@@ -72,12 +72,19 @@ class Boot extends Phaser.Scene {
             window.focus();
         }, false);
 
-        // If not on desktop, enable the virtual D-pad.
-        gameConfig.virtualDPadEnabled = !dungeonz.gameScene.sys.game.device.os.desktop;
-
         // Load any previous settings on this device.
+        const musicVolume = JSON.parse(localStorage.getItem("music_volume"));
+        if (typeof musicVolume === "number") {
+            GUIState.musicVolume = musicVolume;
+        }
+
+        const effectsVolume = JSON.parse(localStorage.getItem("effects_volume"));
+        if (typeof effectsVolume === "number") {
+            GUIState.effectsVolume = effectsVolume;
+        }
+
         const guiScale = JSON.parse(localStorage.getItem("gui_scale"));
-        if (guiScale) {
+        if (typeof guiScale === "number") {
             GUIState.guiScale = guiScale;
 
             const style = Utils.getStyle(".gui-scalable");
@@ -88,34 +95,33 @@ class Boot extends Phaser.Scene {
             }
         }
 
-        const musicVolume = JSON.parse(localStorage.getItem("music_volume"));
-        if (musicVolume) {
-            GUIState.musicVolume = musicVolume;
-        }
-
-        const effectsVolume = JSON.parse(localStorage.getItem("effects_volume"));
-        if (effectsVolume) {
-            GUIState.effectsVolume = effectsVolume;
-        }
-
         const virtualDPadEnabled = JSON.parse(localStorage.getItem("virtual_d_pad_enabled"));
-        if (virtualDPadEnabled) {
+        if (typeof virtualDPadEnabled === "boolean") {
             GUIState.virtualDPadEnabled = virtualDPadEnabled;
+        }
+        else {
+            // If not on desktop, enable the virtual D-pad.
+            GUIState.virtualDPadEnabled = !dungeonz.gameScene.sys.game.device.os.desktop;
+        }
+
+        const autoAddToHotbar = JSON.parse(localStorage.getItem("auto_add_to_hotbar"));
+        if (typeof autoAddToHotbar === "boolean") {
+            InventoryState.autoAddToHotbar = autoAddToHotbar;
+        }
+
+        const profanityFilterEnabled = JSON.parse(localStorage.getItem("profanity_filter_enabled"));
+        if (typeof profanityFilterEnabled === "boolean") {
+            GUIState.profanityFilterEnabled = profanityFilterEnabled;
         }
 
         const lightFlickerEnabled = JSON.parse(localStorage.getItem("light_flicker_enabled"));
-        if (lightFlickerEnabled) {
+        if (typeof lightFlickerEnabled === "boolean") {
             GUIState.lightFlickerEnabled = lightFlickerEnabled;
         }
 
         const showFPS = JSON.parse(localStorage.getItem("show_fps"));
-        if (showFPS) {
+        if (typeof showFPS === "boolean") {
             GUIState.showFPS = showFPS;
-        }
-
-        const autoAddToHotbar = JSON.parse(localStorage.getItem("auto_add_to_hotbar"));
-        if (autoAddToHotbar) {
-            InventoryState.autoAddToHotbar = autoAddToHotbar;
         }
 
         if (dungeonz.devMode === false) {

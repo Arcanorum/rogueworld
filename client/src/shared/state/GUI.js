@@ -66,6 +66,12 @@ class GUI {
         this.showFPS = false;
 
         /**
+         * Whether profanity in chat messages from other players should be censored.
+         * @type {Boolean}
+         */
+        this.profanityFilterEnabled = true;
+
+        /**
          * Whether tiles on the darkness layer of the tilemap should flicker when affected by a light source.
          * @type {Boolean}
          */

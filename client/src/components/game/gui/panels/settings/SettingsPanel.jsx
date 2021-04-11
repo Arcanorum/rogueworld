@@ -90,6 +90,8 @@ function SettingsPanel({ onCloseCallback }) {
             setMusicVolume(0);
         }
 
+        GUIState.musicVolume = musicVolume;
+
         saveSetting("music_volume", musicVolume);
     }, [musicVolume]);
 
@@ -100,6 +102,8 @@ function SettingsPanel({ onCloseCallback }) {
         else if (effectsVolume < 0) {
             setEffectsVolume(0);
         }
+
+        GUIState.effectsVolume = effectsVolume;
 
         saveSetting("effects_volume", effectsVolume);
     }, [effectsVolume]);
@@ -118,6 +122,8 @@ function SettingsPanel({ onCloseCallback }) {
             style.zoom = guiScale / 100;
             style["-moz-transform"] = `scale(${guiScale / 100})`;
         }
+
+        GUIState.guiScale = guiScale;
 
         saveSetting("gui_scale", guiScale);
     }, [guiScale]);
@@ -159,14 +165,14 @@ function SettingsPanel({ onCloseCallback }) {
             <PanelTemplate
               width="50vw"
               height="80vh"
-              panelName={Utils.getTextDef("Settings panel: name")}
+              panelName={Utils.getTextDef("Settings")}
               icon={settingsIcon}
               onCloseCallback={onCloseCallback}
             >
                 <div className="inner-cont">
                     <div className="rows">
                         <div className="row">
-                            <span className="high-contrast-text description">Fullscreen</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Fullscreen")}</span>
                             <div className="action">
                                 <img
                                   src={fullscreen ? toggleActiveIcon : toggleInactiveIcon}
@@ -177,7 +183,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">Music volume</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Music volume")}</span>
                             <div className="action">
                                 <MinusButton state={musicVolume} setter={setMusicVolume} />
                                 <span className="high-contrast-text value">{`${musicVolume}%`}</span>
@@ -185,7 +191,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">Effects volume</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Effects volume")}</span>
                             <div className="action">
                                 <MinusButton state={effectsVolume} setter={setEffectsVolume} />
                                 <span className="high-contrast-text value">{`${effectsVolume}%`}</span>
@@ -193,7 +199,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">GUI scale</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: GUI scale")}</span>
                             <div className="action">
                                 <MinusButton state={guiScale} setter={setGUIScale} />
                                 <span className="high-contrast-text value">{`${guiScale}%`}</span>
@@ -201,7 +207,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">Add picked up items to hotbar</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Add to hotbar")}</span>
                             <div className="action">
                                 <img
                                   src={autoAddToHotbar ? toggleActiveIcon : toggleInactiveIcon}
@@ -212,7 +218,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">Chat profanity filter</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Profanity filter")}</span>
                             <div className="action">
                                 <img
                                   src={
@@ -227,7 +233,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">Light flicker</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Light flicker")}</span>
                             <div className="action">
                                 <img
                                   src={lightFlickerEnabled ? toggleActiveIcon : toggleInactiveIcon}
@@ -238,7 +244,7 @@ function SettingsPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="row">
-                            <span className="high-contrast-text description">Show FPS</span>
+                            <span className="high-contrast-text description">{Utils.getTextDef("Setting: Show FPS")}</span>
                             <div className="action">
                                 <img
                                   src={showFPS ? toggleActiveIcon : toggleInactiveIcon}

@@ -223,6 +223,24 @@ class Game extends Phaser.Scene {
 
         damageParticles.setDepth(this.renderOrder.particles);
 
+        const skillUpParticles = this.add.particles("game-atlas");
+
+        this.skillUpParticleEmitter = skillUpParticles.createEmitter({
+            frame: ["star-particle-01", "star-particle-02", "star-particle-03", "star-particle-04", "star-particle-05"],
+            x: { min: -200, max: 200 },
+            speed: { min: 200, max: 300 },
+            angle: { min: 220, max: 320 },
+            quantity: { min: 3, max: 7 },
+            lifespan: { min: 1800, max: 2200 },
+            scale: { min: gameConfig.GAME_SCALE * 0.4, max: gameConfig.GAME_SCALE * 0.4 },
+            alpha: { start: 1, end: 0 },
+            rotate: { min: 0, max: 360 },
+            gravityY: 450,
+            on: false,
+        });
+
+        skillUpParticles.setDepth(this.renderOrder.particles);
+
         // Add the websocket event responses after the game state is started.
         addGameEventResponses();
 
@@ -841,7 +859,7 @@ class Game extends Phaser.Scene {
             }
         }
 
-        const chatText = dungeonz.gameScene.add.text(0, -12, message, style);
+        const chatText = dungeonz.gameScene.add.text(0, -16, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);
         chatText.setOrigin(0.5);

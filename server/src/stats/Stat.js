@@ -65,7 +65,12 @@ class Stat {
     }
 
     gainExp(amount) {
-        this.exp += amount;
+        if (!Number.isInteger(amount)) {
+            Utils.warning("Stat.gainExp is not an integer:", amount);
+            console.trace();
+        }
+
+        this.exp = Math.floor(this.exp + amount);
 
         this.player.socket.sendEvent(EventsList.exp_gained, { statName: this.name, exp: this.exp });
 

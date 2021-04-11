@@ -282,6 +282,12 @@ class Player extends Character {
      * @param {Entity} damagedBy
      */
     damage(damage, damagedBy) {
+        // If they are already dead, don't damage them again.
+        // Might have been killed before this method is called.
+        // e.g. a player gets pushed (wind, hammer, etc.) into a damage source (i.e. floor spikes) while
+        // on 1 HP, which kills them, then they are damaged, at which point they are already dead.
+        if (this.hitPoints <= 0) return;
+
         if (damagedBy !== undefined && damagedBy !== null) {
             // If damaged by another player in a safe zone, ignore the damage.
             if (damagedBy instanceof Player) {

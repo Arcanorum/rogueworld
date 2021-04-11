@@ -1,6 +1,7 @@
 import PubSub from "pubsub-js";
 import gameConfig from "../../shared/GameConfig";
 import { DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
+import gameConfig from "../../shared/GameConfig";
 import dungeonz from "../../shared/Global";
 import { PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
@@ -10,6 +11,8 @@ export default () => {
         // console.log("change board, data:", data);
         dungeonz.gameScene.dynamicsData = data.dynamicsData;
         dungeonz.gameScene.boardAlwaysNight = data.boardAlwaysNight;
+
+        dungeonz.gameScene.currentMapMusicZones = gameConfig.mapsData[data.boardName].musicZones;
 
         PlayerState.setRow(data.playerRow);
         PlayerState.setCol(data.playerCol);
@@ -60,10 +63,6 @@ export default () => {
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setEnergy(PlayerState.maxEnergy);
-
-        dungeonz.gameScene.soundManager.music.changeBackgroundMusic(
-            dungeonz.gameScene.soundManager.music.sounds.location.exploration,
-        );
     };
 
     eventResponses.hit_point_value = (data) => {

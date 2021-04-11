@@ -842,7 +842,7 @@ class Game extends Phaser.Scene {
             }
         }
 
-        const chatText = dungeonz.gameScene.add.text(0, -12, message, style);
+        const chatText = dungeonz.gameScene.add.text(0, -16, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);
         chatText.setOrigin(0.5);

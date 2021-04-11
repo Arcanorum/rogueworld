@@ -12,7 +12,7 @@ import {
 } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
-    CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE,
+    CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE, POSITION_VALUE,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
@@ -39,6 +39,8 @@ class Game extends Phaser.Scene {
          * @type {String}
          */
         this.currentBoardName = data.boardName;
+
+        this.currentMapMusicZones = gameConfig.mapsData[this.currentBoardName].musicZones;
 
         this.boardAlwaysNight = data.boardAlwaysNight;
 
@@ -221,11 +223,6 @@ class Game extends Phaser.Scene {
 
         damageParticles.setDepth(this.renderOrder.particles);
 
-        // Start an initial background music playing.
-        this.soundManager.music.changeBackgroundMusic(
-            this.soundManager.music.sounds.location.exploration,
-        );
-
         // Add the websocket event responses after the game state is started.
         addGameEventResponses();
 
@@ -251,6 +248,24 @@ class Game extends Phaser.Scene {
             }),
             PubSub.subscribe(CHAT_CLOSE, () => {
                 GUIState.setChatInputStatus(false);
+            }),
+            PubSub.subscribe(POSITION_VALUE, (msg, data) => {
+                // Check the music to play.
+                const positionMusicName = this.currentMapMusicZones[`${data.new.row}-${data.new.col}`];
+
+                // Nothing to play here, keep playing whatever is currently playing.
+                if (!positionMusicName) return;
+
+                const positionMusic = this.soundManager.music.sounds.location[positionMusicName];
+
+                // Check the music to play is in the sound manager.
+                if (!positionMusic) return;
+
+                // If it is the same song, don't bother changing it.
+                if (positionMusic === this.soundManager.music.currentBackgroundMusic) return;
+
+                // Start the new music playing.
+                this.soundManager.music.changeBackgroundMusic(positionMusic);
             }),
         ];
 

@@ -5,11 +5,7 @@ import { NEW_CHAT } from "../EventTypes";
 
 class Chat {
     // make sure to modify server/src/WebSocketEvents::eventResponses.chat too
-    CHAT_SCOPES = {
-        LOCAL: "LOCAL",
-        GLOBAL: "GLOBAL",
-        TRADE: "TRADE",
-    };
+    CHAT_SCOPES;
 
     generalChatScope = "ALL";
 
@@ -17,41 +13,84 @@ class Chat {
     LIMIT = 500;
 
     // save unsent chat here so we can render them again
-    pendingChat = "";
+    pendingChat;
 
     // save last selected tab here
-    tabScope = this.generalChatScope;
+    tabScope;
 
     // save last selected chat scope here
-    chatScope = this.CHAT_SCOPES.LOCAL;
+    chatScope;
 
     /**
      * @param {Application} applicationState
+     * @param {Player} playerState
      */
-    constructor(applicationState) {
+    constructor(applicationState, playerState) {
         this.init();
         this.applicationState = applicationState;
+        this.playerState = playerState;
     }
 
     init() {
         this.chats = [];
+        this.pendingChat = "";
+        this.tabScope = this.generalChatScope;
+        this.CHAT_SCOPES = {
+            LOCAL: {
+                value: "LOCAL",
+                cooldownDate: new Date("1970"),
+            },
+            GLOBAL: {
+                value: "GLOBAL",
+                cooldownDate: new Date("1970"),
+            },
+            TRADE: {
+                value: "TRADE",
+                cooldownDate: new Date("1970"),
+            },
+        };
+        this.chatScope = this.CHAT_SCOPES.LOCAL.value;
     }
 
     send(scope, message) {
         this.applicationState.connection.sendEvent("chat", { scope, message });
     }
 
-    addNewChat(data) {
-        dungeonz.gameScene.chat(data.id, data.message);
-        const newData = { ...data, id: uuidv4() }; // add unique id for react keys
+    validateScope(scope) {
+        const index = Object.values(this.CHAT_SCOPES)
+            .findIndex((chatScope) => chatScope.value === scope);
+        if (index < 0) throw new Error(`Server returned an unknown scope: ${scope}`);
+    }
 
-        this.chats = [...this.chats, newData];
+    addNewChat(data) {
+        this.validateScope(data.scope);
+        dungeonz.gameScene.chat(data.id, data.message);
+        const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
+
+        this.chats = [...this.chats, newChat];
 
         if (this.chats.length > this.LIMIT) {
             this.chats.shift();
         }
 
-        PubSub.publish(NEW_CHAT, this.chats);
+        if (data.id === this.playerState.entityID) {
+            Object.values(this.CHAT_SCOPES)
+                .find((chatScope) => chatScope.value === data.scope)
+                .cooldownDate = new Date(data.nextAvailableDate);
+        }
+
+        PubSub.publish(NEW_CHAT, {
+            chats: this.chats,
+        });
+    }
+
+    getCoolDownDate(scope) {
+        const { cooldownDate } = Object.values(this.CHAT_SCOPES)
+            .find((chatScope) => chatScope.value === scope);
+
+        if (cooldownDate === undefined) throw new Error(`Unknown scope: ${scope}`);
+
+        return cooldownDate;
     }
 
     setPendingChat(message) {

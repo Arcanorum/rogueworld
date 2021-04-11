@@ -4,6 +4,7 @@ import "./ChatTabs.scss";
 import { ChatState } from "../../../../../shared/state/States";
 
 function ChatTabs({
+    updatePlaceHolder,
     setViewChatScope,
     setSendChatScope,
     focusOnChatInput,
@@ -23,6 +24,7 @@ function ChatTabs({
         setViewChatScope(_scope);
         focusOnChatInput();
         scrollChatToBottom();
+        updatePlaceHolder();
     };
     return (
         <div className="chat-tabs-container">
@@ -32,13 +34,13 @@ function ChatTabs({
             >
                 ALL
             </p>
-            { Object.values(ChatState.CHAT_SCOPES).map((_scope) => (
+            { Object.values(ChatState.CHAT_SCOPES).map((chatScope) => (
                 <p
-                  key={_scope}
-                  onClick={(e) => handleChatTabClick(_scope)}
-                  className={`chat-tab ${getScopeColor(_scope)} ${isActiveTab(_scope)}`}
+                  key={chatScope.value}
+                  onClick={(e) => handleChatTabClick(chatScope.value)}
+                  className={`chat-tab ${getScopeColor(chatScope.value)} ${isActiveTab(chatScope.value)}`}
                 >
-                    {_scope}
+                    {chatScope.value}
                 </p>
             ))}
         </div>
@@ -47,6 +49,7 @@ function ChatTabs({
 
 ChatTabs.propTypes = {
     viewChatScope: PropTypes.string.isRequired,
+    updatePlaceHolder: PropTypes.func.isRequired,
     getScopeColor: PropTypes.func.isRequired,
     setViewChatScope: PropTypes.func.isRequired,
     setSendChatScope: PropTypes.func.isRequired,

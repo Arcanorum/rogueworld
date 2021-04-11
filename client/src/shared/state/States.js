@@ -11,7 +11,7 @@ export const BankState = new Bank();
 export const GUIState = new GUI();
 export const InventoryState = new Inventory();
 export const PlayerState = new Player();
-export const ChatState = new Chat(ApplicationState);
+export const ChatState = new Chat(ApplicationState, PlayerState);
 
 export const resetStates = () => {
     ApplicationState.init();

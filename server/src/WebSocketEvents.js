@@ -290,12 +290,27 @@ eventResponses.mv_r = (clientSocket) => {
  * @param {*} clientSocket
  * @param {String} data
  */
+
+// TODO: Not sure where to put this
+let entityChatCooldownList = [
+    // { id: 1, scope: "GLOBAL" },
+];
+
 eventResponses.chat = (clientSocket, data) => {
     // Can't use ChatState here 'cause it's located outside module
     const CHAT_SCOPES = {
-        LOCAL: "LOCAL",
-        GLOBAL: "GLOBAL",
-        TRADE: "TRADE",
+        LOCAL: {
+            value: "LOCAL",
+            cooldown: 0,
+        },
+        GLOBAL: {
+            value: "GLOBAL",
+            cooldown: 10000,
+        },
+        TRADE: {
+            value: "TRADE",
+            cooldown: 10000,
+        },
     };
 
     if (!data || !data.scope || !data.message) return;
@@ -308,19 +323,47 @@ eventResponses.chat = (clientSocket, data) => {
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
 
+    const { cooldown } = Object
+        .values(CHAT_SCOPES)
+        .find((_scope) => _scope.value === scope);
+
+    // if no cooldown is found it means the client is passing some strange values
+    if (cooldown === undefined) return;
+
+    const date = new Date();
     const dataToBroadCast = {
         id: entity.id,
         displayName: entity.displayName,
         scope,
         message,
+        nextAvailableDate: new Date(date.getTime() + cooldown),
     };
 
     // send global chats
-    if (data.scope !== CHAT_SCOPES.LOCAL) {
+    if (data.scope !== CHAT_SCOPES.LOCAL.value) {
+        const cooldownIndex = entityChatCooldownList
+            .findIndex((entityChatCooldown) => (
+                entityChatCooldown.id === entity.id
+                && entityChatCooldown.scope === scope));
+
+        if (cooldownIndex >= 0) return;
+
         wss.broadcastToInGame(
             EventsList.chat,
             dataToBroadCast,
         );
+
+        entityChatCooldownList.push({ id: entity.id, scope });
+
+        if (cooldown === 0) return;
+
+        setTimeout(() => {
+            entityChatCooldownList = entityChatCooldownList
+                .filter((entityChatCooldown) => (
+                    entityChatCooldown.id !== entity.id
+                    && entityChatCooldown.scope !== scope));
+        }, cooldown);
+
         return;
     }
 

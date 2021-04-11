@@ -13,13 +13,16 @@ import enterChatIcon from "../../../../../assets/images/gui/panels/chat/enter-ch
 import ChatTabs from "./ChatTabs";
 
 function ChatPanel({ onCloseCallback }) {
+    const defaultPlaceHolder = "type message...";
     const [chats, setChats] = useState(ChatState.chats);
     const [viewChatScope, setViewChatScope] = useState(ChatState.tabScope);
     const [sendChatScope, setSendChatScope] = useState(ChatState.chatScope);
+    const [placeHolder, setPlaceHolder] = useState(defaultPlaceHolder);
     const [showSelectScopeDropdown, setShowSelectScopeDropdown] = useState(false);
     const chatContentsRef = useRef(null);
     const chatInputRef = useRef(null);
     let autoScroll = true;
+    let placeHolderInterval;
 
     // auto scroll only if user is not scrolling upwards
     // if user is scrolling upwards it usually means the that user is back reading (auto-scroll = on)
@@ -56,6 +59,19 @@ function ChatPanel({ onCloseCallback }) {
 
     const focusOnChatInput = () => chatInputRef.current.focus();
 
+    const updatePlaceHolder = () => {
+        const currentDate = new Date();
+        const targetDate = ChatState.getCoolDownDate(ChatState.chatScope);
+        const secondsRemaining = (targetDate.getTime() - currentDate.getTime()) / 1000;
+
+        if (secondsRemaining <= 0) setPlaceHolder(defaultPlaceHolder);
+        else setPlaceHolder(`cooldown ${Math.round(secondsRemaining)}`);
+    };
+
+    const refreshPlaceHolder = () => {
+        placeHolderInterval = setInterval(() => updatePlaceHolder(), 1000);
+    };
+
     useEffect(() => {
         const subs = [
             PubSub.subscribe(PANEL_CHANGE, () => {
@@ -64,7 +80,7 @@ function ChatPanel({ onCloseCallback }) {
                 }
             }),
             PubSub.subscribe(NEW_CHAT, (msg, data) => {
-                setChats(data);
+                setChats(data.chats);
                 scrollChatToBottom();
             }),
             PubSub.subscribe(SHOULD_SCROLL_CHAT, (msg, data) => {
@@ -76,10 +92,14 @@ function ChatPanel({ onCloseCallback }) {
 
         registerChatScrollWatcher();
 
+        refreshPlaceHolder();
+
         return () => {
             subs.forEach((sub) => {
                 PubSub.unsubscribe(sub);
             });
+
+            clearInterval(placeHolderInterval);
         };
     }, []);
 
@@ -93,6 +113,9 @@ function ChatPanel({ onCloseCallback }) {
         ChatState.setPendingChat("");
 
         chatInputRef.current.value = "";
+
+        setPlaceHolder("sending...");
+        updatePlaceHolder();
     };
 
     const handleChatInputChange = (e) => {
@@ -115,9 +138,9 @@ function ChatPanel({ onCloseCallback }) {
 
     const getScopeColor = (_scope) => {
         // return css class based on current scope
-        if (_scope === ChatState.CHAT_SCOPES.LOCAL) return "local";
-        if (_scope === ChatState.CHAT_SCOPES.GLOBAL) return "global";
-        if (_scope === ChatState.CHAT_SCOPES.TRADE) return "trade";
+        if (_scope === ChatState.CHAT_SCOPES.LOCAL.value) return "local";
+        if (_scope === ChatState.CHAT_SCOPES.GLOBAL.value) return "global";
+        if (_scope === ChatState.CHAT_SCOPES.TRADE.value) return "trade";
 
         throw Error(`Chat scope ${_scope} not found`);
     };
@@ -143,6 +166,7 @@ function ChatPanel({ onCloseCallback }) {
     return (
         <div className="chat-container gui-zoomable">
             <ChatTabs
+              updatePlaceHolder={updatePlaceHolder}
               setViewChatScope={setViewChatScope}
               setSendChatScope={setSendChatScope}
               focusOnChatInput={focusOnChatInput}
@@ -163,8 +187,8 @@ function ChatPanel({ onCloseCallback }) {
                 </p>
                 <input
                   type="text"
-                  className={`chat-input ${getScopeColor(sendChatScope)}`}
-                  placeholder="type message..."
+                  className={`chat-input ${placeHolder !== defaultPlaceHolder ? "disabled" : ""} ${getScopeColor(sendChatScope)}`}
+                  placeholder={placeHolder}
                   onKeyDown={handleChatInputChange}
                   onBlur={handleChatInputChange}
                   ref={chatInputRef}
@@ -172,6 +196,7 @@ function ChatPanel({ onCloseCallback }) {
                   maxLength={255}
                   autoFocus
                   autoComplete="off"
+                  readOnly={placeHolder !== defaultPlaceHolder}
                 />
                 <button type="button" className="send-btn" onClick={handleSendBtnClick}>
                     <img className="send-btn-icon" src={enterChatIcon} alt="send" />
@@ -179,6 +204,7 @@ function ChatPanel({ onCloseCallback }) {
             </div>
             { showSelectScopeDropdown && (
             <ChatSelectScope
+              updatePlaceHolder={updatePlaceHolder}
               setSendChatScope={setSendChatScope}
               closeSelectScopeDropdown={closeSelectScopeDropdown}
             />

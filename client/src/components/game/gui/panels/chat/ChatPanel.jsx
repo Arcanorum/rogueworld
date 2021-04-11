@@ -10,12 +10,10 @@ import Panels from "../PanelsEnum";
 import ChatLine from "./ChatLine";
 import ChatSelectScope from "./ChatSelectScope";
 
-const generalChatScope = "ALL";
-
 function ChatPanel({ onCloseCallback }) {
     const [chats, setChats] = useState(ChatState.chats);
-    const [viewChatScope, setViewChatScope] = useState(generalChatScope);
-    const [sendChatScope, setSendChatScope] = useState(ChatState.CHAT_SCOPES.LOCAL);
+    const [viewChatScope, setViewChatScope] = useState(ChatState.tabScope);
+    const [sendChatScope, setSendChatScope] = useState(ChatState.chatScope);
     const [showSelectScopeDropdown, setShowSelectScopeDropdown] = useState(false);
     const chatContentsRef = useRef(null);
     const chatInputRef = useRef(null);
@@ -117,9 +115,12 @@ function ChatPanel({ onCloseCallback }) {
     const isActiveTab = (_scope) => (viewChatScope === _scope ? "active" : "");
 
     const handleChatTabClick = (_scope) => {
-        if (_scope !== generalChatScope) {
+        // don't set sendChat scope if player selected to view "ALL" tab
+        if (_scope !== ChatState.generalChatScope) {
             setSendChatScope(_scope);
+            ChatState.saveChatScope(_scope);
         }
+        ChatState.saveTabScope(_scope);
         setViewChatScope(_scope);
         focusOnChatInput();
         scrollChatToBottom();
@@ -128,7 +129,7 @@ function ChatPanel({ onCloseCallback }) {
     const filteredChats = () => {
         let newChats = chats;
 
-        if (viewChatScope !== generalChatScope) {
+        if (viewChatScope !== ChatState.generalChatScope) {
             newChats = newChats.filter((chat) => chat.scope === viewChatScope);
         }
 
@@ -147,8 +148,8 @@ function ChatPanel({ onCloseCallback }) {
         <div className="chat-container gui-zoomable">
             <div className="chat-tabs-container">
                 <p
-                  onClick={(e) => handleChatTabClick(generalChatScope)}
-                  className={`chat-tab all ${isActiveTab(generalChatScope)}`}
+                  onClick={(e) => handleChatTabClick(ChatState.generalChatScope)}
+                  className={`chat-tab all ${isActiveTab(ChatState.generalChatScope)}`}
                 >
                     ALL
                 </p>

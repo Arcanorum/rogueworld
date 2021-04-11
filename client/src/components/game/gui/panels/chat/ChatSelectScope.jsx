@@ -4,32 +4,29 @@ import { ChatState } from "../../../../../shared/state/States";
 import "./ChatSelectScope.scss";
 
 function ChatSelectScope({ setSendChatScope, closeSelectScopeDropdown }) {
+    const setChatScope = (scope) => {
+        ChatState.saveChatScope(scope);
+        setSendChatScope(scope);
+        closeSelectScopeDropdown();
+    };
+
     return (
         <div className="chat-select-scope">
             <p
               className="scope-text local"
-              onClick={() => {
-                  setSendChatScope(ChatState.CHAT_SCOPES.LOCAL);
-                  closeSelectScopeDropdown();
-              }}
+              onClick={() => setChatScope(ChatState.CHAT_SCOPES.LOCAL)}
             >
                 Local
             </p>
             <p
               className="scope-text global"
-              onClick={() => {
-                  setSendChatScope(ChatState.CHAT_SCOPES.GLOBAL);
-                  closeSelectScopeDropdown();
-              }}
+              onClick={() => setChatScope(ChatState.CHAT_SCOPES.GLOBAL)}
             >
                 Global
             </p>
             <p
               className="scope-text trade"
-              onClick={() => {
-                  setSendChatScope(ChatState.CHAT_SCOPES.TRADE);
-                  closeSelectScopeDropdown();
-              }}
+              onClick={() => setChatScope(ChatState.CHAT_SCOPES.TRADE)}
             >
                 Trade
             </p>

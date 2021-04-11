@@ -11,11 +11,19 @@ class Chat {
         TRADE: "TRADE",
     };
 
-    // chat limit
+    generalChatScope = "ALL";
+
+    // max number of chats that player can back-read
     LIMIT = 500;
 
     // save unsent chat here so we can render them again
     pendingChat = "";
+
+    // save last selected tab here
+    tabScope = this.generalChatScope;
+
+    // save last selected chat scope here
+    chatScope = this.CHAT_SCOPES.LOCAL;
 
     /**
      * @param {Application} applicationState
@@ -48,6 +56,16 @@ class Chat {
 
     setPendingChat(message) {
         this.pendingChat = message;
+    }
+
+    // Accepts ALL, LOCAL, GLOBAL, TRADE
+    saveTabScope(scope) {
+        this.tabScope = scope;
+    }
+
+    // Accepts LOCAL, GLOBAL, TRADE
+    saveChatScope(scope) {
+        this.chatScope = scope;
     }
 }
 

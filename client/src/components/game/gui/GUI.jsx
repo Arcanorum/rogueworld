@@ -102,30 +102,22 @@ function GUI() {
                 <DefenceCounter />
                 <PanelButton
                   icon={statsIcon}
-                  onClick={() => {
-                      togglePanel(Panels.Stats);
-                  }}
+                  onClick={() => togglePanel(Panels.Stats)}
                   tooltipText={`${Utils.getTextDef("Stats tooltip")} ( V )`}
                 />
                 <PanelButton
                   icon={tasksIcon}
-                  onClick={() => {
-                      togglePanel(Panels.Tasks);
-                  }}
+                  onClick={() => togglePanel(Panels.Tasks)}
                   tooltipText={`${Utils.getTextDef("Tasks tooltip")} ( B )`}
                 />
                 <PanelButton
                   icon={mapIcon}
-                  onClick={() => {
-                      togglePanel(Panels.Map);
-                  }}
+                  onClick={() => togglePanel(Panels.Map)}
                   tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
                 />
                 <PanelButton
                   icon={chatIcon}
-                  onClick={() => {
-                      togglePanel(Panels.Chat);
-                  }}
+                  onClick={() => togglePanel(Panels.Chat)}
                   tooltipText={`${Utils.getTextDef("Chat tooltip")} ( ENTER )`}
                 />
             </div>
@@ -134,22 +126,15 @@ function GUI() {
                 <PanelButton
                   icon={exitIcon}
                   onClick={() => {
-                      if (loggedIn) {
-                          togglePanel(Panels.Account);
-                      }
-                      else {
-                          // eslint-disable-next-line no-lonely-if
-                          togglePanel(Panels.CreateAccount);
-                      }
+                      if (loggedIn) togglePanel(Panels.Account);
+                      else togglePanel(Panels.CreateAccount);
                   }}
                   tooltipText={Utils.getTextDef("Account tooltip")}
                 />
 
                 <PanelButton
                   icon={settingsIcon}
-                  onClick={() => {
-                      togglePanel(Panels.Settings);
-                  }}
+                  onClick={() => togglePanel(Panels.Settings)}
                   tooltipText={Utils.getTextDef("Settings tooltip")}
                 />
 

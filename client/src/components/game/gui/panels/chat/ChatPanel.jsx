@@ -81,7 +81,7 @@ function ChatPanel({ onCloseCallback }) {
         };
     }, []);
 
-    const sendChat = (e) => {
+    const handleChatInputChange = (e) => {
         ChatState.setPendingChat(e.target.value); // not sure if this needs debouncing
 
         if (e.key === "Enter") {
@@ -178,7 +178,8 @@ function ChatPanel({ onCloseCallback }) {
                   type="text"
                   className={`chat-box-input ${getScopeColor(sendChatScope)}`}
                   placeholder="type message..."
-                  onKeyDown={sendChat}
+                  onKeyDown={handleChatInputChange}
+                  onBlur={handleChatInputChange}
                   ref={chatInputRef}
                   defaultValue={ChatState.pendingChat}
                   maxLength={255}

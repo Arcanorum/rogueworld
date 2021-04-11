@@ -10,6 +10,7 @@ import Panels from "../PanelsEnum";
 import ChatLine from "./ChatLine";
 import ChatSelectScope from "./ChatSelectScope";
 import enterChatIcon from "../../../../../assets/images/gui/panels/chat/enter-chat-icon.png";
+import ChatTabs from "./ChatTabs";
 
 function ChatPanel({ onCloseCallback }) {
     const [chats, setChats] = useState(ChatState.chats);
@@ -121,20 +122,6 @@ function ChatPanel({ onCloseCallback }) {
         throw Error(`Chat scope ${_scope} not found`);
     };
 
-    const isActiveTab = (_scope) => (viewChatScope === _scope ? "active" : "");
-
-    const handleChatTabClick = (_scope) => {
-        // don't set sendChat scope if player selected to view "ALL" tab
-        if (_scope !== ChatState.generalChatScope) {
-            setSendChatScope(_scope);
-            ChatState.saveChatScope(_scope);
-        }
-        ChatState.saveTabScope(_scope);
-        setViewChatScope(_scope);
-        focusOnChatInput();
-        scrollChatToBottom();
-    };
-
     const filteredChats = () => {
         let newChats = chats;
 
@@ -155,27 +142,18 @@ function ChatPanel({ onCloseCallback }) {
 
     return (
         <div className="chat-container gui-zoomable">
-            <div className="chat-tabs-container">
-                <p
-                  onClick={(e) => handleChatTabClick(ChatState.generalChatScope)}
-                  className={`chat-tab all ${isActiveTab(ChatState.generalChatScope)}`}
-                >
-                    ALL
-                </p>
-                { Object.values(ChatState.CHAT_SCOPES).map((_scope) => (
-                    <p
-                      key={_scope}
-                      onClick={(e) => handleChatTabClick(_scope)}
-                      className={`chat-tab ${getScopeColor(_scope)} ${isActiveTab(_scope)}`}
-                    >
-                        {_scope}
-                    </p>
-                ))}
-            </div>
+            <ChatTabs
+              setViewChatScope={setViewChatScope}
+              setSendChatScope={setSendChatScope}
+              focusOnChatInput={focusOnChatInput}
+              scrollChatToBottom={scrollChatToBottom}
+              viewChatScope={viewChatScope}
+              getScopeColor={getScopeColor}
+            />
             <div className="chat-contents" ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
                 {filteredChats()}
             </div>
-            <div className="chat-box-container">
+            <div className="chat-input-container">
                 <p
                   className={`player-name ${getScopeColor(sendChatScope)}`}
                   onClick={toggleSelectScopeDropdown}
@@ -185,7 +163,7 @@ function ChatPanel({ onCloseCallback }) {
                 </p>
                 <input
                   type="text"
-                  className={`chat-box-input ${getScopeColor(sendChatScope)}`}
+                  className={`chat-input ${getScopeColor(sendChatScope)}`}
                   placeholder="type message..."
                   onKeyDown={handleChatInputChange}
                   onBlur={handleChatInputChange}

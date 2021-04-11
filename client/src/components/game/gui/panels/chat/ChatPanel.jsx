@@ -115,7 +115,6 @@ function ChatPanel({ onCloseCallback }) {
         chatInputRef.current.value = "";
 
         setPlaceHolder("sending...");
-        updatePlaceHolder();
     };
 
     const handleChatInputChange = (e) => {

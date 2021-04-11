@@ -305,11 +305,11 @@ eventResponses.chat = (clientSocket, data) => {
         },
         GLOBAL: {
             value: "GLOBAL",
-            cooldown: 10000,
+            cooldown: 3000,
         },
         TRADE: {
             value: "TRADE",
-            cooldown: 10000,
+            cooldown: 3000,
         },
     };
 

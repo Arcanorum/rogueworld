@@ -129,7 +129,7 @@ function SettingsPanel({ onCloseCallback }) {
     }, [guiScale]);
 
     const onAutoAddToHotbarTogglePressed = () => {
-        GUIState.autoAddToHotbar = !autoAddToHotbar;
+        InventoryState.autoAddToHotbar = !autoAddToHotbar;
 
         setAutoAddToHotbar(!autoAddToHotbar);
 

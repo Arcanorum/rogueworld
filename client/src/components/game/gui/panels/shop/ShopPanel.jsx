@@ -212,7 +212,7 @@ function ShopPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="shop-panel centered panel-template-cont gui-zoomable" ref={panelRef}>
+        <div className="shop-panel centered panel-template-cont" ref={panelRef}>
             <PanelTemplate
               width="50vw"
               height="80vh"

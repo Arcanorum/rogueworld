@@ -230,7 +230,7 @@ function CraftingPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="crafting-panel centered panel-template-cont gui-zoomable">
+        <div className="crafting-panel centered panel-template-cont">
             <PanelTemplate
               width="70vw"
               height="60vh"

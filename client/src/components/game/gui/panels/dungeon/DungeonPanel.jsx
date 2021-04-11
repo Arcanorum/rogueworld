@@ -293,7 +293,7 @@ function DungeonPanel({ onCloseCallback, dungeonPortal }) {
     }, []);
 
     return (
-        <div className="dungeon-panel centered panel-template-cont gui-zoomable">
+        <div className="dungeon-panel centered panel-template-cont">
             <PanelTemplate
               width="440px"
               height="420px"

@@ -38,6 +38,44 @@ class GUI {
         this.craftingStation = null;
 
         this.shop = null;
+
+        /**
+         * The current percent zoom level for all elements with the 'gui-scalable' style class.
+         * @type {Number}
+         */
+        this.guiScale = 100;
+
+        /**
+         * The volume of the music. 0 is no music, 100 is full volume. Can't use floats due to imperfect decimal precision.
+         * @todo find somewhere else for this, doesn't really belong with this GUI stuff
+         * @type {Number}
+         */
+        this.musicVolume = 50;
+
+        /**
+         * The volume of the sound effects. 0 is no effects, 100 is full volume. Can't use floats due to imperfect decimal precision.
+         * @todo find somewhere else for this, doesn't really belong with this GUI stuff
+         * @type {Number}
+         */
+        this.effectsVolume = 50;
+
+        /**
+         * Whether the FPS counter should be shown.
+         * @type {Boolean}
+         */
+        this.showFPS = false;
+
+        /**
+         * Whether tiles on the darkness layer of the tilemap should flicker when affected by a light source.
+         * @type {Boolean}
+         */
+        this.lightFlickerEnabled = true;
+
+        /**
+         * Whether the virtual D-pad is enabled.
+         * @type {Boolean}
+         */
+        this.virtualDPadEnabled = false;
     }
 
     setCursorX(value) {

@@ -22,12 +22,6 @@
   // // events going deeper through to the game canvas...
   // pointer-events: none;
 
-  .gui_zoomable {
-    zoom: 1;
-    -moz-transform: scale(1);
-    -moz-transform-origin: 0 0;
-  }
-
   .high-contrast-text {
     color: white;
     font-size: 24px;

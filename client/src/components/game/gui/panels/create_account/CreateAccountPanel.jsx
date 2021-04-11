@@ -52,7 +52,7 @@ function CreateAccountPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="create-account-panel centered panel-template-cont gui-zoomable">
+        <div className="create-account-panel centered panel-template-cont">
             <PanelTemplate
               width="440px"
               height="420px"

@@ -71,7 +71,7 @@ function ChangeNamePanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="change-name-panel centered panel-template-cont gui-zoomable">
+        <div className="change-name-panel centered panel-template-cont">
             <PanelTemplate
               width="50vw"
               height="50vh"

@@ -36,6 +36,12 @@ class Inventory {
         this.weight = 0;
 
         this.maxWeight = 0;
+
+        /**
+         * Whether usable items will be automatically added to the hotbar when picked up if there is a free hotbar slot.
+         * @type {Boolean}
+         */
+        this.autoAddToHotbar = true;
     }
 
     addToInventory(itemConfig) {
@@ -44,7 +50,7 @@ class Inventory {
         PubSub.publish(ADD_INVENTORY_ITEM, itemConfig);
 
         // Only add automatically if the setting for it is set.
-        if (gameConfig.addToHotbar) {
+        if (this.autoAddToHotbar) {
             // Add to the hotbar if there is any available space on it.
             if (this.hotbar.length < this.MAX_HOTBAR_SLOTS) {
                 // Only add if it is usable.

@@ -87,7 +87,7 @@ function StatsPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="stats-panel centered panel-template-cont gui-zoomable">
+        <div className="stats-panel centered panel-template-cont">
             <PanelTemplate
               width="540px"
               height="360px"

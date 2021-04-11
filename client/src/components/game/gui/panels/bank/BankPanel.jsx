@@ -367,7 +367,7 @@ function BankPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="bank-panel centered panel-template-cont gui-zoomable" ref={panelRef}>
+        <div className="bank-panel centered panel-template-cont" ref={panelRef}>
             <PanelTemplate
               width="70vw"
               height="60vh"

@@ -12,7 +12,7 @@ function RespawnPanel() {
     };
 
     return (
-        <div className="respawn-panel centered panel-template-cont gui-zoomable">
+        <div className="respawn-panel centered panel-template-cont">
             <PanelTemplate
               width="440px"
               height="220px"

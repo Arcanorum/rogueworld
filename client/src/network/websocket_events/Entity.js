@@ -138,7 +138,7 @@ export default () => {
                 }
             });
 
-            dungeonz.gameScene.soundManager.player.playFootstep();
+            dungeonz.gameScene.soundManager.effects.playFootstep();
         }
         // Another entity moved.
         else {

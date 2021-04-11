@@ -204,6 +204,7 @@ class Game extends Phaser.Scene {
         this.fpsText.fontSize = "64px";
         this.fpsText.setScrollFactor(0);
         this.fpsText.setDepth(this.renderOrder.fpsText);
+        this.fpsText.visible = GUIState.showFPS;
 
         const damageParticles = this.add.particles("game-atlas");
 
@@ -257,7 +258,7 @@ class Game extends Phaser.Scene {
                 // If the player is now dead, play the death music.
                 if (data.new <= 0) {
                     this.soundManager.music.changeBackgroundMusic(
-                        this.soundManager.player.sounds.deathLoop,
+                        this.soundManager.music.sounds.deathLoop,
                     );
                 }
             }),
@@ -274,7 +275,7 @@ class Game extends Phaser.Scene {
                 // Nothing to play here, keep playing whatever is currently playing.
                 if (!positionMusicName) return;
 
-                const positionMusic = this.soundManager.music.sounds.location[positionMusicName];
+                const positionMusic = this.soundManager.music.sounds[positionMusicName];
 
                 // Check the music to play is in the sound manager.
                 if (!positionMusic) return;

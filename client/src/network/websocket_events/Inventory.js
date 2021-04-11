@@ -39,7 +39,7 @@ export default () => {
      */
     eventResponses.item_used = (data) => {
         // console.log("item used event:", data);
-        dungeonz.gameScene.soundManager.items.playUsedSound(data.itemTypeCode);
+        dungeonz.gameScene.soundManager.effects.playUsedSound(data.itemTypeCode);
     };
 
     eventResponses.item_broken = () => {
@@ -47,7 +47,7 @@ export default () => {
     };
 
     eventResponses.item_dropped = (data) => {
-        dungeonz.gameScene.soundManager.items.playDroppedSound(data.itemTypeCode);
+        dungeonz.gameScene.soundManager.effects.playDroppedSound(data.itemTypeCode);
     };
 
     eventResponses.equip_clothes = (data) => {
@@ -81,7 +81,7 @@ export default () => {
 
         InventoryState.setClothing(item);
 
-        dungeonz.gameScene.soundManager.items.playEquippedSound(
+        dungeonz.gameScene.soundManager.effects.playEquippedSound(
             item.typeCode,
         );
     };
@@ -98,7 +98,7 @@ export default () => {
         InventoryState.setHolding(item);
 
         // Play sound when an item is held (i.e. a weapon).
-        dungeonz.gameScene.soundManager.items.playEquippedSound(
+        dungeonz.gameScene.soundManager.effects.playEquippedSound(
             item.typeCode,
         );
 
@@ -110,7 +110,7 @@ export default () => {
     eventResponses.deactivate_holding = () => {
         const item = InventoryState.holding;
 
-        dungeonz.gameScene.soundManager.items.playUnequippedSound(
+        dungeonz.gameScene.soundManager.effects.playUnequippedSound(
             item.typeCode,
         );
 

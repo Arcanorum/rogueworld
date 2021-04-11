@@ -92,6 +92,8 @@ function SettingsPanel({ onCloseCallback }) {
 
         GUIState.musicVolume = musicVolume;
 
+        dungeonz.gameScene.soundManager.music.updateVolume();
+
         saveSetting("music_volume", musicVolume);
     }, [musicVolume]);
 
@@ -104,6 +106,8 @@ function SettingsPanel({ onCloseCallback }) {
         }
 
         GUIState.effectsVolume = effectsVolume;
+
+        dungeonz.gameScene.soundManager.effects.updateVolume();
 
         saveSetting("effects_volume", effectsVolume);
     }, [effectsVolume]);

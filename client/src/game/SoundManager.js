@@ -1,21 +1,37 @@
 import ItemTypes from "../catalogues/ItemTypes.json";
 import dungeonz from "../shared/Global";
+import { GUIState } from "../shared/state/States";
 import Utils from "../shared/Utils";
 
 class Music {
     constructor(state) {
+        this.list = [];
+
         this.sounds = {
-            location: {
-                "exploration-theme": state.sound.add("exploration-theme"),
-                "city-theme": state.sound.add("city-theme"),
-                "blood-halls-theme": state.sound.add("blood-halls-theme"),
-                "desert-overworld-theme": state.sound.add("desert-overworld-theme"),
-                "forest-maze-theme": state.sound.add("forest-maze-theme"),
-                generic2: state.sound.add("generic-theme-2"),
-            },
+            deathLoop: this.addSound(state.sound.add("death-loop")),
+            // Themes.
+            "exploration-theme": this.addSound(state.sound.add("exploration-theme")),
+            "city-theme": this.addSound(state.sound.add("city-theme")),
+            "blood-halls-theme": this.addSound(state.sound.add("blood-halls-theme")),
+            "desert-overworld-theme": this.addSound(state.sound.add("desert-overworld-theme")),
+            "forest-maze-theme": this.addSound(state.sound.add("forest-maze-theme")),
+            generic2: this.addSound(state.sound.add("generic-theme-2")),
         };
 
-        this.currentBackgroundMusic = this.sounds.location.generic2;
+        this.currentBackgroundMusic = this.sounds.generic2;
+
+        this.updateVolume();
+    }
+
+    addSound(sound) {
+        this.list.push(sound);
+        return sound;
+    }
+
+    updateVolume() {
+        this.list.forEach((sound) => {
+            sound.setVolume(GUIState.musicVolume / 100);
+        });
     }
 
     changeBackgroundMusic(sound) {
@@ -26,7 +42,7 @@ class Music {
             targets: fromMusic,
             volume: {
                 getStart() {
-                    return 0.5;
+                    return GUIState.musicVolume / 100;
                 },
                 getEnd() {
                     return 0;
@@ -53,7 +69,7 @@ class Music {
                     return 0;
                 },
                 getEnd() {
-                    return 0.5;
+                    return GUIState.musicVolume / 100;
                 },
             },
             duration: 2000,
@@ -62,38 +78,28 @@ class Music {
     }
 }
 
-class PlayerSounds {
+class Effects {
     constructor(state) {
+        this.list = [];
+
         this.sounds = {
-            deathLoop: state.sound.add("death-loop"),
             footsteps: [
-                state.sound.add("footstep-1"),
-                state.sound.add("footstep-2"),
-                state.sound.add("footstep-3"),
-                state.sound.add("footstep-4"),
+                this.addSound(state.sound.add("footstep-1")),
+                this.addSound(state.sound.add("footstep-2")),
+                this.addSound(state.sound.add("footstep-3")),
+                this.addSound(state.sound.add("footstep-4")),
             ],
-        };
-    }
-
-    playFootstep() {
-        // Play a random footstep sound every time they move.
-        Utils.getRandomElement(this.sounds.footsteps).play();
-    }
-}
-
-class ItemSounds {
-    constructor(state) {
-        this.sounds = {
+            dungeonKeyGained: this.addSound(state.sound.add("dungeon-key-gained")),
             dropped: {
-                default: state.sound.add("item-dropped"),
+                default: this.addSound(state.sound.add("item-dropped")),
             },
             equipped: {
-                default: state.sound.add("weapon-equipped"),
+                default: this.addSound(state.sound.add("weapon-equipped")),
                 // Add what ever kinds of sounds you want a particular item to play when equipped.
                 // Should also be defined in the server item config in Items.yml.
-                "Metal weapon": state.sound.add("weapon-equipped"),
-                "Metal clothing": state.sound.add("clothing-equipped"),
-                "Fabric clothing": state.sound.add("clothing-equipped"),
+                "Metal weapon": this.addSound(state.sound.add("weapon-equipped")),
+                "Metal clothing": this.addSound(state.sound.add("clothing-equipped")),
+                "Fabric clothing": this.addSound(state.sound.add("clothing-equipped")),
             },
             unequipped: { },
             used: {
@@ -103,6 +109,24 @@ class ItemSounds {
                 // "Drink": // TODO: Add drink consumed sound here
             },
         };
+
+        this.updateVolume();
+    }
+
+    addSound(sound) {
+        this.list.push(sound);
+        return sound;
+    }
+
+    updateVolume() {
+        this.list.forEach((sound) => {
+            sound.setVolume(GUIState.effectsVolume / 100);
+        });
+    }
+
+    playFootstep() {
+        // Play a random footstep sound every time they move.
+        Utils.getRandomElement(this.sounds.footsteps).play();
     }
 
     playEquippedSound(itemTypeCode) {
@@ -142,14 +166,10 @@ class ItemSounds {
  */
 class SoundManager {
     constructor(state) {
-        this.player = new PlayerSounds(state);
-        this.items = new ItemSounds(state);
+        // this.player = new PlayerSounds(state);
+        // this.items = new ItemSounds(state);
         this.music = new Music(state);
-
-        // Generic/miscellaneous sounds can live on the top level manager.
-        this.sounds = {
-            dungeonKeyGained: state.sound.add("dungeon-key-gained"),
-        };
+        this.effects = new Effects(state);
     }
 
     /**

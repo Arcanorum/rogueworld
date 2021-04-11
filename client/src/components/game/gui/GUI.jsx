@@ -7,7 +7,7 @@ import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./panel_button/PanelButton";
 import TaskTracker from "./task_tracker/TaskTracker";
 import Utils from "../../../shared/Utils";
-import { ApplicationState, GUIState } from "../../../shared/state/States";
+import { ApplicationState, GUIState, PlayerState } from "../../../shared/state/States";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
 import mapIcon from "../../../assets/images/gui/hud/map-icon.png";
@@ -85,6 +85,12 @@ function GUI() {
         GUIState.setActivePanel(shownPanel);
     }, [shownPanel]);
 
+    const togglePanel = (panel) => {
+        if (PlayerState.hitPoints <= 0) return; // prevent toggling the panels if player is dead
+        if (shownPanel === Panels.NONE) setShownPanel(panel);
+        else closePanelCallback();
+    };
+
     return (
         <div className="gui">
             <Meters />
@@ -97,32 +103,28 @@ function GUI() {
                 <PanelButton
                   icon={statsIcon}
                   onClick={() => {
-                      if (shownPanel === Panels.NONE) setShownPanel(Panels.Stats);
-                      else closePanelCallback();
+                      togglePanel(Panels.Stats);
                   }}
                   tooltipText={`${Utils.getTextDef("Stats tooltip")} ( V )`}
                 />
                 <PanelButton
                   icon={tasksIcon}
                   onClick={() => {
-                      if (shownPanel === Panels.NONE) setShownPanel(Panels.Tasks);
-                      else closePanelCallback();
+                      togglePanel(Panels.Tasks);
                   }}
                   tooltipText={`${Utils.getTextDef("Tasks tooltip")} ( B )`}
                 />
                 <PanelButton
                   icon={mapIcon}
                   onClick={() => {
-                      if (shownPanel === Panels.NONE) setShownPanel(Panels.Map);
-                      else closePanelCallback();
+                      togglePanel(Panels.Map);
                   }}
                   tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
                 />
                 <PanelButton
                   icon={chatIcon}
                   onClick={() => {
-                      if (shownPanel === Panels.NONE) setShownPanel(Panels.Chat);
-                      else closePanelCallback();
+                      togglePanel(Panels.Chat);
                   }}
                   tooltipText={`${Utils.getTextDef("Chat tooltip")} ( ENTER )`}
                 />
@@ -133,13 +135,11 @@ function GUI() {
                   icon={exitIcon}
                   onClick={() => {
                       if (loggedIn) {
-                          if (shownPanel === Panels.NONE) setShownPanel(Panels.Account);
-                          else closePanelCallback();
+                          togglePanel(Panels.Account);
                       }
                       else {
                           // eslint-disable-next-line no-lonely-if
-                          if (shownPanel === Panels.NONE) setShownPanel(Panels.CreateAccount);
-                          else closePanelCallback();
+                          togglePanel(Panels.CreateAccount);
                       }
                   }}
                   tooltipText={Utils.getTextDef("Account tooltip")}
@@ -148,7 +148,7 @@ function GUI() {
                 <PanelButton
                   icon={settingsIcon}
                   onClick={() => {
-                      setShownPanel(Panels.Settings);
+                      togglePanel(Panels.Settings);
                   }}
                   tooltipText={Utils.getTextDef("Settings tooltip")}
                 />

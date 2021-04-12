@@ -78,3 +78,4 @@ export const DUNGEON_KEYS = Symbol("DUNGEON_KEYS");
 export const WEBSOCKET_CLOSE = Symbol("WEBSOCKET_CLOSE");
 export const WEBSOCKET_ERROR = Symbol("WEBSOCKET_ERROR");
 export const SOMETHING_WENT_WRONG = Symbol("SOMETHING_WENT_WRONG");
+export const BEFORE_PAGE_UNLOAD = Symbol("WINDOW_PAGE_UNLOAD");

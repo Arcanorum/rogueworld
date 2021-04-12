@@ -3,7 +3,7 @@ import PubSub from "pubsub-js";
 import createGame from "./PhaserConfig";
 import GUI from "./gui/GUI";
 import { ApplicationState } from "../../shared/state/States";
-import { LOAD_ACCEPTED } from "../../shared/EventTypes";
+import { LOAD_ACCEPTED, BEFORE_PAGE_UNLOAD } from "../../shared/EventTypes";
 import { removeGameEventResponses } from "../../network/websocket_events/WebSocketEvents";
 import "./GamePage.scss";
 
@@ -28,6 +28,11 @@ function GamePage() {
         const gameInstance = createGame();
 
         gameInstance.scene.start("Boot");
+
+        window.onbeforeunload = () => {
+            PubSub.publish(BEFORE_PAGE_UNLOAD);
+            return ("");
+        };
 
         // Cleanup.
         return () => {

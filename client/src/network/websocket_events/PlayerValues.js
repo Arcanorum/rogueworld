@@ -2,7 +2,7 @@ import PubSub from "pubsub-js";
 import gameConfig from "../../shared/GameConfig";
 import { DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
 import dungeonz from "../../shared/Global";
-import { PlayerState } from "../../shared/state/States";
+import { GUIState, PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
 
 export default () => {
@@ -92,5 +92,6 @@ export default () => {
             spriteContainer.x,
             spriteContainer.y - gameConfig.SCALED_TILE_SIZE * 0.7,
         );
+        dungeonz.gameScene.sound.play("level-gained", { volume: GUIState.effectsVolume / 100 });
     };
 };

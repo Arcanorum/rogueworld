@@ -106,3 +106,19 @@ DISPLAY_NAME_CHANGE_COST: 1000
 # expensive to buy if bought frequently. Cumulative. Slowly returns back to the base price for that
 # item.
 SHOP_PRICE_INCREASE_MULTIPLIER: 1.05
+
+# The channels/categories of chat topics that players can send their messages in, with configurable
+# cooldowns to limit the message rate of each player in that scope.
+CHAT_SCOPES:
+  LOCAL:
+    value: LOCAL
+    cooldown: 0
+  GLOBAL:
+    value: GLOBAL
+    cooldown: 5000
+  TRADE:
+    value: TRADE
+    cooldown: 5000
+
+# How long incoming player chat messages can be.
+MAX_CHAT_MESSAGE_LENGTH: 255

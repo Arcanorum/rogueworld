@@ -18,11 +18,13 @@
     "leaflet": "^1.7.1",
     "node-sass": "^4.14.1",
     "phaser": "^3.54.0",
+    "prop-types": "^15.7.2",
     "pubsub-js": "^1.9.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-leaflet": "^3.1.0",
     "react-scripts": "4.0.1",
+    "uuid": "^3.4.0",
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {

@@ -203,6 +203,7 @@ function ItemSlot({ itemConfig, onClick }) {
                   GUIState.setTooltipContent(
                       <ItemTooltip itemTypeCode={itemConfig.typeCode} />,
                   );
+                  dungeonz.gameScene.soundManager.effects.playGUITick();
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
@@ -282,7 +283,7 @@ function InventoryPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="inventory-panel centered panel-template-cont gui-zoomable" ref={panelRef}>
+        <div className="inventory-panel centered panel-template-cont" ref={panelRef}>
             <PanelTemplate
               width="50vw"
               height="80vh"

@@ -247,6 +247,7 @@ function ItemSlot({ State, itemConfig, onClick }) {
                   GUIState.setTooltipContent(
                       <ItemTooltip itemTypeCode={itemConfig.typeCode} />,
                   );
+                  dungeonz.gameScene.soundManager.effects.playGUITick();
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
@@ -367,7 +368,7 @@ function BankPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="bank-panel centered panel-template-cont gui-zoomable" ref={panelRef}>
+        <div className="bank-panel centered panel-template-cont" ref={panelRef}>
             <PanelTemplate
               width="70vw"
               height="60vh"
@@ -428,6 +429,7 @@ function BankPanel({ onCloseCallback }) {
                                           Utils.getTextDef("Deposit all"),
                                       );
                                       setHighlightInventoryWeight(true);
+                                      dungeonz.gameScene.soundManager.effects.playGUITick();
                                   }}
                                   onMouseLeave={() => {
                                       GUIState.setTooltipContent(null);
@@ -479,6 +481,7 @@ function BankPanel({ onCloseCallback }) {
                                           Utils.getTextDef("Upgrade bank"),
                                       );
                                       setHighlightStorageWeight(true);
+                                      dungeonz.gameScene.soundManager.effects.playGUITick();
                                   }}
                                   onMouseLeave={() => {
                                       GUIState.setTooltipContent(null);

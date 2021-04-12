@@ -4,6 +4,7 @@ import "./PanelTemplate.scss";
 import closeButtonImage from "../../../../../assets/images/gui/panels/panel-close-button.png";
 import cornerImage from "../../../../../assets/images/gui/panels/panel-corner.png";
 import iconBorderImage from "../../../../../assets/images/gui/panels/panel-icon-border.png";
+import dungeonz from "../../../../../shared/Global";
 
 function PanelTemplate({
     children, width, height, panelName, icon, onCloseCallback,
@@ -40,6 +41,9 @@ function PanelTemplate({
               className="centered panel-template-close-button"
               draggable={false}
               onClick={onCloseCallback}
+              onMouseEnter={() => {
+                  dungeonz.gameScene.soundManager.effects.playGUITick();
+              }}
             />
             )}
             {!onCloseCallback && (

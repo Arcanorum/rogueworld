@@ -142,7 +142,7 @@ function TasksPanel({ onCloseCallback }) {
     };
 
     return (
-        <div className="tasks-panel centered panel-template-cont gui-zoomable">
+        <div className="tasks-panel centered panel-template-cont">
             <PanelTemplate
               width="540px"
               height="360px"

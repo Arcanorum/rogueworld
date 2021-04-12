@@ -13,6 +13,7 @@ import closeButtonImage from "../../../../../assets/images/gui/panels/panel-clos
 import gloryIcon from "../../../../../assets/images/gui/hud/glory-icon.png";
 import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
 import { DUNGEON_PARTIES } from "../../../../../shared/EventTypes";
+import dungeonz from "../../../../../shared/Global";
 
 const leaveParty = (dungeonManagerID) => {
     ApplicationState.connection.sendEvent("leave_dungeon_party", {
@@ -132,6 +133,11 @@ function PartySelectionList({ parties, gloryCost, dungeonPortal }) {
                 <div
                   className="create-button-cont centered"
                   onClick={createPressed}
+                  onMouseEnter={() => {
+                      if (PlayerState.glory >= gloryCost) {
+                          dungeonz.gameScene.soundManager.effects.playGUITick();
+                      }
+                  }}
                 >
                     {PlayerState.glory >= gloryCost && (
                     <img
@@ -293,7 +299,7 @@ function DungeonPanel({ onCloseCallback, dungeonPortal }) {
     }, []);
 
     return (
-        <div className="dungeon-panel centered panel-template-cont gui-zoomable">
+        <div className="dungeon-panel centered panel-template-cont">
             <PanelTemplate
               width="440px"
               height="420px"

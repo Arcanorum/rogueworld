@@ -8,6 +8,7 @@ import "./AccountPanel.scss";
 import Utils from "../../../../../shared/Utils";
 import { CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS } from "../../../../../shared/EventTypes";
 import { ApplicationState } from "../../../../../shared/state/States";
+import dungeonz from "../../../../../shared/Global";
 
 function AccountPanel({ onCloseCallback }) {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -57,7 +58,7 @@ function AccountPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="account-panel centered panel-template-cont gui-zoomable">
+        <div className="account-panel centered panel-template-cont">
             <PanelTemplate
               width="440px"
               height="420px"
@@ -80,6 +81,9 @@ function AccountPanel({ onCloseCallback }) {
                               onChange={(event) => {
                                   setCurrentPassword(event.target.value);
                               }}
+                              onMouseEnter={() => {
+                                  dungeonz.gameScene.soundManager.effects.playGUITick();
+                              }}
                             />
 
                             <input
@@ -90,11 +94,17 @@ function AccountPanel({ onCloseCallback }) {
                               onChange={(event) => {
                                   setNewPassword(event.target.value);
                               }}
+                              onMouseEnter={() => {
+                                  dungeonz.gameScene.soundManager.effects.playGUITick();
+                              }}
                             />
 
                             <div
                               className="account-accept-button-cont"
                               onClick={acceptPressed}
+                              onMouseEnter={() => {
+                                  dungeonz.gameScene.soundManager.effects.playGUITick();
+                              }}
                             >
                                 <img
                                   src={borderImage}

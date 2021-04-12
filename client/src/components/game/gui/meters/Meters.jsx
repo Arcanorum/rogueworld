@@ -69,7 +69,7 @@ function Meters() {
     }, []);
 
     return (
-        <div className="meters gui-zoomable">
+        <div className="meters gui-scalable">
             <div className="inventory-button">
                 <PanelButton
                   icon={inventoryIcon}

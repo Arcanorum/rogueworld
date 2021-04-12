@@ -70,7 +70,7 @@ function MapPanel({ onCloseCallback }) {
     };
 
     return (
-        <div className="map-panel centered panel-template-cont gui-zoomable">
+        <div className="map-panel centered panel-template-cont">
             <PanelTemplate
               width="80vw"
               height="80vh"

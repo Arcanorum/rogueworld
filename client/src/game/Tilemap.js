@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import gameConfig from "../shared/GameConfig";
-import { PlayerState } from "../shared/state/States";
+import { GUIState, PlayerState } from "../shared/state/States";
 import Utils from "../shared/Utils";
 import addStaticTile from "./Statics";
 
@@ -59,6 +59,8 @@ class Tilemap {
     }
 
     flickerDarkness() {
+        if (!GUIState.lightFlickerEnabled) return;
+
         const darknessSprites = this.darknessSpritesContainer.list;
 
         darknessSprites.forEach((tile) => {

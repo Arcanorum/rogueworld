@@ -97,7 +97,7 @@ function GUI() {
 
             {trackedTask && <TaskTracker />}
 
-            <div className="top-left-corner-cont gui-zoomable">
+            <div className="top-left-corner-cont gui-scalable">
                 <GloryCounter />
                 <DefenceCounter />
                 <PanelButton
@@ -122,7 +122,7 @@ function GUI() {
                 />
             </div>
 
-            <div className="top-right-corner-cont gui-zoomable">
+            <div className="top-right-corner-cont gui-scalable">
                 <PanelButton
                   icon={exitIcon}
                   onClick={() => {
@@ -151,7 +151,7 @@ function GUI() {
                 />
             </div>
 
-            <div className="bottom-right-corner-cont gui-zoomable" />
+            <div className="bottom-right-corner-cont gui-scalable" />
 
             <DungeonTimer />
             <DungeonKeys />

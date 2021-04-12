@@ -48,27 +48,6 @@ const gameConfig = {
      */
     language: "English",
     /**
-     * @type {Boolean}
-     * Whether usable items will be automatically added to the hotbar when picked up if there is a free hotbar slot.
-     */
-    addToHotbar: true,
-    /**
-     * @type {Number}
-     * The volume of the music. 0 is no music, 100 is full volume. Can't use floats due to imperfect decimal precision.
-     */
-    musicVolume: 50,
-    /**
-     * @type {Number}
-     * The volume of the sound effects. 0 is no effects, 100 is full volume. Can't use floats due to imperfect decimal precision.
-     */
-    effectsVolume: 50,
-    /**
-     * @type {Number}
-     * The current percent zoom level for all elements with the gui_zoomable style class.
-     */
-    GUIZoom: 100,
-
-    /**
      * @type {Number}
      * How long an animated number transitions should take.
      */
@@ -76,11 +55,6 @@ const gameConfig = {
 
     ANIMATED_NUMBER_FORMAT: (value) => value.toFixed(0),
 
-    /**
-     * @type {Boolean}
-     * Whether the virtual D-pad is enabled.
-     */
-    virtualDPadEnabled: false,
     /**
      * @type {Object}
      * The catalogue of text definitions.

@@ -163,6 +163,16 @@ const Utils = {
         // Return the text, in the selected language.
         return text;
     },
+
+    getStyle(className) {
+        const classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
+        for (let x = 0; x < classes.length; x += 1) {
+            if (classes[x].selectorText === className) {
+                return classes[x].style;
+            }
+        }
+        return false;
+    },
 };
 
 export default Utils;

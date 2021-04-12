@@ -139,7 +139,7 @@ function Hotbar() {
     }, []);
 
     return (
-        <div className="hotbar">
+        <div className="hotbar gui-scalable">
             {hotbarItems.map((item) => (
                 <HotbarSlot
                   key={item.id}

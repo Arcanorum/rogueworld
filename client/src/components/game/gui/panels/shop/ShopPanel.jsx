@@ -106,11 +106,14 @@ function ItemSlot({ shopItem, price, onClick }) {
                   GUIState.setTooltipContent(
                       <ItemTooltip itemTypeCode={shopItem.typeCode} />,
                   );
+                  dungeonz.gameScene.soundManager.effects.playGUITick();
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
               }}
-              onClick={() => { onClick(shopItem); }}
+              onClick={() => {
+                  onClick(shopItem);
+              }}
             >
                 <div className="item-cont">
                     <div className="item">
@@ -212,7 +215,7 @@ function ShopPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="shop-panel centered panel-template-cont gui-zoomable" ref={panelRef}>
+        <div className="shop-panel centered panel-template-cont" ref={panelRef}>
             <PanelTemplate
               width="50vw"
               height="80vh"

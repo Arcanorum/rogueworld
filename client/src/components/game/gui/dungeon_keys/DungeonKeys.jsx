@@ -45,7 +45,7 @@ function DungeonKeys() {
 
                 // If a key has been gained, play the key pickup sound.
                 if (newKeysCount > keys.length) {
-                    dungeonz.gameScene.soundManager.sounds.dungeonKeyGained.play();
+                    dungeonz.gameScene.soundManager.effects.sounds.dungeonKeyGained.play();
                 }
 
                 setKeys(newKeys);

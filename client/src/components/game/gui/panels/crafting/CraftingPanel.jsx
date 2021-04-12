@@ -123,6 +123,9 @@ function RecipeSlot({ recipe, selected, onClick }) {
                   GUIState.setTooltipContent(
                       <ItemTooltip itemTypeCode={recipe.result.itemTypeCode} />,
                   );
+                  if (canBeCrafted) {
+                      dungeonz.gameScene.soundManager.effects.playGUITick();
+                  }
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
@@ -230,7 +233,7 @@ function CraftingPanel({ onCloseCallback }) {
     }, []);
 
     return (
-        <div className="crafting-panel centered panel-template-cont gui-zoomable">
+        <div className="crafting-panel centered panel-template-cont">
             <PanelTemplate
               width="70vw"
               height="60vh"
@@ -350,6 +353,11 @@ function CraftingPanel({ onCloseCallback }) {
                         <div
                           className={`button-cont ${(selectedRecipe && playerHasIngredients) ? "valid" : ""}`}
                           onClick={onCraftPressed}
+                          onMouseEnter={() => {
+                              if (selectedRecipe && playerHasIngredients) {
+                                  dungeonz.gameScene.soundManager.effects.playGUITick();
+                              }
+                          }}
                         >
                             <img
                               src={

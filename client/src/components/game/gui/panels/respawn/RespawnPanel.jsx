@@ -5,6 +5,7 @@ import borderImage from "../../../../../assets/images/gui/panels/respawn/respawn
 import "./RespawnPanel.scss";
 import Utils from "../../../../../shared/Utils";
 import { ApplicationState } from "../../../../../shared/state/States";
+import dungeonz from "../../../../../shared/Global";
 
 function RespawnPanel() {
     const respawnPressed = async () => {
@@ -29,6 +30,9 @@ function RespawnPanel() {
                         <div
                           className="button-cont centered"
                           onClick={respawnPressed}
+                          onMouseEnter={() => {
+                              dungeonz.gameScene.soundManager.effects.playGUITick();
+                          }}
                         >
                             <img
                               src={borderImage}

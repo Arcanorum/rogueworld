@@ -83,6 +83,7 @@ class Effects {
         this.list = [];
 
         this.sounds = {
+            guiTick: this.addSound(state.sound.add("generic-gui-tick")),
             footsteps: [
                 this.addSound(state.sound.add("footstep-1")),
                 this.addSound(state.sound.add("footstep-2")),
@@ -122,6 +123,10 @@ class Effects {
         this.list.forEach((sound) => {
             sound.setVolume(GUIState.effectsVolume / 100);
         });
+    }
+
+    playGUITick() {
+        dungeonz.gameScene.sound.play("generic-gui-tick", { volume: GUIState.effectsVolume / 100 });
     }
 
     playFootstep() {

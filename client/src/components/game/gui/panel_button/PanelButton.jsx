@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { GUIState } from "../../../../shared/state/States";
 import "./PanelButton.scss";
+import dungeonz from "../../../../shared/Global";
 
 function Tooltip(content) {
     return (
@@ -22,6 +23,7 @@ function PanelButton({ icon, onClick, tooltipText }) {
                   GUIState.setTooltipContent(
                       Tooltip(tooltipText),
                   );
+                  dungeonz.gameScene.soundManager.effects.playGUITick();
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);

@@ -9,6 +9,7 @@ import "./ChangeNamePanel.scss";
 import Utils from "../../../../../shared/Utils";
 import { DISPLAY_NAME_VALUE } from "../../../../../shared/EventTypes";
 import { ApplicationState, PlayerState } from "../../../../../shared/state/States";
+import dungeonz from "../../../../../shared/Global";
 
 function ChangeNamePanel({ onCloseCallback }) {
     const [newName, setNewName] = useState("");
@@ -104,6 +105,9 @@ function ChangeNamePanel({ onCloseCallback }) {
                                   onChange={(event) => {
                                       setNewName(event.target.value);
                                   }}
+                                  onMouseEnter={() => {
+                                      dungeonz.gameScene.soundManager.effects.playGUITick();
+                                  }}
                                 />
                             </div>
 
@@ -116,6 +120,9 @@ function ChangeNamePanel({ onCloseCallback }) {
                             <div
                               className="accept-button-cont"
                               onClick={acceptPressed}
+                              onMouseEnter={() => {
+                                  dungeonz.gameScene.soundManager.effects.playGUITick();
+                              }}
                             >
                                 <img
                                   src={borderImage}

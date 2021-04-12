@@ -123,6 +123,9 @@ function RecipeSlot({ recipe, selected, onClick }) {
                   GUIState.setTooltipContent(
                       <ItemTooltip itemTypeCode={recipe.result.itemTypeCode} />,
                   );
+                  if (canBeCrafted) {
+                      dungeonz.gameScene.soundManager.effects.playGUITick();
+                  }
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
@@ -350,6 +353,11 @@ function CraftingPanel({ onCloseCallback }) {
                         <div
                           className={`button-cont ${(selectedRecipe && playerHasIngredients) ? "valid" : ""}`}
                           onClick={onCraftPressed}
+                          onMouseEnter={() => {
+                              if (selectedRecipe && playerHasIngredients) {
+                                  dungeonz.gameScene.soundManager.effects.playGUITick();
+                              }
+                          }}
                         >
                             <img
                               src={

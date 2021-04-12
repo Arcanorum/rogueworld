@@ -8,6 +8,7 @@ import "./CreateAccountPanel.scss";
 import Utils from "../../../../../shared/Utils";
 import { CREATE_ACCOUNT_FAILURE } from "../../../../../shared/EventTypes";
 import { ApplicationState } from "../../../../../shared/state/States";
+import dungeonz from "../../../../../shared/Global";
 
 function CreateAccountPanel({ onCloseCallback }) {
     const [username, setUsername] = useState("");
@@ -71,6 +72,9 @@ function CreateAccountPanel({ onCloseCallback }) {
                       onChange={(event) => {
                           setUsername(event.target.value);
                       }}
+                      onMouseEnter={() => {
+                          dungeonz.gameScene.soundManager.effects.playGUITick();
+                      }}
                     />
 
                     <input
@@ -81,11 +85,17 @@ function CreateAccountPanel({ onCloseCallback }) {
                       onChange={(event) => {
                           setPassword(event.target.value);
                       }}
+                      onMouseEnter={() => {
+                          dungeonz.gameScene.soundManager.effects.playGUITick();
+                      }}
                     />
 
                     <div
                       className="create-account-button-cont"
                       onClick={createAccountPressed}
+                      onMouseEnter={() => {
+                          dungeonz.gameScene.soundManager.effects.playGUITick();
+                      }}
                     >
                         <img
                           src={borderImage}

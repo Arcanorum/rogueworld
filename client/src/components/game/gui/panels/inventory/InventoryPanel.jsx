@@ -203,6 +203,7 @@ function ItemSlot({ itemConfig, onClick }) {
                   GUIState.setTooltipContent(
                       <ItemTooltip itemTypeCode={itemConfig.typeCode} />,
                   );
+                  dungeonz.gameScene.soundManager.effects.playGUITick();
               }}
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);

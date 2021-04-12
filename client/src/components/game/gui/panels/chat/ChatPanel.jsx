@@ -60,9 +60,9 @@ function ChatPanel({ onCloseCallback }) {
     const focusOnChatInput = () => chatInputRef.current.focus();
 
     const updatePlaceHolder = () => {
-        const currentDate = new Date();
+        const currentDate = Date.now();
         const targetDate = ChatState.getCoolDownDate(ChatState.chatScope);
-        const secondsRemaining = (targetDate.getTime() - currentDate.getTime()) / 1000;
+        const secondsRemaining = (targetDate - currentDate) / 1000;
 
         if (secondsRemaining <= 0) setPlaceHolder(defaultPlaceHolder);
         else setPlaceHolder(`cooldown ${Math.round(secondsRemaining)}`);

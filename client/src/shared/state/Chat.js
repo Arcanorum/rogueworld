@@ -38,15 +38,15 @@ class Chat {
         this.CHAT_SCOPES = {
             LOCAL: {
                 value: "LOCAL",
-                cooldownDate: new Date("1970"),
+                cooldownDate: Date.now(),
             },
             GLOBAL: {
                 value: "GLOBAL",
-                cooldownDate: new Date("1970"),
+                cooldownDate: Date.now(),
             },
             TRADE: {
                 value: "TRADE",
-                cooldownDate: new Date("1970"),
+                cooldownDate: Date.now(),
             },
         };
         this.chatScope = this.CHAT_SCOPES.LOCAL.value;
@@ -57,9 +57,8 @@ class Chat {
     }
 
     validateScope(scope) {
-        const index = Object.values(this.CHAT_SCOPES)
-            .findIndex((chatScope) => chatScope.value === scope);
-        if (index < 0) throw new Error(`Server returned an unknown scope: ${scope}`);
+        const result = this.CHAT_SCOPES[scope];
+        if (result === undefined) throw new Error(`Server returned an unknown scope: ${scope}`);
     }
 
     addNewChat(data) {
@@ -74,9 +73,7 @@ class Chat {
         }
 
         if (data.id === this.playerState.entityID) {
-            Object.values(this.CHAT_SCOPES)
-                .find((chatScope) => chatScope.value === data.scope)
-                .cooldownDate = new Date(data.nextAvailableDate);
+            this.CHAT_SCOPES[data.scope].cooldownDate = data.nextAvailableDate;
         }
 
         PubSub.publish(NEW_CHAT, {
@@ -85,12 +82,8 @@ class Chat {
     }
 
     getCoolDownDate(scope) {
-        const { cooldownDate } = Object.values(this.CHAT_SCOPES)
-            .find((chatScope) => chatScope.value === scope);
-
-        if (cooldownDate === undefined) throw new Error(`Unknown scope: ${scope}`);
-
-        return cooldownDate;
+        this.validateScope(scope);
+        return this.CHAT_SCOPES[scope].cooldownDate;
     }
 
     setPendingChat(message) {

@@ -118,7 +118,7 @@ function GUI() {
                 <PanelButton
                   icon={chatIcon}
                   onClick={() => togglePanel(Panels.Chat)}
-                  tooltipText={`${Utils.getTextDef("Chat tooltip")} ( ENTER )`}
+                  tooltipText={`${Utils.getTextDef("Chat input")} ( ENTER )`}
                 />
             </div>
 

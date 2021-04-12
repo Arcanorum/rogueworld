@@ -5,16 +5,13 @@ import "./GUI.scss";
 import GloryCounter from "./glory_counter/GloryCounter";
 import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./panel_button/PanelButton";
-import StatsPanel from "./panels/stats/StatsPanel";
-import TasksPanel from "./panels/tasks/TasksPanel";
-import CreateAccountPanel from "./panels/create_account/CreateAccountPanel";
 import TaskTracker from "./task_tracker/TaskTracker";
 import Utils from "../../../shared/Utils";
-import AccountPanel from "./panels/account/AccountPanel";
-import { ApplicationState, GUIState } from "../../../shared/state/States";
+import { ApplicationState, GUIState, PlayerState } from "../../../shared/state/States";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
 import mapIcon from "../../../assets/images/gui/hud/map-icon.png";
+import chatIcon from "../../../assets/images/gui/hud/chat-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
@@ -22,21 +19,12 @@ import settingsIcon from "../../../assets/images/gui/panels/settings/settings-ic
 import {
     DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, PANEL_CHANGE, POSITION_VALUE,
 } from "../../../shared/EventTypes";
-import ChatInput from "./chat_input/ChatInput";
-import DungeonPanel from "./panels/dungeon/DungeonPanel";
-import RespawnPanel from "./panels/respawn/RespawnPanel";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
-import MapPanel from "./panels/map/MapPanel";
-import InventoryPanel from "./panels/inventory/InventoryPanel";
-import SettingsPanel from "./panels/settings/SettingsPanel";
 import Tooltip from "./tooltip/Tooltip";
 import Panels from "./panels/PanelsEnum";
 import Hotbar from "./hotbar/Hotbar";
-import CraftingPanel from "./panels/crafting/CraftingPanel";
-import BankPanel from "./panels/bank/BankPanel";
-import ShopPanel from "./panels/shop/ShopPanel";
-import ChangeNamePanel from "./panels/change_name/ChangeNamePanel";
+import GUIPanelWindows from "./GUIPanelWindows";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
@@ -63,7 +51,9 @@ function GUI() {
                 setShownPanel(Panels.Dungeon);
             }),
             PubSub.subscribe(POSITION_VALUE, () => {
-                setShownPanel(Panels.NONE);
+                if (GUIState.activePanel !== Panels.Chat) {
+                    setShownPanel(Panels.NONE);
+                }
             }),
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
                 // If the player died, show the respawn panel.
@@ -95,6 +85,12 @@ function GUI() {
         GUIState.setActivePanel(shownPanel);
     }, [shownPanel]);
 
+    const togglePanel = (panel) => {
+        if (PlayerState.hitPoints <= 0) return; // prevent toggling the panels if player is dead
+        if (shownPanel === Panels.NONE) setShownPanel(panel);
+        else closePanelCallback();
+    };
+
     return (
         <div className="gui">
             <Meters />
@@ -106,24 +102,23 @@ function GUI() {
                 <DefenceCounter />
                 <PanelButton
                   icon={statsIcon}
-                  onClick={() => {
-                      setShownPanel(Panels.Stats);
-                  }}
+                  onClick={() => togglePanel(Panels.Stats)}
                   tooltipText={`${Utils.getTextDef("Stats tooltip")} ( V )`}
                 />
                 <PanelButton
                   icon={tasksIcon}
-                  onClick={() => {
-                      setShownPanel(Panels.Tasks);
-                  }}
+                  onClick={() => togglePanel(Panels.Tasks)}
                   tooltipText={`${Utils.getTextDef("Tasks tooltip")} ( B )`}
                 />
                 <PanelButton
                   icon={mapIcon}
-                  onClick={() => {
-                      setShownPanel(Panels.Map);
-                  }}
+                  onClick={() => togglePanel(Panels.Map)}
                   tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
+                />
+                <PanelButton
+                  icon={chatIcon}
+                  onClick={() => togglePanel(Panels.Chat)}
+                  tooltipText={`${Utils.getTextDef("Chat input")} ( ENTER )`}
                 />
             </div>
 
@@ -131,21 +126,15 @@ function GUI() {
                 <PanelButton
                   icon={exitIcon}
                   onClick={() => {
-                      if (loggedIn) {
-                          setShownPanel(Panels.Account);
-                      }
-                      else {
-                          setShownPanel(Panels.CreateAccount);
-                      }
+                      if (loggedIn) togglePanel(Panels.Account);
+                      else togglePanel(Panels.CreateAccount);
                   }}
                   tooltipText={Utils.getTextDef("Account tooltip")}
                 />
 
                 <PanelButton
                   icon={settingsIcon}
-                  onClick={() => {
-                      setShownPanel(Panels.Settings);
-                  }}
+                  onClick={() => togglePanel(Panels.Settings)}
                   tooltipText={Utils.getTextDef("Settings tooltip")}
                 />
 
@@ -168,73 +157,12 @@ function GUI() {
             <DungeonKeys />
 
             <div className="panel-cont">
-                {shownPanel === Panels.CreateAccount && (
-                <CreateAccountPanel
-                  onCloseCallback={closePanelCallback}
+                <GUIPanelWindows
+                  shownPanel={shownPanel}
+                  closePanelCallback={closePanelCallback}
+                  targetDungeonPortal={targetDungeonPortal}
                 />
-                )}
-                {shownPanel === Panels.Account && (
-                <AccountPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Settings && (
-                <SettingsPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.ChangeName && (
-                <ChangeNamePanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Respawn && (
-                <RespawnPanel />
-                )}
-                {shownPanel === Panels.Dungeon && (
-                <DungeonPanel
-                  onCloseCallback={closePanelCallback}
-                  dungeonPortal={targetDungeonPortal}
-                />
-                )}
-                {shownPanel === Panels.Stats && (
-                <StatsPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Tasks && (
-                <TasksPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Map && (
-                <MapPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Inventory && (
-                <InventoryPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Crafting && (
-                <CraftingPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Bank && (
-                <BankPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
-                {shownPanel === Panels.Shop && (
-                <ShopPanel
-                  onCloseCallback={closePanelCallback}
-                />
-                )}
             </div>
-
-            <ChatInput />
 
             <Hotbar />
 

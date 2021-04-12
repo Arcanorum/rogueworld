@@ -44,10 +44,15 @@ function GamePage() {
         };
     }, []);
 
+    const loseAllInputFocus = () => {
+        document.querySelectorAll("input")
+            .forEach((input) => input.blur());
+    };
+
     return (
         <div>
             <div id="game-cont" className={`normal-cursor ${loadFinished ? "fade-in" : ""}`}>
-                <div id="game-canvas" />
+                <div id="game-canvas" onClick={loseAllInputFocus} />
                 <GUI />
             </div>
         </div>

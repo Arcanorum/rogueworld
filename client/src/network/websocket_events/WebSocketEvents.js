@@ -12,7 +12,7 @@ import StatusEffects from "./StatusEffects";
 import PlayerValues from "./PlayerValues";
 import Entity from "./Entity";
 import Alerts from "./Alerts";
-import { GUIState } from "../../shared/state/States";
+import { GUIState, ChatState } from "../../shared/state/States";
 
 // Add the login/home page related events immediately.
 Login(eventResponses);
@@ -63,7 +63,7 @@ export const addGameEventResponses = () => {
 
     eventResponses.chat = (data) => {
         // console.log("chat:", data);
-        dungeonz.gameScene.chat(data.id, data.message);
+        ChatState.addNewChat(data);
     };
 
     eventResponses.shop_prices = (data) => {

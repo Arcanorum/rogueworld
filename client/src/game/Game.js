@@ -12,7 +12,7 @@ import {
 } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
-    CHAT_CLOSE, CHAT_OPEN, ENTER_KEY, HITPOINTS_VALUE, POSITION_VALUE,
+    ENTER_KEY, HITPOINTS_VALUE, POSITION_VALUE,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
@@ -262,12 +262,6 @@ class Game extends Phaser.Scene {
                     );
                 }
             }),
-            PubSub.subscribe(CHAT_OPEN, () => {
-                GUIState.setChatInputStatus(true);
-            }),
-            PubSub.subscribe(CHAT_CLOSE, () => {
-                GUIState.setChatInputStatus(false);
-            }),
             PubSub.subscribe(POSITION_VALUE, (msg, data) => {
                 // Check the music to play.
                 const positionMusicName = this.currentMapMusicZones[`${data.new.row}-${data.new.col}`];
@@ -424,10 +418,13 @@ class Game extends Phaser.Scene {
     }
 
     checkKeyFilters() {
-        // Don't move while the chat input is open.
-        if (GUIState.chatInputStatus) return true;
+        // Don't move while an input has focus
+        if (document.activeElement.tagName === "INPUT") return true;
         // Or any panel is open.
-        if (GUIState.activePanel !== Panels.NONE) return true;
+        if (GUIState.activePanel !== Panels.NONE) {
+            // except chat panel
+            if (GUIState.activePanel !== Panels.Chat) return true;
+        }
 
         return false;
     }
@@ -572,7 +569,13 @@ class Game extends Phaser.Scene {
         this.keyboardKeys.d.on("up", this.moveRightReleased, this);
 
         this.keyboardKeys.enterChat.on("down", () => {
-            PubSub.publish(ENTER_KEY);
+            // open chat panel if closed
+            // OR
+            // trigger chat input focus when chat panel is already open but blurred
+            if (GUIState.activePanel === Panels.NONE
+            || GUIState.activePanel === Panels.Chat) {
+                GUIState.setActivePanel(Panels.Chat);
+            }
         });
 
         this.keyboardKeys.escape.on("down", () => {

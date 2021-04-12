@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./ChatTabs.scss";
 import { ChatState } from "../../../../../shared/state/States";
+import Utils from "../../../../../shared/Utils";
 
 function ChatTabs({
     updatePlaceHolder,
@@ -12,27 +13,33 @@ function ChatTabs({
     viewChatScope,
     getScopeColor,
 }) {
-    const isActiveTab = (_scope) => (viewChatScope === _scope ? "active" : "");
+    const isActiveTab = (scope) => (viewChatScope === scope ? "active" : "");
 
-    const handleChatTabClick = (_scope) => {
+    const handleChatTabClick = (scope) => {
         // don't set sendChat scope if player selected to view "ALL" tab
-        if (_scope !== ChatState.generalChatScope) {
-            setSendChatScope(_scope);
-            ChatState.saveChatScope(_scope);
+        if (scope !== ChatState.generalChatScope) {
+            setSendChatScope(scope);
+            ChatState.saveChatScope(scope);
         }
-        ChatState.saveTabScope(_scope);
-        setViewChatScope(_scope);
+        ChatState.saveTabScope(scope);
+        setViewChatScope(scope);
         focusOnChatInput();
         scrollChatToBottom();
         updatePlaceHolder();
     };
+
+    const formatChatScope = (scope) => {
+        const lowerCasedScope = scope.toLowerCase();
+        return lowerCasedScope[0].toUpperCase() + lowerCasedScope.slice(1);
+    };
+
     return (
         <div className="chat-tabs-container">
             <p
               onClick={(e) => handleChatTabClick(ChatState.generalChatScope)}
               className={`chat-tab all ${isActiveTab(ChatState.generalChatScope)}`}
             >
-                ALL
+                {Utils.getTextDef("Chat scope: All")}
             </p>
             { Object.values(ChatState.CHAT_SCOPES).map((chatScope) => (
                 <p
@@ -40,7 +47,7 @@ function ChatTabs({
                   onClick={(e) => handleChatTabClick(chatScope.value)}
                   className={`chat-tab ${getScopeColor(chatScope.value)} ${isActiveTab(chatScope.value)}`}
                 >
-                    {chatScope.value}
+                    {Utils.getTextDef(`Chat scope: ${formatChatScope(chatScope.value)}`)}
                 </p>
             ))}
         </div>

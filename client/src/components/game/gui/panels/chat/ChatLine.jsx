@@ -7,7 +7,8 @@ function ChatLine({
 }) {
     return (
         <p className={`chat-line ${getScopeColor(scope)}`}>
-            {`${displayName}: ${message}`}
+            <span className="display-name">{`${displayName}: `}</span>
+            <span>{message}</span>
         </p>
     );
 }

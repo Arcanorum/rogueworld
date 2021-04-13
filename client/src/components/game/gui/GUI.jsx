@@ -66,7 +66,9 @@ function GUI() {
                 setShownPanel(GUIState.activePanel);
             }),
             PubSub.subscribe(BEFORE_PAGE_UNLOAD, () => {
-                setShownPanel(Panels.CreateAccount);
+                if (ApplicationState.loggedIn !== true) {
+                    setShownPanel(Panels.CreateAccount);
+                }
             }),
         ];
 

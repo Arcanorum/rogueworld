@@ -6,6 +6,7 @@ import { ApplicationState } from "../../shared/state/States";
 import { LOAD_ACCEPTED, BEFORE_PAGE_UNLOAD } from "../../shared/EventTypes";
 import { removeGameEventResponses } from "../../network/websocket_events/WebSocketEvents";
 import "./GamePage.scss";
+import dungeonz from "../../shared/Global";
 
 function GamePage() {
     const [loadFinished, setLoadFinished] = useState({});
@@ -29,10 +30,14 @@ function GamePage() {
 
         gameInstance.scene.start("Boot");
 
-        window.onbeforeunload = () => {
-            PubSub.publish(BEFORE_PAGE_UNLOAD);
-            return ("");
-        };
+        // Add handler to browser event to prevent closing game by
+        // misclick, if client is not in devmode.
+        if (dungeonz.devMode === false) {
+            window.onbeforeunload = () => {
+                PubSub.publish(BEFORE_PAGE_UNLOAD);
+                return ("");
+            };
+        }
 
         // Cleanup.
         return () => {

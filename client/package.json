@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "animated-number-react": "^0.1.1",
+    "bad-words": "^3.0.4",
     "leaflet": "^1.7.1",
     "node-sass": "^4.14.1",
     "phaser": "^3.54.0",

@@ -1,5 +1,6 @@
 import PubSub from "pubsub-js";
 import { v4 as uuidv4 } from "uuid";
+import BadWords from "bad-words";
 import dungeonz from "../Global";
 import { NEW_CHAT } from "../EventTypes";
 
@@ -21,14 +22,19 @@ class Chat {
     // save last selected chat scope here
     chatScope;
 
+    // bad-words instance
+    badWords;
+
     /**
      * @param {Application} applicationState
      * @param {Player} playerState
+     * @param {GUI} guiState
      */
-    constructor(applicationState, playerState) {
+    constructor(applicationState, playerState, guiState) {
         this.init();
         this.applicationState = applicationState;
         this.playerState = playerState;
+        this.guiState = guiState;
     }
 
     init() {
@@ -50,6 +56,7 @@ class Chat {
             },
         };
         this.chatScope = this.CHAT_SCOPES.LOCAL.value;
+        this.badWords = new BadWords();
     }
 
     send(scope, message) {
@@ -61,8 +68,18 @@ class Chat {
         if (result === undefined) throw new Error(`Server returned an unknown scope: ${scope}`);
     }
 
+    filterProfanity(message) {
+        // filter profanity only if it is enabled in the settings
+        if (this.guiState.profanityFilterEnabled) {
+            return this.badWords.clean(message);
+        }
+
+        return message;
+    }
+
     addNewChat(data) {
         this.validateScope(data.scope);
+        data.message = this.filterProfanity(data.message);
         dungeonz.gameScene.chat(data.id, data.message);
         const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
 

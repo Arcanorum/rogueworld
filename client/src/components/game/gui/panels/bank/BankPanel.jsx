@@ -28,6 +28,7 @@ import {
     MODIFY_BANK_MAX_WEIGHT,
 } from "../../../../../shared/EventTypes";
 import dungeonz from "../../../../../shared/Global";
+import Panels from "../PanelsEnum";
 
 const canTransferItem = (FromState, itemConfig, quantity) => {
     if (!itemConfig) return false;
@@ -81,6 +82,7 @@ function UpgradeOptions({
           style={{ top: styleTop, left: styleLeft }}
           onMouseLeave={() => onCursorLeave()}
         >
+            {ApplicationState.loggedIn && (
             <div className="upgrade">
                 <div className="cost">
                     <img src={weightIcon} draggable={false} />
@@ -93,6 +95,22 @@ function UpgradeOptions({
                 {PlayerState.glory >= BankState.maxWeightUpgradeCost && <div className="button accept" onClick={upgradePressed}>{Utils.getTextDef("Buy")}</div>}
                 {PlayerState.glory < BankState.maxWeightUpgradeCost && <div className="button warning">{Utils.getTextDef("Not enough glory")}</div>}
             </div>
+            )}
+            {!ApplicationState.loggedIn && (
+            <div className="upgrade">
+                <div className="create-account">
+                    {Utils.getTextDef("Bank upgrade account needed")}
+                </div>
+                <div
+                  className="button accept"
+                  onClick={() => {
+                      GUIState.setActivePanel(Panels.CreateAccount);
+                  }}
+                >
+                    {Utils.getTextDef("Create account")}
+                </div>
+            </div>
+            )}
         </div>
     );
 }

@@ -1,11 +1,4 @@
 { "compressionlevel":0,
- "editorsettings":
-    {
-     "export":
-        {
-         "target":"."
-        }
-    },
  "height":97,
  "infinite":false,
  "layers":[
@@ -86,7 +79,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"TutorialMerchant"
                         }, 
@@ -132,7 +125,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Rat"
                         }, 
@@ -155,7 +148,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Rat"
                         }, 
@@ -178,7 +171,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bat"
                         }, 
@@ -201,7 +194,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bat"
                         }, 
@@ -224,7 +217,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"TutorialMerchant"
                         }, 
@@ -252,7 +245,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"TutorialMerchant"
                         }, 
@@ -280,7 +273,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"TutorialMerchant"
                         }, 
@@ -308,7 +301,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"TutorialMerchant"
                         }, 
@@ -328,336 +321,6 @@
                  "width":16,
                  "x":544,
                  "y":160
-                }, 
-                {
-                 "gid":910,
-                 "height":32,
-                 "id":51,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-merchants.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial merchants"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Merchants"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":464,
-                 "y":240
-                }, 
-                {
-                 "gid":910,
-                 "height":64,
-                 "id":52,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-gathering.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial gathering"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Gathering"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":736,
-                 "y":256
-                }, 
-                {
-                 "gid":910,
-                 "height":80,
-                 "id":53,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-furnace.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial furnace"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting metal bars"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":976,
-                 "y":688
-                }, 
-                {
-                 "gid":910,
-                 "height":48,
-                 "id":54,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-banking.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial banking"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Banking"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":544,
-                 "y":672
-                }, 
-                {
-                 "gid":910,
-                 "height":32,
-                 "id":55,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-combat.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial combat"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Combat"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":112,
-                 "x":448,
-                 "y":896
-                }, 
-                {
-                 "gid":910,
-                 "height":32,
-                 "id":57,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-workbench.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial workbench"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting clothes"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":912,
-                 "y":592
-                }, 
-                {
-                 "gid":910,
-                 "height":32,
-                 "id":58,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-workbench.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial workbench"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting clothes"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":880,
-                 "y":624
-                }, 
-                {
-                 "gid":910,
-                 "height":32,
-                 "id":59,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-furnace.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial furnace"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting metal bars"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":992,
-                 "y":624
-                }, 
-                {
-                 "gid":910,
-                 "height":32,
-                 "id":60,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-furnace.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial furnace"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting metal bars"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":992,
-                 "y":704
-                }, 
-                {
-                 "gid":910,
-                 "height":16,
-                 "id":61,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-anvil.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial anvil"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting weapons"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":80,
-                 "x":928,
-                 "y":720
                 }, 
                 {
                  "gid":1035,
@@ -707,7 +370,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Citizen"
                         }, 
@@ -727,34 +390,6 @@
                  "width":96,
                  "x":352,
                  "y":240
-                }, 
-                {
-                 "gid":909,
-                 "height":64,
-                 "id":66,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"EntityClassName",
-                         "type":"string",
-                         "value":"Citizen"
-                        }, 
-                        {
-                         "name":"MaxAtOnce",
-                         "type":"int",
-                         "value":4
-                        }, 
-                        {
-                         "name":"SpawnRate",
-                         "type":"int",
-                         "value":2000
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":48,
-                 "x":912,
-                 "y":672
                 }, 
                 {
                  "gid":1035,
@@ -804,7 +439,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupIronSword"
                         }, 
@@ -827,7 +462,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupIronSword"
                         }, 
@@ -850,7 +485,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupHealthPotion"
                         }, 
@@ -873,7 +508,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupHealthPotion"
                         }, 
@@ -890,79 +525,13 @@
                  "y":1264
                 }, 
                 {
-                 "gid":910,
-                 "height":16,
-                 "id":73,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-workbench.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial workbench"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting clothes"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":896,
-                 "y":592
-                }, 
-                {
-                 "gid":910,
-                 "height":16,
-                 "id":74,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"ContentFileName",
-                         "type":"string",
-                         "value":"tutorial-workbench.gif"
-                        }, 
-                        {
-                         "name":"Name",
-                         "type":"string",
-                         "value":"Tutorial workbench"
-                        }, 
-                        {
-                         "name":"PanelName",
-                         "type":"string",
-                         "value":"hintPanel"
-                        }, 
-                        {
-                         "name":"PanelNameTextDefID",
-                         "type":"string",
-                         "value":"Crafting clothes"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":864,
-                 "y":624
-                }, 
-                {
                  "gid":909,
                  "height":48,
                  "id":75,
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Citizen"
                         }, 
@@ -1057,7 +626,7 @@
          "value":false
         }],
  "renderorder":"right-down",
- "tiledversion":"1.3.1",
+ "tiledversion":"1.5.0",
  "tileheight":16,
  "tilesets":[
         {
@@ -1074,6 +643,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":1.2,
+ "version":1.5,
  "width":99
 }

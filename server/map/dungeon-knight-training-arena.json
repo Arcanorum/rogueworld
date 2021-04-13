@@ -63,7 +63,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Knight"
                         }, 
@@ -96,7 +96,7 @@
                          "value":1
                         }, 
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Commander"
                         }, 
@@ -147,7 +147,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Knight"
                         }, 
@@ -175,7 +175,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupIronSword"
                         }, 
@@ -203,7 +203,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupIronSword"
                         }, 
@@ -231,7 +231,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupHealthPotion"
                         }, 
@@ -259,7 +259,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupHealthPotion"
                         }, 

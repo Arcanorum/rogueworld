@@ -303,7 +303,7 @@ class Board {
                 // Get and separate the type from the prefix using the tile GID.
                 type = staticsTileset.tiles[objectID].type;
 
-                // Check that the type of this tile is a valid one.
+                // Check that the type of this entity is a valid one.
                 if (EntitiesList[type]) {
                     const config = {
                         row,
@@ -333,17 +333,17 @@ class Board {
 
                         config.width = mapObject.width / this.tileSize;
                         config.height = mapObject.height / this.tileSize;
-                        config.entityType = EntitiesList[mapObjProps.EntityClassName];
+                        config.EntityType = EntitiesList[mapObjProps.EntityTypeName];
                         // Check the entity type to create is valid.
-                        if (!config.entityType) {
-                            Utils.warning(`Invalid spawner configuration. Entity type to spawn doesn't exist: ${mapObjProps.EntityClassName}. Skipping.`);
+                        if (!config.EntityType) {
+                            Utils.warning(`Invalid spawner configuration. Entity type to spawn doesn't exist: ${mapObjProps.EntityTypeName}. Skipping.`);
                             return;
                         }
                         config.maxAtOnce = mapObjProps.MaxAtOnce;
                         config.spawnRate = mapObjProps.SpawnRate;
                         config.testing = mapObjProps.Testing;
 
-                        const isPickup = (config.entityType.prototype
+                        const isPickup = (config.EntityType.prototype
                             instanceof EntitiesList.AbstractClasses.Pickup);
 
                         // Check the item config properties are only added to a pickup spawner.
@@ -364,7 +364,7 @@ class Board {
                             // instance of ItemConfig, just pass the props along and the spawner will take
                             // care of making the ItemConfig instances.
                             config.itemConfig = {
-                                ItemType: config.entityType.prototype.ItemType,
+                                ItemType: config.EntityType.prototype.ItemType,
                                 quantity: mapObjProps.ItemQuantity,
                                 durability: mapObjProps.ItemDurability,
                             };
@@ -374,7 +374,7 @@ class Board {
                         // custom item config properties on the map object.
                         if (isPickup && !config.itemConfig) {
                             config.itemConfig = {
-                                ItemType: config.entityType.prototype.ItemType,
+                                ItemType: config.EntityType.prototype.ItemType,
                             };
                         }
 
@@ -385,7 +385,7 @@ class Board {
                             || mapObjProps.YellowKeys
                             || mapObjProps.BrownKeys
                         ) {
-                            const isMob = (config.entityType.prototype
+                            const isMob = (config.EntityType.prototype
                                 instanceof EntitiesList.AbstractClasses.Mob);
 
                             if (!isMob) {
@@ -400,6 +400,24 @@ class Board {
                             if (mapObjProps.YellowKeys) dungeonKeys.yellow = mapObjProps.YellowKeys;
                             if (mapObjProps.BrownKeys) dungeonKeys.brown = mapObjProps.BrownKeys;
                         }
+                        break;
+                    }
+                    case "ProjectileEmitter": {
+                        config.ProjectileType = EntitiesList[`Proj${mapObjProps.ProjectileTypeName}`];
+                        // Check the entity type to create is valid.
+                        if (!config.ProjectileType) {
+                            Utils.warning(`Invalid projectile emitter configuration. Entity type to spawn doesn't exist: ${mapObjProps.ProjectileTypeName}. Skipping.`);
+                            return;
+                        }
+
+                        config.spawnRate = mapObjProps.SpawnRate;
+                        config.range = mapObjProps.Range;
+
+                        config.direction = Directions[mapObjProps.Direction.toUpperCase()];
+                        if (!config.direction) {
+                            Utils.warning(`Invalid projectile emitter configuration. Invalid direction: ${mapObjProps.Direction}. Skipping.`);
+                        }
+
                         break;
                     }
                     case "Exit": {

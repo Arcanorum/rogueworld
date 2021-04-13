@@ -17,17 +17,26 @@
   <property name="PanelName" type="string"/>
   <property name="PanelNameTextDefID" type="string"/>
  </objecttype>
+ <objecttype name="MusicZone" color="#d500ff">
+  <property name="AudioFileName" type="string"/>
+ </objecttype>
  <objecttype name="OverworldPortal" color="#a0a0a4">
   <property name="TargetBoard" type="string" default=""/>
   <property name="TargetEntranceName" type="string" default=""/>
+ </objecttype>
+ <objecttype name="ProjectileEmitter" color="#a0a0a4">
+  <property name="Direction" type="string" default=""/>
+  <property name="ProjectileTypeName" type="string" default=""/>
+  <property name="Range" type="int" default="0"/>
+  <property name="SpawnRate" type="int" default="0"/>
  </objecttype>
  <objecttype name="Sign" color="#a0a0a4">
   <property name="TextDefID" type="string"/>
  </objecttype>
  <objecttype name="Spawner" color="#a0a0a4">
-  <property name="EntityClassName" type="string" default=""/>
+  <property name="EntityTypeName" type="string" default=""/>
  </objecttype>
  <objecttype name="SpawnerArea" color="#a0a0a4">
-  <property name="EntityClassName" type="string"/>
+  <property name="EntityTypeName" type="string"/>
  </objecttype>
 </objecttypes>

@@ -31,6 +31,7 @@ export const DEFENCE_VALUE = Symbol("DEFENCE_VALUE");
 export const STATS_VALUE = Symbol("STATS_VALUE");
 export const TASKS_VALUE = Symbol("TASKS_VALUE");
 export const TASK_PROGRESS = Symbol("TASK_PROGRESS");
+export const COMBAT_STATUS_TRIGGER = Symbol("COMBAT_STATUS_TRIGGER");
 
 // Keyboard.
 export const ENTER_KEY = Symbol("ENTER_KEY");

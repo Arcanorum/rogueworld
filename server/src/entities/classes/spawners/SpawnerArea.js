@@ -8,7 +8,7 @@ class SpawnerArea extends Spawner {
      * @param {Board} config.board
      * @param {Number} config.width - How many tiles wide.
      * @param {Number} config.height - How many tiles high.
-     * @param {Function} config.entityType - The type of entity that this spawner will create instances of.
+     * @param {Function} config.EntityType - The type of entity that this spawner will create instances of.
      * @param {Number} [config.maxAtOnce=1] - The maximum amount of entities this spawner can have at once.
      * @param {Number} [config.spawnRate=1000] - How often this spawner creates a new entity, in ms.
      */

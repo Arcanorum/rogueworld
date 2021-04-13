@@ -1,0 +1,52 @@
+const Entity = require("../../Entity");
+
+class ProjectileEmitter extends Entity {
+    constructor(config) {
+        super(config);
+
+        this.ProjectileType = config.ProjectileType;
+
+        // Use the range of the projectile to be emitted.
+        this.range = config.range || config.ProjectileType.prototype.range || 5;
+
+        this.direction = config.direction;
+
+        this.spawnRate = config.spawnRate || 5000;
+
+        this.spawnInterval = setInterval(this.spawn.bind(this), this.spawnRate);
+    }
+
+    onDestroy() {
+        clearInterval(this.spawnInterval);
+    }
+
+    checkDirection() {
+        return true;
+
+        // if(this.direction === this.Directions.UP) {
+        //     for
+        // }
+    }
+
+    spawn() {
+        if (!this.checkDirection()) {
+            //
+            return;
+        }
+
+        const projectile = new this.ProjectileType(
+            {
+                row: this.row,
+                col: this.col,
+                board: this.board,
+                direction: this.direction,
+            },
+        );
+
+        projectile.range = this.range;
+
+        projectile.emitToNearbyPlayers();
+    }
+}
+
+module.exports = ProjectileEmitter;

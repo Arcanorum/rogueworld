@@ -107,6 +107,16 @@ export const connectToGameServer = () => {
                     eventResponses[eventName](parsedMessage.data);
                 }
             }
+            // Event response is missing. It might have not been added yet (game state still
+            // loading), so store it for now so this missed event can be re-ran when they have
+            // finished loading (and the game event responses are added) so they can be
+            // fastforwarded to the current game world state.
+            else if (parsedMessage.data === undefined) {
+                ApplicationState.addMissedWebsocketEvent(eventName, {});
+            }
+            else {
+                ApplicationState.addMissedWebsocketEvent(eventName, parsedMessage.data);
+            }
         }
     };
 

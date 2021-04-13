@@ -33,6 +33,8 @@ class Application {
 
         this.loggedIn = false;
 
+        this.missedWebsocketEvents = [];
+
         this.maxDisplayNameLength = 0;
 
         this.maxUsernameLength = 0;
@@ -97,6 +99,13 @@ class Application {
         const old = this.loggedIn;
         this.loggedIn = value || false;
         PubSub.publish(LOGGED_IN, { old, new: this.loggedIn });
+    }
+
+    addMissedWebsocketEvent(eventName, parsedData) {
+        this.missedWebsocketEvents.push({
+            eventName,
+            parsedData,
+        });
     }
 }
 

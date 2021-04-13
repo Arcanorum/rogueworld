@@ -18,6 +18,7 @@ import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
 import settingsIcon from "../../../assets/images/gui/panels/settings/settings-icon.png";
 import {
     DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, PANEL_CHANGE, POSITION_VALUE,
+    BEFORE_PAGE_UNLOAD,
 } from "../../../shared/EventTypes";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
@@ -63,6 +64,11 @@ function GUI() {
             }),
             PubSub.subscribe(PANEL_CHANGE, () => {
                 setShownPanel(GUIState.activePanel);
+            }),
+            PubSub.subscribe(BEFORE_PAGE_UNLOAD, () => {
+                if (ApplicationState.loggedIn !== true) {
+                    setShownPanel(Panels.CreateAccount);
+                }
             }),
         ];
 

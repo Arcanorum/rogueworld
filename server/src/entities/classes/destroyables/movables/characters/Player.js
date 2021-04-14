@@ -304,7 +304,7 @@ class Player extends Character {
         // Update timestamp used by isInCombat method.
         this.lastDamagedTime = Date.now();
         this.socket.sendEvent(this.EventsList.player_in_combat, { 
-                duration: (settings.IN_COMBAT_STATUS_DURATION || 5000)
+            duration: (settings.IN_COMBAT_STATUS_DURATION || 5000)
         });
         // If they are already dead, don't damage them again.
         // Might have been killed before this method is called.

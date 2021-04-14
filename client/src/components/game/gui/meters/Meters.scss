@@ -12,6 +12,13 @@
         top: 50%;
     }
 
+    .combat-indicator-icon {
+        position: absolute;
+        right: 0;
+        transform: translate(100%, -50%);
+        top: 50%;
+    }
+
     .meter {
         position: relative;
         display: flex;

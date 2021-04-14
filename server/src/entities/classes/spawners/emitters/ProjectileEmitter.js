@@ -13,10 +13,15 @@ class ProjectileEmitter extends Entity {
 
         this.spawnRate = config.spawnRate || 5000;
 
-        this.spawnInterval = setInterval(this.spawn.bind(this), this.spawnRate);
+        this.spawnInterval = 0;
+
+        this.delayTimeout = setTimeout(() => {
+            this.spawnInterval = setInterval(this.spawn.bind(this), this.spawnRate);
+        }, config.delay || 100);
     }
 
     onDestroy() {
+        clearTimeout(this.delayTimeout);
         clearInterval(this.spawnInterval);
     }
 

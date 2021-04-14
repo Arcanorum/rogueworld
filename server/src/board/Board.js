@@ -412,6 +412,7 @@ class Board {
 
                         config.spawnRate = mapObjProps.SpawnRate;
                         config.range = mapObjProps.Range;
+                        config.delay = mapObjProps.Delay;
 
                         config.direction = Directions[mapObjProps.Direction.toUpperCase()];
                         if (!config.direction) {

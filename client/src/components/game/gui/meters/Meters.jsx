@@ -80,7 +80,7 @@ function Meters() {
             }),
             PubSub.subscribe(COMBAT_STATUS_TRIGGER, (msg, data) => {
                 data = parseInt(data, 10);
-                if (data.isNaN) {
+                if (Number.isNaN(data)) {
                     data = 0;
                 }
                 combatTimerInternal = data;

@@ -1,4 +1,7 @@
 const Projectile = require("./Projectile");
+const Character = require("../characters/Character");
+const Damage = require("../../../../../gameplay/Damage");
+const Heal = require("../../../../../gameplay/Heal");
 
 class ProjBloodBolt extends Projectile {
     handleCollision(collidee) {
@@ -18,19 +21,17 @@ class ProjBloodBolt extends Projectile {
                 this.source,
             );
             // Blood bolt heals HP on hit.
-            this.source.heal(
-                new Heal(this.healAmount),
-            );
+            if (this.source && this.source.heal) {
+                this.source.heal(
+                    new Heal(this.healAmount),
+                );
+            }
 
             this.destroy();
         }
     }
 }
 module.exports = ProjBloodBolt;
-
-const Character = require("../characters/Character");
-const Damage = require("../../../../../gameplay/Damage");
-const Heal = require("../../../../../gameplay/Heal");
 
 ProjBloodBolt.prototype.assignModHitPointConfigs();
 ProjBloodBolt.prototype.moveRate = 200;

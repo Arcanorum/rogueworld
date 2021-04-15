@@ -68,10 +68,18 @@ class Chat {
         if (result === undefined) throw new Error(`Server returned an unknown scope: ${scope}`);
     }
 
+    isAlphaNumericSpace(str) {
+        return str.match("^[\\w\\s]+$");
+    }
+
     filterProfanity(message) {
         // filter profanity only if it is enabled in the settings
         if (this.guiState.profanityFilterEnabled) {
-            return this.badWords.clean(message);
+            // check if message contains letters or numbers to avoid error
+            // https://github.com/web-mech/badwords/issues/103
+            if (this.isAlphaNumericSpace(message)) {
+                return this.badWords.clean(message);
+            }
         }
 
         return message;

@@ -269,7 +269,10 @@ class DungeonPortal extends Portal {
     onPressed() {
         if (!this.isWithinPressableRange()) return;
         // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
-        if (GUIState.activePanel !== Panels.NONE) return;
+        if (GUIState.activePanel !== Panels.NONE) {
+            // Except chat panel.
+            if (GUIState.activePanel !== Panels.Chat) return;
+        }
 
         PubSub.publish(DUNGEON_PORTAL_PRESSED, this);
     }
@@ -293,7 +296,10 @@ class CraftingStation extends Static {
     onPressed() {
         if (!this.isWithinPressableRange()) return;
         // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
-        if (GUIState.activePanel !== Panels.NONE) return;
+        if (GUIState.activePanel !== Panels.NONE) {
+            // Except chat panel.
+            if (GUIState.activePanel !== Panels.Chat) return;
+        }
 
         GUIState.setCraftingStation(
             this.stationTypeNumber,
@@ -346,7 +352,10 @@ class BankChest extends Static {
     onPressed() {
         if (!this.isWithinPressableRange()) return;
         // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
-        if (GUIState.activePanel !== Panels.NONE) return;
+        if (GUIState.activePanel !== Panels.NONE) {
+            // Except chat panel.
+            if (GUIState.activePanel !== Panels.Chat) return;
+        }
 
         GUIState.setActivePanel(Panels.Bank);
     }
@@ -361,7 +370,10 @@ class Register extends Static {
     onPressed() {
         if (!this.isWithinPressableRange()) return;
         // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
-        if (GUIState.activePanel !== Panels.NONE) return;
+        if (GUIState.activePanel !== Panels.NONE) {
+            // Except chat panel.
+            if (GUIState.activePanel !== Panels.Chat) return;
+        }
 
         GUIState.setActivePanel(Panels.ChangeName);
     }

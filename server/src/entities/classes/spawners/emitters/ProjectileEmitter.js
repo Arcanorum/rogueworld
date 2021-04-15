@@ -17,7 +17,10 @@ class ProjectileEmitter extends Entity {
 
         this.delayTimeout = setTimeout(() => {
             this.spawnInterval = setInterval(this.spawn.bind(this), this.spawnRate);
-        }, config.delay || 100);
+
+            // Give the server some time to finish setting up before starting the emitters, or the
+            // delays will be over before it is ready.
+        }, (config.delay + 5000) || 5000);
     }
 
     onDestroy() {

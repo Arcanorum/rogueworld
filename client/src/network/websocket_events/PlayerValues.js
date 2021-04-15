@@ -1,6 +1,9 @@
 import PubSub from "pubsub-js";
 import gameConfig from "../../shared/GameConfig";
-import { DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES } from "../../shared/EventTypes";
+import {
+    DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES,
+    COMBAT_STATUS_TRIGGER,
+} from "../../shared/EventTypes";
 import dungeonz from "../../shared/Global";
 import { GUIState, PlayerState } from "../../shared/state/States";
 import eventResponses from "./EventResponses";
@@ -62,6 +65,10 @@ export default () => {
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setEnergy(PlayerState.maxEnergy);
+    };
+
+    eventResponses.player_in_combat = (data) => {
+        PubSub.publish(COMBAT_STATUS_TRIGGER, data.duration);
     };
 
     eventResponses.hit_point_value = (data) => {

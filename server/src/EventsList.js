@@ -85,6 +85,7 @@ const EventsList = {
     modify_inventory_item: registerEventName(),
     parties: registerEventName(),
     pickaxe_needed: registerEventName(),
+    player_in_combat: registerEventName(),
     player_died: registerEventName(),
     player_respawn: registerEventName(),
     remove_all_inventory_items: registerEventName(),

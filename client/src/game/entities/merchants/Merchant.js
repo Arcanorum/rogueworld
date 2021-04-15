@@ -34,7 +34,10 @@ class Merchant extends Container {
 
     onPointerDown() {
         // Prevent opening the shop panel when a merchant is clicked on behind and already open panel.
-        if (GUIState.activePanel !== Panels.NONE) return;
+        if (GUIState.activePanel !== Panels.NONE) {
+            // Except chat panel.
+            if (GUIState.activePanel !== Panels.Chat) return;
+        }
 
         // Check they are within trading range.
         const entity = dungeonz.gameScene.dynamics[this.entityId];

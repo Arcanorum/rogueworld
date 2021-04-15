@@ -569,6 +569,32 @@
   craftTasks:
     - Bows  
 
+# Spell scrolls
+- name: HealSpellScroll
+  code: KXAD5315
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of heal
+  iconSource: icon-scroll-of-healing
+
+- name: WardSpellScroll
+  code: ZZAB3297
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of ward
+  iconSource: icon-scroll-of-healing
+
+- name: CleanseSpellScroll
+  code: KVHL3512
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of cleanse
+  iconSource: icon-scroll-of-healing
+
+- name: PacifySpellScroll
+  code: TFCL0641
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of pacify
+  iconSource: icon-scroll-of-healing
+
+
 # Loot boxes
 
 - name: MediumLootBox

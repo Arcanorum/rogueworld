@@ -79,7 +79,12 @@ class Chat {
 
     addNewChat(data) {
         this.validateScope(data.scope);
-        data.message = this.filterProfanity(data.message);
+
+        // Don't filter profanity of current player's chat
+        if (data.id !== this.playerState.entityID) {
+            data.message = this.filterProfanity(data.message);
+        }
+
         dungeonz.gameScene.chat(data.id, data.message);
         const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
 

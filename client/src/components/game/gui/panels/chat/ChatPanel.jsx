@@ -182,6 +182,7 @@ function ChatPanel({ onCloseCallback }) {
                   onClick={toggleSelectScopeDropdown}
                 >
                     <span className="arrow">{`${showSelectScopeDropdown ? "⬇" : "⬆"}`}</span>
+                    <span className="scope-label">{`(${sendChatScope})`}</span>
                     { `${PlayerState.displayName}:` }
                 </p>
                 <input

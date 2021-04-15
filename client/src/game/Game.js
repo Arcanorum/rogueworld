@@ -12,10 +12,11 @@ import {
 } from "../shared/state/States";
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
-    ENTER_KEY, HITPOINTS_VALUE, POSITION_VALUE,
+    HITPOINTS_VALUE, POSITION_VALUE,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
+import eventResponses from "../network/websocket_events/EventResponses";
 
 gameConfig.ItemTypes = ItemTypes;
 gameConfig.EntityTypes = EntityTypes;
@@ -245,6 +246,19 @@ class Game extends Phaser.Scene {
         // Add the websocket event responses after the game state is started.
         addGameEventResponses();
 
+        // Re-run any missed events while the game state was loading.
+        ApplicationState.missedWebsocketEvents.forEach((missedEvent) => {
+            // Check the event name is still valid. The event handler might have been removed since
+            // this event was added to the missed events list, such as if thre is a disconnect/error
+            // during the loading phase.
+            if (eventResponses[missedEvent.eventName]) {
+                eventResponses[missedEvent.eventName](missedEvent.parsedData);
+            }
+        });
+
+        // Clear the missed events.
+        ApplicationState.missedWebsocketEvents = [];
+
         // Game finished loading. Let the loading/hint screen be closed.
         ApplicationState.setLoading(false);
 
@@ -422,7 +436,7 @@ class Game extends Phaser.Scene {
         if (document.activeElement.tagName === "INPUT") return true;
         // Or any panel is open.
         if (GUIState.activePanel !== Panels.NONE) {
-            // except chat panel
+            // Except chat panel.
             if (GUIState.activePanel !== Panels.Chat) return true;
         }
 

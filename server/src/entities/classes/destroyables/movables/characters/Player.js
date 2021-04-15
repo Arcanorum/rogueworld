@@ -57,6 +57,9 @@ class Player extends Character {
         /** @type {Number} The time after which this player can perform another action. */
         this.nextActionTime = 0;
 
+        /** @type {Number} The time when this player was last damaged. */
+        this.lastDamagedTime = 0;
+
         // Start the energy regen loop.
         if (this.energyRegenRate !== false) {
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
@@ -144,6 +147,11 @@ class Player extends Character {
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
     remove() {
+        // If player was in combat and closed client to cheat death 
+        // items should be removed from inventory.
+        if (this.isInCombat()){
+            this.inventory.dropAllItems();
+        }
         // If the player is looking at a dungeon interface, they
         // might be in a party, so they need removing from that.
         if (this.focusedDungeonManager) {
@@ -265,6 +273,17 @@ class Player extends Character {
     }
 
     /**
+     * Returns true if player was damaged in last x seconds.
+     * @returns {Boolean}
+     */
+    isInCombat() {
+        if (this.lastDamagedTime === 0) {
+            return false;
+        }
+        return Date.now() - this.lastDamagedTime < (settings.IN_COMBAT_STATUS_DURATION || 5000);
+    }
+
+    /**
      * Limits the rate that a player can perform actions.
      * @param {Function} action - A function of the thing to do, such as use the held item.
      * @param {Object} context - The context to run the action in. Usually an entity or item.
@@ -282,6 +301,11 @@ class Player extends Character {
      * @param {Entity} damagedBy
      */
     damage(damage, damagedBy) {
+        // Update timestamp used by isInCombat method.
+        this.lastDamagedTime = Date.now();
+        this.socket.sendEvent(this.EventsList.player_in_combat, { 
+            duration: (settings.IN_COMBAT_STATUS_DURATION || 5000)
+        });
         // If they are already dead, don't damage them again.
         // Might have been killed before this method is called.
         // e.g. a player gets pushed (wind, hammer, etc.) into a damage source (i.e. floor spikes) while

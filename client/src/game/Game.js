@@ -436,7 +436,7 @@ class Game extends Phaser.Scene {
         if (document.activeElement.tagName === "INPUT") return true;
         // Or any panel is open.
         if (GUIState.activePanel !== Panels.NONE) {
-            // except chat panel
+            // Except chat panel.
             if (GUIState.activePanel !== Panels.Chat) return true;
         }
 

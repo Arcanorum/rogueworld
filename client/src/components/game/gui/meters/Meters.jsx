@@ -3,11 +3,14 @@ import PubSub from "pubsub-js";
 import hitpointIcon from "../../../../assets/images/gui/hud/hitpoint-icon.png";
 import hitpointCounter from "../../../../assets/images/gui/hud/hitpoint-counter.png";
 import energyIcon from "../../../../assets/images/gui/hud/energy-icon.png";
+import combatIcon from "../../../../assets/images/gui/hud/combat-icon.png";
+import outOfcombatIcon from "../../../../assets/images/gui/hud/out-of-combat-icon.png";
 import energyCounter from "../../../../assets/images/gui/hud/energy-counter.png";
 import emptyCounter from "../../../../assets/images/gui/hud/empty-counter.png";
 import "./Meters.scss";
 import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, ENERGY_VALUE, MAX_ENERGY_VALUE,
+    COMBAT_STATUS_TRIGGER,
 } from "../../../../shared/EventTypes";
 import { GUIState } from "../../../../shared/state/States";
 import Utils from "../../../../shared/Utils";
@@ -44,6 +47,23 @@ function Meters() {
     const [energy, setEnergy] = useState(0);
     const [maxEnergy, setMaxEnergy] = useState(0);
 
+    const [combatTimer, setCombatTimer] = useState(0);
+
+    let combatTimerUpdateInterval = -1;
+    let combatTimerInternal = 0;
+
+    const updateCombatTimer = () => {
+        combatTimerInternal = Math.max(0, combatTimerInternal - 1000);
+        setCombatTimer(Math.ceil(combatTimerInternal / 1000));
+    };
+
+    const refreshCombatTimer = () => {
+        if (combatTimerUpdateInterval !== -1) {
+            clearInterval(combatTimerUpdateInterval);
+        }
+        combatTimerUpdateInterval = setInterval(() => updateCombatTimer(), 1000);
+    };
+
     useEffect(() => {
         const subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
@@ -58,6 +78,15 @@ function Meters() {
             PubSub.subscribe(MAX_ENERGY_VALUE, (msg, data) => {
                 setMaxEnergy(data.new);
             }),
+            PubSub.subscribe(COMBAT_STATUS_TRIGGER, (msg, data) => {
+                data = parseInt(data, 10);
+                if (Number.isNaN(data)) {
+                    data = 0;
+                }
+                combatTimerInternal = data;
+                setCombatTimer(Math.ceil(combatTimerInternal / 1000));
+                refreshCombatTimer();
+            }),
         ];
 
         // Cleanup.
@@ -65,6 +94,10 @@ function Meters() {
             subs.forEach((sub) => {
                 PubSub.unsubscribe(sub);
             });
+            if (combatTimerUpdateInterval !== -1) {
+                clearInterval(combatTimerUpdateInterval);
+            }
+            combatTimerUpdateInterval = -1;
         };
     }, []);
 
@@ -122,6 +155,22 @@ function Meters() {
                       counterImage={energyCounter}
                     />
                 </div>
+            </div>
+            <div className="combat-indicator-icon">
+                <img
+                  className="gui-icon"
+                  src={((combatTimer > 0) && combatIcon) || outOfcombatIcon}
+                  draggable={false}
+                  onMouseEnter={() => {
+                      GUIState.setTooltipContent(
+                          Tooltip(Utils.getTextDef("Combat tooltip")),
+                      );
+                  }}
+                  onMouseLeave={() => {
+                      GUIState.setTooltipContent(null);
+                  }}
+                />
+                { (combatTimer > 0) && <span className="high-contrast-text">{combatTimer}</span> }
             </div>
         </div>
     );

@@ -1864,6 +1864,18 @@
          "type":"Torch"
         }, 
         {
+         "id":2638,
+         "type":"WindAltar"
+        }, 
+        {
+         "id":2639,
+         "type":"FireAltar"
+        }, 
+        {
+         "id":2640,
+         "type":"BloodAltar"
+        }, 
+        {
          "id":2688,
          "type":"Wall"
         }, 

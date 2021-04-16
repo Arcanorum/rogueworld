@@ -227,14 +227,18 @@ class Inventory {
     /**
      *
      * @param {ItemConfig} config
+     * @param {Boolean} forceAdd - Ignore anything that might check and limit how much can be added, such as if it would be over max weight.
      */
-    addItem(config) {
+    addItem(config, forceAdd) {
         if (!(config instanceof ItemConfig)) {
             throw new Error("Cannot add item to inventory from a config that is not an instance of ItemConfig. Config:", config);
         }
 
         if (config.quantity) {
-            let quantityToAdd = this.quantityThatCanBeAdded(config);
+            let quantityToAdd = 0;
+
+            if (forceAdd) quantityToAdd = config.quantity;
+            else quantityToAdd = this.quantityThatCanBeAdded(config);
 
             // Find if a stack for this type of item already exists.
             let nonFullStack = this.findNonFullItemTypeStack(config.ItemType);

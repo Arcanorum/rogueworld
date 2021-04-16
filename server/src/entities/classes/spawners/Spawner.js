@@ -8,7 +8,7 @@ class Spawner extends Entity {
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
-     * @param {Function} config.entityType - The type of entity that this spawner will create instances of.
+     * @param {Function} config.EntityType - The type of entity that this spawner will create instances of.
      * @param {Number} [config.maxAtOnce=1] - The maximum amount of entities this spawner can have at once.
      * @param {Number} [config.spawnRate=20000] - How often this spawner creates a new entity, in ms.
      * @param {Boolean} [config.testing=undefined] - Is this spawner being used to spawn test entities. Useful for not having a spam of console logs for all of an entity type.
@@ -17,11 +17,11 @@ class Spawner extends Entity {
     constructor(config) {
         super(config);
 
-        this.EntityType = config.entityType;
+        this.EntityType = config.EntityType;
 
         this.maxAtOnce = config.maxAtOnce || 0;
 
-        this.spawnRate = config.spawnRate || config.entityType.prototype.spawnRate || 60000;
+        this.spawnRate = config.spawnRate || config.EntityType.prototype.spawnRate || 60000;
         if (this.spawnRate < 1) {
             Utils.error("Spawner with invalid spawnRate. Config:", config);
         }
@@ -59,18 +59,13 @@ class Spawner extends Entity {
         }
     }
 
-    destroy() {
-        // Prevent multiple destruction.
-        if (this._destroyed === true) return;
-
-        this._destroyed = true;
-
-        this.board = null;
-
+    onDestroy() {
         Object.entries(this.spawnTimeouts).forEach((timeoutID) => {
             clearTimeout(timeoutID);
             delete this.spawnTimeouts[timeoutID];
         });
+
+        super.onDestroy();
     }
 
     /**
@@ -151,12 +146,7 @@ class Spawner extends Entity {
 
         this.currentlySpawned += 1;
 
-        this.board.emitToNearbyPlayers(
-            entity.row,
-            entity.col,
-            entity.EventsList.add_entity,
-            entity.getEmittableProperties({}),
-        );
+        entity.emitToNearbyPlayers();
 
         return true;
     }

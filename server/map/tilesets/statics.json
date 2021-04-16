@@ -77,6 +77,10 @@
         }, 
         {
          "id":86,
+         "type":"ProjectileEmitter"
+        }, 
+        {
+         "id":87,
          "type":"GUITrigger"
         }, 
         {
@@ -1748,6 +1752,10 @@
          "type":"Wall"
         }, 
         {
+         "id":2518,
+         "type":"Wall"
+        }, 
+        {
          "id":2560,
          "type":"Wall"
         }, 
@@ -1854,6 +1862,18 @@
         {
          "id":2636,
          "type":"Torch"
+        }, 
+        {
+         "id":2638,
+         "type":"WindAltar"
+        }, 
+        {
+         "id":2639,
+         "type":"FireAltar"
+        }, 
+        {
+         "id":2640,
+         "type":"BloodAltar"
         }, 
         {
          "id":2688,

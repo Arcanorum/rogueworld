@@ -65,6 +65,8 @@ export default () => {
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setEnergy(PlayerState.maxEnergy);
+        // Clear in combat status after respawn.
+        PubSub.publish(COMBAT_STATUS_TRIGGER, 0);
     };
 
     eventResponses.player_in_combat = (data) => {

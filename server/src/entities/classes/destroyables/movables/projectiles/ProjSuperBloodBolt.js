@@ -65,9 +65,11 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
                 this.source,
             );
             // Blood bolt heals HP on hit.
-            this.source.heal(
-                new Heal(this.healAmount),
-            );
+            if (this.source && this.source.heal) {
+                this.source.heal(
+                    new Heal(this.healAmount),
+                );
+            }
         }
 
         this.destroy();

@@ -68,10 +68,18 @@ class Chat {
         if (result === undefined) throw new Error(`Server returned an unknown scope: ${scope}`);
     }
 
+    isAlphaNumericSpace(str) {
+        return str.match("^[\\w\\s]+$");
+    }
+
     filterProfanity(message) {
         // filter profanity only if it is enabled in the settings
         if (this.guiState.profanityFilterEnabled) {
-            return this.badWords.clean(message);
+            // check if message contains letters or numbers to avoid error
+            // https://github.com/web-mech/badwords/issues/103
+            if (this.isAlphaNumericSpace(message)) {
+                return this.badWords.clean(message);
+            }
         }
 
         return message;
@@ -79,7 +87,12 @@ class Chat {
 
     addNewChat(data) {
         this.validateScope(data.scope);
-        data.message = this.filterProfanity(data.message);
+
+        // Don't filter profanity of current player's chat
+        if (data.id !== this.playerState.entityID) {
+            data.message = this.filterProfanity(data.message);
+        }
+
         dungeonz.gameScene.chat(data.id, data.message);
         const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
 

@@ -521,12 +521,7 @@ class Bank {
             const itemConfig = new ItemConfig(starterItemConfig);
 
             // Store the item config in the bank.
-            if (itemConfig.quantity) {
-                this.addStackable(itemConfig, true);
-            }
-            else {
-                this.pushItem(itemConfig, false, true);
-            }
+            this.pushItem(itemConfig, false, true);
         });
 
         this.updateWeight();

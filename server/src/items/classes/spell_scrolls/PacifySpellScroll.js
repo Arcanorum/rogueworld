@@ -6,11 +6,10 @@ class PacifySpellScroll extends SpellScroll {
         
         console.log("Pacify!");
 
-        const
-            { row } = this.owner;
-        const { col } = this.owner;
-        
-        const { board } = this.owner;
+        const { row,
+              col,
+              board,
+            } = this.owner;
 
         const config = {
             row: row,

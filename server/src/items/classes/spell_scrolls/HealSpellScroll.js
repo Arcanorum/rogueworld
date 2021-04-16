@@ -6,35 +6,18 @@ class HealSpellScroll extends SpellScroll {
     onUsed() {
         
         console.log("Heal!");
-        const range = 1;
-        const rangePlusOne = range + 1;
-        const
-            { row } = this.owner;
-        const { col } = this.owner;
-        let rowOffset;
-        let colOffset;
-        const { board } = this.owner;
-        let boardTile;
 
-        for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
-            for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
-                // Check row is valid.
-                if (board.grid[row + rowOffset] === undefined) continue;
-                boardTile = board.grid[row + rowOffset][col + colOffset];
-                // Check col is valid.
-                if (boardTile === undefined) continue;
-                // Heal all nearby things that have HP.
-                for (const entityKey in boardTile.destroyables) {
-                    if (boardTile.destroyables.hasOwnProperty(entityKey) === false) continue;
+        this.getBoardTilesInRange(1).forEach(function(boardTile){
+            Object.values(boardTile.destroyables).forEach(function(destroyable){
+                // Check if target can have heal applied
+                if (destroyable.modHitPoints === undefined) return;
 
-                    if (boardTile.destroyables[entityKey].modHitPoints === undefined) continue;
+                destroyable.heal(new Heal(
+                    ModHitPointConfigs.SpellScrollHealArea.healAmount,
+                ));
+            });
+        });
 
-                    boardTile.destroyables[entityKey].heal(new Heal(
-                        ModHitPointConfigs.BookOfLightHealArea.healAmount,
-                    ));
-                }
-            }
-        }
         super.onUsed();
     }
 }

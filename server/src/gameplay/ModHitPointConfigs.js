@@ -104,7 +104,7 @@ const ModHitPointConfigs = {
         damageTypes: [Magical],
     },
 
-    BookOfLightHealArea: {
+    SpellScrollHealArea: {
         healAmount: 20,
     },
     BookOfSoulsConsume: {

@@ -643,7 +643,7 @@
 - name: ConsumeSpellScroll
   code: VMFW6679
   extends: spell_scrolls/SpellScroll
-  translationID: Scroll of deathbind
+  translationID: Scroll of consume
   iconSource: icon-scroll-of-healing
   useEnergyCost: 5
   unitWeight: Scroll

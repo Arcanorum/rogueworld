@@ -59,21 +59,29 @@ export default () => {
 
     eventResponses.curse_set = (data) => {
         if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        if (dungeonz.gameScene.dynamics[data].spriteContainer.curseIcon === undefined) return;
         dungeonz.gameScene.dynamics[data].spriteContainer.curseIcon.visible = true;
     };
 
     eventResponses.curse_removed = (data) => {
         if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        if (dungeonz.gameScene.dynamics[data].spriteContainer.curseIcon === undefined) return;
         dungeonz.gameScene.dynamics[data].spriteContainer.curseIcon.visible = false;
     };
 
     eventResponses.enchantment_set = (data) => {
         if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        if (dungeonz.gameScene.dynamics[data].spriteContainer.enchantmentIcon === undefined) {
+            return;
+        }
         dungeonz.gameScene.dynamics[data].spriteContainer.enchantmentIcon.visible = true;
     };
 
     eventResponses.enchantment_removed = (data) => {
         if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        if (dungeonz.gameScene.dynamics[data].spriteContainer.enchantmentIcon === undefined) {
+            return;
+        }
         dungeonz.gameScene.dynamics[data].spriteContainer.enchantmentIcon.visible = false;
     };
 };

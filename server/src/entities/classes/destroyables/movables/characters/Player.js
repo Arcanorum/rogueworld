@@ -188,6 +188,8 @@ class Player extends Character {
         this.energy = this.maxEnergy;
         // Players are a special case that can be undestroyed.
         this._destroyed = false;
+        // Clear timestamp used for in combat status.
+        this.lastDamagedTime = 0;
         this.regenEnergy();
 
         // Reposition them to somewhere within the respawn entrance bounds.

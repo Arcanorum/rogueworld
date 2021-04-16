@@ -86,7 +86,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mummy"
                         }, 
@@ -109,7 +109,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mummy"
                         }, 
@@ -132,7 +132,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mummy"
                         }, 
@@ -155,7 +155,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mummy"
                         }, 
@@ -178,7 +178,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -206,7 +206,7 @@
                          "value":1
                         }, 
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -239,7 +239,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -262,7 +262,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -285,7 +285,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -308,7 +308,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -331,7 +331,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -354,7 +354,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -392,7 +392,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Pharaoh"
                         }, 
@@ -420,7 +420,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -453,7 +453,7 @@
                          "value":1
                         }, 
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -476,7 +476,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mummy"
                         }, 
@@ -499,7 +499,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 
@@ -527,7 +527,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mummy"
                         }, 
@@ -550,7 +550,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"CryptWarden"
                         }, 

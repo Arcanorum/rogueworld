@@ -63,7 +63,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -86,7 +86,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -109,7 +109,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"BanditLeader"
                         }, 
@@ -137,7 +137,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -160,7 +160,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -183,7 +183,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -206,7 +206,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupIronSword"
                         }, 
@@ -229,7 +229,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -257,7 +257,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupCloak"
                         }, 
@@ -280,7 +280,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupOakBow"
                         }, 
@@ -303,7 +303,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupIronArrows"
                         }, 
@@ -349,7 +349,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 
@@ -377,7 +377,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Bandit"
                         }, 

@@ -38,7 +38,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"ArchMage"
                         }, 
@@ -107,7 +107,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"Mage"
                         }, 
@@ -130,7 +130,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupFireStaff"
                         }, 
@@ -153,7 +153,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupWindStaff"
                         }, 
@@ -176,7 +176,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupBookOfLight"
                         }, 
@@ -199,7 +199,7 @@
                  "name":"",
                  "properties":[
                         {
-                         "name":"EntityClassName",
+                         "name":"EntityTypeName",
                          "type":"string",
                          "value":"PickupMageRobe"
                         }, 

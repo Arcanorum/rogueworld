@@ -62,6 +62,7 @@ export default {
     FireGem: makeClass({ frameName: "fire-gem" }),
     FireStaff: makeClass({ frameName: "fire-staff" }),
     Furnace: makeClass({ frameName: "furnace" }),
+    Gem: makeClass({ frameName: "gem" }),
     Generator: makeClass({ frameName: "generator" }),
     Greencap: makeClass({ frameName: "greencap" }),
     GloryOrb: makeClass({ frameName: "glory-orb" }),

@@ -834,6 +834,13 @@
   iconSource: icon-fir-logs
   unitWeight: Logs
 
+- name: Gem
+  code: CJVO1172
+  translationID: Gem
+  iconSource: icon-gem
+  unitWeight: Gem
+  craftingExpValue: 40
+
 - name: GloryOrb
   code: VRAS0927
   translationID: Glory orb

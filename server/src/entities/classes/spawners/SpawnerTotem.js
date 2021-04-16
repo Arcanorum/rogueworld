@@ -6,7 +6,7 @@ class SpawnerTotem extends Spawner {
      * @param {Number} config.row
      * @param {Number} config.col
      * @param {Board} config.board
-     * @param {Function} config.entityType - The type of entity that this spawner will create instances of.
+     * @param {Function} config.EntityType - The type of entity that this spawner will create instances of.
      * @param {Number} [config.maxAtOnce=1] - The maximum amount of entities this spawner can have at once.
      * @param {Number} [config.spawnRate=1000] - How often this spawner creates a new entity, in ms.
      */

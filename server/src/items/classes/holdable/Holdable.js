@@ -51,5 +51,4 @@ class Holdable extends Item {
 
 Holdable.abstract = true;
 
-
 module.exports = Holdable;

@@ -8,7 +8,7 @@ const { StatNames } = require("../../stats/Statset").prototype;
 const EventsList = require("../../EventsList");
 const TaskTypes = require("../../tasks/TaskTypes");
 
-const { getRandomIntInclusive } = Utils;
+/* const { getRandomIntInclusive } = Utils; */
 
 class Item {
     /**
@@ -393,12 +393,12 @@ Item.prototype.hasUseEffect = false;
  * How much energy it costs for a character to use this item.
  * @type {Number}
  */
- Item.prototype.useEnergyCost = 0;
+Item.prototype.useEnergyCost = 0;
 
- /**
+/**
   * How much glory it costs for a character to use this item.
   * @type {Number}
   */
-  Item.prototype.useGloryCost = 0;
+Item.prototype.useGloryCost = 0;
 
 module.exports = Item;

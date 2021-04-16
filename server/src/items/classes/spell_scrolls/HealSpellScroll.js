@@ -4,11 +4,8 @@ const Heal = require("../../../gameplay/Heal");
 
 class HealSpellScroll extends SpellScroll {
     onUsed() {
-        
-        console.log("Heal!");
-
-        this.getBoardTilesInRange(1).forEach(function(boardTile){
-            Object.values(boardTile.destroyables).forEach(function(destroyable){
+        this.getBoardTilesInRange(1).forEach((boardTile) => {
+            Object.values(boardTile.destroyables).forEach((destroyable) => {
                 // Check if target can have heal applied
                 if (destroyable.modHitPoints === undefined) return;
 

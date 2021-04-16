@@ -3,18 +3,16 @@ const ProjPacify = require("../../../entities/classes/destroyables/movables/proj
 
 class PacifySpellScroll extends SpellScroll {
     onUsed() {
-        
-        console.log("Pacify!");
-
-        const { row,
-              col,
-              board,
-            } = this.owner;
+        const {
+            row,
+            col,
+            board,
+        } = this.owner;
 
         const config = {
-            row: row,
-            col: col,
-            board: board,
+            row,
+            col,
+            board,
             source: this.owner,
             direction: this.owner.direction,
         };

@@ -557,6 +557,7 @@ class Board {
     getTilesInEntityRange(entity, range){
         return this.getTilesInRange(entity.row, entity.col, range);
     }
+
     /**
      * All params need to be integers. 
      * 
@@ -592,6 +593,7 @@ class Board {
         }
         return tiles;
     }
+
     /**
      * Get all of the destroyables (and any interactables that are not in their default state) that are within the player view range of the target position.
      * @param {Number} row

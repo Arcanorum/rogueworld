@@ -98,6 +98,7 @@ STARTER_BANK_ITEMS:
   - itemName: IronSword
   - itemName: IronHatchet
   - itemName: IronPickaxe
+
 # How much glory it costs for a player to change their character display name.
 DISPLAY_NAME_CHANGE_COST: 1000
 

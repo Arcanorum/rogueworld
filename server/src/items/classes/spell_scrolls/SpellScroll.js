@@ -19,7 +19,7 @@ class SpellScroll extends Item {
     }
     
     getBoardTilesInRange(inputRange) {
-        return this.owner.board.getTilesInEntityRange(this.owner, 1);
+        return this.owner.board.getTilesInEntityRange(this.owner, inputRange || 1);
     }
 
 }

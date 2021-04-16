@@ -389,4 +389,16 @@ Item.prototype.PickupType = null;
  */
 Item.prototype.hasUseEffect = false;
 
+/**
+ * How much energy it costs for a character to use this item.
+ * @type {Number}
+ */
+ Item.prototype.useEnergyCost = 0;
+
+ /**
+  * How much glory it costs for a character to use this item.
+  * @type {Number}
+  */
+  Item.prototype.useGloryCost = 0;
+
 module.exports = Item;

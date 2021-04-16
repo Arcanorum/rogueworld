@@ -1,10 +1,10 @@
 const SpellScroll = require("./SpellScroll");
-const ProjPacify = require("../../../entities/classes/destroyables/movables/projectiles/ProjPacify");
+const ProjDeathbind = require("../../../entities/classes/destroyables/movables/projectiles/ProjDeathbind");
 
-class PacifySpellScroll extends SpellScroll {
+class DeathBindSpellScroll extends SpellScroll {
     onUsed() {
         
-        console.log("Pacify!");
+        console.log("DeathBind!");
 
         const { row,
               col,
@@ -18,10 +18,10 @@ class PacifySpellScroll extends SpellScroll {
             source: this.owner,
             direction: this.owner.direction,
         };
-
-        new ProjPacify(config).emitToNearbyPlayers();
+        
+        new ProjDeathbind(config).emitToNearbyPlayers();
         super.onUsed();
     }
 }
 
-module.exports = PacifySpellScroll;
+module.exports = DeathBindSpellScroll;

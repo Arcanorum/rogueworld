@@ -549,6 +549,50 @@ class Board {
     }
 
     /**
+     * 
+     * @param {Destroyable} entity 
+     * @param {Number} range 
+     * @returns {Array}  Returns array of tiles within range surrounding entity
+     */
+    getTilesInEntityRange(entity, range){
+        return this.getTilesInRange(entity.row, entity.col, range);
+    }
+    /**
+     * All params need to be integers. 
+     * 
+     * @param {Number} row 
+     * @param {Number} col 
+     * @param {Number} range 
+     * @returns {Array} Returns array of tiles within range
+     */
+    getTilesInRange(row, col, range){
+    
+        range = range || 1;
+        range = Math.abs(range >> 0);
+
+        if (range <= 0) {
+            return [];
+        }
+
+        const rangePlusOne = range + 1        
+        let rowOffset;
+        let colOffset;        
+        let boardTile;
+        let tiles = [];
+        
+        for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
+            for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
+                // Check row is valid.
+                if (this.grid[row + rowOffset] === undefined) continue;
+                boardTile = this.grid[row + rowOffset][col + colOffset];
+                // Check col is valid.
+                if (boardTile === undefined) continue;
+                tiles.push(boardTile);
+            }
+        }
+        return tiles;
+    }
+    /**
      * Get all of the destroyables (and any interactables that are not in their default state) that are within the player view range of the target position.
      * @param {Number} row
      * @param {Number} col

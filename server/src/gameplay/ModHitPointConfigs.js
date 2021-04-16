@@ -107,7 +107,7 @@ const ModHitPointConfigs = {
     SpellScrollHealArea: {
         healAmount: 20,
     },
-    BookOfSoulsConsume: {
+    ConsumeSpellScroll: {
         healAmount: 40,
     },
 

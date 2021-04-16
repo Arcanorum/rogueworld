@@ -1,48 +1,31 @@
 const Item = require("../Item");
 
 class SpellScroll extends Item {
+
+    use (){
+        const { owner } = this;
+        if (this.useEnergyCost && owner.energy < this.useEnergyCost) return;
+        if (this.useGloryCost && owner.glory < this.useGloryCost) return;
+
+        super.use();
+
+        if (this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
+        if (this.useGloryCost) owner.modGlory(-this.useGloryCost);
+    }
+
     onUsed() {
         console.log("SpellScroll used")
         super.onUsed();
     }
     
-    getBoardTilesInRange(inputRange, fnApplyToBoardTile) {
-        const { 
-                row,
-                col,
-                board,
-            } = this.owner;
-
-        const range = this.validateRange(inputRange);
-        const rangePlusOne = range + 1        
-        let rowOffset;
-        let colOffset;        
-        let boardTile;
-        let tiles = [];
-       
-        for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
-            for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
-                // Check row is valid.
-                if (board.grid[row + rowOffset] === undefined) continue;
-                boardTile = board.grid[row + rowOffset][col + colOffset];
-                // Check col is valid.
-                if (boardTile === undefined) continue;
-                tiles.push(boardTile);
-            }
-        }
-        return tiles;
-    }
-
-    validateRange(inputRange) {
-        //make sure that range is positive integer and 1 <= range <= 9
-        inputRange = Math.max(1,Math.abs(inputRange) >> 0);
-        inputRange = Math.min(9, inputRange)
-        return inputRange;
+    getBoardTilesInRange(inputRange) {
+        return this.owner.board.getTilesInEntityRange(this.owner, 1);
     }
 
 }
 
 
 SpellScroll.abstract = true;
-
+SpellScroll.prototype.expGivenOnUse = 15;
+SpellScroll.prototype.expGivenStatName = SpellScroll.prototype.StatNames.Magic;
 module.exports = SpellScroll;

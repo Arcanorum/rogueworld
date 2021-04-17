@@ -2,14 +2,7 @@ const Item = require("../Item");
 
 class SpellScroll extends Item {
     use() {
-        const { owner } = this;
-        if (this.useEnergyCost && owner.energy < this.useEnergyCost) return;
-        if (this.useGloryCost && owner.glory < this.useGloryCost) return;
-
         super.use();
-
-        if (this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
-        if (this.useGloryCost) owner.modGlory(-this.useGloryCost);
     }
 
     onUsed() {

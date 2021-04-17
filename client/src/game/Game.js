@@ -426,6 +426,7 @@ class Game extends Phaser.Scene {
             }
             // Do a melee attack.
             else {
+                dungeonz.gameScene.sound.play("punch-1", { volume: GUIState.effectsVolume / 100 });
                 ApplicationState.connection.sendEvent("melee_attack", direction);
             }
         }

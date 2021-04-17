@@ -2,7 +2,6 @@ const Movable = require("../Movable");
 const GroundTypes = require("../../../../../board/GroundTypes");
 const Damage = require("../../../../../gameplay/Damage");
 const EntitiesList = require("../../../../EntitiesList");
-const MagicEffects = require("../../../../../gameplay/MagicEffects");
 const { Pacify } = require("../../../../../gameplay/MagicEffects");
 
 class Character extends Movable {

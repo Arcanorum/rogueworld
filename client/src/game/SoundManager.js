@@ -207,8 +207,21 @@ class SoundManager {
             const values = paths.map(context);
             // Add each class to the list by file name.
             return paths.reduce((list, path, index) => {
-                // Trim the ".mp3" or ".ogg" from the end of the file name.
-                const fileName = path.split("/").pop().slice(0, -4);
+                const end = path.split("/").pop();
+                // Trim the "mp3", "ogg", or "opus" from the end of the file name.
+                let fileName = "";
+                if (end.slice(end.length - 4) === ".mp3") {
+                    fileName = end.slice(0, -4);
+                }
+                else if (end.slice(end.length - 4) === ".ogg") {
+                    fileName = end.slice(0, -4);
+                }
+                else if (end.slice(end.length - 5) === ".opus") {
+                    fileName = end.slice(0, -5);
+                }
+                else {
+                    Utils.warning("Cannot load unsupported audio file format for file:", path);
+                }
                 // Need to use .default to get the resolved path for the file, or would need to actually import it.
                 // Add both file types under the same file name. {"my-sound": ["../my-sound.mp3", "../my-sound.ogg"]}
                 if (list[fileName]) {

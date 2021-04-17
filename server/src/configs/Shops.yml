@@ -44,8 +44,14 @@
     - itemName: SuperWindStaff
     - itemName: BloodStaff
     - itemName: SuperBloodStaff
-#    - itemName: BookOfLight
-#    - itemName: BookOfSouls
+    - itemName: HealSpellScroll
+    - itemName: WardSpellScroll
+    - itemName: PacifySpellScroll
+    - itemName: CleanseSpellScroll
+    - itemName: EnthrallSpellScroll
+    - itemName: ConsumeSpellScroll
+    - itemName: DeathBindSpellScroll
+    - itemName: ReanimateSpellScroll
     - itemName: PlainRobe
     - itemName: MageRobe
     - itemName: NecromancerRobe

@@ -156,6 +156,11 @@
     - itemName: FireGem
     - itemName: WindGem
     - itemName: FireStaff
+    - itemName: HealSpellScroll
+    - itemName: CleanseSpellScroll
+    - itemName: WardSpellScroll
+    - itemName: PacifySpellScroll
+
 
 - name: ArchMage
   gloryValue: 150
@@ -168,8 +173,18 @@
   dropList:
     - itemName: SuperFireStaff
       dropRate: 100
-#    - itemName: BookOfLight
-#      dropRate: 100
+    - itemName: HealSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: CleanseSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: WardSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: PacifySpellScroll
+      dropRate: 100
+      rolls: 5
     - itemName: MageRobe
       dropRate: 100
     - itemName: FireGem
@@ -454,10 +469,20 @@
     - itemName: ExpOrbMagic
       dropRate: 100
       rolls: 2
-#    - itemName: BookOfSouls
-#      dropRate: 100
-    - itemName: NecromancerRobe
+    - itemName: ConsumeSpellScroll
       dropRate: 100
+      rolls: 5
+    - itemName: EnthrallSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: DeathBindSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: ReanimateSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: NecromancerRobe
+      dropRate: 100      
     - itemName: SuperFireStaff
       dropRate: 100
     - itemName: FireGem
@@ -515,8 +540,18 @@
       dropRate: 100
     - itemName: ExpOrbMagic
       dropRate: 100
-#    - itemName: BookOfSouls
-#      dropRate: 100
+    - itemName: ConsumeSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: EnthrallSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: DeathBindSpellScroll
+      dropRate: 100
+      rolls: 5
+    - itemName: ReanimateSpellScroll
+      dropRate: 100
+      rolls: 5
     - itemName: NoctisArmour
       dropRate: 100
     - itemName: SuperBloodStaff

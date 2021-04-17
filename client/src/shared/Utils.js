@@ -159,7 +159,7 @@ const Utils = {
             return gameConfig.TextDefs.English[definitionID];
         }
         // Check if the text def is even defined.
-        if (text === undefined) return "???";
+        if (text === undefined) return `??? ${definitionID} ???`;
         // Return the text, in the selected language.
         return text;
     },

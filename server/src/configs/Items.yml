@@ -569,6 +569,87 @@
   craftTasks:
     - Bows  
 
+# Spell scrolls
+- name: HealSpellScroll
+  code: KXAD5315
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of heal
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: WardSpellScroll
+  code: ZZAB3297
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of ward
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: CleanseSpellScroll
+  code: KVHL3512
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of cleanse
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: PacifySpellScroll
+  code: TFCL0641
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of pacify
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: EnthrallSpellScroll
+  code: FYRX1359
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of enthrall
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: ReanimateSpellScroll
+  code: KMGJ5860
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of reanimate
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: DeathBindSpellScroll
+  code: VNHK6849
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of deathbind
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+
+- name: ConsumeSpellScroll
+  code: VMFW6679
+  extends: spell_scrolls/SpellScroll
+  translationID: Scroll of consume
+  iconSource: icon-scroll-of-healing
+  useEnergyCost: 5
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  
 # Loot boxes
 
 - name: MediumLootBox

@@ -2,6 +2,7 @@ const Movable = require("../Movable");
 const GroundTypes = require("../../../../../board/GroundTypes");
 const Damage = require("../../../../../gameplay/Damage");
 const EntitiesList = require("../../../../EntitiesList");
+const { Pacify } = require("../../../../../gameplay/MagicEffects");
 
 class Character extends Movable {
     /**
@@ -38,6 +39,12 @@ class Character extends Movable {
         // If any of the damage types are not blocked, the full damage is dealt.
         if (damage.canAffectTarget(this) === false) return;
 
+        // If there is curse applied to the character, then trigger it on damage received.
+        if (this.curse !== undefined && this.curse !== null) {
+            if (this.curse.onCharacterDamaged() === false) {
+                return;
+            }
+        }
         // Apply the damage reduction multiplier from defence bonuses.
         if (this.defence >= 0) {
             let effectiveDefence = this.defence;

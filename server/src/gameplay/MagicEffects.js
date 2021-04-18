@@ -110,6 +110,11 @@ class Pacify extends Curse {
     onCharacterAttack() {
         return false;
     }
+
+    onCharacterDamaged() {
+        this.remove();
+        return true;
+    }
 }
 
 class Deathbind extends Curse {

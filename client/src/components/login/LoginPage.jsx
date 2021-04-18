@@ -31,7 +31,7 @@ const Languages = [
     { listName: "English", translationId: "English" },
     { listName: "Français", translationId: "French" },
     { listName: "Español", translationId: "Spanish" },
-    { listName: "Português do Brasil", translationId: "Portuguese (Brazil)" },
+    { listName: "Português do Brasil", translationId: "Portuguese" },
     { listName: "Türkçe", translationId: "Turkish" },
     { listName: "Deutsch", translationId: "German" },
     { listName: "русский язык", translationId: "Russian" },

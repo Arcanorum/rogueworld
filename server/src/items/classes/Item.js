@@ -38,8 +38,8 @@ class Item {
     checkUseCriteria() {
         const { owner } = this;
 
-        if (this.useEnergyCost && owner.energy < this.useEnergyCost) return false;
-        if (this.useGloryCost && owner.glory < this.useGloryCost) return false;
+        if (owner.energy < this.useEnergyCost) return false;
+        if (owner.glory < this.useGloryCost) return false;
 
         return true;
     }
@@ -54,7 +54,6 @@ class Item {
         if (owner === null) return;
 
         if (this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
-
         if (this.useGloryCost) owner.modGlory(-this.useGloryCost);
 
         if (this.hasUseEffect) {

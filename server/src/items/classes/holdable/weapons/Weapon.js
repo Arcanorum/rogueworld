@@ -17,33 +17,43 @@ class Weapon extends Holdable {
         super.loadConfig(config);
     }
 
+    checkUseCriteria(direction) {
+        const { owner } = this;
+
+        const front = owner.board.getRowColInFront(
+            direction || owner.direction,
+            owner.row, owner.col,
+        );
+
+        if (this.canUseIntoHighBlockedTile === false) {
+            // Check if the tile in front is high blocked.
+            if (owner.board.grid[front.row][front.col].isHighBlocked() === true) return false;
+        }
+
+        return super.checkUseCriteria(direction);
+    }
+
     /**
      * Use this weapon. Typically creates a projectile.
      * @param {String} direction - A specific direction to use the item in. Otherwise uses the owner's direction.
      */
-    useWhileHeld(direction) {
+    onUsedWhileHeld(direction) {
         const { owner } = this;
 
-        if (owner.energy < this.useEnergyCost) return;
-        if (this.useGloryCost && owner.glory < this.useGloryCost) return;
-
-        const front = owner.board.getRowColInFront(direction || owner.direction, owner.row, owner.col);
-
-        if (this.canUseIntoHighBlockedTile === false) {
-            // Check if the tile in front is high blocked.
-            if (this.owner.board.grid[front.row][front.col].isHighBlocked() === true) return;
-        }
+        const front = owner.board.getRowColInFront(
+            direction || owner.direction,
+            owner.row, owner.col,
+        );
 
         new this.ProjectileType({
-            row: front.row, col: front.col, board: owner.board, direction: direction || owner.direction, source: this.owner,
+            row: front.row,
+            col: front.col,
+            board: owner.board,
+            direction: direction || owner.direction,
+            source: this.owner,
         }).emitToNearbyPlayers({});
 
-        if (this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
-        if (this.useGloryCost) owner.modGlory(-this.useGloryCost);
-
-        // Keep this at the bottom otherwise the item might be broken and destroyed
-        // when the durability is updated, so the above stuff will get buggy.
-        super.useWhileHeld(direction || owner.direction);
+        super.onUsedWhileHeld(direction || owner.direction);
     }
 }
 

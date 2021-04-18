@@ -86,6 +86,23 @@ class ItemConfig {
         this.durability += amount;
         this.durability = Math.floor(this.durability);
     }
+
+    /**
+     * Useful for when needing to modify the config directly.
+     * @param {Number} amount
+     */
+    modWeightReduce(amount) {
+        if (!Number.isFinite(amount)) {
+            return false;
+        }
+        this.weightReduce = this.weightReduce || 0;
+        this.weightReduce += amount;
+        this.weightReduce = Math.min(90, Math.max(0, Math.floor(this.weightReduce)));
+        this.baseWeight = this.baseWeight || this.weight;
+        this.totalWeight = this.ItemType.prototype.unitWeight
+                      - (this.weightReduce / 100) * this.ItemType.prototype.unitWeight;
+        return true;
+    }
 }
 
 ItemConfig.prototype.MAX_QUANTITY = 99999;

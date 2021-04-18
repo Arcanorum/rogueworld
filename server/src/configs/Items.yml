@@ -390,6 +390,8 @@
   craftTasks:
     - Swords
     - IronGear
+  mods:
+    - WeightDecrease
 
 - name: NoctisDagger
   code: EMGG7774
@@ -568,6 +570,12 @@
   expGivenStatName: Ranged
   craftTasks:
     - Bows  
+# Mods
+- name: WeightDecreaseMod
+  code: FTLL5393
+  extends: mods/Mod
+  iconSource: icon-scroll-of-healing
+  translationID: Weight decrease mod
 
 # Spell scrolls
 - name: HealSpellScroll

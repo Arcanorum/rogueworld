@@ -158,6 +158,33 @@ class Item {
     /**
      * @param {Number} amount
      */
+    modWeightReduce(amount) {
+        // Check a valid value was given.
+        if (!amount || !Number.isFinite(amount)) return;
+
+        this.itemConfig.modWeightReduce(amount);
+        // Tell the player the new weight reduce.
+        this.owner.socket.sendEvent(
+            EventsList.modify_inventory_item,
+            {
+                slotIndex: this.slotIndex,
+                weightReduce: this.itemConfig.weightReduce,
+                totalWeight: this.itemConfig.totalWeight,
+            },
+        );
+
+        // If this player has an account, save the new weight reduce.
+        if (this.owner.socket.account) {
+            this.owner.socket.account.inventoryItems[this.slotIndex].weightReduce = (
+                this.itemConfig.weightReduce
+            );
+        }
+        this.owner.inventory.updateWeight();
+    }
+
+    /**
+     * @param {Number} amount
+     */
     modDurability(amount) {
         // Check a valid value was given.
         if (!amount) return;

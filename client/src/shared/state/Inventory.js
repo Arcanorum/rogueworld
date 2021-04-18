@@ -125,8 +125,12 @@ class Inventory {
         else if (itemConfig.durability) {
             item.durability = itemConfig.durability;
         }
+        else if (itemConfig.weightReduce) {
+            item.weightReduce = itemConfig.weightReduce;
+            item.totalWeight = itemConfig.totalWeight;
+        }
         else {
-            Utils.warning("Cannot modify item in inventory. No quantity or durability given. Config:", itemConfig);
+            Utils.warning("Cannot modify item in inventory. No quantity,durability or mod given. Config:", itemConfig);
         }
 
         PubSub.publish(MODIFY_INVENTORY_ITEM, { new: itemConfig });

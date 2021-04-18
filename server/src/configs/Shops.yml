@@ -52,6 +52,7 @@
     - itemName: ConsumeSpellScroll
     - itemName: DeathBindSpellScroll
     - itemName: ReanimateSpellScroll
+    - itemName: WeightDecreaseMod
     - itemName: PlainRobe
     - itemName: MageRobe
     - itemName: NecromancerRobe

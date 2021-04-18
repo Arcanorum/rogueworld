@@ -6,9 +6,7 @@ const fs = require("fs");
 const Utils = require("../Utils");
 
 const workbook = XLSX.readFile("Dungeonz.io translations.xlsx");
-const firstTabIndex = 2;
-// const sheetName = workbook.SheetNames[0];
-// Utils.message(JSON.stringify(parseSheet(workbook, sheetName)).length);
+const firstTabIndex = 0;
 
 function parseSheet(sheetName, defs) {
     // Utils.message(sheetName);
@@ -85,9 +83,8 @@ const defsAsJSONmultiPart = {};
 
 for (let i = firstTabIndex; i < workbook.SheetNames.length; i += 1) {
     parseSheet(workbook.SheetNames[i], defsAsJSONmultiPart);
-    // Utils.message(`${i} page of ${workbook.SheetNames.length}`);
 }
-// Utils.message(JSON.stringify(defsAsJSONmultiPart).length);
+
 // Write the text defs to the client.
 let dataToWrite = {};
 

@@ -1,6 +1,7 @@
 const settings = require("../../settings.js");
 const EventsList = require("../EventsList.js");
 const ItemsList = require("../items/ItemsList.js");
+const starterInventoryItemConfigsList = require("./StarterInventoryItemConfigs").list;
 const Utils = require("../Utils.js");
 const ItemConfig = require("./ItemConfig.js");
 
@@ -81,21 +82,23 @@ class Inventory {
         });
     }
 
-    pushItem(item, skipSave) {
+    pushItem(item, sendEvent, skipSave) {
         const slotIndex = this.items.length;
 
         this.items.push(item);
 
         // Tell the player a new item was added to their inventory.
-        this.owner.socket.sendEvent(EventsList.add_inventory_item, {
-            slotIndex,
-            typeCode: item.typeCode,
-            id: item.itemConfig.id,
-            quantity: item.itemConfig.quantity,
-            durability: item.itemConfig.durability,
-            maxDurability: item.itemConfig.maxDurability,
-            totalWeight: item.itemConfig.totalWeight,
-        });
+        if (sendEvent) {
+            this.owner.socket.sendEvent(EventsList.add_inventory_item, {
+                slotIndex,
+                typeCode: item.typeCode,
+                id: item.itemConfig.id,
+                quantity: item.itemConfig.quantity,
+                durability: item.itemConfig.durability,
+                maxDurability: item.itemConfig.maxDurability,
+                totalWeight: item.itemConfig.totalWeight,
+            });
+        }
 
         // If this player has an account, save the new bank item level.
         if (!skipSave && this.owner.socket.account) {
@@ -306,7 +309,7 @@ class Inventory {
                     owner: this.owner,
                 });
 
-                this.pushItem(item);
+                this.pushItem(item, true);
 
                 quantityToAdd -= stackQuantity;
             }
@@ -322,7 +325,7 @@ class Inventory {
                 owner: this.owner,
             });
 
-            this.pushItem(item);
+            this.pushItem(item, true);
         }
 
         this.updateWeight();
@@ -495,6 +498,25 @@ class Inventory {
 
         // Tell the player all items were removed from their inventory.
         owner.socket.sendEvent(EventsList.remove_all_inventory_items);
+
+        this.updateWeight();
+    }
+
+    addStarterItems() {
+        starterInventoryItemConfigsList.forEach((starterItemConfig) => {
+            // Need to make new item config instances based on the existing ones, instead of just
+            // using those ones, so they don't get mutated as they need to be the same every time.
+            const slotIndex = this.items.length;
+
+            const item = new starterItemConfig.ItemType({
+                itemConfig: new ItemConfig(starterItemConfig),
+                slotIndex,
+                owner: this.owner,
+            });
+
+            // Store the item config in the inventory.
+            this.pushItem(item, false);
+        });
 
         this.updateWeight();
     }

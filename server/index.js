@@ -6,6 +6,7 @@ const settings = require("./settings");
 const Utils = require("./src/Utils");
 const ItemsLoader = require("./src/items/ItemsLoader");
 const EntitiesLoader = require("./src/entities/EntitiesLoader");
+const StarterInventoryItemConfigs = require("./src/inventory/StarterInventoryItemConfigs");
 const StarterBankItemConfigs = require("./src/bank/StarterBankItemConfigs");
 const CraftingRecipesLoader = require("./src/crafting/CraftingRecipesLoader");
 const ShopsLoader = require("./src/shops/ShopsLoader");
@@ -26,6 +27,7 @@ async function init() {
 
     // Do these after the items list is set up, as they need to check the items they use are valid.
     CraftingRecipesLoader.populateList();
+    StarterInventoryItemConfigs.populateList();
     StarterBankItemConfigs.populateList();
     RewardListLoader.populateList();
 

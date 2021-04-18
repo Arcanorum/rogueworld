@@ -92,10 +92,12 @@ ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE: 50
 # 1650 * 2 = 3300
 MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER: 4
 
-STARTER_BANK_ITEMS:
+STARTER_INVENTORY_ITEMS:
+  - itemName: IronSword
   - itemName: HealthPotion
     quantity: 4
-  - itemName: IronSword
+
+STARTER_BANK_ITEMS:
   - itemName: IronHatchet
   - itemName: IronPickaxe
 

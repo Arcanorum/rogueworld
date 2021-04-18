@@ -13,11 +13,17 @@ class Holdable extends Item {
         this.equip();
     }
 
+    useWhileHeld(direction) {
+        if (this.checkUseCriteria(direction)) {
+            this.onUsedWhileHeld(direction);
+        }
+    }
+
     /**
      * Use this held item. Typically attacks.
      * @param {String} [direction] - A specific direction to use the item in. Otherwise uses the owner's direction.
      */
-    useWhileHeld(direction) {
+    onUsedWhileHeld(direction) {
         // Turn them to face the use direction.
         if (this.owner.direction !== direction) {
             this.owner.modDirection(direction);

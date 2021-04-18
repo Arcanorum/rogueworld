@@ -90,6 +90,7 @@ class Effects {
                 this.addSound(state.sound.add("footstep-3")),
                 this.addSound(state.sound.add("footstep-4")),
             ],
+            punch: this.addSound(state.sound.add("punch-1")),
             dungeonKeyGained: this.addSound(state.sound.add("dungeon-key-gained")),
             dropped: {
                 default: this.addSound(state.sound.add("item-dropped")),

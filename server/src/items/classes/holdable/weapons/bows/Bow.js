@@ -1,19 +1,23 @@
 const Weapon = require("../Weapon");
 
 class Bow extends Weapon {
+    checkUseCriteria() {
+        // Check there is some ammunition equipped.
+        if (this.owner.ammunition === null) return false;
+
+        return super.checkUseCriteria();
+    }
+
     /**
      * Use this weapon. Typically creates a projectile.
      * @param {String} direction - A specific direction to use the item in. Otherwise uses the owner's direction.
      */
-    useWhileHeld(direction) {
-        // Check there is some ammunition equipped.
-        if (this.owner.ammunition === null) return;
-
+    onUsedWhileHeld(direction) {
         // Use the projectile type of the equipped arrows.
         this.ProjectileType = this.owner.ammunition.ProjectileType;
 
         // Keep this at the bottom otherwise the item might be broken and destroyed when the durability is updated, so the above stuff will get buggy.
-        super.useWhileHeld(direction);
+        super.onUsedWhileHeld(direction);
     }
 
     onUsed() {

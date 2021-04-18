@@ -8,7 +8,7 @@ const { StatNames } = require("../../stats/Statset").prototype;
 const EventsList = require("../../EventsList");
 const TaskTypes = require("../../tasks/TaskTypes");
 
-/* const { getRandomIntInclusive } = Utils; */
+const { getRandomIntInclusive } = Utils;
 
 class Item {
     /**
@@ -30,7 +30,18 @@ class Item {
      * Activate the effect of this item. i.e. Restore energy, equip armour, use tool.
      */
     use() {
-        this.onUsed();
+        if (this.checkUseCriteria()) {
+            this.onUsed();
+        }
+    }
+
+    checkUseCriteria() {
+        const { owner } = this;
+
+        if (owner.energy < this.useEnergyCost) return false;
+        if (owner.glory < this.useGloryCost) return false;
+
+        return true;
     }
 
     onUsed() {
@@ -41,6 +52,9 @@ class Item {
         // Something might have happened to the owner of this item when it was used by them.
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
         if (owner === null) return;
+
+        if (this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
+        if (this.useGloryCost) owner.modGlory(-this.useGloryCost);
 
         if (this.hasUseEffect) {
             // Check if this item gives any stat exp when used.
@@ -396,9 +410,9 @@ Item.prototype.hasUseEffect = false;
 Item.prototype.useEnergyCost = 0;
 
 /**
-  * How much glory it costs for a character to use this item.
-  * @type {Number}
-  */
+ * How much glory it costs for a character to use this item.
+ * @type {Number}
+ */
 Item.prototype.useGloryCost = 0;
 
 module.exports = Item;

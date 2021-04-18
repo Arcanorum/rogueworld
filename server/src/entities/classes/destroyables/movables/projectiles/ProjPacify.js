@@ -1,4 +1,6 @@
 const Projectile = require("./Projectile");
+const Character = require("../characters/Character");
+const MagicEffects = require("../../../../../gameplay/MagicEffects");
 
 class ProjPacify extends Projectile {
     handleCollision(collidee) {
@@ -16,9 +18,6 @@ class ProjPacify extends Projectile {
     }
 }
 module.exports = ProjPacify;
-
-const Character = require("../characters/Character");
-const MagicEffects = require("../../../../../gameplay/MagicEffects");
 
 ProjPacify.prototype.moveRate = 200;
 ProjPacify.prototype.range = 10;

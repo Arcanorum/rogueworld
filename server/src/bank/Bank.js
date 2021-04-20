@@ -41,12 +41,16 @@ class Bank {
                 }
                 else {
                     // Make new item config instances based on the stored data.
-                    itemConfig = new ItemConfig({
+                    const config = {
                         ItemType: ItemsList.BY_CODE[bankItem.typeCode],
                         quantity: bankItem.quantity,
                         durability: bankItem.durability,
                         maxDurability: bankItem.maxDurability,
-                    });
+                    };
+                    if (bankItem.weightReduce !== undefined) {
+                        config.weightReduce = bankItem.weightReduce;
+                    }
+                    itemConfig = new ItemConfig(config);
                 }
 
                 // Store the item config in the bank.
@@ -103,6 +107,7 @@ class Bank {
                 durability: itemConfig.durability,
                 maxDurability: itemConfig.maxDurability,
                 totalWeight: itemConfig.totalWeight,
+                weightReduce: itemConfig.weightReduce,
             });
         }
 
@@ -116,6 +121,7 @@ class Bank {
                     quantity: itemConfig.quantity,
                     durability: itemConfig.durability,
                     maxDurability: itemConfig.maxDurability,
+                    weightReduce: itemConfig.weightReduce,
                 });
             }
             catch (error) {
@@ -391,6 +397,7 @@ class Bank {
             quantity: quantityToDeposit, // Need to check the actual amount to deposit, as they might not want to add all of it.
             durability: inventoryItem.itemConfig.durability,
             maxDurability: inventoryItem.itemConfig.maxDurability,
+            weightReduce: inventoryItem.itemConfig.weightReduce,
         });
 
         // Check they are next to a bank terminal.

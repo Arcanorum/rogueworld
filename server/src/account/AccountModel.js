@@ -71,6 +71,7 @@ const itemSchema = new Schema(
         quantity: { type: Number },
         durability: { type: Number },
         maxDurability: { type: Number },
+        weightReduce: { type: Number, default: 0 },
     },
     { _id: false },
 );

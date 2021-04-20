@@ -40,6 +40,7 @@ class Inventory {
                         quantity: inventoryItem.quantity,
                         durability: inventoryItem.durability,
                         maxDurability: inventoryItem.maxDurability,
+                        weightReduce: inventoryItem.weightReduce,
                     });
                 }
 
@@ -95,6 +96,7 @@ class Inventory {
             durability: item.itemConfig.durability,
             maxDurability: item.itemConfig.maxDurability,
             totalWeight: item.itemConfig.totalWeight,
+            weightReduce: item.itemConfig.weightReduce,
         });
 
         // If this player has an account, save the new bank item level.
@@ -107,6 +109,7 @@ class Inventory {
                     quantity: item.itemConfig.quantity,
                     durability: item.itemConfig.durability,
                     maxDurability: item.itemConfig.maxDurability,
+                    weightReduce: item.itemConfig.weightReduce,
                 });
             }
             catch (error) {

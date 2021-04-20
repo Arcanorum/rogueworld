@@ -65,6 +65,9 @@ class ItemConfig {
             Utils.warning("ItemConfig constructor, config does not have either `quantity` or `durability`, or either `baseQuantity` or `baseDurability` on the item type. Config:", config);
             throw new Error("Failed ItemConfig validation.");
         }
+        if (config.weightReduce !== undefined) {
+            this.modWeightReduce(config.weightReduce);
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 import eventResponses from "./EventResponses";
 import dungeonz from "../../shared/Global";
+import { GUIState, PlayerState } from "../../shared/state/States";
 
 export default () => {
     eventResponses.effect_start_burn = (data) => {
@@ -62,6 +63,11 @@ export default () => {
         if (entity === undefined) return;
         if (entity.spriteContainer.curseIcon === undefined) return;
         entity.spriteContainer.curseIcon.visible = true;
+
+        // Play a sound for this player if they were cursed.
+        if (data === PlayerState.entityID) {
+            dungeonz.gameScene.sound.play("magic-bubbles-spell", { volume: GUIState.effectsVolume / 100 });
+        }
     };
 
     eventResponses.curse_removed = (data) => {

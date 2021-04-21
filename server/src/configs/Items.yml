@@ -563,6 +563,7 @@
   iconSource: icon-oak-bow
   category: Weapon
   unitWeight: Bow
+  soundType: Bow
   baseDurability: 200
   useEnergyCost: 1
   expGivenStatName: Ranged

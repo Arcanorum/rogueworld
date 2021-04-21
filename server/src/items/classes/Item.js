@@ -81,7 +81,7 @@ class Item {
             // the client might like to know right away (i.e. to play a sound effect).
             owner.socket.sendEvent(
                 EventsList.item_used,
-                { typeCode: this.typeCode },
+                { itemTypeCode: this.typeCode },
             );
         }
     }

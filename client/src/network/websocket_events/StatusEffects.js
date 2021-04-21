@@ -82,6 +82,11 @@ export default () => {
         if (entity === undefined) return;
         if (entity.spriteContainer.enchantmentIcon === undefined) return;
         entity.spriteContainer.enchantmentIcon.visible = true;
+
+        // Play a sound for this player if they were enchanted.
+        if (data === PlayerState.entityID) {
+            dungeonz.gameScene.sound.play("magical-light-sweep", { volume: GUIState.effectsVolume / 100 });
+        }
     };
 
     eventResponses.enchantment_removed = (data) => {

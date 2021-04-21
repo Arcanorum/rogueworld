@@ -108,7 +108,7 @@ class Effects {
                 // Add what ever kinds of sounds you want a particular item to play when used.
                 // Should also be defined in the server item config in Items.yml.
                 // "Food": // TODO: Add food consumed sound here
-                // "Drink": // TODO: Add drink consumed sound here
+                Drink: this.addSound(state.sound.add("magical-potion-drink")),
                 Bow: [
                     this.addSound(state.sound.add("arrow-shot-1")),
                     this.addSound(state.sound.add("arrow-shot-2")),

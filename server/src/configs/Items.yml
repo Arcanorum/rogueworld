@@ -742,6 +742,7 @@
   code: FPEV2793
   translationID: "Energy potion"
   iconSource: icon-energy-potion
+  soundType: Drink
   unitWeight: Potion
   craftingExpValue: 20
   craftTasks:
@@ -860,6 +861,7 @@
   code: SMAG7657
   translationID: Health potion
   iconSource: icon-health-potion
+  soundType: Drink
   unitWeight: Potion
   craftingExpValue: 20
   craftTasks:

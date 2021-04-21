@@ -73,6 +73,10 @@ export default () => {
         PubSub.publish(COMBAT_STATUS_TRIGGER, data.duration);
     };
 
+    eventResponses.melee_attack = () => {
+        dungeonz.gameScene.sound.play("punch-1", { volume: GUIState.effectsVolume / 100 });
+    };
+
     eventResponses.hit_point_value = (data) => {
         PlayerState.setHitPoints(data);
     };

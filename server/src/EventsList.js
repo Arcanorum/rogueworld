@@ -81,6 +81,7 @@ const EventsList = {
     item_dropped: registerEventName(),
     item_used: registerEventName(),
     join_world_success: registerEventName(),
+    melee_attack: registerEventName(),
     modify_bank_item: registerEventName(),
     modify_inventory_item: registerEventName(),
     parties: registerEventName(),

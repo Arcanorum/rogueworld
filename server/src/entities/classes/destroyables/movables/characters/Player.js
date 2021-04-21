@@ -147,9 +147,9 @@ class Player extends Character {
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
     remove() {
-        // If player was in combat and closed client to cheat death 
+        // If player was in combat and closed client to cheat death
         // items should be removed from inventory.
-        if (this.isInCombat()){
+        if (this.isInCombat()) {
             this.inventory.dropAllItems();
         }
         // If the player is looking at a dungeon interface, they
@@ -305,8 +305,8 @@ class Player extends Character {
     damage(damage, damagedBy) {
         // Update timestamp used by isInCombat method.
         this.lastDamagedTime = Date.now();
-        this.socket.sendEvent(this.EventsList.player_in_combat, { 
-            duration: (settings.IN_COMBAT_STATUS_DURATION || 5000)
+        this.socket.sendEvent(this.EventsList.player_in_combat, {
+            duration: (settings.IN_COMBAT_STATUS_DURATION || 5000),
         });
         // If they are already dead, don't damage them again.
         // Might have been killed before this method is called.
@@ -551,6 +551,8 @@ class Player extends Character {
             amount: playerMeleeModHitPointConfig.damageAmount,
             types: playerMeleeModHitPointConfig.damageTypes,
         }), this);
+
+        this.socket.sendEvent(EventsList.melee_attack);
     }
 
     /**

@@ -44,21 +44,20 @@ class Inventory {
         this.autoAddToHotbar = true;
     }
 
+    setItems(itemConfigs) {
+        this.items = itemConfigs;
+
+        this.items.forEach((itemConfig) => {
+            this.addToHotbar(itemConfig);
+        });
+    }
+
     addToInventory(itemConfig) {
         this.items.push(itemConfig);
 
         PubSub.publish(ADD_INVENTORY_ITEM, itemConfig);
 
-        // Only add automatically if the setting for it is set.
-        if (this.autoAddToHotbar) {
-            // Add to the hotbar if there is any available space on it.
-            if (this.hotbar.length < this.MAX_HOTBAR_SLOTS) {
-                // Only add if it is usable.
-                if (ItemTypes[itemConfig.typeCode].hasUseEffect) {
-                    this.addToHotbar(itemConfig);
-                }
-            }
-        }
+        this.addToHotbar(itemConfig);
     }
 
     removeFromInventory(slotIndex) {
@@ -95,7 +94,14 @@ class Inventory {
     }
 
     addToHotbar(itemConfig) {
+        // Only add automatically if the setting for it is set.
+        if (!this.autoAddToHotbar) return;
+
+        // Don't add to the hotbar if there is no available space on it.
         if (this.hotbar.length >= this.MAX_HOTBAR_SLOTS) return;
+
+        // Only add if it is usable.
+        if (!ItemTypes[itemConfig.typeCode].hasUseEffect) return;
 
         this.hotbar.push(itemConfig);
 

@@ -126,4 +126,4 @@ CHAT_SCOPES:
 MAX_CHAT_MESSAGE_LENGTH: 255
 
 # How many seconds after receiving damage player in combat flag is true
-IN_COMBAT_STATUS_DURATION: 5000
+IN_COMBAT_STATUS_DURATION: 15000

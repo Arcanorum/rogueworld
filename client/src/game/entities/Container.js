@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import dungeonz from "../../shared/Global";
+import Utils from "../../shared/Utils";
 
 /**
  * A wrapper around the core Phaser container, for some common things that might be used by any entity containers.
@@ -12,35 +13,78 @@ class Container extends Phaser.GameObjects.Container {
     }
 
     /**
-     * Show the damage marker, with the amount of damage taken.
+     * Show the damage marker, with the amount of damage/healing taken.
      * @param {String|Number} amount
      */
     onHitPointsModified(amount) {
         if (amount < 0) {
-            // JUICE IT! maybe change it to a particle instead?
-            // and have them bounce out of entity when damaged, bounce into entity when healed.
-            this.damageMarker.setColor("#ff2f00");
+            const damageParticle = dungeonz.gameScene.add.text(0, 0, amount, {
+                fontFamily: "'Press Start 2P'",
+                fontSize: 16,
+                align: "center",
+                fill: "#ff2f00",
+                stroke: "#000000",
+                strokeThickness: 5,
+            });
+            damageParticle.setOrigin(0.5, 1);
+            damageParticle.setScale(0.25);
+
+            const xOffset = Utils.getRandomIntInclusive(-50, 50);
+
+            damageParticle.rightTween = dungeonz.gameScene.tweens.add({
+                targets: damageParticle,
+                x: `+=${xOffset}`,
+                duration: 1000,
+                alpha: 0,
+                ease: "Linear",
+            });
+            damageParticle.upTween = dungeonz.gameScene.tweens.add({
+                targets: damageParticle,
+                y: "-=10",
+                duration: 1000,
+                ease: "Back.easeOut",
+                onComplete: function cb() {
+                    this.targets[0].destroy();
+                },
+            });
+
+            this.add(damageParticle);
         }
         else {
-            this.damageMarker.setColor("#6abe30");
             amount = `+${amount}`;
+
+            const damageParticle = dungeonz.gameScene.add.text(0, 0, amount, {
+                fontFamily: "'Press Start 2P'",
+                fontSize: 16,
+                align: "center",
+                fill: "#6abe30",
+                stroke: "#000000",
+                strokeThickness: 5,
+            });
+            damageParticle.setOrigin(0.5, 1);
+            damageParticle.setScale(0.25);
+
+            const xOffset = Utils.getRandomIntInclusive(-20, 20);
+
+            damageParticle.rightTween = dungeonz.gameScene.tweens.add({
+                targets: damageParticle,
+                x: `+=${xOffset}`,
+                duration: 1000,
+                alpha: 0,
+                ease: "Linear",
+            });
+            damageParticle.upTween = dungeonz.gameScene.tweens.add({
+                targets: damageParticle,
+                y: "-=20",
+                duration: 1000,
+                ease: "Back.easeOut",
+                onComplete: function cb() {
+                    this.targets[0].destroy();
+                },
+            });
+
+            this.add(damageParticle);
         }
-
-        this.damageMarker.visible = true;
-        this.damageMarker.setText(amount);
-
-        // If there is already a previous damage marker waiting to be hidden,
-        // stop that timer and start a new one for this damage event.
-        if (this.damageMarkerDisappearTimeout !== null) {
-            clearTimeout(this.damageMarkerDisappearTimeout);
-        }
-
-        const that = this;
-        // Start a timeout to hide the damage marker.
-        this.damageMarkerDisappearTimeout = setTimeout(() => {
-            that.damageMarker.visible = false;
-            that.damageMarkerDisappearTimeout = null;
-        }, 800);
     }
 
     /**
@@ -55,25 +99,6 @@ class Container extends Phaser.GameObjects.Container {
      */
     onPointerOut() {
         this.displayName.visible = false;
-    }
-
-    /**
-     * Add a text object to this sprite to use as the damage indicator.
-     */
-    addDamageMarker() {
-        this.damageMarker = dungeonz.gameScene.add.text(0, 0, -99, {
-            fontFamily: "'Press Start 2P'",
-            fontSize: 20,
-            align: "center",
-            fill: "#f5f5f5",
-            stroke: "#000000",
-            strokeThickness: 5,
-        });
-        this.damageMarker.setOrigin(0.5);
-        this.damageMarker.setScale(0.2);
-        this.damageMarker.visible = false;
-        this.add(this.damageMarker);
-        this.damageMarkerDisappearTimeout = null;
     }
 
     /**

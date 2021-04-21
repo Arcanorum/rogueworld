@@ -44,8 +44,6 @@ class Character extends Container {
         this.add(this.enchantmentIcon);
         this.enchantmentIcon.visible = false;
 
-        this.addDamageMarker();
-
         this.baseSprite.on("animationcomplete", this.moveAnimCompleted, this);
 
         this.baseSprite.setInteractive();

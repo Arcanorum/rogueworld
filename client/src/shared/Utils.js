@@ -126,6 +126,16 @@ const Utils = {
         return dist;
     },
 
+    /**
+     * Gets the distance in board tiles between two dynamic entities.
+     * @param {Object} dynamic1
+     * @param {Object} dynamic2
+     * @returns {Number}
+     */
+    tileDistanceBetween(dynamic1, dynamic2) {
+        return Math.abs(dynamic1.row - dynamic2.row) + Math.abs(dynamic1.col - dynamic2.col);
+    },
+
     formatItemValue(value) {
         if (!value) return 0;
         if (value > 999) return "+999";

@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import gameConfig from "../../../shared/GameConfig";
 import dungeonz from "../../../shared/Global";
+import { GUIState, PlayerState } from "../../../shared/state/States";
 import Utils from "../../../shared/Utils";
 import Container from "../Container";
 
@@ -61,6 +62,15 @@ class Character extends Container {
             this.y,
             Phaser.Math.Between(15, 25),
         );
+
+        const { dynamics } = dungeonz.gameScene;
+
+        // If they are close enough to the player, play a death splat sound.
+        if (
+            Utils.tileDistanceBetween(dynamics[PlayerState.entityID], dynamics[this.entityId]) <= 5
+        ) {
+            dungeonz.gameScene.sound.play("sword-cutting-flesh", { volume: GUIState.effectsVolume / 100 });
+        }
     }
 
     setDirection(direction) {

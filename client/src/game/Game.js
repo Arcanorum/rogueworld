@@ -709,10 +709,9 @@ class Game extends Phaser.Scene {
      * @param {Number} data.col
      */
     addDynamic(data) {
-        const { id } = data;
-        const { typeNumber } = data;
-        const { row } = data;
-        const { col } = data;
+        const {
+            id, typeNumber, row, col,
+        } = data;
 
         // console.log("adding dynamic entity type:", typeNumber, "at row:", row, ", col:", col, ", config:", data);
 

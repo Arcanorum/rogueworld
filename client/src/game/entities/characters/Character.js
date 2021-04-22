@@ -65,11 +65,17 @@ class Character extends Container {
 
         const { dynamics } = dungeonz.gameScene;
 
-        // If they are close enough to the player, play a death splat sound.
-        if (
-            Utils.tileDistanceBetween(dynamics[PlayerState.entityID], dynamics[this.entityId]) <= 5
-        ) {
-            dungeonz.gameScene.sound.play("sword-cutting-flesh", { volume: GUIState.effectsVolume / 100 });
+        const playerDynamic = dynamics[PlayerState.entityID];
+        const thisDynamic = dynamics[this.entityId];
+
+        // Check they are both still in the dynamics list.
+        if (playerDynamic && thisDynamic) {
+            // If they are close enough to the player, play a death splat sound.
+            if (Utils.tileDistanceBetween(
+                dynamics[PlayerState.entityID], dynamics[this.entityId],
+            ) <= 5) {
+                dungeonz.gameScene.sound.play("sword-cutting-flesh", { volume: GUIState.effectsVolume / 100 });
+            }
         }
     }
 

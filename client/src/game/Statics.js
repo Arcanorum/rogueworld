@@ -3,14 +3,14 @@ import PubSub from "pubsub-js";
 import { DUNGEON_PORTAL_PRESSED } from "../shared/EventTypes";
 import gameConfig from "../shared/GameConfig";
 import dungeonz from "../shared/Global";
-import { GUIState, PlayerState } from "../shared/state/States";
+import { GUIState, InventoryState, PlayerState } from "../shared/state/States";
 import anvilIcon from "../assets/images/gui/panels/crafting/anvil.png";
 import furnaceIcon from "../assets/images/gui/panels/crafting/furnace.png";
 import workbenchIcon from "../assets/images/gui/panels/crafting/workbench.png";
 import laboratoryIcon from "../assets/images/gui/panels/crafting/laboratory.png";
 import Utils from "../shared/Utils";
 import Panels from "../components/game/gui/panels/PanelsEnum";
-// import { setAttackCursor, setDefaultCursor, setHandCursor } from "./Cursors";
+import { setAttackCursor, setDefaultCursor, setHandCursor } from "../shared/Cursors";
 
 /**
  * The frame to show when a static is broken. Pile of rubble.
@@ -97,17 +97,17 @@ class Static extends Phaser.GameObjects.Container {
 
             this.tileSprite.on("pointerover", () => {
                 if (this.isWithinPressableRange()) {
-                    // setHandCursor();
+                    setHandCursor();
                 }
             });
 
             this.tileSprite.on("pointerout", () => {
-                // if (dungeonz.gameScene.player.holdingItem) {
-                //     // setAttackCursor();
-                // }
-                // else {
-                //     // setDefaultCursor();
-                // }
+                if (InventoryState.holding) {
+                    setAttackCursor();
+                }
+                else {
+                    setDefaultCursor();
+                }
             });
 
             dungeonz.gameScene.interactables[this.id] = this;

@@ -68,7 +68,7 @@ $taskSlotCompleted: #6abe30;
             top: 50%;
             margin-top: 6px;
             user-select: none;
-            // cursor: $cursorHand;
+            cursor: $cursorHand;
             &:hover {
                 filter: brightness(150%);
                 transform: translate(-50%, -50%) scale(1.1);
@@ -120,7 +120,7 @@ $taskSlotCompleted: #6abe30;
             margin-top: 6px;
             transform: translate(-50%, -50%);
             user-select: none;
-            // cursor: $cursorHand;
+            cursor: $cursorHand;
             &:hover {
                 filter: brightness(150%);
                 transform: translate(-50%, -50%) scale(1.1);
@@ -178,7 +178,7 @@ $taskSlotCompleted: #6abe30;
 
         .party-kick-member-button {
             height: 100%;
-            // cursor: $cursorHand;
+            cursor: $cursorHand;
             &:hover {
                 filter: brightness(150%);
                 transform: scale(1.2);
@@ -186,7 +186,7 @@ $taskSlotCompleted: #6abe30;
         }
 
         .party-slot-cont {
-            // cursor: $cursorHand;
+            cursor: $cursorHand;
             grid-gap: 0px;
             &:hover {
                 filter: brightness(150%);

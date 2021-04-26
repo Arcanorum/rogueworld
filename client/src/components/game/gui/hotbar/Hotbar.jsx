@@ -86,7 +86,7 @@ function HotbarSlot({ itemConfig }) {
 
     return (
         <div
-          className={`slot ${inventoryPanelOpen ? "remove" : ""} ${isHolding ? "holding" : ""} ${isAmmunition ? "ammunition" : ""} ${isClothing ? "clothing" : ""}`}
+          className={`slot hand-cursor ${inventoryPanelOpen ? "remove" : ""} ${isHolding ? "holding" : ""} ${isAmmunition ? "ammunition" : ""} ${isClothing ? "clothing" : ""}`}
           draggable={false}
           onMouseEnter={() => {
               GUIState.setTooltipContent(

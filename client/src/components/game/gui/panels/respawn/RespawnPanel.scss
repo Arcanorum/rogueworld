@@ -31,7 +31,7 @@
                 left: 50%;
                 top: 50%;
                 user-select: none;
-                // cursor: $cursorHand;
+                cursor: $cursorHand;
                 &:hover {
                     filter: brightness(150%);
                     transform: translate(-50%, -50%) scale(1.1);

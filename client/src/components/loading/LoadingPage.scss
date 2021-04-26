@@ -99,7 +99,7 @@
         font-size: 2vh;
         color: $colourDB32White;
         padding: 1rem;
-        cursor: pointer;
+        cursor: $cursorHand;
         user-select: none;
         border: 0.1rem solid $colourDB32White;
         &:hover {
@@ -123,13 +123,13 @@
     .loading-play-button-border {
         position: absolute;
         height: 100%;
-        cursor: pointer;
+        cursor: $cursorHand;
     }
     
     .loading-play-text {
         user-select: none;
         font-size: 6vh;
-        cursor: pointer;
+        cursor: $cursorHand;
         position: absolute;
     }
 }

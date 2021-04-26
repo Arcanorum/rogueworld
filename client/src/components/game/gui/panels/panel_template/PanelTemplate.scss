@@ -38,7 +38,7 @@
     width: 52px;
     user-select: none;
     pointer-events: auto;
-    // cursor: $cursorHand;
+    cursor: $cursorHand;
     &:hover {
         transform: translate(-50%, -50%) scale(1.1);
         filter: brightness(150%);

@@ -46,7 +46,9 @@ $colourDB32LightTanOpacity80: rgba(238,195,154, 0.8);
 $colourDB32OrangeOpacity50: rgba(223, 113, 38, 0.5);
 $colourDB32YellowOpacity50: rgba(251, 242, 54, 0.5);
 
-// $cursorHand: url('../assets/images/gui/cursors/hand-cursor.png') 8 0, auto;
+$cursorNormal: url(/assets/images/gui/cursors/normal-cursor.png), auto;
+$cursorHand: url(/assets/images/gui/cursors/hand-cursor.png) 8 0, auto;
+$cursorAttack: url(/assets/images/gui/cursors/attack-cursor.png), auto;
 
 $currentlyDragged: rgba(255, 171, 0, 0.5);
 $validDropTarget: rgba(146, 255, 236, 0.25);

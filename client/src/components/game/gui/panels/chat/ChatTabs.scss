@@ -5,7 +5,7 @@
   gap: 0.25rem;
 
   .chat-tab {
-    cursor: pointer;
+    cursor: $cursorHand;
     user-select: none;
     opacity: 0.8;
     background-color: rgb(48, 48, 48);

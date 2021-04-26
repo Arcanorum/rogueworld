@@ -61,7 +61,7 @@ function GamePage() {
 
     return (
         <div>
-            <div id="game-cont" className={`normal-cursor ${loadFinished ? "fade-in" : ""}`}>
+            <div id="game-cont" className={`${loadFinished ? "fade-in" : ""}`}>
                 <div id="game-canvas" onClick={loseAllInputFocus} />
                 <GUI />
             </div>

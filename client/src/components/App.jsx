@@ -49,7 +49,7 @@ function App() {
     }, []);
 
     return (
-        <div className="App press-start-font">
+        <div className="App press-start-font normal-cursor">
             {currentPage === "login" && <LoginPage />}
             {currentPage === "game" && <GamePage />}
             {loading && <LoadingPage />}

@@ -37,6 +37,7 @@ function RespawnPanel() {
                             <img
                               src={borderImage}
                               className="button centered"
+                              draggable={false}
                             />
                             <div className="text centered">
                                 {Utils.getTextDef("Respawn")}

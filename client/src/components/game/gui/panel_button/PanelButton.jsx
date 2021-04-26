@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { GUIState } from "../../../../shared/state/States";
 import "./PanelButton.scss";
@@ -16,7 +16,7 @@ function PanelButton({ icon, onClick, tooltipText }) {
     return (
         <div className="panel-button">
             <img
-              className={`gui-icon ${onClick ? "interactive" : ""}`}
+              className={`gui-icon ${onClick ? "interactive hand-cursor" : ""}`}
               src={icon}
               draggable={false}
               onMouseEnter={() => {

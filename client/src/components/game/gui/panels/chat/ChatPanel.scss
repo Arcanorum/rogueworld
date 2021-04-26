@@ -63,7 +63,7 @@
 
     .player-name {
       opacity: 0.8;
-      cursor: pointer;
+      cursor: $cursorHand;
       display: inline-block;
       background-color: black;
       margin: 0;
@@ -83,7 +83,7 @@
       min-width: 48px;
       max-height: 27px;
       width: 10%;
-      cursor: pointer;
+      cursor: $cursorHand;
     }
 
     .send-btn-icon {

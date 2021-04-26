@@ -1,6 +1,6 @@
 import ItemTypes from "../../catalogues/ItemTypes.json";
 import { setAttackCursor, setDefaultCursor } from "../../shared/Cursors";
-import Utils from "../../shared/Utils";
+// import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 import { InventoryState } from "../../shared/state/States";
 import dungeonz from "../../shared/Global";
@@ -102,9 +102,8 @@ export default () => {
             item.typeCode,
         );
 
-        // TODO
         // Change the cursor to the attack icon.
-        // setAttackCursor();
+        setAttackCursor();
     };
 
     eventResponses.deactivate_holding = () => {
@@ -116,17 +115,7 @@ export default () => {
 
         InventoryState.setHolding(null);
 
-        // TODO
         // Change the cursor back to what it was before.
-        // setDefaultCursor();
-    };
-
-    /**
-     *
-     * @param data - The type number of the spell book being held.
-     */
-    eventResponses.activate_spell_book = (data) => {
-        // dungeonz.gameScene.GUI.spellBar.changeSpellBook(data[1]);
-        // dungeonz.gameScene.GUI.spellBar.show();
+        setDefaultCursor();
     };
 };

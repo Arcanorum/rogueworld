@@ -53,7 +53,7 @@
   bottom: 1vw;
   align-self: end;
   color: $colourDB32White;
-  cursor: pointer;
+  cursor: $cursorHand;
   font-size: 1.2vw;
   user-select: none;
 }
@@ -92,7 +92,7 @@
   border: $colourDB32White solid 0.3vw;
   background-color: $colourDB32Red;
   color: $colourDB32White;
-  cursor: pointer;
+  cursor: $cursorHand;
   font-size: 1vw;
   justify-items: center;
   text-align: center;
@@ -132,7 +132,7 @@
   margin-bottom: 14px;
   background-color: $colourDB32White;
   color: $colourDB32VeryDarkPurple;
-  cursor: pointer;
+  cursor: $cursorHand;
   font-family: 'Press Start 2P', cursive;
   font-size: 1.5vw;
   font-weight: bold;
@@ -154,7 +154,7 @@
   left: -50px;
   width: 2.9vw;
   padding: 0.3vw;
-  cursor: pointer;
+  cursor: $cursorHand;
   user-select: none;
   visibility: hidden;
 
@@ -191,7 +191,7 @@
   width: 4vw;
   height: 4vw;
   border: $colourDB32White solid 0.3vw;
-  cursor: pointer;
+  cursor: $cursorHand;
 
   &:hover {
     filter: brightness(150%);
@@ -243,19 +243,15 @@
 
 .language-option {
   display: block;
-  cursor: pointer;
+  cursor: $cursorHand;
   line-height: 2vw;
 
   &:hover {
     border: $colourDB32White 0.3vw solid;
-    //background-color: $colourDB32Blurple;
     background-color: $colourDB32VeryDarkPurple;
-    //transform: scale(1.1);
     filter: brightness(150%);
-    //color: $colourDB32White;
     font-weight: bold;
     line-height: 2.5vw;
-    //font-size: 14px;
   }
 }
 

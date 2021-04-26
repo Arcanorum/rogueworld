@@ -21,3 +21,15 @@ img {
   letter-spacing: 0.1em;
   line-height: 1.2;
 }
+
+.normal-cursor {
+  cursor: $cursorNormal;
+}
+
+.hand-cursor {
+  cursor: $cursorHand;
+}
+
+.attack-cursor {
+  cursor: $cursorAttack;
+}

@@ -65,7 +65,7 @@ function BuyOptions({
                 </div>
                 {!canAfford(price) && <div className="button cannot-afford">{Utils.getTextDef("Not enough glory")}</div>}
                 {!canItemFit(shopItem) && <div className="button no-space">{Utils.getTextDef("Not enough free space")}</div>}
-                {canAfford(price) && canItemFit(shopItem) && <div className="button buy" onClick={buyPressed}>{Utils.getTextDef("Buy")}</div>}
+                {canAfford(price) && canItemFit(shopItem) && <div className="button buy hand-cursor" onClick={buyPressed}>{Utils.getTextDef("Buy")}</div>}
             </div>
         </div>
     );
@@ -79,13 +79,11 @@ BuyOptions.propTypes = {
 };
 
 function ItemSlot({ shopItem, price, onClick }) {
-    const [canAffordThis, setCanAffordThis] = useState(canAfford(price));
     const [canFitThis, setCanFitThis] = useState(canItemFit(shopItem));
 
     useEffect(() => {
         const subs = [
             PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, () => {
-                setCanAffordThis(canAfford(price));
                 setCanFitThis(canItemFit(shopItem));
             }),
         ];
@@ -98,9 +96,9 @@ function ItemSlot({ shopItem, price, onClick }) {
     }, []);
 
     return (
-        <div className="item-slot">
+        <div className="item-slot hand-cursor">
             <div
-              className={`details ${(canAffordThis && canFitThis) ? "" : "cannot-buy"}`}
+              className={`details ${(canAfford(price) && canFitThis) ? "" : "cannot-buy"}`}
               draggable={false}
               onMouseEnter={() => {
                   GUIState.setTooltipContent(
@@ -131,7 +129,7 @@ function ItemSlot({ shopItem, price, onClick }) {
                 </div>
                 <div className="price">
                     <img src={gloryIcon} draggable={false} />
-                    <div className="high-contrast-text">
+                    <div className={`high-contrast-text ${canAfford(price) ? "" : "cannot-afford"}`}>
                         <AnimatedNumber
                           value={price}
                           duration={dungeonz.gameConfig.NUMBER_ANIMATION_DURATION}

@@ -1,4 +1,5 @@
 import gameConfig from "../../../shared/GameConfig";
+import dungeonz from "../../../shared/Global";
 import Sprite from "../Sprite";
 
 class Projectile extends Sprite {
@@ -9,6 +10,17 @@ class Projectile extends Sprite {
         this.setScale(gameConfig.GAME_SCALE);
 
         this.angle = this.directionAngleSet[config.direction] || this.directionAngleSet.l;
+
+        if (this.spinDuration) {
+            dungeonz.gameScene.tweens.add({
+                targets: this,
+                angle: this.angle + 360,
+                duration: 1000,
+                repeat: -1,
+            });
+        }
+
+        this.moveRate = config.moveRate;
     }
 
     setDirection(direction) {
@@ -33,5 +45,12 @@ Projectile.prototype.DiagonalDirectionAngles = {
 };
 
 Projectile.prototype.directionAngleSet = Projectile.prototype.DiagonalDirectionAngles;
+
+/**
+ * How long this projectile will take to complete a rotation.
+ * When set, makes the projectile continuously rotate around it's center.
+ * @type {Number}
+ */
+Projectile.spinDuration = 0;
 
 export default Projectile;

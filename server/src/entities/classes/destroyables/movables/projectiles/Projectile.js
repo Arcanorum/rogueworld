@@ -32,8 +32,16 @@ class Projectile extends Movable {
          */
         this.tilesTravelled = 0;
 
+        let startMoveDelay = this.moveRate;
+
+        // Start the first move of the move loop sooner if it would normally be too long, otherwise
+        // the projectile would appear to have an initial pause before moving. Looks weird...
+        if (startMoveDelay > 200) {
+            startMoveDelay = 200;
+        }
+
         // Start the move loop.
-        this.moveLoop = setTimeout(this.move.bind(this), this.moveRate);
+        this.moveLoop = setTimeout(this.move.bind(this), startMoveDelay);
 
         /**
          * Situational flag. Can be used to stop this from looping after it hits something.
@@ -57,6 +65,7 @@ class Projectile extends Movable {
 
     getEmittableProperties(properties) {
         properties.direction = this.direction;
+        properties.moveRate = this.moveRate;
         return super.getEmittableProperties(properties);
     }
 

@@ -305,8 +305,8 @@ function LoginPage() {
                             )}
                         </div>
                     </div>
-                    {connected && <div id="center-button" onClick={playPressed} />}
-                    {connectionIssue && <div id="center-button" onClick={reconnectPressed} />}
+                    {connected && <div id="center-button" className="hand-cursor" onClick={playPressed} />}
+                    {connectionIssue && <div id="center-button" className="hand-cursor" onClick={reconnectPressed} />}
                 </div>
 
                 <div id="right-bar">

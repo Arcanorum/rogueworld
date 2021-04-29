@@ -547,7 +547,6 @@ class Game extends Phaser.Scene {
                 escape: Phaser.Input.Keyboard.KeyCodes.ESC,
 
                 i: Phaser.Input.Keyboard.KeyCodes.I,
-                c: Phaser.Input.Keyboard.KeyCodes.C,
                 v: Phaser.Input.Keyboard.KeyCodes.V,
                 b: Phaser.Input.Keyboard.KeyCodes.B,
                 m: Phaser.Input.Keyboard.KeyCodes.M,
@@ -612,17 +611,6 @@ class Game extends Phaser.Scene {
         });
 
         this.keyboardKeys.i.on("down", () => {
-            if (this.checkKeyFilters()) return;
-
-            if (GUIState.activePanel === Panels.Inventory) {
-                GUIState.setActivePanel(Panels.NONE);
-            }
-            else {
-                GUIState.setActivePanel(Panels.Inventory);
-            }
-        });
-
-        this.keyboardKeys.c.on("down", () => {
             if (this.checkKeyFilters()) return;
 
             if (GUIState.activePanel === Panels.Inventory) {

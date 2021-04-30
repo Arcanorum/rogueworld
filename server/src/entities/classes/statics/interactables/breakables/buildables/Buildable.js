@@ -68,34 +68,7 @@ class Buildable extends Breakable {
 }
 module.exports = Buildable;
 
-Buildable.prototype.warningEvent = null;
-
 Buildable.prototype.blocking = true;
-
-/**
- * How much energy is taken from a character when they interact with this.
- * @type {Number}
- */
-Buildable.prototype.interactionEnergyCost = 0;
-
-/**
- * The category of item that must be used by a character on this node, such as "Hatchet" for trees. See Item.prototype.categories.
- * Also used for coloured locked doors, with "RedKey" opening a red lock.
- * @type {String}
- */
-Buildable.prototype.requiredToolCategory = null;
-
-/**
- * How long (in ms) before reactivation after being deactivated.
- * @type {Number}
- */
-Buildable.prototype.reactivationRate = null;
-
-/**
- * The ID of the timer that will reactivate this object. Used to stop timers before they fire.
- * @type {Number}
- */
-Buildable.prototype.reactivationTimer = null;
 
 /**
  * If set, this entity is a clan structure, and this is a reference to that clan.

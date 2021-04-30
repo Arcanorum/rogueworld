@@ -406,7 +406,7 @@ class ResourceNode extends Static {
         super(config);
 
         // Add a timer bar.
-        this.timerBar = dungeonz.gameScene.add.sprite(-8, 0, "action-progress-bar");
+        this.timerBar = dungeonz.gameScene.add.sprite(-6, 0, "action-progress-bar");
         this.timerBar.setOrigin(0, 0.5);
         this.timerBar.setVisible(false);
         this.add(this.timerBar);

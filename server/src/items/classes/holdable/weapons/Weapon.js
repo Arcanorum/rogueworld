@@ -10,7 +10,7 @@ class Weapon extends Holdable {
             this.prototype.ProjectileType = EntitiesList[config.ProjectileType];
 
             if (!this.prototype.ProjectileType) {
-                Utils.error(`Loading weapon config. Invalid projectile type name "${config.ProjectileType}" for configured item "${config.name}". Type to use must be in the entities list.`, EntitiesList);
+                Utils.error(`Loading weapon config. Invalid projectile type name "${config.ProjectileType}" for configured item "${config.name}". Type to use must be in the entities list.`);
             }
         }
 

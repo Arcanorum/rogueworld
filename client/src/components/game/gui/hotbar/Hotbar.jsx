@@ -18,6 +18,7 @@ import Panels from "../panels/PanelsEnum";
 import holdingIcon from "../../../../assets/images/gui/hud/hotbar/holding-icon.png";
 import ammunitionIcon from "../../../../assets/images/gui/hud/hotbar/ammunition-icon.png";
 import clothingIcon from "../../../../assets/images/gui/hud/hotbar/clothing-icon.png";
+import dungeonz from "../../../../shared/Global";
 
 const ItemTooltip = (itemConfig) => (
     <div>
@@ -92,6 +93,7 @@ function HotbarSlot({ itemConfig }) {
               GUIState.setTooltipContent(
                   ItemTooltip(itemConfig),
               );
+              dungeonz.gameScene.soundManager.effects.playGUITick();
           }}
           onMouseLeave={() => {
               GUIState.setTooltipContent(null);

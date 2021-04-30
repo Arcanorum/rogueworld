@@ -10,6 +10,7 @@ const Charter = undefined; // require("./entities/statics/interactables/breakabl
 const DungeonPortal = require("./entities/classes/statics/interactables/DungeonPortal");
 const AccountManager = require("./account/AccountManager");
 const settings = require("../settings");
+const EntitiesList = require("./entities/EntitiesList");
 
 const eventResponses = {};
 
@@ -366,6 +367,40 @@ eventResponses.melee_attack = (clientSocket, data) => {
     if (player.hitPoints <= 0) return;
 
     clientSocket.entity.performAction(player.attackMelee, player, data);
+};
+
+/**
+ * @param {*} clientSocket
+ * @param {Number} data.row - The row of the tile to perform an action on.
+ * @param {Number} data.col - The col of the tile to perform an action on.
+ */
+eventResponses.start_tile_action = (clientSocket, data) => {
+    console.log("start_tile_action:", data);
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are dead.
+    const player = clientSocket.entity;
+    if (player.hitPoints <= 0) return;
+
+    const boardTile = player.board.getTileAt(data.row, data.col);
+    // Check the board tile is valid.
+    if (!boardTile) return;
+
+    // If the tile is a resource node, try to gather from it.
+    if (boardTile.static instanceof EntitiesList.AbstractClasses.ResourceNode) {
+        console.log("is a resource node!");
+
+        let itemUsed = null;
+        // A tool was used to start this action, check it is valid. Allow 0.
+        if (Number.isInteger(data.itemUsedIndex)) {
+            itemUsed = player.inventory.items[data.itemUsedIndex];
+            console.log("item used:", itemUsed);
+        }
+
+        boardTile.static.startGathering(player, itemUsed);
+    }
+
+    // Can add other kinds of tile interaction here.
 };
 
 /**

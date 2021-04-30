@@ -106,12 +106,20 @@ Interactable.prototype.warningEvent = null;
 Interactable.prototype.interactionEnergyCost = 0;
 
 /**
- * The category of item that must be used by a character on this node, such as "Hatchet" for trees. See Item.prototype.categories.
- * Also used for coloured locked doors, with "RedKey" opening a red lock.
+ * The category of item that can be used when a player interacts with this node, such as "Hatchet" for trees.
+ * See Item.prototype.categories.
  * @type {String}
  * @default null
  */
-Interactable.prototype.requiredToolCategory = null;
+Interactable.prototype.toolCategory = null;
+
+/**
+ * Whether a tool is required to be used to interact with this node.
+ * See Item.prototype.categories.
+ * @type {Boolean}
+ * @default false
+ */
+Interactable.prototype.isToolRequired = false;
 
 /**
  * How long (in ms) before reactivation after being deactivated.

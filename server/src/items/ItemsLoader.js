@@ -150,15 +150,17 @@ const createCatalogue = () => {
     let dataToWrite = {};
 
     Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
-        const ItemTypePrototype = ItemType.prototype;
+        const itemTypePrototype = ItemType.prototype;
+
         // Add this item type to the type catalogue.
-        dataToWrite[ItemTypePrototype.typeCode] = {
-            typeCode: ItemTypePrototype.typeCode,
+        dataToWrite[itemTypePrototype.typeCode] = {
+            typeCode: itemTypePrototype.typeCode,
             translationID: ItemType.translationID,
             iconSource: ItemType.iconSource,
             soundType: ItemType.soundType,
-            hasUseEffect: ItemTypePrototype.hasUseEffect,
-            equippable: ItemTypePrototype.equip !== Item.prototype.equip,
+            hasUseEffect: itemTypePrototype.hasUseEffect,
+            equippable: itemTypePrototype.equip !== Item.prototype.equip,
+            category: itemTypePrototype.category,
         };
     });
 

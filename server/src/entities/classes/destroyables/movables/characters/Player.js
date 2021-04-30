@@ -60,6 +60,9 @@ class Player extends Character {
         /** @type {Number} The time when this player was last damaged. */
         this.lastDamagedTime = 0;
 
+        /** @type {Number} A timeout for when the player is finished gathering from a resource node. */
+        this.gatherTimeout = 0;
+
         // Start the energy regen loop.
         if (this.energyRegenRate !== false) {
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);
@@ -130,6 +133,8 @@ class Player extends Character {
     onDestroy() {
         this.inventory.dropAllItems();
 
+        clearTimeout(this.gatherTimeout);
+
         // If the player is currently in a dungeon, remove
         // them from it before leaving that dungeon board.
         if (this.board.dungeon) {
@@ -165,6 +170,7 @@ class Player extends Character {
 
         clearTimeout(this.connectionCheckTimeout);
         clearTimeout(this.autoSaveTimeout);
+        clearTimeout(this.gatherTimeout);
 
         // They might be dead when they disconnect, and so will already be removed from the board.
         // Check they are on the board/alive first.
@@ -251,6 +257,9 @@ class Player extends Character {
                     dynamicsAtViewRangeData,
                 );
             }
+
+            // Cancel the gathering action if it was in progress.
+            clearTimeout(this.gatherTimeout);
         }
 
         return true;
@@ -296,6 +305,54 @@ class Player extends Character {
             this.nextActionTime = Date.now() + 500;
             action.call(context, config);
         }
+    }
+
+    /**
+     *
+     * @param {ResourceNode} resourceNode
+     * @param {Item} toolUsed
+     */
+    startGatheringFromResourceNode(resourceNode, toolUsed) {
+        const { gatherTime } = resourceNode;
+
+        if (this.gatherTimeout) {
+            clearTimeout(this.gatherTimeout);
+        }
+
+        // TODO: apply the tool bonus
+        // tool.gatherTimeReduction
+
+        // TODO: apply the gathering level bonus
+
+        console.log("start gathering:", gatherTime);
+
+        this.gatherTimeout = setTimeout(() => {
+            this.gatherComplete(resourceNode);
+        }, gatherTime);
+
+        // Tell the client how long to run the gathering timer animation for.
+        this.socket.sendEvent(EventsList.start_gathering, {
+            row: resourceNode.row,
+            col: resourceNode.col,
+            gatherTime,
+        });
+    }
+
+    gatherComplete(resourceNode) {
+        // Create a new instance of the item type given by this node and add it to the character's inventory.
+        this.inventory.addItem(new ItemConfig({ ItemType: resourceNode.ItemType }));
+
+        // Give them the glory of this node.
+        this.modGlory(resourceNode.gloryGiven);
+
+        // Give them the gathering exp amount of this node.
+        this.stats.Gathering.gainExp(resourceNode.expGiven);
+
+        // Check any task progress was made.
+        this.tasks.progressTask(resourceNode.gatherTaskId);
+
+        // Item was added to inventory, this node is now exploited.
+        resourceNode.deactivate(this);
     }
 
     /**

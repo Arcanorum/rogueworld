@@ -9,7 +9,7 @@ class DoorLockedFighter extends Breakable {
         if (toolUsed === undefined) return;
 
         // Don't do anything to this node if the wrong tool has been used on it.
-        if (toolUsed.category !== this.requiredToolCategory) {
+        if (toolUsed.category !== this.toolCategory) {
             // Tell the player if they are using the wrong tool.
             interactedBy.socket.sendEvent(this.warningEvent);
             return;
@@ -33,4 +33,4 @@ class DoorLockedFighter extends Breakable {
 module.exports = DoorLockedFighter;
 
 DoorLockedFighter.prototype.reactivationRate = 5000;
-DoorLockedFighter.prototype.requiredToolCategory = require("../../../../../items/classes/Item").prototype.categories.FighterKey;
+DoorLockedFighter.prototype.toolCategory = require("../../../../../items/classes/Item").prototype.categories.FighterKey;

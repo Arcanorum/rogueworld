@@ -73,6 +73,31 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
     },
 
+    ProjIronHatchet: {
+        damageAmount: 10,
+        damageTypes: [Physical],
+    },
+    ProjDungiumHatchet: {
+        damageAmount: 12,
+        damageTypes: [Physical],
+    },
+    ProjNoctisHatchet: {
+        damageAmount: 14,
+        damageTypes: [Physical],
+    },
+    ProjIronPickaxe: {
+        damageAmount: 10,
+        damageTypes: [Physical],
+    },
+    ProjDungiumPickaxe: {
+        damageAmount: 12,
+        damageTypes: [Physical],
+    },
+    ProjNoctisPickaxe: {
+        damageAmount: 14,
+        damageTypes: [Physical],
+    },
+
     ProjShuriken: {
         damageAmount: 20,
         damageTypes: [Physical],

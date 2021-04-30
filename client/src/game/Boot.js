@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 import PubSub from "pubsub-js";
-import gameConfig from "../shared/GameConfig";
 import Utils from "../shared/Utils";
 import SoundManager from "./SoundManager";
 import gameAtlasImage from "../assets/images/game-atlas.png";
@@ -8,6 +7,8 @@ import gameAtlasData from "../assets/images/game-atlas.json";
 import groundTileset from "../assets/images/ground.png";
 import staticsTileset from "../assets/images/statics.png";
 import highlightImage from "../assets/images/gui/highlight.png";
+import actionProgressBarImage from "../assets/images/gui/action-progress-bar.png";
+import actionProgressBorderImage from "../assets/images/gui/action-progress-border.png";
 import dungeonz from "../shared/Global";
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from "../shared/EventTypes";
 import { GUIState, InventoryState } from "../shared/state/States";
@@ -32,6 +33,8 @@ class Boot extends Phaser.Scene {
 
         // Graphics.
         this.load.image("highlight", highlightImage);
+        this.load.image("action-progress-bar", actionProgressBarImage);
+        this.load.image("action-progress-border", actionProgressBorderImage);
         this.load.atlas("game-atlas", gameAtlasImage, gameAtlasData);
         this.load.spritesheet("ground-tileset", groundTileset, {
             frameWidth: 16,

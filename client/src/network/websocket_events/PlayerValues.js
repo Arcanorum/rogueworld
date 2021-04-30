@@ -107,4 +107,27 @@ export default () => {
         );
         dungeonz.gameScene.sound.play("level-gained", { volume: GUIState.effectsVolume / 100 });
     };
+
+    eventResponses.start_gathering = (data) => {
+        const { interactables } = dungeonz.gameScene;
+
+        // Stop gathering from any adjacent resource nodes if they were in progress.
+        [
+            interactables[`${PlayerState.row - 1}-${PlayerState.col}`],
+            interactables[`${PlayerState.row + 1}-${PlayerState.col}`],
+            interactables[`${PlayerState.row}-${PlayerState.col - 1}`],
+            interactables[`${PlayerState.row}-${PlayerState.col + 1}`],
+        ].forEach((interactable) => {
+            if (interactable && interactable.hideTimer) {
+                interactable.hideTimer();
+            }
+        });
+
+        const interactable = interactables[`${data.row}-${data.col}`];
+
+        if (interactable && interactable.startTimer) {
+            // Start the gather timer.
+            interactable.startTimer(data.gatherTime);
+        }
+    };
 };

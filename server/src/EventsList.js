@@ -97,6 +97,7 @@ const EventsList = {
     shop_prices: registerEventName(),
     something_went_wrong: registerEventName(),
     start_dungeon: registerEventName(),
+    start_gathering: registerEventName(),
     stat_levelled: registerEventName(),
     task_added: registerEventName(),
     task_claimed: registerEventName(),

@@ -606,12 +606,7 @@ class Tilemap {
         // Cannot update if it doesn't exist.
         if (staticTile === undefined) return;
 
-        if (active === true) {
-            staticTile.tileSprite.setFrame(staticTile.tileID);
-        }
-        else {
-            staticTile.tileSprite.setFrame(staticTile.inactiveFrame);
-        }
+        staticTile.swapFrame(active);
     }
 
     updateDarknessGrid() {

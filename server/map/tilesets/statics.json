@@ -6,7 +6,7 @@
  "name":"statics",
  "spacing":0,
  "tilecount":4096,
- "tiledversion":"1.5.0",
+ "tiledversion":"1.6.0",
  "tileheight":16,
  "tiles":[
         {
@@ -981,7 +981,7 @@
         }, 
         {
          "id":1235,
-         "type":"OakTree"
+         "type":"PineTree"
         }, 
         {
          "id":1237,
@@ -1017,7 +1017,7 @@
         }, 
         {
          "id":1299,
-         "type":"SpruceTree"
+         "type":"PineTree"
         }, 
         {
          "id":1301,
@@ -1053,7 +1053,7 @@
         }, 
         {
          "id":1363,
-         "type":"FirTree"
+         "type":"PineTree"
         }, 
         {
          "id":1365,
@@ -1089,7 +1089,7 @@
         }, 
         {
          "id":1427,
-         "type":"MangroveTree"
+         "type":"WillowTree"
         }, 
         {
          "id":1429,
@@ -1125,7 +1125,7 @@
         }, 
         {
          "id":1491,
-         "type":"EgasoTree"
+         "type":"WillowTree"
         }, 
         {
          "id":1493,
@@ -1157,7 +1157,7 @@
         }, 
         {
          "id":1555,
-         "type":"PalmTree"
+         "type":"PineTree"
         }, 
         {
          "id":1600,
@@ -1184,6 +1184,10 @@
          "type":"Solid"
         }, 
         {
+         "id":1619,
+         "type":"OakTree"
+        }, 
+        {
          "id":1664,
          "type":"Solid"
         }, 
@@ -1208,6 +1212,10 @@
          "type":"Solid"
         }, 
         {
+         "id":1683,
+         "type":"OakTree"
+        }, 
+        {
          "id":1728,
          "type":"Solid"
         }, 
@@ -1230,6 +1238,10 @@
         {
          "id":1733,
          "type":"Solid"
+        }, 
+        {
+         "id":1747,
+         "type":"OakTree"
         }, 
         {
          "id":1792,
@@ -2593,5 +2605,5 @@
         }],
  "tilewidth":16,
  "type":"tileset",
- "version":1.5
+ "version":"1.6"
 }

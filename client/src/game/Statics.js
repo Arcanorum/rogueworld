@@ -3,14 +3,19 @@ import PubSub from "pubsub-js";
 import { DUNGEON_PORTAL_PRESSED } from "../shared/EventTypes";
 import gameConfig from "../shared/GameConfig";
 import dungeonz from "../shared/Global";
-import { GUIState, InventoryState, PlayerState } from "../shared/state/States";
+import {
+    ApplicationState, GUIState, InventoryState, PlayerState,
+} from "../shared/state/States";
 import anvilIcon from "../assets/images/gui/panels/crafting/anvil.png";
 import furnaceIcon from "../assets/images/gui/panels/crafting/furnace.png";
 import workbenchIcon from "../assets/images/gui/panels/crafting/workbench.png";
 import laboratoryIcon from "../assets/images/gui/panels/crafting/laboratory.png";
 import Utils from "../shared/Utils";
 import Panels from "../components/game/gui/panels/PanelsEnum";
-import { setAttackCursor, setDefaultCursor, setHandCursor } from "../shared/Cursors";
+import {
+    setAttackCursor, setDefaultCursor, setHandCursor, setHatchetCursor, setPickaxeCursor,
+} from "../shared/Cursors";
+import ItemTypes from "../catalogues/ItemTypes.json";
 
 /**
  * The frame to show when a static is broken. Pile of rubble.
@@ -29,12 +34,16 @@ const TileIDInactiveFrames = {
     147: 148, // Dungeon portal
     211: 212, // Overworld portal
 
-    1235: 1236, // Oak tree
-    1299: 1300, // Spruce tree
-    1363: 1364, // Fir tree
-    1427: 1428, // Mangrove tree
-    1491: 1492, // Egaso tree
+    1235: 1236, // Pine tree (light)
+    1299: 1300, // Pine tree (dark)
+    1363: 1364, // Pine tree (snow)
+    1427: 1428, // Willow tree (light)
+    1491: 1492, // Willow tree (dark)
     1555: 1556, // Palm tree
+    1619: 1620, // Oak tree (light)
+    1683: 1684, // Oak tree (dark)
+    1747: 1748, // Oak tree (snow)
+
     1237: 1238, // Cotton
     1301: 1302, // Cactus
     1365: 1366, // Red mushroom
@@ -89,26 +98,17 @@ class Static extends Phaser.GameObjects.Container {
         if (config.pressableRange) {
             this.pressableRange = config.pressableRange;
 
+            this.showHighlightRange = config.showHighlightRange || 4;
+
             this.addHighlightSprite();
 
             this.tileSprite.setInteractive();
 
             this.tileSprite.on("pointerdown", this.onPressed, this);
 
-            this.tileSprite.on("pointerover", () => {
-                if (this.isWithinPressableRange()) {
-                    setHandCursor();
-                }
-            });
+            this.tileSprite.on("pointerover", this.onPointerOver, this);
 
-            this.tileSprite.on("pointerout", () => {
-                if (InventoryState.holding) {
-                    setAttackCursor();
-                }
-                else {
-                    setDefaultCursor();
-                }
-            });
+            this.tileSprite.on("pointerout", this.onPointerOut, this);
 
             dungeonz.gameScene.interactables[this.id] = this;
         }
@@ -171,6 +171,62 @@ class Static extends Phaser.GameObjects.Container {
 
     // eslint-disable-next-line
     onPressed() { }
+
+    onPointerOver() {
+        if (this.isWithinPressableRange()) {
+            // Check if a specific cursor should be shown. i.e. hatchet cursor for trees.
+            if (this.setCursorFunction) {
+                this.setCursorFunction();
+            }
+            else {
+                setHandCursor();
+            }
+        }
+    }
+
+    onPointerOut() {
+        if (InventoryState.holding) {
+            setAttackCursor();
+        }
+        else {
+            setDefaultCursor();
+        }
+    }
+
+    /**
+     * Flips a tile between it's active or inactive frame.
+     * @param {Boolean} active
+     */
+    swapFrame(active) {
+        if (active === true) {
+            this.tileSprite.setFrame(this.tileID);
+        }
+        else {
+            this.tileSprite.setFrame(this.inactiveFrame);
+        }
+    }
+
+    shouldShowHighlight() {
+        const playerDynamic = dungeonz.gameScene.dynamics[PlayerState.entityID];
+
+        const distFromPlayer = Utils.tileDistanceBetween(this, playerDynamic);
+
+        if (distFromPlayer <= this.showHighlightRange) {
+            this.highlightSprite.setVisible(true);
+
+            if (this.isWithinPressableRange()) {
+                this.highlightSprite.setAlpha(1);
+                this.highlightSprite.setScale(1.2);
+            }
+            else {
+                this.highlightSprite.setAlpha(0.6);
+                this.highlightSprite.setScale(1);
+            }
+        }
+        else {
+            this.highlightSprite.setVisible(false);
+        }
+    }
 
     isWithinPressableRange() {
         const player = dungeonz.gameScene.dynamics[PlayerState.entityID];
@@ -343,6 +399,118 @@ class Workbench extends CraftingStation {
     }
 }
 
+class ResourceNode extends Static {
+    constructor(config) {
+        config.pressableRange = 1;
+        config.showHighlightRange = 2;
+        super(config);
+
+        // Add a timer bar.
+        this.timerBar = dungeonz.gameScene.add.sprite(-8, 0, "action-progress-bar");
+        this.timerBar.setOrigin(0, 0.5);
+        this.timerBar.setVisible(false);
+        this.add(this.timerBar);
+
+        this.timerBarTween = null;
+
+        this.timerBorder = dungeonz.gameScene.add.sprite(0, 0, "action-progress-border");
+        this.timerBorder.setOrigin(0.5);
+        this.timerBorder.setVisible(false);
+        this.add(this.timerBorder);
+    }
+
+    swapFrame(active) {
+        this.timerBar.setVisible(false);
+        this.timerBorder.setVisible(false);
+
+        super.swapFrame(active);
+    }
+
+    onPressed() {
+        console.log("resource node pressed:", InventoryState.holding);
+
+        // Check the player is within gather range of this node.
+        const playerDynamic = dungeonz.gameScene.dynamics[PlayerState.entityID];
+        if (Utils.tileDistanceBetween(this, playerDynamic) > 1) return;
+
+        if (this.isToolRequired) {
+            // Check they are holding the correct category of tool.
+            if (!InventoryState.holding) return;
+
+            if (ItemTypes[InventoryState.holding.typeCode].category !== this.toolCategory) return;
+        }
+
+        const eventData = {
+            row: this.row,
+            col: this.col,
+        };
+
+        // If they are holding a tool of the correct category, send it too.
+        if (
+            InventoryState.holding
+            && (ItemTypes[InventoryState.holding.typeCode].category === this.toolCategory)
+        ) {
+            eventData.itemUsedIndex = InventoryState.holding.slotIndex;
+        }
+
+        console.log("event data:", eventData);
+
+        // Tell the server this player wants to gather from this node.
+        ApplicationState.connection.sendEvent("start_tile_action", eventData);
+    }
+
+    onPointerOver() {
+        if (
+            InventoryState.holding
+            && ItemTypes[InventoryState.holding.typeCode].category === this.toolCategory
+        ) {
+            this.setCursorFunction = this.toolCursorFunction;
+        }
+        // Check if the resource node can be gathered from without a tool (i.e. punch trees).
+        else if (this.isToolRequired) {
+            this.setCursorFunction = setDefaultCursor;
+        }
+        else {
+            this.setCursorFunction = setHandCursor;
+        }
+
+        super.onPointerOver();
+    }
+
+    startTimer(gatherTime) {
+        this.timerBar.setVisible(true);
+        this.timerBorder.setVisible(true);
+        if (this.timerBarTween) this.timerBarTween.stop();
+
+        this.timerBar.scaleX = 0;
+
+        this.timerBarTween = dungeonz.gameScene.tweens.add({
+            targets: this.timerBar,
+            scaleX: 1,
+            ease: "Linear",
+            duration: gatherTime || 1000,
+        });
+    }
+
+    hideTimer() {
+        this.timerBar.setVisible(false);
+        this.timerBorder.setVisible(false);
+        if (this.timerBarTween) this.timerBarTween.stop();
+    }
+}
+ResourceNode.prototype.toolCursorFunction = setHandCursor;
+ResourceNode.prototype.toolCategory = null;
+ResourceNode.prototype.isToolRequired = false;
+
+class Tree extends ResourceNode {}
+Tree.prototype.toolCursorFunction = setHatchetCursor;
+Tree.prototype.toolCategory = "Hatchet";
+
+class OreRock extends ResourceNode {}
+OreRock.prototype.toolCursorFunction = setPickaxeCursor;
+OreRock.prototype.toolCategory = "Pickaxe";
+OreRock.prototype.isToolRequired = true;
+
 class BankChest extends Static {
     constructor(config) {
         config.pressableRange = 1;
@@ -387,6 +555,27 @@ const StaticClasses = {
     // 86: GUITrigger,
     147: DungeonPortal, // Dungeon portal (active)
     211: Portal, // Overworld portal (active)
+
+    1235: Tree, // Pine tree (light)
+    1299: Tree, // Pine tree (dark)
+    1363: Tree, // Pine tree (snow)
+    1427: Tree, // Willow tree (light)
+    1491: Tree, // Willow tree (dark)
+    1555: Tree, // Palm tree
+    1619: Tree, // Oak tree (light)
+    1683: Tree, // Oak tree (dark)
+    1747: Tree, // Oak tree (snow)
+
+    1305: OreRock, // Iron ore
+    1369: OreRock, // Dungium ore
+    1433: OreRock, // Noctis ore
+
+    1237: ResourceNode, // Cotton
+    // 1301: ResourceNode, // Cactus
+    1365: ResourceNode, // Red mushroom
+    1429: ResourceNode, // Green mushroom
+    1493: ResourceNode, // Blue mushroom
+
     // Light wall torches
     2183: Torch,
     2184: Torch,

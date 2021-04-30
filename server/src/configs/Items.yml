@@ -5,11 +5,11 @@
 
 - name: DungiumArrows
   code: ONCE9214
-  extends: ammunition/Ammunition
   translationID: Dungium arrows
   iconSource: icon-dungium-arrows
-  unitWeight: Arrow
+  extends: ammunition/Ammunition
   ProjectileType: ProjDungiumArrow
+  unitWeight: Arrow
   baseQuantity: 5
   craftTasks:
     - Arrows
@@ -17,11 +17,11 @@
 
 - name: IronArrows
   code: EFQV6850
-  extends: ammunition/Ammunition
   translationID: Iron arrows
   iconSource: icon-iron-arrows
-  baseQuantity: 5
+  extends: ammunition/Ammunition
   ProjectileType: ProjIronArrow
+  baseQuantity: 5
   unitWeight: Arrow
   craftTasks:
     - Arrows
@@ -29,12 +29,12 @@
 
 - name: NoctisArrows
   code: GOWQ7155
-  extends: ammunition/Ammunition
   translationID: Noctis arrows
   iconSource: icon-noctis-arrows
-  unitWeight: Arrow
+  extends: ammunition/Ammunition
   ProjectileType: ProjNoctisArrow
   baseQuantity: 5
+  unitWeight: Arrow
   craftTasks:
     - Arrows
     - NoctisGear
@@ -374,6 +374,32 @@
   craftTasks:
     - Hammers
     - IronGear
+
+- name: IronHatchet
+  code: TNBM9295
+  translationID: Iron hatchet
+  iconSource: icon-iron-hatchet
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjIronHatchet
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Hatchet
+  baseDurability: 40
+  craftTasks:
+    - Hatchets
+
+- name: IronPickaxe
+  code: HGST8704
+  translationID: Iron pickaxe
+  iconSource: icon-iron-pickaxe
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjIronPickaxe
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Pickaxe
+  baseDurability: 40
+  craftTasks:
+    - Pickaxes
 
 - name: IronSword
   code: ZUUW4723
@@ -882,31 +908,11 @@
   iconSource: icon-iron-bar
   unitWeight: Ore
 
-- name: IronHatchet
-  code: TNBM9295
-  translationID: Iron hatchet
-  iconSource: icon-iron-hatchet
-  unitWeight: GatheringTool
-  category: Hatchet
-  baseDurability: 40
-  craftTasks:
-    - Hatchets
-
 - name: IronOre
   code: QXIX4238
   translationID: Iron ore
   iconSource: icon-iron-ore
   unitWeight: Ore
-
-- name: IronPickaxe
-  code: HGST8704
-  translationID: Iron pickaxe
-  iconSource: icon-iron-pickaxe
-  category: Pickaxe
-  unitWeight: GatheringTool
-  baseDurability: 40
-  craftTasks:
-    - Pickaxes
 
 - name: NoctisBar
   code: XWSA3111
@@ -946,18 +952,18 @@
   iconSource: icon-oak-logs
   unitWeight: Logs
 
-- name: PalmLogs
-  code: EIYO7730
-  translationID: Palm logs
-  iconSource: icon-palm-logs
-  unitWeight: Logs
-
 - name: PitKey
   code: NRQI3219
   translationID: Pit key
   iconSource: icon-pit-key
   baseDurability: 1
   category: PitKey
+
+- name: PineLogs
+  code: EIYO7730
+  translationID: Pine logs
+  iconSource: icon-pine-logs
+  unitWeight: Logs
 
 - name: Redcap
   code: BYKI5361
@@ -967,12 +973,6 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
-
-- name: SpruceLogs
-  code: GIJD9170
-  translationID: Spruce logs
-  iconSource: icon-spruce-logs
-  unitWeight: Logs
 
 - name: String
   code: ETGI7171
@@ -986,3 +986,9 @@
   iconSource: icon-wind-gem
   unitWeight: Gem
   craftingExpValue: 40
+
+- name: WillowLogs
+  code: GIJD9170
+  translationID: Willow logs
+  iconSource: icon-willow-logs
+  unitWeight: Logs

@@ -113,28 +113,13 @@ export default () => {
             });
 
             // Check for any interactables that are now in range to be interacted with.
-            const
-                { interactables } = dungeonz.gameScene;
-            const interactionRange = 4;
+            const { interactables } = dungeonz.gameScene;
 
             Object.values(interactables).forEach((interactable) => {
-                const distFromPlayer = Math.abs(interactable.row - dynamic.row)
-                    + Math.abs(interactable.col - dynamic.col);
-
-                if (distFromPlayer <= interactionRange) {
-                    interactable.highlightSprite.setVisible(true);
-
-                    if (interactable.isWithinPressableRange()) {
-                        interactable.highlightSprite.setAlpha(1);
-                        interactable.highlightSprite.setScale(1.2);
-                    }
-                    else {
-                        interactable.highlightSprite.setAlpha(0.6);
-                        interactable.highlightSprite.setScale(1);
-                    }
-                }
-                else {
-                    interactable.highlightSprite.setVisible(false);
+                interactable.shouldShowHighlight();
+                // If it has some kind of timer (i.e. gathering progress) then hide it.
+                if (interactable.hideTimer) {
+                    interactable.hideTimer();
                 }
             });
 

@@ -3,7 +3,8 @@
 - name: IronOre
   reactivationRate: 14000
   interactionEnergyCost: 2
-  requiredToolCategory: Pickaxe
+  isToolRequired: true
+  toolCategory: Pickaxe
   gloryGiven: 10
   expGiven: 10
   gatheringTask: IronOre
@@ -12,7 +13,8 @@
 - name: DungiumOre
   reactivationRate: 30000
   interactionEnergyCost: 2
-  requiredToolCategory: Pickaxe
+  isToolRequired: true
+  toolCategory: Pickaxe
   gloryGiven: 15
   expGiven: 25
   gatheringTask: DungiumOre
@@ -21,7 +23,8 @@
 - name: NoctisOre
   reactivationRate: 40000
   interactionEnergyCost: 3
-  requiredToolCategory: Pickaxe
+  isToolRequired: true
+  toolCategory: Pickaxe
   gloryGiven: 20
   expGiven: 40
   gatheringTask: NoctisOre
@@ -29,39 +32,33 @@
 
 # Trees
 
+- name: PineTree
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  toolCategory: Hatchet
+  gloryGiven: 6
+  expGiven: 5
+  gatherTime: 5000
+  gatheringTask: PineLogs
+  itemName: PineLogs
+
+- name: WillowTree
+  reactivationRate: 20000
+  interactionEnergyCost: 2
+  toolCategory: Hatchet
+  gloryGiven: 6
+  expGiven: 5
+  gatherTime: 10000
+  gatheringTask: WillowLogs
+  itemName: WillowLogs
+
 - name: OakTree
   reactivationRate: 20000
   interactionEnergyCost: 2
-  requiredToolCategory: Hatchet
+  toolCategory: Hatchet
   gloryGiven: 6
   expGiven: 5
-  gatheringTask: OakLogs
-  itemName: OakLogs
-
-- name: SpruceTree
-  reactivationRate: 20000
-  interactionEnergyCost: 2
-  requiredToolCategory: Hatchet
-  gloryGiven: 6
-  expGiven: 5
-  gatheringTask: OakLogs
-  itemName: OakLogs
-
-- name: FirTree
-  reactivationRate: 20000
-  interactionEnergyCost: 2
-  requiredToolCategory: Hatchet
-  gloryGiven: 6
-  expGiven: 5
-  gatheringTask: OakLogs
-  itemName: OakLogs
-
-- name: PalmTree
-  reactivationRate: 20000
-  interactionEnergyCost: 2
-  requiredToolCategory: Hatchet
-  gloryGiven: 6
-  expGiven: 5
+  gatherTime: 15000
   gatheringTask: OakLogs
   itemName: OakLogs
 

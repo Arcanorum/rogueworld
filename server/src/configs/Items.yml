@@ -675,7 +675,7 @@
   code: KVHL3512
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of cleansing
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-cleanse-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -686,7 +686,7 @@
   code: VMFW6679
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of consume
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-consume-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -697,7 +697,7 @@
   code: VNHK6849
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of deathbind
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-deathbind-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -708,7 +708,7 @@
   code: FYRX1359
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of enthrall
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-enthrall-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -719,7 +719,7 @@
   code: KXAD5315
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of heal area
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-heal-area-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -730,7 +730,7 @@
   code: TFCL0641
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of pacify
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-pacify-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -741,7 +741,7 @@
   code: KMGJ5860
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of reanimate
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-reanimate-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -752,7 +752,7 @@
   code: ZZAB3297
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of warding
-  iconSource: icon-scroll-of-healing
+  iconSource: icon-ward-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll

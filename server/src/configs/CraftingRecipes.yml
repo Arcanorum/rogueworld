@@ -160,7 +160,7 @@
   ingredients:
     - itemName: IronBar
       quantity: 2
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 4
     - itemName: Feathers
       quantity: 2
@@ -175,7 +175,7 @@
   ingredients:
     - itemName: IronBar
       quantity: 3
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 6
   result:
     itemName: IronPickaxe
@@ -187,7 +187,7 @@
   ingredients:
     - itemName: IronBar
       quantity: 3
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 6
   result:
     itemName: IronHatchet
@@ -222,7 +222,7 @@
   ingredients:
     - itemName: IronBar
       quantity: 6
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 5
   result:
     itemName: IronHammer
@@ -250,7 +250,7 @@
   ingredients:
     - itemName: DungiumBar
       quantity: 2
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 4
     - itemName: Feathers
       quantity: 2
@@ -265,7 +265,7 @@
   ingredients:
     - itemName: DungiumBar
       quantity: 3
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 6
   result:
     itemName: DungiumPickaxe
@@ -277,7 +277,7 @@
   ingredients:
     - itemName: DungiumBar
       quantity: 3
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 6
   result:
     itemName: DungiumHatchet
@@ -312,7 +312,7 @@
   ingredients:
     - itemName: DungiumBar
       quantity: 6
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 5
   result:
     itemName: DungiumHammer
@@ -340,7 +340,7 @@
   ingredients:
     - itemName: NoctisBar
       quantity: 2
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 4
     - itemName: Feathers
       quantity: 2
@@ -355,7 +355,7 @@
   ingredients:
     - itemName: NoctisBar
       quantity: 3
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 6
   result:
     itemName: NoctisPickaxe
@@ -367,7 +367,7 @@
   ingredients:
     - itemName: NoctisBar
       quantity: 3
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 6
   result:
     itemName: NoctisHatchet
@@ -402,7 +402,7 @@
   ingredients:
     - itemName: NoctisBar
       quantity: 6
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 5
   result:
     itemName: NoctisHammer
@@ -433,6 +433,32 @@
   result:
     itemName: Shuriken
     baseQuantity: 10
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
+    - itemName: PineLogs
+      quantity: 10
+    - itemName: String
+      quantity: 2
+  result:
+    itemName: PineBow
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
+    - itemName: WillowLogs
+      quantity: 10
+    - itemName: String
+      quantity: 2
+  result:
+    itemName: WillowBow
 
 - stationTypes:
     - Workbench
@@ -485,7 +511,7 @@
   ingredients:
     - itemName: FireGem
       quantity: 5
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 8
   result:
     itemName: FireStaff
@@ -498,7 +524,7 @@
   ingredients:
     - itemName: FireGem
       quantity: 8
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 8
   result:
     itemName: SuperFireStaff
@@ -511,7 +537,7 @@
   ingredients:
     - itemName: WindGem
       quantity: 5
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 8
   result:
     itemName: WindStaff
@@ -524,7 +550,7 @@
   ingredients:
     - itemName: WindGem
       quantity: 8
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 8
   result:
     itemName: SuperWindStaff
@@ -537,7 +563,7 @@
   ingredients:
     - itemName: BloodGem
       quantity: 5
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 8
   result:
     itemName: BloodStaff
@@ -550,7 +576,7 @@
   ingredients:
     - itemName: BloodGem
       quantity: 8
-    - itemName: OakLogs
+    - itemName: PineLogs
       quantity: 8
   result:
     itemName: SuperBloodStaff

@@ -39,10 +39,10 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
     },
 
-    ProjCopperSword: {
-        damageAmount: 16,
-        damageTypes: [Physical],
-    },
+    // ProjCopperSword: {
+    //     damageAmount: 16,
+    //     damageTypes: [Physical],
+    // },
     ProjIronSword: {
         damageAmount: 20,
         damageTypes: [Physical],

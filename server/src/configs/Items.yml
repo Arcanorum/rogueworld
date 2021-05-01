@@ -73,21 +73,21 @@
     - Cloaks
     - FabricGear
 
-- name: CopperArmour
-  code: EZZH7691
-  extends: clothes/Clothes
-  translationID: Copper armour
-  iconSource: icon-copper-armour
-  soundType: Metal clothing
-  category: Clothing
-  unitWeight: MetalArmour
-  baseDurability: 100
-  defenceBonus: 40
-  statBonuses:
-    Melee: 1
-  craftTasks:
-    - MetalArmour
-    # - CopperGear
+# - name: CopperArmour
+#   code: EZZH7691
+#   extends: clothes/Clothes
+#   translationID: Copper armour
+#   iconSource: icon-copper-armour
+#   soundType: Metal clothing
+#   category: Clothing
+#   unitWeight: MetalArmour
+#   baseDurability: 100
+#   defenceBonus: 40
+#   statBonuses:
+#     Melee: 1
+#   craftTasks:
+#     - MetalArmour
+#     - CopperGear
 
 - name: DungiumArmour
   code: JKYL4271
@@ -237,21 +237,21 @@
   craftTasks:
     - Staffs
 
-- name: CopperSword
-  code: SMLW0053
-  extends: holdable/weapons/Weapon
-  translationID: Copper sword
-  iconSource: icon-copper-sword
-  soundType: Metal weapon
-  ProjectileType: ProjCopperSword
-  category: Weapon
-  unitWeight: MetalSword
-  baseDurability: 50
-  useEnergyCost: 1
-  expGivenStatName: Melee
-  craftTasks:
-    - Swords
-    # - CopperGear
+# - name: CopperSword
+#   code: SMLW0053
+#   extends: holdable/weapons/Weapon
+#   translationID: Copper sword
+#   iconSource: icon-copper-sword
+#   soundType: Metal weapon
+#   ProjectileType: ProjCopperSword
+#   category: Weapon
+#   unitWeight: MetalSword
+#   baseDurability: 50
+#   useEnergyCost: 1
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Swords
+#     - CopperGear
 
 - name: DungiumDagger
   code: EDBL4872
@@ -627,14 +627,29 @@
 
 # Holdable - Weapons - Bows
 
-- name: FirBow
+- name: PineBow
   code: JQHL5966
   extends: holdable/weapons/bows/Bow
-  translationID: Fir bow
-  iconSource: icon-fir-bow
+  translationID: Pine bow
+  iconSource: icon-pine-bow
   category: Weapon
   unitWeight: Bow
-  baseDurability: 200
+  soundType: Bow
+  baseDurability: 140
+  useEnergyCost: 1
+  expGivenStatName: Ranged
+  craftTasks:
+    - Bows
+
+- name: WillowBow
+  code: PDZE8350
+  extends: holdable/weapons/bows/Bow
+  translationID: Willow bow
+  iconSource: icon-willow-bow
+  category: Weapon
+  unitWeight: Bow
+  soundType: Bow
+  baseDurability: 160
   useEnergyCost: 1
   expGivenStatName: Ranged
   craftTasks:
@@ -652,7 +667,7 @@
   useEnergyCost: 1
   expGivenStatName: Ranged
   craftTasks:
-    - Bows  
+    - Bows
 
 # Spell scrolls
 
@@ -902,12 +917,6 @@
   iconSource: icon-fire-gem
   unitWeight: Gem
   craftingExpValue: 40
-
-- name: FirLogs
-  code: YHNK7312
-  translationID: Fir logs
-  iconSource: icon-fir-logs
-  unitWeight: Logs
 
 - name: Gem
   code: CJVO1172

@@ -76,6 +76,10 @@ const populateList = () => {
                 config.ingredients.forEach((ingredient) => {
                     const IngredientType = ItemsList.BY_NAME[ingredient.itemName];
 
+                    if (!IngredientType) {
+                        Utils.error(`Invalid crafting recipe. Ingredient of given item type name not found in the items list: \`${ingredient.itemName}\` in recipe:`, config);
+                    }
+
                     totalIngredientsExp += (
                         IngredientType.prototype.craftingExpValue
                         * ingredient.quantity

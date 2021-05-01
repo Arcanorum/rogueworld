@@ -1,6 +1,8 @@
+import Pickup from "../../game/entities/pickups/Pickup";
 import gameConfig from "../../shared/GameConfig";
 import dungeonz from "../../shared/Global";
 import { PlayerState } from "../../shared/state/States";
+import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 
 const tweenCompleteLeft = () => {
@@ -122,6 +124,22 @@ export default () => {
                     interactable.hideTimer();
                 }
             });
+
+            // Show the pickup keybind if they are now standing on a pickup.
+            const standingOnPickup = Object
+                .values(dungeonz.gameScene.dynamics)
+                .some((eachDynamic) => (
+                    (eachDynamic.spriteContainer instanceof Pickup)
+                    && (Utils.tileDistanceBetween(eachDynamic, dynamic) === 0)
+                ));
+
+            if (standingOnPickup) {
+                dynamicSpriteContainer.warningText.setText(`${Utils.getTextDef("Pick up item")}\n( E )`);
+                dynamicSpriteContainer.warningText.setVisible(true);
+            }
+            else {
+                dynamicSpriteContainer.warningText.setVisible(false);
+            }
 
             dungeonz.gameScene.soundManager.effects.playFootstep();
         }

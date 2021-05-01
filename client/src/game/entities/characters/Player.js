@@ -16,6 +16,23 @@ class Entity extends Character {
         this.bringToTop(this.enchantmentIcon);
         this.bringToTop(this.displayName);
 
+        const style = {
+            fontFamily: "'Press Start 2P'",
+            fontSize: 16,
+            align: "center",
+            fill: "#f5f5f5",
+            stroke: "#000000",
+            strokeThickness: 8,
+            wordWrap: {
+                width: 250,
+            },
+        };
+        this.warningText = dungeonz.gameScene.add.text(0, -13, "", style);
+        this.warningText.setOrigin(0.5);
+        this.warningText.setScale(0.25);
+        this.warningText.setVisible(false);
+        this.add(this.warningText);
+
         // TODO: add a chat bubble above head when someone starts chatting.
     }
 

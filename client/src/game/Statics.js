@@ -230,10 +230,7 @@ class Static extends Phaser.GameObjects.Container {
 
     isWithinPressableRange() {
         const player = dungeonz.gameScene.dynamics[PlayerState.entityID];
-        const distFromPlayer = Math.abs(this.row - player.row) // Row dist.
-            + Math.abs(this.col - player.col); // Col dist.
-
-        return distFromPlayer <= this.pressableRange;
+        return Utils.tileDistanceBetween(this, player) <= this.pressableRange;
     }
 
     // eslint-disable-next-line
@@ -462,15 +459,28 @@ class ResourceNode extends Static {
         ) {
             this.setCursorFunction = this.toolCursorFunction;
         }
-        // Check if the resource node can be gathered from without a tool (i.e. punch trees).
         else if (this.isToolRequired) {
             this.setCursorFunction = setDefaultCursor;
+
+            if (this.isWithinPressableRange()) {
+                const playerDynamic = dungeonz.gameScene.dynamics[PlayerState.entityID];
+                playerDynamic.spriteContainer.warningText.setText(Utils.getTextDef("Pickaxe needed"));
+                playerDynamic.spriteContainer.warningText.setVisible(true);
+            }
         }
+        // The resource node can be gathered from without a tool (i.e. punch trees).
         else {
             this.setCursorFunction = setHandCursor;
         }
 
         super.onPointerOver();
+    }
+
+    onPointerOut() {
+        const playerDynamic = dungeonz.gameScene.dynamics[PlayerState.entityID];
+        playerDynamic.spriteContainer.warningText.setVisible(false);
+
+        super.onPointerOut();
     }
 
     startTimer(gatherTime) {

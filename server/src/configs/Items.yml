@@ -97,7 +97,7 @@
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
-  baseDurability: 200
+  baseDurability: 180
   defenceBonus: 60
   statBonuses:
     Melee: 3
@@ -127,7 +127,7 @@
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
-  baseDurability: 150
+  baseDurability: 160
   defenceBonus: 50
   statBonuses:
     Melee: 2
@@ -285,6 +285,34 @@
     - Hammers
     - DungiumGear
 
+- name: DungiumHatchet
+  code: NIWY6955
+  translationID: Dungium hatchet
+  iconSource: icon-dungium-hatchet
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjDungiumHatchet
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.65
+  baseDurability: 50
+  craftTasks:
+    - Hatchets
+
+- name: DungiumPickaxe
+  code: HGKW8248
+  translationID: Dungium pickaxe
+  iconSource: icon-dungium-pickaxe
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjDungiumPickaxe
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.65
+  baseDurability: 50
+  craftTasks:
+    - Pickaxes
+
 - name: DungiumSword
   code: OFLM3602
   extends: holdable/weapons/Weapon
@@ -352,7 +380,7 @@
   ProjectileType: ProjIronDagger
   category: Weapon
   unitWeight: MetalDagger
-  baseDurability: 50
+  baseDurability: 40
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -368,7 +396,7 @@
   ProjectileType: ProjIronHammer
   category: Weapon
   unitWeight: MetalHammer
-  baseDurability: 50
+  baseDurability: 40
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -384,6 +412,7 @@
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
   category: Hatchet
+  gatherTimeReduction: 0.5
   baseDurability: 40
   craftTasks:
     - Hatchets
@@ -397,6 +426,7 @@
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
   category: Pickaxe
+  gatherTimeReduction: 0.5
   baseDurability: 40
   craftTasks:
     - Pickaxes
@@ -410,7 +440,7 @@
   ProjectileType: ProjIronSword
   category: Weapon
   unitWeight: MetalSword
-  baseDurability: 50
+  baseDurability: 40
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -426,7 +456,7 @@
   ProjectileType: ProjNoctisDagger
   category: Weapon
   unitWeight: MetalDagger
-  baseDurability: 50
+  baseDurability: 60
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -442,12 +472,40 @@
   ProjectileType: ProjNoctisHammer
   category: Weapon
   unitWeight: MetalHammer
-  baseDurability: 50
+  baseDurability: 60
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Hammers
     - NoctisGear
+
+- name: NoctisHatchet
+  code: CTPW6414
+  translationID: Noctis hatchet
+  iconSource: icon-noctis-hatchet
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjNoctisHatchet
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.8
+  baseDurability: 60
+  craftTasks:
+    - Hatchets
+
+- name: NoctisPickaxe
+  code: LOEF4388
+  translationID: Noctis pickaxe
+  iconSource: icon-noctis-pickaxe
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjNoctisPickaxe
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.8
+  baseDurability: 60
+  craftTasks:
+    - Pickaxes
 
 - name: NoctisSword
   code: BPHJ9303
@@ -458,7 +516,7 @@
   ProjectileType: ProjNoctisSword
   category: Weapon
   unitWeight: MetalSword
-  baseDurability: 50
+  baseDurability: 60
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -747,31 +805,11 @@
   iconSource: icon-dungium-bar
   unitWeight: Ore
 
-- name: DungiumHatchet
-  code: NIWY6955
-  translationID: Dungium hatchet
-  iconSource: icon-dungium-hatchet
-  category: Hatchet
-  unitWeight: GatheringTool
-  baseDurability: 45
-  craftTasks:
-    - Hatchets
-
 - name: DungiumOre
   code: OGGT9699
   translationID: Dungium ore
   iconSource: icon-dungium-ore
   unitWeight: Ore
-
-- name: DungiumPickaxe
-  code: HGKW8248
-  translationID: Dungium pickaxe
-  iconSource: icon-dungium-pickaxe
-  category: Pickaxe
-  unitWeight: GatheringTool
-  baseDurability: 45
-  craftTasks:
-    - Pickaxes
 
 - name: EnergyPotion
   code: FPEV2793
@@ -920,31 +958,11 @@
   iconSource: icon-noctis-bar
   unitWeight: Ore
 
-- name: NoctisHatchet
-  code: CTPW6414
-  translationID: Noctis hatchet
-  iconSource: icon-noctis-hatchet
-  category: Hatchet
-  unitWeight: GatheringTool
-  baseDurability: 50
-  craftTasks:
-    - Hatchets
-
 - name: NoctisOre
   code: LVQF9484
   translationID: Noctis ore
   iconSource: icon-noctis-ore
   unitWeight: Ore
-
-- name: NoctisPickaxe
-  code: LOEF4388
-  translationID: Noctis pickaxe
-  iconSource: icon-noctis-pickaxe
-  category: Pickaxe
-  unitWeight: GatheringTool
-  baseDurability: 50
-  craftTasks:
-    - Pickaxes
 
 - name: OakLogs
   code: KPNK4602

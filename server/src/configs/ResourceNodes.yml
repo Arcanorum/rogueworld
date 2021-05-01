@@ -69,6 +69,7 @@
   interactionEnergyCost: 2
   gloryGiven: 10
   expGiven: 10
+  gatherTime: 4000
   gatheringTask: Bluecaps
   itemName: Bluecap
 
@@ -77,6 +78,7 @@
   interactionEnergyCost: 2
   gloryGiven: 10
   expGiven: 10
+  gatherTime: 4000
   gatheringTask: Greencaps
   itemName: Greencap
 
@@ -85,6 +87,7 @@
   interactionEnergyCost: 2
   gloryGiven: 10
   expGiven: 10
+  gatherTime: 4000
   gatheringTask: Redcaps
   itemName: Redcap
 

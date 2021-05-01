@@ -313,18 +313,24 @@ class Player extends Character {
      * @param {Item} toolUsed
      */
     startGatheringFromResourceNode(resourceNode, toolUsed) {
-        const { gatherTime } = resourceNode;
+        let { gatherTime } = resourceNode;
 
         if (this.gatherTimeout) {
             clearTimeout(this.gatherTimeout);
         }
 
-        // TODO: apply the tool bonus
-        // tool.gatherTimeReduction
+        // Apply any gather time reduction bonus from the tool used.
+        if (toolUsed) {
+            gatherTime -= gatherTime * toolUsed.gatherTimeReduction;
+        }
 
-        // TODO: apply the gathering level bonus
+        // Each gathering level gives 1% reduction.
+        gatherTime -= gatherTime * (this.stats.Gathering.level / 100);
 
-        console.log("start gathering:", gatherTime);
+        // Cap the minimum, and prevent negatives.
+        if (gatherTime < 500) {
+            gatherTime = 500;
+        }
 
         this.gatherTimeout = setTimeout(() => {
             this.gatherComplete(resourceNode);

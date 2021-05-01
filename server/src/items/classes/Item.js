@@ -415,4 +415,10 @@ Item.prototype.useEnergyCost = 0;
  */
 Item.prototype.useGloryCost = 0;
 
+/**
+ * What percent to reduce the gather time by for resource nodes.
+ * @type {Number}
+ */
+Item.prototype.gatherTimeReduction = 0;
+
 module.exports = Item;

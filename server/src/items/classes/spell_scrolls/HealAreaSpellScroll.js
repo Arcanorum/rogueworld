@@ -2,7 +2,7 @@ const SpellScroll = require("./SpellScroll");
 const ModHitPointConfigs = require("../../../gameplay/ModHitPointConfigs");
 const Heal = require("../../../gameplay/Heal");
 
-class HealSpellScroll extends SpellScroll {
+class HealAreaSpellScroll extends SpellScroll {
     onUsed() {
         this.getBoardTilesInRange(1).forEach((boardTile) => {
             Object.values(boardTile.destroyables).forEach((destroyable) => {
@@ -19,4 +19,4 @@ class HealSpellScroll extends SpellScroll {
     }
 }
 
-module.exports = HealSpellScroll;
+module.exports = HealAreaSpellScroll;

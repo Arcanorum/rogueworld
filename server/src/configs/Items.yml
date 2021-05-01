@@ -693,7 +693,7 @@
   expGivenStatName: Magic
   expGivenOnUse: 15
 
-- name: DeathBindSpellScroll
+- name: DeathbindSpellScroll
   code: VNHK6849
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of deathbind
@@ -715,7 +715,7 @@
   expGivenStatName: Magic
   expGivenOnUse: 15
 
-- name: HealSpellScroll
+- name: HealAreaSpellScroll
   code: KXAD5315
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of heal area

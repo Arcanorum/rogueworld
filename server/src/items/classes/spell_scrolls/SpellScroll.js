@@ -1,14 +1,6 @@
 const Item = require("../Item");
 
 class SpellScroll extends Item {
-    use() {
-        super.use();
-    }
-
-    onUsed() {
-        super.onUsed();
-    }
-
     getBoardTilesInRange(inputRange) {
         return this.owner.board.getTilesInEntityRange(this.owner, inputRange || 1);
     }

@@ -156,11 +156,10 @@
     - itemName: FireGem
     - itemName: WindGem
     - itemName: FireStaff
-    - itemName: HealSpellScroll
+    - itemName: HealAreaSpellScroll
     - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
     - itemName: PacifySpellScroll
-
 
 - name: ArchMage
   gloryValue: 150
@@ -173,7 +172,7 @@
   dropList:
     - itemName: SuperFireStaff
       dropRate: 100
-    - itemName: HealSpellScroll
+    - itemName: HealAreaSpellScroll
       dropRate: 100
       rolls: 5
     - itemName: CleanseSpellScroll
@@ -196,9 +195,7 @@
       rolls: 2
     - itemName: SuperFireStaff
       rolls: 2
-#    - itemName: BookOfLight
-#      rolls: 2
-  
+
 - name: Prisoner
   gloryValue: 10
   viewRange: 5
@@ -475,7 +472,7 @@
     - itemName: EnthrallSpellScroll
       dropRate: 100
       rolls: 5
-    - itemName: DeathBindSpellScroll
+    - itemName: DeathbindSpellScroll
       dropRate: 100
       rolls: 5
     - itemName: ReanimateSpellScroll
@@ -546,7 +543,7 @@
     - itemName: EnthrallSpellScroll
       dropRate: 100
       rolls: 5
-    - itemName: DeathBindSpellScroll
+    - itemName: DeathbindSpellScroll
       dropRate: 100
       rolls: 5
     - itemName: ReanimateSpellScroll

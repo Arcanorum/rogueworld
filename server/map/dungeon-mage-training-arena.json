@@ -178,7 +178,7 @@
                         {
                          "name":"EntityTypeName",
                          "type":"string",
-                         "value":"PickupBookOfLight"
+                         "value":"PickupHealAreaSpellScroll"
                         }, 
                         {
                          "name":"MaxAtOnce",

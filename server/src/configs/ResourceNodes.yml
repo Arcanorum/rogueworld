@@ -2,31 +2,31 @@
 
 - name: IronOre
   reactivationRate: 14000
-  interactionEnergyCost: 2
   isToolRequired: true
   toolCategory: Pickaxe
   gloryGiven: 10
   expGiven: 10
+  gatherTime: 5000
   gatheringTask: IronOre
   itemName: IronOre
 
 - name: DungiumOre
   reactivationRate: 30000
-  interactionEnergyCost: 2
   isToolRequired: true
   toolCategory: Pickaxe
   gloryGiven: 15
   expGiven: 25
+  gatherTime: 10000
   gatheringTask: DungiumOre
   itemName: DungiumOre
 
 - name: NoctisOre
   reactivationRate: 40000
-  interactionEnergyCost: 3
   isToolRequired: true
   toolCategory: Pickaxe
   gloryGiven: 20
   expGiven: 40
+  gatherTime: 15000
   gatheringTask: NoctisOre
   itemName: NoctisOre
 
@@ -34,7 +34,6 @@
 
 - name: PineTree
   reactivationRate: 20000
-  interactionEnergyCost: 2
   toolCategory: Hatchet
   gloryGiven: 6
   expGiven: 5
@@ -43,21 +42,19 @@
   itemName: PineLogs
 
 - name: WillowTree
-  reactivationRate: 20000
-  interactionEnergyCost: 2
+  reactivationRate: 30000
   toolCategory: Hatchet
-  gloryGiven: 6
-  expGiven: 5
+  gloryGiven: 15
+  expGiven: 25
   gatherTime: 10000
   gatheringTask: WillowLogs
   itemName: WillowLogs
 
 - name: OakTree
-  reactivationRate: 20000
-  interactionEnergyCost: 2
+  reactivationRate: 40000
   toolCategory: Hatchet
-  gloryGiven: 6
-  expGiven: 5
+  gloryGiven: 20
+  expGiven: 40
   gatherTime: 15000
   gatheringTask: OakLogs
   itemName: OakLogs
@@ -66,7 +63,6 @@
 
 - name: BlueMushroom
   reactivationRate: 20000
-  interactionEnergyCost: 2
   gloryGiven: 10
   expGiven: 10
   gatherTime: 4000
@@ -75,7 +71,6 @@
 
 - name: GreenMushroom
   reactivationRate: 20000
-  interactionEnergyCost: 2
   gloryGiven: 10
   expGiven: 10
   gatherTime: 4000
@@ -84,7 +79,6 @@
 
 - name: RedMushroom
   reactivationRate: 20000
-  interactionEnergyCost: 2
   gloryGiven: 10
   expGiven: 10
   gatherTime: 4000
@@ -95,8 +89,8 @@
 
 - name: CottonPlant
   reactivationRate: 8000
-  interactionEnergyCost: 2
   gloryGiven: 4
   expGiven: 10
+  gatherTime: 1000
   gatheringTask: Cotton
   itemName: Cotton

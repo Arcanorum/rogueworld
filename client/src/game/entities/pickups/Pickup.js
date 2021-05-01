@@ -4,7 +4,9 @@ import Sprite from "../Sprite";
 
 class Pickup extends Sprite {
     constructor(x, y, config) {
-        super(x, y, config);
+        // -1 on Y to move it up slightly, so it appears behind the player when stood on after
+        // being sorted in the dynamics container.
+        super(x, y - 1, config);
 
         this.setFrame(this.frameName);
         this.setScale(gameConfig.GAME_SCALE * (this.scaleModifier || 1));

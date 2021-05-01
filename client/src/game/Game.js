@@ -753,10 +753,7 @@ class Game extends Phaser.Scene {
         this.dynamicSpritesContainer.add(dynamicSpriteContainer);
 
         // Move sprites further down the screen above ones further up.
-        this.dynamicSpritesContainer.list.forEach((each) => {
-            const otherDynamicSpriteContainer = each;
-            otherDynamicSpriteContainer.z = otherDynamicSpriteContainer.y;
-        });
+        this.dynamicSpritesContainer.sort("y");
     }
 
     /**

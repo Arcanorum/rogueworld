@@ -108,7 +108,12 @@ export default () => {
                 duration: dungeonz.gameScene.moveDelay,
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
-                onComplete: tweenOnCompleteFunction,
+                onComplete: () => {
+                    tweenOnCompleteFunction();
+
+                    // Move sprites further down the screen above ones further up.
+                    dungeonz.gameScene.dynamicSpritesContainer.sort("y");
+                },
                 // Need to do stop callback too in case the tween hasn't finished
                 // yet, as calling Tween.stop() then doesn't call onComplete.
                 onStop: tweenOnCompleteFunction,
@@ -173,16 +178,13 @@ export default () => {
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
             });
+
+            // Move sprites further down the screen above ones further up.
+            dungeonz.gameScene.dynamicSpritesContainer.sort("y");
         }
 
         // If the dynamic does something extra when it moves, do it.
         if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove(true);
-
-        // Move sprites further down the screen above ones further up.
-        dungeonz.gameScene.dynamicSpritesContainer.list.forEach((each) => {
-            const otherDynamicSpriteContainer = each;
-            otherDynamicSpriteContainer.z = otherDynamicSpriteContainer.y;
-        });
     };
 
     eventResponses.heal = (data) => {

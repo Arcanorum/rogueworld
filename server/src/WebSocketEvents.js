@@ -793,59 +793,59 @@ eventResponses.shop_buy_item = (clientSocket, data) => {
     }
 };
 
-eventResponses.clan_join = (clientSocket) => {
-    if (clientSocket.inGame === false) return;
-    // Ignore this event if they are dead.
-    if (clientSocket.entity.hitPoints <= 0) return;
+// eventResponses.clan_join = (clientSocket) => {
+//     if (clientSocket.inGame === false) return;
+//     // Ignore this event if they are dead.
+//     if (clientSocket.entity.hitPoints <= 0) return;
 
-    const player = clientSocket.entity;
-    const frontTile = player.board.getTileInFront(player.direction, player.row, player.col);
+//     const player = clientSocket.entity;
+//     const frontTile = player.board.getTileInFront(player.direction, player.row, player.col);
 
-    if (!frontTile) return;
+//     if (!frontTile) return;
 
-    if (frontTile.static instanceof Charter) {
-        frontTile.static.clan.addMember(player);
-    }
-};
+//     if (frontTile.static instanceof Charter) {
+//         frontTile.static.clan.addMember(player);
+//     }
+// };
 
 /**
  * @param {*} clientSocket
  */
-eventResponses.clan_leave = (clientSocket) => {
-    if (clientSocket.inGame === false) return;
-    // Ignore if they aren't even in a clan.
-    if (clientSocket.entity.clan === null) return;
+// eventResponses.clan_leave = (clientSocket) => {
+//     if (clientSocket.inGame === false) return;
+//     // Ignore if they aren't even in a clan.
+//     if (clientSocket.entity.clan === null) return;
 
-    clientSocket.entity.clan.memberLeft(clientSocket.entity);
-};
+//     clientSocket.entity.clan.memberLeft(clientSocket.entity);
+// };
 
-eventResponses.clan_kick = (clientSocket, data) => {
-    if (clientSocket.inGame === false) return;
-    // Ignore if they aren't even in a clan.
-    if (clientSocket.entity.clan === null) return;
+// eventResponses.clan_kick = (clientSocket, data) => {
+//     if (clientSocket.inGame === false) return;
+//     // Ignore if they aren't even in a clan.
+//     if (clientSocket.entity.clan === null) return;
 
-    clientSocket.entity.clan.kickMember(data, clientSocket.entity);
-};
+//     clientSocket.entity.clan.kickMember(data, clientSocket.entity);
+// };
 
-eventResponses.clan_promote = (clientSocket, data) => {
-    if (clientSocket.inGame === false) return;
-    // Ignore if they aren't even in a clan.
-    if (clientSocket.entity.clan === null) return;
+// eventResponses.clan_promote = (clientSocket, data) => {
+//     if (clientSocket.inGame === false) return;
+//     // Ignore if they aren't even in a clan.
+//     if (clientSocket.entity.clan === null) return;
 
-    clientSocket.entity.clan.promoteMember(data, clientSocket.entity, true);
-};
+//     clientSocket.entity.clan.promoteMember(data, clientSocket.entity, true);
+// };
 
 /**
  * While they have the clan panel open, the client will periodically request updates of the current values of their clan details.
  * @param {*} clientSocket
  */
-eventResponses.get_clan_values = (clientSocket) => {
-    if (clientSocket.inGame === false) return;
-    // Ignore if they aren't even in a clan.
-    if (clientSocket.entity.clan === null) return;
+// eventResponses.get_clan_values = (clientSocket) => {
+//     if (clientSocket.inGame === false) return;
+//     // Ignore if they aren't even in a clan.
+//     if (clientSocket.entity.clan === null) return;
 
-    clientSocket.sendEvent(EventsList.clan_values, clientSocket.entity.clan.getValues());
-};
+//     clientSocket.sendEvent(EventsList.clan_values, clientSocket.entity.clan.getValues());
+// };
 
 eventResponses.task_claim_reward = (clientSocket, data) => {
     // console.log("task claim reward, data:", data);

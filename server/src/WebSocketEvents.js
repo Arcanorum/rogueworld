@@ -375,7 +375,7 @@ eventResponses.melee_attack = (clientSocket, data) => {
  * @param {Number} data.col - The col of the tile to perform an action on.
  */
 eventResponses.start_tile_action = (clientSocket, data) => {
-    console.log("start_tile_action:", data);
+    // console.log("start_tile_action:", data);
     if (!data) return;
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are dead.
@@ -388,13 +388,10 @@ eventResponses.start_tile_action = (clientSocket, data) => {
 
     // If the tile is a resource node, try to gather from it.
     if (boardTile.static instanceof EntitiesList.AbstractClasses.ResourceNode) {
-        console.log("is a resource node!");
-
         let itemUsed = null;
         // A tool was used to start this action, check it is valid. Allow 0.
         if (Number.isInteger(data.itemUsedIndex)) {
             itemUsed = player.inventory.items[data.itemUsedIndex];
-            console.log("item used:", itemUsed);
         }
 
         boardTile.static.startGathering(player, itemUsed);

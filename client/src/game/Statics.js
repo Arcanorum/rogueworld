@@ -427,8 +427,6 @@ class ResourceNode extends Static {
     }
 
     onPressed() {
-        console.log("resource node pressed:", InventoryState.holding);
-
         // Check the player is within gather range of this node.
         const playerDynamic = dungeonz.gameScene.dynamics[PlayerState.entityID];
         if (Utils.tileDistanceBetween(this, playerDynamic) > 1) return;
@@ -452,8 +450,6 @@ class ResourceNode extends Static {
         ) {
             eventData.itemUsedIndex = InventoryState.holding.slotIndex;
         }
-
-        console.log("event data:", eventData);
 
         // Tell the server this player wants to gather from this node.
         ApplicationState.connection.sendEvent("start_tile_action", eventData);

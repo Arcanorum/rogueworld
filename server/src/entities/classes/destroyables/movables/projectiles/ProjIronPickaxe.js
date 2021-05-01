@@ -1,12 +1,12 @@
 const Projectile = require("./Projectile");
 
-class ProjIronHatchet extends Projectile {
+class ProjIronPickaxe extends Projectile {
     handleCollision(collidee) {
         this.damageCollidee(collidee);
     }
 }
-module.exports = ProjIronHatchet;
+module.exports = ProjIronPickaxe;
 
-ProjIronHatchet.prototype.assignModHitPointConfigs();
-ProjIronHatchet.prototype.moveRate = 500;
-ProjIronHatchet.prototype.range = 2;
+ProjIronPickaxe.prototype.assignModHitPointConfigs();
+ProjIronPickaxe.prototype.moveRate = 500;
+ProjIronPickaxe.prototype.range = 2;

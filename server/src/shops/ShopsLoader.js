@@ -47,6 +47,17 @@ const initialiseList = () => {
         );
 
         shopConfigs.forEach((config) => {
+            // Load every item type into the shop for the omni merchant.
+            if (config.name === "Omni") {
+                Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
+                    ShopTypesList[config.name].addStock(new StockItem({
+                        ItemType,
+                        quantity: ItemType.prototype.baseQuantity,
+                        durability: ItemType.prototype.baseDurability,
+                    }));
+                });
+            }
+
             // Validate each stock item.
             config.stock.forEach((stockConfig) => {
                 const StockItemType = ItemsList.BY_NAME[stockConfig.itemName];

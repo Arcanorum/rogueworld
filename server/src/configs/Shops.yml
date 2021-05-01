@@ -1,78 +1,7 @@
 
 # Everything, for nothing.
 - name: Omni
-  stock:
-    - itemName: OakLogs
-    - itemName: IronOre
-    - itemName: DungiumOre
-    - itemName: NoctisOre
-    - itemName: Cotton
-    - itemName: Feathers
-    - itemName: Gem
-    - itemName: WindGem
-    - itemName: FireGem
-    - itemName: BloodGem
-    - itemName: Redcap
-    - itemName: Greencap
-    - itemName: Bluecap
-    - itemName: HealthPotion
-    - itemName: EnergyPotion
-    - itemName: CurePotion
-    - itemName: IronDagger
-    - itemName: IronSword
-    - itemName: IronHammer
-    - itemName: IronArmour
-    - itemName: DungiumDagger
-    - itemName: DungiumSword
-    - itemName: DungiumHammer
-    - itemName: DungiumArmour
-    - itemName: NoctisDagger
-    - itemName: NoctisSword
-    - itemName: NoctisHammer
-    - itemName: NoctisArmour
-    - itemName: VampireFang
-    - itemName: Shuriken
-    - itemName: IronArrows
-    - itemName: DungiumArrows
-    - itemName: NoctisArrows
-    - itemName: OakBow
-    - itemName: Cloak
-    - itemName: NinjaGarb
-    - itemName: FireStaff
-    - itemName: SuperFireStaff
-    - itemName: WindStaff
-    - itemName: SuperWindStaff
-    - itemName: BloodStaff
-    - itemName: SuperBloodStaff
-    - itemName: HealSpellScroll
-    - itemName: WardSpellScroll
-    - itemName: PacifySpellScroll
-    - itemName: CleanseSpellScroll
-    - itemName: EnthrallSpellScroll
-    - itemName: ConsumeSpellScroll
-    - itemName: DeathBindSpellScroll
-    - itemName: ReanimateSpellScroll
-    - itemName: PlainRobe
-    - itemName: MageRobe
-    - itemName: NecromancerRobe
-    - itemName: IronHatchet
-    - itemName: IronPickaxe
-    - itemName: DungiumHatchet
-    - itemName: DungiumPickaxe
-    - itemName: NoctisHatchet
-    - itemName: NoctisPickaxe
-    - itemName: ExpOrbMelee
-    - itemName: ExpOrbRanged
-    - itemName: ExpOrbMagic
-    - itemName: ExpOrbGathering
-    - itemName: ExpOrbWeaponry
-    - itemName: ExpOrbArmoury
-    - itemName: ExpOrbToolery
-    - itemName: ExpOrbPotionry
-    - itemName: GloryOrb
-    - itemName: TinyLootBox
-    - itemName: SmallLootBox
-    - itemName: MediumLootBox
+  stock: []
 
 - name: Ruler
   stock: []
@@ -106,8 +35,10 @@
 # Ranged combat gear
 - name: Ranged
   stock:
-    - itemName: OakBow
-      unitPrice: 200
+    - itemName: PineBow
+      unitPrice: 300
+    - itemName: WillowBow
+      unitPrice: 800
     - itemName: IronArrows
       unitPrice: 5
     - itemName: DungiumArrows
@@ -148,7 +79,7 @@
   stock:
     - itemName: IronBar
       unitPrice: 200
-    - itemName: OakLogs
+    - itemName: PineLogs
       unitPrice: 140
     - itemName: Feathers
       unitPrice: 100
@@ -174,4 +105,3 @@
       unitPrice: 1200
     - itemName: DungiumHammer
       unitPrice: 1200
-      durability: 951

@@ -550,7 +550,7 @@ class Board {
      * @param {Static} entity
      */
     removeStatic(entity) {
-        delete this.grid[entity.row][entity.col].static;
+        this.grid[entity.row][entity.col].static = null;
     }
 
     /**
@@ -657,7 +657,7 @@ class Board {
                 // Now get the state of the interactable if it isn't in its default state.
                 interactable = currentTile.static;
                 // Check there is actually one there.
-                if (interactable !== null) {
+                if (interactable) {
                     // Check if it is not in its default state. If not, add it to the data.
                     // Also checks if it is actually an interactable.
                     if (interactable.activeState === false) {

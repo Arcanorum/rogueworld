@@ -58,6 +58,14 @@
   moveRate: 0
   wanderRate: 0
 
+- name: TrainingDummy
+  gloryValue: 5
+  maxHitPoints: 50
+  moveRate: 0
+  wanderRate: 0
+  attackRate: 0
+  targetSearchRate: 0
+
 - name: Citizen
   maxHitPoints: 70
   viewRange: 8

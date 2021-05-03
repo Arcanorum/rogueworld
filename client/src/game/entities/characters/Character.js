@@ -17,8 +17,12 @@ class Character extends Container {
         // property to be set as any color string value Phaser can take.
         // Used for differentiating clan members by name color.
         this.displayNameColor = config.displayNameColor;
+
         let frame;
-        if (this.baseFrames) {
+        if (config.frameName) {
+            frame = config.frameName;
+        }
+        else if (this.baseFrames[this.direction]) {
             frame = this.baseFrames[this.direction] || this.baseFrames.down;
         }
         this.baseSprite = dungeonz.gameScene.add.sprite(0, 0, "game-atlas", frame);

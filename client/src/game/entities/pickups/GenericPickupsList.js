@@ -27,6 +27,7 @@ export default {
     BloodGem: makeClass({ frameName: "blood-gem" }),
     BloodStaff: makeClass({ frameName: "blood-staff" }),
     Bluecap: makeClass({ frameName: "bluecap" }),
+    Bones: makeClass({ frameName: "bones" }),
     Charter: makeClass({ frameName: "charter" }),
     CleanseSpellScroll: makeClass({ frameName: "cleanse-spell-scroll" }),
     Cloak: makeClass({ frameName: "cloak" }),

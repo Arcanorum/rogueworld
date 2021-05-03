@@ -797,6 +797,12 @@
   expGivenStatName: Potionry
   expGivenOnUse: 5
 
+- name: Bones
+  code: PTKR2708
+  translationID: Bones
+  iconSource: icon-bones
+  unitWeight: GenericMaterial
+
 - name: Cotton
   code: YSGN2105
   translationID: Cotton

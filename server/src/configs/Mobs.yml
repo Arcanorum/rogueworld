@@ -313,7 +313,7 @@
       rolls: 2
 
 - name: Rat
-  maxHitPoints: 25
+  maxHitPoints: 20
   viewRange: 4
   moveRate: 600
   meleeDamageAmount: 5
@@ -323,8 +323,8 @@
     - itemName: Bones
 
 - name: Bat
-  gloryValue: 15
-  maxHitPoints: 40
+  gloryValue: 10
+  maxHitPoints: 20
   viewRange: 4
   moveRate: 500
   meleeDamageAmount: 5
@@ -334,7 +334,7 @@
 
 - name: Hawk
   gloryValue: 20
-  maxHitPoints: 60
+  maxHitPoints: 40
   viewRange: 5
   moveRate: 500
   meleeDamageAmount: 8

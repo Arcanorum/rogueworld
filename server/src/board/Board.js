@@ -300,6 +300,8 @@ class Board {
                 // The ID of this tile on the statics tileset.
                 const objectID = mapObject.gid - staticsStartGID - 1;
 
+                if (!staticsTileset.tiles[objectID]) return;
+
                 // Get and separate the type from the prefix using the tile GID.
                 type = staticsTileset.tiles[objectID].type;
 
@@ -1346,6 +1348,8 @@ Board.createClientBoardData = (dataFileName) => {
             // The ID of this tile on the statics tileset.
             const objectID = mapObject.gid - staticsStartGID - 1;
 
+            if (!staticsTileset.tiles[objectID]) return;
+
             // Get and separate the type from the prefix using the tile GID.
             type = staticsTileset.tiles[objectID].type;
 
@@ -1397,22 +1401,22 @@ Board.createClientBoardData = (dataFileName) => {
                 }
             }
             // If a GUI trigger, just write the data to the client. No server entity needed.
-            else if (type === "GUITrigger") {
-                // Add it to all of the slots this object covers.
-                const objectRows = mapObject.height / Board.tileSize;
-                const objectCols = mapObject.width / Board.tileSize;
-                for (let rowOffset = 0; rowOffset < objectRows; rowOffset += 1) {
-                    for (let colOffset = 0; colOffset < objectCols; colOffset += 1) {
-                        new ClientStaticTile(row + rowOffset, col + colOffset, objectID, {
-                            name: mapObject.properties.Name,
-                            panelName: mapObject.properties.PanelName,
-                            panelNameTextDefID: mapObject.properties.PanelNameTextDefID,
-                            contentFileName: mapObject.properties.ContentFileName,
-                            contentTextDefID: mapObject.properties.ContentTextDefID,
-                        });
-                    }
-                }
-            }
+            // else if (type === "GUITrigger") {
+            //     // Add it to all of the slots this object covers.
+            //     const objectRows = mapObject.height / Board.tileSize;
+            //     const objectCols = mapObject.width / Board.tileSize;
+            //     for (let rowOffset = 0; rowOffset < objectRows; rowOffset += 1) {
+            //         for (let colOffset = 0; colOffset < objectCols; colOffset += 1) {
+            //             new ClientStaticTile(row + rowOffset, col + colOffset, objectID, {
+            //                 name: mapObject.properties.Name,
+            //                 panelName: mapObject.properties.PanelName,
+            //                 panelNameTextDefID: mapObject.properties.PanelNameTextDefID,
+            //                 contentFileName: mapObject.properties.ContentFileName,
+            //                 contentTextDefID: mapObject.properties.ContentTextDefID,
+            //             });
+            //         }
+            //     }
+            // }
             else {
                 // Utils.warning("Entity type doesn't exist for configurable object type: " + type);
             }

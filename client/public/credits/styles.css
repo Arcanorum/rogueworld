@@ -13,7 +13,11 @@
     transform: translateX(-50%);
     width: 75%;
     padding: 40px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(34, 32, 52, 0.8);
+    text-align: left;
+}
+
+.title_img_cont {
     text-align: center;
 }
 
@@ -23,12 +27,13 @@
 }
 
 .common {
-    font-family: 'Press Start 2P';
-    color: #222034;
+    font-family:'Courier New', Courier, monospace;
+    color: white;
     margin: 20px;
 }
 
 .h1_header_text {
+    text-align: center;
     font-size: 4vw;
 }
 
@@ -37,5 +42,29 @@
 }
 
 .main_text {
-    font-size: 1.4vw;
+    font-size: 1rem;
+}
+
+a:link {
+    color: lightskyblue;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:visited {
+    color: blue;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a:active {
+    color: orange;
+    background-color: transparent;
+    text-decoration: underline;
 }

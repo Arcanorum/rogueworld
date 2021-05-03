@@ -231,6 +231,15 @@ function LoginPage() {
                         >
                             {Utils.getTextDef("Credits")}
                         </span>
+                        |
+                        <span
+                          id="test-server-text"
+                          onClick={() => {
+                              window.open("https://test.dungeonz.io/", "_blank");
+                          }}
+                        >
+                            {Utils.getTextDef("PTS")}
+                        </span>
                     </div>
                 </div>
 

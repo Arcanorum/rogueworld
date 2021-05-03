@@ -105,19 +105,19 @@
     - MetalArmour
     - DungiumGear
 
-- name: Etherweave
-  code: CAMJ8537
-  extends: clothes/Clothes
-  translationID: Etherweave
-  iconSource: icon-mage-robe
-  soundType: Fabric clothing
-  category: Clothing
-  unitWeight: Robe
-  useGloryCost: 10
-  baseDurability: 1000
-  defenceBonus: 20
-  statBonuses:
-    Magic: 2
+# - name: Etherweave
+#   code: CAMJ8537
+#   extends: clothes/Clothes
+#   translationID: Etherweave
+#   iconSource: icon-mage-robe
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Robe
+#   useGloryCost: 10
+#   baseDurability: 1000
+#   defenceBonus: 20
+#   statBonuses:
+#     Magic: 2
 
 - name: IronArmour
   code: XEBH5037
@@ -236,6 +236,34 @@
   expGivenStatName: Magic
   craftTasks:
     - Staffs
+
+- name: BoneHatchet
+  code: XGEA0957
+  translationID: Bone hatchet
+  iconSource: icon-bone-hatchet
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjBoneHatchet
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.4
+  baseDurability: 20
+  craftTasks:
+    - Hatchets
+
+- name: BonePickaxe
+  code: SEPO2838
+  translationID: Bone pickaxe
+  iconSource: icon-bone-pickaxe
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjBonePickaxe
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.4
+  baseDurability: 20
+  craftTasks:
+    - Pickaxes
 
 # - name: CopperSword
 #   code: SMLW0053
@@ -625,6 +653,19 @@
   craftTasks:
     - Staffs
 
+- name: WoodenClub
+  code: KGFQ9975
+  extends: holdable/weapons/Weapon
+  translationID: Wooden club
+  iconSource: icon-wooden-club
+  soundType: Metal weapon
+  ProjectileType: ProjWoodenClub
+  category: Weapon
+  unitWeight: WoodenWeapon
+  baseDurability: 30
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
 # Holdable - Weapons - Bows
 
 - name: PineBow
@@ -693,7 +734,7 @@
   expGivenStatName: Magic
   expGivenOnUse: 15
 
-- name: DeathBindSpellScroll
+- name: DeathbindSpellScroll
   code: VNHK6849
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of deathbind
@@ -715,7 +756,7 @@
   expGivenStatName: Magic
   expGivenOnUse: 15
 
-- name: HealSpellScroll
+- name: HealAreaSpellScroll
   code: KXAD5315
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of heal area
@@ -796,6 +837,12 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
+
+- name: Bones
+  code: PTKR2708
+  translationID: Bones
+  iconSource: icon-bones
+  unitWeight: GenericMaterial
 
 - name: Cotton
   code: YSGN2105

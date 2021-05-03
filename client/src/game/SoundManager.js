@@ -13,6 +13,7 @@ class Music {
             "exploration-theme": this.addSound(state.sound.add("exploration-theme")),
             "city-theme": this.addSound(state.sound.add("city-theme")),
             "blood-halls-theme": this.addSound(state.sound.add("blood-halls-theme")),
+            "vampire-island-overworld-theme": this.addSound(state.sound.add("vampire-island-overworld-theme")),
             "desert-overworld-theme": this.addSound(state.sound.add("desert-overworld-theme")),
             "forest-maze-theme": this.addSound(state.sound.add("forest-maze-theme")),
             generic2: this.addSound(state.sound.add("generic-theme-2")),

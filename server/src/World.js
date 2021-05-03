@@ -134,8 +134,7 @@ const world = {
     },
 
     linkExits() {
-        let
-            row;
+        let row;
         let rowLen;
         let col;
         let colLen;
@@ -151,6 +150,7 @@ const world = {
                         exit = board.grid[row][col].static;
                         // If the target for this exit isn't valid (might have been removed from the map), then destroy this exit.
                         if (this.boardsObject[exit.targetBoard] === undefined) {
+                            Utils.warning("Cannot link exit. Board of given name not found in the boards list:", exit.targetBoard);
                             exit.destroy();
                             continue;
                         }
@@ -158,6 +158,7 @@ const world = {
                             .boardsObject[exit.targetBoard]
                             .entrances[exit.targetEntrance]
                             === undefined) {
+                            Utils.warning("Cannot link exit. Entrance of given name not found in the board entrances list:", exit.targetEntrance, "for board:", exit.targetBoard);
                             exit.destroy();
                             continue;
                         }
@@ -297,15 +298,15 @@ const world = {
         }
 
         const randomPosition = this
-            .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
-            .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
+            .boardsObject[settings.NEW_PLAYER_SPAWN_BOARD_NAME]
+            .entrances[settings.NEW_PLAYER_SPAWN_ENTRANCE_NAME]
             .getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
-            board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
+            board: this.boardsObject[settings.NEW_PLAYER_SPAWN_BOARD_NAME],
             displayName,
             socket: clientSocket,
         });

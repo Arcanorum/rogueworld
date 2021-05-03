@@ -1,6 +1,8 @@
+import Pickup from "../../game/entities/pickups/Pickup";
 import gameConfig from "../../shared/GameConfig";
 import dungeonz from "../../shared/Global";
 import { PlayerState } from "../../shared/state/States";
+import Utils from "../../shared/Utils";
 import eventResponses from "./EventResponses";
 
 const tweenCompleteLeft = () => {
@@ -106,7 +108,12 @@ export default () => {
                 duration: dungeonz.gameScene.moveDelay,
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
-                onComplete: tweenOnCompleteFunction,
+                onComplete: () => {
+                    tweenOnCompleteFunction();
+
+                    // Move sprites further down the screen above ones further up.
+                    dungeonz.gameScene.dynamicSpritesContainer.sort("y");
+                },
                 // Need to do stop callback too in case the tween hasn't finished
                 // yet, as calling Tween.stop() then doesn't call onComplete.
                 onStop: tweenOnCompleteFunction,
@@ -122,6 +129,22 @@ export default () => {
                     interactable.hideTimer();
                 }
             });
+
+            // Show the pickup keybind if they are now standing on a pickup.
+            const standingOnPickup = Object
+                .values(dungeonz.gameScene.dynamics)
+                .some((eachDynamic) => (
+                    (eachDynamic.spriteContainer instanceof Pickup)
+                    && (Utils.tileDistanceBetween(eachDynamic, dynamic) === 0)
+                ));
+
+            if (standingOnPickup) {
+                dynamicSpriteContainer.warningText.setText(`${Utils.getTextDef("Pick up item")}\n( E )`);
+                dynamicSpriteContainer.warningText.setVisible(true);
+            }
+            else {
+                dynamicSpriteContainer.warningText.setVisible(false);
+            }
 
             dungeonz.gameScene.soundManager.effects.playFootstep();
         }
@@ -155,16 +178,13 @@ export default () => {
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
             });
+
+            // Move sprites further down the screen above ones further up.
+            dungeonz.gameScene.dynamicSpritesContainer.sort("y");
         }
 
         // If the dynamic does something extra when it moves, do it.
         if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove(true);
-
-        // Move sprites further down the screen above ones further up.
-        dungeonz.gameScene.dynamicSpritesContainer.list.forEach((each) => {
-            const otherDynamicSpriteContainer = each;
-            otherDynamicSpriteContainer.z = otherDynamicSpriteContainer.y;
-        });
     };
 
     eventResponses.heal = (data) => {

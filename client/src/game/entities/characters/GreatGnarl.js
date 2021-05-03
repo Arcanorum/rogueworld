@@ -7,6 +7,6 @@ class Entity extends Boss {
     }
 }
 
-Entity.prototype.animationSetName = "gnarl-oak";
+Entity.prototype.animationSetName = "gnarl-pine";
 
 export default Entity;

@@ -6,7 +6,7 @@ const { Biological } = Damage.Types;
 
 const ModHitPointConfigs = {
     PlayerMelee: {
-        damageAmount: 10,
+        damageAmount: 5,
         damageTypes: [Physical],
     },
 
@@ -24,6 +24,11 @@ const ModHitPointConfigs = {
         damageAmount: 18,
         damageTypes: [Physical],
         damageArmourPiercing: 25,
+    },
+
+    ProjWoodenClub: {
+        damageAmount: 8,
+        damageTypes: [Physical],
     },
 
     ProjIronDagger: {
@@ -73,6 +78,10 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
     },
 
+    ProjBoneHatchet: {
+        damageAmount: 6,
+        damageTypes: [Physical],
+    },
     ProjIronHatchet: {
         damageAmount: 10,
         damageTypes: [Physical],
@@ -83,6 +92,10 @@ const ModHitPointConfigs = {
     },
     ProjNoctisHatchet: {
         damageAmount: 14,
+        damageTypes: [Physical],
+    },
+    ProjBonePickaxe: {
+        damageAmount: 6,
         damageTypes: [Physical],
     },
     ProjIronPickaxe: {

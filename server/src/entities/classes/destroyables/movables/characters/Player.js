@@ -345,6 +345,9 @@ class Player extends Character {
     }
 
     gatherComplete(resourceNode) {
+        // Check the resource node still has the resource available in case someone else gathered it faster than this player.
+        if (!resourceNode.activeState) return;
+
         // Create a new instance of the item type given by this node and add it to the character's inventory.
         this.inventory.addItem(new ItemConfig({ ItemType: resourceNode.ItemType }));
 

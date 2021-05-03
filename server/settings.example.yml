@@ -33,6 +33,9 @@ MAX_ACCOUNT_USERNAME_LENGTH: 50
 # board like for dungeons, which are created on demand.
 PLAYER_SPAWN_BOARD_NAME: overworld
 
+# Like PLAYER_SPAWN_BOARD_NAME, but only for new players.
+NEW_PLAYER_SPAWN_BOARD_NAME: city-temple-catacombs
+
 # The entrance bounds to spawn players within.
 # Must be found on the given board given for PLAYER_SPAWN_BOARD_NAME.
 # Some common overworld spawn entrances:
@@ -43,6 +46,9 @@ PLAYER_SPAWN_BOARD_NAME: overworld
 # west-pyramid (West Pyramid dungeon entrance)
 # blood-halls (Blood Halls dungeon entrance)
 PLAYER_SPAWN_ENTRANCE_NAME: city-spawn
+
+# Like PLAYER_SPAWN_ENTRANCE_NAME, but only for new players.
+NEW_PLAYER_SPAWN_ENTRANCE_NAME: start
 
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.
@@ -93,13 +99,21 @@ ADDITIONAL_MAX_BANK_WEIGHT_PER_UPGRADE: 50
 MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER: 4
 
 STARTER_INVENTORY_ITEMS:
-  - itemName: IronSword
+  - itemName: WoodenClub
   - itemName: HealthPotion
     quantity: 4
+  - itemName: PineLogs
+    quantity: 12
+  - itemName: Bones
+    quantity: 6
 
 STARTER_BANK_ITEMS:
-  - itemName: IronHatchet
-  - itemName: IronPickaxe
+  - itemName: HealthPotion
+    quantity: 4
+  - itemName: Cotton
+    quantity: 4
+  - itemName: IronOre
+    quantity: 4
 
 # How much glory it costs for a player to change their character display name.
 DISPLAY_NAME_CHANGE_COST: 1000

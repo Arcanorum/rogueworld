@@ -59,11 +59,13 @@
   wanderRate: 0
 
 - name: Citizen
+  maxHitPoints: 70
   viewRange: 8
   moveRate: 850
   meleeDamageAmount: 5
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: Fabric
     - itemName: OakLogs
     - itemName: Redcap
@@ -77,6 +79,7 @@
   faction: CityGuards
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: HealthPotion
     - itemName: IronBar
     - itemName: IronSword
@@ -118,6 +121,7 @@
   faction: Barbarians
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: IronOre
     - itemName: IronBar
     - itemName: IronHammer
@@ -147,6 +151,7 @@
   corpseType: Human
   projectileAttackType: Fire
   dropList:
+    - itemName: Bones
     - itemName: Fabric
       rolls: 2
     - itemName: Bluecap
@@ -156,11 +161,10 @@
     - itemName: FireGem
     - itemName: WindGem
     - itemName: FireStaff
-    - itemName: HealSpellScroll
+    - itemName: HealAreaSpellScroll
     - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
     - itemName: PacifySpellScroll
-
 
 - name: ArchMage
   gloryValue: 150
@@ -173,7 +177,7 @@
   dropList:
     - itemName: SuperFireStaff
       dropRate: 100
-    - itemName: HealSpellScroll
+    - itemName: HealAreaSpellScroll
       dropRate: 100
       rolls: 5
     - itemName: CleanseSpellScroll
@@ -196,9 +200,7 @@
       rolls: 2
     - itemName: SuperFireStaff
       rolls: 2
-#    - itemName: BookOfLight
-#      rolls: 2
-  
+
 - name: Prisoner
   gloryValue: 10
   viewRange: 5
@@ -207,6 +209,7 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: Cotton
       rolls: 2
     - itemName: Fabric
@@ -224,6 +227,7 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: Fabric
       rolls: 2
     - itemName: IronOre
@@ -309,24 +313,28 @@
       rolls: 2
 
 - name: Rat
-  maxHitPoints: 30
+  maxHitPoints: 20
   viewRange: 4
   moveRate: 600
   meleeDamageAmount: 5
   faction: HostileAnimals
   taskIdKilled: Rats
+  dropList:
+    - itemName: Bones
 
 - name: Bat
-  gloryValue: 15
-  maxHitPoints: 40
+  gloryValue: 10
+  maxHitPoints: 20
   viewRange: 4
   moveRate: 500
   meleeDamageAmount: 5
   faction: HostileAnimals
+  dropList:
+    - itemName: Bones
 
 - name: Hawk
   gloryValue: 20
-  maxHitPoints: 60
+  maxHitPoints: 40
   viewRange: 5
   moveRate: 500
   meleeDamageAmount: 8
@@ -356,16 +364,23 @@
   meleeDamageAmount: 15
   faction: HostileAnimals
   dropList:
-    - itemName: OakLogs
+    - itemName: PineLogs
+      rolls: 2
     - itemName: Greencap
 
-- name: GnarlOak
+- name: GnarlPine
   gloryValue: 30
   defence: 60
   viewRange: 6
   moveRate: 0
   projectileAttackType: Acorn
   faction: HostileAnimals
+  dropList:
+    - itemName: PineLogs
+      dropRate: 100
+      rolls: 2
+    - itemName: PineLogs
+      rolls: 2
 
 - name: GreatGnarl
   gloryValue: 300
@@ -389,8 +404,12 @@
     - itemName: WindGem
       dropRate: 100
       rolls: 2
-    - itemName: OakLogs
+    - itemName: PineLogs
       rolls: 6
+    - itemName: WillowLogs
+      rolls: 3
+    - itemName: OakLogs
+      rolls: 2
 
 - name: Goblin
   gloryValue: 20
@@ -402,6 +421,7 @@
   projectileAttackType: IronDagger
   faction: Goblins
   dropList:
+    - itemName: Bones
     - itemName: Cotton
     - itemName: Fabric
     - itemName: IronOre
@@ -424,6 +444,8 @@
   moveRate: 500
   meleeDamageAmount: 20
   faction: Zombies
+  dropList:
+    - itemName: Bones
 
 - name: Mummy
   gloryValue: 40
@@ -434,6 +456,7 @@
   meleeDamageAmount: 25
   faction: Zombies
   dropList:
+    - itemName: Bones
     - itemName: OakLogs
     - itemName: Cotton
     - itemName: String
@@ -450,6 +473,7 @@
   projectileAttackType: DungiumSword
   faction: Zombies
   dropList:
+    - itemName: Bones
     - itemName: IronBar
       dropRate: 30
     - itemName: DungiumBar
@@ -475,7 +499,7 @@
     - itemName: EnthrallSpellScroll
       dropRate: 100
       rolls: 5
-    - itemName: DeathBindSpellScroll
+    - itemName: DeathbindSpellScroll
       dropRate: 100
       rolls: 5
     - itemName: ReanimateSpellScroll
@@ -504,6 +528,7 @@
   meleeDamageArmourPiercing: 20
   faction: Vampires
   dropList:
+    - itemName: Bones
     - itemName: Fabric
     - itemName: IronOre
     - itemName: VampireFang
@@ -546,7 +571,7 @@
     - itemName: EnthrallSpellScroll
       dropRate: 100
       rolls: 5
-    - itemName: DeathBindSpellScroll
+    - itemName: DeathbindSpellScroll
       dropRate: 100
       rolls: 5
     - itemName: ReanimateSpellScroll
@@ -566,6 +591,7 @@
   moveRate: 750
   meleeDamageAmount: 15
   dropList:
+    - itemName: Bones
     - itemName: Fabric
     - itemName: Redcap
     - itemName: IronOre
@@ -579,6 +605,7 @@
   defence: 50
   projectileAttackType: DungiumHammer
   dropList:
+    - itemName: Bones
     - itemName: Redcap
     - itemName: IronOre
     - itemName: DungiumOre

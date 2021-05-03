@@ -22,5 +22,3 @@ class OverworldPortal extends Exit {
     }
 }
 module.exports = OverworldPortal;
-
-const DungeonManagersList = require("../../../../../dungeon/DungeonManagersList");

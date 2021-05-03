@@ -6,6 +6,15 @@
 - name: Ruler
   stock: []
 
+- name: Priest
+  stock:
+  - itemName: HealthPotion
+    unitPrice: 250
+  - itemName: WardSpellScroll
+    unitPrice: 200
+  - itemName: CleanseSpellScroll
+    unitPrice: 120
+
 # Basic gathering tools
 - name: Tools
   stock:
@@ -51,6 +60,10 @@
 # Magic combat gear
 - name: Magic
   stock:
+    - itemName: HealAreaSpellScroll
+      unitPrice: 200
+    - itemName: PacifySpellScroll
+      unitPrice: 200
     - itemName: WindStaff
       unitPrice: 300
     - itemName: FireStaff

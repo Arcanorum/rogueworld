@@ -7,7 +7,7 @@ class Entity extends Merchant {
         super(x, y, config);
 
         this.baseSprite.setFrame("trader-priest-1");
-        this.npcShopType = NPCShopTypes.Ruler;
+        this.npcShopType = NPCShopTypes.Priest;
     }
 }
 

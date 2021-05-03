@@ -237,6 +237,34 @@
   craftTasks:
     - Staffs
 
+- name: BoneHatchet
+  code: XGEA0957
+  translationID: Bone hatchet
+  iconSource: icon-bone-hatchet
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjBoneHatchet
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.4
+  baseDurability: 20
+  craftTasks:
+    - Hatchets
+
+- name: BonePickaxe
+  code: SEPO2838
+  translationID: Bone pickaxe
+  iconSource: icon-bone-pickaxe
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjBonePickaxe
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.4
+  baseDurability: 20
+  craftTasks:
+    - Pickaxes
+
 # - name: CopperSword
 #   code: SMLW0053
 #   extends: holdable/weapons/Weapon
@@ -624,6 +652,19 @@
   expGivenStatName: Magic
   craftTasks:
     - Staffs
+
+- name: WoodenClub
+  code: KGFQ9975
+  extends: holdable/weapons/Weapon
+  translationID: Wooden club
+  iconSource: icon-wooden-club
+  soundType: Metal weapon
+  ProjectileType: ProjWoodenClub
+  category: Weapon
+  unitWeight: WoodenWeapon
+  baseDurability: 30
+  useEnergyCost: 1
+  expGivenStatName: Melee
 
 # Holdable - Weapons - Bows
 

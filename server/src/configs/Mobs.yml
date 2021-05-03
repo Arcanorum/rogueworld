@@ -59,11 +59,13 @@
   wanderRate: 0
 
 - name: Citizen
+  maxHitPoints: 70
   viewRange: 8
   moveRate: 850
   meleeDamageAmount: 5
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: Fabric
     - itemName: OakLogs
     - itemName: Redcap
@@ -77,6 +79,7 @@
   faction: CityGuards
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: HealthPotion
     - itemName: IronBar
     - itemName: IronSword
@@ -118,6 +121,7 @@
   faction: Barbarians
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: IronOre
     - itemName: IronBar
     - itemName: IronHammer
@@ -147,6 +151,7 @@
   corpseType: Human
   projectileAttackType: Fire
   dropList:
+    - itemName: Bones
     - itemName: Fabric
       rolls: 2
     - itemName: Bluecap
@@ -204,6 +209,7 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: Cotton
       rolls: 2
     - itemName: Fabric
@@ -221,6 +227,7 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: Bones
     - itemName: Fabric
       rolls: 2
     - itemName: IronOre
@@ -306,12 +313,14 @@
       rolls: 2
 
 - name: Rat
-  maxHitPoints: 30
+  maxHitPoints: 25
   viewRange: 4
   moveRate: 600
   meleeDamageAmount: 5
   faction: HostileAnimals
   taskIdKilled: Rats
+  dropList:
+    - itemName: Bones
 
 - name: Bat
   gloryValue: 15
@@ -320,6 +329,8 @@
   moveRate: 500
   meleeDamageAmount: 5
   faction: HostileAnimals
+  dropList:
+    - itemName: Bones
 
 - name: Hawk
   gloryValue: 20
@@ -353,7 +364,7 @@
   meleeDamageAmount: 15
   faction: HostileAnimals
   dropList:
-    - itemName: OakLogs
+    - itemName: PineLogs
     - itemName: Greencap
 
 - name: GnarlOak
@@ -399,6 +410,7 @@
   projectileAttackType: IronDagger
   faction: Goblins
   dropList:
+    - itemName: Bones
     - itemName: Cotton
     - itemName: Fabric
     - itemName: IronOre
@@ -421,6 +433,8 @@
   moveRate: 500
   meleeDamageAmount: 20
   faction: Zombies
+  dropList:
+    - itemName: Bones
 
 - name: Mummy
   gloryValue: 40
@@ -431,6 +445,7 @@
   meleeDamageAmount: 25
   faction: Zombies
   dropList:
+    - itemName: Bones
     - itemName: OakLogs
     - itemName: Cotton
     - itemName: String
@@ -447,6 +462,7 @@
   projectileAttackType: DungiumSword
   faction: Zombies
   dropList:
+    - itemName: Bones
     - itemName: IronBar
       dropRate: 30
     - itemName: DungiumBar
@@ -501,6 +517,7 @@
   meleeDamageArmourPiercing: 20
   faction: Vampires
   dropList:
+    - itemName: Bones
     - itemName: Fabric
     - itemName: IronOre
     - itemName: VampireFang
@@ -563,6 +580,7 @@
   moveRate: 750
   meleeDamageAmount: 15
   dropList:
+    - itemName: Bones
     - itemName: Fabric
     - itemName: Redcap
     - itemName: IronOre
@@ -576,6 +594,7 @@
   defence: 50
   projectileAttackType: DungiumHammer
   dropList:
+    - itemName: Bones
     - itemName: Redcap
     - itemName: IronOre
     - itemName: DungiumOre

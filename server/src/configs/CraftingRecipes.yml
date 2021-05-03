@@ -150,6 +150,45 @@
     itemName: CurePotion
     baseQuantity: 5
 
+# Wooden equipment
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Weaponry
+    - Melee
+  ingredients:
+    - itemName: PineLogs
+      quantity: 5
+  result:
+    itemName: WoodenClub
+
+# Bone equipment
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: Bones
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 6
+  result:
+    itemName: BonePickaxe
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: Bones
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 6
+  result:
+    itemName: BoneHatchet
+
 # Iron equipment
 
 - stationTypes:

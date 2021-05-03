@@ -28,6 +28,8 @@ export default {
     BloodStaff: makeClass({ frameName: "blood-staff" }),
     Bluecap: makeClass({ frameName: "bluecap" }),
     Bones: makeClass({ frameName: "bones" }),
+    BoneHatchet: makeClass({ frameName: "bone-hatchet" }),
+    BonePickaxe: makeClass({ frameName: "bone-pickaxe" }),
     Charter: makeClass({ frameName: "charter" }),
     CleanseSpellScroll: makeClass({ frameName: "cleanse-spell-scroll" }),
     Cloak: makeClass({ frameName: "cloak" }),
@@ -123,5 +125,6 @@ export default {
     WoodDoor: makeClass({ frameName: "wood-door" }),
     WoodPlank: makeClass({ frameName: "wood-plank", scaleModifier: 0.8 }),
     WoodWall: makeClass({ frameName: "wood-wall" }),
+    WoodenClub: makeClass({ frameName: "wooden-club" }),
     Workbench: makeClass({ frameName: "workbench" }),
 };

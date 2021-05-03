@@ -365,15 +365,22 @@
   faction: HostileAnimals
   dropList:
     - itemName: PineLogs
+      rolls: 2
     - itemName: Greencap
 
-- name: GnarlOak
+- name: GnarlPine
   gloryValue: 30
   defence: 60
   viewRange: 6
   moveRate: 0
   projectileAttackType: Acorn
   faction: HostileAnimals
+  dropList:
+    - itemName: PineLogs
+      dropRate: 100
+      rolls: 2
+    - itemName: PineLogs
+      rolls: 2
 
 - name: GreatGnarl
   gloryValue: 300
@@ -397,8 +404,12 @@
     - itemName: WindGem
       dropRate: 100
       rolls: 2
-    - itemName: OakLogs
+    - itemName: PineLogs
       rolls: 6
+    - itemName: WillowLogs
+      rolls: 3
+    - itemName: OakLogs
+      rolls: 2
 
 - name: Goblin
   gloryValue: 20

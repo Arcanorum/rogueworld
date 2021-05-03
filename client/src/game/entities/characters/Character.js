@@ -35,15 +35,15 @@ class Character extends Container {
         this.poisonEffect = this.addEffect("poison-effect-1");
         this.burnEffect = this.addEffect("burn-effect-1");
 
-        this.curseIcon = dungeonz.gameScene.add.sprite(-6, -10, "game-atlas", "curse-icon");
-        this.curseIcon.setOrigin(0.5);
-        this.add(this.curseIcon);
-        this.curseIcon.visible = false;
+        this.curseIcon = this.addEffect("curse-icon-1");
+        this.curseIcon.x = -6;
+        this.curseIcon.y = -10;
+        this.curseIcon.setScale(0.8);
 
-        this.enchantmentIcon = dungeonz.gameScene.add.sprite(6, -10, "game-atlas", "enchantment-icon");
-        this.enchantmentIcon.setOrigin(0.5);
-        this.add(this.enchantmentIcon);
-        this.enchantmentIcon.visible = false;
+        this.enchantmentIcon = this.addEffect("enchantment-icon-1");
+        this.enchantmentIcon.x = 6;
+        this.enchantmentIcon.y = -10;
+        this.enchantmentIcon.setScale(0.8);
 
         this.baseSprite.on("animationcomplete", this.moveAnimCompleted, this);
 
@@ -186,6 +186,30 @@ class Character extends Container {
             frames: [
                 { frame: "burn-effect-1" },
                 { frame: "burn-effect-2" },
+            ],
+            frameRate: 2,
+            repeat: -1,
+            showOnStart: true,
+        });
+
+        dungeonz.gameScene.anims.create({
+            key: "cursed",
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "curse-icon-1" },
+                { frame: "curse-icon-2" },
+            ],
+            frameRate: 2,
+            repeat: -1,
+            showOnStart: true,
+        });
+
+        dungeonz.gameScene.anims.create({
+            key: "enchanted",
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "enchantment-icon-1" },
+                { frame: "enchantment-icon-2" },
             ],
             frameRate: 2,
             repeat: -1,

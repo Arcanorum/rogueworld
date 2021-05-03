@@ -60,9 +60,10 @@ export default () => {
 
     eventResponses.curse_set = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
-        if (entity === undefined) return;
-        if (entity.spriteContainer.curseIcon === undefined) return;
+        if (!entity) return;
+        if (!entity.spriteContainer.curseIcon) return;
         entity.spriteContainer.curseIcon.visible = true;
+        entity.spriteContainer.curseIcon.anims.play("cursed");
 
         // Play a sound for this player if they were cursed.
         if (data === PlayerState.entityID) {
@@ -72,16 +73,18 @@ export default () => {
 
     eventResponses.curse_removed = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
-        if (entity === undefined) return;
-        if (entity.spriteContainer.curseIcon === undefined) return;
+        if (!entity) return;
+        if (!entity.spriteContainer.curseIcon) return;
+        entity.spriteContainer.curseIcon.anims.stop();
         entity.spriteContainer.curseIcon.visible = false;
     };
 
     eventResponses.enchantment_set = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
-        if (entity === undefined) return;
-        if (entity.spriteContainer.enchantmentIcon === undefined) return;
+        if (!entity) return;
+        if (!entity.spriteContainer.enchantmentIcon) return;
         entity.spriteContainer.enchantmentIcon.visible = true;
+        entity.spriteContainer.enchantmentIcon.anims.play("enchanted");
 
         // Play a sound for this player if they were enchanted.
         if (data === PlayerState.entityID) {
@@ -91,8 +94,9 @@ export default () => {
 
     eventResponses.enchantment_removed = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
-        if (entity === undefined) return;
-        if (entity.spriteContainer.enchantmentIcon === undefined) return;
+        if (!entity) return;
+        if (!entity.spriteContainer.enchantmentIcon) return;
+        entity.spriteContainer.enchantmentIcon.anims.stop();
         entity.spriteContainer.enchantmentIcon.visible = false;
     };
 };

@@ -298,15 +298,15 @@ const world = {
         }
 
         const randomPosition = this
-            .boardsObject[settings.PLAYER_SPAWN_BOARD_NAME]
-            .entrances[settings.PLAYER_SPAWN_ENTRANCE_NAME]
+            .boardsObject[settings.NEW_PLAYER_SPAWN_BOARD_NAME]
+            .entrances[settings.NEW_PLAYER_SPAWN_ENTRANCE_NAME]
             .getRandomPosition();
 
         /** @type {Player} */
         const playerEntity = new EntitiesList.Player({
             row: randomPosition.row,
             col: randomPosition.col,
-            board: this.boardsObject[settings.PLAYER_SPAWN_BOARD_NAME],
+            board: this.boardsObject[settings.NEW_PLAYER_SPAWN_BOARD_NAME],
             displayName,
             socket: clientSocket,
         });

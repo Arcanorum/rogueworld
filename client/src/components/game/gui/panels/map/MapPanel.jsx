@@ -63,8 +63,8 @@ function LocationMarker() {
 function MapPanel({ onCloseCallback }) {
     const leafletConfig = {
         center: [
-            -PlayerState.row + 32,
-            PlayerState.col - 248 + 0.5,
+            -PlayerState.row,
+            PlayerState.col + 1 - 0.5,
         ],
         zoom: 3,
     };

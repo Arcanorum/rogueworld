@@ -1,3 +1,94 @@
+07/05/2021 - Update 9 - City redesign, chat, content
+
+New:
+- Redesigned main city to improve new player experience and streamline getting around.
+- New player/tutorial map:
+    An introduction area with weak enemies that players can progress through easily without getting lost.
+    New players now spawn with some basic items to get them going.
+- Chat box:
+    An interface for chatting to nearby players (local), and across the map (global/trade).
+- Music themes for:
+    - City
+    - Desert
+    - Vampire island
+    - Blood halls dungeon
+    - Forest maze dungeon
+- Gathering mini-rework:
+    Gathering a resource now starts a timer before the resource is gained.
+    The timer can be sped up by using a higher tier tool, and having a higher gathering level.
+    Removed energy cost for gathering from all resource nodes.
+    Resources that require a certain tool to gather from now show a message for what tool is required.
+- Pickaxes and hatchets can now be equipped, and used as a basic weapon.
+- Bone pickaxe and hatchet:
+    Many creatures now drop bones, that can be crafted into basic gathering tools.
+- Pine, willow & oak tree types:
+    Each tree now has its wood logs type.
+    Pine logs are now used as the generic wood material for all existing crafting recipes that required logs.
+- Pine bow, willow bow & oak bow
+- Wooden club:
+    A beginner weapon that can be made from only pine logs.
+- Gems & altars:
+    Altars for wind, fire, and blood, have been added around the overworld, each guarded by some agility based challenge.
+    Many creatures now drop a generic, uncharged "Gem" item, that has no elemental effect.
+    These gems can be used on the altars to charge them, converting them into a gem of the type of the altar.
+    i.e. using a gem on a fire altar will turn it into a fire gem.
+    Charging each gem costs glory. The amount of glory needed depends on the altar.
+- Spell scrolls:
+    The previously disabled Book of Light and Book of Souls have been replaced with spell scrolls.
+    Each spell from the books has been split out into it's own item.
+- Refresh page death penalty:
+    When damaged, a combat mode timer starts.
+    Closing the game while this timer is active will cause you to lose your items, as if you had died.
+    This is to prevent players from just closing the game to avoid dying during a dangerous encounter.
+- Character display name can now be changed at register stands (looks like a lectern), found near the Rulers in the city and desert town throne rooms.
+- Particle effects for various events (glory gained/lost, stat level gained, health gained/lost) and general visual feedback improvements.
+- Many sound effects, and general audio feedback improvements.
+- More options added to settings panel
+    - Music volume
+    - Sound effects volume
+    - GUI scale
+    - Chat profanity filter
+    - Light flicker (may improve perfoemance slightly if disabled)
+    - Show FPS
+- Training dummy that can be attacked and destroyed, and won't fight back.
+
+Balance:
+- Priest merchants now sell health potions and defensive spell scrolls.
+- Pacify curse now breaks when the target takes damage.
+- Gnarls now drop logs.
+- Crafting stat bonus multiplier: 2 -> 3
+- Potions can no longer be used while their effect is still active.
+- Added some closer cotton resource nodes to the main paths out of the city.
+
+Bugs:
+- Fixed some accounts getting locked out/can't login issues.
+- Server no longer crashes when a player dies by being pushed (wind staff, hammer, etc.) into a damage source (such as floor spikes).
+- Moving should no longer randomly get stuck moving in that direction.
+- Entities (players, mobs, projectiles, etc.) are no longer sometimes invisible to players that have just finished loading the game.
+- Item pickups will no longer disappear when picked up if there is still something left in the stack.
+- Resource nodes that don't require a gathering tool (cotton, mushrooms) now give gathering exp.
+- Ninja robe now uses the sound effect for clothing equipped instead of weapon equipped.
+- The shop panel now shows the correct style for when you cannot afford an item.
+- Can now deposit/withdraw weightless items even when over max weight.
+- Social/share embed images now load.
+- .opus audio files will now be used when supported (was always falling back to .mp3, even when the .opus version was supported).
+
+Other:
+- Updated overworld map panel tiles.
+- Re-added custom mouse cursors.
+- Closing the browser tab now prompts you to confirm closing the tab, to avoid accidentally closing the game.
+- An account is now required to buy bank storage upgrades.
+- The pick up item keybind key now appears above your character when standing on an item pickup.
+- Improved language translations spreadsheet coverage.
+- Updated the credits page.
+- Updated the curse and enchantment icons.
+- Updated the burning effect animation.
+- Updated iron gear to look more like the iron bar, less like bone.
+- Sprites above your character now appear behind, for better depth sorting effect. Pickups will always appear behind characters.
+- Removed C keybind to open inventory panel.
+- Added a link to the public test server (PTS) to the login page.
+
+
 06/04/2021 - Bugfix 8.4
 
 Bugs:

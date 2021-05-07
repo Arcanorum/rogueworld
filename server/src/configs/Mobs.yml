@@ -104,21 +104,21 @@
   faction: CityGuards
   corpseType: Human
   dropList:
+    - itemName: GloryOrb
+      dropRate: 100
     - itemName: ExpOrbMelee
       dropRate: 100
-      rolls: 2
+      rolls: 3
+    - itemName: Gem
+      rolls: 4
     - itemName: DungiumSword
-      dropRate: 100
+      dropRate: 50
     - itemName: DungiumArmour
-      dropRate: 100
+      dropRate: 20
     - itemName: DungiumBar
       rolls: 4
     - itemName: DungiumSword
-      rolls: 3
-    - itemName: DungiumArmour
       rolls: 2
-    - itemName: ExpOrbMelee
-      rolls: 4
 
 - name: Warrior
   gloryValue: 35
@@ -166,9 +166,13 @@
       rolls: 2
     - itemName: EnergyPotion
     - itemName: MageRobe
+      dropRate: 10
     - itemName: FireGem
     - itemName: WindGem
+    - itemName: Gem
+      rolls: 4
     - itemName: FireStaff
+      dropRate: 10
     - itemName: HealAreaSpellScroll
     - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
@@ -183,8 +187,14 @@
   corpseType: Human
   projectileAttackType: SuperFire
   dropList:
-    - itemName: SuperFireStaff
+    - itemName: GloryOrb
       dropRate: 100
+      rolls: 2
+    - itemName: ExpOrbMagic
+      dropRate: 100
+      rolls: 2
+    - itemName: SuperFireStaff
+      dropRate: 50
     - itemName: HealAreaSpellScroll
       dropRate: 100
       rolls: 5
@@ -198,16 +208,17 @@
       dropRate: 100
       rolls: 5
     - itemName: MageRobe
-      dropRate: 100
+      dropRate: 50
     - itemName: FireGem
       dropRate: 100
       rolls: 2
+    - itemName: Gem
+      dropRate: 100
+      rolls: 4
     - itemName: FireGem
       rolls: 2
     - itemName: FireStaff
-      rolls: 2
-    - itemName: SuperFireStaff
-      rolls: 2
+      rolls: 1
 
 - name: Prisoner
   gloryValue: 10
@@ -242,6 +253,7 @@
       rolls: 2
     - itemName: IronArrows
     - itemName: IronDagger
+    - itemName: Gem
 
 - name: BanditLeader
   gloryValue: 100
@@ -253,18 +265,21 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: GloryOrb
+      dropRate: 100
+      rolls: 2
     - itemName: ExpOrbMelee
       dropRate: 100
       rolls: 2
     - itemName: Cloak
+      dropRate: 50
+    - itemName: DungiumArrows
       dropRate: 100
-    - itemName: IronArrows
-      dropRate: 100
+      rolls: 4
     - itemName: DungiumDagger
       dropRate: 100
     - itemName: NinjaGarb
       dropRate: 50
-      rolls: 2
     - itemName: DungiumBar
       rolls: 2
     - itemName: DungiumSword
@@ -272,6 +287,9 @@
     - itemName: IronArrows
       rolls: 2
     - itemName: IronDagger
+    - itemName: Gem
+      dropRate: 100
+      rolls: 4
 
 - name: Assassin
   gloryValue: 60
@@ -289,6 +307,7 @@
     - itemName: NoctisDagger
     - itemName: NoctisBar
     - itemName: Fabric
+    - itemName: Gem
 
 - name: MasterAssassin
   gloryValue: 500
@@ -301,6 +320,9 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: GloryOrb
+      dropRate: 100
+      rolls: 3
     - itemName: ExpOrbMelee
       dropRate: 100
       rolls: 2
@@ -319,6 +341,9 @@
       rolls: 3
     - itemName: BloodGem
       rolls: 2
+    - itemName: Gem
+      dropRate: 100
+      rolls: 4
 
 - name: Rat
   maxHitPoints: 20
@@ -399,6 +424,9 @@
   projectileAttackType: Acorn
   faction: HostileAnimals
   dropList:
+    - itemName: GloryOrb
+      dropRate: 100
+      rolls: 3
     - itemName: ExpOrbMelee
       dropRate: 100
     - itemName: ExpOrbRanged
@@ -412,12 +440,13 @@
     - itemName: WindGem
       dropRate: 100
       rolls: 2
-    - itemName: PineLogs
-      rolls: 6
+    - itemName: Gem
+      dropRate: 100
+      rolls: 4
     - itemName: WillowLogs
-      rolls: 3
+      rolls: 8
     - itemName: OakLogs
-      rolls: 2
+      rolls: 8
 
 - name: Goblin
   gloryValue: 20
@@ -488,6 +517,7 @@
       dropRate: 30
     - itemName: IronSword
     - itemName: Fabric
+    - itemName: Gem
 
 - name: Pharaoh
   gloryValue: 300
@@ -498,6 +528,9 @@
   projectileAttackType: SuperFire
   faction: Zombies
   dropList:
+    - itemName: GloryOrb
+      dropRate: 100
+      rolls: 2
     - itemName: ExpOrbMagic
       dropRate: 100
       rolls: 2
@@ -514,11 +547,14 @@
       dropRate: 100
       rolls: 5
     - itemName: NecromancerRobe
-      dropRate: 100      
+      dropRate: 50
     - itemName: SuperFireStaff
-      dropRate: 100
+      dropRate: 50
     - itemName: FireGem
-      rolls: 3
+      rolls: 6
+    - itemName: Gem
+      dropRate: 100
+      rolls: 4
     - itemName: DungiumBar
       rolls: 3
   
@@ -541,6 +577,7 @@
     - itemName: IronOre
     - itemName: VampireFang
       rolls: 2
+    - itemName: Gem
 
 - name: BloodPriest
   gloryValue: 60
@@ -558,6 +595,8 @@
     - itemName: NecromancerRobe
     - itemName: VampireFang
       rolls: 2
+    - itemName: Gem
+      rolls: 2
 
 - name: BloodLord
   gloryValue: 300
@@ -569,6 +608,9 @@
   meleeDamageAmount: 30
   faction: Vampires
   dropList:
+    - itemName: GloryOrb
+      dropRate: 100
+      rolls: 3
     - itemName: ExpOrbMelee
       dropRate: 100
     - itemName: ExpOrbMagic
@@ -586,11 +628,16 @@
       dropRate: 100
       rolls: 5
     - itemName: NoctisArmour
-      dropRate: 100
+      dropRate: 50
     - itemName: SuperBloodStaff
-      dropRate: 100
+      dropRate: 50
     - itemName: BloodGem
+      rolls: 6
+    - itemName: Gem
+      dropRate: 100
       rolls: 4
+    - itemName: NoctisBar
+      rolls: 8
     - itemName: VampireFang
       rolls: 3
 

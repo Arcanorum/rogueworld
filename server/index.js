@@ -128,7 +128,6 @@ async function init() {
     // }
 
     Utils.message("End of index. Server is good to go. :)");
-    Utils.message("Game can be played at http://localhost:4567");
 }
 
 init();

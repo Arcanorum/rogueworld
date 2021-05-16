@@ -63,7 +63,7 @@
                         {
                          "name":"BlueKeys",
                          "type":"int",
-                         "value":1
+                         "value":2
                         }, 
                         {
                          "name":"EntityTypeName",
@@ -860,7 +860,7 @@
          "value":"15"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.5.0",
+ "tiledversion":"1.6.0",
  "tileheight":16,
  "tilesets":[
         {
@@ -877,6 +877,6 @@
         }],
  "tilewidth":16,
  "type":"map",
- "version":1.5,
+ "version":"1.6",
  "width":60
 }

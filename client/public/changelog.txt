@@ -48,7 +48,7 @@ New:
     - Sound effects volume
     - GUI scale
     - Chat profanity filter
-    - Light flicker (may improve perfoemance slightly if disabled)
+    - Light flicker (may improve performance slightly if disabled)
     - Show FPS
 - Training dummy that can be attacked and destroyed, and won't fight back.
 

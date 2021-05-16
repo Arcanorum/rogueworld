@@ -75,7 +75,7 @@
   dropList:
     - itemName: Bones
     - itemName: Fabric
-    - itemName: OakLogs
+    - itemName: PineLogs
     - itemName: Redcap
 
 - name: Knight

@@ -234,6 +234,18 @@
 - stationTypes:
     - Anvil
   stats:
+    - Toolery
+  ingredients:
+    - itemName: IronBar
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 2
+  result:
+    itemName: IronSickle
+
+- stationTypes:
+    - Anvil
+  stats:
     - Weaponry
     - Melee
   ingredients:
@@ -324,6 +336,18 @@
 - stationTypes:
     - Anvil
   stats:
+    - Toolery
+  ingredients:
+    - itemName: DungiumBar
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 2
+  result:
+    itemName: DungiumSickle
+
+- stationTypes:
+    - Anvil
+  stats:
     - Weaponry
     - Melee
   ingredients:
@@ -410,6 +434,18 @@
       quantity: 6
   result:
     itemName: NoctisHatchet
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: NoctisBar
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 2
+  result:
+    itemName: NoctisSickle
 
 - stationTypes:
     - Anvil

@@ -63,6 +63,7 @@
 
 - name: BlueMushroom
   reactivationRate: 20000
+  toolCategory: Sickle
   gloryGiven: 10
   expGiven: 10
   gatherTime: 4000
@@ -71,6 +72,7 @@
 
 - name: GreenMushroom
   reactivationRate: 20000
+  toolCategory: Sickle
   gloryGiven: 10
   expGiven: 10
   gatherTime: 4000
@@ -79,6 +81,7 @@
 
 - name: RedMushroom
   reactivationRate: 20000
+  toolCategory: Sickle
   gloryGiven: 10
   expGiven: 10
   gatherTime: 4000

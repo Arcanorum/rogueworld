@@ -110,6 +110,18 @@ const ModHitPointConfigs = {
         damageAmount: 14,
         damageTypes: [Physical],
     },
+    ProjIronSickle: {
+        damageAmount: 10,
+        damageTypes: [Physical],
+    },
+    ProjDungiumSickle: {
+        damageAmount: 12,
+        damageTypes: [Physical],
+    },
+    ProjNoctisSickle: {
+        damageAmount: 14,
+        damageTypes: [Physical],
+    },
 
     ProjShuriken: {
         damageAmount: 20,

@@ -57,6 +57,7 @@ TaskTypes.CraftBows = new TaskType("CraftBows", TaskCategories.Craft);
 TaskTypes.CraftStaffs = new TaskType("CraftStaffs", TaskCategories.Craft);
 TaskTypes.CraftHatchets = new TaskType("CraftHatchets", TaskCategories.Craft);
 TaskTypes.CraftPickaxes = new TaskType("CraftPickaxes", TaskCategories.Craft);
+TaskTypes.CraftSickles = new TaskType("CraftSickles", TaskCategories.Craft);
 TaskTypes.CraftMetalArmour = new TaskType("CraftMetalArmour", TaskCategories.Craft);
 TaskTypes.CraftCloaks = new TaskType("CraftCloaks", TaskCategories.Craft);
 TaskTypes.CraftRobes = new TaskType("CraftRobes", TaskCategories.Craft);

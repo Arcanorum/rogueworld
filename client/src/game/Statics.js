@@ -13,7 +13,12 @@ import laboratoryIcon from "../assets/images/gui/panels/crafting/laboratory.png"
 import Utils from "../shared/Utils";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import {
-    setAttackCursor, setDefaultCursor, setHandCursor, setHatchetCursor, setPickaxeCursor,
+    setAttackCursor,
+    setDefaultCursor,
+    setHandCursor,
+    setHatchetCursor,
+    setPickaxeCursor,
+    setSickleCursor,
 } from "../shared/Cursors";
 import ItemTypes from "../catalogues/ItemTypes.json";
 
@@ -517,6 +522,10 @@ OreRock.prototype.toolCursorFunction = setPickaxeCursor;
 OreRock.prototype.toolCategory = "Pickaxe";
 OreRock.prototype.isToolRequired = true;
 
+class Mushroom extends ResourceNode {}
+Mushroom.prototype.toolCursorFunction = setSickleCursor;
+Mushroom.prototype.toolCategory = "Sickle";
+
 class BankChest extends Static {
     constructor(config) {
         config.pressableRange = 1;
@@ -554,7 +563,7 @@ class Register extends Static {
 }
 
 /**
- * A list of valid statics and the classes to be used when creating each.
+ * A list of valid statics and the classes to be used when creating each static.
  * @type {Object}
  */
 const StaticClasses = {
@@ -578,9 +587,9 @@ const StaticClasses = {
 
     1237: ResourceNode, // Cotton
     // 1301: ResourceNode, // Cactus
-    1365: ResourceNode, // Red mushroom
-    1429: ResourceNode, // Green mushroom
-    1493: ResourceNode, // Blue mushroom
+    1365: Mushroom, // Red mushroom
+    1429: Mushroom, // Green mushroom
+    1493: Mushroom, // Blue mushroom
 
     // Light wall torches
     2183: Torch,

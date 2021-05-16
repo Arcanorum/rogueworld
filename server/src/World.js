@@ -230,7 +230,7 @@ const world = {
      * @param {AccountModel} account
      */
     addExistingPlayer(clientSocket, account) {
-        Utils.message("World add existing player:", account.displayName);
+        Utils.message(`World add existing player (${(new Date()).toGMTString()}):`, account.displayName);
 
         if (clientSocket.entity !== undefined) {
             // Weird bug... :S
@@ -284,7 +284,7 @@ const world = {
      * @param {String} displayName
      */
     addNewPlayer(clientSocket, displayName) {
-        Utils.message("World add new player:", displayName);
+        Utils.message(`World add new player (${(new Date()).toGMTString()}):`, displayName);
 
         if (clientSocket.entity !== undefined) {
             // Weird bug... :S
@@ -337,7 +337,10 @@ const world = {
      * @param {Object} clientSocket - The socket of the player entity to remove.
      */
     removePlayer(clientSocket) {
-        Utils.message("World remove player.");
+        if (clientSocket.entity) {
+            Utils.message(`World remove player (${(new Date()).toGMTString()}):`, clientSocket.entity.displayName);
+        }
+
         // If the socket had an entity, remove it from the game.
         if (clientSocket.entity !== undefined) {
             // If they have an account log them out.

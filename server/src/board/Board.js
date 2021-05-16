@@ -31,6 +31,10 @@ const staticsStartGID = groundTileset.tilecount + boundariesTileset.tilecount;
 
 const idCounter = new Utils.Counter();
 
+const destroyablesString = "destroyables";
+const playersString = "players";
+const pickupsString = "pickups";
+
 class Board {
     /**
      * A board for entities to exist on. The game world is made up of boards. Boards are made up of tiles.
@@ -513,7 +517,15 @@ class Board {
      * @param {Destroyable} entity
      */
     addDestroyable(entity) {
-        this.grid[entity.row][entity.col].destroyables[entity.id] = entity;
+        const tile = this.grid[entity.row][entity.col];
+        if (Object.prototype.hasOwnProperty.call(tile, destroyablesString)) {
+            tile.destroyables[entity.id] = entity;
+        }
+        else {
+            tile.destroyables = {};
+
+            tile.destroyables[entity.id] = entity;
+        }
     }
 
     /**
@@ -527,7 +539,15 @@ class Board {
      * @param {Player} player
      */
     addPlayer(player) {
-        this.grid[player.row][player.col].players[player.id] = player;
+        const tile = this.grid[player.row][player.col];
+        if (Object.prototype.hasOwnProperty.call(tile, playersString)) {
+            tile.players[player.id] = player;
+        }
+        else {
+            tile.players = {};
+
+            tile.players[player.id] = player;
+        }
         // Players are also added to the destroyables list, in the constructor of Destroyable.
     }
 
@@ -559,7 +579,15 @@ class Board {
      * @param {Pickup} entity
      */
     addPickup(entity) {
-        this.grid[entity.row][entity.col].pickups[entity.id] = entity;
+        const tile = this.grid[entity.row][entity.col];
+        if (Object.prototype.hasOwnProperty.call(tile, pickupsString)) {
+            tile.pickups[entity.id] = entity;
+        }
+        else {
+            tile.pickups = {};
+
+            tile.pickups[entity.id] = entity;
+        }
     }
 
     /**
@@ -641,10 +669,10 @@ class Board {
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
-                if (currentRow === undefined) continue;
+                if (!currentRow) continue;
                 currentTile = currentRow[col + colOffset];
                 // eslint-disable-next-line no-continue
-                if (currentTile === undefined) continue;
+                if (!currentTile) continue;
 
                 destroyables = currentTile.destroyables;
 
@@ -772,14 +800,15 @@ class Board {
                 // eslint-disable-next-line no-continue
                 if (grid[targetRow] === undefined) continue;
                 targetCol = colOffset + col;
-                // eslint-disable-next-line no-continue
-                if (grid[targetRow][targetCol] === undefined) continue;
 
-                Object.values(
-                    grid[targetRow][targetCol].players,
-                ).forEach((player) => {
-                    nearbyPlayers.push(player);
-                });
+                const tile = grid[targetRow][targetCol];
+                // eslint-disable-next-line no-continue
+                if (tile === undefined) continue;
+
+                Object.values(tile.players)
+                    .forEach((player) => {
+                        nearbyPlayers.push(player);
+                    });
             }
         }
 
@@ -867,10 +896,12 @@ class Board {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
                 if (currentRow === undefined) continue;
-                // eslint-disable-next-line no-continue
-                if (currentRow[col - playerViewRange] === undefined) continue;
 
-                this.emitToPlayers(currentRow[col - playerViewRange].players, eventNameID, data);
+                const tile = currentRow[col - playerViewRange];
+                // eslint-disable-next-line no-continue
+                if (!tile) continue;
+
+                this.emitToPlayers(tile.players, eventNameID, data);
             }
         }
         else if (direction === Directions.RIGHT) {
@@ -884,10 +915,12 @@ class Board {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
                 if (currentRow === undefined) continue;
-                // eslint-disable-next-line no-continue
-                if (currentRow[col + playerViewRange] === undefined) continue;
 
-                this.emitToPlayers(currentRow[col + playerViewRange].players, eventNameID, data);
+                const tile = currentRow[col + playerViewRange];
+                // eslint-disable-next-line no-continue
+                if (!tile) continue;
+
+                this.emitToPlayers(tile.players, eventNameID, data);
             }
         }
         else if (direction === Directions.UP) {
@@ -901,10 +934,12 @@ class Board {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
                 if (currentRow === undefined) continue;
-                // eslint-disable-next-line no-continue
-                if (currentRow[col + colOffset] === undefined) continue;
 
-                this.emitToPlayers(currentRow[col + colOffset].players, eventNameID, data);
+                const tile = currentRow[col + colOffset];
+                // eslint-disable-next-line no-continue
+                if (!tile) continue;
+
+                this.emitToPlayers(tile.players, eventNameID, data);
             }
         }
         else {
@@ -918,10 +953,12 @@ class Board {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
                 if (currentRow === undefined) continue;
-                // eslint-disable-next-line no-continue
-                if (currentRow[col + colOffset] === undefined) continue;
 
-                this.emitToPlayers(currentRow[col + colOffset].players, eventNameID, data);
+                const tile = currentRow[col + colOffset];
+                // eslint-disable-next-line no-continue
+                if (!tile) continue;
+
+                this.emitToPlayers(tile.players, eventNameID, data);
             }
         }
     }

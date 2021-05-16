@@ -2,51 +2,7 @@ const GroundTypes = require("./GroundTypes");
 
 class BoardTile {
     constructor() {
-        /**
-         * The ground. Paths, dirt, water, lava, etc. Empty by default (no entities should be able to occupy this tile).
-         * @type {GroundTile}
-         */
-        this.groundType = GroundTypes.Empty;
 
-        /**
-         * Whether players can take damage while on this tile.
-         * @type {Boolean}
-         */
-        this.safeZone = false;
-
-        /**
-         * Entities that never move or change boards. Can be interacted with and state changed only if interactable.
-         * Max one per tile.
-         * @type {Static|null}
-         */
-        this.static = null;
-
-        /**
-         * Entities that do not have a definite existence, and so must be sent dynamically to the player.
-         * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
-         * Should NOT occupy a tile that has an active blocking static.
-         * Accessed by their entity ID.
-         * @type {Object}
-         */
-        this.destroyables = {};
-
-        /**
-         * A sepearate list of destroyables that can be picked up by players and added to their inventory.
-         * Anything in here should also be in the destroyables list.
-         * They don't interact with anything else, so less filtering other entities when being picked up.
-         * Should NOT occupy a tile that has an active blocking static.
-         * Accessed by their entity ID.
-         * @type {Object}
-         */
-        this.pickups = {};
-
-        /**
-         * A separate list of destroyables just for Players, mainly for emitting events, less messing around filtering other entities.
-         * Anything in here should also be in the destroyables list.
-         * Accessed by their entity ID.
-         * @type {Object}
-         */
-        this.players = {};
     }
 
     /**
@@ -74,6 +30,8 @@ class BoardTile {
      * @returns {Boolean}
      */
     containsAnyDestroyables() {
+        if (!this.destroyables) return false;
+
         // Check if there are any own properties on the destroyables object.
         if (Object.keys(this.destroyables).length === 0) {
             return false;
@@ -90,13 +48,15 @@ class BoardTile {
      */
     addToDynamicsList(dynamicsList) {
         const { destroyables } = this;
-        // Get all of the destroyable entities on this board tile.
-        Object.values(destroyables).forEach((destroyable) => {
-            // Add the relevant data of this entity to the data to return.
-            dynamicsList.push(
-                destroyable.getEmittableProperties({}),
-            );
-        });
+        if (destroyables) {
+            // Get all of the destroyable entities on this board tile.
+            Object.values(destroyables).forEach((destroyable) => {
+                // Add the relevant data of this entity to the data to return.
+                dynamicsList.push(
+                    destroyable.getEmittableProperties({}),
+                );
+            });
+        }
 
         // The static of this tile may be interactable, so also get the state of it if it isn't
         // in its default state.
@@ -116,5 +76,57 @@ class BoardTile {
 }
 // Easy access to the list of ground types.
 BoardTile.prototype.GroundTypes = GroundTypes;
+
+/**
+ * The ground. Paths, dirt, water, lava, etc. Empty by default (no entities should be able to occupy this tile).
+ * @type {GroundTile}
+ */
+BoardTile.prototype.groundType = GroundTypes.Empty;
+
+/**
+ * Whether players can take damage while on this tile.
+ * @type {Boolean}
+ */
+BoardTile.prototype.safeZone = false;
+
+/**
+ * Entities that never move or change boards. Can be interacted with and state changed only if interactable.
+ * Max one per tile.
+ * @type {Static|null}
+ */
+BoardTile.prototype.static = null;
+
+/**
+ * Entities that do not have a definite existence, and so must be sent dynamically to the player.
+ * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
+ * Should NOT occupy a tile that has an active blocking static.
+ * Accessed by their entity ID.
+ * Keep this on the prototype, so not every instance has this as it's own property.
+ * Just add it as an own property for the tiles that need it. Saves a lot of memeory.
+ * @type {Object}
+ */
+BoardTile.prototype.destroyables = {};
+
+/**
+ * A sepearate list of destroyables that can be picked up by players and added to their inventory.
+ * Anything in here should also be in the destroyables list.
+ * They don't interact with anything else, so less filtering other entities when being picked up.
+ * Should NOT occupy a tile that has an active blocking static.
+ * Accessed by their entity ID.
+ * Keep this on the prototype, so not every instance has this as it's own property.
+ * Just add it as an own property for the tiles that need it. Saves a lot of memeory.
+ * @type {Object}
+ */
+BoardTile.prototype.pickups = {};
+
+/**
+ * A separate list of destroyables just for Players, mainly for emitting events, less messing around filtering other entities.
+ * Anything in here should also be in the destroyables list.
+ * Accessed by their entity ID.
+ * Keep this on the prototype, so not every instance has this as it's own property.
+ * Just add it as an own property for the tiles that need it. Saves a lot of memeory.
+ * @type {Object}
+ */
+BoardTile.prototype.players = {};
 
 module.exports = BoardTile;

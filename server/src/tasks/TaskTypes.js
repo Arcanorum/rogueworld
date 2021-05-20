@@ -63,6 +63,7 @@ TaskTypes.CraftCloaks = new TaskType("CraftCloaks", TaskCategories.Craft);
 TaskTypes.CraftRobes = new TaskType("CraftRobes", TaskCategories.Craft);
 TaskTypes.CraftIronGear = new TaskType("CraftIronGear", TaskCategories.Craft);
 TaskTypes.CraftDungiumGear = new TaskType("CraftDungiumGear", TaskCategories.Craft);
+TaskTypes.CraftAgoniteGear = new TaskType("CraftAgoniteGear", TaskCategories.Craft);
 TaskTypes.CraftNoctisGear = new TaskType("CraftNoctisGear", TaskCategories.Craft);
 TaskTypes.CraftFabricGear = new TaskType("CraftFabricGear", TaskCategories.Craft);
 TaskTypes.CraftPotions = new TaskType("CraftPotions", TaskCategories.Craft);

@@ -43,6 +43,22 @@
 
 # Clothes
 
+- name: AgoniteArmour
+  code: PXQF2023
+  extends: clothes/Clothes
+  translationID: Agonite armour
+  iconSource: icon-agonite-armour
+  soundType: Metal clothing
+  category: Clothing
+  unitWeight: MetalArmour
+  baseDurability: 180
+  defenceBonus: 60
+  statBonuses:
+    Melee: 3
+  craftTasks:
+    - MetalArmour
+    - AgoniteGear
+
 - name: ArmorOfIre
   code: CFBO6832
   extends: clothes/Clothes

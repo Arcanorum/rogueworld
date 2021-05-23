@@ -306,8 +306,10 @@
   ingredients:
     - itemName: IronBar
       quantity: 14
+    - itemName: Bones
+      quantity: 2
     - itemName: Fabric
-      quantity: 4
+      quantity: 2
   result:
     itemName: IronArmour
 
@@ -510,7 +512,7 @@
   ingredients:
     - itemName: AgoniteBar
       quantity: 14
-    - itemName: Fabric
+    - itemName: Bones
       quantity: 4
   result:
     itemName: AgoniteArmour

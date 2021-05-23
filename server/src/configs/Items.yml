@@ -490,7 +490,7 @@
   code: OWEF7178
   extends: holdable/weapons/Weapon
   translationID: Hammer of glory
-  iconSource: icon-iron-hammer
+  iconSource: icon-hammer-of-glory
   soundType: Metal weapon
   ProjectileType: ProjHammerOfGlory
   category: Weapon

@@ -80,7 +80,7 @@ export default {
     GloryOrb: makeClass({ frameName: "glory-orb" }),
     Greencap: makeClass({ frameName: "greencap" }),
     HealAreaSpellScroll: makeClass({ frameName: "heal-area-spell-scroll" }),
-    HammerOfGlory: makeClass({ frameName: "noctis-hammer" }),
+    HammerOfGlory: makeClass({ frameName: "hammer-of-glory" }),
     HealthPotion: makeClass({ frameName: "health-potion" }),
     IronArmour: makeClass({ frameName: "iron-armour" }),
     IronArrows: makeClass({ frameName: "iron-arrows" }),

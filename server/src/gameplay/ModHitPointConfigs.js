@@ -20,10 +20,15 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
         damageArmourPiercing: 20,
     },
-    ProjNoctisArrow: {
+    ProjAgoniteArrow: {
         damageAmount: 18,
         damageTypes: [Physical],
         damageArmourPiercing: 25,
+    },
+    ProjNoctisArrow: {
+        damageAmount: 20,
+        damageTypes: [Physical],
+        damageArmourPiercing: 30,
     },
 
     ProjWoodenClub: {
@@ -36,18 +41,18 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
     },
     ProjDungiumDagger: {
+        damageAmount: 9,
+        damageTypes: [Physical],
+    },
+    ProjAgoniteDagger: {
         damageAmount: 10,
         damageTypes: [Physical],
     },
     ProjNoctisDagger: {
-        damageAmount: 12,
+        damageAmount: 11,
         damageTypes: [Physical],
     },
 
-    // ProjCopperSword: {
-    //     damageAmount: 16,
-    //     damageTypes: [Physical],
-    // },
     ProjIronSword: {
         damageAmount: 20,
         damageTypes: [Physical],
@@ -56,8 +61,12 @@ const ModHitPointConfigs = {
         damageAmount: 24,
         damageTypes: [Physical],
     },
-    ProjNoctisSword: {
+    ProjAgoniteSword: {
         damageAmount: 28,
+        damageTypes: [Physical],
+    },
+    ProjNoctisSword: {
+        damageAmount: 32,
         damageTypes: [Physical],
     },
 
@@ -69,8 +78,12 @@ const ModHitPointConfigs = {
         damageAmount: 24,
         damageTypes: [Physical],
     },
-    ProjNoctisHammer: {
+    ProjAgoniteHammer: {
         damageAmount: 28,
+        damageTypes: [Physical],
+    },
+    ProjNoctisHammer: {
+        damageAmount: 32,
         damageTypes: [Physical],
     },
     ProjHammerOfGlory: {
@@ -83,15 +96,19 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
     },
     ProjIronHatchet: {
-        damageAmount: 10,
+        damageAmount: 8,
         damageTypes: [Physical],
     },
     ProjDungiumHatchet: {
-        damageAmount: 12,
+        damageAmount: 9,
+        damageTypes: [Physical],
+    },
+    ProjAgoniteHatchet: {
+        damageAmount: 10,
         damageTypes: [Physical],
     },
     ProjNoctisHatchet: {
-        damageAmount: 14,
+        damageAmount: 11,
         damageTypes: [Physical],
     },
     ProjBonePickaxe: {
@@ -99,27 +116,35 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
     },
     ProjIronPickaxe: {
-        damageAmount: 10,
+        damageAmount: 8,
         damageTypes: [Physical],
     },
     ProjDungiumPickaxe: {
-        damageAmount: 12,
+        damageAmount: 9,
         damageTypes: [Physical],
     },
-    ProjNoctisPickaxe: {
-        damageAmount: 14,
-        damageTypes: [Physical],
-    },
-    ProjIronSickle: {
+    ProjAgonitePickaxe: {
         damageAmount: 10,
         damageTypes: [Physical],
     },
+    ProjNoctisPickaxe: {
+        damageAmount: 11,
+        damageTypes: [Physical],
+    },
+    ProjIronSickle: {
+        damageAmount: 8,
+        damageTypes: [Physical],
+    },
     ProjDungiumSickle: {
-        damageAmount: 12,
+        damageAmount: 9,
+        damageTypes: [Physical],
+    },
+    ProjAgoniteSickle: {
+        damageAmount: 10,
         damageTypes: [Physical],
     },
     ProjNoctisSickle: {
-        damageAmount: 14,
+        damageAmount: 11,
         damageTypes: [Physical],
     },
 

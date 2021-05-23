@@ -138,7 +138,7 @@
 - name: Berserker
   gloryValue: 60
   maxHitPoints: 150
-  defence: 40
+  defence: 70
   viewRange: 7
   attackRate: 1000
   moveRate: 500

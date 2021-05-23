@@ -21,6 +21,16 @@ const makeClass = (config) => {
  * and then extend the Pickup class in it.
  */
 export default {
+    AgoniteArmour: makeClass({ frameName: "agonite-armour" }),
+    AgoniteArrows: makeClass({ frameName: "agonite-arrows" }),
+    AgoniteBar: makeClass({ frameName: "agonite-bar" }),
+    AgoniteDagger: makeClass({ frameName: "agonite-dagger" }),
+    AgoniteHammer: makeClass({ frameName: "agonite-hammer" }),
+    AgoniteHatchet: makeClass({ frameName: "agonite-hatchet" }),
+    AgoniteOre: makeClass({ frameName: "agonite-ore" }),
+    AgonitePickaxe: makeClass({ frameName: "agonite-pickaxe" }),
+    AgoniteSickle: makeClass({ frameName: "agonite-sickle" }),
+    AgoniteSword: makeClass({ frameName: "agonite-sword" }),
     Anvil: makeClass({ frameName: "anvil" }),
     ArmorOfIre: makeClass({ frameName: "dungium-armour" }),
     BankChest: makeClass({ frameName: "bank-chest" }),

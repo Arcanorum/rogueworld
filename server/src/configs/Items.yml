@@ -1,7 +1,19 @@
 # craftTasks
-# Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft, 
+# Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft,
 
 # Ammunition
+
+- name: AgoniteArrows
+  code: LOEO6269
+  translationID: Agonite arrows
+  iconSource: icon-agonite-arrows
+  extends: ammunition/Ammunition
+  ProjectileType: ProjAgoniteArrow
+  unitWeight: Arrow
+  baseQuantity: 5
+  craftTasks:
+    - Arrows
+    - AgoniteGear
 
 - name: DungiumArrows
   code: ONCE9214
@@ -51,8 +63,8 @@
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
-  baseDurability: 180
-  defenceBonus: 60
+  baseDurability: 200
+  defenceBonus: 70
   statBonuses:
     Melee: 3
   craftTasks:
@@ -88,22 +100,6 @@
   craftTasks:
     - Cloaks
     - FabricGear
-
-# - name: CopperArmour
-#   code: EZZH7691
-#   extends: clothes/Clothes
-#   translationID: Copper armour
-#   iconSource: icon-copper-armour
-#   soundType: Metal clothing
-#   category: Clothing
-#   unitWeight: MetalArmour
-#   baseDurability: 100
-#   defenceBonus: 40
-#   statBonuses:
-#     Melee: 1
-#   craftTasks:
-#     - MetalArmour
-#     - CopperGear
 
 - name: DungiumArmour
   code: JKYL4271
@@ -208,8 +204,8 @@
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
-  baseDurability: 200 
-  defenceBonus: 70
+  baseDurability: 220
+  defenceBonus: 80
   statBonuses:
     Melee: 4
   craftTasks:
@@ -237,6 +233,96 @@
 # Holdable - Spell books
 
 # Holdable - Weapons
+
+- name: AgoniteDagger
+  code: KVKC1852
+  extends: holdable/weapons/Weapon
+  translationID: Agonite dagger
+  iconSource: icon-agonite-dagger
+  soundType: Metal weapon
+  ProjectileType: ProjAgoniteDagger
+  category: Weapon
+  unitWeight: MetalDagger
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Daggers
+    - AgoniteGear
+
+- name: AgoniteHammer
+  code: TMWQ0215
+  extends: holdable/weapons/Weapon
+  translationID: Agonite hammer
+  iconSource: icon-agonite-hammer
+  soundType: Metal weapon
+  ProjectileType: ProjAgoniteHammer
+  category: Weapon
+  unitWeight: MetalHammer
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Hammers
+    - AgoniteGear
+
+- name: AgoniteHatchet
+  code: KDJM6256
+  translationID: Agonite hatchet
+  iconSource: icon-agonite-hatchet
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjAgoniteHatchet
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.7
+  baseDurability: 50
+  craftTasks:
+    - Hatchets
+
+- name: AgonitePickaxe
+  code: UXBP5028
+  translationID: Agonite pickaxe
+  iconSource: icon-agonite-pickaxe
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjAgonitePickaxe
+  canUseIntoHighBlockedTile: false
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.7
+  baseDurability: 50
+  craftTasks:
+    - Pickaxes
+
+- name: AgoniteSickle
+  code: ITJQ1040
+  translationID: Agonite sickle
+  iconSource: icon-agonite-sickle
+  extends: holdable/weapons/Weapon
+  ProjectileType: ProjAgoniteSickle
+  canUseIntoHighBlockedTile: false
+  unitWeight: Sickle
+  category: Sickle
+  gatherTimeReduction: 0.65
+  baseDurability: 50
+  craftTasks:
+    - Sickles
+
+- name: AgoniteSword
+  code: BNZQ3113
+  extends: holdable/weapons/Weapon
+  translationID: Agonite sword
+  iconSource: icon-agonite-sword
+  soundType: Metal weapon
+  ProjectileType: ProjAgoniteSword
+  category: Weapon
+  unitWeight: MetalSword
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Swords
+    - AgoniteGear
 
 - name: BloodStaff
   code: CRMZ8928
@@ -281,22 +367,6 @@
   craftTasks:
     - Pickaxes
 
-# - name: CopperSword
-#   code: SMLW0053
-#   extends: holdable/weapons/Weapon
-#   translationID: Copper sword
-#   iconSource: icon-copper-sword
-#   soundType: Metal weapon
-#   ProjectileType: ProjCopperSword
-#   category: Weapon
-#   unitWeight: MetalSword
-#   baseDurability: 50
-#   useEnergyCost: 1
-#   expGivenStatName: Melee
-#   craftTasks:
-#     - Swords
-#     - CopperGear
-
 - name: DungiumDagger
   code: EDBL4872
   extends: holdable/weapons/Weapon
@@ -338,8 +408,8 @@
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
   category: Hatchet
-  gatherTimeReduction: 0.65
-  baseDurability: 50
+  gatherTimeReduction: 0.6
+  baseDurability: 45
   craftTasks:
     - Hatchets
 
@@ -352,8 +422,8 @@
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
   category: Pickaxe
-  gatherTimeReduction: 0.65
-  baseDurability: 50
+  gatherTimeReduction: 0.6
+  baseDurability: 45
   craftTasks:
     - Pickaxes
 
@@ -561,7 +631,7 @@
   unitWeight: GatheringTool
   category: Hatchet
   gatherTimeReduction: 0.8
-  baseDurability: 60
+  baseDurability: 55
   craftTasks:
     - Hatchets
 
@@ -575,7 +645,7 @@
   unitWeight: GatheringTool
   category: Pickaxe
   gatherTimeReduction: 0.8
-  baseDurability: 60
+  baseDurability: 55
   craftTasks:
     - Pickaxes
 
@@ -857,7 +927,7 @@
   unitWeight: Scroll
   expGivenStatName: Magic
   expGivenOnUse: 15
-  
+
 # Loot boxes
 
 - name: MediumLootBox
@@ -879,6 +949,18 @@
   iconSource: icon-tiny-loot-box
 
 # Everything else
+
+- name: AgoniteBar
+  code: SNHM1247
+  translationID: Agonite bar
+  iconSource: icon-agonite-bar
+  unitWeight: Ore
+
+- name: AgoniteOre
+  code: EMTX2561
+  translationID: Agonite ore
+  iconSource: icon-agonite-ore
+  unitWeight: Ore
 
 - name: BloodGem
   code: SFTP8910
@@ -918,7 +1000,7 @@
   craftingExpValue: 40
   craftTasks:
     - Potions
-  
+
 - name: DungiumBar
   code: YWMQ4086
   translationID: Dungium bar

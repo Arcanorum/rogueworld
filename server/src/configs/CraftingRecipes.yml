@@ -98,6 +98,26 @@
   stats:
     - Toolery
   ingredients:
+    - itemName: AgoniteOre
+  result:
+    itemName: AgoniteBar
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: AgoniteOre
+      quantity: 5
+  result:
+    itemName: AgoniteBar
+    baseQuantity: 5
+
+- stationTypes:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
     - itemName: NoctisOre
   result:
     itemName: NoctisBar
@@ -392,6 +412,108 @@
       quantity: 4
   result:
     itemName: DungiumArmour
+
+# Agonite equipment
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 2
+    - itemName: PineLogs
+      quantity: 4
+    - itemName: Feathers
+      quantity: 2
+  result:
+    itemName: AgoniteArrows
+    baseQuantity: 20
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 6
+  result:
+    itemName: AgonitePickaxe
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 6
+  result:
+    itemName: AgoniteHatchet
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 3
+    - itemName: PineLogs
+      quantity: 2
+  result:
+    itemName: AgoniteSickle
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Weaponry
+    - Melee
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 6
+  result:
+    itemName: AgoniteDagger
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Weaponry
+    - Melee
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 8
+  result:
+    itemName: AgoniteSword
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Weaponry
+    - Melee
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 6
+    - itemName: PineLogs
+      quantity: 5
+  result:
+    itemName: AgoniteHammer
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Armoury
+    - Melee
+  ingredients:
+    - itemName: AgoniteBar
+      quantity: 14
+    - itemName: Fabric
+      quantity: 4
+  result:
+    itemName: AgoniteArmour
 
 # Noctis equipment
 

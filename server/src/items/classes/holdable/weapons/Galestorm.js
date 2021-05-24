@@ -1,6 +1,6 @@
 const Weapon = require("./Weapon");
 
-class Stormcaller extends Weapon {
+class Galestorm extends Weapon {
     onUsed(direction) {
         // Get the tile next to the user, in the direction they used this item in.
         const targetPosition = this.owner.board.getRowColInFront(
@@ -29,4 +29,4 @@ class Stormcaller extends Weapon {
     }
 }
 
-module.exports = Stormcaller;
+module.exports = Galestorm;

@@ -60,7 +60,7 @@ export default {
     DungiumSword: makeClass({ frameName: "dungium-sword" }),
     EnergyPotion: makeClass({ frameName: "energy-potion" }),
     EnthrallSpellScroll: makeClass({ frameName: "enthrall-spell-scroll" }),
-    EternalFlame: makeClass({ frameName: "super-fire-staff" }), // TODO: rename to inferno?
+    EternalFlame: makeClass({ frameName: "eternal-flame" }),
     ExpOrbArmoury: makeClass({ frameName: "exp-orb" }),
     ExpOrbGathering: makeClass({ frameName: "exp-orb" }),
     ExpOrbMagic: makeClass({ frameName: "exp-orb" }),
@@ -117,7 +117,7 @@ export default {
     Redcap: makeClass({ frameName: "redcap" }),
     Shuriken: makeClass({ frameName: "shuriken" }),
     SmallLootBox: makeClass({ frameName: "small-loot-box" }),
-    Stormcaller: makeClass({ frameName: "super-wind-staff" }), // TODO: rename to tempest?
+    Galestorm: makeClass({ frameName: "galestorm" }),
     String: makeClass({ frameName: "string" }),
     SuperBloodStaff: makeClass({ frameName: "super-blood-staff" }),
     SuperFireStaff: makeClass({ frameName: "super-fire-staff" }),

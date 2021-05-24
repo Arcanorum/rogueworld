@@ -461,7 +461,7 @@
   code: HDYY9831
   extends: holdable/weapons/Weapon
   translationID: Eternal Flame
-  iconSource: icon-super-fire-staff
+  iconSource: icon-eternal-flame
   soundType: Magic weapon
   ProjectileType: ProjSuperFire
   category: Weapon
@@ -489,7 +489,7 @@
 - name: HammerOfGlory
   code: OWEF7178
   extends: holdable/weapons/Weapon
-  translationID: Hammer of glory
+  translationID: Hammer of Glory
   iconSource: icon-hammer-of-glory
   soundType: Metal weapon
   ProjectileType: ProjHammerOfGlory
@@ -695,11 +695,11 @@
     - Shurikens
     - IronGear
 
-- name: Stormcaller
+- name: Galestorm
   code: YNIU9709
   extends: holdable/weapons/Weapon
-  translationID: Stormcaller
-  iconSource: icon-super-wind-staff
+  translationID: Galestorm
+  iconSource: icon-galestorm
   soundType: Magic weapon
   ProjectileType: ProjSuperWind
   category: Weapon

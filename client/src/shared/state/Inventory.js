@@ -57,7 +57,10 @@ class Inventory {
 
         PubSub.publish(ADD_INVENTORY_ITEM, itemConfig);
 
-        this.addToHotbar(itemConfig);
+        // Only add automatically if the setting for it is set.
+        if (this.autoAddToHotbar) {
+            this.addToHotbar(itemConfig);
+        }
     }
 
     removeFromInventory(slotIndex) {
@@ -94,9 +97,6 @@ class Inventory {
     }
 
     addToHotbar(itemConfig) {
-        // Only add automatically if the setting for it is set.
-        if (!this.autoAddToHotbar) return;
-
         // Don't add to the hotbar if there is no available space on it.
         if (this.hotbar.length >= this.MAX_HOTBAR_SLOTS) return;
 

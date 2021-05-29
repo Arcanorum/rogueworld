@@ -36,9 +36,11 @@ export const COMBAT_STATUS_TRIGGER = Symbol("COMBAT_STATUS_TRIGGER");
 // Keyboard.
 export const ENTER_KEY = Symbol("ENTER_KEY");
 
-// Chat
+// Chat.
 export const NEW_CHAT = Symbol("NEW_CHAT");
+export const FOCUS_CHAT = Symbol("FOCUS_CHAT");
 export const SHOULD_SCROLL_CHAT = Symbol("SHOULD_SCROLL_CHAT");
+export const QUICK_CHAT_ENABLED = Symbol("QUICK_CHAT_ENABLED");
 
 // Inventory.
 export const ADD_INVENTORY_ITEM = Symbol("ADD_INVENTORY_ITEM");
@@ -69,6 +71,7 @@ export const CRAFTING_STATION = Symbol("CRAFTING_STATION");
 export const SHOP = Symbol("SHOP");
 export const STOCK_PRICES = Symbol("STOCK_PRICES");
 export const PANEL_CHANGE = Symbol("PANEL_CHANGE");
+export const SHOW_CHAT_BOX = Symbol("SHOW_CHAT_BOX");
 
 // Dungeon.
 export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");

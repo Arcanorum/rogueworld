@@ -13,7 +13,9 @@ import {
 import { addGameEventResponses } from "../network/websocket_events/WebSocketEvents";
 import {
     GLORY_VALUE,
-    HITPOINTS_VALUE, POSITION_VALUE,
+    HITPOINTS_VALUE,
+    POSITION_VALUE,
+    FOCUS_CHAT,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
@@ -593,12 +595,12 @@ class Game extends Phaser.Scene {
         this.keyboardKeys.d.on("up", this.moveRightReleased, this);
 
         this.keyboardKeys.enterChat.on("down", () => {
-            // open chat panel if closed
-            // OR
-            // trigger chat input focus when chat panel is already open but blurred
-            if (GUIState.activePanel === Panels.NONE
-            || GUIState.activePanel === Panels.Chat) {
-                GUIState.setActivePanel(Panels.Chat);
+            if (GUIState.quickChatEnabled) {
+                GUIState.setShowChatBox(!GUIState.showChatBox);
+            }
+            else {
+                // Focus on the chat box.
+                PubSub.publish(FOCUS_CHAT);
             }
         });
 

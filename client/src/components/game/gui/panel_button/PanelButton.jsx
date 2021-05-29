@@ -12,9 +12,11 @@ function Tooltip(content) {
     );
 }
 
-function PanelButton({ icon, onClick, tooltipText }) {
+function PanelButton({
+    icon, onClick, tooltipText, className,
+}) {
     return (
-        <div className="panel-button">
+        <div className={`panel-button ${className}`}>
             <img
               className={`gui-icon ${onClick ? "interactive hand-cursor" : ""}`}
               src={icon}
@@ -38,10 +40,12 @@ PanelButton.propTypes = {
     icon: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     tooltipText: PropTypes.string.isRequired,
+    className: PropTypes.string,
 };
 
 PanelButton.defaultProps = {
     onClick: null,
+    className: "",
 };
 
 export default PanelButton;

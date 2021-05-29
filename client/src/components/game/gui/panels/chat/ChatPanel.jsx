@@ -1,19 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 import "./ChatPanel.scss";
 import PubSub from "pubsub-js";
 import {
     GUIState, PlayerState, ChatState,
 } from "../../../../../shared/state/States";
-import { NEW_CHAT, PANEL_CHANGE, SHOULD_SCROLL_CHAT } from "../../../../../shared/EventTypes";
-import Panels from "../PanelsEnum";
+import {
+    FOCUS_CHAT, NEW_CHAT, SHOULD_SCROLL_CHAT,
+} from "../../../../../shared/EventTypes";
 import ChatLine from "./ChatLine";
 import ChatSelectScope from "./ChatSelectScope";
 import enterChatIcon from "../../../../../assets/images/gui/panels/chat/enter-chat-icon.png";
 import ChatTabs from "./ChatTabs";
+import Utils from "../../../../../shared/Utils";
 
-function ChatPanel({ onCloseCallback }) {
-    const defaultPlaceHolder = "type message...";
+function ChatPanel() {
+    const defaultPlaceHolder = Utils.getTextDef("Enter message");
     const [chats, setChats] = useState(ChatState.chats);
     const [viewChatScope, setViewChatScope] = useState(ChatState.tabScope);
     const [sendChatScope, setSendChatScope] = useState(ChatState.chatScope);
@@ -53,7 +54,9 @@ function ChatPanel({ onCloseCallback }) {
         if (!autoScroll) return;
         // add some delay to properly scroll down to edge of chats
         setTimeout(() => {
-            chatContentsRef.current.scrollTop = chatContentsRef.current.scrollHeight;
+            if (GUIState.showChatBox) {
+                chatContentsRef.current.scrollTop = chatContentsRef.current.scrollHeight;
+            }
         }, 10);
     };
 
@@ -65,7 +68,7 @@ function ChatPanel({ onCloseCallback }) {
         const secondsRemaining = (targetDate - currentDate) / 1000;
 
         if (secondsRemaining <= 0) setPlaceHolder(defaultPlaceHolder);
-        else setPlaceHolder(`cooldown ${Math.round(secondsRemaining)}`);
+        else setPlaceHolder(`${Utils.getTextDef("Cooldown")}: ${Math.round(secondsRemaining)}`);
     };
 
     const refreshPlaceHolder = () => {
@@ -74,8 +77,11 @@ function ChatPanel({ onCloseCallback }) {
 
     useEffect(() => {
         const subs = [
-            PubSub.subscribe(PANEL_CHANGE, () => {
-                if (GUIState.activePanel === Panels.Chat) {
+            PubSub.subscribe(FOCUS_CHAT, () => {
+                if (document.activeElement === chatInputRef.current) {
+                    document.activeElement.blur();
+                }
+                else {
                     focusOnChatInput();
                 }
             }),
@@ -114,7 +120,7 @@ function ChatPanel({ onCloseCallback }) {
 
         chatInputRef.current.value = "";
 
-        setPlaceHolder("sending...");
+        setPlaceHolder(`${Utils.getTextDef("Sending")}...`);
     };
 
     const handleChatInputChange = (e) => {
@@ -212,9 +218,5 @@ function ChatPanel({ onCloseCallback }) {
         </div>
     );
 }
-
-ChatPanel.propTypes = {
-    onCloseCallback: PropTypes.func.isRequired,
-};
 
 export default ChatPanel;

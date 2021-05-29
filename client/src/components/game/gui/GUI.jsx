@@ -17,8 +17,14 @@ import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
 import settingsIcon from "../../../assets/images/gui/panels/settings/settings-icon.png";
 import {
-    DUNGEON_PORTAL_PRESSED, HITPOINTS_VALUE, LOGGED_IN, PANEL_CHANGE, POSITION_VALUE,
+    DUNGEON_PORTAL_PRESSED,
+    HITPOINTS_VALUE,
+    LOGGED_IN,
+    PANEL_CHANGE,
+    POSITION_VALUE,
     BEFORE_PAGE_UNLOAD,
+    SHOW_CHAT_BOX,
+    QUICK_CHAT_ENABLED,
 } from "../../../shared/EventTypes";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
@@ -26,12 +32,15 @@ import Tooltip from "./tooltip/Tooltip";
 import Panels from "./panels/PanelsEnum";
 import Hotbar from "./hotbar/Hotbar";
 import GUIPanelWindows from "./GUIPanelWindows";
+import ChatPanel from "./panels/chat/ChatPanel";
 
 const discordInviteLink = "https://discord.com/invite/7wjyU7B";
 const wikiLink = "https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki";
 
 function GUI() {
     const [shownPanel, setShownPanel] = useState(null);
+    const [showChatBox, setShowChatBox] = useState(GUIState.showChatBox);
+    const [quickChatEnabled, setQuickChatEnabled] = useState(GUIState.quickChatEnabled);
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
     const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
@@ -64,6 +73,12 @@ function GUI() {
             }),
             PubSub.subscribe(PANEL_CHANGE, () => {
                 setShownPanel(GUIState.activePanel);
+            }),
+            PubSub.subscribe(SHOW_CHAT_BOX, () => {
+                setShowChatBox(GUIState.showChatBox);
+            }),
+            PubSub.subscribe(QUICK_CHAT_ENABLED, () => {
+                setQuickChatEnabled(GUIState.quickChatEnabled);
             }),
             PubSub.subscribe(BEFORE_PAGE_UNLOAD, () => {
                 if (ApplicationState.loggedIn !== true) {
@@ -123,8 +138,9 @@ function GUI() {
                 />
                 <PanelButton
                   icon={chatIcon}
-                  onClick={() => togglePanel(Panels.Chat)}
-                  tooltipText={`${Utils.getTextDef("Chat input")} ( ENTER )`}
+                  onClick={() => GUIState.setQuickChatEnabled(!GUIState.quickChatEnabled)}
+                  tooltipText={`${Utils.getTextDef("Chat tooltip")} ( ENTER )`}
+                  className={quickChatEnabled ? "inactive" : ""}
                 />
             </div>
 
@@ -169,6 +185,10 @@ function GUI() {
                   targetDungeonPortal={targetDungeonPortal}
                 />
             </div>
+
+            {(showChatBox || !quickChatEnabled) && (
+                <ChatPanel />
+            )}
 
             <Hotbar />
 

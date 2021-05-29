@@ -1,6 +1,13 @@
 import PubSub from "pubsub-js";
 import {
-    CURSOR_MOVE, TOOLTIP_CONTENT, CRAFTING_STATION, SHOP, STOCK_PRICES, PANEL_CHANGE,
+    CURSOR_MOVE,
+    TOOLTIP_CONTENT,
+    CRAFTING_STATION,
+    SHOP,
+    STOCK_PRICES,
+    PANEL_CHANGE,
+    SHOW_CHAT_BOX,
+    QUICK_CHAT_ENABLED,
 } from "../EventTypes";
 
 class GUI {
@@ -32,6 +39,10 @@ class GUI {
         this.tooltipContent = null;
 
         this.activePanel = null;
+
+        this.quickChatEnabled = true;
+
+        this.showChatBox = false;
 
         this.craftingStation = null;
 
@@ -106,6 +117,18 @@ class GUI {
         this.activePanel = value;
 
         PubSub.publish(PANEL_CHANGE, { new: value });
+    }
+
+    setQuickChatEnabled(value) {
+        this.quickChatEnabled = value;
+
+        PubSub.publish(QUICK_CHAT_ENABLED, { new: value });
+    }
+
+    setShowChatBox(value) {
+        this.showChatBox = value;
+
+        PubSub.publish(SHOW_CHAT_BOX, { new: value });
     }
 
     setCraftingStation(typeNumber, name, icon) {

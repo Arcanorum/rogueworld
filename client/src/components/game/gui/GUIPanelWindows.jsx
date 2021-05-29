@@ -13,7 +13,6 @@ import InventoryPanel from "./panels/inventory/InventoryPanel";
 import CraftingPanel from "./panels/crafting/CraftingPanel";
 import BankPanel from "./panels/bank/BankPanel";
 import ShopPanel from "./panels/shop/ShopPanel";
-import ChatPanel from "./panels/chat/ChatPanel";
 import ChangeNamePanel from "./panels/change_name/ChangeNamePanel";
 
 function GUIPanelWindows({ shownPanel, closePanelCallback, targetDungeonPortal }) {
@@ -80,11 +79,6 @@ function GUIPanelWindows({ shownPanel, closePanelCallback, targetDungeonPortal }
             )}
             {shownPanel === Panels.Shop && (
                 <ShopPanel
-                  onCloseCallback={closePanelCallback}
-                />
-            )}
-            {shownPanel === Panels.Chat && (
-                <ChatPanel
                   onCloseCallback={closePanelCallback}
                 />
             )}

@@ -169,7 +169,7 @@ function ChatPanel() {
     };
 
     return (
-        <div className="chat-container gui-zoomable">
+        <div className="chat-container gui-scalable">
             <ChatTabs
               updatePlaceHolder={updatePlaceHolder}
               setViewChatScope={setViewChatScope}

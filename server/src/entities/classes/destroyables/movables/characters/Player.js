@@ -54,6 +54,9 @@ class Player extends Character {
         this.isMovePending = false;
         this.pendingMove = { byRows: 0, byCols: 0 };
 
+        /** @type {Number} The time the player most recently performed an action. */
+        this.lastActionTime = 0;
+
         /** @type {Number} The time after which this player can perform another action. */
         this.nextActionTime = 0;
 
@@ -302,7 +305,11 @@ class Player extends Character {
      */
     performAction(action, context, config) {
         if (Date.now() > this.nextActionTime) {
-            this.nextActionTime = Date.now() + 500;
+            // Track the time the player does something, so other systems can tell if the user is
+            // active or not. i.e. not allow them to take damage while AFK in a safe zone.
+            this.lastActionTime = Date.now();
+
+            this.nextActionTime = this.lastActionTime + 500;
             action.call(context, config);
         }
     }
@@ -369,27 +376,32 @@ class Player extends Character {
      * @param {Entity} damagedBy
      */
     damage(damage, damagedBy) {
-        // Update timestamp used by isInCombat method.
-        this.lastDamagedTime = Date.now();
-        this.socket.sendEvent(this.EventsList.player_in_combat, {
-            duration: (settings.IN_COMBAT_STATUS_DURATION || 5000),
-        });
         // If they are already dead, don't damage them again.
         // Might have been killed before this method is called.
         // e.g. a player gets pushed (wind, hammer, etc.) into a damage source (i.e. floor spikes) while
         // on 1 HP, which kills them, then they are damaged, at which point they are already dead.
         if (this.hitPoints <= 0) return;
 
-        if (damagedBy !== undefined && damagedBy !== null) {
-            // If damaged by another player in a safe zone, ignore the damage.
-            if (damagedBy instanceof Player) {
-                if (this.isInSafeZone() === true) return;
-            }
-            // If damaged by something that has a player controlling it in a safe zone, ignore the damage.
-            if (damagedBy.master instanceof Player) {
-                if (this.isInSafeZone() === true) return;
+        if (this.isInSafeZone()) {
+            // Prevent being damaged while in a safe zone and the player hasn't done anything recently (is inactive).
+            if (this.lastActionTime < Date.now() - 15000) return;
+
+            if (damagedBy) {
+                // If damaged by another player in a safe zone, ignore the damage.
+                if (damagedBy instanceof Player) return;
+
+                // If damaged by something that has a player controlling it in a safe zone, ignore the damage.
+                if (damagedBy.master instanceof Player) return;
             }
         }
+
+        // Update timestamp used by isInCombat method.
+        this.lastDamagedTime = Date.now();
+
+        this.socket.sendEvent(this.EventsList.player_in_combat, {
+            duration: (settings.IN_COMBAT_STATUS_DURATION || 5000),
+        });
+
         // Damage any clothes being worn.
         if (this.clothing !== null) {
             // Clothing only takes 25% of damage taken from the wearer.

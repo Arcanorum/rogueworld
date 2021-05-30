@@ -142,13 +142,15 @@
   viewRange: 7
   attackRate: 1000
   moveRate: 500
-  projectileAttackType: DungiumSword
+  projectileAttackType: AgoniteSword
   faction: Barbarians
   corpseType: Human
   dropList:
-    - itemName: DungiumOre
-    - itemName: DungiumBar
-    - itemName: DungiumSword
+    - itemName: Bones
+    - itemName: AgoniteOre
+    - itemName: AgoniteBar
+    - itemName: AgoniteSword
+      dropRate: 10
     - itemName: Redcap
 
 - name: Mage

@@ -30,7 +30,7 @@
     "mongoose": "^5.12.2",
     "node-webhooks": "^1.4.2",
     "require-dir": "^1.2.0",
-    "ws": "^5.2.2",
+    "ws": "^7.4.6",
     "xlsx": "^0.13.5"
   },
   "dependencies": {

@@ -46,6 +46,7 @@ TaskTypes.GatherWillowLogs = new TaskType("GatherWillowLogs", TaskCategories.Gat
 TaskTypes.GatherOakLogs = new TaskType("GatherOakLogs", TaskCategories.Gather);
 TaskTypes.GatherIronOre = new TaskType("GatherIronOre", TaskCategories.Gather);
 TaskTypes.GatherDungiumOre = new TaskType("GatherDungiumOre", TaskCategories.Gather);
+TaskTypes.GatherAgoniteOre = new TaskType("GatherAgoniteOre", TaskCategories.Gather);
 TaskTypes.GatherNoctisOre = new TaskType("GatherNoctisOre", TaskCategories.Gather);
 
 TaskTypes.CraftArrows = new TaskType("CraftArrows", TaskCategories.Craft);

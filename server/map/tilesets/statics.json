@@ -1132,6 +1132,10 @@
          "type":"BlueMushroom"
         }, 
         {
+         "id":1497,
+         "type":"AgoniteOre"
+        }, 
+        {
          "id":1536,
          "type":"Solid"
         }, 

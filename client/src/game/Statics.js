@@ -58,6 +58,7 @@ const TileIDInactiveFrames = {
     1305: 1242, // Iron ore
     1369: 1242, // Dungium ore
     1433: 1242, // Noctis ore
+    1497: 1242, // Agonite ore
 
     2324: 2325, // Counter flap
 
@@ -590,6 +591,7 @@ const StaticClasses = {
     1305: OreRock, // Iron ore
     1369: OreRock, // Dungium ore
     1433: OreRock, // Noctis ore
+    1497: OreRock, // Agonite ore
 
     1237: ResourceNode, // Cotton
     // 1301: ResourceNode, // Cactus

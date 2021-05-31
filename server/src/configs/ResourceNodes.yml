@@ -20,13 +20,23 @@
   gatheringTask: DungiumOre
   itemName: DungiumOre
 
-- name: NoctisOre
-  reactivationRate: 40000
+- name: AgoniteOre
+  reactivationRate: 45000
   isToolRequired: true
   toolCategory: Pickaxe
   gloryGiven: 20
   expGiven: 40
   gatherTime: 15000
+  gatheringTask: AgoniteOre
+  itemName: AgoniteOre
+
+- name: NoctisOre
+  reactivationRate: 60000
+  isToolRequired: true
+  toolCategory: Pickaxe
+  gloryGiven: 30
+  expGiven: 60
+  gatherTime: 20000
   gatheringTask: NoctisOre
   itemName: NoctisOre
 

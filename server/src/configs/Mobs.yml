@@ -80,7 +80,7 @@
 
 - name: Knight
   gloryValue: 40
-  defence: 40
+  defence: 60
   viewRange: 6
   moveRate: 850
   projectileAttackType: IronSword
@@ -667,6 +667,20 @@
     - itemName: IronOre
     - itemName: DungiumOre
     - itemName: IronBar
+    - itemName: DungiumBar
+    - itemName: DungiumHammer
+      dropRate: 10
+
+- name: DwarfKnight
+  gloryValue: 60
+  defence: 40
+  viewRange: 6
+  moveRate: 650
+  projectileAttackType: DungiumHammer
+  faction: CityGuards
+  dropList:
+    - itemName: Bones
+    - itemName: HealthPotion
     - itemName: DungiumBar
     - itemName: DungiumHammer
       dropRate: 10

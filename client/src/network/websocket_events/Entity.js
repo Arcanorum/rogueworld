@@ -122,7 +122,24 @@ export default () => {
             // Check for any interactables that are now in range to be interacted with.
             const { interactables } = dungeonz.gameScene;
 
-            Object.values(interactables).forEach((interactable) => {
+            // Don't need to go through the entire list, as there can be quite a lot in some areas
+            // (i.e. forests), so just check the tiles within an area around the player.
+            const maxInteractionRange = 4;
+            const startRow = dynamic.row - maxInteractionRange;
+            const startCol = dynamic.col - maxInteractionRange;
+            const endRow = dynamic.row + maxInteractionRange;
+            const endCol = dynamic.col + maxInteractionRange;
+            const interactablesInRange = [];
+
+            for (let targetRow = startRow; targetRow < endRow; targetRow += 1) {
+                for (let targetCol = startCol; targetCol < endCol; targetCol += 1) {
+                    if (interactables[`${targetRow}-${targetCol}`]) {
+                        interactablesInRange.push(interactables[`${targetRow}-${targetCol}`]);
+                    }
+                }
+            }
+
+            interactablesInRange.forEach((interactable) => {
                 interactable.shouldShowHighlight();
                 // If it has some kind of timer (i.e. gathering progress) then hide it.
                 if (interactable.hideTimer) {

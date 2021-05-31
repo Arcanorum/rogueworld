@@ -103,7 +103,7 @@ class Static extends Phaser.GameObjects.Container {
         if (config.pressableRange) {
             this.pressableRange = config.pressableRange;
 
-            this.showHighlightRange = config.showHighlightRange || 4;
+            this.showHighlightRange = config.showHighlightRange || 3;
 
             this.addHighlightSprite();
 
@@ -217,7 +217,9 @@ class Static extends Phaser.GameObjects.Container {
         const distFromPlayer = Utils.tileDistanceBetween(this, playerDynamic);
 
         if (distFromPlayer <= this.showHighlightRange) {
-            this.highlightSprite.setVisible(true);
+            if (!this.highlightSprite.visible) {
+                this.highlightSprite.setVisible(true);
+            }
 
             if (this.isWithinPressableRange()) {
                 this.highlightSprite.setAlpha(1);
@@ -228,7 +230,7 @@ class Static extends Phaser.GameObjects.Container {
                 this.highlightSprite.setScale(1);
             }
         }
-        else {
+        else if (this.highlightSprite.visible) {
             this.highlightSprite.setVisible(false);
         }
     }
@@ -489,8 +491,10 @@ class ResourceNode extends Static {
     }
 
     startTimer(gatherTime) {
-        this.timerBar.setVisible(true);
-        this.timerBorder.setVisible(true);
+        if (!this.timerBar.visible) {
+            this.timerBar.setVisible(true);
+            this.timerBorder.setVisible(true);
+        }
         if (this.timerBarTween) this.timerBarTween.stop();
 
         this.timerBar.scaleX = 0;
@@ -504,8 +508,10 @@ class ResourceNode extends Static {
     }
 
     hideTimer() {
-        this.timerBar.setVisible(false);
-        this.timerBorder.setVisible(false);
+        if (this.timerBar.visible) {
+            this.timerBar.setVisible(false);
+            this.timerBorder.setVisible(false);
+        }
         if (this.timerBarTween) this.timerBarTween.stop();
     }
 }

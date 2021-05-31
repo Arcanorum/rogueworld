@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 const fs = require("fs");
-const { exec } = require("child_process");
 const { extrudeTilesetToImage } = require("tile-extruder");
+const sharp = require("sharp");
 const settings = require("./settings");
 const Utils = require("./src/Utils");
 const ItemsLoader = require("./src/items/ItemsLoader");
@@ -97,16 +97,34 @@ async function init() {
         process.exit();
     });
 
+    try {
     // Check the location to write to exists. If not, create it.
-    if (fs.existsSync("../client/src/assets/images") === false) {
-        fs.mkdirSync("../client/src/assets/images");
+        if (fs.existsSync("../client/src/assets/images") === false) {
+            fs.mkdirSync("../client/src/assets/images");
+        }
+        // Copy the tileset image sources to the client, so they are the same as what the server is using.
+        // Saves having to copy over the images when a change is made to the one used in Tiled.
+        // Also extrudes them by 1 pixel in each direction, as Phaser 3 has some issues with exact size tiles.
+        // https://phaser.io/news/2018/05/webgl-tile-extruder
+        await extrudeTilesetToImage(16, 16, "./map/tilesets/ground.png", "../client/src/assets/images/ground.png");
+        await extrudeTilesetToImage(16, 16, "./map/tilesets/statics.png", "../client/src/assets/images/statics.png");
+
+        // Scale the ground tileset, as Phaser blitter bobs can't be scaled, so the source texture
+        // needs to be the right size.
+
+        const metadata = await sharp("../client/src/assets/images/ground.png").metadata();
+        const buffer = await sharp("../client/src/assets/images/ground.png")
+            .resize(
+                metadata.width * 4,
+                metadata.height * 4,
+                { kernel: sharp.kernel.nearest },
+            )
+            .toBuffer();
+        await sharp(buffer).toFile("../client/src/assets/images/ground.png");
     }
-    // Copy the tileset image sources to the client, so they are the same as what the server is using.
-    // Saves having to copy over the images when a change is made to the one used in Tiled.
-    // Also extrudes them by 1 pixel in each direction, as Phaser 3 has some issues with exact size tiles.
-    // https://phaser.io/news/2018/05/webgl-tile-extruder
-    await extrudeTilesetToImage(16, 16, "./map/tilesets/ground.png", "../client/src/assets/images/ground.png");
-    await extrudeTilesetToImage(16, 16, "./map/tilesets/statics.png", "../client/src/assets/images/statics.png");
+    catch (error) {
+        Utils.error(error);
+    }
 
     Utils.message("Tilesets copied to client assets.");
 

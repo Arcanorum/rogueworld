@@ -12,6 +12,7 @@ import actionProgressBorderImage from "../assets/images/gui/action-progress-bord
 import dungeonz from "../shared/Global";
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from "../shared/EventTypes";
 import { GUIState, InventoryState } from "../shared/state/States";
+import gameConfig from "../shared/GameConfig";
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
@@ -37,10 +38,10 @@ class Boot extends Phaser.Scene {
         this.load.image("action-progress-border", actionProgressBorderImage);
         this.load.atlas("game-atlas", gameAtlasImage, gameAtlasData);
         this.load.spritesheet("ground-tileset", groundTileset, {
-            frameWidth: 16,
-            frameHeight: 16,
-            margin: 1,
-            spacing: 2,
+            frameWidth: 16 * gameConfig.GAME_SCALE,
+            frameHeight: 16 * gameConfig.GAME_SCALE,
+            margin: 1 * gameConfig.GAME_SCALE,
+            spacing: 2 * gameConfig.GAME_SCALE,
         });
         this.load.spritesheet("statics-tileset", staticsTileset, {
             frameWidth: 16,

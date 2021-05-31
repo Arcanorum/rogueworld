@@ -52,10 +52,9 @@ export const addGameEventResponses = () => {
         if (dungeonz.gameScene.boardAlwaysNight === false) {
             // Make the darkness layer invisible during day time.
             if (dungeonz.gameScene.dayPhase === dungeonz.gameScene.DayPhases.Day) {
-                dungeonz.gameScene.tilemap.darknessSpritesContainer.visible = false;
+                dungeonz.gameScene.tilemap.darknessTilesBlitter.setVisible(false);
             }
             else {
-                dungeonz.gameScene.tilemap.darknessSpritesContainer.visible = true;
                 dungeonz.gameScene.tilemap.updateDarknessGrid();
             }
         }

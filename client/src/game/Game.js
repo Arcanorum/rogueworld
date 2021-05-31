@@ -384,25 +384,19 @@ class Game extends Phaser.Scene {
         else if (direction === "l") playerNextCol -= 1;
         else playerNextCol += 1;
 
-        Object.values(this.interactables).some((interactable) => {
-            if (
-                interactable.row === playerNextRow
-                && interactable.col === playerNextCol
-            ) {
-                // If it is a static, which is just a sprite.
-                if (interactable.onMovedInto) {
-                    interactable.onMovedInto();
-                    return true;
-                }
-                // If it is a dynamic, it has a sprite container.
-                if (interactable.spriteContainer && interactable.spriteContainer.onMovedInto) {
-                    interactable.spriteContainer.onMovedInto();
-                    return true;
-                }
-            }
+        const interactableInFront = this.interactables[`${playerNextRow}-${playerNextCol}`];
 
-            return false;
-        });
+        if (interactableInFront) {
+            // If it is a static, which is just a sprite.
+            if (interactableInFront.onMovedInto) {
+                interactableInFront.onMovedInto();
+            }
+            // If it is a dynamic, it has a sprite container.
+            if (interactableInFront.spriteContainer
+                && interactableInFront.spriteContainer.onMovedInto) {
+                interactableInFront.spriteContainer.onMovedInto();
+            }
+        }
     }
 
     pointerDownHandler(event) {
@@ -794,6 +788,7 @@ class Game extends Phaser.Scene {
         const playerColLeftViewRange = PlayerState.col - gameConfig.VIEW_RANGE;
         const playerRowBotViewRange = PlayerState.row + gameConfig.VIEW_RANGE;
         const playerColRightViewRange = PlayerState.col + gameConfig.VIEW_RANGE;
+        let darknessGridDirty = false;
 
         Object.entries(dynamics).forEach(([key, dynamic]) => {
             dynamicSpriteContainer = dynamic.spriteContainer;
@@ -811,13 +806,19 @@ class Game extends Phaser.Scene {
                 delete this.dynamics[key];
                 if (dynamicSpriteContainer.lightDistance) {
                     delete this.lightSources[key];
-                    this.tilemap.updateDarknessGrid();
+                    // Don't need to update the darkness grid each time.
+                    // Just do it once at the end if needed.
+                    darknessGridDirty = true;
                 }
                 return;
             }
 
             if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove();
         });
+
+        if (darknessGridDirty) {
+            this.tilemap.updateDarknessGrid();
+        }
     }
 
     /**

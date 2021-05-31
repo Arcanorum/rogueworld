@@ -603,7 +603,7 @@ class Tilemap {
         }
 
         if (player) {
-            this.revealDarkness(PlayerState.row, PlayerState.col, 5);
+            this.revealDarkness(PlayerState.row, PlayerState.col, 6);
         }
 
         // Lighten the area around each light source.

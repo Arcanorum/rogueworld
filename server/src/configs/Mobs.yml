@@ -403,6 +403,17 @@
       rolls: 2
     - itemName: Greencap
 
+- name: SnowScamp
+  gloryValue: 35
+  viewRange: 5
+  moveRate: 600
+  attackRate: 2500
+  meleeDamageAmount: 20
+  faction: HostileAnimals
+  dropList:
+    - itemName: IronOre
+    - itemName: Bluecap
+
 - name: GnarlPine
   gloryValue: 30
   defence: 60

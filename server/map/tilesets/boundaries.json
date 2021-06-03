@@ -6,18 +6,18 @@
  "name":"boundaries",
  "spacing":0,
  "tilecount":4,
+ "tiledversion":"1.6.0",
  "tileheight":16,
- "tiles":
-    {
-     "0":
+ "tiles":[
         {
+         "id":0,
          "type":"SafeZone"
-        },
-     "2":
+        }, 
         {
+         "id":2,
          "type":"Darkness"
-        }
-    },
+        }],
  "tilewidth":16,
- "type":"tileset"
+ "type":"tileset",
+ "version":"1.6"
 }

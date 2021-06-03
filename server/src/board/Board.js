@@ -11,8 +11,18 @@ const settings = require("../../settings");
 const { boardsObject } = require("./BoardsList");
 const DungeonManagersList = require("../dungeon/DungeonManagersList");
 
-// A recent version of Tiled changed the tileset.tiles property to be an array.
+// A recent version of Tiled may have changed the tileset.tiles property to be an array of {id: Number, type: String}
 // Map the values back to an object by ID.
+groundTileset.tiles = groundTileset.tiles.reduce((map, obj) => {
+    map[obj.id] = obj;
+    return map;
+}, {});
+
+boundariesTileset.tiles = boundariesTileset.tiles.reduce((map, obj) => {
+    map[obj.id] = obj;
+    return map;
+}, {});
+
 staticsTileset.tiles = staticsTileset.tiles.reduce((map, obj) => {
     map[obj.id] = obj;
     return map;
@@ -326,6 +336,12 @@ class Board {
                     }
 
                     const mapObjProps = mapObject.properties;
+
+                    if (!mapObjProps) {
+                        // All map objects should have some properties of how they are configured.
+                        Utils.warning("Map object in map data without any properties:", mapObject);
+                        return;
+                    }
 
                     if (mapObjProps.Disabled) {
                         Utils.warning("Map object is disabled in map data:", mapObject);
@@ -1253,7 +1269,7 @@ Board.createClientBoardData = (dataFileName) => {
             mapTile = tilesData[i] - 1;
 
             if (groundTileset.tiles[mapTile] === undefined) {
-                Utils.error(`Invalid/empty map tile found while creating client board data: ${this.name} at row: ${row}, col: ${col}`);
+                Utils.error(`Invalid/empty map tile found while creating client board data: ${dataFileName} at row: ${row}, col: ${col}`);
             }
             // Get and separate the type from the prefix using the tile GID.
             type = groundTileset.tiles[mapTile].type;
@@ -1394,9 +1410,11 @@ Board.createClientBoardData = (dataFileName) => {
             if (EntitiesList[type]) {
                 const config = {};
 
-                if (mapObject.properties.Disabled) {
-                    Utils.warning("Map object is disabled in map data:", mapObject);
-                    return;
+                if (mapObject.properties) {
+                    if (mapObject.properties.Disabled) {
+                        Utils.warning("Map object is disabled in map data:", mapObject);
+                        return;
+                    }
                 }
 
                 switch (type) {

@@ -1164,6 +1164,10 @@
          "type":"PineTree"
         }, 
         {
+         "id":1557,
+         "type":"FrostMushroom"
+        }, 
+        {
          "id":1600,
          "type":"Solid"
         }, 

@@ -58,6 +58,17 @@ export default () => {
         dungeonz.gameScene.dynamics[data].spriteContainer.curedEffect.visible = false;
     };
 
+    eventResponses.effect_start_cold_resistance = (data) => {
+        if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        dungeonz.gameScene.dynamics[data].spriteContainer.coldResistanceEffect.anims.play("cold-resistance");
+    };
+
+    eventResponses.effect_stop_cold_resistance = (data) => {
+        if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        dungeonz.gameScene.dynamics[data].spriteContainer.coldResistanceEffect.anims.stop();
+        dungeonz.gameScene.dynamics[data].spriteContainer.coldResistanceEffect.visible = false;
+    };
+
     eventResponses.effect_start_chill = (data) => {
         if (dungeonz.gameScene.dynamics[data] === undefined) return;
         dungeonz.gameScene.dynamics[data].spriteContainer.chillEffect.anims.play("chill");
@@ -72,9 +83,9 @@ export default () => {
     eventResponses.curse_set = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.curseIcon) return;
-        entity.spriteContainer.curseIcon.visible = true;
-        entity.spriteContainer.curseIcon.anims.play("cursed");
+        if (!entity.spriteContainer.curseEffect) return;
+        entity.spriteContainer.curseEffect.visible = true;
+        entity.spriteContainer.curseEffect.anims.play("curse");
 
         // Play a sound for this player if they were cursed.
         if (data === PlayerState.entityID) {
@@ -85,17 +96,17 @@ export default () => {
     eventResponses.curse_removed = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.curseIcon) return;
-        entity.spriteContainer.curseIcon.anims.stop();
-        entity.spriteContainer.curseIcon.visible = false;
+        if (!entity.spriteContainer.curseEffect) return;
+        entity.spriteContainer.curseEffect.anims.stop();
+        entity.spriteContainer.curseEffect.visible = false;
     };
 
     eventResponses.enchantment_set = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.enchantmentIcon) return;
-        entity.spriteContainer.enchantmentIcon.visible = true;
-        entity.spriteContainer.enchantmentIcon.anims.play("enchanted");
+        if (!entity.spriteContainer.enchantmentEffect) return;
+        entity.spriteContainer.enchantmentEffect.visible = true;
+        entity.spriteContainer.enchantmentEffect.anims.play("enchantment");
 
         // Play a sound for this player if they were enchanted.
         if (data === PlayerState.entityID) {
@@ -106,8 +117,8 @@ export default () => {
     eventResponses.enchantment_removed = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.enchantmentIcon) return;
-        entity.spriteContainer.enchantmentIcon.anims.stop();
-        entity.spriteContainer.enchantmentIcon.visible = false;
+        if (!entity.spriteContainer.enchantmentEffect) return;
+        entity.spriteContainer.enchantmentEffect.anims.stop();
+        entity.spriteContainer.enchantmentEffect.visible = false;
     };
 };

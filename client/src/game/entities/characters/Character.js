@@ -36,20 +36,21 @@ class Character extends Container {
         this.energyRegenEffect = this.addEffect("energy-regen-effect-1");
         this.healthRegenEffect = this.addEffect("health-regen-effect-1");
         this.curedEffect = this.addEffect("cured-effect-1");
+        this.coldResistanceEffect = this.addEffect("cold-resistance-effect-1");
         this.poisonEffect = this.addEffect("poison-effect-1");
         this.burnEffect = this.addEffect("burn-effect-1");
         this.chillEffect = this.addEffect("chill-effect-1");
         this.chillEffect.setAlpha(0.5);
 
-        this.curseIcon = this.addEffect("curse-icon-1");
-        this.curseIcon.x = -6;
-        this.curseIcon.y = -10;
-        this.curseIcon.setScale(0.8);
+        this.curseEffect = this.addEffect("curse-effect-1");
+        this.curseEffect.x = -6;
+        this.curseEffect.y = -10;
+        this.curseEffect.setScale(0.8);
 
-        this.enchantmentIcon = this.addEffect("enchantment-icon-1");
-        this.enchantmentIcon.x = 6;
-        this.enchantmentIcon.y = -10;
-        this.enchantmentIcon.setScale(0.8);
+        this.enchantmentEffect = this.addEffect("enchantment-effect-1");
+        this.enchantmentEffect.x = 6;
+        this.enchantmentEffect.y = -10;
+        this.enchantmentEffect.setScale(0.8);
 
         this.baseSprite.on("animationcomplete", this.moveAnimCompleted, this);
 
@@ -160,101 +161,29 @@ class Character extends Container {
     }
 
     static setupAnimations() {
-        dungeonz.gameScene.anims.create({
-            key: "energy-regen",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "energy-regen-effect-1" },
-                { frame: "energy-regen-effect-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
+        function createTwoFrameAnim(key) {
+            dungeonz.gameScene.anims.create({
+                key,
+                defaultTextureKey: "game-atlas",
+                frames: [
+                    { frame: `${key}-effect-1` },
+                    { frame: `${key}-effect-2` },
+                ],
+                frameRate: 2,
+                repeat: -1,
+                showOnStart: true,
+            });
+        }
 
-        dungeonz.gameScene.anims.create({
-            key: "health-regen",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "health-regen-effect-1" },
-                { frame: "health-regen-effect-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
-
-        dungeonz.gameScene.anims.create({
-            key: "cured",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "cured-effect-1" },
-                { frame: "cured-effect-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
-
-        dungeonz.gameScene.anims.create({
-            key: "poison",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "poison-effect-1" },
-                { frame: "poison-effect-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
-
-        dungeonz.gameScene.anims.create({
-            key: "burn",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "burn-effect-1" },
-                { frame: "burn-effect-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
-
-        dungeonz.gameScene.anims.create({
-            key: "chill",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "chill-effect-1" },
-                { frame: "chill-effect-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
-
-        dungeonz.gameScene.anims.create({
-            key: "cursed",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "curse-icon-1" },
-                { frame: "curse-icon-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
-
-        dungeonz.gameScene.anims.create({
-            key: "enchanted",
-            defaultTextureKey: "game-atlas",
-            frames: [
-                { frame: "enchantment-icon-1" },
-                { frame: "enchantment-icon-2" },
-            ],
-            frameRate: 2,
-            repeat: -1,
-            showOnStart: true,
-        });
+        createTwoFrameAnim("health-regen");
+        createTwoFrameAnim("energy-regen");
+        createTwoFrameAnim("cured");
+        createTwoFrameAnim("cold-resistance");
+        createTwoFrameAnim("poison");
+        createTwoFrameAnim("burn");
+        createTwoFrameAnim("chill");
+        createTwoFrameAnim("curse");
+        createTwoFrameAnim("enchantment");
     }
 
     /**

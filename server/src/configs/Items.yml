@@ -962,6 +962,16 @@
   iconSource: icon-agonite-ore
   unitWeight: Ore
 
+- name: AntiFreezePotion
+  code: KSTX5766
+  translationID: Anti-freeze
+  iconSource: icon-anti-freeze-potion
+  soundType: Drink
+  unitWeight: Potion
+  craftingExpValue: 60
+  craftTasks:
+    - Potions
+
 - name: BloodGem
   code: SFTP8910
   translationID: Blood gem

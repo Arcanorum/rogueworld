@@ -964,7 +964,7 @@
 
 - name: AntiFreezePotion
   code: KSTX5766
-  translationID: Anti-freeze
+  translationID: Anti-freeze potion
   iconSource: icon-anti-freeze-potion
   soundType: Drink
   unitWeight: Potion
@@ -1114,6 +1114,15 @@
   iconSource: icon-fire-gem
   unitWeight: Gem
   craftingExpValue: 40
+
+- name: Frostcap
+  code: FHHB6658
+  translationID: Frostcap
+  iconSource: icon-frostcap
+  unitWeight: PotionIngredient
+  craftingExpValue: 30
+  expGivenStatName: Potionry
+  expGivenOnUse: 10
 
 - name: Gem
   code: CJVO1172

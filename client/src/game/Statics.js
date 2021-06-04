@@ -54,6 +54,7 @@ const TileIDInactiveFrames = {
     1365: 1366, // Red mushroom
     1429: 1430, // Green mushroom
     1493: 1494, // Blue mushroom
+    1557: 1558, // Frost mushroom
     1241: 1242, // Clay ore
     1305: 1242, // Iron ore
     1369: 1242, // Dungium ore

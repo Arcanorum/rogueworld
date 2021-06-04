@@ -41,6 +41,7 @@ TaskTypes.GatherCotton = new TaskType("GatherCotton", TaskCategories.Gather);
 TaskTypes.GatherRedcaps = new TaskType("GatherRedcaps", TaskCategories.Gather);
 TaskTypes.GatherGreencaps = new TaskType("GatherGreencaps", TaskCategories.Gather);
 TaskTypes.GatherBluecaps = new TaskType("GatherBluecaps", TaskCategories.Gather);
+TaskTypes.GatherFrostcaps = new TaskType("GatherFrostcaps", TaskCategories.Gather);
 TaskTypes.GatherPineLogs = new TaskType("GatherPineLogs", TaskCategories.Gather);
 TaskTypes.GatherWillowLogs = new TaskType("GatherWillowLogs", TaskCategories.Gather);
 TaskTypes.GatherOakLogs = new TaskType("GatherOakLogs", TaskCategories.Gather);

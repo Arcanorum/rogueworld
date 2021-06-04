@@ -9,6 +9,7 @@ const GroundTypes = {
     Path: new GroundTile({ name: "Path" }),
     Grass: new GroundTile({ name: "Grass", canBeBuiltOn: true }),
     Dirt: new GroundTile({ name: "Dirt", canBeBuiltOn: true }),
+    Snow: new GroundTile({ name: "Snow", canBeBuiltOn: true, StatusEffect: StatusEffects.Chill }),
     ShallowWater: new GroundTile({ name: "ShallowWater", canBeBuiltOn: false }),
     DeepWater: new GroundTile({ name: "DeepWater", canBeStoodOn: false, canBeBuiltOn: false }),
     Blood: new GroundTile({ name: "Blood", canBeBuiltOn: false, StatusEffect: StatusEffects.HealthRegen }),

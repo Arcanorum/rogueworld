@@ -21,14 +21,14 @@ class GroundTile {
 
         if (config.canBeStoodOn === false) this.canBeStoodOn = false;
 
-        if (config.canBeBuiltOn === true) this.canBeBuiltOn = true;
+        if (config.canBeBuiltOn) this.canBeBuiltOn = true;
 
         if (config.StatusEffect) this.StatusEffect = config.StatusEffect || null;
 
         if (this.damageAmount > 0) this.hazardous = true;
 
-        if (this.StatusEffect !== null) {
-            if (this.StatusEffect.prototype.hazardous === true) this.hazardous = true;
+        if (this.StatusEffect) {
+            if (this.StatusEffect.prototype.hazardous) this.hazardous = true;
         }
     }
 }

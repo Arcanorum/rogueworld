@@ -38,6 +38,8 @@ class Character extends Container {
         this.curedEffect = this.addEffect("cured-effect-1");
         this.poisonEffect = this.addEffect("poison-effect-1");
         this.burnEffect = this.addEffect("burn-effect-1");
+        this.chillEffect = this.addEffect("chill-effect-1");
+        this.chillEffect.setAlpha(0.5);
 
         this.curseIcon = this.addEffect("curse-icon-1");
         this.curseIcon.x = -6;
@@ -117,10 +119,32 @@ class Character extends Container {
      * @param {Boolean} playMoveAnim Whether the move animation should be played. Don't play on
      *      reposition as it looks weird when they teleport but still do a move animation.
      */
-    onMove(playMoveAnim) {
+    onMove(playMoveAnim, moveAnimDuration) {
+        // Don't bother is this is a looping animation. An animation should already been running.
+        if (this.animationRepeats) return;
+
         if (playMoveAnim === true) {
             if (this.animationSetName) {
-                this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`, true);
+                if (!this.baseSprite.anims.isPlaying) {
+                    this.baseSprite.play({
+                        key: `${this.animationSetName}-${this.direction}`,
+                        // An animation should play in full over 2 move steps, and also in full
+                        // over just 1 (so it looks like a winddown).
+                        // If the animation were to run in full for every move step, it would look
+                        // very fast, so slow it down artificially so it appears more natural when
+                        // played over a longer distance (i.e. over 2 tiles, instead of just 1).
+                        // x2 the move duration (i.e. half the frame rate), and don't start a new
+                        // animation for any incoming move events while this animation is still
+                        // playing, so for the first step it plays the first half of the animation,
+                        // but it will keep running, so when a second move event happens, the
+                        // previous animation should still be running, on it's second half, thus
+                        // completing the full move animation over 2 move steps.
+                        // x2 might be too precice, so use 1.9 to give some margin for timing
+                        // weirdness like lag, low FPS, etc.
+                        duration: moveAnimDuration * 1.9 || 4000,
+                        frameRate: null, // Need to provide this or the duration won't take effect. Phaser 3.55.2 bug.
+                    });
+                }
             }
         }
     }
@@ -197,6 +221,18 @@ class Character extends Container {
         });
 
         dungeonz.gameScene.anims.create({
+            key: "chill",
+            defaultTextureKey: "game-atlas",
+            frames: [
+                { frame: "chill-effect-1" },
+                { frame: "chill-effect-2" },
+            ],
+            frameRate: 2,
+            repeat: -1,
+            showOnStart: true,
+        });
+
+        dungeonz.gameScene.anims.create({
             key: "cursed",
             defaultTextureKey: "game-atlas",
             frames: [
@@ -225,13 +261,9 @@ class Character extends Container {
      * Adds a set of animations to the animation manager, one for each direction for this entity.
      * i.e. for a set name of "knight", animations called "knight-up", "knight-left", and so on, would be created.
      * Uses the 1-2-1-3 pattern for frame sequence.
-     * @param {Object} config
-     * @param {String} config.setName - The base name of this set of animations
-     * @param {Number} [config.duration=500] - How long it should last, in ms.
      */
     static addAnimationSet() {
-        const
-            setName = this.prototype.animationSetName;
+        const setName = this.prototype.animationSetName;
         const frameSequence = this.prototype.animationFrameSequence;
         const repeats = this.prototype.animationRepeats;
         const duration = this.prototype.animationDuration;
@@ -274,11 +306,15 @@ class Character extends Container {
     }
 }
 
-Character.prototype.baseFrames = {
-};
+/** @type {String} Frames of the animation set to use when this character is idle. */
+Character.prototype.baseFrames = {};
+/** @type {String} The base name of this set of animations. */
 Character.prototype.animationSetName = null;
+/** @type {Array.<Number>} The numbers of the frames to play, and the order to play them in. */
 Character.prototype.animationFrameSequence = [1, 2, 1, 3];
+/** @type {Boolean} Whether the animation should loop. i.e. for things that always look moving, such as bats. */
 Character.prototype.animationRepeats = false;
+/** @type {Number} How long the animation should last, in ms. */
 Character.prototype.animationDuration = 500;
 
 export default Character;

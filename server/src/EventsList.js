@@ -63,6 +63,8 @@ const EventsList = {
     effect_stop_energy_regen: registerEventName(),
     effect_start_cured: registerEventName(),
     effect_stop_cured: registerEventName(),
+    effect_start_chill: registerEventName(),
+    effect_stop_chill: registerEventName(),
     energy_value: registerEventName(),
     enchantment_set: registerEventName(),
     enchantment_removed: registerEventName(),

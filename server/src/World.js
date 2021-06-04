@@ -211,7 +211,7 @@ const world = {
             maxEnergy: playerEntity.maxEnergy,
             defence: playerEntity.defence,
             glory: playerEntity.glory,
-            moveDelay: playerEntity.moveDelay,
+            moveRate: playerEntity.moveRate,
             stats: playerEntity.stats.getEmittableStats(),
             tasks: playerEntity.tasks.getEmittableTasks(),
         };

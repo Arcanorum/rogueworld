@@ -1,5 +1,4 @@
 import dungeonz from "../../../shared/Global";
-import Utils from "../../../shared/Utils";
 import Character from "./Character";
 import Clothes from "./Clothes";
 
@@ -15,6 +14,8 @@ class Entity extends Character {
         this.bringToTop(this.curseIcon);
         this.bringToTop(this.enchantmentIcon);
         this.bringToTop(this.displayName);
+        this.sendToBack(this.clothes);
+        this.sendToBack(this.baseSprite);
 
         const style = {
             fontFamily: "'Press Start 2P'",
@@ -36,11 +37,19 @@ class Entity extends Character {
         // TODO: add a chat bubble above head when someone starts chatting.
     }
 
-    onMove(playMoveAnim) {
+    onMove(playMoveAnim, moveAnimDuration) {
         if (playMoveAnim === true) {
-            this.clothes.anims.play(`${this.clothes.clothesName}-${this.direction}`);
+            if (!this.clothes.anims.isPlaying) {
+                this.clothes.play({
+                    key: `${this.clothes.clothesName}-${this.direction}`,
+                    // See Character.onMove for what is going on here.
+                    duration: moveAnimDuration * 1.9 || 4000,
+                    frameRate: null, // Need to provide this or the duration won't take effect. Phaser 3.55.2 bug.
+                });
+            }
         }
-        super.onMove(playMoveAnim);
+
+        super.onMove(playMoveAnim, moveAnimDuration);
     }
 
     /**

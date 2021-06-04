@@ -19,7 +19,12 @@ class Movable extends Destroyable {
             origRow,
             origCol,
             this.EventsList.moved,
-            { id: this.id, row: this.row, col: this.col },
+            {
+                id: this.id,
+                row: this.row,
+                col: this.col,
+                moveRate: this.getMoveRate(),
+            },
         );
 
         // Only the players that can already see this dynamic will move it, but for ones that this has just come in range of, they will
@@ -135,6 +140,16 @@ class Movable extends Destroyable {
             this.EventsList.change_direction,
             { id: this.id, direction: this.direction },
         );
+    }
+
+    /**
+     * Returns the effective move rate of this entity.
+     * Can be overridden in a subclass to allow modifying the move rate.
+     * i.e. apply environmental effects that slow down, enchantments that speed up.
+     * @returns {Number} The effective move rate.
+     */
+    getMoveRate() {
+        return this.moveRate;
     }
 }
 

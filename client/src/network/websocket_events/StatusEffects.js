@@ -58,6 +58,17 @@ export default () => {
         dungeonz.gameScene.dynamics[data].spriteContainer.curedEffect.visible = false;
     };
 
+    eventResponses.effect_start_chill = (data) => {
+        if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        dungeonz.gameScene.dynamics[data].spriteContainer.chillEffect.anims.play("chill");
+    };
+
+    eventResponses.effect_stop_chill = (data) => {
+        if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        dungeonz.gameScene.dynamics[data].spriteContainer.chillEffect.anims.stop();
+        dungeonz.gameScene.dynamics[data].spriteContainer.chillEffect.visible = false;
+    };
+
     eventResponses.curse_set = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
         if (!entity) return;

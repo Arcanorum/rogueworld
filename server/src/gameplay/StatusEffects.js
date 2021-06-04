@@ -1,4 +1,4 @@
-const Utils = require("../Utils");
+// const Utils = require("../Utils");
 const EventsList = require("../EventsList");
 const Damage = require("./Damage");
 const Heal = require("./Heal");
@@ -24,8 +24,12 @@ class StatusEffect {
 
         if (this.appliedTo.hitPoints < 1) return;
         // Check if this kind of status effect is already active on this entity.
-        if (this.appliedTo.statusEffects[this.effectName] !== undefined) {
-            this.appliedTo.statusEffects[this.effectName].stop();
+        if (this.appliedTo.statusEffects[this.effectName]) {
+            // Reset the time remaining.
+            this.appliedTo.statusEffects[this.effectName]._effectsRemaining = (
+                this._startingEffectsRemaining
+            );
+            return;
         }
         // Add this new status effect.
         this.appliedTo.statusEffects[this.effectName] = this;
@@ -131,8 +135,11 @@ StatusEffect.prototype.effectName = "";
 StatusEffect.prototype._effectOnStart = false;
 /** @type {Number} How much to modify the hitpoints of the thing it is applied to by each effect. */
 StatusEffect.prototype._damageAmount = 0;
+/** @type {Array.<Number>} The types of damage to deal. A list of Damage.Types */
 StatusEffect.prototype._damageTypes = [];
+/** @type {Number} How much armour this damage will ignore. 0 to 1. */
 StatusEffect.prototype._damageArmourPiercing = 0;
+/** @type {Number} How much hitpoints to restore */
 StatusEffect.prototype._healAmount = 0;
 /** @type {Number} How many more times will this effect happen before stopping. */
 StatusEffect.prototype._effectsRemaining = 0;
@@ -148,6 +155,8 @@ StatusEffect.prototype._startEffectEventName = "";
 StatusEffect.prototype._stopEffectEventName = "";
 /** @type {Boolean} Whether this status effect does something bad. */
 StatusEffect.prototype.hazardous = false;
+/** @type {Number} How much to modify the move rate of the entity this is applied to. >1 increase move rate, <1 decrease move rate. Cumulative. */
+StatusEffect.prototype.moveRateModifier = 1;
 
 class Burn extends StatusEffect {
     shouldContinueEffect() {
@@ -185,7 +194,7 @@ Burn.prototype.hazardous = true;
 class Poison extends StatusEffect {
     shouldStart() {
         // If the target is cured, don't apply the poison effect.
-        if (this.appliedTo.statusEffects[StatusEffects.Cured.name] !== undefined) {
+        if (this.appliedTo.statusEffects[StatusEffects.Cured.name]) {
             return false;
         }
 
@@ -194,7 +203,7 @@ class Poison extends StatusEffect {
 
     shouldContinueEffect() {
         // If the target is cured, stop the poison effect.
-        if (this.appliedTo.statusEffects[StatusEffects.Cured.name] !== undefined) {
+        if (this.appliedTo.statusEffects[StatusEffects.Cured.name]) {
             return false;
         }
 
@@ -244,7 +253,7 @@ HealthRegen.prototype._stopEffectEventName = EventsList.effect_stop_health_regen
 
 class EnergyRegen extends StatusEffect {
     _effect() {
-        if (this.appliedTo.modEnergy !== undefined) {
+        if (this.appliedTo.modEnergy) {
             this.appliedTo.modEnergy(1);
         }
         super._effect();
@@ -260,6 +269,54 @@ Cured.prototype._startingEffectsRemaining = 60;
 Cured.prototype._startEffectEventName = EventsList.effect_start_cured;
 Cured.prototype._stopEffectEventName = EventsList.effect_stop_cured;
 
+class ColdResistance extends StatusEffect { }
+ColdResistance.prototype._effectOnStart = true;
+ColdResistance.prototype._startingEffectsRemaining = 60;
+ColdResistance.prototype._startEffectEventName = EventsList.effect_start_cold_resistance;
+ColdResistance.prototype._stopEffectEventName = EventsList.effect_stop_cold_resistance;
+
+class Chill extends StatusEffect {
+    shouldStart() {
+        // If the target has cold resistance, don't apply the chill effect.
+        if (this.appliedTo.statusEffects[StatusEffects.ColdResistance.name]) {
+            return false;
+        }
+
+        return true;
+    }
+
+    shouldContinueEffect() {
+        // If it is lava, remove chill if it is applied.
+        if (this.appliedTo.getBoardTile().groundType === GroundTypes.Lava) {
+            return false;
+        }
+
+        // If the target has cold resistance, stop the chill effect.
+        if (this.appliedTo.statusEffects[StatusEffects.ColdResistance.name]) {
+            return false;
+        }
+
+        return true;
+    }
+
+    shouldStop() {
+        // Check if they are standing on a chilling tile.
+        // If so, keep chilled.
+        if (this.appliedTo.getBoardTile().groundType.StatusEffect === Chill) {
+            this._effectsRemaining = this._startingEffectsRemaining;
+            return false;
+        }
+
+        return true;
+    }
+}
+
+Chill.prototype._effectOnStart = true;
+Chill.prototype._startingEffectsRemaining = 2;
+Chill.prototype._startEffectEventName = EventsList.effect_start_chill;
+Chill.prototype._stopEffectEventName = EventsList.effect_stop_chill;
+Chill.prototype.moveRateModifier = 2;
+
 const StatusEffects = {
     Burn,
     Poison,
@@ -267,6 +324,8 @@ const StatusEffects = {
     HealthRegen,
     EnergyRegen,
     Cured,
+    ColdResistance,
+    Chill,
 };
 
 module.exports = StatusEffects;

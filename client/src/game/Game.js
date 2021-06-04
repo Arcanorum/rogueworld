@@ -119,7 +119,7 @@ class Game extends Phaser.Scene {
          * How often to send each move event.
          * @type {Number}
          */
-        this.moveDelay = playerData.moveDelay || 250;
+        this.moveRate = playerData.moveRate || 250;
 
         /**
          * The time after which the next move can be performed.
@@ -314,7 +314,7 @@ class Game extends Phaser.Scene {
 
     update() {
         if (this.nextMoveTime < Date.now()) {
-            this.nextMoveTime = Date.now() + this.moveDelay;
+            this.nextMoveTime = Date.now() + this.moveRate;
 
             // Allow continuous movement if a move key is held down.
             if (this.moveUpIsDown === true) {
@@ -365,7 +365,7 @@ class Game extends Phaser.Scene {
         if (PlayerState.hitPoints <= 0) return;
         ApplicationState.connection.sendEvent(`mv_${direction}`);
 
-        this.nextMoveTime = Date.now() + this.moveDelay;
+        this.nextMoveTime = Date.now() + this.moveRate;
     }
 
     /**

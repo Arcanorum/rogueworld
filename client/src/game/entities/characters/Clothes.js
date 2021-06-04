@@ -26,8 +26,7 @@ class Clothes extends Sprite {
     }
 
     static setupAnimations() {
-        const
-            duration = 500;
+        const duration = 500;
         const defaultTextureKey = "game-atlas";
         const directions = ["up", "down", "left", "right"];
         const generateFrames = (baseFrameName, direction) => [

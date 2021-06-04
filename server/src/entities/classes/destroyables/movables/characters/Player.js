@@ -222,6 +222,17 @@ class Player extends Character {
         this.board.addPlayer(this);
     }
 
+    getMoveRate() {
+        let { moveRate } = this;
+
+        // Check for any status effects that modify the move rate.
+        Object.values(this.statusEffects).forEach((statusEffect) => {
+            moveRate *= statusEffect.moveRateModifier;
+        });
+
+        return moveRate;
+    }
+
     move(byRows, byCols) {
         // Check if this player can move yet.
         if (Date.now() < this.nextMoveTime) {
@@ -239,7 +250,7 @@ class Player extends Character {
             return false;
         }
 
-        this.nextMoveTime = Date.now() + this.moveDelay;
+        this.nextMoveTime = Date.now() + this.getMoveRate();
 
         // Check if the entity can move as a character.
         if (super.move(byRows, byCols) === true) {
@@ -768,10 +779,8 @@ module.exports = Player;
 
 // Give each player easy access to the events list.
 Player.prototype.ChatWarnings = require("../../../../../ChatWarnings");
-/** @type {Number} How long between each move. */
-Player.prototype.moveDelay = settings.PLAYER_MOVE_DELAY || 250;
-/** @type {Number} Set this for it to be sent to the client too, so it can tween/animate at the right speed. */
-Player.prototype.moveRate = settings.PLAYER_MOVE_DELAY || 250;
+/** @type {Number} How long between each move. Sent to the client too, so it can tween/animate at the right speed. */
+Player.prototype.moveRate = settings.PLAYER_MOVE_RATE || 250;
 /** @type {Number} */
 Player.prototype.maxHitPoints = settings.PLAYER_MAX_HITPOINTS || 200;
 /** @type {Number} */

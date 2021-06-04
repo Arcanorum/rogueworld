@@ -105,7 +105,7 @@ export default () => {
             // Tween the player sprite to the target row/col.
             dungeonz.gameScene.playerTween = dungeonz.gameScene.tweens.add({
                 targets: dynamicSpriteContainer,
-                duration: dungeonz.gameScene.moveDelay,
+                duration: data.moveRate || 100,
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
                 onComplete: () => {
@@ -118,6 +118,9 @@ export default () => {
                 // yet, as calling Tween.stop() then doesn't call onComplete.
                 onStop: tweenOnCompleteFunction,
             });
+
+            // Update the move rate on the client, so they can still send the move events at the right rate,
+            dungeonz.gameScene.moveRate = data.moveRate || 100;
 
             // Check for any interactables that are now in range to be interacted with.
             const { interactables } = dungeonz.gameScene;
@@ -191,7 +194,7 @@ export default () => {
             // Tween to the new location.
             dungeonz.gameScene.tweens.add({
                 targets: dynamicSpriteContainer,
-                duration: dynamicSpriteContainer.moveRate || 250,
+                duration: data.moveRate || dynamicSpriteContainer.moveRate || 100,
                 x: data.col * gameConfig.SCALED_TILE_SIZE,
                 y: data.row * gameConfig.SCALED_TILE_SIZE,
             });
@@ -201,7 +204,7 @@ export default () => {
         }
 
         // If the dynamic does something extra when it moves, do it.
-        if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove(true);
+        if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove(true, data.moveRate);
     };
 
     eventResponses.heal = (data) => {

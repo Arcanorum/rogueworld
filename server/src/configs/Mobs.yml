@@ -176,6 +176,36 @@
     - itemName: CleanseSpellScroll
       dropRate: 10
 
+- name: Elder
+  gloryValue: 100
+  viewRange: 7
+  maxHitPoints: 200
+  defence: 20
+  faction: Mages
+  corpseType: Human
+  projectileAttackType: SuperWind
+  dropList:
+    - itemName: Galestorm
+      dropRate: 5
+    - itemName: GloryOrb
+      dropRate: 100
+      rolls: 2
+    - itemName: ExpOrbMagic
+      dropRate: 100
+    - itemName: ExpOrbPotionry
+      dropRate: 100
+    - itemName: SuperWindStaff
+    - itemName: WindGem
+      dropRate: 100
+      rolls: 1
+    - itemName: Gem
+      dropRate: 100
+      rolls: 2
+    - itemName: HealAreaSpellScroll
+    - itemName: CleanseSpellScroll
+    - itemName: WardSpellScroll
+    - itemName: PacifySpellScroll
+
 - name: Mage
   gloryValue: 50
   viewRange: 7

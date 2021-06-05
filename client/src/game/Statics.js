@@ -599,6 +599,7 @@ const StaticClasses = {
     1365: Mushroom, // Red mushroom
     1429: Mushroom, // Green mushroom
     1493: Mushroom, // Blue mushroom
+    1557: Mushroom, // Frost mushroom
 
     // Light wall torches
     2183: Torch,

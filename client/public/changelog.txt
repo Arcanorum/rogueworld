@@ -1,3 +1,56 @@
+05/06/2021 - Update 10 - Relics
+
+New:
+- Relics
+    The most powerful item tier, which have a very high durability, and can only be obtained as
+    rare drops from bosses. Costs glory each time they are used.
+    - Galestorm
+    - Eternal Flame
+    - Hammer of Glory
+- Agonite metal tier
+- Mountains area
+    A huge snow covered region of the map, home of the dwarfs.
+- Chilled status effect
+    Slows you down a lot while active. Can be prevented by using an anti-freeze potion.
+- Anti-freeze potion
+- Frostcap mushroom
+- Berserker
+- Dwarf knight
+- Druid
+- Elder (druid boss)
+- Snow scamp
+- Sickles
+    Gather mushrooms faster while equipped.
+
+Balance:
+- Increased player base light range in darkness from 5 to 6.
+- Added another blue key to the keys given by killing the Blood lord in the Blood halls dungeon.
+  (Prevents getting locked out of the exit room if someone wastes a blue key by going back and
+  opening the other starting door).
+- Citizens now drop pine logs instead of oak logs.
+- Added bone to iron armour recipe.
+
+Bugs:
+- Status effects no longer take effect again immediately when applied while already active. (i.e. each
+  fire staff attack would damage on hit, instead of just resetting the burn timer on the target, so you
+  could damage faster by spamming it)
+- Status effect animations no longer play underneath equipped clothing.
+- Clothing animations now play in sync with the player when moving.
+- Server crash.
+- Corrected dungium & noctis equipment descriptions.
+- GUI scale setting now affects chat box size.
+- Disabling the "Add picked up items to hotbar" setting no longer prevents adding items to the
+  hotbar from the inventory panel.
+
+Other:
+- Client performance/FPS optimisations.
+- Players are now invincible in safe zones (i.e. the main city) until they attack. (Prevents griefing
+  by using aggroed NPCs to attack other players).
+- Chat box now returns focus to the game after sending a message. The chat button (below map button)
+  now toggles whether the chat box should stay visible after sending a message.
+- Desert theme updated to have more bass.
+
+
 07/05/2021 - Update 9 - City redesign, chat, content
 
 New:

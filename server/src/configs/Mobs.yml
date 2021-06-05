@@ -104,6 +104,8 @@
   faction: CityGuards
   corpseType: Human
   dropList:
+    - itemName: HammerOfGlory
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
     - itemName: ExpOrbMelee
@@ -242,6 +244,8 @@
   corpseType: Human
   projectileAttackType: SuperFire
   dropList:
+    - itemName: EternalFlame
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -594,6 +598,8 @@
   projectileAttackType: SuperFire
   faction: Zombies
   dropList:
+    - itemName: EternalFlame
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2

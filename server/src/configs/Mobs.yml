@@ -153,6 +153,29 @@
       dropRate: 10
     - itemName: Redcap
 
+- name: Druid
+  gloryValue: 30
+  viewRange: 7
+  defence: 20
+  faction: Mages
+  corpseType: Human
+  projectileAttackType: Wind
+  dropList:
+    - itemName: Bones
+    - itemName: Fabric
+    - itemName: Redcap
+    - itemName: Bluecap
+    - itemName: WindGem
+    - itemName: Gem
+    - itemName: PlainRobe
+      dropRate: 5
+    - itemName: WindStaff
+      dropRate: 5
+    - itemName: HealAreaSpellScroll
+      dropRate: 10
+    - itemName: CleanseSpellScroll
+      dropRate: 10
+
 - name: Mage
   gloryValue: 50
   viewRange: 7

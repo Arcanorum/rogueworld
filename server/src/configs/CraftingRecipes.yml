@@ -170,6 +170,19 @@
     itemName: CurePotion
     baseQuantity: 5
 
+- stationTypes:
+    - Laboratory
+  stats:
+    - Potionry
+  ingredients:
+    - itemName: Redcap
+      quantity: 4
+    - itemName: Frostcap
+      quantity: 4
+  result:
+    itemName: AntiFreezePotion
+    baseQuantity: 5
+
 # Wooden equipment
 
 - stationTypes:

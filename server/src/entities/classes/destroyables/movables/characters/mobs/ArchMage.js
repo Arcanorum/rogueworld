@@ -1,4 +1,8 @@
 const Boss = require("./Boss");
+const EntitiesList = require("../../../../../EntitiesList");
+const Projectile = require("../../projectiles/Projectile");
+const MagicEffects = require("../../../../../../gameplay/MagicEffects");
+const Heal = require("../../../../../../gameplay/Heal");
 
 const specialAttack1Rate = 5000;
 const specialAttack2Rate = 10000;
@@ -41,11 +45,17 @@ class ArchMage extends Boss {
                 return;
             }
 
-            const targetDirection = this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col);
+            const targetDirection = this.board.rowColOffsetToDirection(
+                this.target.row - this.row, this.target.col - this.col,
+            );
 
             // Shoot a pacify projectile at the target.
-            new ProjPacify({
-                row: this.row, col: this.col, board: this.board, direction: targetDirection, source: this,
+            new EntitiesList.ProjPacify({
+                row: this.row,
+                col: this.col,
+                board: this.board,
+                direction: targetDirection,
+                source: this,
             }).emitToNearbyPlayers();
         }
     }
@@ -82,20 +92,29 @@ class ArchMage extends Boss {
 
             const { destroyables } = tile;
 
+            // eslint-disable-next-line no-restricted-syntax
             for (const key in destroyables) {
                 if (destroyables[key] instanceof Projectile) {
                     // Ignore own projectiles.
                     if (destroyables[key].source === this) continue;
                     // Up.
                     if (i < 0) {
-                        new ProjWind({
-                            row: this.row, col: this.col, board: this.board, direction: this.Directions.UP, source: this,
+                        new EntitiesList.ProjWind({
+                            row: this.row,
+                            col: this.col,
+                            board: this.board,
+                            direction: this.Directions.UP,
+                            source: this,
                         }).emitToNearbyPlayers();
                     }
                     // Down.
                     else if (i > 0) {
-                        new ProjWind({
-                            row: this.row, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this,
+                        new EntitiesList.ProjWind({
+                            row: this.row,
+                            col: this.col,
+                            board: this.board,
+                            direction: this.Directions.DOWN,
+                            source: this,
                         }).emitToNearbyPlayers();
                     }
                 }
@@ -109,18 +128,27 @@ class ArchMage extends Boss {
 
             const { destroyables } = tile;
 
+            // eslint-disable-next-line no-restricted-syntax
             for (const key in destroyables) {
                 if (destroyables[key] instanceof Projectile) {
                     // Left.
                     if (i < 0) {
-                        new ProjWind({
-                            row: this.row, col: this.col, board: this.board, direction: this.Directions.LEFT, source: this,
+                        new EntitiesList.ProjWind({
+                            row: this.row,
+                            col: this.col,
+                            board: this.board,
+                            direction: this.Directions.LEFT,
+                            source: this,
                         }).emitToNearbyPlayers();
                     }
                     // Right.
                     else if (i > 0) {
-                        new ProjWind({
-                            row: this.row, col: this.col, board: this.board, direction: this.Directions.RIGHT, source: this,
+                        new EntitiesList.ProjWind({
+                            row: this.row,
+                            col: this.col,
+                            board: this.board,
+                            direction: this.Directions.RIGHT,
+                            source: this,
                         }).emitToNearbyPlayers();
                     }
                 }
@@ -129,9 +157,3 @@ class ArchMage extends Boss {
     }
 }
 module.exports = ArchMage;
-// TODO: can these be moved to the top?
-const Projectile = require("../../projectiles/Projectile");
-const ProjWind = require("../../projectiles/ProjWind");
-const ProjPacify = require("../../projectiles/ProjPacify");
-const MagicEffects = require("../../../../../../gameplay/MagicEffects");
-const Heal = require("../../../../../../gameplay/Heal");

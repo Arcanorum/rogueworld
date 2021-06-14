@@ -63,6 +63,9 @@ class Player extends Character {
         /** @type {Number} The time when this player was last damaged. */
         this.lastDamagedTime = 0;
 
+        /** @type {Number} How many times this player has moved in the same direction continuously. */
+        this.momentum = 0;
+
         /** @type {Number} A timeout for when the player is finished gathering from a resource node. */
         this.gatherTimeout = 0;
 
@@ -225,12 +228,29 @@ class Player extends Character {
     getMoveRate() {
         let { moveRate } = this;
 
-        // Check for any status effects that modify the move rate.
-        Object.values(this.statusEffects).forEach((statusEffect) => {
-            moveRate *= statusEffect.moveRateModifier;
-        });
+        if (this.lastDamagedTime + 5000 > Date.now()) {
+            moveRate *= 1.1;
+        }
 
-        return moveRate;
+        const maxMomentum = 10;
+        const maxMomentumModifier = 0.2;
+
+        // Check the time since the last move, otherwise they will be able to continue with their momentum. Momentum should be lost after standing still.
+        if (Date.now() > this.nextMoveTime + 500) {
+            this.momentum = 0;
+        }
+
+        if (this.momentum) {
+            if (this.momentum > maxMomentum) {
+                this.momentum = maxMomentum;
+            }
+
+            const momentumModifier = 1 - (maxMomentumModifier * (this.momentum / maxMomentum));
+
+            moveRate *= momentumModifier;
+        }
+
+        return super.getMoveRate(moveRate);
     }
 
     move(byRows, byCols) {
@@ -272,6 +292,8 @@ class Player extends Character {
                 );
             }
 
+            this.momentum += 1;
+
             // Cancel the gathering action if it was in progress.
             clearTimeout(this.gatherTimeout);
         }
@@ -284,6 +306,13 @@ class Player extends Character {
         if (this.isInSafeZone() === false) {
             super.push(byRows, byCols);
         }
+    }
+
+    modDirection(direction) {
+        // Make them lose all momentum when they change direction.
+        this.momentum = 0;
+
+        super.modDirection(direction);
     }
 
     /**
@@ -625,7 +654,11 @@ class Player extends Character {
         if (this.OppositeDirections[direction] === undefined) return;
 
         // Face the direction.
-        this.modDirection(direction);
+        // Only do this if they are not already doing so so they don't lose their consecutive
+        // movement bonus by attacking forward.
+        if (direction !== this.direction) {
+            this.modDirection(direction);
+        }
 
         // Get the first damagable entity in that direction.
         const boardTile = this.board.getTileInFront(direction, this.row, this.col);

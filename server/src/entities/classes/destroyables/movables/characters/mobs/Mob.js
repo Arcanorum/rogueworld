@@ -71,6 +71,16 @@ class Mob extends Character {
         super.onAllHitPointsLost();
     }
 
+    getMoveRate() {
+        let { moveRate } = this;
+
+        if (this.lastDamagedTime + 10000 > Date.now()) {
+            moveRate *= 0.8;
+        }
+
+        return super.getMoveRate(moveRate);
+    }
+
     onMove() {
         if (this.target === null) {
             if (this.wanderOffset !== null) {
@@ -139,7 +149,7 @@ class Mob extends Character {
     move(byRows, byCols) {
         // Prevent multiple move loops from being created if this move function is called again.
         clearTimeout(this.moveLoop);
-        this.moveLoop = setTimeout(this.move.bind(this), this.moveRate);
+        this.moveLoop = setTimeout(this.move.bind(this), this.getMoveRate());
 
         // If being told to move directly by some external input, do it.
         if (byRows !== undefined && byCols !== undefined) {
@@ -585,6 +595,9 @@ class Mob extends Character {
 
             this.target = damagedBy;
         }
+
+        this.lastDamagedTime = Date.now();
+
         super.onDamage(damage, damagedBy);
     }
 

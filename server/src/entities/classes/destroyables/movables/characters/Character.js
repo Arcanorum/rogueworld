@@ -122,6 +122,17 @@ class Character extends Movable {
         this.defence += amount;
     }
 
+    getMoveRate(chainedMoveRate) {
+        let moveRate = chainedMoveRate || this.moveRate;
+
+        // Check for any status effects that modify the move rate.
+        Object.values(this.statusEffects).forEach((statusEffect) => {
+            moveRate *= statusEffect.moveRateModifier;
+        });
+
+        return moveRate;
+    }
+
     /**
      * @param {Number} byRows
      * @param {Number} byCols

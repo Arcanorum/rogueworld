@@ -88,9 +88,10 @@
   corpseType: Human
   dropList:
     - itemName: Bones
-    - itemName: HealthPotion
+    - itemName: Redcap
+      rolls: 2
     - itemName: IronBar
-    - itemName: IronSword
+      rolls: 2
     - itemName: DungiumBar
       dropRate: 10
 
@@ -105,22 +106,17 @@
   corpseType: Human
   dropList:
     - itemName: HammerOfGlory
-      dropRate: 5
+      dropRate: 2
     - itemName: GloryOrb
       dropRate: 100
+      rolls: 2
     - itemName: ExpOrbMelee
       dropRate: 100
-      rolls: 3
-    - itemName: Gem
-      rolls: 4
-    - itemName: DungiumSword
-      dropRate: 50
-    - itemName: DungiumArmour
-      dropRate: 20
-    - itemName: DungiumBar
-      rolls: 4
-    - itemName: DungiumSword
       rolls: 2
+    - itemName: Gem
+      rolls: 2
+    - itemName: DungiumBar
+      rolls: 10
 
 - name: Warrior
   gloryValue: 35
@@ -134,7 +130,7 @@
     - itemName: Bones
     - itemName: IronOre
     - itemName: IronBar
-    - itemName: IronHammer
+      rolls: 4
     - itemName: Redcap
 
 - name: Berserker
@@ -151,8 +147,7 @@
     - itemName: Bones
     - itemName: AgoniteOre
     - itemName: AgoniteBar
-    - itemName: AgoniteSword
-      dropRate: 10
+      rolls: 2
     - itemName: Redcap
 
 - name: Druid
@@ -164,19 +159,17 @@
   projectileAttackType: Wind
   dropList:
     - itemName: Bones
+    - itemName: Cotton
     - itemName: Fabric
     - itemName: Redcap
     - itemName: Bluecap
-    - itemName: WindGem
     - itemName: Gem
-    - itemName: PlainRobe
-      dropRate: 5
-    - itemName: WindStaff
-      dropRate: 5
     - itemName: HealAreaSpellScroll
-      dropRate: 10
+      dropRate: 5
     - itemName: CleanseSpellScroll
-      dropRate: 10
+      dropRate: 5
+    - itemName: IronSickle
+      dropRate: 5
 
 - name: Elder
   gloryValue: 100
@@ -188,7 +181,7 @@
   projectileAttackType: SuperWind
   dropList:
     - itemName: Galestorm
-      dropRate: 5
+      dropRate: 2
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -196,10 +189,6 @@
       dropRate: 100
     - itemName: ExpOrbPotionry
       dropRate: 100
-    - itemName: SuperWindStaff
-    - itemName: WindGem
-      dropRate: 100
-      rolls: 1
     - itemName: Gem
       dropRate: 100
       rolls: 2
@@ -207,6 +196,7 @@
     - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
     - itemName: PacifySpellScroll
+    - itemName: NoctisSickle
 
 - name: Mage
   gloryValue: 50
@@ -217,23 +207,14 @@
   projectileAttackType: Fire
   dropList:
     - itemName: Bones
+    - itemName: Cotton
     - itemName: Fabric
-      rolls: 2
     - itemName: Bluecap
-      rolls: 2
-    - itemName: EnergyPotion
-    - itemName: MageRobe
-      dropRate: 10
-    - itemName: FireGem
-    - itemName: WindGem
     - itemName: Gem
-      rolls: 4
-    - itemName: FireStaff
-      dropRate: 10
-    - itemName: HealAreaSpellScroll
-    - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
+      dropRate: 5
     - itemName: PacifySpellScroll
+      dropRate: 5
 
 - name: ArchMage
   gloryValue: 150
@@ -245,39 +226,28 @@
   projectileAttackType: SuperFire
   dropList:
     - itemName: EternalFlame
-      dropRate: 5
+      dropRate: 2
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
     - itemName: ExpOrbMagic
       dropRate: 100
       rolls: 2
-    - itemName: SuperFireStaff
-      dropRate: 50
     - itemName: HealAreaSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: CleanseSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: WardSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: PacifySpellScroll
-      dropRate: 100
-      rolls: 5
-    - itemName: MageRobe
-      dropRate: 50
-    - itemName: FireGem
       dropRate: 100
       rolls: 2
     - itemName: Gem
       dropRate: 100
       rolls: 4
-    - itemName: FireGem
-      rolls: 2
-    - itemName: FireStaff
-      rolls: 1
 
 - name: Prisoner
   gloryValue: 10
@@ -291,9 +261,7 @@
     - itemName: Cotton
       rolls: 2
     - itemName: Fabric
-      rolls: 2
     - itemName: IronOre
-      rolls: 2
   
 - name: Bandit
   gloryValue: 30
@@ -311,7 +279,6 @@
     - itemName: IronOre
       rolls: 2
     - itemName: IronArrows
-    - itemName: IronDagger
     - itemName: Gem
 
 - name: BanditLeader
@@ -330,25 +297,14 @@
     - itemName: ExpOrbMelee
       dropRate: 100
       rolls: 2
-    - itemName: Cloak
-      dropRate: 50
     - itemName: DungiumArrows
       dropRate: 100
       rolls: 4
-    - itemName: DungiumDagger
-      dropRate: 100
-    - itemName: NinjaGarb
-      dropRate: 50
     - itemName: DungiumBar
-      rolls: 2
-    - itemName: DungiumSword
-      rolls: 2
-    - itemName: IronArrows
-      rolls: 2
-    - itemName: IronDagger
+      rolls: 4
     - itemName: Gem
       dropRate: 100
-      rolls: 4
+      rolls: 2
 
 - name: Assassin
   gloryValue: 60
@@ -361,11 +317,11 @@
   faction: Outlaws
   corpseType: Human
   dropList:
-    - itemName: NinjaGarb
-    - itemName: Shuriken
-    - itemName: NoctisDagger
-    - itemName: NoctisBar
     - itemName: Fabric
+      rolls: 2
+    - itemName: NoctisOre
+    - itemName: NoctisBar
+    - itemName: Shuriken
     - itemName: Gem
 
 - name: MasterAssassin
@@ -391,15 +347,8 @@
     - itemName: Shuriken
       dropRate: 100
       rolls: 2
-    - itemName: NinjaGarb
-      dropRate: 100
-    - itemName: NoctisDagger
-      dropRate: 100
-      rolls: 2
     - itemName: NoctisBar
-      rolls: 3
-    - itemName: BloodGem
-      rolls: 2
+      rolls: 6
     - itemName: Gem
       dropRate: 100
       rolls: 4
@@ -468,8 +417,9 @@
   meleeDamageAmount: 20
   faction: HostileAnimals
   dropList:
-    - itemName: IronOre
-    - itemName: Bluecap
+    - itemName: AgoniteOre
+    - itemName: Frostcap
+      dropRate: 10
 
 - name: GnarlPine
   gloryValue: 30
@@ -496,7 +446,7 @@
   dropList:
     - itemName: GloryOrb
       dropRate: 100
-      rolls: 3
+      rolls: 4
     - itemName: ExpOrbMelee
       dropRate: 100
     - itemName: ExpOrbRanged
@@ -505,16 +455,9 @@
       dropRate: 100
     - itemName: ExpOrbGathering
       dropRate: 100
-    - itemName: SuperWindStaff
-      dropRate: 100
-    - itemName: WindGem
-      dropRate: 100
-      rolls: 2
     - itemName: Gem
       dropRate: 100
-      rolls: 4
-    - itemName: WillowLogs
-      rolls: 8
+      rolls: 6
     - itemName: OakLogs
       rolls: 8
 
@@ -534,8 +477,6 @@
     - itemName: IronOre
     - itemName: Redcap
     - itemName: Greencap
-    - itemName: IronDagger
-    - itemName: OakBow
     - itemName: IronArrows
 
 - name: Snoovir
@@ -564,8 +505,9 @@
   faction: Zombies
   dropList:
     - itemName: Bones
-    - itemName: OakLogs
+    - itemName: PineLogs
     - itemName: Cotton
+      rolls: 2
     - itemName: String
     - itemName: Fabric
     - itemName: Redcap
@@ -582,10 +524,8 @@
   dropList:
     - itemName: Bones
     - itemName: IronBar
-      dropRate: 30
     - itemName: DungiumBar
-      dropRate: 30
-    - itemName: IronSword
+      rolls: 2
     - itemName: Fabric
     - itemName: Gem
 
@@ -599,36 +539,32 @@
   faction: Zombies
   dropList:
     - itemName: EternalFlame
-      dropRate: 5
+      dropRate: 2
     - itemName: GloryOrb
       dropRate: 100
-      rolls: 2
+      rolls: 3
     - itemName: ExpOrbMagic
       dropRate: 100
       rolls: 2
     - itemName: ConsumeSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: EnthrallSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: DeathbindSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: ReanimateSpellScroll
       dropRate: 100
-      rolls: 5
-    - itemName: NecromancerRobe
-      dropRate: 50
-    - itemName: SuperFireStaff
-      dropRate: 50
-    - itemName: FireGem
-      rolls: 6
+      rolls: 2
     - itemName: Gem
       dropRate: 100
       rolls: 4
     - itemName: DungiumBar
-      rolls: 3
+      rolls: 4
+    - itemName: OakLogs
+      rolls: 4
   
 - name: Vampire
   gloryValue: 50
@@ -648,7 +584,6 @@
     - itemName: Fabric
     - itemName: IronOre
     - itemName: VampireFang
-      rolls: 2
     - itemName: Gem
 
 - name: BloodPriest
@@ -660,13 +595,10 @@
   projectileAttackType: BloodBolt
   faction: Vampires
   dropList:
-    - itemName: BloodStaff
-      dropRate: 10
+    - itemName: NoctisOre
     - itemName: Fabric
-    - itemName: BloodGem
-    - itemName: NecromancerRobe
-    - itemName: VampireFang
       rolls: 2
+    - itemName: VampireFang
     - itemName: Gem
       rolls: 2
 
@@ -682,32 +614,26 @@
   dropList:
     - itemName: GloryOrb
       dropRate: 100
-      rolls: 3
+      rolls: 4
     - itemName: ExpOrbMelee
       dropRate: 100
     - itemName: ExpOrbMagic
       dropRate: 100
     - itemName: ConsumeSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: EnthrallSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: DeathbindSpellScroll
       dropRate: 100
-      rolls: 5
+      rolls: 2
     - itemName: ReanimateSpellScroll
       dropRate: 100
-      rolls: 5
-    - itemName: NoctisArmour
-      dropRate: 50
-    - itemName: SuperBloodStaff
-      dropRate: 50
-    - itemName: BloodGem
-      rolls: 6
+      rolls: 2
     - itemName: Gem
       dropRate: 100
-      rolls: 4
+      rolls: 6
     - itemName: NoctisBar
       rolls: 8
     - itemName: VampireFang
@@ -723,7 +649,9 @@
     - itemName: Redcap
     - itemName: IronOre
     - itemName: IronBar
+    - itemName: DungiumOre
     - itemName: IronPickaxe
+      dropRate: 10
 
 - name: DwarfWarrior
   gloryValue: 50
@@ -735,11 +663,10 @@
     - itemName: Bones
     - itemName: Redcap
     - itemName: IronOre
-    - itemName: DungiumOre
     - itemName: IronBar
+    - itemName: DungiumOre
     - itemName: DungiumBar
-    - itemName: DungiumHammer
-      dropRate: 10
+      rolls: 3
 
 - name: DwarfKnight
   gloryValue: 60
@@ -750,10 +677,11 @@
   faction: CityGuards
   dropList:
     - itemName: Bones
-    - itemName: HealthPotion
+    - itemName: Redcap
+      rolls: 2
+    - itemName: Frostcap
     - itemName: DungiumBar
-    - itemName: DungiumHammer
-      dropRate: 10
+      rolls: 3
 
 - name: SmallAdumbral
   maxHitPoints: 50

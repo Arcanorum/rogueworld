@@ -423,8 +423,12 @@ class Player extends Character {
         if (this.hitPoints <= 0) return;
 
         if (this.isInSafeZone()) {
-            // Prevent being damaged while in a safe zone and the player hasn't done anything recently (is inactive).
-            if (this.lastActionTime < Date.now() - 15000) return;
+            // Allow being attacked at any time by mobs while in a dungeon, otherwise players can
+            // just stay still for a while to become invincible to them.
+            if (!this.board.dungeon) {
+                // Prevent being damaged while in a safe zone and the player hasn't done anything recently (is inactive).
+                if (this.lastActionTime < Date.now() - 15000) return;
+            }
 
             if (damagedBy) {
                 // If damaged by another player in a safe zone, ignore the damage.

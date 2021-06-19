@@ -306,7 +306,11 @@ class Projectile extends Movable {
 
             if (tileCount > 1) {
                 for (let i = 0; i < tileCount; i += 1) {
-                    collidee.push(offset.row, offset.col);
+                    // Check the collidee is still on the board each iteration, as it might have
+                    // been removed in a previous push (i.e. mob dies being pushed into a hazard).
+                    if (collidee.board) {
+                        collidee.push(offset.row, offset.col);
+                    }
                 }
             }
             else {

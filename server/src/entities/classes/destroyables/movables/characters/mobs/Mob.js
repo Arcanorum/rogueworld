@@ -147,6 +147,8 @@ class Mob extends Character {
     modEnergy() { }
 
     move(byRows, byCols) {
+        if (!this.board) return;
+
         // Prevent multiple move loops from being created if this move function is called again.
         clearTimeout(this.moveLoop);
         this.moveLoop = setTimeout(this.move.bind(this), this.getMoveRate());
@@ -162,13 +164,11 @@ class Mob extends Character {
     }
 
     moveTowardsEntity(entity) {
-        const
-            { col } = this;
-        const { row } = this;
+        const { row, col } = this;
         const targetCol = entity.col;
         const targetRow = entity.row;
-        const horiDist = Math.abs(this.col - entity.col);
-        const vertDist = Math.abs(this.row - entity.row);
+        const horiDist = Math.abs(col - targetCol);
+        const vertDist = Math.abs(row - targetRow);
         const { grid } = this.board;
 
         // TODO: also stop them from targetting if the line of sight is broken to the target (stops them bumming walls all day)
@@ -370,8 +370,7 @@ class Mob extends Character {
      * Move this entity away from the tile it is on. Tries to go up, down, left, then right.
      */
     moveAwayFromCurrentTile() {
-        const { col } = this;
-        const { row } = this;
+        const { row, col } = this;
         const { grid } = this.board;
 
         // If above isn't blocked, move there.
@@ -397,13 +396,11 @@ class Mob extends Character {
     }
 
     moveAwayFromTarget() {
-        const
-            { col } = this;
-        const { row } = this;
+        const { row, col } = this;
         const targetCol = this.target.col;
         const targetRow = this.target.row;
-        const horiDist = Math.abs(this.col - this.target.col);
-        const vertDist = Math.abs(this.row - this.target.row);
+        const horiDist = Math.abs(this.col - targetCol);
+        const vertDist = Math.abs(this.row - targetRow);
         const { grid } = this.board;
 
         // If target is further away horizontally than vertically, attempt to move away them horizontally.
@@ -724,9 +721,7 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSUp() {
-        const { viewRange } = this;
-        const { row } = this;
-        const { col } = this;
+        const { row, col, viewRange } = this;
         const { grid } = this.board;
         let forwardVisibleRange = viewRange;
         let sideVisibleRange;
@@ -938,9 +933,7 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSDown() {
-        const { viewRange } = this;
-        const { row } = this;
-        const { col } = this;
+        const { row, col, viewRange } = this;
         const { grid } = this.board;
         let forwardVisibleRange = viewRange;
         let sideVisibleRange;
@@ -1152,9 +1145,7 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSLeft() {
-        const { viewRange } = this;
-        const { row } = this;
-        const { col } = this;
+        const { row, col, viewRange } = this;
         const { grid } = this.board;
         let forwardVisibleRange = viewRange;
         let sideVisibleRange;
@@ -1371,9 +1362,7 @@ class Mob extends Character {
     }
 
     getNearestHostileInLOSRight() {
-        const { viewRange } = this;
-        const { row } = this;
-        const { col } = this;
+        const { row, col, viewRange } = this;
         const { grid } = this.board;
         let forwardVisibleRange = viewRange;
         let sideVisibleRange;

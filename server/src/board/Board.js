@@ -348,6 +348,11 @@ class Board {
                         return;
                     }
 
+                    if (mapObjProps.DevOnly && !settings.DEV_MODE) {
+                        Utils.warning("Map object is only for development. Skipping:", mapObject);
+                        return;
+                    }
+
                     switch (type) {
                     case "SpawnerArea": {
                         // Check if spawners have been disabled in the settings.
@@ -1320,9 +1325,10 @@ Board.createClientBoardData = (dataFileName) => {
         // Add the entities to the world.
         objectsData.forEach((mapObject) => {
             // If this entity is a text object, skip it.
-            if (mapObject.text !== undefined) {
-                return;
-            }
+            if (mapObject.text !== undefined) return;
+
+            // Don't add dev only map objects to the client data when not in dev mode.
+            if (mapObject.properties.DevOnly && !settings.DEV_MODE) return;
 
             // Reset this in case an invalid type was found below, otherwise this would still be the previous valid type.
             type = null;

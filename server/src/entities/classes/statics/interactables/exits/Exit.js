@@ -1,4 +1,5 @@
 const Interactable = require("../Interactable");
+const EntitiesList = require("../../../../EntitiesList");
 
 class Exit extends Interactable {
     /**
@@ -36,7 +37,7 @@ class Exit extends Interactable {
      * @returns {Boolean} Whether this entity was interacted with or not.
      */
     interaction(interactedBy) {
-        if (interactedBy instanceof Player === false) return;
+        if (interactedBy instanceof EntitiesList.Player === false) return;
 
         // Reposition them to somewhere within the entrance bounds.
         const position = this.targetEntrance.getRandomPosition();
@@ -46,5 +47,3 @@ class Exit extends Interactable {
     }
 }
 module.exports = Exit;
-
-const Player = require("../../../destroyables/movables/characters/Player");

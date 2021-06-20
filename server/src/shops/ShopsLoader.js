@@ -7,6 +7,7 @@ const ShopTypesList = require("./ShopTypesList");
 const ItemsList = require("../items/ItemsList");
 const ShopNPC = require("./ShopNPC");
 const StockItem = require("./StockItem");
+const settings = require("../../settings");
 
 const populateList = () => {
     Utils.message("Populating shops list.");
@@ -49,6 +50,9 @@ const initialiseList = () => {
         shopConfigs.forEach((config) => {
             // Load every item type into the shop for the omni merchant.
             if (config.name === "Omni") {
+                // Skip adding the omni merchant when not in dev mode to prevent players ever getting access to it in live.
+                if (!settings.DEV_MODE) return;
+
                 Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
                     ShopTypesList[config.name].addStock(new StockItem({
                         ItemType,

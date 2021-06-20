@@ -378,21 +378,15 @@ function LoginPage() {
                                 {language.listName}
                             </li>
                         ))}
-                        <li id="language-french" className="language-option" />
-                        <li id="language-spanish" className="language-option" />
-                        <li id="language-portuguese" className="language-option" />
-                        <li id="language-turkish" className="language-option" />
-                        <li id="language-german" className="language-option" />
-                        <li id="language-russian" className="language-option" />
-                        <li id="language-polish" className="language-option" />
-                        <li id="language-chinese" className="language-option" />
                         <li
-                          id="add-translation"
+                          key="add-translation"
                           className="language-option"
                           onClick={() => {
                               window.open("https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0", "_blank");
                           }}
-                        />
+                        >
+                            {Utils.getTextDef("Add translation")}
+                        </li>
                     </ul>
                     )}
                 </div>

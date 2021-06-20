@@ -1,6 +1,7 @@
 const ProjWind = require("./ProjWind");
 const EntitiesList = require("../../../../EntitiesList");
 const Damage = require("../../../../../gameplay/Damage");
+const { Directions } = require("../../../../../gameplay/Directions");
 
 class ProjSuperWind extends ProjWind {
     /**
@@ -35,19 +36,21 @@ class ProjSuperWind extends ProjWind {
             if (collidee.isHighBlocked() === false) return;
         }
 
-        const { board, source } = this;
+        const {
+            row, col, board, source,
+        } = this;
         // Create a new projectile in each direction.
         new ProjWind({
-            row: this.row - 1, col: this.col, board, direction: this.Directions.UP, source,
+            row: row - 1, col, board, direction: Directions.UP, source,
         }).emitToNearbyPlayers();
         new ProjWind({
-            row: this.row + 1, col: this.col, board, direction: this.Directions.DOWN, source,
+            row: row + 1, col, board, direction: Directions.DOWN, source,
         }).emitToNearbyPlayers();
         new ProjWind({
-            row: this.row, col: this.col - 1, board, direction: this.Directions.LEFT, source,
+            row, col: col - 1, board, direction: Directions.LEFT, source,
         }).emitToNearbyPlayers();
         new ProjWind({
-            row: this.row, col: this.col + 1, board, direction: this.Directions.RIGHT, source,
+            row, col: col + 1, board, direction: Directions.RIGHT, source,
         }).emitToNearbyPlayers();
 
         this.pushBackCollidee(collidee);

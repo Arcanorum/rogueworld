@@ -1,10 +1,8 @@
 const Mob = require("./Mob");
-const Utils = require("../../../../../../Utils");
+const EntitiesList = require("../../../../../EntitiesList");
 
 class Assassin extends Mob {
     /**
-     * @category Mob
-     *
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col
@@ -20,10 +18,10 @@ class Assassin extends Mob {
         // Decide what weapon to use based on proximity to target.
         if (!this.target) return;
         if (this.isAdjacentToEntity(this.target)) {
-            this.changeAttackProjectile(ProjNoctisDagger);
+            this.changeAttackProjectile(EntitiesList.ProjNoctisDagger);
         }
         else {
-            this.changeAttackProjectile(ProjShuriken);
+            this.changeAttackProjectile(EntitiesList.ProjShuriken);
         }
     }
 
@@ -34,12 +32,13 @@ class Assassin extends Mob {
     }
 
     specialAttack() {
-        this.teleportBehindTarget() || this.teleportOntoTarget();
+        // Try to teleport behind the target.
+        if (!this.teleportBehindTarget()) {
+            // Failed to teleport behind, try teleporting directing onto them.
+            this.teleportOntoTarget();
+        }
     }
 }
 module.exports = Assassin;
-
-const ProjShuriken = require("../../projectiles/ProjShuriken");
-const ProjNoctisDagger = require("../../projectiles/ProjNoctisDagger");
 
 Assassin.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillOutlaws.taskId;

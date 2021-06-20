@@ -40,6 +40,32 @@ class Utils {
     }
 
     /**
+     * Creates an array of all permutations of a given array's elements.
+     * @param {Array.<*>} array 
+     * @returns {Array.<Array.<*>>} An array of arrays.
+     */
+    getPermutations(array) {
+        let result = [];
+
+        const permute = (arr, m = []) => {
+            if (arr.length === 0) {
+                result.push(m);
+            }
+            else {
+                for (let i = 0; i < arr.length; i+=1) {
+                    let curr = arr.slice();
+                    let next = curr.splice(i, 1);
+                    permute(curr.slice(), m.concat(next));
+                }
+            }
+        }
+
+        permute(array);
+        
+        return result;
+    }
+
+    /**
      * @param {Array} array
      * @param {String} nameKey - The name of each propety key on the result object.
      * @param {String} valueKey - The name of the property to use as each propety value.

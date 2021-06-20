@@ -4,6 +4,13 @@ const EntitiesList = require("../../../../../EntitiesList");
 const Player = require("../Player");
 const Damage = require("../../../../../../gameplay/Damage");
 const ItemConfig = require("../../../../../../inventory/ItemConfig");
+const {
+    directionToRowColOffset,
+    OppositeDirections,
+    rowColOffsetToDirection,
+    Directions,
+    DirectionsPermutationsAsRowColOffsets,
+} = require("../../../../../../gameplay/Directions");
 
 class Mob extends Character {
     /**
@@ -87,7 +94,7 @@ class Mob extends Character {
                 if (this.wanderDistance > 0) {
                     this.wanderDistance -= 1;
                     // Move in the current direction.
-                    const offset = this.board.directionToRowColOffset(this.direction);
+                    const offset = directionToRowColOffset(this.direction);
                     // Check if there is a damaging tile in front.
                     if (this.checkForMoveHazards(offset.row, offset.col) === false) return false;
                     super.move(offset.row, offset.col);
@@ -373,26 +380,19 @@ class Mob extends Character {
         const { row, col } = this;
         const { grid } = this.board;
 
-        // If above isn't blocked, move there.
-        /** @type {BoardTile} */
-        if (grid[row - 1][col].isLowBlocked() === false) {
-            super.move(-1, 0);
-            return;
-        }
-        // Below.
-        if (grid[row + 1][col].isLowBlocked() === false) {
-            super.move(+1, 0);
-            return;
-        }
-        // Left.
-        if (grid[row][col - 1].isLowBlocked() === false) {
-            super.move(0, -1);
-            return;
-        }
-        // Right.
-        if (grid[row][col + 1].isLowBlocked() === false) {
-            super.move(0, +1);
-        }
+        // Get a randomised set of directions to try to move in.
+        const randomDirectionOffsets = Utils.getRandomElement(
+            DirectionsPermutationsAsRowColOffsets,
+        );
+
+        randomDirectionOffsets.some((offsets) => {
+            // Check if any of the directions are not blocked.
+            if (grid[row + offsets.row][col + offsets.col].isLowBlocked() === false) {
+                super.move(0 + offsets.row, 0 + offsets.col);
+                return true;
+            }
+            return false;
+        });
     }
 
     moveAwayFromTarget() {
@@ -564,14 +564,17 @@ class Mob extends Character {
      * Changes to a random direction, and sets a random distance to travel.
      */
     wander() {
-        this.wanderLoop = setTimeout(this.wander.bind(this), this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate));
+        this.wanderLoop = setTimeout(
+            this.wander.bind(this),
+            this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate),
+        );
 
         // Don't wander if a target is set.
         if (this.target !== null) return;
 
         this.modDirection(this.getRandomDirection());
         this.wanderDistance = Utils.getRandomIntInclusive(1, this.viewRange);
-        this.wanderOffset = this.board.directionToRowColOffset(this.direction); // TODO: what is this? not being used, just setting direction itself?
+        this.wanderOffset = directionToRowColOffset(this.direction); // TODO: what is this? not being used, just setting direction itself?
     }
 
     /**
@@ -585,7 +588,10 @@ class Mob extends Character {
         else if (damagedBy instanceof Mob) {
             // Check the faction relationship for if to target the attacker or not.
             // If damaged by a friendly mob, ignore the damage.
-            if (this.Factions.getRelationship(this.faction, damagedBy.faction) === this.Factions.RelationshipStatuses.Friendly) {
+            if (this.Factions.getRelationship(
+                this.faction,
+                damagedBy.faction,
+            ) === this.Factions.RelationshipStatuses.Friendly) {
                 return;
             }
             // Damaged by a hostile or neutral mob, target it.
@@ -644,7 +650,12 @@ class Mob extends Character {
         if (this.isAdjacentToEntity(this.target) === false) return;
 
         // Face the target if not already doing so.
-        this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
+        this.modDirection(
+            rowColOffsetToDirection(
+                this.target.row - this.row,
+                this.target.col - this.col,
+            ),
+        );
 
         this.target.damage(new Damage({
             amount: this.meleeDamageAmount,
@@ -665,9 +676,14 @@ class Mob extends Character {
         if (this.target.row - this.row + this.target.col - this.col === 0) return;
 
         // Face the target if not already doing so.
-        this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
+        this.modDirection(
+            rowColOffsetToDirection(
+                this.target.row - this.row,
+                this.target.col - this.col,
+            ),
+        );
 
-        const offset = this.board.directionToRowColOffset(this.direction);
+        const offset = directionToRowColOffset(this.direction);
         const { grid } = this.board;
         const thisRow = this.row;
         const thisCol = this.col;
@@ -714,9 +730,9 @@ class Mob extends Character {
         this.targetSearchLoop = setTimeout(this.getNearestHostileInLOS.bind(this), this.targetSearchRate);
         if (this.target !== null) return;
 
-        if (this.direction === this.Directions.UP) this.target = this.getNearestHostileInLOSUp();
-        else if (this.direction === this.Directions.DOWN) this.target = this.getNearestHostileInLOSDown();
-        else if (this.direction === this.Directions.LEFT) this.target = this.getNearestHostileInLOSLeft();
+        if (this.direction === Directions.UP) this.target = this.getNearestHostileInLOSUp();
+        else if (this.direction === Directions.DOWN) this.target = this.getNearestHostileInLOSDown();
+        else if (this.direction === Directions.LEFT) this.target = this.getNearestHostileInLOSLeft();
         else this.target = this.getNearestHostileInLOSRight();
     }
 
@@ -1678,7 +1694,10 @@ class Mob extends Character {
         if (character instanceof Character === false) return false;
 
         // Check this mob is hostile towards the other character.
-        if (this.Factions.getRelationship(this.faction, character.faction) === this.Factions.RelationshipStatuses.Hostile) return true;
+        if (this.Factions.getRelationship(
+            this.faction,
+            character.faction,
+        ) === this.Factions.RelationshipStatuses.Hostile) return true;
 
         return false;
     }
@@ -1693,7 +1712,11 @@ class Mob extends Character {
         }
 
         // Get the position behind the target.
-        const behindTile = this.board.getTileBehind(this.target.direction, this.target.row, this.target.col);
+        const behindTile = this.board.getTileBehind(
+            this.target.direction,
+            this.target.row,
+            this.target.col,
+        );
         if (!behindTile) return;
 
         // Check the tile behind them isn't blocked before moving.
@@ -1702,9 +1725,12 @@ class Mob extends Character {
         // Avoid teleporting onto hazards.
         if (behindTile.groundType.hazardous) return;
 
-        const behindOffset = this.board.directionToRowColOffset(this.OppositeDirections[this.target.direction]);
+        const behindOffset = directionToRowColOffset(OppositeDirections[this.target.direction]);
         // Move behind the target if possible.
-        if (this.repositionAndEmitToNearbyPlayers(this.target.row + behindOffset.row, this.target.col + behindOffset.col) === false) return;
+        if (!this.repositionAndEmitToNearbyPlayers(
+            this.target.row + behindOffset.row,
+            this.target.col + behindOffset.col,
+        )) return;
         // Face the target's back.
         this.modDirection(this.target.direction);
     }

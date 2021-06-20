@@ -1,6 +1,10 @@
 const Movable = require("../Movable");
 const Utils = require("../../../../../Utils");
 const ModHitPointConfigs = require("../../../../../gameplay/ModHitPointConfigs");
+const Static = require("../../../statics/Static");
+const Damage = require("../../../../../gameplay/Damage");
+const { directionToRowColOffset, Directions } = require("../../../../../gameplay/Directions");
+const EntitiesList = require("../../../../EntitiesList");
 
 class Projectile extends Movable {
     /**
@@ -18,7 +22,7 @@ class Projectile extends Movable {
          * The direction this projectile is facing, and is moving in.
          * @type {String}
          */
-        this.direction = config.direction || this.Directions.DOWN;
+        this.direction = config.direction || Directions.DOWN;
 
         /**
          * An entity that created this projectile. i.e. the character that shot an arrow.
@@ -52,7 +56,12 @@ class Projectile extends Movable {
 
     modDirection(direction) {
         this.direction = direction;
-        this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.change_direction, { id: this.id, direction: this.direction });
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            this.EventsList.change_direction,
+            { id: this.id, direction: this.direction },
+        );
     }
 
     onDestroy() {
@@ -79,7 +88,7 @@ class Projectile extends Movable {
             return;
         }
 
-        const offset = this.board.directionToRowColOffset(this.direction);
+        const offset = directionToRowColOffset(this.direction);
 
         // Check the grid row element being accessed is valid.
         if (this.board.grid[this.row + offset.row] === undefined) {
@@ -211,9 +220,11 @@ class Projectile extends Movable {
         // Add this to the default checks that get done when any projectile moves, as
         // the case where a wind moves into a projectile is covered by the wind itself,
         // but not when the other projectile is the one moving into the wind during its own move.
-        if (collidee instanceof ProjWind || collidee instanceof ProjSuperWind) {
+        if (collidee instanceof EntitiesList.ProjWind
+            || collidee instanceof EntitiesList.ProjSuperWind) {
             // If 2 winds collide, destroy them both.
-            if (this instanceof ProjWind || this instanceof ProjSuperWind) {
+            if (this instanceof EntitiesList.ProjWind
+                || this instanceof EntitiesList.ProjSuperWind) {
                 this.destroy();
                 collidee.destroy();
             }
@@ -258,7 +269,7 @@ class Projectile extends Movable {
         }
 
         if (this.hasBackStabBonus === true) {
-            if (collidee instanceof Character) {
+            if (collidee instanceof EntitiesList.AbstractClasses.Character) {
                 // If attacked from behind, apply bonus damage.
                 if (collidee.direction === this.direction) damageAmount = this.damageAmount * 3;
             }
@@ -298,8 +309,8 @@ class Projectile extends Movable {
         if (!this.board) return;
         if (!collidee.board) return;
 
-        if (collidee instanceof Character) {
-            const offset = this.board.directionToRowColOffset(this.direction);
+        if (collidee instanceof EntitiesList.AbstractClasses.Character) {
+            const offset = directionToRowColOffset(this.direction);
             collidee.modDirection(this.direction);
             // Clear their current move loop so they don't end up with 2 loops after doing this direct movement. Only affects mobs.
             clearTimeout(collidee.moveLoop);
@@ -335,7 +346,9 @@ class Projectile extends Movable {
      */
     assignModHitPointConfigs(specificValuesName) {
         const valuesName = this.constructor.name;
-        const modHitPointConfig = ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName];
+        const modHitPointConfig = (
+            ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName]
+        );
         if (modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
 
         if (modHitPointConfig.damageAmount) this.damageAmount = modHitPointConfig.damageAmount;
@@ -347,12 +360,6 @@ class Projectile extends Movable {
 module.exports = Projectile;
 
 Projectile.abstract = true;
-
-const Character = require("../characters/Character");
-const Static = require("../../../statics/Static");
-const Damage = require("../../../../../gameplay/Damage");
-const ProjWind = require("./ProjWind");
-const ProjSuperWind = require("./ProjSuperWind");
 
 /**
  * How many board tiles can this projectile can move before it is destroyed.

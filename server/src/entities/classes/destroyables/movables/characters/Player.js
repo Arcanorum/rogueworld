@@ -7,13 +7,14 @@ const Statset = require("../../../../../stats/Statset");
 const Taskset = require("../../../../../tasks/Taskset");
 const Damage = require("../../../../../gameplay/Damage");
 const Inventory = require("../../../../../inventory/Inventory");
-
-const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
-const wsCheckAge = 1000 * 60 * 60;
 const playerMeleeModHitPointConfig = require("../../../../../gameplay/ModHitPointConfigs").PlayerMelee;
 const CraftingRecipesList = require("../../../../../crafting/CraftingRecipesList");
 const ItemConfig = require("../../../../../inventory/ItemConfig");
 const EventsList = require("../../../../../EventsList");
+const { OppositeDirections: ValidDirections } = require("../../../../../gameplay/Directions");
+
+const checkWebsocketConnectionIsAliveRate = 1000 * 60 * 60;
+const wsCheckAge = 1000 * 60 * 60;
 
 class Player extends Character {
     /**
@@ -655,7 +656,7 @@ class Player extends Character {
 
     attackMelee(direction) {
         // Check the direction is valid.
-        if (this.OppositeDirections[direction] === undefined) return;
+        if (!ValidDirections[direction]) return;
 
         // Face the direction.
         // Only do this if they are not already doing so so they don't lose their consecutive

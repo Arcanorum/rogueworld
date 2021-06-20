@@ -1,9 +1,10 @@
 const Boss = require("./Boss");
 const { HealthRegen } = require("../../../../../../gameplay/StatusEffects");
 const EntitiesList = require("../../../../../EntitiesList");
+const { rowColOffsetToDirection, getRowColsToSides } = require("../../../../../../gameplay/Directions");
 
-const specialAttack1Rate = 15000;
-const specialAttack2Rate = 5000;
+const specAttack1Rate = 15000;
+const specAttack2Rate = 5000;
 
 class Elder extends Boss {
     /**
@@ -15,8 +16,8 @@ class Elder extends Boss {
     constructor(config) {
         super(config);
 
-        this.specialAttack1Timeout = setInterval(this.specialAttack1.bind(this), specialAttack1Rate);
-        this.specialAttack2Timeout = setInterval(this.specialAttack2.bind(this), specialAttack2Rate);
+        this.specialAttack1Timeout = setInterval(this.specialAttack1.bind(this), specAttack1Rate);
+        this.specialAttack2Timeout = setInterval(this.specialAttack2.bind(this), specAttack2Rate);
     }
 
     onDestroy() {
@@ -48,7 +49,7 @@ class Elder extends Boss {
                 return;
             }
 
-            const targetDirection = this.board.rowColOffsetToDirection(
+            const targetDirection = rowColOffsetToDirection(
                 this.target.row - this.row, this.target.col - this.col,
             );
 
@@ -60,7 +61,7 @@ class Elder extends Boss {
             );
 
             // Get the positions to the sides of that position.
-            const sidePositions = this.board.getRowColsToSides(
+            const sidePositions = getRowColsToSides(
                 targetDirection,
                 targetPosition.row,
                 targetPosition.col,

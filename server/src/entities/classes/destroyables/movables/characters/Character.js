@@ -2,6 +2,7 @@ const Movable = require("../Movable");
 const GroundTypes = require("../../../../../board/GroundTypes");
 const Damage = require("../../../../../gameplay/Damage");
 const EntitiesList = require("../../../../EntitiesList");
+const { rowColOffsetToDirection } = require("../../../../../gameplay/Directions");
 
 class Character extends Movable {
     /**
@@ -142,7 +143,7 @@ class Character extends Movable {
         if (!this.board) return false;
 
         // Get the direction from the move offset.
-        const direction = this.board.rowColOffsetToDirection(byRows, byCols);
+        const direction = rowColOffsetToDirection(byRows, byCols);
 
         // Update and tell any nearby players the new direction if it is different than the previous direction.
         if (direction !== this.direction) {

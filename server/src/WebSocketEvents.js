@@ -4,9 +4,9 @@ const world = require("./World");
 // const SpellBook = require("./items/holdable/spell_books/SpellBook");
 const DungeonManagersList = require("./dungeon/DungeonManagersList");
 const EventsList = require("./EventsList");
-const ValidDirections = require("./entities/classes/Entity").prototype.OppositeDirections;
+const { OppositeDirections: ValidDirections } = require("./gameplay/Directions");
 
-const Charter = undefined; // require("./entities/statics/interactables/breakables/crafting stations/Charter");
+// const Charter = undefined; // require("./entities/statics/interactables/breakables/crafting stations/Charter");
 const DungeonPortal = require("./entities/classes/statics/interactables/DungeonPortal");
 const AccountManager = require("./account/AccountManager");
 const settings = require("../settings");

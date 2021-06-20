@@ -3,15 +3,14 @@ const EntitiesList = require("../../../../../EntitiesList");
 const Projectile = require("../../projectiles/Projectile");
 const MagicEffects = require("../../../../../../gameplay/MagicEffects");
 const Heal = require("../../../../../../gameplay/Heal");
+const { rowColOffsetToDirection, Directions } = require("../../../../../../gameplay/Directions");
 
-const specialAttack1Rate = 5000;
-const specialAttack2Rate = 10000;
-const specialAttack3Rate = 3000;
+const specAttack1Rate = 5000;
+const specAttack2Rate = 10000;
+const specAttack3Rate = 3000;
 
 class ArchMage extends Boss {
     /**
-     * @category Mob
-     *
      * @param {Object} config
      * @param {Number} config.row
      * @param {Number} config.col
@@ -20,9 +19,9 @@ class ArchMage extends Boss {
     constructor(config) {
         super(config);
 
-        this.specialAttack1Timeout = setInterval(this.specialAttack1.bind(this), specialAttack1Rate);
-        this.specialAttack2Timeout = setInterval(this.specialAttack2.bind(this), specialAttack2Rate);
-        this.specialAttack3Timeout = setInterval(this.specialAttack3.bind(this), specialAttack3Rate);
+        this.specialAttack1Timeout = setInterval(this.specialAttack1.bind(this), specAttack1Rate);
+        this.specialAttack2Timeout = setInterval(this.specialAttack2.bind(this), specAttack2Rate);
+        this.specialAttack3Timeout = setInterval(this.specialAttack3.bind(this), specAttack3Rate);
     }
 
     onDestroy() {
@@ -45,7 +44,7 @@ class ArchMage extends Boss {
                 return;
             }
 
-            const targetDirection = this.board.rowColOffsetToDirection(
+            const targetDirection = rowColOffsetToDirection(
                 this.target.row - this.row, this.target.col - this.col,
             );
 
@@ -88,6 +87,7 @@ class ArchMage extends Boss {
         // Up and down.
         for (let i = -checkRange; i < checkRangePlusOne; i += 1) {
             tile = board.getTileAt(this.row + i, this.col);
+            // eslint-disable-next-line no-continue
             if (!tile) continue;
 
             const { destroyables } = tile;
@@ -96,6 +96,7 @@ class ArchMage extends Boss {
             for (const key in destroyables) {
                 if (destroyables[key] instanceof Projectile) {
                     // Ignore own projectiles.
+                    // eslint-disable-next-line no-continue
                     if (destroyables[key].source === this) continue;
                     // Up.
                     if (i < 0) {
@@ -103,7 +104,7 @@ class ArchMage extends Boss {
                             row: this.row,
                             col: this.col,
                             board: this.board,
-                            direction: this.Directions.UP,
+                            direction: Directions.UP,
                             source: this,
                         }).emitToNearbyPlayers();
                     }
@@ -113,7 +114,7 @@ class ArchMage extends Boss {
                             row: this.row,
                             col: this.col,
                             board: this.board,
-                            direction: this.Directions.DOWN,
+                            direction: Directions.DOWN,
                             source: this,
                         }).emitToNearbyPlayers();
                     }
@@ -124,6 +125,7 @@ class ArchMage extends Boss {
         // Left and right.
         for (let i = -checkRange; i < checkRangePlusOne; i += 1) {
             tile = board.getTileAt(this.row, this.col + i);
+            // eslint-disable-next-line no-continue
             if (!tile) continue;
 
             const { destroyables } = tile;
@@ -137,7 +139,7 @@ class ArchMage extends Boss {
                             row: this.row,
                             col: this.col,
                             board: this.board,
-                            direction: this.Directions.LEFT,
+                            direction: Directions.LEFT,
                             source: this,
                         }).emitToNearbyPlayers();
                     }
@@ -147,7 +149,7 @@ class ArchMage extends Boss {
                             row: this.row,
                             col: this.col,
                             board: this.board,
-                            direction: this.Directions.RIGHT,
+                            direction: Directions.RIGHT,
                             source: this,
                         }).emitToNearbyPlayers();
                     }

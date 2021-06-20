@@ -5,6 +5,7 @@ const Dungeon = require("./Dungeon");
 const DungeonManagersList = require("./DungeonManagersList");
 const Party = require("./Party");
 const EventsList = require("../EventsList");
+const { DirectionsValues } = require("../gameplay/Directions");
 
 const idCounter = new Utils.Counter();
 
@@ -111,11 +112,9 @@ class DungeonManager {
 
         // Update players around every portal that uses this dungeon manager.
         this.portals.forEach((portal) => {
-            const directions = Object.values(portal.Directions);
-            const { row } = portal;
-            const { col } = portal;
+            const { row, col } = portal;
             // Check the board tiles in each direction from this portal.
-            directions.forEach((direction) => {
+            DirectionsValues.forEach((direction) => {
                 // Get every player stood next to this portal.
                 const boardTile = portal.board.getTileInFront(direction, row, col);
                 if (!boardTile) return;

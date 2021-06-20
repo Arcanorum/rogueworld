@@ -1,4 +1,7 @@
 const Boss = require("./Boss");
+const ProjAcorn = require("../../projectiles/ProjAcorn");
+const GrassScamp = require("./GrassScamp");
+const { Directions } = require("../../../../../../gameplay/Directions");
 
 const specialAttack1Rate = 30000;
 const specialAttack2Rate = 6000;
@@ -79,26 +82,25 @@ class GreatGnarl extends Boss {
                 this.target = null;
                 return;
             }
+
+            const { row, col, board } = this;
             // Throw an acorn in each direction.
             new ProjAcorn({
-                row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this,
+                row: row - 1, col, board, direction: Directions.UP, source: this,
             }).emitToNearbyPlayers();
             new ProjAcorn({
-                row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this,
+                row: row + 1, col, board, direction: Directions.DOWN, source: this,
             }).emitToNearbyPlayers();
             new ProjAcorn({
-                row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this,
+                row, col: col - 1, board, direction: Directions.LEFT, source: this,
             }).emitToNearbyPlayers();
             new ProjAcorn({
-                row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this,
+                row, col: col + 1, board, direction: Directions.RIGHT, source: this,
             }).emitToNearbyPlayers();
         }
         this.specialAttack2Timeout = setTimeout(this.specialAttack2.bind(this), specialAttack2Rate);
     }
 }
 module.exports = GreatGnarl;
-
-const ProjAcorn = require("../../projectiles/ProjAcorn");
-const GrassScamp = require("./GrassScamp");
 
 GreatGnarl.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillGnarls.taskId;

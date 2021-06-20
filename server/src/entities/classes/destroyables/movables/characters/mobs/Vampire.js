@@ -1,4 +1,7 @@
 const Mob = require("./Mob");
+const Damage = require("../../../../../../gameplay/Damage");
+const Heal = require("../../../../../../gameplay/Heal");
+const { rowColOffsetToDirection } = require("../../../../../../gameplay/Directions");
 
 class Vampire extends Mob {
     attackMelee() {
@@ -6,7 +9,12 @@ class Vampire extends Mob {
         if (this.isAdjacentToEntity(this.target) === false) return;
 
         // Face the target if not already doing so.
-        this.modDirection(this.board.rowColOffsetToDirection(this.target.row - this.row, this.target.col - this.col));
+        this.modDirection(
+            rowColOffsetToDirection(
+                this.target.row - this.row,
+                this.target.col - this.col,
+            ),
+        );
 
         this.target.damage(
             new Damage({
@@ -24,8 +32,5 @@ class Vampire extends Mob {
     }
 }
 module.exports = Vampire;
-
-const Damage = require("../../../../../../gameplay/Damage");
-const Heal = require("../../../../../../gameplay/Heal");
 
 Vampire.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillVampires.taskId;

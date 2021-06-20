@@ -1,10 +1,12 @@
 const Projectile = require("./Projectile");
+const Damage = require("../../../../../gameplay/Damage");
+const EntitiesList = require("../../../../EntitiesList");
 
 class ProjWind extends Projectile {
     handleCollision(collidee) {
         // Ignore other wind projectiles.
         if (collidee instanceof ProjWind) return;
-        if (collidee instanceof ProjSuperWind) return;
+        if (collidee instanceof EntitiesList.ProjSuperWind) return;
 
         this.pushBackCollidee(collidee);
 
@@ -19,9 +21,6 @@ class ProjWind extends Projectile {
     }
 }
 module.exports = ProjWind;
-
-const Damage = require("../../../../../gameplay/Damage");
-const ProjSuperWind = require("./ProjSuperWind");
 
 ProjWind.prototype.assignModHitPointConfigs();
 ProjWind.prototype.moveRate = 200;

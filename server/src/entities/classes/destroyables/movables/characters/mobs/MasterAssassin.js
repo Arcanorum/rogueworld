@@ -1,8 +1,9 @@
 const Boss = require("./Boss");
-const Utils = require("../../../../../../Utils");
+const ProjShuriken = require("../../projectiles/ProjShuriken");
+const { Directions } = require("../../../../../../gameplay/Directions");
 
-const specialAttack1Rate = 6000;
-const specialAttack2Rate = 8000;
+const specAttack1Rate = 6000;
+const specAttack2Rate = 8000;
 
 class MasterAssassin extends Boss {
     /**
@@ -14,8 +15,8 @@ class MasterAssassin extends Boss {
     constructor(config) {
         super(config);
 
-        this.specialAttack1Timeout = setInterval(this.specialAttack1.bind(this), specialAttack1Rate);
-        this.specialAttack2Timeout = setInterval(this.specialAttack2.bind(this), specialAttack2Rate);
+        this.specialAttack1Timeout = setInterval(this.specialAttack1.bind(this), specAttack1Rate);
+        this.specialAttack2Timeout = setInterval(this.specialAttack2.bind(this), specAttack2Rate);
     }
 
     onDestroy() {
@@ -26,7 +27,11 @@ class MasterAssassin extends Boss {
     }
 
     specialAttack1() {
-        this.teleportBehindTarget() || this.teleportOntoTarget();
+        // Try to teleport behind the target.
+        if (!this.teleportBehindTarget()) {
+            // Failed to teleport behind, try teleporting directing onto them.
+            this.teleportOntoTarget();
+        }
     }
 
     specialAttack2() {
@@ -37,24 +42,24 @@ class MasterAssassin extends Boss {
                 this.target = null;
                 return;
             }
+
+            const { row, col, board } = this;
             // Throw a shuriken in each direction.
             new ProjShuriken({
-                row: this.row - 1, col: this.col, board: this.board, direction: this.Directions.UP, source: this,
+                row: row - 1, col, board, direction: Directions.UP, source: this,
             }).emitToNearbyPlayers();
             new ProjShuriken({
-                row: this.row + 1, col: this.col, board: this.board, direction: this.Directions.DOWN, source: this,
+                row: row + 1, col, board, direction: Directions.DOWN, source: this,
             }).emitToNearbyPlayers();
             new ProjShuriken({
-                row: this.row, col: this.col - 1, board: this.board, direction: this.Directions.LEFT, source: this,
+                row, col: col - 1, board, direction: Directions.LEFT, source: this,
             }).emitToNearbyPlayers();
             new ProjShuriken({
-                row: this.row, col: this.col + 1, board: this.board, direction: this.Directions.RIGHT, source: this,
+                row, col: col + 1, board, direction: Directions.RIGHT, source: this,
             }).emitToNearbyPlayers();
         }
     }
 }
 module.exports = MasterAssassin;
-
-const ProjShuriken = require("../../projectiles/ProjShuriken");
 
 MasterAssassin.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillOutlaws.taskId;

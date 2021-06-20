@@ -10,6 +10,7 @@ const DayPhases = require("../DayPhases");
 const settings = require("../../settings");
 const { boardsObject } = require("./BoardsList");
 const DungeonManagersList = require("../dungeon/DungeonManagersList");
+const { Directions, OppositeDirections } = require("../gameplay/Directions");
 
 // A recent version of Tiled may have changed the tileset.tiles property to be an array of {id: Number, type: String}
 // Map the values back to an object by ID.
@@ -33,7 +34,6 @@ const playerViewRange = EntitiesList.Player.viewRange;
 // the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
 // Precomputed value to avoid having to do `i <= playerViewRange` (2 checks), or `i < playerViewRange + 1` (repeated calculation).
 const playerViewRangePlusOne = playerViewRange + 1;
-const { Directions, OppositeDirections } = require("../entities/classes/Entity").prototype;
 
 // Sum the amount of tiles in each previous tileset to get the start GID of each tileset.
 const boundariesStartGID = groundTileset.tilecount;
@@ -977,73 +977,6 @@ class Board {
                 this.emitToPlayers(tile.players, eventNameID, data);
             }
         }
-    }
-
-    /**
-     * Converts a row and column offset into a direction.
-     * @param {Number} rowOffset
-     * @param {Number} colOffset
-     * @return {String} The direction of the offset. One of Entity.Directions.
-     */
-    rowColOffsetToDirection(rowOffset, colOffset) {
-        if (rowOffset < 0) return Directions.UP;
-
-        if (rowOffset > 0) return Directions.DOWN;
-
-        if (colOffset < 0) return Directions.LEFT;
-
-        if (colOffset > 0) return Directions.RIGHT;
-
-        if (rowOffset === 0 && colOffset === 0) return Directions.UP;
-
-        Utils.error(`A valid offset wasn't given to Board.rowColOffsetToDirection, row: ${rowOffset}, col: ${colOffset}`);
-        return undefined;
-    }
-
-    /**
-     * Converts a direction into a row and column offset.
-     * @param {String} direction
-     * @return {Object} The offset of the direction. An object of {row: Number, col: Number}.
-     */
-    directionToRowColOffset(direction) {
-        const offset = {
-            row: 0,
-            col: 0,
-        };
-
-        if (direction === Directions.UP) {
-            offset.row = -1;
-            return offset;
-        }
-        if (direction === Directions.DOWN) {
-            offset.row = 1;
-            return offset;
-        }
-        if (direction === Directions.LEFT) {
-            offset.col = -1;
-            return offset;
-        }
-        if (direction === Directions.RIGHT) {
-            offset.col = 1;
-            return offset;
-        }
-
-        Utils.error(`A valid direction wasn't given to Board.directionToRowColOffset, direction: ${direction}`);
-        return undefined;
-    }
-
-    getRowColsToSides(direction, row, col) {
-        if (direction === Directions.UP || direction === Directions.DOWN) {
-            return [
-                { row, col: col - 1 },
-                { row, col: col + 1 },
-            ];
-        }
-        // If it is not up or down, it must be left or right.
-        return [
-            { row: row - 1, col },
-            { row: row + 1, col },
-        ];
     }
 
     /**

@@ -1,4 +1,9 @@
 const Mob = require("./Mob");
+const DayPhases = require("../../../../../../DayPhases");
+const Damage = require("../../../../../../gameplay/Damage");
+const Heal = require("../../../../../../gameplay/Heal");
+const { SideDirections } = require("../../../../../../gameplay/Directions");
+const EntitiesList = require("../../../../../EntitiesList");
 
 class MediumAdumbral extends Mob {
     constructor(config) {
@@ -28,7 +33,7 @@ class MediumAdumbral extends Mob {
 
     onAllHitPointsLost() {
         // Spawn some smaller ones.
-        this.SideDirections[this.direction].forEach((direction) => {
+        SideDirections[this.direction].forEach((direction) => {
             let targetRowCol;
 
             // Spawn onto the adjacent tiles if possible.
@@ -46,7 +51,7 @@ class MediumAdumbral extends Mob {
             // at once isn't limited.
             const lifespan = 120000;
 
-            const smallAdumbral = new SmallAdumbral({
+            const smallAdumbral = new EntitiesList.SmallAdumbral({
                 row: targetRowCol.row,
                 col: targetRowCol.col,
                 board: this.board,
@@ -68,11 +73,6 @@ class MediumAdumbral extends Mob {
     }
 }
 module.exports = MediumAdumbral;
-
-const SmallAdumbral = require("./SmallAdumbral");
-const DayPhases = require("../../../../../../DayPhases");
-const Damage = require("../../../../../../gameplay/Damage");
-const Heal = require("../../../../../../gameplay/Heal");
 
 MediumAdumbral.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillAdumbrals.taskId;
 

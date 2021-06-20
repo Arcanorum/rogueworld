@@ -2,6 +2,7 @@ const Utils = require("../../Utils");
 const Damage = require("../../gameplay/Damage");
 const Heal = require("../../gameplay/Heal");
 const DayPhases = require("../../DayPhases");
+const { Directions } = require("../../gameplay/Directions");
 
 const idCounter = new Utils.Counter();
 const typeNumberCounter = new Utils.Counter();
@@ -196,8 +197,9 @@ class Entity {
      * @returns {String}
      */
     getRandomDirection() {
-        const keys = Object.keys(this.Directions);
-        return this.Directions[keys[keys.length * Math.random() << 0]];
+        const keys = Object.keys(Directions);
+        // eslint-disable-next-line no-bitwise
+        return Directions[keys[keys.length * Math.random() << 0]];
     }
 
     /**
@@ -317,36 +319,6 @@ Entity.prototype.typeNumber = null;
  * @type {Boolean}
  */
 Entity.prototype._destroyed = false;
-
-/**
- * Valid directions for an entity to be facing. Only movables have a direction property, but other things might need to
- * know in what direction to place things.
- * @type {{UP: string, DOWN: string, LEFT: string, RIGHT: string}}
- */
-Entity.prototype.Directions = {
-    UP: "u",
-    DOWN: "d",
-    LEFT: "l",
-    RIGHT: "r",
-};
-
-/**
- * The inverse of the selected direction.
- * @type {{u: string, d: string, r: string, l: string}}
- */
-Entity.prototype.OppositeDirections = {
-    u: Entity.prototype.Directions.DOWN,
-    d: Entity.prototype.Directions.UP,
-    l: Entity.prototype.Directions.RIGHT,
-    r: Entity.prototype.Directions.LEFT,
-};
-
-Entity.prototype.SideDirections = {
-    u: [Entity.prototype.Directions.LEFT, Entity.prototype.Directions.RIGHT],
-    d: [Entity.prototype.Directions.RIGHT, Entity.prototype.Directions.LEFT],
-    l: [Entity.prototype.Directions.DOWN, Entity.prototype.Directions.UP],
-    r: [Entity.prototype.Directions.UP, Entity.prototype.Directions.DOWN],
-};
 
 /**
  * How often (in ms) this entity type takes to respawn from the spawner it is from.

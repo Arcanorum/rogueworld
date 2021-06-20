@@ -1,4 +1,5 @@
 const Weapon = require("./Weapon");
+const { getRowColsToSides } = require("../../../../gameplay/Directions");
 
 class Galestorm extends Weapon {
     onUsed(direction) {
@@ -9,7 +10,7 @@ class Galestorm extends Weapon {
             this.owner.col,
         );
         // Get the positions to the sides of that position.
-        const sidePositions = this.owner.board.getRowColsToSides(
+        const sidePositions = getRowColsToSides(
             direction,
             targetPosition.row,
             targetPosition.col,

@@ -7,8 +7,9 @@ const EntitiesList = require("../../entities/EntitiesList");
 const { StatNames } = require("../../stats/Statset").prototype;
 const EventsList = require("../../EventsList");
 const TaskTypes = require("../../tasks/TaskTypes");
+const { directionToRowColOffset } = require("../../gameplay/Directions");
 
-const { getRandomIntInclusive } = Utils;
+// const { getRandomIntInclusive } = Utils;
 
 class Item {
     /**
@@ -92,7 +93,7 @@ class Item {
 
     useGatheringTool() {
         // Get position of the grid tile in front of the owner of this item.
-        const directionOffset = this.owner.board.directionToRowColOffset(this.owner.direction);
+        const directionOffset = directionToRowColOffset(this.owner.direction);
 
         const targetRow = this.owner.row + directionOffset.row;
         const targetCol = this.owner.col + directionOffset.col;

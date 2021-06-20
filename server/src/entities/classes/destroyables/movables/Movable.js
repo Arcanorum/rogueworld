@@ -1,3 +1,4 @@
+const { Directions, rowColOffsetToDirection } = require("../../../../gameplay/Directions");
 const Destroyable = require("../Destroyable");
 
 class Movable extends Destroyable {
@@ -32,7 +33,7 @@ class Movable extends Destroyable {
         this.board.emitToPlayersAtViewRange(
             this.row,
             this.col,
-            this.board.rowColOffsetToDirection(byRows, byCols),
+            rowColOffsetToDirection(byRows, byCols),
             this.EventsList.add_entity,
             this.getEmittableProperties({}),
         );
@@ -155,7 +156,7 @@ class Movable extends Destroyable {
 
 Movable.abstract = true;
 
-Movable.prototype.direction = Movable.prototype.Directions.DOWN;
+Movable.prototype.direction = Directions.DOWN;
 
 /**
  * How often this entity moves, in ms.

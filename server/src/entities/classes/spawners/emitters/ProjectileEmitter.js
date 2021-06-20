@@ -31,7 +31,7 @@ class ProjectileEmitter extends Entity {
     checkDirection() {
         return true;
 
-        // if(this.direction === this.Directions.UP) {
+        // if(this.direction === Directions.UP) {
         //     for
         // }
     }

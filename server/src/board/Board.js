@@ -662,7 +662,7 @@ class Board {
      * Get all of the destroyables (and any interactables that are not in their default state) that are within the player view range of the target position.
      * @param {Number} row
      * @param {Number} col
-     * @return {Array} Returns an array containing the entities found.
+     * @returns {Array} Returns an array containing the entities found.
      */
     getNearbyDynamicsData(row, col) {
         /** @type {Array} */
@@ -724,7 +724,7 @@ class Board {
      * @param {Number} row
      * @param {Number} col
      * @param {String} direction
-     * @return {Array|Boolean} Returns an array containing the entities found, or false if none found.
+     * @returns {Array|Boolean} Returns an array containing the entities found, or false if none found.
      */
     getDynamicsAtViewRangeData(row, col, direction) {
         /** @type {Array} */
@@ -984,7 +984,7 @@ class Board {
      * @param {String} direction
      * @param {Number} row - The row to start from.
      * @param {Number} col - The col to start from.
-     * @return {Object} The row and col of the tile in front. An object of {row: Number, col: Number}.
+     * @returns {Object} The row and col of the tile in front. An object of {row: Number, col: Number}.
      */
     getRowColInFront(direction, row, col) {
         if (Number.isInteger(row) === false) {
@@ -1027,7 +1027,7 @@ class Board {
      * @param {Number} midCol
      * @param {Number} fromRow
      * @param {Number} fromCol
-     * @return {Object} The row and col of the tile opposite the position from. An object of {row: Number, col: Number}.
+     * @returns {Object} The row and col of the tile opposite the position from. An object of {row: Number, col: Number}.
      */
     getRowColOnOppositeSide(midRow, midCol, fromRow, fromCol) {
         const opposite = {

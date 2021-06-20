@@ -3,7 +3,7 @@ const Exit = require("./Exit");
 class OverworldPortal extends Exit {
     /**
      * @param {Player} interactedBy
-     * @return {Boolean} Whether this entity was interacted with or not.
+     * @returns {Boolean} Whether this entity was interacted with or not.
      */
     interaction(interactedBy) {
         // Only let them use the portal if it is active.

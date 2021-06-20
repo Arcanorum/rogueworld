@@ -33,7 +33,7 @@ class Exit extends Interactable {
 
     /**
      * @param {Player} interactedBy - Only players can use exits (including dungeon portals).
-     * @return {Boolean} Whether this entity was interacted with or not.
+     * @returns {Boolean} Whether this entity was interacted with or not.
      */
     interaction(interactedBy) {
         if (interactedBy instanceof Player === false) return;

@@ -24,7 +24,7 @@ class DungeonPortal extends Interactable {
 
     /**
      * @param {Player} interactedBy
-     * @return {Boolean} Whether this entity was interacted with or not.
+     * @returns {Boolean} Whether this entity was interacted with or not.
      */
     interaction(interactedBy) {
         return true;

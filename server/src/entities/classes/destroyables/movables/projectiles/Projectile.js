@@ -3,7 +3,7 @@ const Utils = require("../../../../../Utils");
 const ModHitPointConfigs = require("../../../../../gameplay/ModHitPointConfigs");
 const Static = require("../../../statics/Static");
 const Damage = require("../../../../../gameplay/Damage");
-const { directionToRowColOffset, Directions } = require("../../../../../gameplay/Directions");
+const { Directions, RowColOffsetsByDirection } = require("../../../../../gameplay/Directions");
 const EntitiesList = require("../../../../EntitiesList");
 
 class Projectile extends Movable {
@@ -88,7 +88,7 @@ class Projectile extends Movable {
             return;
         }
 
-        const offset = directionToRowColOffset(this.direction);
+        const offset = RowColOffsetsByDirection[this.direction];
 
         // Check the grid row element being accessed is valid.
         if (this.board.grid[this.row + offset.row] === undefined) {
@@ -310,7 +310,7 @@ class Projectile extends Movable {
         if (!collidee.board) return;
 
         if (collidee instanceof EntitiesList.AbstractClasses.Character) {
-            const offset = directionToRowColOffset(this.direction);
+            const offset = RowColOffsetsByDirection[this.direction];
             collidee.modDirection(this.direction);
             // Clear their current move loop so they don't end up with 2 loops after doing this direct movement. Only affects mobs.
             clearTimeout(collidee.moveLoop);

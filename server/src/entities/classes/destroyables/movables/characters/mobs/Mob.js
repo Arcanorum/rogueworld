@@ -5,11 +5,11 @@ const Player = require("../Player");
 const Damage = require("../../../../../../gameplay/Damage");
 const ItemConfig = require("../../../../../../inventory/ItemConfig");
 const {
-    directionToRowColOffset,
     OppositeDirections,
     rowColOffsetToDirection,
     Directions,
     DirectionsPermutationsAsRowColOffsets,
+    RowColOffsetsByDirection,
 } = require("../../../../../../gameplay/Directions");
 
 class Mob extends Character {
@@ -94,7 +94,7 @@ class Mob extends Character {
                 if (this.wanderDistance > 0) {
                     this.wanderDistance -= 1;
                     // Move in the current direction.
-                    const offset = directionToRowColOffset(this.direction);
+                    const offset = RowColOffsetsByDirection[this.direction];
                     // Check if there is a damaging tile in front.
                     if (this.checkForMoveHazards(offset.row, offset.col) === false) return false;
                     super.move(offset.row, offset.col);
@@ -574,7 +574,7 @@ class Mob extends Character {
 
         this.modDirection(this.getRandomDirection());
         this.wanderDistance = Utils.getRandomIntInclusive(1, this.viewRange);
-        this.wanderOffset = directionToRowColOffset(this.direction); // TODO: what is this? not being used, just setting direction itself?
+        this.wanderOffset = RowColOffsetsByDirection[this.direction]; // TODO: what is this? not being used, just setting direction itself?
     }
 
     /**
@@ -683,7 +683,7 @@ class Mob extends Character {
             ),
         );
 
-        const offset = directionToRowColOffset(this.direction);
+        const offset = RowColOffsetsByDirection[this.direction];
         const { grid } = this.board;
         const thisRow = this.row;
         const thisCol = this.col;
@@ -1725,7 +1725,7 @@ class Mob extends Character {
         // Avoid teleporting onto hazards.
         if (behindTile.groundType.hazardous) return;
 
-        const behindOffset = directionToRowColOffset(OppositeDirections[this.target.direction]);
+        const behindOffset = RowColOffsetsByDirection[OppositeDirections[this.target.direction]];
         // Move behind the target if possible.
         if (!this.repositionAndEmitToNearbyPlayers(
             this.target.row + behindOffset.row,

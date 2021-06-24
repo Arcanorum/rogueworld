@@ -10,7 +10,7 @@ const DayPhases = require("../DayPhases");
 const settings = require("../../settings");
 const { boardsObject } = require("./BoardsList");
 const DungeonManagersList = require("../dungeon/DungeonManagersList");
-const { Directions, OppositeDirections } = require("../gameplay/Directions");
+const { Directions, OppositeDirections, RowColOffsetsByDirection } = require("../gameplay/Directions");
 
 // A recent version of Tiled may have changed the tileset.tiles property to be an array of {id: Number, type: String}
 // Map the values back to an object by ID.
@@ -999,30 +999,17 @@ class Board {
             Utils.error(`A valid number wasn't given to Board.getRowColInFront, col: ${col}`);
         }
 
-        const front = {
-            row,
-            col,
+        const offset = RowColOffsetsByDirection[direction];
+
+        if (!offset) {
+            Utils.error(` A valid direction wasn't given to Board.getRowColInFront, direction: ${direction}`);
+        }
+
+        // Apply the offset to the given position and return it.
+        return {
+            row: row + offset.row,
+            col: col + offset.col,
         };
-
-        if (direction === Directions.UP) {
-            front.row -= 1;
-            return front;
-        }
-        if (direction === Directions.DOWN) {
-            front.row += 1;
-            return front;
-        }
-        if (direction === Directions.LEFT) {
-            front.col -= 1;
-            return front;
-        }
-        if (direction === Directions.RIGHT) {
-            front.col += 1;
-            return front;
-        }
-
-        Utils.error(` A valid direction wasn't given to Board.getRowColInFront, direction: ${direction}`);
-        return undefined;
     }
 
     /**

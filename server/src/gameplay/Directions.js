@@ -51,6 +51,17 @@ module.exports.SideDirections = {
 };
 
 /**
+ * Each direction as a row and column offset.
+ * @type {Object}
+ */
+module.exports.RowColOffsetsByDirection = {
+    u: { row: -1, col: 0 },
+    d: { row: 1, col: 0 },
+    l: { row: 0, col: -1 },
+    r: { row: 0, col: 1 },
+};
+
+/**
  * Converts a row and column offset into a direction.
  * @param {Number} rowOffset
  * @param {Number} colOffset
@@ -68,38 +79,6 @@ module.exports.rowColOffsetToDirection = (rowOffset, colOffset) => {
     if (rowOffset === 0 && colOffset === 0) return UP;
 
     Utils.error(`A valid offset wasn't given to rowColOffsetToDirection, row: ${rowOffset}, col: ${colOffset}`);
-    return undefined;
-};
-
-/**
- * Converts a direction into a row and column offset.
- * @param {String} direction
- * @returns {Object} The offset of the direction. An object of {row: Number, col: Number}.
- */
-module.exports.directionToRowColOffset = (direction) => {
-    const offset = {
-        row: 0,
-        col: 0,
-    };
-
-    if (direction === UP) {
-        offset.row = -1;
-        return offset;
-    }
-    if (direction === DOWN) {
-        offset.row = 1;
-        return offset;
-    }
-    if (direction === LEFT) {
-        offset.col = -1;
-        return offset;
-    }
-    if (direction === RIGHT) {
-        offset.col = 1;
-        return offset;
-    }
-
-    Utils.error(`A valid direction wasn't given to directionToRowColOffset, direction: ${direction}`);
     return undefined;
 };
 
@@ -153,7 +132,7 @@ module.exports.DirectionsPermutations = Utils.getPermutations(
 module.exports.DirectionsPermutationsAsRowColOffsets = (
     module.exports.DirectionsPermutations.map((directions) => (
         directions.map((direction) => (
-            module.exports.directionToRowColOffset(direction)
+            module.exports.RowColOffsetsByDirection[direction]
         ))
     ))
 );

@@ -1,8 +1,12 @@
 const Weapon = require("./Weapon");
 const { getRowColsToSides } = require("../../../../gameplay/Directions");
+const { Burn } = require("../../../../gameplay/StatusEffects");
 
 class EternalFlame extends Weapon {
     onUsed(direction) {
+        // Burn the user.
+        this.owner.addStatusEffect(Burn);
+
         // Get the tile next to the user, in the direction they used this item in.
         const targetPosition = this.owner.board.getRowColInFront(
             direction,

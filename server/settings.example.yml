@@ -19,6 +19,7 @@ ACCOUNT_AUTO_SAVE_RATE: 15000
 FULL_DAY_DURATION_MINUTES: 24
 
 # Prevents all spawner entities from spawning any other entities.
+# Useful for when you want to test just a player entity.
 # Will make any dungeons that require key drops for locked doors impossible to complete.
 DISABLE_SPAWNER_AREAS: false
 

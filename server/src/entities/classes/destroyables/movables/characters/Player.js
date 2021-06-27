@@ -229,12 +229,9 @@ class Player extends Character {
     getMoveRate() {
         let { moveRate } = this;
 
-        if (this.lastDamagedTime + 5000 > Date.now()) {
-            moveRate *= 1.1;
+        if (this.lastDamagedTime + settings.PLAYER_COMBAT_SLOWDOWN_DURATION > Date.now()) {
+            moveRate *= settings.PLAYER_COMBAT_SLOWDOWN_MOVE_RATE_MODIFIER;
         }
-
-        const maxMomentum = 10;
-        const maxMomentumModifier = 0.2;
 
         // Check the time since the last move, otherwise they will be able to continue with their momentum. Momentum should be lost after standing still.
         if (Date.now() > this.nextMoveTime + 500) {
@@ -242,11 +239,16 @@ class Player extends Character {
         }
 
         if (this.momentum) {
-            if (this.momentum > maxMomentum) {
-                this.momentum = maxMomentum;
+            if (this.momentum > settings.PLAYER_MAX_MOMENTUM) {
+                this.momentum = settings.PLAYER_MAX_MOMENTUM;
             }
 
-            const momentumModifier = 1 - (maxMomentumModifier * (this.momentum / maxMomentum));
+            const momentumModifier = (
+                1 - (
+                    settings.PLAYER_MAX_MOMENTUM_MODIFIER
+                    * (this.momentum / settings.PLAYER_MAX_MOMENTUM)
+                )
+            );
 
             moveRate *= momentumModifier;
         }
@@ -254,9 +256,9 @@ class Player extends Character {
         return super.getMoveRate(moveRate);
     }
 
-    move(byRows, byCols) {
+    move(byRows, byCols, changeDirection, force) {
         // Check if this player can move yet.
-        if (Date.now() < this.nextMoveTime) {
+        if (!force && Date.now() < this.nextMoveTime) {
             // Can't move yet. Make this move command be pending, so it happens as soon as it can.
 
             clearTimeout(this.pendingMove);
@@ -274,7 +276,7 @@ class Player extends Character {
         this.nextMoveTime = Date.now() + this.getMoveRate();
 
         // Check if the entity can move as a character.
-        if (super.move(byRows, byCols) === true) {
+        if (super.move(byRows, byCols, changeDirection, force) === true) {
             // Don't move if dead.
             if (this.hitPoints < 1) return false;
 
@@ -302,10 +304,10 @@ class Player extends Character {
         return true;
     }
 
-    push(byRows, byCols) {
-        // Don't let this player be pushed if they are in a safe zone.
-        if (this.isInSafeZone() === false) {
-            super.push(byRows, byCols);
+    push(byRows, byCols, tileCount, changeDirection) {
+        // Only allow this player to be pushed if they are NOT in a safe zone, or in a dungeon.
+        if (!this.isInSafeZone() || this.board.dungeon) {
+            super.push(byRows, byCols, tileCount, changeDirection);
         }
     }
 
@@ -412,11 +414,7 @@ class Player extends Character {
         resourceNode.deactivate(this);
     }
 
-    /**
-     * @param {Damage} damage
-     * @param {Entity} damagedBy
-     */
-    damage(damage, damagedBy) {
+    damage(damage, source) {
         // If they are already dead, don't damage them again.
         // Might have been killed before this method is called.
         // e.g. a player gets pushed (wind, hammer, etc.) into a damage source (i.e. floor spikes) while
@@ -431,12 +429,12 @@ class Player extends Character {
                 if (this.lastActionTime < Date.now() - 15000) return;
             }
 
-            if (damagedBy) {
+            if (source) {
                 // If damaged by another player in a safe zone, ignore the damage.
-                if (damagedBy instanceof Player) return;
+                if (source instanceof Player) return;
 
                 // If damaged by something that has a player controlling it in a safe zone, ignore the damage.
-                if (damagedBy.master instanceof Player) return;
+                if (source.master instanceof Player) return;
             }
         }
 
@@ -456,11 +454,11 @@ class Player extends Character {
                     types: damage.types,
                     armourPiercing: damage.armourPiercing,
                 }),
-                damagedBy,
+                source,
             );
         }
 
-        super.damage(damage, damagedBy);
+        super.damage(damage, source);
     }
 
     /**

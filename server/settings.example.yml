@@ -67,6 +67,24 @@ PLAYER_MAX_ENERGY: 20
 # How long each energy point takes to regenerate. (ms)
 PLAYER_ENERGY_REGEN_RATE: 1000
 
+# How long to modify the player move rate for when they are in combat.
+PLAYER_COMBAT_SLOWDOWN_DURATION: 5000
+
+# How much to modify the player move rate by when they are in combat.
+# Greater than 1 to increase the amount of time between moves, so lower speed.
+PLAYER_COMBAT_SLOWDOWN_MOVE_RATE_MODIFIER: 1.2
+
+# How many consecutive move steps in the same direction it takes for a player to reach the full
+# move rate modifier offered by PLAYER_MAX_MOMENTUM_MODIFIER.
+PLAYER_MAX_MOMENTUM: 3
+
+# How much to modify a player's move rate by when they are at max momentum.
+# If they are not at max momentum when they move, this value will be what percentage of the max
+# momentum they have.
+# e.g. with this setting of 0.4, a max momentum of 8, and a momentum of 4 so far (50% of max
+# momentum), then this modifier will be 0.2 (50%).
+PLAYER_MAX_MOMENTUM_MODIFIER: 0.4
+
 # How much to multiply the crafting bonus by.
 # The crafting bonus is how much percent extra durability/quantity is added to crafted items, and
 # is determined by the average of the players stats that are listed in the stats for the recipe.

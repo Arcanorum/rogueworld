@@ -23,10 +23,6 @@ class Character extends Movable {
         this.checkedColliders = [];
     }
 
-    /**
-     * @param {Damage} damage
-     * @param {Entity} source
-     */
     onDamage(damage, source) {
         // If they have a ward enchantment, ignore the damage.
         if (this.enchantment !== null) {
@@ -137,16 +133,17 @@ class Character extends Movable {
     /**
      * @param {Number} byRows
      * @param {Number} byCols
+     * @param {Number} [changeDirection=true] Whether the entity should be turned to face the direction being moved in.
      * @returns {Boolean}
      */
-    move(byRows, byCols) {
+    move(byRows, byCols, changeDirection = true) {
         if (!this.board) return false;
 
         // Get the direction from the move offset.
         const direction = rowColOffsetToDirection(byRows, byCols);
 
         // Update and tell any nearby players the new direction if it is different than the previous direction.
-        if (direction !== this.direction) {
+        if (changeDirection && direction !== this.direction) {
             this.modDirection(direction);
         }
 
@@ -245,12 +242,25 @@ class Character extends Movable {
     }
 
     /**
-     * Something else forces this entity to move.
-     * @param {Number} byRows
-     * @param {Number} byCols
+     * Forces this entity to move.
+     * @param {number} byRows How many rows to push by. Positive is right, negative is left.
+     * @param {number} byCols How many columns to push by. Positive is right, negative is left.
+     * @param {number} tileCount How many tiles to be pushed in/how many consecutive moves to do.
+     * @param {boolean} changeDirection Whether the entity should be turned to face the direction of this push.
      */
-    push(byRows, byCols) {
-        this.move(byRows, byCols);
+    push(byRows, byCols, tileCount, changeDirection) {
+        if (tileCount) {
+            for (let i = 0; i < tileCount; i += 1) {
+                // Check this entity is still on the board each iteration, as it might have
+                // been removed in a previous push (i.e. mob dies being pushed into a hazard).
+                if (!this.board) return;
+
+                this.move(byRows, byCols, changeDirection, true);
+            }
+        }
+        else {
+            this.move(byRows, byCols, changeDirection, true);
+        }
     }
 
     /**

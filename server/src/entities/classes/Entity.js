@@ -42,7 +42,7 @@ class Entity {
     }
 
     /**
-     * Specific destruction functionality. If overwritten, should still be chained from the overwriter up to this.
+     * Specific destruction functionality. If overridden, should still be chained from the overrider up to this.
      */
     onDestroy() {
         // Remove the reference to the board it was on (that every entity
@@ -104,7 +104,7 @@ class Entity {
 
     /**
      * Hitpoints are to be added to this entity.
-     * If overwritten, should still be chained from the overwriter up to this.
+     * If overridden, should still be chained from the overrider up to this.
      * @param {Heal} heal - A heal config object.
      */
     onHeal(heal) {
@@ -135,7 +135,7 @@ class Entity {
      * Hitpoints are to be subtracted from this entity.
      * If HP goes <0, then onAllHitPointsLost is called.
      * This method does NOT destroy directly.
-     * If overwritten, should still be chained from the overwriter up to this.
+     * If overridden, should still be chained from the overrider up to this.
      * @param {Damage} damage
      * @param {Entity} [source] - The entity that caused this damage.
      */
@@ -160,19 +160,19 @@ class Entity {
 
     /**
      * This entity has been taken to or below 0 hitpoints.
-     * If overwritten, should still be chained from the overwriter up to this.
+     * If overridden, should still be chained from the overrider up to this.
      */
     onAllHitPointsLost() { }
 
     /**
      * This entity has had its hitpoints changed.
-     * If overwritten, should still be chained from the overwriter up to this.
+     * If overridden, should still be chained from the overrider up to this.
      */
     onModHitPoints() { }
 
     /**
      * Get all of the properties of this entity that can be emitted to clients.
-     * This method should be overwritten on each subclass (and any further subclasses), and
+     * This method should be overridden on each subclass (and any further subclasses), and
      * then called on the superclass of every subclass, calling it's way back up to Entity.
      * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
      * adds from Character, and so on until Entity, then returns the result back down the stack.

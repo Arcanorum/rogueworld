@@ -45,6 +45,9 @@ class Movable extends Destroyable {
         this.postMove();
     }
 
+    /**
+     * Can be overridden in a subclass to run any extra functionality after this entity has successfully moved.
+     */
     postMove() { }
 
     /**
@@ -95,6 +98,7 @@ class Movable extends Destroyable {
 
     /**
      * Move this entity from the current board to another one.
+     * @param {Board} fromBoard - The board the entity is being moved from.
      * @param {Board} toBoard - The board to move the entity to.
      * @param {Number} toRow - The board grid row to reposition the entity to.
      * @param {Number} toCol - The board grid col to reposition the entity to.
@@ -131,6 +135,7 @@ class Movable extends Destroyable {
     }
 
     /**
+     * Sets this entity's direction, and tells nearby players.
      * @param {String} direction
      */
     modDirection(direction) {
@@ -145,11 +150,16 @@ class Movable extends Destroyable {
 
     /**
      * Returns the effective move rate of this entity.
-     * Can be overridden in a subclass to allow modifying the move rate.
      * i.e. apply environmental effects that slow down, enchantments that speed up.
-     * @returns {Number} The effective move rate.
+     * Can be overridden to apply move rate modifiers within different subclasses.
+     * If overridden, should still be chained from the overrider up to this.
+     * @param {number} [chainedMoveRate] If this method has been overridden, a value can be passed
+     *      in here for what the value so far is.
+     * @returns {number} The effective move rate.
      */
-    getMoveRate() {
+    getMoveRate(chainedMoveRate) {
+        if (chainedMoveRate) return chainedMoveRate;
+
         return this.moveRate;
     }
 }

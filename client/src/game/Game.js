@@ -726,7 +726,7 @@ class Game extends Phaser.Scene {
         const dynamicSpriteContainer = this.dynamics[id].spriteContainer;
 
         // Add the sprite to the world group, as it extends sprite but
-        // overwrites the constructor so doesn't get added automatically.
+        // overrides the constructor so doesn't get added automatically.
         // dungeonz.gameScene.add.existing(dynamicSpriteContainer);
 
         if (dynamicSpriteContainer.centered === true) {

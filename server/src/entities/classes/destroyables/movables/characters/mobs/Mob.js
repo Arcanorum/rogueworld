@@ -605,7 +605,7 @@ class Mob extends Character {
     }
 
     /**
-     * Overwrite with what to do before attempting to attack.
+     * Override with what to do before attempting to attack.
      */
     preAttack() { }
 
@@ -638,7 +638,7 @@ class Mob extends Character {
     }
 
     /**
-     * Overwrite with what to do after a successful attack.
+     * Override with what to do after a successful attack.
      */
     onAttackSuccess() { }
 

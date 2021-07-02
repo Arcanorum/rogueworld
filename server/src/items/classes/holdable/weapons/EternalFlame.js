@@ -7,6 +7,11 @@ class EternalFlame extends Weapon {
         // Burn the user.
         this.owner.addStatusEffect(Burn);
 
+        // Check user is still alive after effect applied above.
+        if (!this.owner || !this.owner.board) {
+            return;
+        }
+
         // Get the tile next to the user, in the direction they used this item in.
         const targetPosition = this.owner.board.getRowColInFront(
             direction,

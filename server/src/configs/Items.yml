@@ -468,7 +468,7 @@
   unitWeight: Staff
   useGloryCost: 10
   baseDurability: 1000
-  useEnergyCost: 1
+  useEnergyCost: 4
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
 
@@ -496,6 +496,7 @@
   category: Weapon
   unitWeight: MetalHammer
   useGloryCost: 15
+  useEnergyCost: 2
   expGivenStatName: Melee
   baseDurability: 1000
 
@@ -706,7 +707,7 @@
   unitWeight: Staff
   useGloryCost: 10
   baseDurability: 1000
-  useEnergyCost: 1
+  useEnergyCost: 4
   expGivenStatName: Magic
   canUseIntoHighBlockedTile: false
 

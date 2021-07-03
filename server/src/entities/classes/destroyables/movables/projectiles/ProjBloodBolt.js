@@ -35,4 +35,4 @@ module.exports = ProjBloodBolt;
 
 ProjBloodBolt.prototype.assignModHitPointConfigs();
 ProjBloodBolt.prototype.moveRate = 200;
-ProjBloodBolt.prototype.range = 10;
+ProjBloodBolt.prototype.range = 6;

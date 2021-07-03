@@ -24,4 +24,4 @@ module.exports = ProjWind;
 
 ProjWind.prototype.assignModHitPointConfigs();
 ProjWind.prototype.moveRate = 200;
-ProjWind.prototype.range = 10;
+ProjWind.prototype.range = 6;

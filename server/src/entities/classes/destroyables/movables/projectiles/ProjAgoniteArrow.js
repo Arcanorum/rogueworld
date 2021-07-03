@@ -9,4 +9,4 @@ module.exports = ProjAgoniteArrow;
 
 ProjAgoniteArrow.prototype.assignModHitPointConfigs();
 ProjAgoniteArrow.prototype.moveRate = 100;
-ProjAgoniteArrow.prototype.range = 7;
+ProjAgoniteArrow.prototype.range = 8;

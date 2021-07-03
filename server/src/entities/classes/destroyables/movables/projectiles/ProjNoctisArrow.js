@@ -9,4 +9,4 @@ module.exports = ProjNoctisArrow;
 
 ProjNoctisArrow.prototype.assignModHitPointConfigs();
 ProjNoctisArrow.prototype.moveRate = 100;
-ProjNoctisArrow.prototype.range = 7;
+ProjNoctisArrow.prototype.range = 8;

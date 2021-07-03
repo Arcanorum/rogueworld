@@ -21,4 +21,4 @@ module.exports = ProjFire;
 const { Burn } = require("../../../../../gameplay/StatusEffects");
 
 ProjFire.prototype.moveRate = 200;
-ProjFire.prototype.range = 10;
+ProjFire.prototype.range = 6;

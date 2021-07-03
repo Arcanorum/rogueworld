@@ -9,4 +9,4 @@ module.exports = ProjIronArrow;
 
 ProjIronArrow.prototype.assignModHitPointConfigs();
 ProjIronArrow.prototype.moveRate = 100;
-ProjIronArrow.prototype.range = 7;
+ProjIronArrow.prototype.range = 8;

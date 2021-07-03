@@ -6,11 +6,11 @@ function News() {
     return (
         <div className="news-cont" onClick={() => { window.open("/changelog.txt", "_blank"); }}>
             <h1 className="news-header">News</h1>
-            <p className="news-date">05/06/2021</p>
+            <p className="news-date">03/07/2021</p>
             <p className="news-title">
-                Update 10
+                Update 11
                 <br />
-                Relics
+                Momentum
             </p>
             <img className="news-image" draggable="false" src={image} />
         </div>

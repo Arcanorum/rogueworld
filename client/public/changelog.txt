@@ -1,3 +1,35 @@
+03/07/2021 - Update 11 - Momentum
+
+New:
+- Player momentum
+    Players now build momentum every time they move in the same direction, which increases their speed.
+    Momentum is reset when a player changes direction, or doesn't keep moving.
+- Move speed changes during combat
+    Mobs move faster when they take damage.
+    Players move slower briefly when they take damage.
+- Eternal Flame now burns user when used.
+- Hammer of Glory now pushes user back when used.
+
+Balance:
+- Mobs now pick a random direction when moving away from a target that is on the same tile, instead of always going up if they can
+- Most mobs now do not drop finished items (swords, staffs, armour, etc.), but drop more resources instead.
+- Added laboratory crafting stations to dwarf city.
+- Arrow range 7 -> 8
+- Wind staffs range 10 -> 6
+- Fire staffs range 10 -> 6
+- Blood staffs range 10 -> 6
+- Eternal Flame energy use cost 1 -> 4
+- Galestorm energy use cost 1 -> 4
+- Hammer of Glory energy use cost 0 -> 2
+- All relics drop rate 5% -> 2%
+
+Bugs:
+- The "Add translation" link now appears in the language select list.
+- Hammer of Glory no longer crashes the server when it hits a mob into a hazard and it dies from the damage.
+- Eternal Flame no longer crashes the server when used by a player on low HP that is then killed by the self-burn damage.
+- The damage immunity gained after not attacking for a while no longer applies while in a dungeon.
+
+
 05/06/2021 - Update 10 - Relics
 
 New:

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const AccountModel = require("./AccountModel");
 const EventsList = require("../EventsList");
 const Utils = require("../Utils");
+const settings = require("../../settings");
 
 // mongoose.set("debug", true);
 
@@ -18,39 +19,42 @@ module.exports = {
 
         // Setup should only happen once.
         if (isSetup === true) {
-            Utils.warning("Attempt to setup account manager again.");
-            process.exit();
+            Utils.error("Attempt to setup account manager again.");
         }
 
-        await mongoose.connect("mongodb://localhost/dungeonzDB", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-        }).catch((err) => {
-            Utils.warning("DB connect error:", err);
-        });
+        try {
+            await mongoose.connect("mongodb://localhost/dungeonzDB", {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true,
+            });
 
-        mongoose.connection.on("error", (err) => {
-            Utils.warning("DB connection error:", err);
-            // Cannot connect to database, stop server init.
-            process.exit();
-        });
+            Utils.message("Connected to database.");
 
-        AccountModel.ensureIndexes((err) => {
-            Utils.message("ensuring indexes:", err);
-            if (err) return Utils.error(err);
-            return true;
-        });
+            try {
+                // Log out all of the accounts, in case they were logged in the last time the server shut down,
+                // otherwise some players will not be able to log in as their accounts are already logged in.
+                await AccountModel.updateMany({}, { isLoggedIn: false });
+            }
+            catch (error) {
+                Utils.error("Error while logging out all player accounts:", error);
+            }
 
-        AccountModel.on("index", (res, error) => {
-            // "_id index cannot be sparse"
-            Utils.message("DB index res:", res);
-            Utils.message("DB index error:", error);
-        });
-
-        // Log out all of the accounts, in case they were logged in the last time the server shut down,
-        // otherwise some players will not be able to log in as their accounts are already logged in.
-        await AccountModel.updateMany({}, { isLoggedIn: false });
+            mongoose.connection.on("error", (err) => {
+                // DB connection issue after connection established.
+                Utils.error("DB connection error:", err);
+            });
+        }
+        catch (error) {
+            // Allow starting the server without a DB connection in dev mode.
+            if (settings.DEV_MODE) {
+                Utils.warning("Cannot connect to database. Starting without persistent features. Account creation/saving will not work!");
+            }
+            else {
+                // In prod mode. Fail here to figure out what is wrong with the DB connection.
+                Utils.error("Cannot connect to database:", error);
+            }
+        }
     },
 
     /**

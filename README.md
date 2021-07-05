@@ -8,6 +8,7 @@
 - [Contributing](#contributing)
 - [Tooling](#tooling)
 - [Attribution](#attribution)
+- [Guides](#guides)
 - [Links and resources](#links-and-resources)
 
 # Introduction

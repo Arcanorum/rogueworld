@@ -1,13 +1,19 @@
-# [Dungeonz](https://dungeonz.io/)
+## [https://dungeonz.io/](https://dungeonz.io/)
 
-## Everything for the game Dungeonz.
+<img src="guides/dungeonz-banner.png" width="100%"/>
 
-Greetings! You have stumbled upon the work area for Dungeonz, the free, open-source, browser based, massively multiplayer online RPG.
+## Contents
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [Tooling](#tooling)
+- [Attribution](#attribution)
+- [Links and resources](#links-and-resources)
 
-#### ***This readme is intended for dummies who are interested in the project, but don't know where to begin, so I assume little existing knowledge about many things. If some things don't make sense, then let me know and I wil update this document with clarification.***
+# Introduction
+Greetings! 🧙 You have stumbled upon the work area for Dungeonz, the free, open-source, browser based, massively multiplayer online RPG.
 
-## *What is this?*
-This is the central code repository for Dungeonz.
+This area is intended for potential contributors who are interested in the project, but don't know where to begin. Any info that someone might want to find about joining and working on the project will probably be here somewhere, and if not, let me know and I'll update this documentation.
 
 Dungeonz is open-source, meaning that anyone is free to see all aspects of how the game works on a technical level, and can also contribute to the project, such as adding new creatures, items, dungeons, balancing, fixing bugs, and whatever else will make the game better.
 
@@ -15,114 +21,93 @@ Here you can find basically everything that goes into the game, what is currentl
 
 The creation of Dungeonz is a collaborative effort, with content and mechanics able to be added by members of the community.
 
-## *Ok, cool, where do I start?*
+It is a non-commercial project, so there are no promises of *"rev-share"* or *"backpay when the game makes money"* or whatever. That isn't the goal here.
+This project is ideal for beginners, hobbyists, students, portfolio builders, work experience seekers, and of course regular players of the game curious to see how the magic happens.
 
-Before you jump into the code and start adding cool new features, there are some things you will need.
 
-**You should understand to an intermediate level:**
 
-- JavaScript (JS)
-- Git
+# Getting started
+First, you should have [played the game](https://dungeonz.io/) to get a feel for what it is like, what has been done so far, what looks lacking, and to generally get a good context for what you might want to get started with.
 
-**To run the project, you will need:**
+The main contribution areas are code, audio, visual, with other smaller ones like mapping, balance, translations and testing.
 
-- [NodeJS](https://nodejs.org/en/download/) installed (currently using v12.19.0)
-- [MongoDB](https://www.mongodb.com/download-center/community) installed (currently using v4.2.0) (or in a Docker container)
-- [Git](https://git-scm.com/downloads) installed
+You probably came to this project already specialising in one of these. There are guides tailored for contributors that describe the general requirements for each field, that you can jump to if you just want to skip whatever doesn't apply to you.
 
-**To edit the project, you will also need:**
+# Contributing
+With so many moving parts to a video game, especially a one like this, it is important to keep the project managed well. I try to run the project like you would find in an actual software company, where each thing being worked on should be detailed, tracked, completed (or cancelled), tested and finally added to the game.
 
-- An IDE installed (such as VSCode or WebStorm)
-- [Tiled](https://www.mapeditor.org/) installed
-- A [GitHub](https://github.com/) account
-- And maybe a Git GUI client (such as GitHub Desktop)
+This is done using the main tasks backlog on the GitHub issues page.
 
-***Note for Windows users:*** The MongoDB installer might not add `mongo` to your environment variables, in which case your would get an error such as
+### Tasks backlog: https://github.com/Arcanorum/dungeonz/issues
 
-> `'mongo' is not recognized as an internal or external command, operable program or batch file.`
+There you can filter by whatever topic interests you using the tag filters.
 
-To fix:
-https://stackoverflow.com/questions/42159481/mongodb-node-js-module-mongo-is-not-recognised-as-an-internal-or-external-comm/48840077
+<img src="guides/issue-filters.gif" width="60%"/>
 
-## Setup
+This is where pretty much everything that is proposed to change about the game should start.
 
-You will need to download and set up the project to start editing files and hacking away.
+From there, any tasks that are to be grouped together into a larger piece of work, such as a new major feature, will be organised into the project trackers for the major things that are being worked on.
 
-Open a command prompt wherever you want the project folder to be, and enter:
+### Project trackers: https://github.com/Arcanorum/dungeonz/projects
 
-`git clone https://github.com/Arcanorum/dungeonz.git`
+***Once you have found something you want to have a go at, you should let me (or other GitHub project admin) know that you want to start something so it can be marked as in progress, so multiple people don't start the same thing.***
 
-Which will copy the current version of the project from GitHub to your computer.
+# Tooling
+### *"What engine is the game made with?"*
 
-<img src="guides/git-clone.png" width="50%"/>
+This game doesn't use an off the shelf game engine/centralised project manangement GUI, like Unity, Unreal, GameMaker, etc.
 
-Not everything that the project needs to work is included in the repository. For the extra stuff (external dependencies), in a terminal in the same directory as the project, run:
+As a game that is also a website, it uses many of the tools of the web development trade. The "engine" is a custom setup that brings together various tools that are all free, widely used, and reasonably well documented, that are each specialised for a certain task.
 
-`npm install`
+To be able to run and edit the game yourself on your own computer, there is a techincal setup guide that should provide a quick and easy set of instructions to get everything working with minimal messing about and little techincal knowledge. It is basically just installing some other programs that the main game code needs to run, then downloading said code and running it.
 
-Which will get the rest of the files (as defined in package.json) from NPM (this process might take a while) and add them to the *node_modules* folders which it should also create in *dungeonz*, *dungeonz/client* and *dungeonz/server*.
+The game is written almost entirely in JavaScript, using NodeJS to build the client and run the server. NodeJS is a tool that allows JavaScript to be ran outside of a web browser, and can be loosely thought of as the "engine" that takes the outputs of the other tools to create the game.
 
-## Start the server
+**Though, setting up and running the game on your own computer is not necessary for many kinds of contributions.**
 
-Open the project root in a terminal and run:
+A lot of tasks are fairly self contained, mainly creating assets (sprites, sounds), and can just be passed to someone else who does have the rest of the project set up, to integrate into the game on your behalf.
 
- `npm run server`.
+To let people see what the implemented asset is like in game, there is a public test server that is updated with recent work much more often than the live game, and is used for faster turnarounds for testing and feedback, before things go into an update for the live game.
 
-If all went well, you should see something like this in the terminal:
+### Public test server: https://test.dungeonz.io/
 
-<img src="guides/server-running.png" width="50%"/>
+# Attribution
+Proper attribution of all work is expected. This includes original creations submitted by contributors, and anything used from somewhere else (such as OpenGameArt.com or other asset sharing resource).
 
-***Note:*** The MongoDB database must already be running for the game server to start. If it is not running you get an error when you try to start the game server.
-```
-DB connect error: Error: connect ECONNREFUSED 127.0.0.1:27017
-    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1056:14) {
-  name: 'MongoNetworkError',
-  errorLabels: [ 'TransientTransactionError' ],
-  [Symbol(mongoErrorContextSymbol)]: {}
-}
-```
-To start the database server, open another terminal window and run
+The credits page for the game lists the currently used assets for the game, and should be updated when new things are used by the project by more authors.
 
-`mongod`
+### Credits page: https://dungeonz.io/credits/
+A "work" or "works" is a piece of artistic work you have created, such as textures, sprites, sound effects, music, story/lore, etc.
 
-You can just minimise this terminal and leave it running while you are doing other stuff with the game server, or run it as a service in the background if you know how.
+This project uses the [MIT license](https://github.com/Arcanorum/dungeonz/blob/master/LICENSE), and as such can be copied, modified, redistributed, and even used commercially by anyone. Any works you wish to submit will also be included under the project's MIT license.
 
-To stop the game server, hit `Ctrl + C`, another window should pop up for a second then close itself, then `Ctrl + C` again.
+Under MIT, attribution is not required, but is given anyway as a courtesy.
 
-It would be annoying to have to keep manually stopping and restarting the server during development every time you make a change, so a script is included that starts a file watcher that will automatically restart the server when a change is saved to a file in /server.
+An attribution may (but doesn't have to) include:
+- The specific works you did.
+- Your name and/or nickname/alias.
+- A link to your website, portfolio, or other profile.
 
-In the project root, run
+For example:
+>Scamp character animation by Arcan (https://github.com/Arcanorum)
 
-`npm run server:dev`
+You should be asked how you want to be credited when you submit something.
 
-## Build the client
+However, if you do not agree to the MIT terms for your submissions, you can submit them using another license that suits your needs, and that one shall take precedence.
 
-The client (the front end that the user sees) needs to be built before it can be used.
-Webpack is used to build the client, which combines everything from the source files into a `dist.js` file which the client can then load and run.
+For example, if you want to require attribution (credit) for use of your work by anyone else who uses it (such as someone taking the work and using it in another game), you probably want to use one of the CC-BY licenses (https://creativecommons.org/about/cclicenses/). This can be discussed with a project maintainer (i.e. Arcan) as needed.
 
-Open the project root in another terminal and run
+# Guides
+## Project setup
+These guides go through setting up the project and getting it running on your computer.
 
-`npm run client`
+There are 2 sub-guides for setup, depending on what you plan on doing.
+- ### [Minimal](guides/MINIMAL_SETUP.md)
+*The fewest requirements for you to be able to get the game running and to be able to make changes, mainly intended for designers.*
+- ### [Full](guides/FULL_SETUP.md)
+*The full developer workflow, mainly intended for programmers.*
 
-If all went well, you should see something like this in the terminal:
-
-<img src="guides/build-client.png" width="50%"/>
-
-***Note:*** The server itself also builds the client in the same way every time it starts, as there are some resources that the server generates when it starts that the client also needs to work correctly, so when the server is finished, it does a client build to save you from manually having to also rebuild the client each time the server starts/restarts.
-
-When making changes to just client files, the client must be rebuilt each time for the changes to take effect.
-
-It would also be annoying to have to keep manually rebuilding the client each time during development every time you make a change, so a script is included that starts a file watcher that will automatically rebuild the client when a change is saved to a file in /client.
-
-Open the project root in another terminal and run
-
-`npm run client:dev`
-
-Finally, to open the client and play the game, go to http://localhost:4567 in a web browser.
-
-<img src="guides/client-loaded.png" width="50%"/>
-
-# *I want to add a...*
+# *"I want to add a..."*
 
 Features are divided into two general categories:
 
@@ -136,22 +121,30 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 *Below are guides for each, where you are encouraged to think of something different to add instead of just the examples given and to experiment with each step of the guide, so you aren't just copying the guide without understanding what is happening.*
 
-### [Map editor - Walkthrough](guides/MAP_EDITOR_WALKTHROUGH.md)
+- ### [Map editor - Walkthrough](guides/MAP_EDITOR_WALKTHROUGH.md)
 
-### [Map editor - Reference](guides/MAP_EDITOR_REFERENCE.md)
+- ### [Map editor - Reference](guides/MAP_EDITOR_REFERENCE.md)
 
-### [Creature](guides/CREATURES.md)
+- ### [Creature](guides/CREATURES.md)
 
-### [Item](guides/ITEMS.md)
+- ### [Item](guides/ITEMS.md)
 
-### [Crafting recipe](guides/CRAFTING_RECIPES.md)
+- ### [Crafting recipe](guides/CRAFTING_RECIPES.md)
 
-### [Dungeon](guides/DUNGEONS.md)
+- ### [Dungeon](guides/DUNGEONS.md)
 
-### [Translation](https://docs.google.com/spreadsheets/u/1/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit?pli=1#gid=0)
+- ### Graphic assets (TODO)
 
-## **Links**
+- ### Audio assets (TODO)
 
-### See the latest changes before they go live on the public test server at https://test.dungeonz.io/
-
-### For any questions about this project or the game in general, join the Discord server at https://discord.gg/7wjyU7B
+# Links and resources
+  - [Live game](https://dungeonz.io/)
+  - [Test server](https://test.dungeonz.io/)
+  - [Discord server](https://discord.gg/7wjyU7B)
+  - [NodeJS](https://nodejs.org/en/) (JavaScript runtime)
+  - [MongoDB](https://www.mongodb.com/) (player accounts DBMS)
+  - [Phaser](http://phaser.io/) (frontend rendering, input & audio playback framework)
+  - [React](https://reactjs.org/) (frontend GUI and build framework)
+  - [Free Texture Packer](http://free-tex-packer.com/) (texture packer)
+  - [Tiled](https://www.mapeditor.org/) (map editor)
+  - [Translations spreadsheet](https://docs.google.com/spreadsheets/u/1/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit?pli=1#gid=0)

@@ -27,6 +27,7 @@ module.exports = {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,
+                serverSelectionTimeoutMS: 2000,
             });
 
             Utils.message("Connected to database.");

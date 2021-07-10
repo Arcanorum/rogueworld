@@ -19,8 +19,8 @@
 # KSES6122 <-- a new item code to use for this config
 
 # extends
-# A path (relative from server/src/items/classes) to the class file that this item type should
-# extend from.
+# Optional. A path (relative from server/src/items/classes) to the class file that this item type
+# should extend from.
 # When an item extends from another class, it will inherit the functionality of that class.
 # Some other config properties that can be set for this item type only work when the appropriate
 # class is extended from.
@@ -29,10 +29,22 @@
 # translationID
 # A value from the ID column in the ITEMS tab in the translations spreadsheet to use to get the name and
 # description for this item in language selected by the player.
+# Just the item name itself, which gets added onto the "Item name: " and "Item description: "
+# prefixes on the client to create the actual id.
+# e.g. Where there would be "Item name: Iron sword" and "Item description: Iron sword" for an item
+# in the spreadsheet, simply use "Iron sword" here and the client will figure out the rest.
 # Translations spreadsheet:
 # https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA
 
-# iconSource
+# textureSource
+# The base name of the texture/sprite/image/whatever to use for this item on the client.
+# e.g. For an iron sword item, this value will probably be "iron-sword".
+# This would make the source image to use for the GUI icon to be "icon-iron-sword", and the pickup
+# sprite to be "pickup-iron-sword", so make sure that assets with those file names exist.
+
+# pickupSpriteScaleModifier
+# Optional. How much to scale the sprite of the pickup of this item from it's default size.
+# e.g. pickupSpriteScaleModifier: 0.7 would scale the pickup sprite down to 70% of its base size.
 
 # soundType
 # # Optional. The name of the group of sounds to play when this item is dropped, equipped,
@@ -111,7 +123,7 @@
 - name: AgoniteArrows
   code: LOEO6269
   translationID: Agonite arrows
-  iconSource: icon-agonite-arrows
+  textureSource: agonite-arrows
   extends: ammunition/Ammunition
   ProjectileType: ProjAgoniteArrow
   unitWeight: Arrow
@@ -123,7 +135,7 @@
 - name: DungiumArrows
   code: ONCE9214
   translationID: Dungium arrows
-  iconSource: icon-dungium-arrows
+  textureSource: dungium-arrows
   extends: ammunition/Ammunition
   ProjectileType: ProjDungiumArrow
   unitWeight: Arrow
@@ -135,7 +147,7 @@
 - name: IronArrows
   code: EFQV6850
   translationID: Iron arrows
-  iconSource: icon-iron-arrows
+  textureSource: iron-arrows
   extends: ammunition/Ammunition
   ProjectileType: ProjIronArrow
   baseQuantity: 5
@@ -147,7 +159,7 @@
 - name: NoctisArrows
   code: GOWQ7155
   translationID: Noctis arrows
-  iconSource: icon-noctis-arrows
+  textureSource: noctis-arrows
   extends: ammunition/Ammunition
   ProjectileType: ProjNoctisArrow
   baseQuantity: 5
@@ -164,7 +176,7 @@
   code: PXQF2023
   extends: clothes/Clothes
   translationID: Agonite armour
-  iconSource: icon-agonite-armour
+  textureSource: agonite-armour
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
@@ -180,7 +192,7 @@
   code: CFBO6832
   extends: clothes/Clothes
   translationID: Armor of Ire
-  iconSource: icon-dungium-armour
+  textureSource: dungium-armour
   soundType: Fabric clothing
   category: Clothing
   unitWeight: MetalArmour
@@ -194,7 +206,7 @@
   code: XVXP6397
   extends: clothes/Clothes
   translationID: Cloak
-  iconSource: icon-cloak
+  textureSource: cloak
   soundType: Fabric clothing
   category: Clothing
   unitWeight: Cloak
@@ -210,7 +222,7 @@
   code: JKYL4271
   extends: clothes/Clothes
   translationID: Dungium armour
-  iconSource: icon-dungium-armour
+  textureSource: dungium-armour
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
@@ -226,7 +238,7 @@
 #   code: CAMJ8537
 #   extends: clothes/Clothes
 #   translationID: Etherweave
-#   iconSource: icon-mage-robe
+#   textureSource: mage-robe
 #   soundType: Fabric clothing
 #   category: Clothing
 #   unitWeight: Robe
@@ -240,7 +252,7 @@
   code: XEBH5037
   extends: clothes/Clothes
   translationID: Iron armour
-  iconSource: icon-iron-armour
+  textureSource: iron-armour
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
@@ -256,7 +268,7 @@
   code: UIQB4427
   extends: clothes/Clothes
   translationID: Mage robe
-  iconSource: icon-mage-robe
+  textureSource: mage-robe
   soundType: Fabric clothing
   category: Clothing
   unitWeight: Robe
@@ -272,7 +284,7 @@
   code: HNOI4167
   extends: clothes/Clothes
   translationID: Necromancer robe
-  iconSource: icon-necromancer-robe
+  textureSource: necromancer-robe
   soundType: Fabric clothing
   category: Clothing
   unitWeight: Robe
@@ -288,7 +300,7 @@
   code: MYJZ0020
   extends: clothes/Clothes
   translationID: Ninja garb
-  iconSource: icon-ninja-garb
+  textureSource: ninja-garb
   soundType: Fabric clothing
   category: Clothing
   unitWeight: Cloak
@@ -305,7 +317,7 @@
   code: OELK7246
   extends: clothes/Clothes
   translationID: Noctis armour
-  iconSource: icon-noctis-armour
+  textureSource: noctis-armour
   soundType: Metal clothing
   category: Clothing
   unitWeight: MetalArmour
@@ -321,7 +333,7 @@
   code: RBKW4762
   extends: clothes/Clothes
   translationID: Plain robe
-  iconSource: icon-plain-robe
+  textureSource: plain-robe
   soundType: Fabric clothing
   category: Clothing
   unitWeight: Robe
@@ -343,7 +355,7 @@
   code: KVKC1852
   extends: holdable/weapons/Weapon
   translationID: Agonite dagger
-  iconSource: icon-agonite-dagger
+  textureSource: agonite-dagger
   soundType: Metal weapon
   ProjectileType: ProjAgoniteDagger
   category: Weapon
@@ -359,7 +371,7 @@
   code: TMWQ0215
   extends: holdable/weapons/Weapon
   translationID: Agonite hammer
-  iconSource: icon-agonite-hammer
+  textureSource: agonite-hammer
   soundType: Metal weapon
   ProjectileType: ProjAgoniteHammer
   category: Weapon
@@ -374,7 +386,7 @@
 - name: AgoniteHatchet
   code: KDJM6256
   translationID: Agonite hatchet
-  iconSource: icon-agonite-hatchet
+  textureSource: agonite-hatchet
   extends: holdable/weapons/Weapon
   ProjectileType: ProjAgoniteHatchet
   canUseIntoHighBlockedTile: false
@@ -388,7 +400,7 @@
 - name: AgonitePickaxe
   code: UXBP5028
   translationID: Agonite pickaxe
-  iconSource: icon-agonite-pickaxe
+  textureSource: agonite-pickaxe
   extends: holdable/weapons/Weapon
   ProjectileType: ProjAgonitePickaxe
   canUseIntoHighBlockedTile: false
@@ -402,7 +414,7 @@
 - name: AgoniteSickle
   code: ITJQ1040
   translationID: Agonite sickle
-  iconSource: icon-agonite-sickle
+  textureSource: agonite-sickle
   extends: holdable/weapons/Weapon
   ProjectileType: ProjAgoniteSickle
   canUseIntoHighBlockedTile: false
@@ -417,7 +429,7 @@
   code: BNZQ3113
   extends: holdable/weapons/Weapon
   translationID: Agonite sword
-  iconSource: icon-agonite-sword
+  textureSource: agonite-sword
   soundType: Metal weapon
   ProjectileType: ProjAgoniteSword
   category: Weapon
@@ -433,7 +445,7 @@
   code: CRMZ8928
   extends: holdable/weapons/Weapon
   translationID: Blood staff
-  iconSource: icon-blood-staff
+  textureSource: blood-staff
   soundType: Magic weapon
   ProjectileType: ProjBloodBolt
   category: Weapon
@@ -447,7 +459,7 @@
 - name: BoneHatchet
   code: XGEA0957
   translationID: Bone hatchet
-  iconSource: icon-bone-hatchet
+  textureSource: bone-hatchet
   extends: holdable/weapons/Weapon
   ProjectileType: ProjBoneHatchet
   canUseIntoHighBlockedTile: false
@@ -461,7 +473,7 @@
 - name: BonePickaxe
   code: SEPO2838
   translationID: Bone pickaxe
-  iconSource: icon-bone-pickaxe
+  textureSource: bone-pickaxe
   extends: holdable/weapons/Weapon
   ProjectileType: ProjBonePickaxe
   canUseIntoHighBlockedTile: false
@@ -476,7 +488,7 @@
   code: EDBL4872
   extends: holdable/weapons/Weapon
   translationID: Dungium dagger
-  iconSource: icon-dungium-dagger
+  textureSource: dungium-dagger
   soundType: Metal weapon
   ProjectileType: ProjDungiumDagger
   category: Weapon
@@ -492,7 +504,7 @@
   code: LBVC0112
   extends: holdable/weapons/Weapon
   translationID: Dungium hammer
-  iconSource: icon-dungium-hammer
+  textureSource: dungium-hammer
   soundType: Metal weapon
   ProjectileType: ProjDungiumHammer
   category: Weapon
@@ -507,7 +519,7 @@
 - name: DungiumHatchet
   code: NIWY6955
   translationID: Dungium hatchet
-  iconSource: icon-dungium-hatchet
+  textureSource: dungium-hatchet
   extends: holdable/weapons/Weapon
   ProjectileType: ProjDungiumHatchet
   canUseIntoHighBlockedTile: false
@@ -521,7 +533,7 @@
 - name: DungiumPickaxe
   code: HGKW8248
   translationID: Dungium pickaxe
-  iconSource: icon-dungium-pickaxe
+  textureSource: dungium-pickaxe
   extends: holdable/weapons/Weapon
   ProjectileType: ProjDungiumPickaxe
   canUseIntoHighBlockedTile: false
@@ -535,7 +547,7 @@
 - name: DungiumSickle
   code: WAHF0883
   translationID: Dungium sickle
-  iconSource: icon-dungium-sickle
+  textureSource: dungium-sickle
   extends: holdable/weapons/Weapon
   ProjectileType: ProjDungiumSickle
   canUseIntoHighBlockedTile: false
@@ -550,7 +562,7 @@
   code: OFLM3602
   extends: holdable/weapons/Weapon
   translationID: Dungium sword
-  iconSource: icon-dungium-sword
+  textureSource: dungium-sword
   soundType: Metal weapon
   ProjectileType: ProjDungiumSword
   category: Weapon
@@ -566,7 +578,7 @@
   code: HDYY9831
   extends: holdable/weapons/Weapon
   translationID: Eternal Flame
-  iconSource: icon-eternal-flame
+  textureSource: eternal-flame
   soundType: Magic weapon
   ProjectileType: ProjSuperFire
   category: Weapon
@@ -581,7 +593,7 @@
   code: JZYO3459
   extends: holdable/weapons/Weapon
   translationID: Fire staff
-  iconSource: icon-fire-staff
+  textureSource: fire-staff
   ProjectileType: ProjFire
   category: Weapon
   unitWeight: Staff
@@ -595,7 +607,7 @@
   code: OWEF7178
   extends: holdable/weapons/Weapon
   translationID: Hammer of Glory
-  iconSource: icon-hammer-of-glory
+  textureSource: hammer-of-glory
   soundType: Metal weapon
   ProjectileType: ProjHammerOfGlory
   category: Weapon
@@ -609,7 +621,7 @@
   code: WFCA0984
   extends: holdable/weapons/Weapon
   translationID: Iron dagger
-  iconSource: icon-iron-dagger
+  textureSource: iron-dagger
   soundType: Metal weapon
   ProjectileType: ProjIronDagger
   category: Weapon
@@ -625,7 +637,7 @@
   code: BRCX5152
   extends: holdable/weapons/Weapon
   translationID: Iron hammer
-  iconSource: icon-iron-hammer
+  textureSource: iron-hammer
   soundType: Metal weapon
   ProjectileType: ProjIronHammer
   category: Weapon
@@ -640,7 +652,7 @@
 - name: IronHatchet
   code: TNBM9295
   translationID: Iron hatchet
-  iconSource: icon-iron-hatchet
+  textureSource: iron-hatchet
   extends: holdable/weapons/Weapon
   ProjectileType: ProjIronHatchet
   canUseIntoHighBlockedTile: false
@@ -654,7 +666,7 @@
 - name: IronPickaxe
   code: HGST8704
   translationID: Iron pickaxe
-  iconSource: icon-iron-pickaxe
+  textureSource: iron-pickaxe
   extends: holdable/weapons/Weapon
   ProjectileType: ProjIronPickaxe
   canUseIntoHighBlockedTile: false
@@ -668,7 +680,7 @@
 - name: IronSickle
   code: CMUY6245
   translationID: Iron sickle
-  iconSource: icon-iron-sickle
+  textureSource: iron-sickle
   extends: holdable/weapons/Weapon
   ProjectileType: ProjIronSickle
   canUseIntoHighBlockedTile: false
@@ -683,7 +695,7 @@
   code: ZUUW4723
   extends: holdable/weapons/Weapon
   translationID: Iron sword
-  iconSource: icon-iron-sword
+  textureSource: iron-sword
   soundType: Metal weapon
   ProjectileType: ProjIronSword
   category: Weapon
@@ -699,7 +711,7 @@
   code: EMGG7774
   extends: holdable/weapons/Weapon
   translationID: Noctis dagger
-  iconSource: icon-noctis-dagger
+  textureSource: noctis-dagger
   soundType: Metal weapon
   ProjectileType: ProjNoctisDagger
   category: Weapon
@@ -715,7 +727,7 @@
   code: FYOP1681
   extends: holdable/weapons/Weapon
   translationID: Noctis hammer
-  iconSource: icon-noctis-hammer
+  textureSource: noctis-hammer
   soundType: Metal weapon
   ProjectileType: ProjNoctisHammer
   category: Weapon
@@ -730,7 +742,7 @@
 - name: NoctisHatchet
   code: CTPW6414
   translationID: Noctis hatchet
-  iconSource: icon-noctis-hatchet
+  textureSource: noctis-hatchet
   extends: holdable/weapons/Weapon
   ProjectileType: ProjNoctisHatchet
   canUseIntoHighBlockedTile: false
@@ -744,7 +756,7 @@
 - name: NoctisPickaxe
   code: LOEF4388
   translationID: Noctis pickaxe
-  iconSource: icon-noctis-pickaxe
+  textureSource: noctis-pickaxe
   extends: holdable/weapons/Weapon
   ProjectileType: ProjNoctisPickaxe
   canUseIntoHighBlockedTile: false
@@ -758,7 +770,7 @@
 - name: NoctisSickle
   code: EZGR0794
   translationID: Noctis sickle
-  iconSource: icon-noctis-sickle
+  textureSource: noctis-sickle
   extends: holdable/weapons/Weapon
   ProjectileType: ProjNoctisSickle
   canUseIntoHighBlockedTile: false
@@ -773,7 +785,7 @@
   code: BPHJ9303
   extends: holdable/weapons/Weapon
   translationID: Noctis sword
-  iconSource: icon-noctis-sword
+  textureSource: noctis-sword
   soundType: Metal weapon
   ProjectileType: ProjNoctisSword
   category: Weapon
@@ -789,7 +801,7 @@
   code: FKUT5967
   extends: holdable/weapons/Weapon
   translationID: Shuriken
-  iconSource: icon-shuriken
+  textureSource: shuriken
   soundType: Metal weapon
   ProjectileType: ProjShuriken
   category: Weapon
@@ -805,7 +817,7 @@
   code: YNIU9709
   extends: holdable/weapons/Weapon
   translationID: Galestorm
-  iconSource: icon-galestorm
+  textureSource: galestorm
   soundType: Magic weapon
   ProjectileType: ProjSuperWind
   category: Weapon
@@ -820,7 +832,7 @@
   code: FZBN5698
   extends: holdable/weapons/Weapon
   translationID: Super blood staff
-  iconSource: icon-super-blood-staff
+  textureSource: super-blood-staff
   ProjectileType: ProjSuperBloodBolt
   category: Weapon
   unitWeight: Staff
@@ -835,7 +847,7 @@
   code: CPAO5445
   extends: holdable/weapons/Weapon
   translationID: Super fire staff
-  iconSource: icon-super-fire-staff
+  textureSource: super-fire-staff
   ProjectileType: ProjSuperFire
   category: Weapon
   unitWeight: Staff
@@ -850,7 +862,7 @@
   code: SGBE8487
   extends: holdable/weapons/Weapon
   translationID: Super wind staff
-  iconSource: icon-super-wind-staff
+  textureSource: super-wind-staff
   ProjectileType: ProjSuperWind
   category: Weapon
   unitWeight: Staff
@@ -865,7 +877,7 @@
   code: VSVM7178
   extends: holdable/weapons/Weapon
   translationID: Vampire fang
-  iconSource: icon-vampire-fang
+  textureSource: vampire-fang
   ProjectileType: ProjVampireFang
   category: Weapon
   unitWeight: MetalDagger
@@ -877,7 +889,7 @@
   code: TMOR5543
   extends: holdable/weapons/Weapon
   translationID: Wind staff
-  iconSource: icon-wind-staff
+  textureSource: wind-staff
   ProjectileType: ProjWind
   category: Weapon
   unitWeight: Staff
@@ -891,7 +903,7 @@
   code: KGFQ9975
   extends: holdable/weapons/Weapon
   translationID: Wooden club
-  iconSource: icon-wooden-club
+  textureSource: wooden-club
   soundType: Metal weapon
   ProjectileType: ProjWoodenClub
   category: Weapon
@@ -906,7 +918,7 @@
   code: JQHL5966
   extends: holdable/weapons/bows/Bow
   translationID: Pine bow
-  iconSource: icon-pine-bow
+  textureSource: pine-bow
   category: Weapon
   unitWeight: Bow
   soundType: Bow
@@ -920,7 +932,7 @@
   code: PDZE8350
   extends: holdable/weapons/bows/Bow
   translationID: Willow bow
-  iconSource: icon-willow-bow
+  textureSource: willow-bow
   category: Weapon
   unitWeight: Bow
   soundType: Bow
@@ -934,7 +946,7 @@
   code: MIIE6860
   extends: holdable/weapons/bows/Bow
   translationID: Oak bow
-  iconSource: icon-oak-bow
+  textureSource: oak-bow
   category: Weapon
   unitWeight: Bow
   soundType: Bow
@@ -950,7 +962,7 @@
   code: KVHL3512
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of cleansing
-  iconSource: icon-cleanse-spell-scroll
+  textureSource: cleanse-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -961,7 +973,7 @@
   code: VMFW6679
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of consume
-  iconSource: icon-consume-spell-scroll
+  textureSource: consume-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -972,7 +984,7 @@
   code: VNHK6849
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of deathbind
-  iconSource: icon-deathbind-spell-scroll
+  textureSource: deathbind-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -983,7 +995,7 @@
   code: FYRX1359
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of enthrall
-  iconSource: icon-enthrall-spell-scroll
+  textureSource: enthrall-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -994,7 +1006,7 @@
   code: KXAD5315
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of heal area
-  iconSource: icon-heal-area-spell-scroll
+  textureSource: heal-area-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -1005,7 +1017,7 @@
   code: TFCL0641
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of pacify
-  iconSource: icon-pacify-spell-scroll
+  textureSource: pacify-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -1016,7 +1028,7 @@
   code: KMGJ5860
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of reanimate
-  iconSource: icon-reanimate-spell-scroll
+  textureSource: reanimate-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -1027,7 +1039,7 @@
   code: ZZAB3297
   extends: spell_scrolls/SpellScroll
   translationID: Scroll of warding
-  iconSource: icon-ward-spell-scroll
+  textureSource: ward-spell-scroll
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -1040,38 +1052,38 @@
   code: CKKM9873
   extends: loot_boxes/LootBox
   translationID: Medium loot box
-  iconSource: icon-medium-loot-box
+  textureSource: medium-loot-box
 
 - name: SmallLootBox
   code: QNBV6059
   extends: loot_boxes/LootBox
   translationID: Small loot box
-  iconSource: icon-small-loot-box
+  textureSource: small-loot-box
 
 - name: TinyLootBox
   code: EZCI1839
   extends: loot_boxes/LootBox
   translationID: Tiny loot box
-  iconSource: icon-tiny-loot-box
+  textureSource: tiny-loot-box
 
 # Everything else
 
 - name: AgoniteBar
   code: SNHM1247
   translationID: Agonite bar
-  iconSource: icon-agonite-bar
+  textureSource: agonite-bar
   unitWeight: Ore
 
 - name: AgoniteOre
   code: EMTX2561
   translationID: Agonite ore
-  iconSource: icon-agonite-ore
+  textureSource: agonite-ore
   unitWeight: Ore
 
 - name: AntiFreezePotion
   code: KSTX5766
   translationID: Anti-freeze potion
-  iconSource: icon-anti-freeze-potion
+  textureSource: anti-freeze-potion
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 60
@@ -1081,14 +1093,14 @@
 - name: BloodGem
   code: SFTP8910
   translationID: Blood gem
-  iconSource: icon-blood-gem
+  textureSource: blood-gem
   unitWeight: Gem
   craftingExpValue: 40
 
 - name: Bluecap
   code: NKJQ0632
   translationID: Bluecap
-  iconSource: icon-bluecap
+  textureSource: bluecap
   unitWeight: PotionIngredient
   craftingExpValue: 10
   expGivenStatName: Potionry
@@ -1097,20 +1109,20 @@
 - name: Bones
   code: PTKR2708
   translationID: Bones
-  iconSource: icon-bones
+  textureSource: bones
   unitWeight: GenericMaterial
 
 - name: Cotton
   code: YSGN2105
   translationID: Cotton
-  iconSource: icon-cotton
+  textureSource: cotton
   unitWeight: GenericMaterial
   craftingExpValue: 5
 
 - name: CurePotion
   code: AZEM3259
   translationID: Cure potion
-  iconSource: icon-cure-potion
+  textureSource: cure-potion
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 40
@@ -1120,19 +1132,19 @@
 - name: DungiumBar
   code: YWMQ4086
   translationID: Dungium bar
-  iconSource: icon-dungium-bar
+  textureSource: dungium-bar
   unitWeight: Ore
 
 - name: DungiumOre
   code: OGGT9699
   translationID: Dungium ore
-  iconSource: icon-dungium-ore
+  textureSource: dungium-ore
   unitWeight: Ore
 
 - name: EnergyPotion
   code: FPEV2793
   translationID: "Energy potion"
-  iconSource: icon-energy-potion
+  textureSource: energy-potion
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 20
@@ -1142,89 +1154,91 @@
 - name: ExpOrbArmoury
   code: FPYN6527
   translationID: "Exp orb: Armoury"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Armoury
   expGivenOnUse: 100
 
 - name: ExpOrbGathering
   code: EIAQ2426
   translationID: "Exp orb: Gathering"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Gathering
   expGivenOnUse: 100
 
 - name: ExpOrbMagic
   code: DFER2419
   translationID: "Exp orb: Magic"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Magic
   expGivenOnUse: 100
 
 - name: ExpOrbMelee
   code: LUUG3398
   translationID: "Exp orb: Melee"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Melee
   expGivenOnUse: 100
 
 - name: ExpOrbPotionry
   code: FNAC5053
   translationID: "Exp orb: Potionry"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Potionry
   expGivenOnUse: 100
 
 - name: ExpOrbRanged
   code: RIZU4123
   translationID: "Exp orb: Ranged"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Ranged
   expGivenOnUse: 100
 
 - name: ExpOrbToolery
   code: AOFN9156
   translationID: "Exp orb: Toolery"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Toolery
   expGivenOnUse: 100
 
 - name: ExpOrbWeaponry
   code: FIZA1207
   translationID: "Exp orb: Weaponry"
-  iconSource: icon-exp-orb
+  textureSource: exp-orb
   expGivenStatName: Weaponry
   expGivenOnUse: 100
 
 - name: Fabric
   code: TMCC2407
   translationID: Fabric
-  iconSource: icon-fabric
+  textureSource: fabric
+  pickupSpriteScaleModifier: 0.8
   unitWeight: GenericMaterial
 
 - name: Feathers
   code: GSYP8310
   translationID: Feathers
-  iconSource: icon-feathers
+  textureSource: feathers
+  pickupSpriteScaleModifier: 0.8
   unitWeight: 1
 
 - name: FighterKey
   code: AMGH8457
   translationID: Fighter key
-  iconSource: icon-fighter-key
+  textureSource: fighter-key
   baseDurability: 1
   category: FighterKey
 
 - name: FireGem
   code: XHSO3018
   translationID: Fire gem
-  iconSource: icon-fire-gem
+  textureSource: fire-gem
   unitWeight: Gem
   craftingExpValue: 40
 
 - name: Frostcap
   code: FHHB6658
   translationID: Frostcap
-  iconSource: icon-frostcap
+  textureSource: frostcap
   unitWeight: PotionIngredient
   craftingExpValue: 30
   expGivenStatName: Potionry
@@ -1233,19 +1247,19 @@
 - name: Gem
   code: CJVO1172
   translationID: Gem
-  iconSource: icon-gem
+  textureSource: gem
   unitWeight: Gem
   craftingExpValue: 40
 
 - name: GloryOrb
   code: VRAS0927
   translationID: Glory orb
-  iconSource: icon-glory-orb
+  textureSource: glory-orb
 
 - name: Greencap
   code: DTCV1640
   translationID: Greencap
-  iconSource: icon-greencap
+  textureSource: greencap
   unitWeight: PotionIngredient
   craftingExpValue: 10
   expGivenStatName: Potionry
@@ -1254,7 +1268,7 @@
 - name: HealthPotion
   code: SMAG7657
   translationID: Health potion
-  iconSource: icon-health-potion
+  textureSource: health-potion
   soundType: Drink
   unitWeight: Potion
   craftingExpValue: 20
@@ -1264,50 +1278,50 @@
 - name: IronBar
   code: NUKK7066
   translationID: Iron bar
-  iconSource: icon-iron-bar
+  textureSource: iron-bar
   unitWeight: Ore
 
 - name: IronOre
   code: QXIX4238
   translationID: Iron ore
-  iconSource: icon-iron-ore
+  textureSource: iron-ore
   unitWeight: Ore
 
 - name: NoctisBar
   code: XWSA3111
   translationID: Noctis bar
-  iconSource: icon-noctis-bar
+  textureSource: noctis-bar
   unitWeight: Ore
 
 - name: NoctisOre
   code: LVQF9484
   translationID: Noctis ore
-  iconSource: icon-noctis-ore
+  textureSource: noctis-ore
   unitWeight: Ore
 
 - name: OakLogs
   code: KPNK4602
   translationID: Oak logs
-  iconSource: icon-oak-logs
+  textureSource: oak-logs
   unitWeight: Logs
 
 - name: PitKey
   code: NRQI3219
   translationID: Pit key
-  iconSource: icon-pit-key
+  textureSource: pit-key
   baseDurability: 1
   category: PitKey
 
 - name: PineLogs
   code: EIYO7730
   translationID: Pine logs
-  iconSource: icon-pine-logs
+  textureSource: pine-logs
   unitWeight: Logs
 
 - name: Redcap
   code: BYKI5361
   translationID: Redcap
-  iconSource: icon-redcap
+  textureSource: redcap
   unitWeight: PotionIngredient
   craftingExpValue: 10
   expGivenStatName: Potionry
@@ -1316,18 +1330,18 @@
 - name: String
   code: ETGI7171
   translationID: String
-  iconSource: icon-string
+  textureSource: string
   unitWeight: 1
 
 - name: WindGem
   code: ODWX2496
   translationID: Wind gem
-  iconSource: icon-wind-gem
+  textureSource: wind-gem
   unitWeight: Gem
   craftingExpValue: 40
 
 - name: WillowLogs
   code: GIJD9170
   translationID: Willow logs
-  iconSource: icon-willow-logs
+  textureSource: willow-logs
   unitWeight: Logs

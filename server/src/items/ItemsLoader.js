@@ -154,15 +154,43 @@ const createCatalogue = () => {
 
         // Add this item type to the type catalogue.
         dataToWrite[itemTypePrototype.typeCode] = {
+            typeName: itemTypePrototype.typeName,
             typeCode: itemTypePrototype.typeCode,
-            translationID: ItemType.translationID,
-            iconSource: ItemType.iconSource,
-            soundType: ItemType.soundType,
             hasUseEffect: itemTypePrototype.hasUseEffect,
             equippable: itemTypePrototype.equip !== Item.prototype.equip,
-            category: itemTypePrototype.category,
+            category: itemTypePrototype.category || undefined, // Don't include it if it is null. undefined will get stripped out.
         };
     });
+
+    try {
+        // Get the pure config items values again to finish setting them up, as not everything that
+        // the client needs was added to the class.
+        const itemConfigs = yaml.safeLoad(
+            fs.readFileSync(
+                path.resolve("./src/configs/Items.yml"), "utf8",
+            ),
+        );
+
+        itemConfigs.forEach((config) => {
+            const itemData = dataToWrite[config.code];
+
+            if (!config.translationID) {
+                Utils.error("Item config missing translation id:", config);
+            }
+            if (!config.textureSource) {
+                Utils.error("Item config missing texture source:", config);
+            }
+
+            itemData.translationID = config.translationID;
+            itemData.iconSource = `icon-${config.textureSource}`;
+            itemData.pickupSource = config.textureSource;
+            itemData.pickupScaleModifier = config.pickupSpriteScaleModifier;
+            itemData.soundType = config.soundType;
+        });
+    }
+    catch (error) {
+        Utils.error(error);
+    }
 
     dataToWrite = JSON.stringify(dataToWrite);
 

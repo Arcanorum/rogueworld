@@ -209,10 +209,6 @@ class Item {
     static loadConfig(config) {
         // Load anything else that hasn't already been set by the loadConfig method of a subclass.
 
-        this.translationID = config.translationID;
-        this.iconSource = config.iconSource;
-        this.soundType = config.soundType;
-
         Object.entries(config).forEach(([key, value]) => {
             if (key === "name") {
                 this.prototype.typeName = value;
@@ -294,16 +290,6 @@ class Item {
 }
 
 Item.abstract = true;
-
-/**
- * The ID of this item in the language text definitions file.
- * Just the item name itself, which is added onto the "Item name: " prefix
- * on the client to get the actual ID.
- * @type {String}
- */
-Item.translationID = "Translation ID name not set.";
-
-Item.iconSource = "Icon source not set.";
 
 /**
  * A convenience debug property of the name of this type of item. i.e. IronDagger.

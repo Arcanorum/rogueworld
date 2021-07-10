@@ -1,10 +1,10 @@
-const SpellScroll = require("./SpellScroll");
-const ModHitPointConfigs = require("../../../gameplay/ModHitPointConfigs");
-const Heal = require("../../../gameplay/Heal");
+const Item = require("./Item");
+const ModHitPointConfigs = require("../../gameplay/ModHitPointConfigs");
+const Heal = require("../../gameplay/Heal");
 
-class ConsumeSpellScroll extends SpellScroll {
+class ConsumeSpellScroll extends Item {
     onUsed() {
-        this.getBoardTilesInRange(1).forEach((boardTile) => {
+        this.owner.board.getTilesInEntityRange(this.owner, 1).forEach((boardTile) => {
             Object.values(boardTile.destroyables).forEach((destroyable) => {
                 // For every destroyable on that tile.
 

@@ -1,9 +1,9 @@
-const SpellScroll = require("./SpellScroll");
-const MagicEffects = require("../../../gameplay/MagicEffects");
+const Item = require("./Item");
+const MagicEffects = require("../../gameplay/MagicEffects");
 
-class WardSpellScroll extends SpellScroll {
+class WardSpellScroll extends Item {
     onUsed() {
-        this.getBoardTilesInRange(1).forEach((boardTile) => {
+        this.owner.board.getTilesInEntityRange(this.owner, 1).forEach((boardTile) => {
             Object.values(boardTile.destroyables).forEach((destroyable) => {
                 // Make sure the entity can be warded. Might not be a character.
                 if (destroyable.enchantment === undefined) {

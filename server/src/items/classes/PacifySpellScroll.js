@@ -1,7 +1,7 @@
-const SpellScroll = require("./SpellScroll");
-const ProjPacify = require("../../../entities/classes/destroyables/movables/projectiles/ProjPacify");
+const Item = require("./Item");
+const ProjPacify = require("../../entities/classes/destroyables/movables/projectiles/ProjPacify");
 
-class PacifySpellScroll extends SpellScroll {
+class PacifySpellScroll extends Item {
     onUsed() {
         const {
             row,
@@ -18,6 +18,7 @@ class PacifySpellScroll extends SpellScroll {
         };
 
         new ProjPacify(config).emitToNearbyPlayers();
+
         super.onUsed();
     }
 }

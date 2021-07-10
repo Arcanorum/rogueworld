@@ -1,8 +1,8 @@
-const SpellScroll = require("./SpellScroll");
+const Item = require("./Item");
 
-class ReanimateSpellScroll extends SpellScroll {
+class ReanimateSpellScroll extends Item {
     onUsed() {
-        this.getBoardTilesInRange(1).forEach((boardTile) => {
+        this.owner.board.getTilesInEntityRange(this.owner, 1).forEach((boardTile) => {
             Object.values(boardTile.destroyables).forEach((destroyable) => {
                 // Turn all corpses into zombies of their zombie type.
                 // Skip anything that isn't a corpse.

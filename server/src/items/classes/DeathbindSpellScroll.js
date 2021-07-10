@@ -1,7 +1,7 @@
-const SpellScroll = require("./SpellScroll");
-const ProjDeathbind = require("../../../entities/classes/destroyables/movables/projectiles/ProjDeathbind");
+const Item = require("./Item");
+const ProjDeathbind = require("../../entities/classes/destroyables/movables/projectiles/ProjDeathbind");
 
-class DeathbindSpellScroll extends SpellScroll {
+class DeathbindSpellScroll extends Item {
     onUsed() {
         const config = {
             row: this.owner.row,

@@ -1,12 +1,11 @@
-const SpellScroll = require("./SpellScroll");
+const Item = require("./Item");
 
-class CleanseSpellScroll extends SpellScroll {
+class CleanseSpellScroll extends Item {
     onUsed() {
-        this.getBoardTilesInRange(1).forEach((boardTile) => {
+        this.owner.board.getTilesInEntityRange(this.owner, 1).forEach((boardTile) => {
             Object.values(boardTile.destroyables).forEach((destroyable) => {
-                if (destroyable.curse === null) return;
                 // Make sure the entity can be cursed. Might not be a character.
-                if (destroyable.curse === undefined) return;
+                if (!destroyable.curse) return;
 
                 destroyable.curse.remove();
             });

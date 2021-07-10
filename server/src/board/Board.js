@@ -619,7 +619,6 @@ class Board {
     }
 
     /**
-     *
      * @param {Destroyable} entity
      * @param {Number} range
      * @returns {Array}  Returns array of tiles within range surrounding entity
@@ -629,12 +628,10 @@ class Board {
     }
 
     /**
-     * All params need to be integers.
-     *
-     * @param {Number} row
-     * @param {Number} col
-     * @param {Number} range
-     * @returns {Array} Returns array of tiles within range
+     * @param {Number} row The row of the target tile.
+     * @param {Number} col The col of the target tile.
+     * @param {Number} range How far away to get tiles within.
+     * @returns {Array} Returns array of tiles within range.
      */
     getTilesInRange(row, col, range) {
         range = range || 1;
@@ -645,10 +642,10 @@ class Board {
         }
 
         const rangePlusOne = range + 1;
+        const tiles = [];
         let rowOffset;
         let colOffset;
         let boardTile;
-        const tiles = [];
 
         for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
             for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {

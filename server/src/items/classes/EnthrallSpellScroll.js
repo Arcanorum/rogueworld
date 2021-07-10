@@ -1,8 +1,8 @@
-const SpellScroll = require("./SpellScroll");
+const Item = require("./Item");
 
-class EnthrallSpellScroll extends SpellScroll {
+class EnthrallSpellScroll extends Item {
     onUsed() {
-        this.getBoardTilesInRange(1).forEach((boardTile) => {
+        this.owner.board.getTilesInEntityRange(this.owner, 1).forEach((boardTile) => {
             Object.values(boardTile.destroyables).forEach((destroyable) => {
                 // Claim all nearby unclaimed zombies.
                 if (destroyable instanceof this.EntitiesList.AbstractClasses.Zombie === false) {

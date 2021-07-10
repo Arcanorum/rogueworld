@@ -122,15 +122,15 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 *Below are guides for each, where you are encouraged to think of something different to add instead of just the examples given and to experiment with each step of the guide, so you aren't just copying the guide without understanding what is happening.*
 
-- ### [Map editor - Walkthrough](guides/map_walkthrough/MAP_EDITOR_WALKTHROUGH.md)
-
-- ### [Map editor - Reference](guides/map_reference/MAP_EDITOR_REFERENCE.md)
-
-- ### [Creature](guides/creatures/CREATURES.md)
-
 - ### [Item](guides/items/ITEMS.md)
 
 - ### [Crafting recipe](guides/CRAFTING_RECIPES.md)
+
+- ### [Creature](guides/creatures/CREATURES.md)
+
+- ### [Map editor - Walkthrough](guides/map_walkthrough/MAP_EDITOR_WALKTHROUGH.md)
+
+- ### [Map editor - Reference](guides/map_reference/MAP_EDITOR_REFERENCE.md)
 
 - ### [Dungeon](guides/DUNGEONS.md)
 

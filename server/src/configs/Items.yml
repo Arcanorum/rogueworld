@@ -1,5 +1,110 @@
+# name
+# A unique human readable name to use for the generated Item class for this item type.
+# Used in the code to get items by their name, instead of by their code.
+# i.e. `ItemsList.BY_NAME["IronSword"]` will be a reference to the IronSword item class.
+
+# code
+# A unique randomly generated code to identify this item config.
+# It is important that this code does not describe anything about the item itself, as it should
+# just be used as an identifier for this config, so it can be stored in the database and when
+# loaded back into the game when a player logs in, the right item config can be found, even if
+# other values on the config have changed, such as the name.
+# As such, once set, this code should never be changed, as doing so would mean that any saved items
+# won't know which config to use when loaded again.
+# There is a script that can be ran in a terminal to generate a standard item code for you.
+# In the root of the project, run:
+# `npm run itemcode`
+# Which would output:
+# * Generated item code:
+# KSES6122 <-- a new item code to use for this config
+
+# extends
+# A path (relative from server/src/items/classes) to the class file that this item type should
+# extend from.
+# When an item extends from another class, it will inherit the functionality of that class.
+# Some other config properties that can be set for this item type only work when the appropriate
+# class is extended from.
+# e.g. The defenceBonus property only works when extending clothes/Clothes.
+
+# translationID
+# A value from the ID column in the ITEMS tab in the translations spreadsheet to use to get the name and
+# description for this item in language selected by the player.
+# Translations spreadsheet:
+# https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA
+
+# iconSource
+
+# soundType
+# # Optional. The name of the group of sounds to play when this item is dropped, equipped,
+# unequipped, or used. See SoundManager.js in client.
+
+# category
+# # Optional. A generic way of grouping items by purpose.
+# What this does specifically depends on what the item is interacting with.
+# e.g. An ore rock resource node would only allow gathering when an item of the "Pickaxe" category
+# is used on it, so any pickaxe type items should use that category here.
+# See the ResourceNodes.yml configs for what item category is required for each resource node type.
+
+# ProjectileType
+# Optional. The class name of the projectile type to create an instance of when this item is used.
+# Each weapon item should have an associated projectile entity class.
+# e.g. for an IronSword item that extends holdable/weapons/Weapon, there should also be in the
+# entities list a ProjIronSword entity class that extends from the Projectile class.
+
+# canUseIntoHighBlockedTile
+# Optional. Whether this item can be used in the direction of a blocked tile (i.e. a wall) while
+# standing adjacent to it.
+# When set to false, a 1 tile gap is required to use an item in the direction of a blocked tile.
+# For most items that create a projectile when used, the projectile is added on top of the blocked
+# tile, and then immediately collides with it and then is destroyed, but for items that add
+# projectiles in an unusual way (i.e. not added to a tile directly adjacent the player), they may
+# cause projectiles to be added on the other side of a blocked tile, effectively allowing them to
+# shoot over walls.
+
+# unitWeight
+# Optional. The weight value of this item, either for the whole item for an unstackable, or for
+# each one in a stack of stackables.
+# Can be either a number, or a string name of a item weight class in ItemWeightClasses.yml.
+
+# baseQuantity
+# Optional. For stackables, this is the default quantity to use when no specific quantity is
+# specified for where this item type is used.
+# e.g. This will be the size of the stack given to a player for pickups spawned by pickup spawner,
+# created by a crafting recipe, or bought from a shop.
+
+# baseDurability
+# Optional. For unstackables, this is the default durability (and max durability) to use when no
+# specific quantity is specified for where this item type is used.
+# e.g. This will be the durability of the item given to a player for pickups spawned by a pickup
+# spanwer, created by a crafting recipe, or bought from a shop.
+
+# gatherTimeReduction
+# Optional. For gathering tools, the percentage to reduce the gather time by when this item is used
+# to gather from a resource node.
+
+# defenceBonus
+# Optional. How much to increase the player's defence by when this item is equipped.
+
+# useEnergyCost
+# Optional. How much energy is consumed when this item is used.
+
+# expGivenStatName
+# Optional. The name of the stat to give exp in when this item is used.
+
+# expGivenOnUse
+# Optional. How much exp to give in the selected stat (expGivenStatName) when this item is used.
+
+# statBonuses
+# Optional. A list of stat names and values for how much to increase each stat by while this item
+# is equipped.
+# e.g.
+# statBonuses:
+#   Weaponry: 2
+#   Toolery: 4
+
 # craftTasks
 # Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft,
+
 
 # Ammunition
 

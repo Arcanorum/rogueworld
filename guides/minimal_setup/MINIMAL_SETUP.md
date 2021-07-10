@@ -18,7 +18,7 @@ All of the files are stored online in GitHub, and will first need to be copied f
 
 This can be done in VSCode using the git clone command from the interface.
 
-On opening VSCode, on the left menu select Source Control, and then `Clone Repository...` option.
+On opening VSCode, on the left menu select Source Control, and then `Clone Repository` option.
 
 Into the prompt enter the project repository URL:
 

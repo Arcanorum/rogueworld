@@ -5,20 +5,20 @@ This guide is intended for newbs who are interested in the project, but don't kn
 ## To run the project, you will need
 
 - [NodeJS](https://nodejs.org/en/download/) installed (currently using v14.17.3). This is the JavaScript runtime that runs the game code. The NodeJS installation will also come with NPM, which is a utility used to download other packages/libraries that are required by an application.
-- [VSCode](https://code.visualstudio.com/) installed. This is the visual editor IDE where you will be making most of your changes. VSCode comes with git integrated to allow getting updates from the repository easier when it gets updated. You can use another code editor if you wish, but you will also need git installed and know how to use it.
+- [VS Code](https://code.visualstudio.com/) installed. This is the visual editor IDE where you will be making most of your changes. VS Code comes with git integrated to allow getting updates from the repository easier when it gets updated. You can use another code editor if you wish, but you will also need git installed and know how to use it.
 - [Tiled](https://www.mapeditor.org/) installed (if you want to edit maps).
 
 >***Note:*** To keep things as easy to set up for this guide, the MongoDB database for player account storage is not included, so persistent features (player account creation) will not work. Consult the full setup guide for running the game with a database.
 
 
 ## Clone the repo
-You will need to download the project files and set up the development environment start editing files and hacking away.
+You will need to download the project files and set up the development environment to start editing files and hacking away.
 
 All of the files are stored online in GitHub, and will first need to be copied from there to your own device for editing.
 
-This can be done in VSCode using the git clone command from the interface.
+This can be done in VS Code using the git clone command from the interface.
 
-On opening VSCode, on the left menu select Source Control, and then `Clone Repository` option.
+On opening VS Code, on the left menu select Source Control, and then `Clone Repository` option.
 
 Into the prompt enter the project repository URL:
 
@@ -42,7 +42,7 @@ Not everything that the project needs to work is included in the repository. For
 
 Here we will need to use the terminal (AKA command line) to input the commands to run.
 
-A new terminal can be opened within VSCode.
+A new terminal can be opened within VS Code.
 
 1. Top options bar
 2. Terminal

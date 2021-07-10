@@ -32,7 +32,7 @@ First, you should have [played the game](https://dungeonz.io/) to get a feel for
 
 The main contribution areas are code, audio, visual, with other smaller ones like mapping, balance, translations and testing.
 
-You probably came to this project already specialising in one of these. There are guides tailored for contributors that describe the general requirements for each field, that you can jump to if you just want to skip whatever doesn't apply to you.
+You probably came to this project already specialising in one of these. There are [guides](#guides) tailored for contributors that describe the general requirements for each field, that you can jump to if you just want to skip whatever doesn't apply to you.
 
 # Contributing
 With so many moving parts to a video game, especially a one like this, it is important to keep the project managed well. I try to run the project like you would find in an actual software company, where each thing being worked on should be detailed, tracked, completed (or cancelled), tested and finally added to the game.
@@ -60,9 +60,9 @@ This game doesn't use an off the shelf game engine/centralised project manangeme
 
 As a game that is also a website, it uses many of the tools of the web development trade. The "engine" is a custom setup that brings together various tools that are all free, widely used, and reasonably well documented, that are each specialised for a certain task.
 
-To be able to run and edit the game yourself on your own computer, there is a techincal setup guide that should provide a quick and easy set of instructions to get everything working with minimal messing about and little techincal knowledge. It is basically just installing some other programs that the main game code needs to run, then downloading said code and running it.
+To be able to run and edit the game yourself on your own computer, there is a setup guide that should provide a quick and easy set of instructions to get everything working with minimal messing about and little techincal knowledge. It is basically just installing some other programs that the main game code needs to run, then downloading said code and running it.
 
-The game is written almost entirely in JavaScript, using NodeJS to build the client and run the server. NodeJS is a tool that allows JavaScript to be ran outside of a web browser, and can be loosely thought of as the "engine" that takes the outputs of the other tools to create the game.
+The game is written almost entirely in JavaScript, using NodeJS to build the client and run the server. NodeJS is a tool that allows JavaScript to be ran outside of a web browser, and can be loosely thought of as the "engine" that combines the outputs of the other tools to create the game.
 
 **Though, setting up and running the game on your own computer is not necessary for many kinds of contributions.**
 
@@ -103,9 +103,9 @@ For example, if you want to require attribution (credit) for use of your work by
 These guides go through setting up the project and getting it running on your computer.
 
 There are 2 sub-guides for setup, depending on what you plan on doing.
-- ### [Minimal](guides/MINIMAL_SETUP.md)
+- ### [Minimal](guides/minimal_setup/MINIMAL_SETUP.md)
 *The fewest requirements for you to be able to get the game running and to be able to make changes, mainly intended for designers.*
-- ### [Full](guides/FULL_SETUP.md)
+- ### [Full](guides/full_setup/FULL_SETUP.md)
 *The full developer workflow, mainly intended for programmers.*
 
 # *"I want to add a..."*
@@ -122,13 +122,13 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 *Below are guides for each, where you are encouraged to think of something different to add instead of just the examples given and to experiment with each step of the guide, so you aren't just copying the guide without understanding what is happening.*
 
-- ### [Map editor - Walkthrough](guides/MAP_EDITOR_WALKTHROUGH.md)
+- ### [Map editor - Walkthrough](guides/map_walkthrough/MAP_EDITOR_WALKTHROUGH.md)
 
-- ### [Map editor - Reference](guides/MAP_EDITOR_REFERENCE.md)
+- ### [Map editor - Reference](guides/map_reference/MAP_EDITOR_REFERENCE.md)
 
-- ### [Creature](guides/CREATURES.md)
+- ### [Creature](guides/creatures/CREATURES.md)
 
-- ### [Item](guides/ITEMS.md)
+- ### [Item](guides/items/ITEMS.md)
 
 - ### [Crafting recipe](guides/CRAFTING_RECIPES.md)
 

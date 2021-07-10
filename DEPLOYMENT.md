@@ -99,7 +99,11 @@ A common solution to many of the problems that I have encountered with scripts n
 
 `rm -rf server/package-lock.json`
 
-And then do a fresh reinstall of the packages.
+Or as a single command:
+
+`rm -rf node_modules/ package-lock.json server/node_modules/ server/package-lock.json client/node_modules/ client/package-lock.json`
+
+And then do a fresh reinstall of the packages:
 
 `npm i`
 

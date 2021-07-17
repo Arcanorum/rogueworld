@@ -7,8 +7,3 @@ class ProjDungiumHammer extends Projectile {
     }
 }
 module.exports = ProjDungiumHammer;
-
-ProjDungiumHammer.prototype.assignModHitPointConfigs();
-ProjDungiumHammer.prototype.moveRate = 200;
-ProjDungiumHammer.prototype.range = 2;
-ProjDungiumHammer.prototype.collisionType = ProjDungiumHammer.prototype.CollisionTypes.Melee;

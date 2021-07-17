@@ -1,4 +1,8 @@
 const Projectile = require("./Projectile");
+const SmallAdumbral = require("../characters/mobs/SmallAdumbral");
+const MediumAdumbral = require("../characters/mobs/MediumAdumbral");
+const LargeAdumbral = require("../characters/mobs/LargeAdumbral");
+const Heal = require("../../../../../gameplay/Heal");
 
 class ProjDark extends Projectile {
     handleCollision(collidee) {
@@ -16,12 +20,3 @@ class ProjDark extends Projectile {
     }
 }
 module.exports = ProjDark;
-
-ProjDark.prototype.assignModHitPointConfigs();
-ProjDark.prototype.moveRate = 100;
-ProjDark.prototype.range = 7;
-
-const SmallAdumbral = require("../characters/mobs/SmallAdumbral");
-const MediumAdumbral = require("../characters/mobs/MediumAdumbral");
-const LargeAdumbral = require("../characters/mobs/LargeAdumbral");
-const Heal = require("../../../../../gameplay/Heal");

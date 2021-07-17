@@ -23,8 +23,3 @@ class ProjHammerOfGlory extends Projectile {
     }
 }
 module.exports = ProjHammerOfGlory;
-
-ProjHammerOfGlory.prototype.assignModHitPointConfigs();
-ProjHammerOfGlory.prototype.moveRate = 200;
-ProjHammerOfGlory.prototype.range = 2;
-ProjHammerOfGlory.prototype.collisionType = ProjHammerOfGlory.prototype.CollisionTypes.Melee;

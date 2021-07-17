@@ -119,6 +119,8 @@ class ResourceNode extends Interactable {
                         }
 
                         EntityType.prototype.ItemType = ItemsList.BY_NAME[value];
+
+                        return;
                     }
 
                     // Load whatever properties that have the same key in the config as on this class.

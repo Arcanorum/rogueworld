@@ -1,7 +1,7 @@
 const Boss = require("./Boss");
-const ProjAcorn = require("../../projectiles/ProjAcorn");
 const GrassScamp = require("./GrassScamp");
 const { Directions } = require("../../../../../../gameplay/Directions");
+const EntitiesList = require("../../../../../EntitiesList");
 
 const specialAttack1Rate = 30000;
 const specialAttack2Rate = 6000;
@@ -85,16 +85,16 @@ class GreatGnarl extends Boss {
 
             const { row, col, board } = this;
             // Throw an acorn in each direction.
-            new ProjAcorn({
+            new EntitiesList.ProjAcorn({
                 row: row - 1, col, board, direction: Directions.UP, source: this,
             }).emitToNearbyPlayers();
-            new ProjAcorn({
+            new EntitiesList.ProjAcorn({
                 row: row + 1, col, board, direction: Directions.DOWN, source: this,
             }).emitToNearbyPlayers();
-            new ProjAcorn({
+            new EntitiesList.ProjAcorn({
                 row, col: col - 1, board, direction: Directions.LEFT, source: this,
             }).emitToNearbyPlayers();
-            new ProjAcorn({
+            new EntitiesList.ProjAcorn({
                 row, col: col + 1, board, direction: Directions.RIGHT, source: this,
             }).emitToNearbyPlayers();
         }

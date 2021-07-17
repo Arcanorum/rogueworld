@@ -1,6 +1,8 @@
+const fs = require("fs");
+const path = require("path");
+const yaml = require("js-yaml");
 const Movable = require("../Movable");
 const Utils = require("../../../../../Utils");
-const ModHitPointConfigs = require("../../../../../gameplay/ModHitPointConfigs");
 const Static = require("../../../statics/Static");
 const Damage = require("../../../../../gameplay/Damage");
 const { Directions, RowColOffsetsByDirection } = require("../../../../../gameplay/Directions");
@@ -209,7 +211,7 @@ class Projectile extends Movable {
      * @param {Entity} collidee - The entity that this projectile collided with.
      */
     handleCollision(collidee) {
-        Utils.warning("Projectile type defined without overriding Projectile.handleCollision:", this.constructor.name);
+        this.damageCollidee(collidee);
     }
 
     /**
@@ -340,21 +342,99 @@ class Projectile extends Movable {
         }
     }
 
-    /**-
-     * Assigns the damage and heal values for this projectile type from the mob hitpoint values list.
-     * @param {String} specificValuesName - Set to use a specific set of values instead of whatever matches the name of this entity class.
-     */
-    assignModHitPointConfigs(specificValuesName) {
-        const valuesName = this.constructor.name;
-        const modHitPointConfig = (
-            ModHitPointConfigs[specificValuesName] || ModHitPointConfigs[valuesName]
-        );
-        if (modHitPointConfig === undefined) Utils.error("No mod hitpoint values defined for name:", valuesName);
+    static createClasses() {
+        try {
+            // Load all of the resource node configs.
+            const configs = yaml.safeLoad(
+                fs.readFileSync(
+                    path.resolve("./src/configs/Projectiles.yml"), "utf8",
+                ),
+            );
 
-        if (modHitPointConfig.damageAmount) this.damageAmount = modHitPointConfig.damageAmount;
-        if (modHitPointConfig.damageTypes) this.damageTypes = modHitPointConfig.damageTypes;
-        if (modHitPointConfig.damageArmourPiercing) this.damageArmourPiercing = modHitPointConfig.damageArmourPiercing;
-        if (modHitPointConfig.healAmount) this.healAmount = modHitPointConfig.healAmount;
+            configs.forEach((config) => {
+                // Only generate a class for this entity if one doesn't already
+                // exist, as it might have it's own special logic file.
+                if (!EntitiesList[`Proj${config.name}`]) {
+                    // Use the base Projectile class to extend from.
+                    class GenericProjectile extends Projectile { }
+
+                    GenericProjectile.registerEntityType();
+
+                    EntitiesList[`Proj${config.name}`] = GenericProjectile;
+                }
+            });
+        }
+        catch (error) {
+            Utils.error(error);
+        }
+    }
+
+    static loadConfigs() {
+        try {
+            const projConfigs = yaml.safeLoad(
+                fs.readFileSync(
+                    path.resolve("./src/configs/Projectiles.yml"), "utf8",
+                ),
+            );
+
+            projConfigs.forEach((config) => {
+                const EntityType = EntitiesList[`Proj${config.name}`];
+                // Check the projectile entity type is valid.
+                if (!EntityType) {
+                    Utils.error("Invalid projectile config. Entity type of name not found:", config);
+                }
+
+                Object.entries(config).forEach(([key, value]) => {
+                    if (key === "collisionType") {
+                        if (!Projectile.prototype.CollisionTypes[value]) {
+                            Utils.error("Invalid collision type. Check it is in the collision types list:", config);
+                        }
+
+                        value = Projectile.prototype.CollisionTypes[value];
+                    }
+
+                    if (key === "damageAmount") {
+                        if (value < 1) {
+                            Utils.error("Invalid damage amount. Must be 1 or greater.");
+                        }
+                    }
+
+                    if (key === "damageTypes") {
+                        value = value.map((damageTypeName) => {
+                            if (!Damage.Types[damageTypeName]) {
+                                Utils.error("Invalid damage type. Check it is in the damage types list:", config);
+                            }
+                            return Damage.Types[damageTypeName];
+                        });
+                    }
+
+                    if (key === "damageArmourPiercing") {
+                        if (value < 1 || value > 100) {
+                            Utils.error("Invalid armour piercing amount. Must be from 1 to 100.");
+                        }
+                    }
+
+                    if (key === "healAmount") {
+                        if (value < 1) {
+                            Utils.error("Invalid heal amount. Must be 1 or greater.");
+                        }
+                    }
+
+                    // Load whatever properties that have the same key in the config as on this class.
+                    if (EntityType.prototype[key] !== undefined) {
+                        // Check if the property has already been loaded by a
+                        // subclass, or set on the class prototype for class files.
+                        if (Object.getPrototypeOf(EntityType).prototype[key]
+                        === EntityType.prototype[key]) {
+                            EntityType.prototype[key] = value;
+                        }
+                    }
+                });
+            });
+        }
+        catch (error) {
+            Utils.error(error);
+        }
     }
 }
 module.exports = Projectile;

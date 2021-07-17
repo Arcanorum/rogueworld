@@ -32,7 +32,3 @@ class ProjBloodBolt extends Projectile {
     }
 }
 module.exports = ProjBloodBolt;
-
-ProjBloodBolt.prototype.assignModHitPointConfigs();
-ProjBloodBolt.prototype.moveRate = 200;
-ProjBloodBolt.prototype.range = 6;

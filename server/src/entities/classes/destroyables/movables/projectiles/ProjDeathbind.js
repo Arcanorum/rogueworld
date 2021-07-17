@@ -1,4 +1,6 @@
 const Projectile = require("./Projectile");
+const Character = require("../characters/Character");
+const MagicEffects = require("../../../../../gameplay/MagicEffects");
 
 class ProjDeathbind extends Projectile {
     handleCollision(collidee) {
@@ -16,9 +18,3 @@ class ProjDeathbind extends Projectile {
     }
 }
 module.exports = ProjDeathbind;
-
-const Character = require("../characters/Character");
-const MagicEffects = require("../../../../../gameplay/MagicEffects");
-
-ProjDeathbind.prototype.moveRate = 200;
-ProjDeathbind.prototype.range = 10;

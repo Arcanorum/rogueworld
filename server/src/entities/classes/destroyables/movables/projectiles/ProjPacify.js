@@ -18,6 +18,3 @@ class ProjPacify extends Projectile {
     }
 }
 module.exports = ProjPacify;
-
-ProjPacify.prototype.moveRate = 200;
-ProjPacify.prototype.range = 10;

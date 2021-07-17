@@ -1,13 +1,11 @@
 const fs = require("fs");
-const path = require("path");
-const yaml = require("js-yaml");
 const Utils = require("../Utils");
 const EntitiesList = require("./EntitiesList");
 
 const populateList = () => {
     Utils.message("Populating entities list.");
 
-    // Import all of the entity files.
+    // Import all of the files for entities that have their own class file for specific logic.
     // eslint-disable-next-line global-require
     require("require-dir")("classes", {
         recurse: true,
@@ -19,6 +17,7 @@ const populateList = () => {
                 // Don't do any additional setup for abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
                 if (Object.prototype.hasOwnProperty.call(value, "abstract")) {
+                    // Still add it to the separate list of abstract classes though, as it may still be needed.
                     EntitiesList.AbstractClasses[baseName] = value;
                     return;
                 }
@@ -30,6 +29,8 @@ const populateList = () => {
         },
     });
 
+    EntitiesList.AbstractClasses.Projectile.createClasses();
+
     EntitiesList.AbstractClasses.ResourceNode.createClasses();
 
     Utils.message("Finished populating entities list.");
@@ -38,10 +39,10 @@ const populateList = () => {
 const initialiseList = () => {
     Utils.message("Initialising entities list.");
 
-    // Mobs.
     EntitiesList.AbstractClasses.Mob.loadConfigs();
 
-    // Resource nodes.
+    EntitiesList.AbstractClasses.Projectile.loadConfigs();
+
     EntitiesList.AbstractClasses.ResourceNode.loadConfigs();
 
     Utils.message("Finished initialising entities list. EntitiesList is ready to use.");

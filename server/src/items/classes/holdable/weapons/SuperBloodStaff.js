@@ -1,13 +1,13 @@
 const Weapon = require("./Weapon");
-const ModHitPointConfigs = require("../../../../gameplay/ModHitPointConfigs");
 const Damage = require("../../../../gameplay/Damage");
+const EntitiesList = require("../../../../entities/EntitiesList");
 
 class SuperBloodStaff extends Weapon {
     onUsed() {
         // Blood bolt consumes HP on use.
         this.owner.damage(new Damage({
-            amount: ModHitPointConfigs.ProjBloodBolt.damageAmount * 0.5,
-            types: ModHitPointConfigs.ProjBloodBolt.damageTypes,
+            amount: EntitiesList.ProjSuperBloodBolt.prototype.damageAmount * 0.5,
+            types: EntitiesList.ProjSuperBloodBolt.prototype.damageTypes,
             armourPiercing: 100, // Avoid damaging own clothes when using blood staffs.
         }));
 

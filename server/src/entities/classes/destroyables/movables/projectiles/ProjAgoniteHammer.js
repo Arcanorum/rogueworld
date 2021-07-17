@@ -7,8 +7,3 @@ class ProjAgoniteHammer extends Projectile {
     }
 }
 module.exports = ProjAgoniteHammer;
-
-ProjAgoniteHammer.prototype.assignModHitPointConfigs();
-ProjAgoniteHammer.prototype.moveRate = 200;
-ProjAgoniteHammer.prototype.range = 2;
-ProjAgoniteHammer.prototype.collisionType = ProjAgoniteHammer.prototype.CollisionTypes.Melee;

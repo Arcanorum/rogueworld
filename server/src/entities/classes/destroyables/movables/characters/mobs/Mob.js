@@ -1773,7 +1773,7 @@ class Mob extends Character {
         this.prototype.targetSearchRate = statValues.targetSearchRate;
         this.prototype.attackRate = statValues.attackRate;
         this.prototype.meleeDamageAmount = statValues.meleeDamageAmount;
-        if (statValues.projectileAttackType !== null) this.prototype.projectileAttackType = require(`./../../${statValues.projectileAttackType}`);
+        this.prototype.projectileAttackType = statValues.projectileAttackType;
         this.prototype.CorpseType = statValues.corpseType;
         this.prototype.faction = statValues.faction;
         this.prototype.behaviour = statValues.behaviour;

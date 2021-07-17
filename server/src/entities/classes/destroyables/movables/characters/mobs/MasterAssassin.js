@@ -1,6 +1,6 @@
 const Boss = require("./Boss");
-const ProjShuriken = require("../../projectiles/ProjShuriken");
 const { Directions } = require("../../../../../../gameplay/Directions");
+const EntitiesList = require("../../../../../EntitiesList");
 
 const specAttack1Rate = 6000;
 const specAttack2Rate = 8000;
@@ -45,16 +45,16 @@ class MasterAssassin extends Boss {
 
             const { row, col, board } = this;
             // Throw a shuriken in each direction.
-            new ProjShuriken({
+            new EntitiesList.ProjShuriken({
                 row: row - 1, col, board, direction: Directions.UP, source: this,
             }).emitToNearbyPlayers();
-            new ProjShuriken({
+            new EntitiesList.ProjShuriken({
                 row: row + 1, col, board, direction: Directions.DOWN, source: this,
             }).emitToNearbyPlayers();
-            new ProjShuriken({
+            new EntitiesList.ProjShuriken({
                 row, col: col - 1, board, direction: Directions.LEFT, source: this,
             }).emitToNearbyPlayers();
-            new ProjShuriken({
+            new EntitiesList.ProjShuriken({
                 row, col: col + 1, board, direction: Directions.RIGHT, source: this,
             }).emitToNearbyPlayers();
         }

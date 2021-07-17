@@ -8,6 +8,8 @@ const Drop = require("./Drop");
 const Damage = require("./Damage");
 const EntitiesList = require("../entities/EntitiesList");
 
+let defaultMobStats;
+
 /**
  * Gets the value to use for a mob for a given property.
  * Uses the value from the config object if found and passes a validity check.
@@ -17,11 +19,15 @@ const EntitiesList = require("../entities/EntitiesList");
  * @param {Function} typeCheckFunc What to expect the value to be.
  */
 function getValue(config, valueName, typeCheckFunc) {
-    if (config[valueName] === undefined) return defaultMobStats[valueName];
+    if (config[valueName] === undefined) {
+        return defaultMobStats[valueName];
+    }
 
-    if (typeCheckFunc(config[valueName]) === false) Utils.error(`${valueName} is incorrect type: ${typeof config[valueName]}`);
+    if (typeCheckFunc(config[valueName]) === false) {
+        Utils.error(`${valueName} is incorrect type: ${typeof config[valueName]}`);
+    }
 
-    else return config[valueName];
+    return config[valueName];
 }
 
 class MobStats {
@@ -42,7 +48,9 @@ class MobStats {
         // More complex config values that need some validity checks
         // first, or that need to reference certain existing values:
 
-        if (config.meleeDamageTypes === undefined) this.meleeDamageTypes = defaultMobStats.meleeDamageTypes;
+        if (config.meleeDamageTypes === undefined) {
+            this.meleeDamageTypes = defaultMobStats.meleeDamageTypes;
+        }
         else {
             this.meleeDamageTypes = [];
             config.meleeDamageTypes.forEach((typeName) => {
@@ -56,11 +64,8 @@ class MobStats {
         this.projectileAttackType = null;
         // If a projectile attack type is defined, use it.
         if (config.projectileAttackType !== undefined) {
-            // Check a projectile file exists by the given name. Can't do a direct reference to it here, as it isn't defined yet.
-            // TODO: can do this now, with the EntitiesList instead.
-            if (fs.existsSync(`./src/entities/classes/destroyables/movables/projectiles/Proj${config.projectileAttackType}.js`) === true) {
-                this.projectileAttackType = `projectiles/Proj${config.projectileAttackType}`;
-            }
+            // Get the projectile type by the given name.
+            this.projectileAttackType = EntitiesList[`Proj${config.projectileAttackType}`];
         }
 
         // Use the default faction if undefined.
@@ -114,7 +119,6 @@ class MobStats {
  * @type {Object.<MobStats>}
  */
 const MobStatsList = {};
-let defaultMobStats;
 
 try {
     const configs = yaml.safeLoad(

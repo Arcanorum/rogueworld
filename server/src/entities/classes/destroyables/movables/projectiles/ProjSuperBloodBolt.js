@@ -80,5 +80,3 @@ class ProjSuperBloodBolt extends ProjBloodBolt {
 }
 
 module.exports = ProjSuperBloodBolt;
-
-ProjSuperBloodBolt.prototype.assignModHitPointConfigs("ProjBloodBolt");

@@ -69,5 +69,3 @@ class ProjSuperWind extends ProjWind {
 }
 
 module.exports = ProjSuperWind;
-
-ProjSuperWind.prototype.assignModHitPointConfigs("ProjWind");

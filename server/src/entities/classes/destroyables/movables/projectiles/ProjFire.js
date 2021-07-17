@@ -1,4 +1,5 @@
 const Projectile = require("./Projectile");
+const { Burn } = require("../../../../../gameplay/StatusEffects");
 
 class ProjFire extends Projectile {
     handleCollision(collidee) {
@@ -17,8 +18,3 @@ class ProjFire extends Projectile {
     }
 }
 module.exports = ProjFire;
-
-const { Burn } = require("../../../../../gameplay/StatusEffects");
-
-ProjFire.prototype.moveRate = 200;
-ProjFire.prototype.range = 6;

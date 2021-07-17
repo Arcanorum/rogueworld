@@ -1,4 +1,6 @@
 const Projectile = require("./Projectile");
+const Character = require("../characters/Character");
+const Heal = require("../../../../../gameplay/Heal");
 
 class ProjVampireFang extends Projectile {
     handleCollision(collidee) {
@@ -13,10 +15,3 @@ class ProjVampireFang extends Projectile {
     }
 }
 module.exports = ProjVampireFang;
-
-const Character = require("../characters/Character");
-const Heal = require("../../../../../gameplay/Heal");
-
-ProjVampireFang.prototype.assignModHitPointConfigs();
-ProjVampireFang.prototype.moveRate = 200;
-ProjVampireFang.prototype.range = 1;

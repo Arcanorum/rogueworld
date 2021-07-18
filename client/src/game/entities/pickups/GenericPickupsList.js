@@ -28,4 +28,4 @@ export default Object.values(ItemTypes).reduce((accumulator, itemType) => {
     });
 
     return accumulator;
-});
+}, {});

@@ -1,4 +1,6 @@
 const fs = require("fs");
+const path = require("path");
+const yaml = require("js-yaml");
 const Utils = require("../Utils");
 const EntitiesList = require("./EntitiesList");
 
@@ -60,8 +62,36 @@ const createCatalogue = () => {
         }
 
         // Add this entity type to the type catalogue.
-        dataToWrite[EntityType.prototype.typeNumber] = entityTypeKey;
+        dataToWrite[EntityType.prototype.typeNumber] = {
+            typeName: entityTypeKey,
+        };
     });
+
+    try {
+        // Get the projectile configs again to get the client config properties, as they won't have
+        // been added to the class.
+        const projConfigs = yaml.safeLoad(
+            fs.readFileSync(
+                path.resolve("./src/configs/Projectiles.yml"), "utf8",
+            ),
+        );
+
+        projConfigs.forEach((config) => {
+            const projData = dataToWrite[EntitiesList[`Proj${config.name}`].prototype.typeNumber];
+
+            // TODO: should this be mandatory? what about projectiles with custom client files?
+            // if (!config.textureFrames) {
+            //     Utils.error("Projectile config missing texture source:", config);
+            // }
+
+            projData.textureFrames = config.textureFrames;
+            projData.spinDuration = config.spinDuration;
+            projData.scaleModifier = config.scaleModifier;
+        });
+    }
+    catch (error) {
+        Utils.error(error);
+    }
 
     dataToWrite = JSON.stringify(dataToWrite);
 

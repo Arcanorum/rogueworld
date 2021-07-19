@@ -6,8 +6,8 @@ class Projectile extends Sprite {
     constructor(x, y, config, frameName) {
         super(x, y, config);
 
-        this.setFrame(frameName);
-        this.setScale(gameConfig.GAME_SCALE);
+        this.setFrame(frameName || `${this.frameName}`);
+        this.setScale(gameConfig.GAME_SCALE * this.scaleModifier);
 
         this.angle = this.directionAngleSet[config.direction] || this.directionAngleSet.l;
 
@@ -27,6 +27,10 @@ class Projectile extends Sprite {
         this.angle = this.directionAngleSet[direction] || this.directionAngleSet.l;
     }
 }
+
+Projectile.prototype.frameName = "";
+
+Projectile.prototype.scaleModifier = 1;
 
 Projectile.prototype.centered = true;
 
@@ -51,6 +55,6 @@ Projectile.prototype.directionAngleSet = Projectile.prototype.DiagonalDirectionA
  * When set, makes the projectile continuously rotate around it's center.
  * @type {Number}
  */
-Projectile.spinDuration = 0;
+Projectile.prototype.spinDuration = 0;
 
 export default Projectile;

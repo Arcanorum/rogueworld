@@ -31,7 +31,7 @@
     "node-webhooks": "^1.4.2",
     "require-dir": "^1.2.0",
     "ws": "^7.4.6",
-    "xlsx": "^0.13.5"
+    "xlsx": "^0.17.0"
   },
   "dependencies": {
     "img2-leaflet-tiles": "^1.1.0",

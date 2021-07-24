@@ -91,15 +91,6 @@
 
 # Swords
 
-- name: WoodenSword
-  moveRate: 200
-  range: 3
-  collisionType: Melee
-  damageAmount: 8
-  damageTypes:
-    - Physical
-  textureFrames: wooden-sword
-
 - name: IronSword
   moveRate: 200
   range: 3

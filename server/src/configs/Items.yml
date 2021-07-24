@@ -59,9 +59,11 @@
 
 # ProjectileType
 # Optional. The class name of the projectile type to create an instance of when this item is used.
-# Each weapon item should have an associated projectile entity class.
+# Each weapon item that shoots out some kind of projectile should have an associated projectile entity class.
 # e.g. for an IronSword item that extends holdable/weapons/Weapon, there should also be in the
 # entities list a ProjIronSword entity class that extends from the Projectile class.
+# The projectile classes are automatically generated from the list of configs in Projectiles.yml.
+# Simply use the `name` property of any config defined there for this property.
 
 # canUseIntoHighBlockedTile
 # Optional. Whether this item can be used in the direction of a blocked tile (i.e. a wall) while

@@ -1,5 +1,4 @@
 # Getting started: Items
-
 An item is an object that a player can obtain and can be used for many game functions, such as combat, resource gathering, crafting and interacting with other objects.
 
 An item can exist in one of two states:
@@ -205,7 +204,7 @@ After the server restarts, the text for the item in game should be updated.
 ## Done!
 That is the basic process for adding most items in the game. Try changing the values in the config files to experiment with the item.
 
-Consider adding another item of a different kind for practice, or move on the the more advanced guide for more complex items.
+Consider adding another item of a different kind for practice, adding a crafting recipe for this new item (see the *Getting started: Crafting recipes* guide), or move on to the more advanced guide for more complex items.
 
 
 # Creating a complex item

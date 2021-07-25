@@ -124,7 +124,7 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 - ### [Item](guides/items/ITEMS.md)
 
-- ### [Crafting recipe](guides/CRAFTING_RECIPES.md)
+- ### [Crafting recipe](guides/crafting_recipes/CRAFTING_RECIPES.md)
 
 - ### [Creature](guides/creatures/CREATURES.md)
 

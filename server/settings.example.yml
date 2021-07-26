@@ -53,7 +53,7 @@ NEW_PLAYER_SPAWN_ENTRANCE_NAME: start
 
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.
-PLAYER_MOVE_RATE: 250
+PLAYER_MOVE_RATE: 400
 
 # How much glory a new player starts with.
 PLAYER_STARTING_GLORY: 100

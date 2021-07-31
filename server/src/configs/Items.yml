@@ -817,11 +817,9 @@
 
 - name: Galestorm
   code: YNIU9709
-  extends: holdable/weapons/Weapon
   translationID: Galestorm
   textureSource: galestorm
   soundType: Magic weapon
-  ProjectileType: ProjSuperWind
   category: Weapon
   unitWeight: Staff
   useGloryCost: 10

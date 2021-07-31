@@ -660,6 +660,37 @@ class Board {
         return tiles;
     }
 
+    getTilePositionsInRange(row, col, range) {
+        range = range || 1;
+
+        if (range < 1) {
+            return [];
+        }
+
+        const rangePlusOne = range + 1;
+        const tiles = [];
+        let rowOffset;
+        let colOffset;
+        let boardTile;
+
+        for (rowOffset = -range; rowOffset < rangePlusOne; rowOffset += 1) {
+            for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
+                // Check row is valid.
+                if (this.grid[row + rowOffset] !== undefined) {
+                    boardTile = this.grid[row + rowOffset][col + colOffset];
+                    // Check col is valid.
+                    if (boardTile !== undefined) {
+                        tiles.push({
+                            row: row + rowOffset,
+                            col: col + colOffset,
+                        });
+                    }
+                }
+            }
+        }
+        return tiles;
+    }
+
     /**
      * Get all of the destroyables (and any interactables that are not in their default state) that are within the player view range of the target position.
      * @param {Number} row

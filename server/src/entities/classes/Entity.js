@@ -51,6 +51,12 @@ class Entity {
     }
 
     /**
+     * When another entity moves into the same tile as this entity.
+     * @param {Entity} otherEntity - The entity that moved.
+     */
+    onMovedInto(otherEntity) { }
+
+    /**
      * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
      * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
      * @param {Damage|Heal} hitPointModifier - How much to increase or decrease by.

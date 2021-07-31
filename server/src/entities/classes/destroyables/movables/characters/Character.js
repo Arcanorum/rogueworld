@@ -232,6 +232,9 @@ class Character extends Movable {
 
                 destroyable.checkCollisions();
             }
+
+            // Do any logic that should happen when this character moves into the destroyable.
+            destroyable.onMovedInto(this);
         });
     }
 

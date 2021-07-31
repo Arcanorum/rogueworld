@@ -36,11 +36,21 @@ class Item {
         }
     }
 
-    checkUseCriteria() {
+    checkUseCriteria(direction) {
         const { owner } = this;
 
         if (owner.energy < this.useEnergyCost) return false;
         if (owner.glory < this.useGloryCost) return false;
+
+        // Prevent using into a high blocked tile (i.e. a wall) if it shouldn't be able to.
+        if (this.canUseIntoHighBlockedTile === false) {
+            const front = owner.board.getRowColInFront(
+                direction || owner.direction,
+                owner.row, owner.col,
+            );
+            // Check if the tile in front is high blocked.
+            if (owner.board.grid[front.row][front.col].isHighBlocked() === true) return false;
+        }
 
         return true;
     }
@@ -407,5 +417,14 @@ Item.prototype.useGloryCost = 0;
  * @type {Number}
  */
 Item.prototype.gatherTimeReduction = 0;
+
+/**
+ * Whether this item can be used while directly in front of a high blocking static.
+ * Used to prevent certain items that create projectiles that create other projectiles (such as
+ * super fire staff) from having them go through to the other side of the static.
+ * @type {Boolean}
+ * @default true
+ */
+Item.prototype.canUseIntoHighBlockedTile = true;
 
 module.exports = Item;

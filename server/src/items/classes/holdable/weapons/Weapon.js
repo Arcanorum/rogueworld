@@ -17,22 +17,6 @@ class Weapon extends Holdable {
         super.loadConfig(config);
     }
 
-    checkUseCriteria(direction) {
-        const { owner } = this;
-
-        const front = owner.board.getRowColInFront(
-            direction || owner.direction,
-            owner.row, owner.col,
-        );
-
-        if (this.canUseIntoHighBlockedTile === false) {
-            // Check if the tile in front is high blocked.
-            if (owner.board.grid[front.row][front.col].isHighBlocked() === true) return false;
-        }
-
-        return super.checkUseCriteria(direction);
-    }
-
     /**
      * Use this weapon. Typically creates a projectile.
      * @param {String} direction - A specific direction to use the item in. Otherwise uses the owner's direction.
@@ -68,12 +52,3 @@ Weapon.abstract = true;
 Weapon.prototype.ProjectileType = `Weapon projectile entity type not set.${Weapon.prototype.name}`;
 
 Weapon.prototype.expGivenOnUse = 5;
-
-/**
- * Whether this weapon can be used while directly in front of a high blocking static.
- * Used to prevent certain projectiles that create other projectiles (such as super fire staff) from
- * having them go through to the other side of the static.
- * @type {Boolean}
- * @default true
- */
-Weapon.prototype.canUseIntoHighBlockedTile = true;

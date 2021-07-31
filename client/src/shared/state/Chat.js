@@ -57,6 +57,7 @@ class Chat {
         };
         this.chatScope = this.CHAT_SCOPES.LOCAL.value;
         this.badWords = new BadWords();
+        this.newChatNotification = false;
     }
 
     send(scope, message) {
@@ -91,6 +92,7 @@ class Chat {
         // Don't filter profanity of current player's chat
         if (data.id !== this.playerState.entityID) {
             data.message = this.filterProfanity(data.message);
+            this.newChatNotification = true;
         }
 
         dungeonz.gameScene.chat(data.id, data.message);
@@ -104,10 +106,12 @@ class Chat {
 
         if (data.id === this.playerState.entityID) {
             this.CHAT_SCOPES[data.scope].cooldownDate = data.nextAvailableDate;
+            this.newChatNotification = false;
         }
 
         PubSub.publish(NEW_CHAT, {
             chats: this.chats,
+            newChatNotification: this.newChatNotification,
         });
     }
 

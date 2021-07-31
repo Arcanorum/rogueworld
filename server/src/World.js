@@ -395,6 +395,7 @@ const world = {
 module.exports = world;
 
 // Import these AFTER the world is exported.
+// TODO: can these be moved to the top now?
 const Board = require("./board/Board");
 const EntitiesList = require("./entities/EntitiesList");
 const Exit = require("./entities/classes/statics/interactables/exits/Exit");

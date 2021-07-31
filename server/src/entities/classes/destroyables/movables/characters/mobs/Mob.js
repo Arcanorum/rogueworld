@@ -40,11 +40,30 @@ class Mob extends Character {
         }
 
         // Start the loops. Loops are disabled if their rate is 0.
-        if (this.moveRate > 0) this.moveLoop = setTimeout(this.move.bind(this), this.moveRate + Utils.getRandomIntInclusive(0, this.moveRate));
-        if (this.wanderRate > 0) this.wanderLoop = setTimeout(this.wander.bind(this), this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate));
-        if (this.targetSearchRate > 0) this.targetSearchLoop = setTimeout(this.getNearestHostileInLOS.bind(this), this.targetSearchRate + Utils.getRandomIntInclusive(0, this.targetSearchRate));
-        if (this.attackRate > 0) this.attackLoop = setTimeout(this.attack.bind(this), this.attackRate + Utils.getRandomIntInclusive(0, this.attackRate));
-        if (Number.isInteger(config.lifespan) === true) this.lifespanTimeout = setTimeout(this.destroy.bind(this), config.lifespan);
+        if (this.moveRate > 0) {
+            this.moveLoop = setTimeout(
+                this.move.bind(this),
+                this.moveRate + Utils.getRandomIntInclusive(0, this.moveRate),
+            );
+        }
+        if (this.wanderRate > 0) {
+            this.wanderLoop = setTimeout(
+                this.wander.bind(this),
+                this.wanderRate + Utils.getRandomIntInclusive(0, this.wanderRate),
+            );
+        }
+        if (this.targetSearchRate > 0) {
+            this.targetSearchLoop = setTimeout(
+                this.getNearestHostileInLOS.bind(this),
+                this.targetSearchRate + Utils.getRandomIntInclusive(0, this.targetSearchRate),
+            );
+        }
+        if (this.attackRate > 0) {
+            this.attackLoop = setTimeout(
+                this.attack.bind(this),
+                this.attackRate + Utils.getRandomIntInclusive(0, this.attackRate),
+            );
+        }
     }
 
     onDestroy() {
@@ -52,7 +71,6 @@ class Mob extends Character {
         clearTimeout(this.wanderLoop);
         clearTimeout(this.targetSearchLoop);
         clearTimeout(this.attackLoop);
-        clearTimeout(this.lifespanTimeout);
 
         super.onDestroy();
     }

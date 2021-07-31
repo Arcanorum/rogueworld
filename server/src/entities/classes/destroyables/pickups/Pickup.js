@@ -10,22 +10,20 @@ class Pickup extends Destroyable {
      * @param {ItemConfig} [config.itemConfig]
      */
     constructor(config) {
+        // Add a self-destruct timer to pickups that are not in a dungeon.
+        if (!config.board.dungeon) {
+            // A timer to auto destroy this item if it isn't picked up within the given time.
+            config.lifespan = 1000 * 60;
+        }
+
         super(config);
 
         config.board.addPickup(this);
 
         this.itemConfig = config.itemConfig || new ItemConfig({ ItemType: this.ItemType });
-
-        // Add a self-destruct timer to pickups that are not in a dungeon.
-        if (!this.board.dungeon) {
-            // A timer to auto destroy this item if it isn't picked up within the given time.
-            this.lifespanTimeout = setTimeout(this.destroy.bind(this), 1000 * 60);
-        }
     }
 
     onDestroy() {
-        clearTimeout(this.lifespanTimeout);
-
         this.board.removePickup(this);
 
         super.onDestroy();

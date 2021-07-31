@@ -18,6 +18,10 @@ class Destroyable extends Entity {
         this.spawner = null;
 
         config.board.addDestroyable(this);
+
+        if (Number.isInteger(config.lifespan) === true) {
+            this.lifespanTimeout = setTimeout(this.destroy.bind(this), config.lifespan);
+        }
     }
 
     getEmittableProperties(properties) {
@@ -29,6 +33,8 @@ class Destroyable extends Entity {
     }
 
     onDestroy() {
+        clearTimeout(this.lifespanTimeout);
+
         // Tell players around this entity to remove it.
         this.board.emitToNearbyPlayers(this.row, this.col, this.EventsList.remove_entity, this.id);
 

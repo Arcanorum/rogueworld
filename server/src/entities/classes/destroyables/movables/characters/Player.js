@@ -70,6 +70,13 @@ class Player extends Character {
         /** @type {Number} A timeout for when the player is finished gathering from a resource node. */
         this.gatherTimeout = 0;
 
+        /**
+         * An object of anything. Can be used to store very specific data onto this player, such as
+         * items with unique effects.
+         * @type {Object.<*>}
+         */
+        this.miscData = {};
+
         // Start the energy regen loop.
         if (this.energyRegenRate !== false) {
             this.energyRegenLoop = setTimeout(this.regenEnergy.bind(this), this.energyRegenRate);

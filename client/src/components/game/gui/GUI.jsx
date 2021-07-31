@@ -7,11 +7,14 @@ import DefenceCounter from "./defence_counter/DefenceCounter";
 import PanelButton from "./panel_button/PanelButton";
 import TaskTracker from "./task_tracker/TaskTracker";
 import Utils from "../../../shared/Utils";
-import { ApplicationState, GUIState, PlayerState } from "../../../shared/state/States";
+import {
+    ApplicationState, GUIState, ChatState, PlayerState,
+} from "../../../shared/state/States";
 import statsIcon from "../../../assets/images/gui/hud/stats-icon.png";
 import tasksIcon from "../../../assets/images/gui/hud/tasks-icon.png";
 import mapIcon from "../../../assets/images/gui/hud/map-icon.png";
 import chatIcon from "../../../assets/images/gui/hud/chat-icon.png";
+import chatUnreadedMessageIcon from "../../../assets/images/gui/hud/chat-unreaded-msg-icon.png";
 import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
@@ -25,6 +28,7 @@ import {
     BEFORE_PAGE_UNLOAD,
     SHOW_CHAT_BOX,
     QUICK_CHAT_ENABLED,
+    NEW_CHAT,
 } from "../../../shared/EventTypes";
 import DungeonTimer from "./dungeon_timer/DungeonTimer";
 import DungeonKeys from "./dungeon_keys/DungeonKeys";
@@ -41,6 +45,7 @@ function GUI() {
     const [shownPanel, setShownPanel] = useState(null);
     const [showChatBox, setShowChatBox] = useState(GUIState.showChatBox);
     const [quickChatEnabled, setQuickChatEnabled] = useState(GUIState.quickChatEnabled);
+    const [showNewNotification, setShowNewNotification] = useState(ChatState.newChatNotification);
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
     const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
@@ -83,6 +88,11 @@ function GUI() {
             PubSub.subscribe(BEFORE_PAGE_UNLOAD, () => {
                 if (ApplicationState.loggedIn !== true) {
                     setShownPanel(Panels.CreateAccount);
+                }
+            }),
+            PubSub.subscribe(NEW_CHAT, () => {
+                if (showChatBox === false) {
+                    setShowNewNotification(ChatState.newChatNotification);
                 }
             }),
         ];
@@ -137,8 +147,12 @@ function GUI() {
                   tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
                 />
                 <PanelButton
-                  icon={chatIcon}
-                  onClick={() => GUIState.setQuickChatEnabled(!GUIState.quickChatEnabled)}
+                  icon={showNewNotification && !showChatBox && quickChatEnabled
+                      ? chatUnreadedMessageIcon : chatIcon}
+                  onClick={() => {
+                      setShowNewNotification(false);
+                      GUIState.setQuickChatEnabled(!GUIState.quickChatEnabled);
+                  }}
                   tooltipText={`${Utils.getTextDef("Chat tooltip")} ( ENTER )`}
                   className={quickChatEnabled ? "inactive" : ""}
                 />

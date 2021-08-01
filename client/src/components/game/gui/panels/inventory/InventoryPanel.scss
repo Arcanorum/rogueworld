@@ -200,6 +200,11 @@
                 &.options-drop {
                     background-color: $colourDB32Orange;
                 }
+
+                &.options-drop-all {
+                    background-color: $colourDB32DarkTan;
+                    padding: 8px;
+                }
             }
 
             .input-bar {

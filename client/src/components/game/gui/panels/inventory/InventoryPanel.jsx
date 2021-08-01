@@ -44,10 +44,13 @@ function DropOptions({ itemConfig, onCursorLeave }) {
         setDropQuantity(parseInt(event.target.value || 0, 10));
     };
 
-    const dropPressed = () => {
+    /**
+     * @param {Boolean} all - Whether the entire stack should be moved.
+     */
+    const dropPressed = (all) => {
         ApplicationState.connection.sendEvent("drop_item", {
             slotIndex: itemConfig.slotIndex,
-            quantity: dropQuantity,
+            quantity: (all === true) ? itemConfig.quantity : dropQuantity,
         });
 
         onCursorLeave();
@@ -69,7 +72,12 @@ function DropOptions({ itemConfig, onCursorLeave }) {
                 <div className="button clear" onClick={() => { setDropQuantity(0); }}>x</div>
                 <input className="button" type="number" min="0" value={dropQuantity} onChange={inputChanged} />
             </div>
-            {dropQuantity > 0 && <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>}
+            {dropQuantity > 0 && (
+                <>
+                    <div className="button options-drop" onClick={dropPressed}>{Utils.getTextDef("Drop")}</div>
+                    <div className="button options-drop-all" onClick={() => { dropPressed(true); }}>{Utils.getTextDef("Drop entire stack")}</div>
+                </>
+            )}
             {dropQuantity <= 0 && <div className="button options-full-hotbar">{Utils.getTextDef("Drop")}</div>}
         </div>
     );

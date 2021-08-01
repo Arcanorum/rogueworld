@@ -133,7 +133,7 @@
   moveRate: 200
   range: 2
   collisionType: Melee
-  damageAmount: 20
+  damageAmount: 18
   damageTypes:
     - Physical
   textureFrames: iron-hammer
@@ -142,7 +142,7 @@
   moveRate: 200
   range: 2
   collisionType: Melee
-  damageAmount: 24
+  damageAmount: 21
   damageTypes:
     - Physical
   textureFrames: dungium-hammer
@@ -151,7 +151,7 @@
   moveRate: 200
   range: 2
   collisionType: Melee
-  damageAmount: 28
+  damageAmount: 24
   damageTypes:
     - Physical
   textureFrames: agonite-hammer
@@ -160,7 +160,7 @@
   moveRate: 200
   range: 2
   collisionType: Melee
-  damageAmount: 32
+  damageAmount: 27
   damageTypes:
     - Physical
   textureFrames: noctis-hammer
@@ -169,10 +169,10 @@
   moveRate: 200
   range: 2
   collisionType: Melee
-  damageAmount: 32
+  damageAmount: 27
   damageTypes:
     - Physical
-  textureFrames: noctis-hammer
+  textureFrames: hammer-of-glory
   scaleModifier: 1.2
 
 # Hatchets

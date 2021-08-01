@@ -151,12 +151,6 @@ class StatusEffect {
                 this.stop();
             }
         }
-        // Or if this effect heals what it is applied to, heal them.
-        else if (this._healAmount) {
-            this.appliedTo.heal(
-                new Heal(this._healAmount),
-            );
-        }
     }
 }
 /** @type {String} The name of this effect, to be used as an ID in any lists of status effects. */

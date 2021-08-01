@@ -495,7 +495,7 @@
   ProjectileType: ProjDungiumDagger
   category: Weapon
   unitWeight: MetalDagger
-  baseDurability: 50
+  baseDurability: 45
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -511,7 +511,7 @@
   ProjectileType: ProjDungiumHammer
   category: Weapon
   unitWeight: MetalHammer
-  baseDurability: 50
+  baseDurability: 45
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -556,7 +556,7 @@
   unitWeight: Sickle
   category: Sickle
   gatherTimeReduction: 0.65
-  baseDurability: 50
+  baseDurability: 45
   craftTasks:
     - Sickles
 
@@ -569,7 +569,7 @@
   ProjectileType: ProjDungiumSword
   category: Weapon
   unitWeight: MetalSword
-  baseDurability: 50
+  baseDurability: 45
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -718,7 +718,7 @@
   ProjectileType: ProjNoctisDagger
   category: Weapon
   unitWeight: MetalDagger
-  baseDurability: 60
+  baseDurability: 55
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -734,7 +734,7 @@
   ProjectileType: ProjNoctisHammer
   category: Weapon
   unitWeight: MetalHammer
-  baseDurability: 60
+  baseDurability: 55
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
@@ -779,7 +779,7 @@
   unitWeight: Sickle
   category: Sickle
   gatherTimeReduction: 0.8
-  baseDurability: 60
+  baseDurability: 55
   craftTasks:
     - Sickles
 
@@ -792,7 +792,7 @@
   ProjectileType: ProjNoctisSword
   category: Weapon
   unitWeight: MetalSword
-  baseDurability: 60
+  baseDurability: 55
   useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:

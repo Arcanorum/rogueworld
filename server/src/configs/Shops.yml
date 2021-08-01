@@ -22,9 +22,13 @@
       unitPrice: 150
     - itemName: IronPickaxe
       unitPrice: 150
+    - itemName: IronSickle
+      unitPrice: 150
     - itemName: DungiumHatchet
       unitPrice: 800
     - itemName: DungiumPickaxe
+      unitPrice: 800
+    - itemName: DungiumSickle
       unitPrice: 800
 
 # Melee combat gear

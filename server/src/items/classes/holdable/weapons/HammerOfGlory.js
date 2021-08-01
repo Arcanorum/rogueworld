@@ -7,7 +7,7 @@ class HammerOfGlory extends Weapon {
 
         const offset = RowColOffsetsByDirection[OppositeDirections[this.owner.direction]];
         // Push the user backward.
-        this.owner.push(offset.row, offset.col, 2, false);
+        this.owner.push(offset.row, offset.col, 1, false);
     }
 }
 

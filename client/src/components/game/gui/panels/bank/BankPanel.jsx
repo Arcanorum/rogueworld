@@ -156,12 +156,23 @@ function ItemOptions({
         return Utils.getTextDef("Withdraw");
     };
 
-    const transferPressed = () => {
+    const getTransferAllButtonText = () => {
+        if (State === InventoryState) {
+            return Utils.getTextDef("Deposit entire stack");
+        }
+
+        return Utils.getTextDef("Withdraw entire stack");
+    };
+
+    /**
+     * @param {Boolean} all - For stackables, whether the entire stack should be moved.
+     */
+    const transferPressed = (all) => {
         if (State === InventoryState) {
             if (itemConfig.quantity) {
                 ApplicationState.connection.sendEvent("bank_deposit_item", {
                     slotIndex: itemConfig.slotIndex,
-                    quantity: transferQuantity,
+                    quantity: (all === true) ? itemConfig.quantity : transferQuantity,
                 });
             }
             else {
@@ -174,7 +185,7 @@ function ItemOptions({
             if (itemConfig.quantity) {
                 ApplicationState.connection.sendEvent("bank_withdraw_item", {
                     slotIndex: itemConfig.slotIndex,
-                    quantity: transferQuantity,
+                    quantity: (all === true) ? itemConfig.quantity : transferQuantity,
                 });
             }
             else {
@@ -223,7 +234,13 @@ function ItemOptions({
                             <div className="button clear" onClick={() => { setTransferQuantity(0); }}>x</div>
                             <input className="button" type="number" min="0" value={transferQuantity} onChange={inputChanged} />
                         </div>
-                        {transferQuantity > 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-transfer" onClick={transferPressed}>{getTransferButtonText()}</div>}
+                        {transferQuantity > 0
+                        && canTransferItem(State, itemConfig, transferQuantity) && (
+                            <>
+                                <div className="button options-transfer" onClick={transferPressed}>{getTransferButtonText()}</div>
+                                <div className="button options-transfer-all" onClick={() => { transferPressed(true); }}>{getTransferAllButtonText()}</div>
+                            </>
+                        )}
                         {transferQuantity <= 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space">{getTransferButtonText()}</div>}
                     </>
                 )}

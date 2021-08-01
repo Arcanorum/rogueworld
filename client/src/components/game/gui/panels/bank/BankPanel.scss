@@ -265,6 +265,11 @@
                     background-color: $colourDB32Blurple;
                 }
 
+                &.options-transfer-all {
+                    background-color: $colourDB32LightBlue;
+                    padding: 8px;
+                }
+
                 &.options-no-space {
                     background-color: $colourDB32GreyOpacity50;
                     color: $colourDB32SteelGrey;

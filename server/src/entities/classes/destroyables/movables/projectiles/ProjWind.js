@@ -8,7 +8,7 @@ class ProjWind extends Projectile {
         if (collidee instanceof ProjWind) return;
         if (collidee instanceof EntitiesList.ProjSuperWind) return;
 
-        this.pushBackCollidee(collidee);
+        this.pushBackCollidee(collidee, 1);
 
         collidee.damage(
             new Damage({

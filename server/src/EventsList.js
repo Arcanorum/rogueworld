@@ -67,6 +67,8 @@ const EventsList = {
     effect_stop_cold_resistance: registerEventName(),
     effect_start_chill: registerEventName(),
     effect_stop_chill: registerEventName(),
+    effect_start_broken_bones: registerEventName(),
+    effect_stop_broken_bones: registerEventName(),
     energy_value: registerEventName(),
     enchantment_set: registerEventName(),
     enchantment_removed: registerEventName(),

@@ -53,7 +53,7 @@ class ProjSuperWind extends ProjWind {
             row, col: col + 1, board, direction: Directions.RIGHT, source,
         }).emitToNearbyPlayers();
 
-        this.pushBackCollidee(collidee);
+        this.pushBackCollidee(collidee, 1);
 
         collidee.damage(
             new Damage({

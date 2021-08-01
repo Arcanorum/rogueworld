@@ -303,6 +303,7 @@ class Projectile extends Movable {
     /**
      * Push back the thing that this entity collided with.
      * @param {Entity} collidee
+     * @param {Number} tileCount - How far in tiles to push.
      */
     pushBackCollidee(collidee, tileCount) {
         // Check any of the conditions that should always be checked.
@@ -314,10 +315,11 @@ class Projectile extends Movable {
         if (collidee instanceof EntitiesList.AbstractClasses.Character) {
             const offset = RowColOffsetsByDirection[this.direction];
             collidee.modDirection(this.direction);
-            // Clear their current move loop so they don't end up with 2 loops after doing this direct movement. Only affects mobs.
-            clearTimeout(collidee.moveLoop);
 
-            if (tileCount > 1) {
+            if (tileCount > 0) {
+                // Clear their current move loop so they don't end up with 2 loops after doing this direct movement. Only affects mobs.
+                clearTimeout(collidee.moveLoop);
+
                 for (let i = 0; i < tileCount; i += 1) {
                     // Check the collidee is still on the board each iteration, as it might have
                     // been removed in a previous push (i.e. mob dies being pushed into a hazard).
@@ -326,9 +328,7 @@ class Projectile extends Movable {
                     }
                 }
             }
-            else {
-                collidee.push(offset.row, offset.col);
-            }
+
             this.destroy();
             return;
         }

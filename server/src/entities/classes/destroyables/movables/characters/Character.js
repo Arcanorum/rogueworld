@@ -217,6 +217,10 @@ class Character extends Movable {
             );
         }
 
+        Object.values(this.statusEffects).forEach((statusEffect) => {
+            statusEffect.onMove();
+        });
+
         // Check for any projectiles they might be now colliding with.
         Object.values(destroyables).forEach((destroyable) => {
             if (destroyable instanceof EntitiesList.AbstractClasses.Projectile) {

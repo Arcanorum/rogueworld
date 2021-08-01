@@ -43,6 +43,12 @@ const ModHitPointConfigs = {
     HealthRegen: {
         healAmount: 10,
     },
+
+    BrokenBones: {
+        damageAmount: 3,
+        damageTypes: [Physical],
+        damageArmourPiercing: 100,
+    },
 };
 
 module.exports = ModHitPointConfigs;

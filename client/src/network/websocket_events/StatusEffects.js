@@ -80,6 +80,17 @@ export default () => {
         dungeonz.gameScene.dynamics[data].spriteContainer.chillEffect.visible = false;
     };
 
+    eventResponses.effect_start_broken_bones = (data) => {
+        if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        dungeonz.gameScene.dynamics[data].spriteContainer.brokenBonesEffect.anims.play("broken-bones");
+    };
+
+    eventResponses.effect_stop_broken_bones = (data) => {
+        if (dungeonz.gameScene.dynamics[data] === undefined) return;
+        dungeonz.gameScene.dynamics[data].spriteContainer.brokenBonesEffect.anims.stop();
+        dungeonz.gameScene.dynamics[data].spriteContainer.brokenBonesEffect.visible = false;
+    };
+
     eventResponses.curse_set = (data) => {
         const entity = dungeonz.gameScene.dynamics[data];
         if (!entity) return;

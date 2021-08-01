@@ -3,6 +3,8 @@ const EventsList = require("../EventsList");
 const Damage = require("./Damage");
 const Heal = require("./Heal");
 
+const StatusEffects = {};
+
 class StatusEffect {
     /**
      *
@@ -67,12 +69,12 @@ class StatusEffect {
             return;
         }
         // If this effect damages what it is applied to, damage them.
-        if (this._damageAmount) {
+        if (this._effectDamageAmount) {
             this.appliedTo.damage(
                 new Damage({
-                    amount: this._damageAmount,
-                    types: this._damageTypes,
-                    armourPiercing: this._damageArmourPiercing,
+                    amount: this._effectDamageAmount,
+                    types: this._effectDamageTypes,
+                    armourPiercing: this._effectDamageArmourPiercing,
                 }),
                 this.source,
             );
@@ -128,19 +130,50 @@ class StatusEffect {
     shouldContinueEffect() {
         return true;
     }
+
+    onMove() {
+        if (!this.appliedTo.board) {
+            this.stop();
+            return;
+        }
+        // If this effect damages what it is applied to, damage them.
+        if (this._moveDamageAmount) {
+            this.appliedTo.damage(
+                new Damage({
+                    amount: this._moveDamageAmount,
+                    types: this._moveDamageTypes,
+                    armourPiercing: this._moveDamageArmourPiercing,
+                }),
+                this.source,
+            );
+            // Stop this effect if the thing it is applied to died from the damage above.
+            if (this.appliedTo.hitPoints < 1) {
+                this.stop();
+            }
+        }
+        // Or if this effect heals what it is applied to, heal them.
+        else if (this._healAmount) {
+            this.appliedTo.heal(
+                new Heal(this._healAmount),
+            );
+        }
+    }
 }
 /** @type {String} The name of this effect, to be used as an ID in any lists of status effects. */
 StatusEffect.prototype.effectName = "";
 /** @type {Boolean} Should the effect by activated on start. */
 StatusEffect.prototype._effectOnStart = false;
 /** @type {Number} How much to modify the hitpoints of the thing it is applied to by each effect. */
-StatusEffect.prototype._damageAmount = 0;
+StatusEffect.prototype._effectDamageAmount = 0;
 /** @type {Array.<Number>} The types of damage to deal. A list of Damage.Types */
-StatusEffect.prototype._damageTypes = [];
+StatusEffect.prototype._effectDamageTypes = [];
 /** @type {Number} How much armour this damage will ignore. 0 to 1. */
-StatusEffect.prototype._damageArmourPiercing = 0;
+StatusEffect.prototype._effectDamageArmourPiercing = 0;
 /** @type {Number} How much hitpoints to restore */
 StatusEffect.prototype._healAmount = 0;
+StatusEffect.prototype._moveDamageAmount = 0;
+StatusEffect.prototype._moveDamageTypes = [];
+StatusEffect.prototype._moveDamageArmourPiercing = 0;
 /** @type {Number} How many more times will this effect happen before stopping. */
 StatusEffect.prototype._effectsRemaining = 0;
 /** @type {Number} How long will this effect last for when started. Starting the effect multiple times does not stack this duration. */
@@ -183,13 +216,14 @@ class Burn extends StatusEffect {
 const burnDamageConfig = require("./ModHitPointConfigs").Burn;
 
 Burn.prototype._effectOnStart = true;
-Burn.prototype._damageAmount = burnDamageConfig.damageAmount;
-Burn.prototype._damageTypes = burnDamageConfig.damageTypes;
-Burn.prototype._damageArmourPiercing = burnDamageConfig.damageArmourPiercing;
+Burn.prototype._effectDamageAmount = burnDamageConfig.damageAmount;
+Burn.prototype._effectDamageTypes = burnDamageConfig.damageTypes;
+Burn.prototype._effectDamageArmourPiercing = burnDamageConfig.damageArmourPiercing;
 Burn.prototype._startingEffectsRemaining = 3;
 Burn.prototype._startEffectEventName = EventsList.effect_start_burn;
 Burn.prototype._stopEffectEventName = EventsList.effect_stop_burn;
 Burn.prototype.hazardous = true;
+StatusEffects.Burn = Burn;
 
 class Poison extends StatusEffect {
     shouldStart() {
@@ -223,26 +257,28 @@ class Poison extends StatusEffect {
 }
 const poisonDamageConfig = require("./ModHitPointConfigs").Poison;
 
-Poison.prototype._damageAmount = poisonDamageConfig.damageAmount;
-Poison.prototype._damageTypes = poisonDamageConfig.damageTypes;
-Poison.prototype._damageArmourPiercing = poisonDamageConfig.damageArmourPiercing;
+Poison.prototype._effectDamageAmount = poisonDamageConfig.damageAmount;
+Poison.prototype._effectDamageTypes = poisonDamageConfig.damageTypes;
+Poison.prototype._effectDamageArmourPiercing = poisonDamageConfig.damageArmourPiercing;
 Poison.prototype._startingEffectsRemaining = 5;
 Poison.prototype._effectRate = 2000;
 Poison.prototype._startEffectEventName = EventsList.effect_start_poison;
 Poison.prototype._stopEffectEventName = EventsList.effect_stop_poison;
 Poison.prototype.hazardous = true;
+StatusEffects.Poison = Poison;
 
 class Disease extends StatusEffect { }
 const diseaseDamageConfig = require("./ModHitPointConfigs").Disease;
 
-Disease.prototype._damageAmount = diseaseDamageConfig.damageAmount;
-Disease.prototype._damageTypes = diseaseDamageConfig.damageTypes;
-Disease.prototype._damageArmourPiercing = diseaseDamageConfig.damageArmourPiercing;
+Disease.prototype._effectDamageAmount = diseaseDamageConfig.damageAmount;
+Disease.prototype._effectDamageTypes = diseaseDamageConfig.damageTypes;
+Disease.prototype._effectDamageArmourPiercing = diseaseDamageConfig.damageArmourPiercing;
 Disease.prototype._startingEffectsRemaining = 20;
 Disease.prototype._effectRate = 4000;
 Disease.prototype._startEffectEventName = EventsList.effect_start_disease;
 Disease.prototype._stopEffectEventName = EventsList.effect_stop_disease;
 Disease.prototype.hazardous = true;
+StatusEffects.Disease = Disease;
 
 class HealthRegen extends StatusEffect { }
 HealthRegen.prototype._healAmount = require("./ModHitPointConfigs").HealthRegen.healAmount;
@@ -250,6 +286,7 @@ HealthRegen.prototype._healAmount = require("./ModHitPointConfigs").HealthRegen.
 HealthRegen.prototype._startingEffectsRemaining = 5;
 HealthRegen.prototype._startEffectEventName = EventsList.effect_start_health_regen;
 HealthRegen.prototype._stopEffectEventName = EventsList.effect_stop_health_regen;
+StatusEffects.HealthRegen = HealthRegen;
 
 class EnergyRegen extends StatusEffect {
     _effect() {
@@ -262,18 +299,21 @@ class EnergyRegen extends StatusEffect {
 EnergyRegen.prototype._startingEffectsRemaining = 10;
 EnergyRegen.prototype._startEffectEventName = EventsList.effect_start_energy_regen;
 EnergyRegen.prototype._stopEffectEventName = EventsList.effect_stop_energy_regen;
+StatusEffects.EnergyRegen = EnergyRegen;
 
 class Cured extends StatusEffect { }
 Cured.prototype._effectOnStart = true;
 Cured.prototype._startingEffectsRemaining = 60;
 Cured.prototype._startEffectEventName = EventsList.effect_start_cured;
 Cured.prototype._stopEffectEventName = EventsList.effect_stop_cured;
+StatusEffects.Cured = Cured;
 
 class ColdResistance extends StatusEffect { }
 ColdResistance.prototype._effectOnStart = true;
 ColdResistance.prototype._startingEffectsRemaining = 60;
 ColdResistance.prototype._startEffectEventName = EventsList.effect_start_cold_resistance;
 ColdResistance.prototype._stopEffectEventName = EventsList.effect_stop_cold_resistance;
+StatusEffects.ColdResistance = ColdResistance;
 
 class Chill extends StatusEffect {
     shouldStart() {
@@ -316,17 +356,20 @@ Chill.prototype._startingEffectsRemaining = 2;
 Chill.prototype._startEffectEventName = EventsList.effect_start_chill;
 Chill.prototype._stopEffectEventName = EventsList.effect_stop_chill;
 Chill.prototype.moveRateModifier = 2;
+StatusEffects.Chill = Chill;
 
-const StatusEffects = {
-    Burn,
-    Poison,
-    Disease,
-    HealthRegen,
-    EnergyRegen,
-    Cured,
-    ColdResistance,
-    Chill,
-};
+class BrokenBones extends StatusEffect { }
+const brokenBonesDamageConfig = require("./ModHitPointConfigs").BrokenBones;
+
+BrokenBones.prototype._effectOnStart = false;
+BrokenBones.prototype._startingEffectsRemaining = 5;
+BrokenBones.prototype._startEffectEventName = EventsList.effect_start_broken_bones;
+BrokenBones.prototype._stopEffectEventName = EventsList.effect_stop_broken_bones;
+BrokenBones.prototype._moveDamageAmount = brokenBonesDamageConfig.damageAmount;
+BrokenBones.prototype._moveDamageTypes = brokenBonesDamageConfig.damageTypes;
+BrokenBones.prototype._moveDamageArmourPiercing = brokenBonesDamageConfig.damageArmourPiercing;
+BrokenBones.prototype.moveRateModifier = 1.4;
+StatusEffects.BrokenBones = BrokenBones;
 
 module.exports = StatusEffects;
 

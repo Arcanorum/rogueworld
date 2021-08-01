@@ -41,6 +41,7 @@ class Character extends Container {
         this.burnEffect = this.addEffect("burn-effect-1");
         this.chillEffect = this.addEffect("chill-effect-1");
         this.chillEffect.setAlpha(0.5);
+        this.brokenBonesEffect = this.addEffect("broken-bones-effect-1");
 
         this.curseEffect = this.addEffect("curse-effect-1");
         this.curseEffect.x = -6;
@@ -182,6 +183,7 @@ class Character extends Container {
         createTwoFrameAnim("poison");
         createTwoFrameAnim("burn");
         createTwoFrameAnim("chill");
+        createTwoFrameAnim("broken-bones");
         createTwoFrameAnim("curse");
         createTwoFrameAnim("enchantment");
     }

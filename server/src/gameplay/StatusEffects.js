@@ -362,7 +362,6 @@ BrokenBones.prototype._stopEffectEventName = EventsList.effect_stop_broken_bones
 BrokenBones.prototype._moveDamageAmount = brokenBonesDamageConfig.damageAmount;
 BrokenBones.prototype._moveDamageTypes = brokenBonesDamageConfig.damageTypes;
 BrokenBones.prototype._moveDamageArmourPiercing = brokenBonesDamageConfig.damageArmourPiercing;
-BrokenBones.prototype.moveRateModifier = 1.4;
 StatusEffects.BrokenBones = BrokenBones;
 
 module.exports = StatusEffects;

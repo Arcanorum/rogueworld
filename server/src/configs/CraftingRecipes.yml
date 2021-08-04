@@ -713,6 +713,22 @@
   result:
     itemName: NinjaGarb
 
+- stationTypes:
+    - Anvil
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
+    - itemName: Greencap
+      quantity: 2
+    - itemName: PineLogs
+      quantity: 4
+    - itemName: Feathers
+      quantity: 2
+  result:
+    itemName: PoisonArrows
+    baseQuantity: 5
+
 # Mage equipment
 
 - stationTypes:

@@ -36,6 +36,16 @@
   damageArmourPiercing: 30
   textureFrames: noctis-arrow
 
+- name: PoisonArrow
+  moveRate: 100
+  range: 8
+  damageAmount: 5
+  damageTypes:
+    - Physical
+    - Biological
+  damageArmourPiercing: 100
+  textureFrames: poison-arrow
+
 # Shurikens
 
 - name: Shuriken

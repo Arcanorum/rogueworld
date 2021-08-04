@@ -170,6 +170,17 @@
     - Arrows
     - NoctisGear
 
+- name: PoisonArrows
+  code: LJCR7302
+  translationID: Poison arrows
+  textureSource: poison-arrows
+  extends: ammunition/Ammunition
+  ProjectileType: ProjPoisonArrow
+  baseQuantity: 2
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+
 # Clan structures
 
 # Clothes

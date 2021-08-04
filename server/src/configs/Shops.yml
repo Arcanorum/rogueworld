@@ -56,6 +56,8 @@
       unitPrice: 5
     - itemName: DungiumArrows
       unitPrice: 20
+    - itemName: PoisonArrows
+      unitPrice: 60
     - itemName: Shuriken
       unitPrice: 7
     - itemName: Cloak

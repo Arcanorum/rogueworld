@@ -204,7 +204,9 @@ After the server restarts, the text for the item in game should be updated.
 ## Done!
 That is the basic process for adding most items in the game. Try changing the values in the config files to experiment with the item.
 
-Consider adding another item of a different kind for practice, adding a crafting recipe for this new item (see the *Getting started: Crafting recipes* guide), or move on to the more advanced guide for more complex items.
+Consider adding another item of a different kind for practice, adding a crafting recipe for this new item (see the [*Getting started: Crafting recipes*](../crafting_recipes/CRAFTING_RECIPES.md) guide), or move on to the more advanced guide for more complex items.
+
+>Keep in mind the [item design philosophy](https://github.com/Arcanorum/dungeonz/wiki/Item-design-philosophy) when coming up with new item ideas.
 
 
 # Creating a complex item

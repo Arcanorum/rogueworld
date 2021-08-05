@@ -19,12 +19,12 @@
 # KSES6122 <-- a new item code to use for this config
 
 # extends
-# Optional. A path (relative from server/src/items/classes) to the class file that this item type
-# should extend from.
+# Optional. The name of an abstract item type to use as the class file that this item type should
+# extend from.
 # When an item extends from another class, it will inherit the functionality of that class.
 # Some other config properties that can be set for this item type only work when the appropriate
 # class is extended from.
-# e.g. The defenceBonus property only works when extending clothes/Clothes.
+# e.g. The defenceBonus property only works when extending Clothes.
 
 # translationID
 # A value from the ID column in the ITEMS tab in the translations spreadsheet to use to get the name and
@@ -60,8 +60,8 @@
 # ProjectileType
 # Optional. The class name of the projectile type to create an instance of when this item is used.
 # Each weapon item that shoots out some kind of projectile should have an associated projectile entity class.
-# e.g. for an IronSword item that extends holdable/weapons/Weapon, there should also be in the
-# entities list a ProjIronSword entity class that extends from the Projectile class.
+# e.g. for an IronSword item that extends Weapon, there should also be in the entities list a
+# ProjIronSword entity class that extends from the Projectile class.
 # The projectile classes are automatically generated from the list of configs in Projectiles.yml.
 # Simply use the `name` property of any config defined there for this property.
 
@@ -126,7 +126,7 @@
   code: LOEO6269
   translationID: Agonite arrows
   textureSource: agonite-arrows
-  extends: ammunition/Ammunition
+  extends: Ammunition
   ProjectileType: ProjAgoniteArrow
   unitWeight: Arrow
   baseQuantity: 5
@@ -138,7 +138,7 @@
   code: ONCE9214
   translationID: Dungium arrows
   textureSource: dungium-arrows
-  extends: ammunition/Ammunition
+  extends: Ammunition
   ProjectileType: ProjDungiumArrow
   unitWeight: Arrow
   baseQuantity: 5
@@ -150,7 +150,7 @@
   code: EFQV6850
   translationID: Iron arrows
   textureSource: iron-arrows
-  extends: ammunition/Ammunition
+  extends: Ammunition
   ProjectileType: ProjIronArrow
   baseQuantity: 5
   unitWeight: Arrow
@@ -162,7 +162,7 @@
   code: GOWQ7155
   translationID: Noctis arrows
   textureSource: noctis-arrows
-  extends: ammunition/Ammunition
+  extends: Ammunition
   ProjectileType: ProjNoctisArrow
   baseQuantity: 5
   unitWeight: Arrow
@@ -174,7 +174,7 @@
   code: LJCR7302
   translationID: Poison arrows
   textureSource: poison-arrows
-  extends: ammunition/Ammunition
+  extends: Ammunition
   ProjectileType: ProjPoisonArrow
   baseQuantity: 2
   unitWeight: Arrow
@@ -187,7 +187,7 @@
 
 - name: AgoniteArmour
   code: PXQF2023
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Agonite armour
   textureSource: agonite-armour
   soundType: Metal clothing
@@ -203,7 +203,7 @@
 
 - name: ArmorOfIre
   code: CFBO6832
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Armor of Ire
   textureSource: dungium-armour
   soundType: Fabric clothing
@@ -217,7 +217,7 @@
 
 - name: Cloak
   code: XVXP6397
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Cloak
   textureSource: cloak
   soundType: Fabric clothing
@@ -233,7 +233,7 @@
 
 - name: DungiumArmour
   code: JKYL4271
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Dungium armour
   textureSource: dungium-armour
   soundType: Metal clothing
@@ -249,7 +249,7 @@
 
 # - name: Etherweave
 #   code: CAMJ8537
-#   extends: clothes/Clothes
+#   extends: Clothes
 #   translationID: Etherweave
 #   textureSource: mage-robe
 #   soundType: Fabric clothing
@@ -263,7 +263,7 @@
 
 - name: IronArmour
   code: XEBH5037
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Iron armour
   textureSource: iron-armour
   soundType: Metal clothing
@@ -279,7 +279,7 @@
 
 - name: MageRobe
   code: UIQB4427
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Mage robe
   textureSource: mage-robe
   soundType: Fabric clothing
@@ -295,7 +295,7 @@
 
 - name: NecromancerRobe
   code: HNOI4167
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Necromancer robe
   textureSource: necromancer-robe
   soundType: Fabric clothing
@@ -311,7 +311,7 @@
 
 - name: NinjaGarb
   code: MYJZ0020
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Ninja garb
   textureSource: ninja-garb
   soundType: Fabric clothing
@@ -328,7 +328,7 @@
 
 - name: NoctisArmour
   code: OELK7246
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Noctis armour
   textureSource: noctis-armour
   soundType: Metal clothing
@@ -344,7 +344,7 @@
 
 - name: PlainRobe
   code: RBKW4762
-  extends: clothes/Clothes
+  extends: Clothes
   translationID: Plain robe
   textureSource: plain-robe
   soundType: Fabric clothing
@@ -366,7 +366,7 @@
 
 - name: AgoniteDagger
   code: KVKC1852
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Agonite dagger
   textureSource: agonite-dagger
   soundType: Metal weapon
@@ -382,7 +382,7 @@
 
 - name: AgoniteHammer
   code: TMWQ0215
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Agonite hammer
   textureSource: agonite-hammer
   soundType: Metal weapon
@@ -400,7 +400,7 @@
   code: KDJM6256
   translationID: Agonite hatchet
   textureSource: agonite-hatchet
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjAgoniteHatchet
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -414,7 +414,7 @@
   code: UXBP5028
   translationID: Agonite pickaxe
   textureSource: agonite-pickaxe
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjAgonitePickaxe
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -428,7 +428,7 @@
   code: ITJQ1040
   translationID: Agonite sickle
   textureSource: agonite-sickle
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjAgoniteSickle
   canUseIntoHighBlockedTile: false
   unitWeight: Sickle
@@ -440,7 +440,7 @@
 
 - name: AgoniteSword
   code: BNZQ3113
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Agonite sword
   textureSource: agonite-sword
   soundType: Metal weapon
@@ -456,7 +456,7 @@
 
 - name: BloodStaff
   code: CRMZ8928
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Blood staff
   textureSource: blood-staff
   soundType: Magic weapon
@@ -473,7 +473,7 @@
   code: XGEA0957
   translationID: Bone hatchet
   textureSource: bone-hatchet
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjBoneHatchet
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -487,7 +487,7 @@
   code: SEPO2838
   translationID: Bone pickaxe
   textureSource: bone-pickaxe
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjBonePickaxe
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -499,7 +499,7 @@
 
 - name: DungiumDagger
   code: EDBL4872
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Dungium dagger
   textureSource: dungium-dagger
   soundType: Metal weapon
@@ -515,7 +515,7 @@
 
 - name: DungiumHammer
   code: LBVC0112
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Dungium hammer
   textureSource: dungium-hammer
   soundType: Metal weapon
@@ -533,7 +533,7 @@
   code: NIWY6955
   translationID: Dungium hatchet
   textureSource: dungium-hatchet
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjDungiumHatchet
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -547,7 +547,7 @@
   code: HGKW8248
   translationID: Dungium pickaxe
   textureSource: dungium-pickaxe
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjDungiumPickaxe
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -561,7 +561,7 @@
   code: WAHF0883
   translationID: Dungium sickle
   textureSource: dungium-sickle
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjDungiumSickle
   canUseIntoHighBlockedTile: false
   unitWeight: Sickle
@@ -573,7 +573,7 @@
 
 - name: DungiumSword
   code: OFLM3602
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Dungium sword
   textureSource: dungium-sword
   soundType: Metal weapon
@@ -589,7 +589,7 @@
 
 - name: EternalFlame
   code: HDYY9831
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Eternal Flame
   textureSource: eternal-flame
   soundType: Magic weapon
@@ -604,7 +604,7 @@
 
 - name: FireStaff
   code: JZYO3459
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Fire staff
   textureSource: fire-staff
   ProjectileType: ProjFire
@@ -618,7 +618,7 @@
 
 - name: HammerOfGlory
   code: OWEF7178
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Hammer of Glory
   textureSource: hammer-of-glory
   soundType: Metal weapon
@@ -632,7 +632,7 @@
 
 - name: IronDagger
   code: WFCA0984
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Iron dagger
   textureSource: iron-dagger
   soundType: Metal weapon
@@ -648,7 +648,7 @@
 
 - name: IronHammer
   code: BRCX5152
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Iron hammer
   textureSource: iron-hammer
   soundType: Metal weapon
@@ -666,7 +666,7 @@
   code: TNBM9295
   translationID: Iron hatchet
   textureSource: iron-hatchet
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjIronHatchet
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -680,7 +680,7 @@
   code: HGST8704
   translationID: Iron pickaxe
   textureSource: iron-pickaxe
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjIronPickaxe
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -694,7 +694,7 @@
   code: CMUY6245
   translationID: Iron sickle
   textureSource: iron-sickle
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjIronSickle
   canUseIntoHighBlockedTile: false
   unitWeight: Sickle
@@ -706,7 +706,7 @@
 
 - name: IronSword
   code: ZUUW4723
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Iron sword
   textureSource: iron-sword
   soundType: Metal weapon
@@ -722,7 +722,7 @@
 
 - name: NoctisDagger
   code: EMGG7774
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Noctis dagger
   textureSource: noctis-dagger
   soundType: Metal weapon
@@ -738,7 +738,7 @@
 
 - name: NoctisHammer
   code: FYOP1681
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Noctis hammer
   textureSource: noctis-hammer
   soundType: Metal weapon
@@ -756,7 +756,7 @@
   code: CTPW6414
   translationID: Noctis hatchet
   textureSource: noctis-hatchet
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjNoctisHatchet
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -770,7 +770,7 @@
   code: LOEF4388
   translationID: Noctis pickaxe
   textureSource: noctis-pickaxe
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjNoctisPickaxe
   canUseIntoHighBlockedTile: false
   unitWeight: GatheringTool
@@ -784,7 +784,7 @@
   code: EZGR0794
   translationID: Noctis sickle
   textureSource: noctis-sickle
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   ProjectileType: ProjNoctisSickle
   canUseIntoHighBlockedTile: false
   unitWeight: Sickle
@@ -796,7 +796,7 @@
 
 - name: NoctisSword
   code: BPHJ9303
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Noctis sword
   textureSource: noctis-sword
   soundType: Metal weapon
@@ -812,7 +812,7 @@
 
 - name: Shuriken
   code: FKUT5967
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Shuriken
   textureSource: shuriken
   soundType: Metal weapon
@@ -841,7 +841,7 @@
 
 - name: SuperBloodStaff
   code: FZBN5698
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Super blood staff
   textureSource: super-blood-staff
   ProjectileType: ProjSuperBloodBolt
@@ -856,7 +856,7 @@
 
 - name: SuperFireStaff
   code: CPAO5445
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Super fire staff
   textureSource: super-fire-staff
   ProjectileType: ProjSuperFire
@@ -871,7 +871,7 @@
 
 - name: SuperWindStaff
   code: SGBE8487
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Super wind staff
   textureSource: super-wind-staff
   ProjectileType: ProjSuperWind
@@ -886,7 +886,7 @@
 
 - name: VampireFang
   code: VSVM7178
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Vampire fang
   textureSource: vampire-fang
   ProjectileType: ProjVampireFang
@@ -898,7 +898,7 @@
 
 - name: WindStaff
   code: TMOR5543
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Wind staff
   textureSource: wind-staff
   ProjectileType: ProjWind
@@ -912,7 +912,7 @@
 
 - name: WoodenClub
   code: KGFQ9975
-  extends: holdable/weapons/Weapon
+  extends: Weapon
   translationID: Wooden club
   textureSource: wooden-club
   soundType: Metal weapon
@@ -927,7 +927,7 @@
 
 - name: PineBow
   code: JQHL5966
-  extends: holdable/weapons/bows/Bow
+  extends: Bow
   translationID: Pine bow
   textureSource: pine-bow
   category: Weapon
@@ -941,7 +941,7 @@
 
 - name: WillowBow
   code: PDZE8350
-  extends: holdable/weapons/bows/Bow
+  extends: Bow
   translationID: Willow bow
   textureSource: willow-bow
   category: Weapon
@@ -955,7 +955,7 @@
 
 - name: OakBow
   code: MIIE6860
-  extends: holdable/weapons/bows/Bow
+  extends: Bow
   translationID: Oak bow
   textureSource: oak-bow
   category: Weapon
@@ -971,7 +971,6 @@
 
 - name: CleanseSpellScroll
   code: KVHL3512
-  extends: spell_scrolls/SpellScroll
   translationID: Scroll of cleansing
   textureSource: cleanse-spell-scroll
   useEnergyCost: 5
@@ -982,7 +981,6 @@
 
 - name: ConsumeSpellScroll
   code: VMFW6679
-  extends: spell_scrolls/SpellScroll
   translationID: Scroll of consume
   textureSource: consume-spell-scroll
   useEnergyCost: 5
@@ -993,9 +991,10 @@
 
 - name: DeathbindSpellScroll
   code: VNHK6849
-  extends: spell_scrolls/SpellScroll
+  extends: Weapon
   translationID: Scroll of deathbind
   textureSource: deathbind-spell-scroll
+  ProjectileType: ProjDeathbind
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -1004,7 +1003,6 @@
 
 - name: EnthrallSpellScroll
   code: FYRX1359
-  extends: spell_scrolls/SpellScroll
   translationID: Scroll of enthrall
   textureSource: enthrall-spell-scroll
   useEnergyCost: 5
@@ -1015,7 +1013,6 @@
 
 - name: HealAreaSpellScroll
   code: KXAD5315
-  extends: spell_scrolls/SpellScroll
   translationID: Scroll of heal area
   textureSource: heal-area-spell-scroll
   useEnergyCost: 5
@@ -1026,9 +1023,10 @@
 
 - name: PacifySpellScroll
   code: TFCL0641
-  extends: spell_scrolls/SpellScroll
+  extends: Weapon
   translationID: Scroll of pacify
   textureSource: pacify-spell-scroll
+  ProjectileType: ProjPacify
   useEnergyCost: 5
   soundType: Scroll
   unitWeight: Scroll
@@ -1037,7 +1035,6 @@
 
 - name: ReanimateSpellScroll
   code: KMGJ5860
-  extends: spell_scrolls/SpellScroll
   translationID: Scroll of reanimate
   textureSource: reanimate-spell-scroll
   useEnergyCost: 5
@@ -1048,7 +1045,6 @@
 
 - name: WardSpellScroll
   code: ZZAB3297
-  extends: spell_scrolls/SpellScroll
   translationID: Scroll of warding
   textureSource: ward-spell-scroll
   useEnergyCost: 5

@@ -21,15 +21,15 @@ const makeClass = (config) => {
 
     // Use a more specific type (i.e. Ammunition, Clothes) to extend from if specified.
     if (config.extends) {
-        const pathToCheck = `${__dirname}/classes/${config.extends}.js`;
-        if (fs.existsSync(pathToCheck)) {
+        // const pathToCheck = `${__dirname}/classes/${config.extends}.js`;
+        if (ItemsList.AbstractClasses[config.extends]) {
             // eslint-disable-next-line global-require, import/no-dynamic-require
-            SuperClass = require(`./classes/${config.extends}`);
+            SuperClass = ItemsList.AbstractClasses[config.extends];
         }
         else {
             Utils.error(`Failed to load item config from Items.yml for "${config.name}".
           The class to extend from cannot be found for given "extends" property "${config.extends}".
-          Full path being checked: "${pathToCheck}"`);
+          Check it is actually extending from an abstract item type.`);
         }
     }
 
@@ -54,7 +54,14 @@ const populateList = () => {
                 }
                 // Don't add abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
-                if (Object.prototype.hasOwnProperty.call(value, "abstract")) return;
+                if (Object.prototype.hasOwnProperty.call(value, "abstract")) {
+                    if (ItemsList.AbstractClasses[baseName]) {
+                        Utils.error(`Cannot load abstract item type "${baseName}", as it already exists in the abstract classes list.`);
+                    }
+                    // Still add it to the separate list of abstract classes though, as it may still be needed.
+                    ItemsList.AbstractClasses[baseName] = value;
+                    return;
+                }
 
                 value.assignPickupType(baseName);
                 value.prototype.typeName = baseName;

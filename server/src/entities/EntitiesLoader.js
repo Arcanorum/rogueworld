@@ -19,6 +19,9 @@ const populateList = () => {
                 // Don't do any additional setup for abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
                 if (Object.prototype.hasOwnProperty.call(value, "abstract")) {
+                    if (EntitiesList.AbstractClasses[baseName]) {
+                        Utils.error(`Cannot load abstract entity type "${baseName}", as it already exists in the abstract classes list.`);
+                    }
                     // Still add it to the separate list of abstract classes though, as it may still be needed.
                     EntitiesList.AbstractClasses[baseName] = value;
                     return;

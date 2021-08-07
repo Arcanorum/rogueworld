@@ -20,5 +20,5 @@ jobs:
         contains(github.event.issue.labels.*.name, 'visual') ||
         contains(github.event.issue.labels.*.name, 'bug')
       with:
-        project: 'https://github.com/Arcanourm/dungeonz/projects/1'
+        project: 'https://github.com/Arcanorum/dungeonz/projects/1'
         column_name: 'Backlog'

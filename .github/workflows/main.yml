@@ -1,0 +1,21 @@
+name: Auto Assign to Project(s)
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  assign_one_project:
+    runs-on: ubuntu-latest
+    name: Assign to One Project
+    steps:
+    - name: Assign new tasks and bugs to backlog
+      uses: srggrs/assign-one-project-github-action@1.2.1
+      if: |
+        contains(github.event.issue.labels.*.name, 'code') ||
+        contains(github.event.issue.labels.*.name, 'map') ||
+        contains(github.event.issue.labels.*.name, 'audio') ||
+        contains(github.event.issue.labels.*.name, 'visual')
+      with:
+        project: 'https://github.com/Arcanourm/dungeonz/projects/1'
+        column_name: 'Backlog'

@@ -15,7 +15,8 @@ jobs:
         contains(github.event.issue.labels.*.name, 'code') ||
         contains(github.event.issue.labels.*.name, 'map') ||
         contains(github.event.issue.labels.*.name, 'audio') ||
-        contains(github.event.issue.labels.*.name, 'visual')
+        contains(github.event.issue.labels.*.name, 'visual') ||
+        contains(github.event.issue.labels.*.name, 'bug')
       with:
         project: 'https://github.com/Arcanourm/dungeonz/projects/1'
         column_name: 'Backlog'

@@ -10,7 +10,7 @@
 - [MongoDB]((https://www.mongodb.com/download-center/community)) (player accounts storage)
 
 ## To run the project, you will need:
-- NodeJS installed. (currently only v14.17.3 is officially supported, though other versions may work)
+- NodeJS installed (currently only v14.17.3 is officially supported, though other versions may work).
 - MongoDB installed (or in a Docker container).
 - Git installed.
 - An IDE.

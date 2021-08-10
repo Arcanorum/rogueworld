@@ -846,3 +846,16 @@
       quantity: 4
   result:
     itemName: NecromancerRobe
+
+# Misc
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+    - Weaponry
+  ingredients:
+    - itemName: IronBar
+      quantity: 10
+  result:
+    itemName: Trap

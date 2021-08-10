@@ -1340,6 +1340,13 @@
   textureSource: string
   unitWeight: 1
 
+- name: Trap
+  code: HUIT7971
+  translationID: Trap
+  textureSource: trap
+  unitWeight: 40
+  useEnergyCost: 10
+
 - name: WindGem
   code: ODWX2496
   translationID: Wind gem

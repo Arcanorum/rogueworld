@@ -114,7 +114,7 @@ Features are divided into two general categories:
 
 ## **Mechanics:**
 
-Things like movement, collision, creating entities, AI, etc. that affects the fundamental flow of the game. Due to how they are often intricately tied to many other things, these are mostly handled by me (Arcan), with input from the community.
+Things like movement, collision, creating entities, AI, new systems, etc. that affects the fundamental flow of the game. Due to how they are often intricately tied to many other things, it is recommended to get some familiarity with the core components of the codebase first and the most common workflows (creating items, creatures and maps), then look for something appropriate in the tasks backlog that has been sufficiently planned out and ready to be worked on.
 
 ## **Content:**
 
@@ -134,9 +134,9 @@ Things that implement mechanics to give players stuff to do, such as areas to ex
 
 - ### [Dungeon](guides/DUNGEONS.md)
 
-- ### Graphic assets (TODO)
+- ### Graphic asset guidelines (TODO)
 
-- ### Audio assets (TODO)
+- ### Audio asset guidelines (TODO)
 
 # Links and resources
   - [Live game](https://dungeonz.io/)

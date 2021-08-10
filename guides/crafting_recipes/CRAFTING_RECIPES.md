@@ -7,7 +7,7 @@ Adding a new crafting recipe is as easy as adding a new config for it to the `Cr
 
 Documentation for how to configure each recipe can be found at the top of that file.
 
-To add a recipe for a recently added item (for example the "Wooden sword" item created in the *Getting started: Items* guide), simply add the following:
+To add a recipe for a recently added item (for example the "Wooden sword" item created in the [*Getting started: Items*](../items/ITEMS.md) guide), simply add the following:
 
 ```yml
 - stationTypes:

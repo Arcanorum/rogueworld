@@ -136,6 +136,12 @@ Clothes.prototype.clothesFrames = {
         left: "noctis-armour-left-1",
         right: "noctis-armour-right-1",
     },
+    "Armor of Ire": {
+        up: "armor-of-ire-up-1",
+        down: "armor-of-ire-down-1",
+        left: "armor-of-ire-left-1",
+        right: "armor-of-ire-right-1",
+    },
     // Etherweave: {
     //     up: "etherweave-up-1",
     //     down: "etherweave-down-1",

@@ -205,7 +205,7 @@
   code: CFBO6832
   extends: Clothes
   translationID: Armor of Ire
-  textureSource: dungium-armour
+  textureSource: armor-of-ire
   soundType: Fabric clothing
   category: Clothing
   unitWeight: MetalArmour
@@ -251,7 +251,7 @@
 #   code: CAMJ8537
 #   extends: Clothes
 #   translationID: Etherweave
-#   textureSource: mage-robe
+#   textureSource: etherweave
 #   soundType: Fabric clothing
 #   category: Clothing
 #   unitWeight: Robe

@@ -56,7 +56,7 @@ class Clothes extends Sprite {
         addAnimationSet("Agonite armour", "agonite-armour");
         addAnimationSet("Noctis armour", "noctis-armour");
         addAnimationSet("Armor of Ire", "armor-of-ire");
-        addAnimationSet("Etherweave", "etherweave");
+        // addAnimationSet("Etherweave", "etherweave");
     }
 
     moveAnimCompleted() {
@@ -136,12 +136,12 @@ Clothes.prototype.clothesFrames = {
         left: "noctis-armour-left-1",
         right: "noctis-armour-right-1",
     },
-    Etherweave: {
-        up: "etherweave-up-1",
-        down: "etherweave-down-1",
-        left: "etherweave-left-1",
-        right: "etherweave-right-1",
-    },
+    // Etherweave: {
+    //     up: "etherweave-up-1",
+    //     down: "etherweave-down-1",
+    //     left: "etherweave-left-1",
+    //     right: "etherweave-right-1",
+    // },
 };
 
 export default Clothes;

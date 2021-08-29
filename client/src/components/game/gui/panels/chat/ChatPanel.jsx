@@ -179,8 +179,10 @@ function ChatPanel() {
               viewChatScope={viewChatScope}
               getScopeColor={getScopeColor}
             />
-            <div className="chat-contents" ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
-                {filteredChats()}
+            <div className="chat-contents-wrapper">
+                <div className="chat-contents" ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
+                    {filteredChats()}
+                </div>
             </div>
             <div className="chat-input-container">
                 <p

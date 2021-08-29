@@ -247,19 +247,18 @@
     - MetalArmour
     - DungiumGear
 
-# - name: Etherweave
-#   code: CAMJ8537
-#   extends: Clothes
-#   translationID: Etherweave
-#   textureSource: etherweave
-#   soundType: Fabric clothing
-#   category: Clothing
-#   unitWeight: Robe
-#   useGloryCost: 10
-#   baseDurability: 1000
-#   defenceBonus: 20
-#   statBonuses:
-#     Magic: 2
+- name: Etherweave
+  code: CAMJ8537
+  extends: Clothes
+  translationID: Etherweave
+  textureSource: etherweave
+  soundType: Fabric clothing
+  category: Clothing
+  unitWeight: Robe
+  baseDurability: 1000
+  defenceBonus: 20
+  statBonuses:
+    Magic: 2
 
 - name: IronArmour
   code: XEBH5037

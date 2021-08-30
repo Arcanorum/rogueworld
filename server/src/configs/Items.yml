@@ -1100,7 +1100,7 @@
   code: KZWG2153
   translationID: Angel hair
   textureSource: angel-hair
-  unitWeight: GenericMaterial
+  unitWeight: RelicGem
 
 - name: BloodGem
   code: SFTP8910
@@ -1354,7 +1354,7 @@
   code: PPOQ8228
   translationID: Prime matter
   textureSource: prime-matter
-  unitWeight: RelicGem
+  unitWeight: 14
 
 - name: Redcap
   code: BYKI5361

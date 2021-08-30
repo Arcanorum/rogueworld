@@ -875,6 +875,21 @@
   result:
     itemName: NecromancerRobe
 
+- stationTypes:
+    - Workbench
+  stats:
+    - Armoury
+    - Magic
+  ingredients:
+    - itemName: PrimeMatter
+      quantity: 2
+    - itemName: AngelHair
+      quantity: 4
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: Etherweave
+
 # Misc
 
 - stationTypes:
@@ -887,3 +902,35 @@
       quantity: 10
   result:
     itemName: Trap
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Weaponry
+    - Melee
+  ingredients:
+    - itemName: HeartOfTheMountain
+      quantity: 1
+    - itemName: PrimeMatter
+      quantity: 2
+    - itemName: SacredBranch
+      quantity: 4
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: HammerOfGlory
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Armoury
+    - Melee
+  ingredients:
+    - itemName: EternalFlame
+      quantity: 1
+    - itemName: PrimeMatter
+      quantity: 6
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: ArmorOfIre

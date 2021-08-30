@@ -1096,6 +1096,12 @@
   craftTasks:
     - Potions
 
+- name: AngelHair
+  code: KZWG2153
+  translationID: Angel hair
+  textureSource: angel-hair
+  unitWeight: GenericMaterial
+
 - name: BloodGem
   code: SFTP8910
   translationID: Blood gem
@@ -1295,6 +1301,12 @@
   craftTasks:
     - Potions
 
+- name: HeartOfTheMountain
+  code: MKIP5608
+  translationID: Heart of the mountain
+  textureSource: heart-of-the-mountain
+  unitWeight: RelicGem
+
 - name: IronBar
   code: NUKK7066
   translationID: Iron bar
@@ -1337,6 +1349,12 @@
   translationID: Pine logs
   textureSource: pine-logs
   unitWeight: Logs
+
+- name: PrimeMatter
+  code: PPOQ8228
+  translationID: Prime matter
+  textureSource: prime-matter
+  unitWeight: RelicGem
 
 - name: Redcap
   code: BYKI5361

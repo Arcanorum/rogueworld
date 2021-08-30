@@ -22,6 +22,7 @@ Logs: 4
 Ore: 5
 PotionIngredient: 4
 Gem: 2
+RelicGem: 8
 
 # Consumables
 Potion: 6

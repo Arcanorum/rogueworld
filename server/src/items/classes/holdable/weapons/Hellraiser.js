@@ -2,7 +2,7 @@ const Weapon = require("./Weapon");
 const { getRowColsToSides } = require("../../../../gameplay/Directions");
 const { Burn } = require("../../../../gameplay/StatusEffects");
 
-class EternalFlame extends Weapon {
+class Hellraiser extends Weapon {
     onUsed(direction) {
         // Burn the user.
         this.owner.addStatusEffect(Burn);
@@ -39,4 +39,4 @@ class EternalFlame extends Weapon {
     }
 }
 
-module.exports = EternalFlame;
+module.exports = Hellraiser;

@@ -586,11 +586,11 @@
     - Swords
     - DungiumGear
 
-- name: EternalFlame
+- name: Hellraiser
   code: HDYY9831
   extends: Weapon
-  translationID: Eternal Flame
-  textureSource: eternal-flame
+  translationID: Hellraiser
+  textureSource: hellraiser
   soundType: Magic weapon
   ProjectileType: ProjSuperFire
   category: Weapon
@@ -1157,6 +1157,13 @@
   craftTasks:
     - Potions
 
+- name: EternalFlame
+  code: DHQI3663
+  translationID: Eternal Flame
+  textureSource: eternal-flame
+  unitWeight: RelicGem
+  craftingExpValue: 100
+
 - name: ExpOrbArmoury
   code: FPYN6527
   translationID: "Exp orb: Armoury"
@@ -1212,6 +1219,13 @@
   textureSource: exp-orb
   expGivenStatName: Weaponry
   expGivenOnUse: 100
+
+- name: EyeOfTheStorm
+  code: NULZ2450
+  translationID: Eye of the storm
+  textureSource: eye-of-the-storm
+  unitWeight: RelicGem
+  craftingExpValue: 100
 
 - name: Fabric
   code: TMCC2407
@@ -1332,6 +1346,13 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
+
+- name: SacredBranch
+  code: AYTE6455
+  translationID: Sacred branch
+  textureSource: sacred-branch
+  craftingExpValue: 100
+  unitWeight: 8
 
 - name: String
   code: ETGI7171

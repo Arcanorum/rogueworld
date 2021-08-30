@@ -216,7 +216,17 @@ function ItemSlot({ itemConfig, onClick }) {
               onMouseLeave={() => {
                   GUIState.setTooltipContent(null);
               }}
-              onClick={() => { onClick(itemConfig); }}
+              onClick={(e) => {
+                  // Drop item (all quantity) if shift clicked
+                  if (e.shiftKey) {
+                      ApplicationState.connection.sendEvent("drop_item", {
+                          slotIndex: itemConfig.slotIndex,
+                          quantity: itemConfig.quantity,
+                      });
+                  } else {
+                      onClick(itemConfig);
+                  }
+              }}
             >
                 <img
                   src={ItemIconsList[ItemTypes[itemConfig.typeCode].iconSource]}

@@ -1159,7 +1159,7 @@
 
 - name: EternalFlame
   code: DHQI3663
-  translationID: Eternal Flame
+  translationID: Eternal flame
   textureSource: eternal-flame
   unitWeight: RelicGem
   craftingExpValue: 100

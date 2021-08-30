@@ -812,6 +812,34 @@
 - stationTypes:
     - Workbench
   stats:
+    - Weaponry
+    - Magic
+  ingredients:
+    - itemName: EyeOfTheStorm
+    - itemName: SacredBranch
+      quantity: 4
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: Galestorm
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Weaponry
+    - Magic
+  ingredients:
+    - itemName: EternalFlame
+    - itemName: SacredBranch
+      quantity: 4
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: Hellraiser
+
+- stationTypes:
+    - Workbench
+  stats:
     - Armoury
   ingredients:
     - itemName: Fabric

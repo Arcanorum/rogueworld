@@ -2,8 +2,8 @@
 An item is an object that a player can obtain and can be used for many game functions, such as combat, resource gathering, crafting and interacting with other objects.
 
 An item can exist in one of two states:
-- As a logical [`Item`](../server/src/items/classes/Item.js) instance in an inventory or bank slot.
-- As a concrete [`Pickup`](../server/src/entities/classes/destroyables/pickups/Pickup.js) entity instance on a board tile.
+- As a logical [`Item`](../../server/src/items/classes/Item.js) instance in an inventory or bank slot.
+- As a concrete [`Pickup`](../../server/src/entities/classes/destroyables/pickups/Pickup.js) entity instance on a board tile.
 
 Each item type has an associated pickup type, which is an entity that allows the item to be dropped and added to the board (Item to Pickup) or picked up by a player and removed from the board (Pickup to Item).
 
@@ -15,7 +15,7 @@ This guide will go through adding a new weapon to the game, *Wooden sword*.
 ## Add an item config
 Every item in the game has an associated configuration object, which details the stats and meta info about that item.
 
-These item configs are defined in the [`Items.yml`](../server/src/configs/Items.yml) config file.
+These item configs are defined in the [`Items.yml`](../../server/src/configs/Items.yml) config file.
 
 <img src="item-configs.gif" width="60%"/>
 
@@ -23,7 +23,7 @@ Here, a new entry can be added for the wooden sword item we want to create.
 
 A lot of the time you can get away with just copying the config for an existing item that is similar and adjusting it as needed.
 
-In the `Items.yml` file add the following:
+In the [`Items.yml`](../../server/src/configs/Items.yml) file add the following:
 
 ```yml
 - name: WoodenSword
@@ -69,13 +69,13 @@ This is because the projectile to use for this new item doesn't exist yet, so mu
 ## Add a projectile config
 Now a wooden sword projectile entity type must be created to use as the thing that this item will emit as it's attack.
 
-All projectiles are defined in the `Projectiles.yml` config file.
+All projectiles are defined in the [`Projectiles.yml`](../../server/src/configs/Projectiles.yml) config file.
 
 Creating a new basic projectile type is as simple as adding a new config there.
 
 A new entity class will be automatically generated for each of these configs, and they will be added to the central entities list to be used elsewhere, such as for the projectile type for an item or mob.
 
-In the `Projectiles.yml` file add the following:
+In the [`Projectiles.yml`](../../server/src/configs/Projectiles.yml) file add the following:
 
 ```yml
 - name: WoodenSword
@@ -126,7 +126,7 @@ There are 2/3 kinds of sprite that an item expects, as defined in the configs.
 ### Add a GUI icon
 Draw an image for the item, and add it to the */client/src/assets/images/gui/items* directory.
 
-The file name of this asset is used to identify it in the item config you added to `Items.yml`, under the `textureSource` config.
+The file name of this asset is used to identify it in the item config you added to [`Items.yml`](../../server/src/configs/Items.yml), under the `textureSource` config.
 
 It will expect a file in the following format `icon-[ITEM NAME].png`
 
@@ -141,7 +141,7 @@ So the file it will look for would be:
 ### Add a pickup sprite
 Draw an image for the pickup, and add it to the */client/src/assets/images/entities/pickups* directory.
 
-Like for the GUI icon, the file name of this asset is used to identify it in the item config you added to `Items.yml`, also using the same `textureSource` config.
+Like for the GUI icon, the file name of this asset is used to identify it in the item config you added to [`Items.yml`](../../server/src/configs/Items.yml), also using the same `textureSource` config.
 
 It will expect a file in the following format `pickup-[ITEM NAME].png`
 
@@ -151,7 +151,7 @@ i.e. `pickup-wooden-sword.png`
 ### Add a projectile sprite
 Draw an image for the projectile, and add it to the */client/src/assets/images/entities/projectiles* directory.
 
-The file name of this asset is used to identify it in the projectile config you added to `Projectiles.yml`, under the `textureFrames` config.
+The file name of this asset is used to identify it in the projectile config you added to [`Projectiles.yml`](../../server/src/configs/Projectiles.yml), under the `textureFrames` config.
 
 It will expect a file in the following format `proj-[ITEM NAME].png`
 
@@ -187,7 +187,7 @@ https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmf
 2. Go to the *ITEMS* sheet/tab.
 3. Find somewhere appropriate to add a new definition.
 4. Add a new row.
-5. In the first column (**A**) of this row, add a text value in the format `Item name: [translationID]`, where `[translationID]` is the value of the `translationID` property of the config for the item you added in `Items.yml`. In this case, `Item name: Wooden sword`
+5. In the first column (**A**) of this row, add a text value in the format `Item name: [translationID]`, where `[translationID]` is the value of the `translationID` property of the config for the item you added in [`Items.yml`](../../server/src/configs/Items.yml). In this case, `Item name: Wooden sword`
 6. Add a value for the name of the item in the second column (**B**). This is what will appear for the item name in game and can be anything, but is usually the same as the `translationID` value.
 7. Add a new row.
 8. In the first column (**A**) of this row, add a text value in the format `Item description: [translationID]`.i.e. `Item description: Wooden sword`

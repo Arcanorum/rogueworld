@@ -59,7 +59,7 @@ class Entity {
     /**
      * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
      * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
-     * @param {Damage|Heal} hitPointModifier - How much to increase or decrease by.
+     * @param {Damage|Heal} hitPointModifier - An object that details how much to increase or decrease the HP by.
      * @param {Entity} [source] - The entity that caused this change.
      */
     modHitPoints(hitPointModifier, source) {
@@ -87,11 +87,6 @@ class Entity {
         }
 
         this.onModHitPoints();
-
-        // Make sure they can't go above max HP.
-        if (this.hitPoints > this.maxHitPoints) {
-            this.hitPoints = this.maxHitPoints;
-        }
     }
 
     /**
@@ -115,12 +110,23 @@ class Entity {
      */
     onHeal(heal) {
         const amount = Math.floor(heal.amount);
+
+        const original = this.hitPoints;
+
         this.hitPoints += amount;
+
+        // Make sure they can't go above max HP.
+        if (this.hitPoints > this.maxHitPoints) {
+            this.hitPoints = this.maxHitPoints;
+        }
+
+        const difference = this.hitPoints - original;
+
         this.board.emitToNearbyPlayers(
             this.row,
             this.col,
             this.EventsList.heal,
-            { id: this.id, amount },
+            { id: this.id, amount: difference },
         );
     }
 

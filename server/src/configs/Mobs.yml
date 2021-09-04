@@ -747,3 +747,6 @@
   attackRate: 1000
   projectileAttackType: Dark
   faction: HostileAnimals
+  dropList:
+    - itemName: GloryOrb
+      rolls: 2

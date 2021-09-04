@@ -1,4 +1,6 @@
 const Item = require("./Item");
+const ModHitPointConfigs = require("../../gameplay/ModHitPointConfigs");
+const Heal = require("../../gameplay/Heal");
 
 class CleanseSpellScroll extends Item {
     onUsed() {
@@ -8,6 +10,8 @@ class CleanseSpellScroll extends Item {
                 if (!destroyable.curse) return;
 
                 destroyable.curse.remove();
+
+                destroyable.heal(new Heal(ModHitPointConfigs.CleanseSpellScroll.healAmount));
             });
         });
 

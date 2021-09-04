@@ -168,6 +168,8 @@
       dropRate: 5
     - itemName: CleanseSpellScroll
       dropRate: 5
+    - itemName: TailwindSpellScroll
+      dropRate: 10
     - itemName: IronSickle
       dropRate: 5
 
@@ -196,6 +198,9 @@
     - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
     - itemName: PacifySpellScroll
+    - itemName: TailwindSpellScroll
+      dropRate: 100
+      rolls: 5
     - itemName: NoctisSickle
 
 - name: Mage
@@ -215,6 +220,8 @@
       dropRate: 5
     - itemName: PacifySpellScroll
       dropRate: 5
+    - itemName: TailwindSpellScroll
+      dropRate: 10
 
 - name: ArchMage
   gloryValue: 150
@@ -245,6 +252,9 @@
     - itemName: PacifySpellScroll
       dropRate: 100
       rolls: 2
+    - itemName: TailwindSpellScroll
+      dropRate: 100
+      rolls: 4
     - itemName: Gem
       dropRate: 100
       rolls: 4
@@ -280,6 +290,8 @@
       rolls: 2
     - itemName: IronArrows
     - itemName: Gem
+    - itemName: TailwindSpellScroll
+      dropRate: 10
 
 - name: BanditLeader
   gloryValue: 100
@@ -302,6 +314,9 @@
       rolls: 4
     - itemName: DungiumBar
       rolls: 4
+    - itemName: TailwindSpellScroll
+      dropRate: 100
+      rolls: 4
     - itemName: Gem
       dropRate: 100
       rolls: 2
@@ -323,6 +338,8 @@
     - itemName: NoctisBar
     - itemName: Shuriken
     - itemName: Gem
+    - itemName: TailwindSpellScroll
+      dropRate: 10
 
 - name: MasterAssassin
   gloryValue: 500
@@ -350,6 +367,9 @@
     - itemName: NoctisBar
       rolls: 6
     - itemName: Gem
+      dropRate: 100
+      rolls: 4
+    - itemName: TailwindSpellScroll
       dropRate: 100
       rolls: 4
 

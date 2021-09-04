@@ -1052,6 +1052,16 @@
   expGivenStatName: Magic
   expGivenOnUse: 15
 
+- name: TailwindSpellScroll
+  code: UIVL3131
+  translationID: Scroll of tailwind
+  textureSource: tailwind-spell-scroll
+  useEnergyCost: 2
+  soundType: Scroll
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 1
+
 # Loot boxes
 
 - name: MediumLootBox

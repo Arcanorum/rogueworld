@@ -318,11 +318,9 @@ class Player extends Character {
         }
     }
 
-    modDirection(direction) {
+    onModDirection() {
         // Make them lose all momentum when they change direction.
         this.momentum = 0;
-
-        super.modDirection(direction);
     }
 
     /**

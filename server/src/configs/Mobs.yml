@@ -105,7 +105,7 @@
   faction: CityGuards
   corpseType: Human
   dropList:
-    - itemName: HammerOfGlory
+    - itemName: HeartOfTheMountain
       dropRate: 2
     - itemName: GloryOrb
       dropRate: 100
@@ -182,8 +182,10 @@
   corpseType: Human
   projectileAttackType: SuperWind
   dropList:
-    - itemName: Galestorm
+    - itemName: EyeOfTheStorm
       dropRate: 2
+    - itemName: SacredBranch
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -234,6 +236,8 @@
   dropList:
     - itemName: EternalFlame
       dropRate: 2
+    - itemName: AngelHair
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -303,6 +307,8 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: SacredBranch
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -352,6 +358,8 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: PrimeMatter
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 3
@@ -464,6 +472,8 @@
   projectileAttackType: Acorn
   faction: HostileAnimals
   dropList:
+    - itemName: SacredBranch
+      dropRate: 25
     - itemName: GloryOrb
       dropRate: 100
       rolls: 4
@@ -560,6 +570,8 @@
   dropList:
     - itemName: EternalFlame
       dropRate: 2
+    - itemName: AngelHair
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 3
@@ -632,6 +644,8 @@
   meleeDamageAmount: 30
   faction: Vampires
   dropList:
+    - itemName: PrimeMatter
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 4
@@ -748,5 +762,7 @@
   projectileAttackType: Dark
   faction: HostileAnimals
   dropList:
+    - itemName: PrimeMatter
+      dropRate: 5
     - itemName: GloryOrb
       rolls: 2

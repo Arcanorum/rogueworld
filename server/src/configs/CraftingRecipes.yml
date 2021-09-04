@@ -898,8 +898,10 @@
     - Toolery
     - Weaponry
   ingredients:
+    - itemName: String
+      quantity: 2
     - itemName: IronBar
-      quantity: 10
+      quantity: 7
   result:
     itemName: Trap
 

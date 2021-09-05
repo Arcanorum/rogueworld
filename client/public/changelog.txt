@@ -1,3 +1,68 @@
+05/09/2021 - Update 12 - Craftable relics
+
+New:
+- Corrupted temple:
+    A new map found deep in the mountains. A secret temple once used to study powerful items, now overrun by a dark force.
+- Glory altar:
+    Relics can now be crafted at this new crafting station using rare ingredients that are only dropped by boss tier creatures.
+- Bosses no longer drop relics.
+- Armor of Ire
+    A new melee armour relic that damages anything that damages the wearer.
+- Etherweave
+    A new magic armour relic that restores energy to the wearer when they take damage.
+- Relic ingredients:
+    - Heart of the mountain
+    - Eye of the storm
+    - Eternal flame
+    - Angel hair
+    - Prime matter
+    - Sacred branch
+- Galestorm rework:
+    No longer shoots a wave of 3 super wind projectiles when used.
+    Now has 2 modes:
+        - When first used, it summons several small power-ups (tornados) that can be collected. Each one collected adds a charge to the staff (up to 6 charges can be stored at once).
+        - When used again with at least one charge, it shoots a super wind projectile for each charge collected.
+- Broken bones status effect:
+    Any creature with broken bones takes damage each time they move.
+- All hammers now inflict broken bones.
+- All hammers no longer push back creatures when they hit. (They can still reflect projectiles.)
+- Hammer of glory now inflicts broken bones on what it hits and all adjacent creatures instead of pushing them back.
+- Pacify and deathbind spell scrolls are now equippable.
+- Iron golem:
+    A durable elemental creature that guards nearby ore rocks.
+- Tailwind spell scroll:
+    Pushes the user forward when used. Useful for faster travel and extra agility in combat.
+- Trap:
+    Can be placed down and then deals damage to any creature that moves onto it.
+- Poison arrows
+- Cleanse spell scroll now heals each creature that it removes a curse from.
+
+Balance:
+- Dungium weapons base durability 50 -> 45
+- Noctis weapons base durability 60 -> 55
+- Iron hammer damage 20 -> 18
+- Dungium hammer damage 24 -> 21
+- Agonite hammer damage 28 -> 24
+- Noctis hammer damage 32 -> 27
+- Hammer of glory damage 32 -> 27
+- Hammer of glory self push-back 2 tiles -> 1 tile
+- All hammers base damage lowered (to compensate for now inflicting broken bones).
+- Added glory orb to drop list of large adumbrals.
+- Added trap, noctis bar & oak logs to loot box rewards list.
+
+Bugs:
+- The chat box will now automatically scroll down to show new messages when they are received when already scrolled to the bottom of the chat log.
+
+Other:
+- When healed, only the amount of HP gained is shown, instead of the raw heal amount.
+- Added quick transfer options (drop/deposit/withdraw) for stackable items for inventory panel and bank panel.
+- Shift key can be held down when clicking on items in the inventory panel to quickly drop the item/stack.
+- Redesigned fireball projectile sprite.
+- Renamed Eternal flame (fire staff relic) to Hellraiser.
+- The open chat box button now shows a notification icon when a new message is received while the chat box is closed.
+- Added iron and dungium sickles to the tool shop.
+
+
 03/07/2021 - Update 11 - Momentum
 
 New:

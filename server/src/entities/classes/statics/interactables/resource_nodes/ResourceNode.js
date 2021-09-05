@@ -56,6 +56,24 @@ class ResourceNode extends Interactable {
 
         // Reduce their energy by the interaction cost.
         interactedBy.modEnergy(-this.interactionEnergyCost);
+
+        // Alert any mobs that guard this type of resource node.
+        if (this.guardedByMobTypes) {
+            const tiles = this.board.getTilesInEntityRange(this, this.guardedRange);
+
+            tiles.forEach((tile) => {
+                Object.values(tile.destroyables).forEach((destroyable) => {
+                    this.guardedByMobTypes.forEach((MobType) => {
+                        if (destroyable instanceof MobType) {
+                            // Don't bother if they are already targetting something.
+                            if (destroyable.target) return;
+
+                            destroyable.target = interactedBy;
+                        }
+                    });
+                });
+            });
+        }
     }
 
     static createClasses() {
@@ -123,6 +141,19 @@ class ResourceNode extends Interactable {
                         return;
                     }
 
+                    if (key === "guardedByMobTypes") {
+                        value = value.map((mobTypeName) => {
+                            if (!EntitiesList[mobTypeName]) {
+                                Utils.error(`Invalid mob type name '${mobTypeName}' used in guardedByMobTypes list. Check it is in the entities list:`, config);
+                            }
+                            return EntitiesList[mobTypeName];
+                        });
+
+                        EntityType.prototype.guardedByMobTypes = value;
+
+                        return;
+                    }
+
                     // Load whatever properties that have the same key in the config as on this class.
                     if (EntityType.prototype[key] !== undefined) {
                         // Check if the property has already been loaded by a
@@ -169,3 +200,7 @@ ResourceNode.prototype.expGiven = 0;
  * @type {Number}
  */
 ResourceNode.prototype.gatherTime = 1000;
+
+ResourceNode.prototype.guardedByMobTypes = null;
+
+ResourceNode.prototype.guardedRange = 4;

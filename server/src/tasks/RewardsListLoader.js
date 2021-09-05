@@ -18,6 +18,9 @@ const populateList = () => {
     RewardsList.push(ItemsListByName.FireGem);
     RewardsList.push(ItemsListByName.BloodGem);
     RewardsList.push(ItemsListByName.VampireFang);
+    RewardsList.push(ItemsListByName.Trap);
+    RewardsList.push(ItemsListByName.NoctisBar);
+    RewardsList.push(ItemsListByName.OakLogs);
 
     // Check they are all valid. Might be wrong names, so are undefined.
     RewardsList.forEach((ItemType, index) => {

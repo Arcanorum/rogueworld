@@ -4,7 +4,7 @@
 
 ## Contents
 - [Introduction](#introduction)
-- [Getting Started](#getting-started)
+- [Getting started](#getting-started)
 - [Contributing](#contributing)
 - [Tooling](#tooling)
 - [Attribution](#attribution)
@@ -73,7 +73,7 @@ To let people see what the implemented asset is like in game, there is a public 
 ### Public test server: https://test.dungeonz.io/
 
 # Attribution
-Proper attribution of all work is expected. This includes original creations submitted by contributors, and anything used from somewhere else (such as OpenGameArt.com or other asset sharing resource).
+Proper attribution of all work is expected. This includes original creations submitted by contributors, and anything used from somewhere else (such as opengameart.org or other asset sharing resource).
 
 The credits page for the game lists the currently used assets for the game, and should be updated when new things are used by the project by more authors.
 

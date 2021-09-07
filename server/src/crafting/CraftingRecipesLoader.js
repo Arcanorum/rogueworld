@@ -50,12 +50,14 @@ const populateList = () => {
                 craftingRecipeConfig.stationTypes.push(EntitiesList[stationTypeName]);
             });
 
-            // Check all of the stat names used in the recipe are valid stats.
-            config.stats.forEach((statName) => {
-                if (!Statset.prototype.StatNames[statName]) {
-                    Utils.error("Invalid crafting recipe. Stat name isn't a valid stat:", statName);
-                }
-            });
+            if (config.stats) {
+                // Check all of the stat names used in the recipe are valid stats.
+                config.stats.forEach((statName) => {
+                    if (!Statset.prototype.StatNames[statName]) {
+                        Utils.error("Invalid crafting recipe. Stat name isn't a valid stat:", statName);
+                    }
+                });
+            }
 
             // Check all of the ingredients have a quantity set, or default to 1.
             config.ingredients.forEach((ingredient) => {

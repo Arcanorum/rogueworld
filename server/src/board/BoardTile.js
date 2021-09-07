@@ -102,7 +102,7 @@ BoardTile.prototype.static = null;
  * Should NOT occupy a tile that has an active blocking static.
  * Accessed by their entity ID.
  * Keep this on the prototype, so not every instance has this as it's own property.
- * Just add it as an own property for the tiles that need it. Saves a lot of memeory.
+ * Just add it as an own property for the tiles that need it. Saves a lot of memory.
  * @type {Object}
  */
 BoardTile.prototype.destroyables = {};
@@ -114,7 +114,7 @@ BoardTile.prototype.destroyables = {};
  * Should NOT occupy a tile that has an active blocking static.
  * Accessed by their entity ID.
  * Keep this on the prototype, so not every instance has this as it's own property.
- * Just add it as an own property for the tiles that need it. Saves a lot of memeory.
+ * Just add it as an own property for the tiles that need it. Saves a lot of memory.
  * @type {Object}
  */
 BoardTile.prototype.pickups = {};
@@ -124,7 +124,7 @@ BoardTile.prototype.pickups = {};
  * Anything in here should also be in the destroyables list.
  * Accessed by their entity ID.
  * Keep this on the prototype, so not every instance has this as it's own property.
- * Just add it as an own property for the tiles that need it. Saves a lot of memeory.
+ * Just add it as an own property for the tiles that need it. Saves a lot of memory.
  * @type {Object}
  */
 BoardTile.prototype.players = {};

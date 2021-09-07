@@ -9,6 +9,8 @@
   gatherTime: 5000
   gatheringTask: IronOre
   itemName: IronOre
+  guardedByMobTypes:
+    - IronGolem
 
 - name: DungiumOre
   reactivationRate: 30000
@@ -19,6 +21,8 @@
   gatherTime: 10000
   gatheringTask: DungiumOre
   itemName: DungiumOre
+  guardedByMobTypes:
+    - IronGolem
 
 - name: AgoniteOre
   reactivationRate: 45000
@@ -29,6 +33,8 @@
   gatherTime: 15000
   gatheringTask: AgoniteOre
   itemName: AgoniteOre
+  guardedByMobTypes:
+    - IronGolem
 
 - name: NoctisOre
   reactivationRate: 60000
@@ -39,6 +45,8 @@
   gatherTime: 20000
   gatheringTask: NoctisOre
   itemName: NoctisOre
+  guardedByMobTypes:
+    - IronGolem
 
 # Trees
 

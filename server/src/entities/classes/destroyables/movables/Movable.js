@@ -139,14 +139,27 @@ class Movable extends Destroyable {
      * @param {String} direction
      */
     modDirection(direction) {
+        // Don't bother if already facing that direction.
+        if (direction === this.direction) return;
+
         this.direction = direction;
+
         this.board.emitToNearbyPlayers(
             this.row,
             this.col,
             this.EventsList.change_direction,
             { id: this.id, direction: this.direction },
         );
+
+        this.onModDirection(direction);
     }
+
+    /**
+     * Called after the entity's direction has been changed.
+     * If overridden, should still be chained from the overrider up to this.
+     * @param {String} direction
+     */
+    onModDirection(direction) { }
 
     /**
      * Returns the effective move rate of this entity.

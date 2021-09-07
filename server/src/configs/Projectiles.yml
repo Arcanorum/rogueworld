@@ -347,6 +347,10 @@
   damageTypes:
     - Magical
 
+- name: Tailwind
+  moveRate: 100
+  range: 3
+
 - name: Fire
   moveRate: 200
   range: 6

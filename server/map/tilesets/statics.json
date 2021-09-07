@@ -6,7 +6,7 @@
  "name":"statics",
  "spacing":0,
  "tilecount":4096,
- "tiledversion":"1.6.0",
+ "tiledversion":"1.7.1",
  "tileheight":16,
  "tiles":[
         {
@@ -294,6 +294,10 @@
         {
          "id":331,
          "type":"Solid"
+        }, 
+        {
+         "id":339,
+         "type":"RandomDungeonFloorExit"
         }, 
         {
          "id":384,
@@ -2334,6 +2338,10 @@
         {
          "id":3084,
          "type":"Torch"
+        }, 
+        {
+         "id":3086,
+         "type":"GloryAltar"
         }, 
         {
          "id":3136,

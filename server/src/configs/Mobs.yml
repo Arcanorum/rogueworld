@@ -105,7 +105,7 @@
   faction: CityGuards
   corpseType: Human
   dropList:
-    - itemName: HammerOfGlory
+    - itemName: HeartOfTheMountain
       dropRate: 2
     - itemName: GloryOrb
       dropRate: 100
@@ -168,6 +168,8 @@
       dropRate: 5
     - itemName: CleanseSpellScroll
       dropRate: 5
+    - itemName: TailwindSpellScroll
+      dropRate: 10
     - itemName: IronSickle
       dropRate: 5
 
@@ -180,8 +182,10 @@
   corpseType: Human
   projectileAttackType: SuperWind
   dropList:
-    - itemName: Galestorm
+    - itemName: EyeOfTheStorm
       dropRate: 2
+    - itemName: SacredBranch
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -196,6 +200,9 @@
     - itemName: CleanseSpellScroll
     - itemName: WardSpellScroll
     - itemName: PacifySpellScroll
+    - itemName: TailwindSpellScroll
+      dropRate: 100
+      rolls: 5
     - itemName: NoctisSickle
 
 - name: Mage
@@ -215,6 +222,8 @@
       dropRate: 5
     - itemName: PacifySpellScroll
       dropRate: 5
+    - itemName: TailwindSpellScroll
+      dropRate: 10
 
 - name: ArchMage
   gloryValue: 150
@@ -227,6 +236,8 @@
   dropList:
     - itemName: EternalFlame
       dropRate: 2
+    - itemName: AngelHair
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -245,6 +256,9 @@
     - itemName: PacifySpellScroll
       dropRate: 100
       rolls: 2
+    - itemName: TailwindSpellScroll
+      dropRate: 100
+      rolls: 4
     - itemName: Gem
       dropRate: 100
       rolls: 4
@@ -280,6 +294,8 @@
       rolls: 2
     - itemName: IronArrows
     - itemName: Gem
+    - itemName: TailwindSpellScroll
+      dropRate: 10
 
 - name: BanditLeader
   gloryValue: 100
@@ -291,6 +307,8 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: SacredBranch
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 2
@@ -301,6 +319,9 @@
       dropRate: 100
       rolls: 4
     - itemName: DungiumBar
+      rolls: 4
+    - itemName: TailwindSpellScroll
+      dropRate: 100
       rolls: 4
     - itemName: Gem
       dropRate: 100
@@ -323,6 +344,8 @@
     - itemName: NoctisBar
     - itemName: Shuriken
     - itemName: Gem
+    - itemName: TailwindSpellScroll
+      dropRate: 10
 
 - name: MasterAssassin
   gloryValue: 500
@@ -335,6 +358,8 @@
   faction: Outlaws
   corpseType: Human
   dropList:
+    - itemName: PrimeMatter
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 3
@@ -350,6 +375,9 @@
     - itemName: NoctisBar
       rolls: 6
     - itemName: Gem
+      dropRate: 100
+      rolls: 4
+    - itemName: TailwindSpellScroll
       dropRate: 100
       rolls: 4
 
@@ -444,6 +472,8 @@
   projectileAttackType: Acorn
   faction: HostileAnimals
   dropList:
+    - itemName: SacredBranch
+      dropRate: 25
     - itemName: GloryOrb
       dropRate: 100
       rolls: 4
@@ -540,6 +570,8 @@
   dropList:
     - itemName: EternalFlame
       dropRate: 2
+    - itemName: AngelHair
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 3
@@ -612,6 +644,8 @@
   meleeDamageAmount: 30
   faction: Vampires
   dropList:
+    - itemName: PrimeMatter
+      dropRate: 5
     - itemName: GloryOrb
       dropRate: 100
       rolls: 4
@@ -683,6 +717,24 @@
     - itemName: DungiumBar
       rolls: 3
 
+- name: IronGolem
+  gloryValue: 70
+  maxHitPoints: 200
+  defence: 80
+  viewRange: 6
+  moveRate: 700
+  attackRate: 3000
+  meleeDamageAmount: 40
+  faction: HostileAnimals
+  dropList:
+    - itemName: IronOre
+      dropRate: 100
+      rolls: 2
+    - itemName: IronOre
+      rolls: 4
+    - itemName: Redcap
+      dropRate: 10
+
 - name: SmallAdumbral
   maxHitPoints: 50
   gloryValue: 50
@@ -709,3 +761,8 @@
   attackRate: 1000
   projectileAttackType: Dark
   faction: HostileAnimals
+  dropList:
+    - itemName: PrimeMatter
+      dropRate: 5
+    - itemName: GloryOrb
+      rolls: 2

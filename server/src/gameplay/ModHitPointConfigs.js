@@ -16,6 +16,10 @@ const ModHitPointConfigs = {
         healAmount: 40,
     },
 
+    CleanseSpellScroll: {
+        healAmount: 40,
+    },
+
     Spikes: {
         damageAmount: 10,
         damageTypes: [Physical],

@@ -10,6 +10,7 @@ import anvilIcon from "../assets/images/gui/panels/crafting/anvil.png";
 import furnaceIcon from "../assets/images/gui/panels/crafting/furnace.png";
 import workbenchIcon from "../assets/images/gui/panels/crafting/workbench.png";
 import laboratoryIcon from "../assets/images/gui/panels/crafting/laboratory.png";
+import gloryAltarIcon from "../assets/images/gui/panels/crafting/glory-altar.png";
 import Utils from "../shared/Utils";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import {
@@ -405,6 +406,14 @@ class Workbench extends CraftingStation {
     }
 }
 
+class GloryAltar extends CraftingStation {
+    constructor(config) {
+        super(config);
+        this.name = Utils.getTextDef("Glory altar");
+        this.icon = gloryAltarIcon;
+    }
+}
+
 class ResourceNode extends Static {
     constructor(config) {
         config.pressableRange = 1;
@@ -705,6 +714,7 @@ const StaticClasses = {
     // 3026: StorageBox,
     3027: BankChest,
     3028: Register,
+    3086: GloryAltar,
 };
 
 /**

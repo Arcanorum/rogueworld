@@ -810,10 +810,7 @@
     itemName: SuperBloodStaff
 
 - stationTypes:
-    - Workbench
-  stats:
-    - Weaponry
-    - Magic
+    - GloryAltar
   ingredients:
     - itemName: EyeOfTheStorm
     - itemName: SacredBranch
@@ -824,10 +821,7 @@
     itemName: Galestorm
 
 - stationTypes:
-    - Workbench
-  stats:
-    - Weaponry
-    - Magic
+    - GloryAltar
   ingredients:
     - itemName: EternalFlame
     - itemName: SacredBranch
@@ -875,6 +869,18 @@
   result:
     itemName: NecromancerRobe
 
+- stationTypes:
+    - GloryAltar
+  ingredients:
+    - itemName: PrimeMatter
+      quantity: 2
+    - itemName: AngelHair
+      quantity: 4
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: Etherweave
+
 # Misc
 
 - stationTypes:
@@ -883,7 +889,35 @@
     - Toolery
     - Weaponry
   ingredients:
+    - itemName: String
+      quantity: 2
     - itemName: IronBar
-      quantity: 10
+      quantity: 7
   result:
     itemName: Trap
+
+- stationTypes:
+    - GloryAltar
+  ingredients:
+    - itemName: HeartOfTheMountain
+      quantity: 1
+    - itemName: PrimeMatter
+      quantity: 2
+    - itemName: SacredBranch
+      quantity: 4
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: HammerOfGlory
+
+- stationTypes:
+    - GloryAltar
+  ingredients:
+    - itemName: EternalFlame
+      quantity: 1
+    - itemName: PrimeMatter
+      quantity: 6
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: ArmorOfIre

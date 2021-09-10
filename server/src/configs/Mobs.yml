@@ -753,6 +753,24 @@
     - itemName: Redcap
       dropRate: 10
 
+- name: NoctisGolem
+  gloryValue: 70
+  maxHitPoints: 200
+  defence: 120
+  viewRange: 6
+  moveRate: 700
+  attackRate: 3000
+  meleeDamageAmount: 60
+  faction: HostileAnimals
+  dropList:
+    - itemName: NoctisOre
+      dropRate: 100
+      rolls: 2
+    - itemName: NoctisOre
+      rolls: 4
+    - itemName: Redcap
+      dropRate: 10
+
 - name: SmallAdumbral
   maxHitPoints: 50
   gloryValue: 50

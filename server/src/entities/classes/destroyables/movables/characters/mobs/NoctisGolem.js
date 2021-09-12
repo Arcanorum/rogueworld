@@ -1,4 +1,4 @@
 const Mob = require("./Mob");
 
-class IronGolem extends Mob {}
-module.exports = IronGolem;
+class NoctisGolem extends Mob {}
+module.exports = NoctisGolem;

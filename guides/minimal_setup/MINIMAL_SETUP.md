@@ -4,7 +4,7 @@ This guide is intended for newbs who are interested in the project, but don't kn
 
 ## To run the project, you will need
 
-- [NodeJS](https://nodejs.org/en/download/) installed (currently only v14.17.3 is officially supported, though other versions may work). This is the JavaScript runtime that runs the game code. The NodeJS installation will also come with NPM, which is a utility used to download other packages/libraries that are required by an application.
+- [NodeJS](https://nodejs.org/en/download/) installed (currently only v14.17.3 is officially supported, though other versions may work. If you are using a later version, you may run into this [issue arround node-sass build errors](https://github.com/Arcanorum/dungeonz/issues/164)). This is the JavaScript runtime that runs the game code. The NodeJS installation will also come with NPM, which is a utility used to download other packages/libraries that are required by an application.
 - [VS Code](https://code.visualstudio.com/) installed. This is the visual editor IDE where you will be making most of your changes. VS Code comes with git integrated to allow getting updates from the repository easier when it gets updated. You can use another code editor if you wish, but you will also need git installed and know how to use it.
 - [Tiled](https://www.mapeditor.org/) installed (if you want to edit maps).
 

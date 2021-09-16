@@ -273,7 +273,7 @@ class Projectile extends Movable {
         if (this.hasBackStabBonus === true) {
             if (collidee instanceof EntitiesList.AbstractClasses.Character) {
                 // If attacked from behind, apply bonus damage.
-                if (collidee.direction === this.direction) damageAmount = this.damageAmount * 3;
+                if (collidee.direction === this.direction) damageAmount = this.damageAmount * 5;
             }
         }
 

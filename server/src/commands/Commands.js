@@ -1,6 +1,7 @@
 const EntitiesList = require("../entities/EntitiesList");
 const ItemsList = require("../items/ItemsList");
 const ItemConfig = require("../inventory/ItemConfig");
+const Damage = require("../gameplay/Damage");
 
 class Command {
     constructor(run, help) {
@@ -20,7 +21,7 @@ const Commands = {
 
                 return `
                     Invalid command. Commands list:
-                    ${Object.keys(Commands).join(" ")}
+                    ${Object.keys(Commands).join("\n")}
                 `;
             }
 
@@ -30,6 +31,14 @@ const Commands = {
         Prints help for a command.
         Format: /help {command name}
         Example: /help teleport
+        `,
+    ),
+    stopserver: new Command(
+        () => {
+            process.exit();
+        },
+        `
+        Stops the server. Equivalent to the server crashing.
         `,
     ),
     spawnitem: new Command(
@@ -59,12 +68,23 @@ const Commands = {
         /spawnitem IronSword 300
         `,
     ),
+    listitems: new Command(
+        () => `
+                Items list:
+                ${Object.keys(ItemsList.BY_NAME).join("\n")}
+            `,
+        `
+        Shows a list of all items that can be spawned.
+        `,
+    ),
     spawnentity: new Command(
         (player, typeName, row, col) => {
             if (typeName === "Player") return "Restricted entity type.";
             if (typeName === "AbstractClasses") return "Restricted entity type.";
             if (!EntitiesList[typeName]) return "Invalid entity type name.";
             if (Object.prototype.hasOwnProperty.call(EntitiesList[typeName], "abstract")) return "Restricted entity type.";
+            // Only allow destroyables to be spawned, as other non-dynamic entities won't be added to the client.
+            if (!(EntitiesList[typeName].prototype instanceof EntitiesList.AbstractClasses.Destroyable)) return "Restricted entity type.";
 
             if (row) {
             // Use an offset from player row.
@@ -112,6 +132,29 @@ const Commands = {
         /spawnentity Bandit 123 456
         `,
     ),
+    listentities: new Command(
+        () => {
+            const types = Object.entries(EntitiesList).filter(([typeKey, EntityType]) => {
+                if (typeKey === "Player") return false;
+                // Don't include pickups, as they are covered by listitems.
+                if (typeKey.startsWith("Pickup")) return false;
+                // Don't include non-dynamics.
+                if (!(
+                    EntityType.prototype instanceof EntitiesList.AbstractClasses.Destroyable
+                )) return false;
+
+                return true;
+            }).map((entry) => entry[0]);
+
+            return `
+                Items list:
+                ${types.join("\n")}
+            `;
+        },
+        `
+        Shows a list of all items that can be spawned.
+        `,
+    ),
     teleport: new Command(
         (player, row, col) => {
             if (!row || !col) return "Missing inputs.";
@@ -148,6 +191,17 @@ const Commands = {
         /teleport +5 -8
         - Teleport to target position:
         /teleport 123 456
+        `,
+    ),
+    killself: new Command(
+        (player) => {
+            player.damage(new Damage({
+                amount: 99999,
+                armourPiercing: 100,
+            }));
+        },
+        `
+        Kills your character.
         `,
     ),
 };

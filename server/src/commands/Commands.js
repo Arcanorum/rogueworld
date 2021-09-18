@@ -152,7 +152,7 @@ const Commands = {
             `;
         },
         `
-        Shows a list of all items that can be spawned.
+        Shows a list of all entities that can be spawned.
         `,
     ),
     teleport: new Command(

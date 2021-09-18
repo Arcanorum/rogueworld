@@ -65,6 +65,7 @@
   hasBackStabBonus: true
   collisionType: Melee
   damageAmount: 8
+  damageArmourPiercing: 50
   damageTypes:
     - Physical
   textureFrames: iron-dagger
@@ -75,6 +76,7 @@
   hasBackStabBonus: true
   collisionType: Melee
   damageAmount: 9
+  damageArmourPiercing: 50
   damageTypes:
     - Physical
   textureFrames: dungium-dagger
@@ -85,6 +87,7 @@
   hasBackStabBonus: true
   collisionType: Melee
   damageAmount: 10
+  damageArmourPiercing: 50
   damageTypes:
     - Physical
   textureFrames: agonite-dagger
@@ -95,6 +98,7 @@
   hasBackStabBonus: true
   collisionType: Melee
   damageAmount: 11
+  damageArmourPiercing: 50
   damageTypes:
     - Physical
   textureFrames: noctis-dagger
@@ -350,6 +354,9 @@
 - name: Tailwind
   moveRate: 100
   range: 3
+  damageAmount: 6
+  damageTypes:
+    - Magical
 
 - name: Fire
   moveRate: 200

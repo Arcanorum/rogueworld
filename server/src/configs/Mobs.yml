@@ -720,6 +720,24 @@
 - name: IronGolem
   gloryValue: 70
   maxHitPoints: 200
+  defence: 60
+  viewRange: 6
+  moveRate: 700
+  attackRate: 3000
+  meleeDamageAmount: 30
+  faction: HostileAnimals
+  dropList:
+    - itemName: IronOre
+      dropRate: 100
+      rolls: 2
+    - itemName: IronOre
+      rolls: 4
+    - itemName: Redcap
+      dropRate: 10
+
+- name: DungiumGolem
+  gloryValue: 70
+  maxHitPoints: 200
   defence: 80
   viewRange: 6
   moveRate: 700
@@ -727,10 +745,46 @@
   meleeDamageAmount: 40
   faction: HostileAnimals
   dropList:
-    - itemName: IronOre
+    - itemName: DungiumOre
       dropRate: 100
       rolls: 2
-    - itemName: IronOre
+    - itemName: DungiumOre
+      rolls: 4
+    - itemName: Redcap
+      dropRate: 10
+
+- name: AgoniteGolem
+  gloryValue: 70
+  maxHitPoints: 200
+  defence: 100
+  viewRange: 6
+  moveRate: 700
+  attackRate: 3000
+  meleeDamageAmount: 50
+  faction: HostileAnimals
+  dropList:
+    - itemName: AgoniteOre
+      dropRate: 100
+      rolls: 2
+    - itemName: AgoniteOre
+      rolls: 4
+    - itemName: Redcap
+      dropRate: 10
+
+- name: NoctisGolem
+  gloryValue: 70
+  maxHitPoints: 200
+  defence: 120
+  viewRange: 6
+  moveRate: 700
+  attackRate: 3000
+  meleeDamageAmount: 60
+  faction: HostileAnimals
+  dropList:
+    - itemName: NoctisOre
+      dropRate: 100
+      rolls: 2
+    - itemName: NoctisOre
       rolls: 4
     - itemName: Redcap
       dropRate: 10

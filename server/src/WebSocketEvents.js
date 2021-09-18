@@ -11,6 +11,7 @@ const DungeonPortal = require("./entities/classes/statics/interactables/DungeonP
 const AccountManager = require("./account/AccountManager");
 const settings = require("../settings");
 const EntitiesList = require("./entities/EntitiesList");
+const Commands = require("./commands/Commands");
 
 const eventResponses = {};
 
@@ -298,7 +299,7 @@ eventResponses.mv_r = (clientSocket) => {
  * @param {String} data
  */
 eventResponses.chat = (clientSocket, data) => {
-    // Can't use ChatState here 'cause it's located outside module
+    // Can't use ChatState here 'cause it's located outside module.
     const { CHAT_SCOPES } = settings;
 
     if (!data || !data.scope || !data.message) return;
@@ -313,20 +314,19 @@ eventResponses.chat = (clientSocket, data) => {
 
     const { cooldown } = CHAT_SCOPES[scope];
 
-    // if no cooldown is found it means the client is passing some strange values
+    // If no cooldown is found it means the client is passing some strange values.
     if (cooldown === undefined) return;
 
-    // const date = new Date();
     const nextMessageTime = Date.now();
     const dataToBroadCast = {
         id: entity.id,
         displayName: entity.displayName,
         scope,
         message,
-        nextAvailableDate: nextMessageTime + cooldown, // sending in milliseconds = smaller payload size
+        nextAvailableDate: nextMessageTime + cooldown,
     };
 
-    // send global chats
+    // Send global chats.
     if (data.scope !== CHAT_SCOPES.LOCAL.value) {
         if (clientSocket.nextMessageTimes[data.scope] > Date.now()) {
             // Message too soon, ignore it.
@@ -346,13 +346,51 @@ eventResponses.chat = (clientSocket, data) => {
         return;
     }
 
-    // send local chats
+    // Send local chats.
     entity.board.emitToNearbyPlayers(
         entity.row,
         entity.col,
         EventsList.chat,
         dataToBroadCast,
     );
+
+    // Handle chat commands when in development mode (or a test environment).
+    if (settings.DEV_MODE) {
+        try {
+            // All chat commands start with a forward slash.
+            if (message[0] === "/") {
+                Utils.message("Running chat command:", message);
+                // Separate the command (first word) from the arguments (everything after).
+                const parts = message.split(" ");
+                const commandName = parts.shift().substring(1);
+                let response;
+                // Check the command is valid.
+                if (Commands[commandName]) {
+                    response = Commands[commandName].run(entity, ...parts);
+                }
+                else {
+                    // Send invalid command warning.
+                    response = "Invalid command. Use /help for more info.";
+                }
+
+                if (response) {
+                    entity.board.emitToNearbyPlayers(
+                        entity.row,
+                        entity.col,
+                        EventsList.chat,
+                        {
+                            ...dataToBroadCast,
+                            message: response,
+                            discreet: true,
+                        },
+                    );
+                }
+            }
+        }
+        catch (error) {
+            Utils.warning("Error during chat command:", error);
+        }
+    }
 };
 
 /**

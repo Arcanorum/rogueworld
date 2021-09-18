@@ -1,4 +1,7 @@
 const Mob = require("./Mob");
+const DayPhases = require("../../../../../../DayPhases");
+const Damage = require("../../../../../../gameplay/Damage");
+const Heal = require("../../../../../../gameplay/Heal");
 
 class SmallAdumbral extends Mob {
     constructor(config) {
@@ -27,10 +30,6 @@ class SmallAdumbral extends Mob {
     }
 }
 module.exports = SmallAdumbral;
-
-const DayPhases = require("../../../../../../DayPhases");
-const Damage = require("../../../../../../gameplay/Damage");
-const Heal = require("../../../../../../gameplay/Heal");
 
 SmallAdumbral.prototype.taskIdKilled = require("../../../../../../tasks/TaskTypes").KillAdumbrals.taskId;
 

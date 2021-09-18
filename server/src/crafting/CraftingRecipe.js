@@ -18,17 +18,13 @@ class Result {
 
 class CraftingRecipe {
     constructor(config) {
-        this.stationTypes = config.stationTypes;
+        this.stationTypes = config.stationTypes || [];
 
-        this.statNames = config.statNames;
+        this.statNames = config.statNames || [];
 
-        this.expGiven = config.expGiven;
+        this.expGiven = config.expGiven || 0;
 
-        this.ingredients = [];
-
-        config.ingredients.forEach((ingredient) => {
-            this.ingredients.push(new Ingredient(ingredient));
-        });
+        this.ingredients = config.ingredients.map((ingredient) => new Ingredient(ingredient));
 
         this.result = new Result(config.result);
     }

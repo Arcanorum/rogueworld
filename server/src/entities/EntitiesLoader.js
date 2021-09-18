@@ -16,6 +16,11 @@ const populateList = () => {
                 if (EntitiesList[baseName]) {
                     Utils.error(`Cannot load entity "${baseName}", as it already exists in the entities list.`);
                 }
+
+                if (baseName !== value.prototype.constructor.name) {
+                    Utils.error(`Cannot load entity "${baseName}", as the name of the class exported from the file does not match the file name.`);
+                }
+
                 // Don't do any additional setup for abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
                 if (Object.prototype.hasOwnProperty.call(value, "abstract")) {

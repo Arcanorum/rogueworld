@@ -11,6 +11,9 @@
   itemName: IronOre
   guardedByMobTypes:
     - IronGolem
+    - DungiumGolem
+    - AgoniteGolem
+    - NoctisGolem
 
 - name: DungiumOre
   reactivationRate: 30000
@@ -23,6 +26,9 @@
   itemName: DungiumOre
   guardedByMobTypes:
     - IronGolem
+    - DungiumGolem
+    - AgoniteGolem
+    - NoctisGolem
 
 - name: AgoniteOre
   reactivationRate: 45000
@@ -35,6 +41,9 @@
   itemName: AgoniteOre
   guardedByMobTypes:
     - IronGolem
+    - DungiumGolem
+    - AgoniteGolem
+    - NoctisGolem
 
 - name: NoctisOre
   reactivationRate: 60000
@@ -47,6 +56,9 @@
   itemName: NoctisOre
   guardedByMobTypes:
     - IronGolem
+    - DungiumGolem
+    - AgoniteGolem
+    - NoctisGolem
 
 # Trees
 

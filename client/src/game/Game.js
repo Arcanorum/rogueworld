@@ -851,29 +851,6 @@ class Game extends Phaser.Scene {
             },
         };
 
-        // Check if the message was a command.
-        if (message[0] === "/") {
-            const command = message[1];
-            // Remove the command part of the message.
-            message = message.slice(2);
-            // Check which command it is.
-            if (command === "r") style.fill = "#ff7066";
-            else if (command === "g") style.fill = "#73ff66";
-            else if (command === "b") style.fill = "#66b3ff";
-            else if (command === "y") style.fill = "#ffde66";
-            // Invalid command.
-            else {
-                style.fill = "#ffa54f";
-                // If the message was from this client, tell them a warning message.
-                if (entityID === PlayerState.entityID) {
-                    message = Utils.getTextDef("Invalid command warning");
-                }
-                else { // Someone else's message, so don't show it.
-                    return;
-                }
-            }
-        }
-
         const chatText = dungeonz.gameScene.add.text(0, -16, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);

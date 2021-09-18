@@ -95,7 +95,11 @@ class Chat {
             this.newChatNotification = true;
         }
 
-        dungeonz.gameScene.chat(data.id, data.message);
+        // Some chat messages shouldn't show the overhead text (i.e. chat command responses).
+        if (!data.discreet) {
+            dungeonz.gameScene.chat(data.id, data.message);
+        }
+
         const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
 
         this.chats = [...this.chats, newChat];

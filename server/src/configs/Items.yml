@@ -1056,7 +1056,7 @@
   code: UIVL3131
   translationID: Scroll of tailwind
   textureSource: tailwind-spell-scroll
-  useEnergyCost: 2
+  useEnergyCost: 6
   soundType: Scroll
   unitWeight: Scroll
   expGivenStatName: Magic

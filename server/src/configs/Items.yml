@@ -1330,7 +1330,7 @@
   
 - name: IceShard
   code: XRHI1546
-  translationID: Ice Shard
+  translationID: Ice shard
   textureSource: ice-shard
   unitWeight: GenericMaterial
 

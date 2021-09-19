@@ -1316,6 +1316,12 @@
   translationID: Heart of the mountain
   textureSource: heart-of-the-mountain
   unitWeight: RelicGem
+  
+- name: IceShard
+  code: XRHI1546
+  translationID: Ice Shard
+  textureSource: ice-shard
+  unitWeight: 5
 
 - name: IronBar
   code: NUKK7066

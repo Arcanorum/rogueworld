@@ -1321,7 +1321,7 @@
   code: XRHI1546
   translationID: Ice Shard
   textureSource: ice-shard
-  unitWeight: 5
+  unitWeight: GenericMaterial
 
 - name: IronBar
   code: NUKK7066

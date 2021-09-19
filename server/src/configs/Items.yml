@@ -170,6 +170,17 @@
     - Arrows
     - NoctisGear
 
+- name: IceArrows
+  code: YRIN2041
+  translationID: Ice arrows
+  textureSource: ice-arrows
+  extends: Ammunition
+  ProjectileType: ProjIceArrow
+  baseQuantity: 2
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+
 - name: PoisonArrows
   code: LJCR7302
   translationID: Poison arrows

@@ -714,7 +714,23 @@
     itemName: NinjaGarb
 
 - stationTypes:
-    - Anvil
+    - Workbench
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
+    - itemName: IceShard
+      quantity: 2
+    - itemName: PineLogs
+      quantity: 4
+    - itemName: Feathers
+      quantity: 2
+  result:
+    itemName: IceArrows
+    baseQuantity: 5
+
+- stationTypes:
+    - Workbench
   stats:
     - Weaponry
     - Ranged

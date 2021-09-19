@@ -432,6 +432,14 @@
   textureFrames: snowball
   spinDuration: 1000
 
+- name: IceShard
+  moveRate: 200
+  range: 6
+  damageAmount: 14
+  damageTypes:
+    - Physical
+    - Magical
+
 - name: Dark
   moveRate: 100
   range: 7

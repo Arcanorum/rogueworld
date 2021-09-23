@@ -118,7 +118,7 @@ With this we can see that the item works, but there are some problems with how i
 There are 2/3 kinds of sprite that an item expects, as defined in the configs.
 
 - A GUI icon. This is what appears in the hotbar and any item related panels.
-- A pickup sprite. When an item is dropped a pickup entity is created for it on the floor, which needs it's own sprite. Typcially this is the same as the GUI icon but with a border.
+- A pickup sprite. When an item is dropped a pickup entity is created for it on the floor, which needs it's own sprite (that looks like the GUI icon but with a border). Fortunately this is generated automatically using the matching GUI icon when the client is started, so we don't have to worry about creating this one.
 - A projectile sprite. For weapons that shoot something, the projectile that was created should have it's own sprite.
 
 >The following item asset files must be in .PNG format.
@@ -137,15 +137,6 @@ For exmaple, for this wooden sword the config is:
 So the file it will look for would be:
 
 `icon-wooden-sword.png`
-
-### Add a pickup sprite
-Draw an image for the pickup, and add it to the */client/src/assets/images/entities/pickups* directory.
-
-Like for the GUI icon, the file name of this asset is used to identify it in the item config you added to [`Items.yml`](../../server/src/configs/Items.yml), also using the same `textureSource` config.
-
-It will expect a file in the following format `pickup-[ITEM NAME].png`
-
-i.e. `pickup-wooden-sword.png`
 
 
 ### Add a projectile sprite

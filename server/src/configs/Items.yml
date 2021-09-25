@@ -39,8 +39,8 @@
 # textureSource
 # The base name of the texture/sprite/image/whatever to use for this item on the client.
 # e.g. For an iron sword item, this value will probably be "iron-sword".
-# This would make the source image to use for the GUI icon to be "icon-iron-sword", and the pickup
-# sprite to be "pickup-iron-sword", so make sure that assets with those file names exist.
+# This would make the source image to use for the GUI icon to be "icon-iron-sword", so make sure
+# that an image with that file name exists.
 
 # pickupSpriteScaleModifier
 # Optional. How much to scale the sprite of the pickup of this item from it's default size.

@@ -1,7 +1,7 @@
 import gameConfig from "../../../shared/GameConfig";
 import Sprite from "../Sprite";
 
-class GalestormPower extends Sprite {
+class Entity extends Sprite {
     constructor(x, y, config) {
         super(x, y, config, "trap");
 
@@ -9,4 +9,4 @@ class GalestormPower extends Sprite {
     }
 }
 
-export default GalestormPower;
+export default Entity;

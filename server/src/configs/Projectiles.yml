@@ -36,6 +36,16 @@
   damageArmourPiercing: 30
   textureFrames: noctis-arrow
 
+- name: IceArrow
+  moveRate: 100
+  range: 8
+  damageAmount: 8
+  damageTypes:
+    - Physical
+    - Magical
+  damageArmourPiercing: 30
+  textureFrames: ice-arrow
+
 - name: PoisonArrow
   moveRate: 100
   range: 8
@@ -43,7 +53,7 @@
   damageTypes:
     - Physical
     - Biological
-  damageArmourPiercing: 100
+  damageArmourPiercing: 50
   textureFrames: poison-arrow
 
 # Shurikens
@@ -421,6 +431,14 @@
     - Physical
   textureFrames: snowball
   spinDuration: 1000
+
+- name: IceShard
+  moveRate: 200
+  range: 6
+  damageAmount: 14
+  damageTypes:
+    - Physical
+    - Magical
 
 - name: Dark
   moveRate: 100

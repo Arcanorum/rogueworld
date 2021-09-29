@@ -368,11 +368,11 @@
   damageTypes:
     - Magical
 
-- name: Fire
+- name: Fireball
   moveRate: 200
   range: 6
 
-- name: SuperFire
+- name: SuperFireball
   moveRate: 200
   range: 7
 

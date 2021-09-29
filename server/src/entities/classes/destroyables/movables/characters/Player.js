@@ -729,8 +729,10 @@ class Player extends Character {
         if (!recipe) return;
 
         // Check the player is stood next to any of the valid types of crafting station for this recipe.
-        recipe.stationTypes.some((stationType) => (
-            this.isAdjacentToStaticType(stationType.typeNumber)));
+        const nextToStation = recipe.stationTypes.some((stationType) => (
+            this.isAdjacentToStaticType(stationType.prototype.typeNumber)));
+
+        if (!nextToStation) return;
 
         // Check the player has all of the required ingredients.
         const { items } = this.inventory;

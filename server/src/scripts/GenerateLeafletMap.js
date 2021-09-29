@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const img2LeafletTile = require("img2-leaflet-tiles");
+const img2LeafletTile = require("./GenerateMapTiles");
 const Utils = require("../Utils");
 
 const outputPath = path.join(__dirname, "./../../map/leaflet-map"); // path to folder output
@@ -27,7 +27,6 @@ fs.stat(outputPath, async (err, stat) => {
             inputFile: inputPath,
             outputFolder: outputPath,
             zoomLevels,
-            shouldLog: false, // log info
         });
 
         Utils.message("Done!");

@@ -211,7 +211,7 @@
   defence: 20
   faction: Mages
   corpseType: Human
-  projectileAttackType: Fire
+  projectileAttackType: Fireball
   dropList:
     - itemName: Bones
     - itemName: Cotton
@@ -232,7 +232,7 @@
   defence: 20
   faction: Mages
   corpseType: Human
-  projectileAttackType: SuperFire
+  projectileAttackType: SuperFireball
   dropList:
     - itemName: EternalFlame
       dropRate: 2
@@ -565,7 +565,7 @@
   defence: 30
   viewRange: 8
   attackRate: 800
-  projectileAttackType: SuperFire
+  projectileAttackType: SuperFireball
   faction: Zombies
   dropList:
     - itemName: EternalFlame

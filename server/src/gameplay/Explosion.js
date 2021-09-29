@@ -57,7 +57,7 @@ const explosion = ({
                 row: row + rowIndex - range,
                 col: col + colIndex - range,
                 board,
-                lifespan: 1000,
+                lifespan: 600,
                 source,
             }).emitToNearbyPlayers();
         });

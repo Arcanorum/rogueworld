@@ -36,6 +36,11 @@
   damageArmourPiercing: 30
   textureFrames: noctis-arrow
 
+- name: ExplosiveArrow
+  moveRate: 100
+  range: 8
+  textureFrames: explosive-arrow
+
 - name: IceArrow
   moveRate: 100
   range: 8

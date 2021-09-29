@@ -170,6 +170,17 @@
     - Arrows
     - NoctisGear
 
+- name: ExplosiveArrows
+  code: FHFV1114
+  translationID: Explosive arrows
+  textureSource: explosive-arrows
+  extends: Ammunition
+  ProjectileType: ProjExplosiveArrow
+  baseQuantity: 2
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+
 - name: IceArrows
   code: YRIN2041
   translationID: Ice arrows

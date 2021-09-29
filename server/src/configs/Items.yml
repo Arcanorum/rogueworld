@@ -603,7 +603,7 @@
   translationID: Hellraiser
   textureSource: hellraiser
   soundType: Magic weapon
-  ProjectileType: ProjSuperFire
+  ProjectileType: ProjSuperFireball
   category: Weapon
   unitWeight: Staff
   useGloryCost: 10
@@ -617,7 +617,7 @@
   extends: Weapon
   translationID: Fire staff
   textureSource: fire-staff
-  ProjectileType: ProjFire
+  ProjectileType: ProjFireball
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
@@ -869,7 +869,7 @@
   extends: Weapon
   translationID: Super fire staff
   textureSource: super-fire-staff
-  ProjectileType: ProjSuperFire
+  ProjectileType: ProjSuperFireball
   category: Weapon
   unitWeight: Staff
   baseDurability: 30

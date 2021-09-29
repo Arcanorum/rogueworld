@@ -21,7 +21,7 @@ class Spawner extends Entity {
 
         this.maxAtOnce = config.maxAtOnce || 0;
 
-        this.spawnRate = config.spawnRate || config.EntityType.prototype.spawnRate || 60000;
+        this.spawnRate = 2000;// config.spawnRate || config.EntityType.prototype.spawnRate || 60000;
         if (this.spawnRate < 1) {
             Utils.error("Spawner with invalid spawnRate. Config:", config);
         }

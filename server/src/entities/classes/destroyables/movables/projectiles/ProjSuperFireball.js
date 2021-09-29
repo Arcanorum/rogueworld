@@ -1,9 +1,9 @@
-const ProjFire = require("./ProjFire");
+const ProjFireball = require("./ProjFireball");
 const EntitiesList = require("../../../../EntitiesList");
 const { Burn } = require("../../../../../gameplay/StatusEffects");
 const { Directions } = require("../../../../../gameplay/Directions");
 
-class ProjSuperFire extends ProjFire {
+class ProjSuperFireball extends ProjFireball {
     /**
      * Custom collision checker to check tile in advance, otherwise the extra fire balls this makes can go through walls.
      */
@@ -25,8 +25,8 @@ class ProjSuperFire extends ProjFire {
 
     handleCollision(collidee) {
         // Ignore other fire projectiles.
-        if (collidee instanceof ProjFire) return;
-        if (collidee instanceof ProjSuperFire) return;
+        if (collidee instanceof EntitiesList.ProjFireball) return;
+        if (collidee instanceof EntitiesList.ProjSuperFireball) return;
         // Ignore pickups.
         if (collidee instanceof EntitiesList.AbstractClasses.Pickup) return;
         // Ignore corpses.
@@ -40,16 +40,16 @@ class ProjSuperFire extends ProjFire {
             row, col, board, source,
         } = this;
         // Create a new projectile in each direction.
-        new ProjFire({
+        new EntitiesList.ProjFireball({
             row: row - 1, col, board, direction: Directions.UP, source,
         }).emitToNearbyPlayers();
-        new ProjFire({
+        new EntitiesList.ProjFireball({
             row: row + 1, col, board, direction: Directions.DOWN, source,
         }).emitToNearbyPlayers();
-        new ProjFire({
+        new EntitiesList.ProjFireball({
             row, col: col - 1, board, direction: Directions.LEFT, source,
         }).emitToNearbyPlayers();
-        new ProjFire({
+        new EntitiesList.ProjFireball({
             row, col: col + 1, board, direction: Directions.RIGHT, source,
         }).emitToNearbyPlayers();
 
@@ -65,4 +65,4 @@ class ProjSuperFire extends ProjFire {
     }
 }
 
-module.exports = ProjSuperFire;
+module.exports = ProjSuperFireball;

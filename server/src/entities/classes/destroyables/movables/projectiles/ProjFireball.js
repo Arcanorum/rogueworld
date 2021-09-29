@@ -1,7 +1,7 @@
 const Projectile = require("./Projectile");
 const { Burn } = require("../../../../../gameplay/StatusEffects");
 
-class ProjFire extends Projectile {
+class ProjFireball extends Projectile {
     handleCollision(collidee) {
         // Check any of the conditions that should always be checked.
         super.mandatoryCollideeChecks(collidee);
@@ -17,4 +17,4 @@ class ProjFire extends Projectile {
         }
     }
 }
-module.exports = ProjFire;
+module.exports = ProjFireball;

@@ -4,7 +4,7 @@ import Projectile from "./Projectile";
 
 class Entity extends Projectile {
     constructor(x, y, config) {
-        super(x, y, config, "proj-fire");
+        super(x, y, config, "proj-fireball");
         this.setScale(gameConfig.GAME_SCALE * 1.2);
         this.alpha = 0.9;
     }

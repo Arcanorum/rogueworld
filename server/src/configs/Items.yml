@@ -1139,6 +1139,13 @@
   expGivenStatName: Potionry
   expGivenOnUse: 5
 
+- name: Bomb
+  code: MAHF2091
+  translationID: Bomb
+  textureSource: bomb
+  unitWeight: 35
+  useEnergyCost: 5
+
 - name: Bones
   code: PTKR2708
   translationID: Bones

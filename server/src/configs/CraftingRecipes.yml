@@ -906,6 +906,23 @@
     - Weaponry
   ingredients:
     - itemName: String
+      quantity: 1
+    - itemName: FireGem
+      quantity: 6
+    - itemName: WindGem
+      quantity: 6
+    - itemName: IronBar
+      quantity: 10
+  result:
+    itemName: Bomb
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+    - Weaponry
+  ingredients:
+    - itemName: String
       quantity: 2
     - itemName: IronBar
       quantity: 7

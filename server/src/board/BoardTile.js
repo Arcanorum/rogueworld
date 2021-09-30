@@ -25,6 +25,29 @@ class BoardTile {
         return this.static.isHighBlocked();
     }
 
+    isBuildable() {
+        // Breakables can be occupied (moved over) if broken, but they should never be able to be built on.
+        if (this.static !== null) {
+            // console.log("  has a static");
+            return false;
+        }
+        if (this.safeZone === true) {
+            // console.log("  is a safe zone");
+            return false;
+        }
+        if (this.groundType.canBeBuiltOn === false) {
+            // console.log("  ground type can not be built on");
+            return false;
+        }
+        if (this.containsAnyDestroyables() === true) {
+            // console.log("  has a destroyable");
+            return false;
+        }
+
+        // console.log("  is buildable");
+        return true;
+    }
+
     /**
      * Checks if this tile contains any destroyable entities. Is the destroyable object empty.
      * @returns {Boolean}

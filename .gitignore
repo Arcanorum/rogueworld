@@ -2,7 +2,7 @@
 .idea
 node_modules
 
-# NEW CLIENT
+# CLIENT
 client/node_modules
 client/.pnp
 client/.pnp.js
@@ -19,6 +19,7 @@ client/yarn-error.log*
 client/src/catalogues/
 client/src/assets/maps/
 client/src/assets/maps/
+client/src/assets/images/entities/pickups/
 client/src/assets/images/game-atlas.json
 client/src/assets/images/game-atlas.png
 client/src/assets/images/ground.png

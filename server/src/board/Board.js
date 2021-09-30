@@ -1126,27 +1126,8 @@ class Board {
         /** @type {BoardTile} */
         const boardTile = grid[row][col];
         if (boardTile === undefined) return false;
-        // Breakables can be occupied (moved over) if broken, but they should never be able to be built on.
-        if (boardTile.static !== null) {
-            // console.log("  has a static");
-            return false;
-        }
-        if (boardTile.safeZone === true) {
-            // console.log("  is a safe zone");
-            return false;
-        }
-        if (boardTile.groundType.canBeBuiltOn === false) {
-            // console.log("  ground type can not be built on");
-            return false;
-        }
-        if (boardTile.containsAnyDestroyables() === true) {
-            // console.log("  has a destroyable");
-            return false;
-        }
 
-        // console.log("  is buildable");
-
-        return true;
+        return boardTile.isBuildable();
     }
 }
 

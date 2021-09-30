@@ -719,6 +719,22 @@
     - Weaponry
     - Ranged
   ingredients:
+    - itemName: Bomb
+      quantity: 2
+    - itemName: PineLogs
+      quantity: 4
+    - itemName: Feathers
+      quantity: 2
+  result:
+    itemName: ExplosiveArrows
+    baseQuantity: 5
+
+- stationTypes:
+    - Workbench
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
     - itemName: IceShard
       quantity: 2
     - itemName: PineLogs
@@ -898,6 +914,23 @@
     itemName: Etherweave
 
 # Misc
+
+- stationTypes:
+    - Anvil
+  stats:
+    - Toolery
+    - Weaponry
+  ingredients:
+    - itemName: String
+      quantity: 1
+    - itemName: FireGem
+      quantity: 6
+    - itemName: WindGem
+      quantity: 6
+    - itemName: IronBar
+      quantity: 10
+  result:
+    itemName: Bomb
 
 - stationTypes:
     - Anvil

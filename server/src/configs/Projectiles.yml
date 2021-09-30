@@ -36,6 +36,11 @@
   damageArmourPiercing: 30
   textureFrames: noctis-arrow
 
+- name: ExplosiveArrow
+  moveRate: 100
+  range: 8
+  textureFrames: explosive-arrow
+
 - name: IceArrow
   moveRate: 100
   range: 8
@@ -368,11 +373,11 @@
   damageTypes:
     - Magical
 
-- name: Fire
+- name: Fireball
   moveRate: 200
   range: 6
 
-- name: SuperFire
+- name: SuperFireball
   moveRate: 200
   range: 7
 

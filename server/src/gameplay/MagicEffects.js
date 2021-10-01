@@ -1,16 +1,26 @@
+const Damage = require("./Damage");
+const ModHitPointConfigs = require("./ModHitPointConfigs");
+
 class MagicEffect {
     /**
-     * @param {Character} character - What this magic effect will affect.
+     * @param {Object} config
+     * @param {Character} config.character - What this magic effect will affect.
+     * @param {Entity} [config.source=null] - The thing that caused this magic effect.
      */
-    constructor(character) {
+    constructor(config) {
         /** @type {Character} The character entity that this magic effect is affecting. */
-        this.character = character;
+        this.character = config.character;
+
+        /** @type {Entity} The source entity that this magic effect originates from. */
+        this.source = config.source || null;
 
         this.timeout = setTimeout(this.onTimeUp.bind(this), this.duration);
     }
 
     remove() {
         this.character = null;
+
+        this.source = null;
 
         clearTimeout(this.timeout);
     }
@@ -37,8 +47,10 @@ class MagicEffect {
 MagicEffect.prototype.duration = 10000;
 
 class Curse extends MagicEffect {
-    constructor(character) {
-        super(character);
+    constructor(config) {
+        if (config.character.curse) config.character.curse.remove();
+
+        super(config);
 
         if (this.character.curse === null) {
             // The character didn't already have a curse, so tell all nearby players this now has one.
@@ -69,8 +81,10 @@ class Curse extends MagicEffect {
 }
 
 class Enchantment extends MagicEffect {
-    constructor(character) {
-        super(character);
+    constructor(config) {
+        if (config.character.enchantment) config.character.enchantment.remove();
+
+        super(config);
 
         if (this.character.enchantment === null) {
             // The character didn't already have an enchantment, so tell all nearby players this now has one.
@@ -132,10 +146,28 @@ class Deathbind extends Curse {
 }
 Deathbind.prototype.duration = 300000; // 5 mins.
 
+class IllOmen extends Curse {
+    onTimeUp() {
+        this.character.damage(new Damage({
+            amount: ModHitPointConfigs.IllOmen.damageAmount,
+            types: ModHitPointConfigs.IllOmen.damageTypes,
+            armourPiercing: ModHitPointConfigs.IllOmen.damageArmourPiercing,
+        }), this.source);
+
+        // Check the character still has this curse applied, as they might have died from the above
+        // damage and thus had their curse removed.
+        if (this.character && this.character.curse === this) {
+            super.onTimeUp();
+        }
+    }
+}
+IllOmen.prototype.duration = 4000;
+
 const MagicEffects = {
     Ward,
     Pacify,
     Deathbind,
+    IllOmen,
 };
 
 module.exports = MagicEffects;

@@ -11,7 +11,7 @@ class ProjDeathbind extends Projectile {
         if (collidee instanceof Character) {
             if (collidee === this.source) return;
 
-            new MagicEffects.Deathbind(collidee);
+            new MagicEffects.Deathbind({ character: collidee });
 
             this.destroy();
         }

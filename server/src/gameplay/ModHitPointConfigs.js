@@ -53,6 +53,12 @@ const ModHitPointConfigs = {
         damageTypes: [Physical],
         damageArmourPiercing: 100,
     },
+
+    IllOmen: {
+        damageAmount: 40,
+        damageTypes: [Magical],
+        damageArmourPiercing: 30,
+    },
 };
 
 module.exports = ModHitPointConfigs;

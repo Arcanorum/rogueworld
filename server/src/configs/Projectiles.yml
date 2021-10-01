@@ -61,6 +61,10 @@
   damageArmourPiercing: 50
   textureFrames: poison-arrow
 
+- name: IllOmen
+  moveRate: 100
+  range: 8
+
 # Shurikens
 
 - name: Shuriken

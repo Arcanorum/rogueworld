@@ -686,6 +686,21 @@
     itemName: OakBow
 
 - stationTypes:
+    - GloryAltar
+  stats:
+    - Weaponry
+    - Ranged
+  ingredients:
+    - itemName: AngelHair
+      quantity: 2
+    - itemName: SacredBranch
+      quantity: 6
+    - itemName: GloryOrb
+      quantity: 20
+  result:
+    itemName: IllOmen
+
+- stationTypes:
     - Workbench
   stats:
     - Armoury

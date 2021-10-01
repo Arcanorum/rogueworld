@@ -988,6 +988,21 @@
   craftTasks:
     - Bows
 
+- name: IllOmen
+  code: VOVA1616
+  extends: Weapon
+  translationID: Ill Omen
+  textureSource: ill-omen
+  category: Weapon
+  ProjectileType: ProjIllOmen
+  unitWeight: Bow
+  soundType: Bow
+  baseDurability: 1000
+  useEnergyCost: 3
+  expGivenStatName: Ranged
+  craftTasks:
+    - Bows
+
 # Spell scrolls
 
 - name: CleanseSpellScroll

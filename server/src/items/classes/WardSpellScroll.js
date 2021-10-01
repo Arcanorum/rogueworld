@@ -9,7 +9,7 @@ class WardSpellScroll extends Item {
                 if (destroyable.enchantment === undefined) {
                     return;
                 }
-                new MagicEffects.Ward(destroyable);
+                new MagicEffects.Ward({ character: destroyable });
             });
         });
 

@@ -71,7 +71,7 @@ class ArchMage extends Boss {
         }
 
         // Cast ward on self.
-        new MagicEffects.Ward(this);
+        new MagicEffects.Ward({ character: this });
     }
 
     /**

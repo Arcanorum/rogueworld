@@ -11,7 +11,7 @@ class ProjPacify extends Projectile {
         if (collidee instanceof Character) {
             if (collidee === this.source) return;
 
-            new MagicEffects.Pacify(collidee);
+            new MagicEffects.Pacify({ character: collidee });
 
             this.destroy();
         }

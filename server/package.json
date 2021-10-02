@@ -34,7 +34,6 @@
     "xlsx": "^0.17.0"
   },
   "dependencies": {
-    "img2-leaflet-tiles": "^1.1.0",
     "js-yaml": "^3.14.0",
     "sharp": "^0.28.3",
     "tile-extruder": "^2.0.6",

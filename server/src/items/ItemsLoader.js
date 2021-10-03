@@ -166,6 +166,7 @@ const createCatalogue = () => {
             hasUseEffect: itemTypePrototype.hasUseEffect,
             equippable: itemTypePrototype.equip !== Item.prototype.equip,
             category: itemTypePrototype.category || undefined, // Don't include it if it is null. undefined will get stripped out.
+            useEnergyCost: itemTypePrototype.useEnergyCost,
         };
     });
 

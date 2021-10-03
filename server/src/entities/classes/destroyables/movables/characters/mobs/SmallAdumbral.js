@@ -28,6 +28,21 @@ class SmallAdumbral extends Mob {
             this.damage(new Damage({ amount: 10, armourPiercing: 1 }));
         }
     }
+
+    onAllHitPointsLost() {
+        const { dayPhase } = this.board;
+
+        if (dayPhase === DayPhases.Day) {
+            // Give 33% of full glory value if it's daytime
+            this.gloryValue *= 0.33;
+        }
+        else if (dayPhase === DayPhases.Dusk || dayPhase === DayPhases.Dawn) {
+            // Give 66% of full glory value if it's dusk or dawn
+            this.gloryValue *= 0.66;
+        }
+
+        super.onAllHitPointsLost();
+    }
 }
 module.exports = SmallAdumbral;
 

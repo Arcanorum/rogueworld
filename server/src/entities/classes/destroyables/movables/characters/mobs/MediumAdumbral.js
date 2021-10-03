@@ -36,11 +36,11 @@ class MediumAdumbral extends Mob {
 
         if (dayPhase === DayPhases.Day) {
             // Give 33% of full glory value if it's daytime
-            this.gloryValue = `${+this.gloryValue * 0.33}`;
+            this.gloryValue *= 0.33;
         }
         else if (dayPhase === DayPhases.Dusk || dayPhase === DayPhases.Dawn) {
             // Give 66% of full glory value if it's dusk or dawn
-            this.gloryValue = `${+this.gloryValue * 0.66}`;
+            this.gloryValue *= 0.66;
         }
 
         // Spawn some smaller ones.

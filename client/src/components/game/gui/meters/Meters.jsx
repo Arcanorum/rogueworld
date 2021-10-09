@@ -66,33 +66,37 @@ function Meters() {
     };
 
     const energyMeterRef = React.createRef();
-    const shake = (ref) => ref.current.classList.toggle("shake-horizontal");
+    const shake = (ref) => {
+        if (ref.current === null) return;
+        ref.current.classList.toggle("shake-horizontal");
+    };
 
-    useEffect(() => {
-        const checkEnergy = (data) => {
-            const itemUsed = ItemTypes[data.typeCode];
+    const checkEnergy = (data) => {
+        const itemUsed = ItemTypes[data.typeCode];
 
-            const itemHolding = InventoryState.holding === null
-                ? false
-                : ItemTypes[InventoryState.holding.typeCode];
+        const itemHolding = InventoryState.holding === null
+            ? false
+            : ItemTypes[InventoryState.holding.typeCode];
 
-            // Item used is `equippable`
-            if (itemUsed.equippable) {
-                // Check if item used is item holding
-                if (itemUsed.typeCode === itemHolding.typeCode) {
-                    // Check if item used useEnergyCost > energy
-                    if (itemHolding.useEnergyCost > energy) {
-                        // Make it shake
-                        shake(energyMeterRef);
-                    }
+        // Item used is `equippable`
+        if (itemUsed.equippable) {
+            // Check if item used is item holding
+            if (itemUsed.typeCode === itemHolding.typeCode) {
+                // Check if item used useEnergyCost > energy
+                if (itemHolding.useEnergyCost > energy) {
+                    // Make it shake
+                    shake(energyMeterRef);
                 }
             }
-            // Item used is not equippable (i.e. Trap, Scroll, etc.)
-            else if (itemUsed.useEnergyCost > energy) {
-                // Make it shake
-                shake(energyMeterRef);
-            }
-        };
+        }
+        // Item used is not equippable (i.e. Trap, Scroll, etc.)
+        else if (itemUsed.useEnergyCost > energy) {
+            // Make it shake
+            shake(energyMeterRef);
+        }
+    };
+
+    useEffect(() => {
         const subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
                 setHitPoints(data.new);

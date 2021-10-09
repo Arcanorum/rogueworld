@@ -77,7 +77,6 @@ function HotbarSlot({ itemConfig }) {
             || itemConfig === InventoryState.clothing) {
                 PubSub.publish(USED_ITEM, itemConfig);
                 ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
-                // console.log(`Used item: ${itemConfig}`);
             }
             InventoryState.removeFromHotbar(itemConfig);
         }
@@ -86,7 +85,6 @@ function HotbarSlot({ itemConfig }) {
             PubSub.publish(USED_ITEM, itemConfig);
             // Tell the game server this player wants to use this item.
             ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
-            // console.log(`Used item: ${itemConfig}`);
         }
     };
 

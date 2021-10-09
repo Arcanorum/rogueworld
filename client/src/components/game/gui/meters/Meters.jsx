@@ -10,13 +10,14 @@ import emptyCounter from "../../../../assets/images/gui/hud/empty-counter.png";
 import "./Meters.scss";
 import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, ENERGY_VALUE, MAX_ENERGY_VALUE,
-    COMBAT_STATUS_TRIGGER,
+    COMBAT_STATUS_TRIGGER, USED_ITEM,
 } from "../../../../shared/EventTypes";
-import { GUIState } from "../../../../shared/state/States";
+import { GUIState, InventoryState } from "../../../../shared/state/States";
 import Utils from "../../../../shared/Utils";
 import inventoryIcon from "../../../../assets/images/gui/hud/inventory-icon.png";
 import PanelButton from "../panel_button/PanelButton";
 import Panels from "../panels/PanelsEnum";
+import ItemTypes from "../../../../catalogues/ItemTypes.json";
 
 // How many of the little circle counters to show on each meter bar.
 const maxCounters = 20;
@@ -64,7 +65,34 @@ function Meters() {
         combatTimerUpdateInterval = setInterval(() => updateCombatTimer(), 1000);
     };
 
+    const energyMeterRef = React.createRef();
+    const shake = (ref) => ref.current.classList.toggle("shake-horizontal");
+
     useEffect(() => {
+        const checkEnergy = (data) => {
+            const itemUsed = ItemTypes[data.typeCode];
+
+            const itemHolding = InventoryState.holding === null
+                ? false
+                : ItemTypes[InventoryState.holding.typeCode];
+
+            // Item used is `equippable`
+            if (itemUsed.equippable) {
+                // Check if item used is item holding
+                if (itemUsed.typeCode === itemHolding.typeCode) {
+                    // Check if item used useEnergyCost > energy
+                    if (itemHolding.useEnergyCost > energy) {
+                        // Make it shake
+                        shake(energyMeterRef);
+                    }
+                }
+            }
+            // Item used is not equippable (i.e. Trap, Scroll, etc.)
+            else if (itemUsed.useEnergyCost > energy) {
+                // Make it shake
+                shake(energyMeterRef);
+            }
+        };
         const subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
                 setHitPoints(data.new);
@@ -87,6 +115,9 @@ function Meters() {
                 setCombatTimer(Math.ceil(combatTimerInternal / 1000));
                 refreshCombatTimer();
             }),
+            PubSub.subscribe(USED_ITEM, (msg, data) => {
+                checkEnergy(data);
+            }),
         ];
 
         // Cleanup.
@@ -99,7 +130,7 @@ function Meters() {
             }
             combatTimerUpdateInterval = -1;
         };
-    }, []);
+    }, [energy]);
 
     return (
         <div className="meters gui-scalable">
@@ -134,7 +165,10 @@ function Meters() {
                     />
                 </div>
             </div>
-            <div className="meter">
+            <div
+              ref={energyMeterRef}
+              className="meter"
+            >
                 <img
                   className="gui-icon"
                   src={energyIcon}

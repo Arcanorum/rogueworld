@@ -11,9 +11,10 @@ import {
     MODIFY_INVENTORY_ITEM,
     PANEL_CHANGE,
 } from "../../../../shared/EventTypes";
-import { ApplicationState, GUIState, InventoryState } from "../../../../shared/state/States";
+import { GUIState, InventoryState } from "../../../../shared/state/States";
 import "./Hotbar.scss";
 import Utils from "../../../../shared/Utils";
+import UseItem from "../../../../shared/UseItem";
 import Panels from "../panels/PanelsEnum";
 import holdingIcon from "../../../../assets/images/gui/hud/hotbar/holding-icon.png";
 import ammunitionIcon from "../../../../assets/images/gui/hud/hotbar/ammunition-icon.png";
@@ -74,14 +75,14 @@ function HotbarSlot({ itemConfig }) {
             if (itemConfig === InventoryState.holding
             || itemConfig === InventoryState.ammunition
             || itemConfig === InventoryState.clothing) {
-                ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+                UseItem(itemConfig);
             }
             InventoryState.removeFromHotbar(itemConfig);
         }
         // Use the item.
         else {
             // Tell the game server this player wants to use this item.
-            ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+            UseItem(itemConfig);
         }
     };
 

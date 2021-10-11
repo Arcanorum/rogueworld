@@ -17,6 +17,7 @@ import {
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
+import UseItem from "../../../../../shared/UseItem";
 import ItemTooltip from "../../item_tooltip/ItemTooltip";
 import dungeonz from "../../../../../shared/Global";
 
@@ -110,7 +111,7 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
             || InventoryState.ammunition === itemConfig
             || InventoryState.clothing === itemConfig) {
             // Immediately use the item, which for an equippable, will equip it.
-            ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+            UseItem(itemConfig);
         }
 
         onCursorLeave();
@@ -119,14 +120,14 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
     const quickEquipPressed = () => {
         InventoryState.addToHotbar(itemConfig);
         // Immediately use the item, which for an equippable, will equip it.
-        ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+        UseItem(itemConfig);
 
         onCursorLeave();
     };
 
     const quickUsePressed = () => {
         // Immediately use the item.
-        ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+        UseItem(itemConfig);
 
         onCursorLeave();
     };

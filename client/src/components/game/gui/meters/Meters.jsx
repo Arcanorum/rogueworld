@@ -12,7 +12,7 @@ import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, ENERGY_VALUE, MAX_ENERGY_VALUE,
     COMBAT_STATUS_TRIGGER, USED_ITEM,
 } from "../../../../shared/EventTypes";
-import { GUIState, InventoryState } from "../../../../shared/state/States";
+import { GUIState, InventoryState, PlayerState } from "../../../../shared/state/States";
 import Utils from "../../../../shared/Utils";
 import inventoryIcon from "../../../../assets/images/gui/hud/inventory-icon.png";
 import PanelButton from "../panel_button/PanelButton";
@@ -65,7 +65,8 @@ function Meters() {
         combatTimerUpdateInterval = setInterval(() => updateCombatTimer(), 1000);
     };
 
-    const energyMeterRef = React.createRef();
+    const energyMeterRef = React.UseRef();
+
     const shake = (ref) => {
         if (ref.current === null) return;
         ref.current.classList.toggle("shake-horizontal");
@@ -83,14 +84,14 @@ function Meters() {
             // Check if item used is item holding
             if (itemUsed.typeCode === itemHolding.typeCode) {
                 // Check if item used useEnergyCost > energy
-                if (itemHolding.useEnergyCost > energy) {
+                if (itemHolding.useEnergyCost > PlayerState.energy) {
                     // Make it shake
                     shake(energyMeterRef);
                 }
             }
         }
         // Item used is not equippable (i.e. Trap)
-        else if (itemUsed.useEnergyCost > energy) {
+        else if (itemUsed.useEnergyCost > PlayerState.energy) {
             // Make it shake
             shake(energyMeterRef);
         }
@@ -134,7 +135,7 @@ function Meters() {
             }
             combatTimerUpdateInterval = -1;
         };
-    }, [energy]);
+    }, []);
 
     return (
         <div className="meters gui-scalable">

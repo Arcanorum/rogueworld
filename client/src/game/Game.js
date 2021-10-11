@@ -5,6 +5,7 @@ import ItemTypes from "../catalogues/ItemTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
+import UseItem from "../shared/UseItem";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 import {
@@ -16,6 +17,7 @@ import {
     HITPOINTS_VALUE,
     POSITION_VALUE,
     FOCUS_CHAT,
+    USED_ITEM,
 } from "../shared/EventTypes";
 import Panels from "../components/game/gui/panels/PanelsEnum";
 import dungeonz from "../shared/Global";
@@ -429,6 +431,7 @@ class Game extends Phaser.Scene {
             // Try to use the held item if one is selected.
             if (InventoryState.holding) {
                 // Tell the game server this player wants to use this item.
+                PubSub.publish(USED_ITEM, InventoryState.holding);
                 ApplicationState.connection.sendEvent("use_held_item", direction);
             }
             // Do a melee attack.
@@ -501,7 +504,7 @@ class Game extends Phaser.Scene {
             const hotbarItem = InventoryState.hotbar[key - 1];
 
             if (hotbarItem) {
-                ApplicationState.connection.sendEvent("use_item", hotbarItem.slotIndex);
+                UseItem(hotbarItem);
             }
         }
 

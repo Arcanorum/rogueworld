@@ -13,11 +13,11 @@ import {
     MODIFY_INVENTORY_WEIGHT,
     REMOVE_INVENTORY_ITEM,
     REMOVE_ALL_INVENTORY_ITEMS,
-    USED_ITEM,
 } from "../../../../../shared/EventTypes";
 import ItemIconsList from "../../../../../shared/ItemIconsList";
 import ItemTypes from "../../../../../catalogues/ItemTypes.json";
 import Utils from "../../../../../shared/Utils";
+import UseItem from "../../../../../shared/UseItem";
 import ItemTooltip from "../../item_tooltip/ItemTooltip";
 import dungeonz from "../../../../../shared/Global";
 
@@ -111,8 +111,7 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
             || InventoryState.ammunition === itemConfig
             || InventoryState.clothing === itemConfig) {
             // Immediately use the item, which for an equippable, will equip it.
-            PubSub.publish(USED_ITEM, itemConfig);
-            ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+            UseItem(itemConfig);
         }
 
         onCursorLeave();
@@ -120,17 +119,15 @@ function ItemOptions({ itemConfig, onCursorLeave, panelBounds }) {
 
     const quickEquipPressed = () => {
         InventoryState.addToHotbar(itemConfig);
-        PubSub.publish(USED_ITEM, itemConfig);
         // Immediately use the item, which for an equippable, will equip it.
-        ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+        UseItem(itemConfig);
 
         onCursorLeave();
     };
 
     const quickUsePressed = () => {
-        PubSub.publish(USED_ITEM, itemConfig);
         // Immediately use the item.
-        ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
+        UseItem(itemConfig);
 
         onCursorLeave();
     };

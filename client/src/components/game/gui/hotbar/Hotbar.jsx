@@ -10,11 +10,11 @@ import {
     HOTBAR_ITEM,
     MODIFY_INVENTORY_ITEM,
     PANEL_CHANGE,
-    USED_ITEM,
 } from "../../../../shared/EventTypes";
-import { ApplicationState, GUIState, InventoryState } from "../../../../shared/state/States";
+import { GUIState, InventoryState } from "../../../../shared/state/States";
 import "./Hotbar.scss";
 import Utils from "../../../../shared/Utils";
+import UseItem from "../../../../shared/UseItem";
 import Panels from "../panels/PanelsEnum";
 import holdingIcon from "../../../../assets/images/gui/hud/hotbar/holding-icon.png";
 import ammunitionIcon from "../../../../assets/images/gui/hud/hotbar/ammunition-icon.png";
@@ -75,18 +75,14 @@ function HotbarSlot({ itemConfig }) {
             if (itemConfig === InventoryState.holding
             || itemConfig === InventoryState.ammunition
             || itemConfig === InventoryState.clothing) {
-                PubSub.publish(USED_ITEM, itemConfig);
-                ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
-                // console.log(`Used item: ${itemConfig}`);
+                UseItem(itemConfig);
             }
             InventoryState.removeFromHotbar(itemConfig);
         }
         // Use the item.
         else {
-            PubSub.publish(USED_ITEM, itemConfig);
             // Tell the game server this player wants to use this item.
-            ApplicationState.connection.sendEvent("use_item", itemConfig.slotIndex);
-            // console.log(`Used item: ${itemConfig}`);
+            UseItem(itemConfig);
         }
     };
 

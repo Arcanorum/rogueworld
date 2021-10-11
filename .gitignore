@@ -1,4 +1,5 @@
 # PROJECT
+.DS_STORE
 .idea
 node_modules
 

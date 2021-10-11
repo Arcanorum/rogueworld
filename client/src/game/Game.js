@@ -5,6 +5,7 @@ import ItemTypes from "../catalogues/ItemTypes.json";
 import EntitiesList from "./EntitiesList";
 import Tilemap from "./Tilemap";
 import Utils from "../shared/Utils";
+import UseItem from "../shared/UseItem";
 import SoundManager from "./SoundManager";
 import gameConfig from "../shared/GameConfig";
 import {
@@ -503,8 +504,7 @@ class Game extends Phaser.Scene {
             const hotbarItem = InventoryState.hotbar[key - 1];
 
             if (hotbarItem) {
-                PubSub.publish(USED_ITEM, hotbarItem);
-                ApplicationState.connection.sendEvent("use_item", hotbarItem.slotIndex);
+                UseItem(hotbarItem);
             }
         }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PubSub from "pubsub-js";
 import hitpointIcon from "../../../../assets/images/gui/hud/hitpoint-icon.png";
 import hitpointCounter from "../../../../assets/images/gui/hud/hitpoint-counter.png";
@@ -65,7 +65,7 @@ function Meters() {
         combatTimerUpdateInterval = setInterval(() => updateCombatTimer(), 1000);
     };
 
-    const energyMeterRef = React.UseRef();
+    const energyMeterRef = useRef();
 
     const shake = (ref) => {
         if (ref.current === null) return;

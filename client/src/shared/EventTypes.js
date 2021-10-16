@@ -54,6 +54,7 @@ export const HOTBAR_ITEM = Symbol("HOTBAR_ITEM");
 export const HOLDING_ITEM = Symbol("HOLDING_ITEM");
 export const AMMUNITION_ITEM = Symbol("AMMUNITION_ITEM");
 export const CLOTHING_ITEM = Symbol("CLOTHING_ITEM");
+export const USED_ITEM = Symbol("USED_ITEM");
 
 // Bank.
 export const ADD_BANK_ITEM = Symbol("ADD_BANK_ITEM");

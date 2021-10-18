@@ -522,6 +522,38 @@ class Player extends Character {
         }
     }
 
+    modDisplayName(config) {
+        if (config === null) {
+            this.displayName = this.miscData.displayName;
+        }
+        else {
+            // Only one should be defined at a time
+            const { Mask: mask, Prefix: prefix, Suffix: suffix } = config;
+            // Save the current name to restore it later
+            this.miscData.displayName = this.displayName;
+            if (prefix) {
+                this.displayName = `${prefix} ${this.displayName}`;
+            }
+            if (suffix) {
+                this.displayName = `${this.displayName} ${suffix}`;
+            }
+            if (mask) {
+                this.displayName = mask;
+            }
+        }
+
+        // Tell every other nearby player the new name of player's character.
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            EventsList.change_display_name,
+            {
+                displayName: this.displayName,
+                entityId: this.id,
+            },
+        );
+    }
+
     modGlory(amount) {
         if (!Number.isFinite(amount)) {
             Utils.warning("Player.modGlory, amount is not a number:", amount);

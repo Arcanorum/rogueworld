@@ -63,6 +63,8 @@ class Clothes extends Item {
                 owner.EventsList.equip_clothes,
                 { id: owner.id, typeCode: this.typeCode },
             );
+
+            super.equip();
         }
     }
 
@@ -70,6 +72,7 @@ class Clothes extends Item {
         this.owner.modClothing(null);
         // Remove the defence bonus of this item from the owner.
         this.owner.modDefence(-this.defenceBonus);
+        super.unequip();
     }
 
     /**

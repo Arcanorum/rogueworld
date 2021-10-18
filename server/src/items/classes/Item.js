@@ -66,6 +66,7 @@ class Item {
 
         if (this.useEnergyCost) owner.modEnergy(-this.useEnergyCost);
         if (this.useGloryCost) owner.modGlory(-this.useGloryCost);
+        if (this.displayName) owner.modDisplayName(this.displayName);
 
         if (this.hasUseEffect) {
             // Check if this item gives any stat exp when used.
@@ -97,9 +98,13 @@ class Item {
         }
     }
 
-    equip() { }
+    equip() {
+        if (this.displayName) this.owner.modDisplayName(this.displayName);
+    }
 
-    unequip() { }
+    unequip() {
+        if (this.displayName) this.owner.modDisplayName(null);
+    }
 
     useGatheringTool() {
         // Get position of the grid tile in front of the owner of this item.
@@ -426,5 +431,11 @@ Item.prototype.gatherTimeReduction = 0;
  * @default true
  */
 Item.prototype.canUseIntoHighBlockedTile = true;
+
+/**
+ * The way the item modifies the displayName when used.
+ * Can be one of Prefix, Suffix, or Mask
+ */
+Item.prototype.displayName = null;
 
 module.exports = Item;

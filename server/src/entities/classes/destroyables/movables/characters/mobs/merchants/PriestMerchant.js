@@ -6,7 +6,7 @@ class PriestMerchant extends Merchant {
     constructor(config) {
         super(config);
         // Heal nearby players every 4 seconds
-        setInterval(this.healNearbyPlayers.bind(this), 2000);
+        this.healInterval = setInterval(this.healNearbyPlayers.bind(this), 2000);
     }
 
     healNearbyPlayers() {
@@ -20,10 +20,15 @@ class PriestMerchant extends Merchant {
                 // Don't heal if player is already at max hitpoints
                 if (player.hitPoints < player.maxHitPoints) {
                     // Heal 5 hitpoints
-                    player.heal(new Heal(5));
+                    player.heal(new Heal(20));
                 }
             });
         });
+    }
+
+    onDestroy() {
+        clearInterval(this.healInterval);
+        super.onDestroy();
     }
 }
 

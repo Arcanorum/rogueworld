@@ -5,7 +5,7 @@ const Heal = require("../../../../../../../gameplay/Heal");
 class PriestMerchant extends Merchant {
     constructor(config) {
         super(config);
-        // Heal nearby players every 4 seconds
+        // Heal nearby players every 2 seconds
         this.healInterval = setInterval(this.healNearbyPlayers.bind(this), 2000);
     }
 

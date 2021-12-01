@@ -59,14 +59,14 @@ class GUI {
          * @todo find somewhere else for this, doesn't really belong with this GUI stuff
          * @type {Number}
          */
-        this.musicVolume = 50;
+        this.musicVolume = 0;
 
         /**
          * The volume of the sound effects. 0 is no effects, 100 is full volume. Can't use floats due to imperfect decimal precision.
          * @todo find somewhere else for this, doesn't really belong with this GUI stuff
          * @type {Number}
          */
-        this.effectsVolume = 50;
+        this.effectsVolume = 0;
 
         /**
          * Whether the FPS counter should be shown.

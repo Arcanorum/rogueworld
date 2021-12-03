@@ -131,7 +131,7 @@ class Inventory {
     // }
 
     resetMapping() {
-        Utils.warning("This is a bug found");
+        Utils.warning("This is a bug found or a localStorage mismatch");
         Utils.message("BRUHHH CODEE PROPERLY!!!!!!!!!");
         this.mapKey = {};
         this.saveLocalHotbar();
@@ -144,7 +144,7 @@ class Inventory {
         if (typeof a === "undefined") {
             const b = itemConfig.slotIndex;
             Object.keys(this.mapKey).forEach((key, index) => {
-                if (key >= b) {
+                if (this.mapKey[key] >= b) {
                     Utils.message("Missing IDs", b, key);
                     const newkeyA = this.mapKey[key] - 1;
                     if (newkeyA >= 0) {
@@ -208,9 +208,9 @@ class Inventory {
     saveLocalHotbar() {
         Utils.message("Saving Data to local Storage:");
         // const item = this.hotbar[id];
-        window.localStorage.clear();
-        Utils.message(this.mapKey);
+        // window.localStorage.clear();
         const sessionIDMap = "Mapping";
+        window.localStorage.removeItem(this.userName + sessionIDMap);
         window.localStorage.setItem(this.userName + sessionIDMap, JSON.stringify(this.mapKey));
 
         // // Utils.message("Loading Data from local Storage WITHIN: ");
@@ -228,16 +228,16 @@ class Inventory {
         // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.idhotbar));
     }
 
-    // printHotBar() {
-    //     Utils.message("Data from hotbar");
-    //     Object.keys(this.items).forEach((key) => {
-    //         // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.hotbar[key].id));
-    //         Utils.message(this.items[key].typeCode);
-    //         // this.idhotbar.add(this.hotbar[key].id);
-    //         // Utils.message(this.hotbar[key].id);
-    //     });
-    //     Utils.message("Done loading Data from hotbar");
-    // }
+    printHotBar() {
+        Utils.message("Unique IDs for each item in invetory");
+        Object.keys(this.items).forEach((key) => {
+            // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.hotbar[key].id));
+            Utils.message(this.items[key].id);
+            // this.idhotbar.add(this.hotbar[key].id);
+            // Utils.message(this.hotbar[key].id);
+        });
+        Utils.message("Done reading IDs for each item in inventory");
+    }
 
     defaultHotBar() {
         this.items.forEach((itemConfig) => {
@@ -260,17 +260,20 @@ class Inventory {
 
     loadLocalHotbar(playerID, isLoggedIn) {
         if (isLoggedIn === true) {
-            Utils.message("FLAG 10");
+            // Utils.message("FLAG 10");
             this.SaveSession = true;
         }
         this.userName = playerID;
-        Utils.message(playerID, isLoggedIn);
+        const a = "User Name: ";
+        const b = "User Logged in: ";
+        Utils.message(a + playerID, b + isLoggedIn);
         // window.localStorage.clear();
-        // this.printHotBar();
+        this.printHotBar();
         const sessionIDMap = "Mapping";
         // window.localStorage.clear();
         if (this.SaveSession === false
         || window.localStorage.getItem(this.userName + sessionIDMap) === null) {
+            Utils.message("CAME HERE VALUE  = ", window.localStorage.getItem(this.userName + sessionIDMap));
             this.defaultHotBar();
             return;
         }
@@ -287,6 +290,20 @@ class Inventory {
             return;
         }
         Utils.message(this.mapKey);
+        const orders = Object.values(this.mapKey)
+            .sort((order1, order2) => order1 - order2);
+        const findDup = orders.filter((item, index) => orders.indexOf(item) !== index);
+        // Utils.message(findDup);
+        // Checks for duplication as a result of currupt data
+        if (findDup.length !== 0) {
+            this.resetMapping();
+            return;
+        }
+        // Utils.message(orders);
+        // if ((this.mapKey.values.length) !== new Set(this.mapKey.value).length) {
+        //     this.resetMapping();
+        //     return;
+        // }
         this.LoadHotBar();
         // this.items.forEach((itemConfig) => {
         //     Utils.message("Loading Data from local Storage: Flag 2");
@@ -312,6 +329,9 @@ class Inventory {
                 Utils.warning("Max overflow");
                 this.resetMapping();
                 // return;
+            } else if (this.items[this.mapKey[key]].typeCode.hasUseEffect) {
+                // Utils.warning("HERE WTF");
+                this.resetMapping();
             } else if (Object.keys(this.mapKey).length !== 0) {
                 // Utils.message("NO WAY!");
                 this.hotbar[key] = this.items[this.mapKey[key]];

@@ -131,15 +131,17 @@ class Dungeon {
         // Tell the players in this dungeon that it is completed.
     }
 
+    evictPlayer(player) {
+        // Reposition them to somewhere within the entrance bounds.
+        const position = this.evictionEntrance.getRandomPosition();
+
+        // Move them out of this dungeon board.
+        player.changeBoard(this.board, this.evictionBoard, position.row, position.col);
+    }
+
     evictAllPlayers() {
         // Send all players on the board to the entrance that this dungeon exits to.
-        this.party.members.forEach((player) => {
-            // Reposition them to somewhere within the entrance bounds.
-            const position = this.evictionEntrance.getRandomPosition();
-
-            // Move them out of this dungeon board.
-            player.changeBoard(this.board, this.evictionBoard, position.row, position.col);
-        });
+        this.party.members.forEach((player) => this.evictPlayer(player));
     }
 
     emitDoorKeysToParty() {

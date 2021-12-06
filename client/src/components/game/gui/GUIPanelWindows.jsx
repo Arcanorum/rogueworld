@@ -9,6 +9,7 @@ import DungeonPanel from "./panels/dungeon/DungeonPanel";
 import StatsPanel from "./panels/stats/StatsPanel";
 import TasksPanel from "./panels/tasks/TasksPanel";
 import MapPanel from "./panels/map/MapPanel";
+import LeaveDungeonPanel from "./panels/leave_dungeon/LeaveDungeonPanel";
 import InventoryPanel from "./panels/inventory/InventoryPanel";
 import CraftingPanel from "./panels/crafting/CraftingPanel";
 import BankPanel from "./panels/bank/BankPanel";
@@ -59,6 +60,11 @@ function GUIPanelWindows({ shownPanel, closePanelCallback, targetDungeonPortal }
             )}
             {shownPanel === Panels.Map && (
                 <MapPanel
+                  onCloseCallback={closePanelCallback}
+                />
+            )}
+            {shownPanel === Panels.LeaveDungeon && (
+                <LeaveDungeonPanel
                   onCloseCallback={closePanelCallback}
                 />
             )}

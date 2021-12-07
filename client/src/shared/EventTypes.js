@@ -75,6 +75,7 @@ export const PANEL_CHANGE = Symbol("PANEL_CHANGE");
 export const SHOW_CHAT_BOX = Symbol("SHOW_CHAT_BOX");
 
 // Dungeon.
+export const DUNGEON_ACTIVE = Symbol("DUNGEON_ACTIVE");
 export const DUNGEON_PARTIES = Symbol("DUNGEON_PARTIES");
 export const DUNGEON_TIME_LIMIT_MINUTES = Symbol("DUNGEON_TIME_LIMIT_MINUTES");
 export const DUNGEON_KEYS = Symbol("DUNGEON_KEYS");

@@ -21,6 +21,7 @@ import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
 import settingsIcon from "../../../assets/images/gui/panels/settings/settings-icon.png";
 import leaveDungeonIcon from "../../../assets/images/gui/hud/leave-dungeon-icon.png";
 import {
+    DUNGEON_ACTIVE,
     DUNGEON_PORTAL_PRESSED,
     HITPOINTS_VALUE,
     LOGGED_IN,
@@ -66,6 +67,9 @@ function GUI() {
                 // panel, or it won't know what info to load.
                 setTargetDungeonPortal(portal);
                 setShownPanel(Panels.Dungeon);
+            }),
+            PubSub.subscribe(DUNGEON_ACTIVE, (msg, value) => {
+                setInDungeon(value);
             }),
             PubSub.subscribe(POSITION_VALUE, () => {
                 if (GUIState.activePanel !== Panels.Chat) {
@@ -143,7 +147,7 @@ function GUI() {
                   onClick={() => togglePanel(Panels.Tasks)}
                   tooltipText={`${Utils.getTextDef("Tasks tooltip")} ( B )`}
                 />
-                {(inDungeon && (
+                {(inDungeon === true && (
                 <PanelButton
                   icon={leaveDungeonIcon}
                   onClick={() => togglePanel(Panels.LeaveDungeon)}

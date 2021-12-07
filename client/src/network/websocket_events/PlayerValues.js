@@ -1,7 +1,9 @@
 import PubSub from "pubsub-js";
 import gameConfig from "../../shared/GameConfig";
 import {
-    DUNGEON_KEYS, DUNGEON_TIME_LIMIT_MINUTES,
+    DUNGEON_ACTIVE,
+    DUNGEON_KEYS,
+    DUNGEON_TIME_LIMIT_MINUTES,
     COMBAT_STATUS_TRIGGER,
 } from "../../shared/EventTypes";
 import dungeonz from "../../shared/Global";
@@ -23,6 +25,10 @@ export default () => {
         if (!data.boardIsDungeon) {
             PubSub.publish(DUNGEON_TIME_LIMIT_MINUTES, 0);
             PubSub.publish(DUNGEON_KEYS, {});
+            PubSub.publish(DUNGEON_ACTIVE, false);
+        }
+        else {
+            PubSub.publish(DUNGEON_ACTIVE, true);
         }
 
         // Load the map with the given board name.

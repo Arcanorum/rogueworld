@@ -22,12 +22,11 @@ class Inventory {
     init() {
         this.items = [];
 
-        this.idhotbar = new Set();
-
-        this.mapKey = {};
-
         // Need to keep a separate list for the hotbar as things can be rearranged.
         this.hotbar = [];
+
+        // Need this to map the hotbar slot to invetory slot Index
+        this.keyToSlotIndex = {};
 
         this.MAX_HOTBAR_SLOTS = 8;
 
@@ -41,12 +40,13 @@ class Inventory {
 
         this.maxWeight = 0;
 
-        this.updateIndex = 0;
         /**
          * Whether usable items will be automatically added to the hotbar when picked up if there is a free hotbar slot.
          * @type {Boolean}
          */
-        this.SaveSession = false;
+        this.autoAddToHotbar = true;
+
+        this.saveSession = false;
 
         this.userName = "";
     }
@@ -61,9 +61,9 @@ class Inventory {
         PubSub.publish(ADD_INVENTORY_ITEM, itemConfig);
 
         // Only add automatically if the setting for it is set.
-        // if (this.autoAddToHotbar) {
-        //     this.addToHotbar(itemConfig);
-        // }
+        if (this.autoAddToHotbar) {
+            this.addToHotbar(itemConfig);
+        }
     }
 
     removeFromInventory(slotIndex) {
@@ -82,6 +82,7 @@ class Inventory {
         });
 
         PubSub.publish(REMOVE_INVENTORY_ITEM, item);
+
         // Remove it from the hotbar if it was on it.
         this.removeFromHotbar(item, true);
     }
@@ -106,137 +107,88 @@ class Inventory {
         if (!ItemTypes[itemConfig.typeCode].hasUseEffect) return;
 
         this.hotbar.push(itemConfig);
-        // Utils.message(itemConfig.slotIndex);
-        this.mapKey[this.hotbar.length - 1] = itemConfig.slotIndex;
+        this.keyToSlotIndex[this.hotbar.length - 1] = itemConfig.slotIndex;
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
-        if (this.SaveSession === true) {
-            this.saveLocalHotbar();
+        if (this.saveSession === true) {
+            this.saveHotbar();
         }
     }
 
-    // updateMappingInvetory(itemConfig) {
-    //     Utils.message("Updating mapping values starting from FLAG A:", this.updateIndex);
-    //     Object.keys(this.mapKey).forEach((key, index) => {
-    //         if (key >= this.updateIndex) {
-    //             Utils.message(this.mapKey[key]);
-    //             const newkey = this.mapKey[key] - 1;
-    //             if (newkey >= 0) {
-    //                 this.mapKey[key] = newkey;
-    //                 Utils.message("CHECKING THESE VALUES: ", this.mapKey);
-    //                 // delete this.mapKey[key];
-    //             }
-    //         }
-    //     });
-    // }
-
     resetMapping() {
         Utils.warning("This is a bug found or a localStorage mismatch");
-        Utils.message("BRUHHH CODEE PROPERLY!!!!!!!!!");
-        this.mapKey = {};
-        this.saveLocalHotbar();
+        this.keyToSlotIndex = {};
+        this.saveHotbar();
         this.hotbar = [];
         this.defaultHotBar();
     }
 
-    removeFromHotbar(itemConfig, removedInventory = false) {
-        const a = Object.keys(this.mapKey).find((key) => this.mapKey[key] === itemConfig.slotIndex);
-        if (typeof a === "undefined") {
-            const b = itemConfig.slotIndex;
-            Object.keys(this.mapKey).forEach((key, index) => {
-                if (this.mapKey[key] >= b) {
-                    Utils.message("Missing IDs", b, key);
-                    const newkeyA = this.mapKey[key] - 1;
-                    if (newkeyA >= 0) {
-                        this.mapKey[key] = newkeyA;
-                        Utils.message("CHECKING THESE VALUES: ", this.mapKey);
-                        if (this.SaveSession === true) {
-                            this.saveLocalHotbar();
-                        }
-                    }
-                }
-            });
-            return;
-        }
-        // this.updateIndex = a;
-        Utils.message("Updating mapping values starting from FLAG B:", a, removedInventory);
-        delete this.mapKey[a];
-        // Utils.message(parseInt(a, 10) === Object.keys(this.mapKey).length - 1);
-        Object.keys(this.mapKey).forEach((key, index) => {
-            if (key >= a) {
-                const originalKey = key;
-                Utils.message(originalKey);
-                const newkey = key - 1;
-                if (newkey >= 0) {
-                    this.mapKey[newkey] = this.mapKey[key];
-                    delete this.mapKey[key];
-                }
-                if (removedInventory) {
-                    if (newkey >= a) {
-                        Utils.message(this.mapKey[newkey]);
-                        const newkeyA = this.mapKey[newkey] - 1;
-                        if (newkeyA >= 0) {
-                            Utils.message("LETS GOOO :)", newkeyA);
-                            this.mapKey[newkey] = newkeyA;
-                            Utils.message("CHECKING THESE VALUES: ", this.mapKey);
-                            // delete this.mapKey[key];
-                        }
+    updateSlotIndex(slotIndex) {
+        Object.keys(this.keyToSlotIndex).forEach((key, index) => {
+            if (this.keyToSlotIndex[key] >= slotIndex) {
+                const updateValue = this.keyToSlotIndex[key] - 1;
+                if (updateValue >= 0) {
+                    this.keyToSlotIndex[key] = updateValue;
+                    if (this.saveSession === true) {
+                        this.saveHotbar();
                     }
                 }
             }
         });
-        // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.hotbar[key].id));
-        // const space = " ";
-        // this.idhotbar.add(String(this.hotbar[key].typeCode) + space + String(index));
-        // Utils.message(this.hotbar[key].id);
+    }
+
+    updateMapHotBarKeys(evictKey) {
+        Object.keys(this.keyToSlotIndex).forEach((key, index) => {
+            if (key >= evictKey) {
+                const updateKey = key - 1;
+                if (updateKey >= 0) {
+                    this.keyToSlotIndex[updateKey] = this.keyToSlotIndex[key];
+                    delete this.keyToSlotIndex[key];
+                }
+            }
+        });
+    }
+
+    updateMapSlotIndex(evictValue) {
+        Object.keys(this.keyToSlotIndex).forEach((key, index) => {
+            if (this.keyToSlotIndex[key] >= evictValue) {
+                const newValue = this.keyToSlotIndex[key] - 1;
+                if (newValue >= 0) {
+                    this.keyToSlotIndex[key] = newValue;
+                }
+            }
+        });
+    }
+
+    removeFromHotbar(itemConfig, removedInventory = false) {
+        const getKeys = Object.keys(this.keyToSlotIndex);
+        const evictKey = getKeys.find((key) => this.keyToSlotIndex[key] === itemConfig.slotIndex);
+        const evictValue = this.keyToSlotIndex[evictKey];
+        if (typeof evictKey === "undefined") {
+            this.updateSlotIndex(itemConfig.slotIndex);
+            return;
+        }
+        delete this.keyToSlotIndex[evictKey];
+        this.updateMapHotBarKeys(evictKey);
+        if (removedInventory) {
+            this.updateMapSlotIndex(evictValue);
+        }
         this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
-        // Object.keys(this.hotbar).forEach((key, index) => {
-        //     this.mapKey[index]
-        //     // Utils.message(index);
-        //     // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.hotbar[key].id));
-        //     // const space = " ";
-        //     this.idhotbar.add(this.hotbar[key].typeCode);
-        //     // Utils.message(this.hotbar[key].id);
-        // });
+
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
-        if (this.SaveSession === true) {
-            this.saveLocalHotbar();
+        if (this.saveSession === true) {
+            this.saveHotbar();
         }
     }
 
-    saveLocalHotbar() {
-        Utils.message("Saving Data to local Storage:");
-        // const item = this.hotbar[id];
-        // window.localStorage.clear();
-        const sessionIDMap = "Mapping";
-        window.localStorage.removeItem(this.userName + sessionIDMap);
-        window.localStorage.setItem(this.userName + sessionIDMap, JSON.stringify(this.mapKey));
-
-        // // Utils.message("Loading Data from local Storage WITHIN: ");
-        // const storedIds = window.localStorage.getItem("hotbarIDs");
-        // const convertoArray2 = JSON.parse(storedIds);
-        // Utils.message(convertoArray2);
-        // convertoArray2.forEach((itemConfig) => {
-        //     Utils.message(itemConfig);
-        // });
-        // this.loadLocalHotbar();
-        // this.idhotbar = [];
-
-        // this.loadLocalHotbar();
-        // Utils.message(this.idhotbar);
-        // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.idhotbar));
-    }
-
-    printHotBar() {
-        Utils.message("Unique IDs for each item in invetory");
-        Object.keys(this.items).forEach((key) => {
-            // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.hotbar[key].id));
-            Utils.message(this.items[key].id);
-            // this.idhotbar.add(this.hotbar[key].id);
-            // Utils.message(this.hotbar[key].id);
-        });
-        Utils.message("Done reading IDs for each item in inventory");
+    saveHotbar() {
+        const sessionIDMap = "saveHotBar";
+        const localStorageID = this.userName + sessionIDMap;
+        window.localStorage.removeItem(localStorageID);
+        window.localStorage.setItem(localStorageID, JSON.stringify(this.keyToSlotIndex));
+        // Used to debug
+        // Utils.message(this.keyToSlotIndex);
     }
 
     defaultHotBar() {
@@ -245,111 +197,65 @@ class Inventory {
         });
     }
 
-    LoadHotBar() {
-        const saveDataSize = Object.keys(this.mapKey).length;
-        Utils.message("Population intiali load bar with this size: ");
-        Utils.message(saveDataSize);
+    initializeHotbar() {
+        const saveDataSize = Object.keys(this.keyToSlotIndex).length;
         this.items.forEach((itemConfig) => {
             if (this.hotbar.length >= saveDataSize) {
                 return;
             }
             this.hotbar.push(itemConfig);
         });
-        Utils.message("Size of bar", this.hotbar.length);
     }
 
-    loadLocalHotbar(playerID, isLoggedIn) {
+    loadHotbar(playerID, isLoggedIn) {
         if (isLoggedIn === true) {
-            // Utils.message("FLAG 10");
-            this.SaveSession = true;
+            this.saveSession = true;
         }
         this.userName = playerID;
-        const a = "User Name: ";
-        const b = "User Logged in: ";
-        Utils.message(a + playerID, b + isLoggedIn);
-        // window.localStorage.clear();
-        this.printHotBar();
-        const sessionIDMap = "Mapping";
-        // window.localStorage.clear();
-        if (this.SaveSession === false
-        || window.localStorage.getItem(this.userName + sessionIDMap) === null) {
-            Utils.message("CAME HERE VALUE  = ", window.localStorage.getItem(this.userName + sessionIDMap));
+        const sessionIDMap = "saveHotBar";
+        const localStorageID = this.userName + sessionIDMap;
+        const loadStorage = window.localStorage.getItem(localStorageID);
+        if (this.saveSession === false || loadStorage === null) {
             this.defaultHotBar();
             return;
         }
-        Utils.message("Loading Data from local Storage: Flag 1");
-        const storedMapping = window.localStorage.getItem(this.userName + sessionIDMap);
-        this.mapKey = JSON.parse(storedMapping);
-        Utils.message("CHECKIGN THESE VALEUS: ");
-        Utils.message(this.mapKey, Object.keys(this.mapKey).length);
-        Utils.message("DONE CHECKING: ");
-        if (Object.keys(this.mapKey).length === 0) {
-            this.items.forEach((itemConfig) => {
-                this.addToHotbar(itemConfig);
-            });
+        this.keyToSlotIndex = JSON.parse(loadStorage);
+        if (Object.keys(this.keyToSlotIndex).length === 0) {
+            this.defaultHotBar();
             return;
         }
-        Utils.message(this.mapKey);
-        const orders = Object.values(this.mapKey)
+        const mapToArray = Object.values(this.keyToSlotIndex)
             .sort((order1, order2) => order1 - order2);
-        const findDup = orders.filter((item, index) => orders.indexOf(item) !== index);
-        // Utils.message(findDup);
-        // Checks for duplication as a result of currupt data
-        if (findDup.length !== 0) {
+
+        const checkDup = mapToArray.filter((item, index) => mapToArray.indexOf(item) !== index);
+        // Found duplicate enteries, bug is found
+        if (checkDup.length !== 0) {
+            Utils.warning("Duplicate entries detected");
             this.resetMapping();
             return;
         }
-        // Utils.message(orders);
-        // if ((this.mapKey.values.length) !== new Set(this.mapKey.value).length) {
-        //     this.resetMapping();
-        //     return;
-        // }
-        this.LoadHotBar();
-        // this.items.forEach((itemConfig) => {
-        //     Utils.message("Loading Data from local Storage: Flag 2");
-        //     if (this.idhotbar.has(itemConfig.typeCode)) {
-        //         Utils.message("Loading Data from local Storage: Flag 4");
-        //         if (this.hotbar.length < this.MAX_HOTBAR_SLOTS
-        //             && this.hotbar.length <= Object.keys(this.mapKey).length) {
-        //             this.hotbar.push(itemConfig);
-        //         }
-        //         // this.addToHotbar(itemConfig);
-        //     }
-        //     // this.addToHotbar(itemConfig);
-        // });
-        Object.keys(this.mapKey).forEach((key, value) => {
-            Utils.message(key, this.mapKey[key]);
-            if (key < 0 || this.mapKey[key] < 0) {
-                Utils.warning("Min underflow");
+        this.initializeHotbar();
+        this.populateInvetorytoHotbar();
+    }
+
+    populateInvetorytoHotbar() {
+        Object.keys(this.keyToSlotIndex).forEach((key, value) => {
+            if (key < 0 || this.keyToSlotIndex[key] < 0) {
+                Utils.warning("Negative Indexes are detected", this.keyToSlotIndex);
                 this.resetMapping();
-                Utils.message(this.mapKey);
-                // return;
             }
-            else if (key >= this.hotbar.length || this.mapKey[key] >= this.items.length) {
-                Utils.warning("Max overflow");
+            else if (key >= this.hotbar.length || this.keyToSlotIndex[key] >= this.items.length) {
+                Utils.warning("Index exceeded length of hotbar", this.keyToSlotIndex);
                 this.resetMapping();
-                // return;
-            } else if (this.items[this.mapKey[key]].typeCode.hasUseEffect) {
-                // Utils.warning("HERE WTF");
+            } else if (this.items[this.keyToSlotIndex[key]].typeCode.hasUseEffect) {
+                Utils.warning("Reading Incorrect Index", this.keyToSlotIndex);
                 this.resetMapping();
-            } else if (Object.keys(this.mapKey).length !== 0) {
-                // Utils.message("NO WAY!");
-                this.hotbar[key] = this.items[this.mapKey[key]];
+            } else if (Object.keys(this.keyToSlotIndex).length !== 0) {
+                this.hotbar[key] = this.items[this.keyToSlotIndex[key]];
                 PubSub.publish(HOTBAR_ITEM);
-                PubSub.publish(MODIFY_INVENTORY_ITEM);
+                // PubSub.publish(MODIFY_INVENTORY_ITEM);
             }
-            // window.localStorage.setItem("hotbarIDs", JSON.stringify(this.hotbar[key].id));
-            // const space = " ";
-            // this.idhotbar.add(String(this.hotbar[key].typeCode) + space + String(index));
-            // Utils.message(this.hotbar[key].id);
         });
-        // convertoArray2.forEach((itemConfig) => {
-        //     const value = itemConfig.split(" ")[0];
-        //     const index = itemConfig.split(" ")[1];
-        //     this.hotbar[index] = this.items
-        //     Utils.message(value, index);
-        //     this.idhotbar.add(itemConfig);
-        // });
     }
 
     modifyItem(itemConfig) {
@@ -376,6 +282,7 @@ class Inventory {
 
     setWeight(value) {
         this.weight = value;
+
         PubSub.publish(MODIFY_INVENTORY_WEIGHT, { new: value });
     }
 

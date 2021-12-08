@@ -154,14 +154,14 @@ function GUI() {
                 //   move to text defs
                   tooltipText="Leave Dungeon"
                 />
-                )
-                ) || (
+                ))}
+                {(inDungeon !== true && (
                 <PanelButton
                   icon={mapIcon}
                   onClick={() => togglePanel(Panels.Map)}
                   tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
                 />
-                )}
+                ))}
                 <PanelButton
                   icon={showNewNotification && !showChatBox && quickChatEnabled
                       ? chatUnreadedMessageIcon : chatIcon}

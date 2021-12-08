@@ -170,7 +170,7 @@ class Inventory {
         const evictKey = getKeys.find((key) => this.keyToSlotIndex[key] === itemConfig.slotIndex);
         const evictValue = this.keyToSlotIndex[evictKey];
 
-        // Case A: Item not found in the hashmap
+        // Item not found in the hashmap
         if (typeof evictKey === "undefined") {
             this.updateSlotIndex(itemConfig.slotIndex);
             return;

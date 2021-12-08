@@ -49,6 +49,8 @@ class Inventory {
         this.saveSession = false;
 
         this.userName = "";
+
+        this.loadHotBarRequest = "";
     }
 
     setItems(itemConfigs) {
@@ -124,6 +126,7 @@ class Inventory {
     }
 
     updateSlotIndex(slotIndex) {
+        // This function updates the mapping for when dropping an invetory item not found in hashmap
         Object.keys(this.keyToSlotIndex).forEach((key, index) => {
             if (this.keyToSlotIndex[key] >= slotIndex) {
                 const updateValue = this.keyToSlotIndex[key] - 1;
@@ -138,6 +141,7 @@ class Inventory {
     }
 
     updateMapHotBarKeys(evictKey) {
+        // This function updates the mapping for removing an item from our hotbar
         Object.keys(this.keyToSlotIndex).forEach((key, index) => {
             if (key >= evictKey) {
                 const updateKey = key - 1;
@@ -150,6 +154,7 @@ class Inventory {
     }
 
     updateMapSlotIndex(evictValue) {
+        // This function updates the mapping when item is removed from inventory
         Object.keys(this.keyToSlotIndex).forEach((key, index) => {
             if (this.keyToSlotIndex[key] >= evictValue) {
                 const newValue = this.keyToSlotIndex[key] - 1;
@@ -164,13 +169,20 @@ class Inventory {
         const getKeys = Object.keys(this.keyToSlotIndex);
         const evictKey = getKeys.find((key) => this.keyToSlotIndex[key] === itemConfig.slotIndex);
         const evictValue = this.keyToSlotIndex[evictKey];
+
+        // Case A: Item not found in the hashmap
         if (typeof evictKey === "undefined") {
             this.updateSlotIndex(itemConfig.slotIndex);
             return;
         }
+        // Item is found in hashmap so we delete the entry
         delete this.keyToSlotIndex[evictKey];
+
+        // Update the hotbar
         this.updateMapHotBarKeys(evictKey);
-        if (removedInventory) {
+
+        // Item is removed from inventory so update the mapping
+        if (removedInventory === true) {
             this.updateMapSlotIndex(evictValue);
         }
         this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
@@ -183,12 +195,7 @@ class Inventory {
     }
 
     saveHotbar() {
-        const sessionIDMap = "saveHotBar";
-        const localStorageID = this.userName + sessionIDMap;
-        window.localStorage.removeItem(localStorageID);
-        window.localStorage.setItem(localStorageID, JSON.stringify(this.keyToSlotIndex));
-        // Used to debug
-        // Utils.message(this.keyToSlotIndex);
+        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(this.keyToSlotIndex));
     }
 
     defaultHotBar() {
@@ -198,6 +205,7 @@ class Inventory {
     }
 
     initializeHotbar() {
+        // Allocate memory in our array size of hashmap so we can access the elements without seg fault
         const saveDataSize = Object.keys(this.keyToSlotIndex).length;
         this.items.forEach((itemConfig) => {
             if (this.hotbar.length >= saveDataSize) {
@@ -207,19 +215,24 @@ class Inventory {
         });
     }
 
+    loadFromLocalStorage(playerID) {
+        this.saveSession = true;
+        this.userName = playerID;
+        const gameName = "dungeonz";
+        const requestHotbar = "hotBar";
+        this.loadHotBarRequest = gameName + this.userName + requestHotbar;
+    }
+
     loadHotbar(playerID, isLoggedIn) {
         if (isLoggedIn === true) {
-            this.saveSession = true;
+            this.loadFromLocalStorage(playerID);
         }
-        this.userName = playerID;
-        const sessionIDMap = "saveHotBar";
-        const localStorageID = this.userName + sessionIDMap;
-        const loadStorage = window.localStorage.getItem(localStorageID);
-        if (this.saveSession === false || loadStorage === null) {
+        const loadStorageHotbar = window.localStorage.getItem(this.loadHotBarRequest);
+        if (this.saveSession === false || loadStorageHotbar === null) {
             this.defaultHotBar();
             return;
         }
-        this.keyToSlotIndex = JSON.parse(loadStorage);
+        this.keyToSlotIndex = JSON.parse(loadStorageHotbar);
         if (Object.keys(this.keyToSlotIndex).length === 0) {
             this.defaultHotBar();
             return;
@@ -253,7 +266,6 @@ class Inventory {
             } else if (Object.keys(this.keyToSlotIndex).length !== 0) {
                 this.hotbar[key] = this.items[this.keyToSlotIndex[key]];
                 PubSub.publish(HOTBAR_ITEM);
-                // PubSub.publish(MODIFY_INVENTORY_ITEM);
             }
         });
     }

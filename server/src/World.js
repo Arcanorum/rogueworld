@@ -268,6 +268,9 @@ const world = {
         // Tell them they are logged in.
         dataToSend.isLoggedIn = true;
 
+        // to uniquely identify accounts on the client
+        dataToSend.accountID = account._id;
+
         // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
         playerEntity.emitToNearbyPlayers();
 

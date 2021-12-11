@@ -22,7 +22,7 @@ class Inventory {
 
     loadData(account) {
         // Add the stored items to this player's inventory.
-        account.inventoryItems.forEach((inventoryItem) => {
+        account.inventoryItems.forEach((inventoryItem, index) => {
             try {
                 let itemConfig;
 
@@ -43,6 +43,19 @@ class Inventory {
                         durability: inventoryItem.durability,
                         maxDurability: inventoryItem.maxDurability,
                     });
+
+                    // Update the document with the new id if it didn't already have one (old account).
+                    if (itemConfig.id !== inventoryItem.id) {
+                        // Need to use Mongoose setter when modifying array by index directly.
+                        // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
+                        account.inventoryItems.set(index, {
+                            id: itemConfig.id,
+                            typeCode: itemConfig.ItemType.prototype.typeCode,
+                            quantity: itemConfig.quantity,
+                            durability: itemConfig.durability,
+                            maxDurability: itemConfig.maxDurability,
+                        });
+                    }
                 }
 
                 const item = new itemConfig.ItemType({

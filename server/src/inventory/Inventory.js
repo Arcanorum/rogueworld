@@ -13,7 +13,7 @@ class Inventory {
         this.maxWeight = settings.MAX_INVENTORY_WEIGHT || 1000;
 
         /**
-         * A list of the items in this bank account.
+         * A list of the items in this inventory.
          * Contains actual Item class instances, that can be used, equipped etc. directly.
          * @type {Array.<Item>}
          */
@@ -22,7 +22,7 @@ class Inventory {
 
     loadData(account) {
         // Add the stored items to this player's inventory.
-        account.inventoryItems.forEach((inventoryItem) => {
+        account.inventoryItems.forEach((inventoryItem, index) => {
             try {
                 let itemConfig;
 
@@ -37,11 +37,25 @@ class Inventory {
                 else {
                     // Make new item config instances based on the stored data.
                     itemConfig = new ItemConfig({
+                        id: inventoryItem.id,
                         ItemType: ItemsList.BY_CODE[inventoryItem.typeCode],
                         quantity: inventoryItem.quantity,
                         durability: inventoryItem.durability,
                         maxDurability: inventoryItem.maxDurability,
                     });
+
+                    // Update the document with the new id if it didn't already have one (old account).
+                    if (itemConfig.id !== inventoryItem.id) {
+                        // Need to use Mongoose setter when modifying array by index directly.
+                        // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
+                        account.inventoryItems.set(index, {
+                            id: itemConfig.id,
+                            typeCode: itemConfig.ItemType.prototype.typeCode,
+                            quantity: itemConfig.quantity,
+                            durability: itemConfig.durability,
+                            maxDurability: itemConfig.maxDurability,
+                        });
+                    }
                 }
 
                 const item = new itemConfig.ItemType({
@@ -68,6 +82,7 @@ class Inventory {
      */
     getSaveData() {
         return this.items.map((item) => ({
+            id: item.itemConfig.id,
             typeCode: item.itemConfig.ItemType.prototype.typeCode,
             quantity: item.itemConfig.quantity,
             durability: item.itemConfig.durability,
@@ -100,12 +115,13 @@ class Inventory {
             });
         }
 
-        // If this player has an account, save the new bank item level.
+        // If this player has an account, save the new inventory item.
         if (!skipSave && this.owner.socket.account) {
             try {
                 // Need to use Mongoose setter when modifying array by index directly.
                 // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
                 this.owner.socket.account.inventoryItems.set(slotIndex, {
+                    id: item.itemConfig.id,
                     typeCode: item.itemConfig.ItemType.prototype.typeCode,
                     quantity: item.itemConfig.quantity,
                     durability: item.itemConfig.durability,
@@ -164,7 +180,7 @@ class Inventory {
             ),
         );
 
-        // Tell the player their new max bank weight.
+        // Tell the player their new max inventory weight.
         this.owner.socket.sendEvent(EventsList.inventory_max_weight, this.maxWeight);
     }
 

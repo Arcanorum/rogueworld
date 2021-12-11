@@ -11,6 +11,7 @@ class ItemConfig {
      * and check the needed properties each time it is passed around.
      * @param {Object} config
      * @param {Function} config.ItemType - The class/type of this item (NOT an instance).
+     * @param {String} [config.id] - The ID of an existing item loaded from an account.
      * @param {Number} [config.quantity]
      * @param {Number} [config.durability]
      * @param {Number} [config.maxDurability]
@@ -18,8 +19,9 @@ class ItemConfig {
     constructor(config) {
         this.ItemType = config.ItemType;
 
-        // Add a unique id to stop React crying when this item is used in displaying a list...
-        this.id = uuidv4();
+        // Add a unique id to stop React crying when this item is used in displaying a list, and so
+        // it can be saved on the account so it can be loaded into the hotbar in the same position.
+        this.id = config.id || uuidv4();
 
         if (!config.ItemType) {
             Utils.warning("ItemConfig constructor, config.ItemType is not a valid item type.");

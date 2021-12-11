@@ -67,6 +67,7 @@ const accountIntegerValidator = {
 
 const itemSchema = new Schema(
     {
+        id: { type: String },
         typeCode: { type: String, default: "VRAS0927" }, // Glory orb
         quantity: { type: Number },
         durability: { type: Number },

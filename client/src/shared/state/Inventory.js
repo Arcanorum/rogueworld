@@ -25,8 +25,7 @@ class Inventory {
         // Need to keep a separate list for the hotbar as things can be rearranged.
         this.hotbar = [];
 
-        // Need this to map the hotbar slot to invetory slot Index
-        this.keyToSlotIndex = {};
+        this.saveItemId = {};
 
         this.MAX_HOTBAR_SLOTS = 8;
 
@@ -51,6 +50,8 @@ class Inventory {
         this.userName = "";
 
         this.loadHotBarRequest = "";
+
+        this.foundKey = false;
     }
 
     setItems(itemConfigs) {
@@ -86,13 +87,13 @@ class Inventory {
         PubSub.publish(REMOVE_INVENTORY_ITEM, item);
 
         // Remove it from the hotbar if it was on it.
-        this.removeFromHotbar(item, true);
+        this.removeFromHotbar(item);
     }
 
     removeAllFromInventory() {
         this.items.forEach((item) => {
             // Remove it from the hotbar if it was on it.
-            this.removeFromHotbar(item, true);
+            this.removeFromHotbar(item);
         });
 
         // Reset the inventory.
@@ -109,7 +110,7 @@ class Inventory {
         if (!ItemTypes[itemConfig.typeCode].hasUseEffect) return;
 
         this.hotbar.push(itemConfig);
-        this.keyToSlotIndex[this.hotbar.length - 1] = itemConfig.slotIndex;
+        this.saveItemId[itemConfig.id] = itemConfig.slotIndex;
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
         if (this.saveSession === true) {
@@ -117,76 +118,9 @@ class Inventory {
         }
     }
 
-    resetMapping() {
-        Utils.warning("This is a bug found or a localStorage mismatch");
-        this.keyToSlotIndex = {};
-        this.saveHotbar();
-        this.hotbar = [];
-        this.defaultHotBar();
-    }
-
-    updateSlotIndex(slotIndex) {
-        // This function updates the mapping for when dropping an invetory item not found in hashmap
-        Object.keys(this.keyToSlotIndex).forEach((key, index) => {
-            if (this.keyToSlotIndex[key] >= slotIndex) {
-                const updateValue = this.keyToSlotIndex[key] - 1;
-                if (updateValue >= 0) {
-                    this.keyToSlotIndex[key] = updateValue;
-                    if (this.saveSession === true) {
-                        this.saveHotbar();
-                    }
-                }
-            }
-        });
-    }
-
-    updateMapHotBarKeys(evictKey) {
-        // This function updates the mapping for removing an item from our hotbar
-        Object.keys(this.keyToSlotIndex).forEach((key, index) => {
-            if (key >= evictKey) {
-                const updateKey = key - 1;
-                if (updateKey >= 0) {
-                    this.keyToSlotIndex[updateKey] = this.keyToSlotIndex[key];
-                    delete this.keyToSlotIndex[key];
-                }
-            }
-        });
-    }
-
-    updateMapSlotIndex(evictValue) {
-        // This function updates the mapping when item is removed from inventory
-        Object.keys(this.keyToSlotIndex).forEach((key, index) => {
-            if (this.keyToSlotIndex[key] >= evictValue) {
-                const newValue = this.keyToSlotIndex[key] - 1;
-                if (newValue >= 0) {
-                    this.keyToSlotIndex[key] = newValue;
-                }
-            }
-        });
-    }
-
-    removeFromHotbar(itemConfig, removedInventory = false) {
-        const getKeys = Object.keys(this.keyToSlotIndex);
-        const evictKey = getKeys.find((key) => this.keyToSlotIndex[key] === itemConfig.slotIndex);
-        const evictValue = this.keyToSlotIndex[evictKey];
-
-        // Item not found in the hashmap
-        if (typeof evictKey === "undefined") {
-            this.updateSlotIndex(itemConfig.slotIndex);
-            return;
-        }
-        // Item is found in hashmap so we delete the entry
-        delete this.keyToSlotIndex[evictKey];
-
-        // Update the hotbar
-        this.updateMapHotBarKeys(evictKey);
-
-        // Item is removed from inventory so update the mapping
-        if (removedInventory === true) {
-            this.updateMapSlotIndex(evictValue);
-        }
+    removeFromHotbar(itemConfig) {
+        delete this.saveItemId[itemConfig.id];
         this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
-
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
         if (this.saveSession === true) {
@@ -195,23 +129,12 @@ class Inventory {
     }
 
     saveHotbar() {
-        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(this.keyToSlotIndex));
+        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(this.saveItemId));
     }
 
     defaultHotBar() {
         this.items.forEach((itemConfig) => {
             this.addToHotbar(itemConfig);
-        });
-    }
-
-    initializeHotbar() {
-        // Allocate memory in our array size of hashmap so we can access the elements without seg fault
-        const saveDataSize = Object.keys(this.keyToSlotIndex).length;
-        this.items.forEach((itemConfig) => {
-            if (this.hotbar.length >= saveDataSize) {
-                return;
-            }
-            this.hotbar.push(itemConfig);
         });
     }
 
@@ -232,40 +155,29 @@ class Inventory {
             this.defaultHotBar();
             return;
         }
-        this.keyToSlotIndex = JSON.parse(loadStorageHotbar);
-        if (Object.keys(this.keyToSlotIndex).length === 0) {
-            this.defaultHotBar();
-            return;
-        }
-        const mapToArray = Object.values(this.keyToSlotIndex)
-            .sort((order1, order2) => order1 - order2);
-
-        const checkDup = mapToArray.filter((item, index) => mapToArray.indexOf(item) !== index);
-        // Found duplicate enteries, bug is found
-        if (checkDup.length !== 0) {
-            Utils.warning("Duplicate entries detected");
-            this.resetMapping();
-            return;
-        }
-        this.initializeHotbar();
+        this.saveItemId = JSON.parse(loadStorageHotbar);
         this.populateInvetorytoHotbar();
     }
 
     populateInvetorytoHotbar() {
-        Object.keys(this.keyToSlotIndex).forEach((key, value) => {
-            if (key < 0 || this.keyToSlotIndex[key] < 0) {
-                Utils.warning("Negative Indexes are detected", this.keyToSlotIndex);
-                this.resetMapping();
-            }
-            else if (key >= this.hotbar.length || this.keyToSlotIndex[key] >= this.items.length) {
-                Utils.warning("Index exceeded length of hotbar", this.keyToSlotIndex);
-                this.resetMapping();
-            } else if (this.items[this.keyToSlotIndex[key]].typeCode.hasUseEffect) {
-                Utils.warning("Reading Incorrect Index", this.keyToSlotIndex);
-                this.resetMapping();
-            } else if (Object.keys(this.keyToSlotIndex).length !== 0) {
-                this.hotbar[key] = this.items[this.keyToSlotIndex[key]];
-                PubSub.publish(HOTBAR_ITEM);
+        Object.keys(this.saveItemId).forEach((key, value) => {
+            this.items.forEach((itemConfig) => {
+                if (key === itemConfig.id) {
+                    this.addToHotbar(itemConfig);
+                }
+            });
+        });
+
+        // For the case there is a mismatch in session remove non-existing keys
+        Object.keys(this.saveItemId).forEach((key, value) => {
+            this.foundKey = false;
+            this.hotbar.forEach((itemConfig) => {
+                if (itemConfig.id === key) {
+                    this.foundKey = true;
+                }
+            });
+            if (this.foundKey === false) {
+                delete this.saveItemId[key];
             }
         });
     }

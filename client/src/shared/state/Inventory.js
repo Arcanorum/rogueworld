@@ -42,14 +42,14 @@ class Inventory {
          * @type {Boolean}
          */
         this.autoAddToHotbar = true;
+
+        this.userAccountID = null;
+
+        this.loadHotBarRequest = "";
     }
 
     setItems(itemConfigs) {
         this.items = itemConfigs;
-
-        this.items.forEach((itemConfig) => {
-            this.addToHotbar(itemConfig);
-        });
     }
 
     addToInventory(itemConfig) {
@@ -104,16 +104,58 @@ class Inventory {
         if (!ItemTypes[itemConfig.typeCode].hasUseEffect) return;
 
         this.hotbar.push(itemConfig);
-
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
+        if (this.userAccountID !== null) {
+            this.saveHotbar();
+        }
     }
 
     removeFromHotbar(itemConfig) {
         this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
-
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
+        if (this.userAccountID !== null) {
+            this.saveHotbar();
+        }
+    }
+
+    getHotbarItemIds() {
+        // Generate an array of strings from the item ids.
+        return this.hotbar.map((itemConfig) => itemConfig.id);
+    }
+
+    saveHotbar() {
+        const hotbarItemIDs = this.getHotbarItemIds();
+        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(hotbarItemIDs));
+    }
+
+    defaultHotBar() {
+        this.items.forEach((itemConfig) => {
+            this.addToHotbar(itemConfig);
+        });
+    }
+
+    loadHotbar(accountID) {
+        this.userAccountID = accountID;
+        this.loadHotBarRequest = `${this.userAccountID}_hotbar`;
+        const loadStorageHotbar = window.localStorage.getItem(this.loadHotBarRequest);
+        // If the session does not exist or user is not logged in
+        if (this.userAccountID === null || loadStorageHotbar === null) {
+            this.defaultHotBar();
+            return;
+        }
+        this.populateInventoryToHotbar(JSON.parse(loadStorageHotbar));
+    }
+
+    populateInventoryToHotbar(savedHotbarItemIds) {
+        savedHotbarItemIds.forEach((savedItemId) => {
+            this.items.forEach((itemConfig) => {
+                if (savedItemId === itemConfig.id) {
+                    this.addToHotbar(itemConfig);
+                }
+            });
+        });
     }
 
     modifyItem(itemConfig) {

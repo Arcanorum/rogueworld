@@ -25,8 +25,6 @@ class Inventory {
         // Need to keep a separate list for the hotbar as things can be rearranged.
         this.hotbar = [];
 
-        this.saveItemId = {};
-
         this.MAX_HOTBAR_SLOTS = 8;
 
         this.holding = null;
@@ -45,13 +43,9 @@ class Inventory {
          */
         this.autoAddToHotbar = true;
 
-        this.saveSession = false;
-
-        this.userName = "";
+        this.userAccountID = null;
 
         this.loadHotBarRequest = "";
-
-        this.foundKey = false;
     }
 
     setItems(itemConfigs) {
@@ -110,26 +104,30 @@ class Inventory {
         if (!ItemTypes[itemConfig.typeCode].hasUseEffect) return;
 
         this.hotbar.push(itemConfig);
-        this.saveItemId[itemConfig.id] = itemConfig.slotIndex;
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
-        if (this.saveSession === true) {
+        if (this.userAccountID !== null) {
             this.saveHotbar();
         }
     }
 
     removeFromHotbar(itemConfig) {
-        delete this.saveItemId[itemConfig.id];
         this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
-        if (this.saveSession === true) {
+        if (this.userAccountID !== null) {
             this.saveHotbar();
         }
     }
 
+    getHotbarItemIds() {
+        // Generate an array of strings from the item ids.
+        return this.hotbar.map((itemConfig) => itemConfig.id);
+    }
+
     saveHotbar() {
-        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(this.saveItemId));
+        const hotbarItemIDs = this.getHotbarItemIds();
+        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(hotbarItemIDs));
     }
 
     defaultHotBar() {
@@ -138,47 +136,25 @@ class Inventory {
         });
     }
 
-    loadFromLocalStorage(playerID) {
-        this.saveSession = true;
-        this.userName = playerID;
-        const gameName = "dungeonz";
-        const requestHotbar = "hotBar";
-        this.loadHotBarRequest = gameName + this.userName + requestHotbar;
-    }
-
-    loadHotbar(playerID, isLoggedIn) {
-        if (isLoggedIn === true) {
-            this.loadFromLocalStorage(playerID);
-        }
+    loadHotbar(accountID) {
+        this.userAccountID = accountID;
+        this.loadHotBarRequest = `${this.userAccountID}_hotbar`;
         const loadStorageHotbar = window.localStorage.getItem(this.loadHotBarRequest);
-        if (this.saveSession === false || loadStorageHotbar === null) {
+        // If the session does not exist or user is not logged in
+        if (this.userAccountID === null || loadStorageHotbar === null) {
             this.defaultHotBar();
             return;
         }
-        this.saveItemId = JSON.parse(loadStorageHotbar);
-        this.populateInvetorytoHotbar();
+        this.populateInventoryToHotbar(JSON.parse(loadStorageHotbar));
     }
 
-    populateInvetorytoHotbar() {
-        Object.keys(this.saveItemId).forEach((key, value) => {
+    populateInventoryToHotbar(savedHotbarItemIds) {
+        savedHotbarItemIds.forEach((savedItemId) => {
             this.items.forEach((itemConfig) => {
-                if (key === itemConfig.id) {
+                if (savedItemId === itemConfig.id) {
                     this.addToHotbar(itemConfig);
                 }
             });
-        });
-
-        // For the case there is a mismatch in session remove non-existing keys
-        Object.keys(this.saveItemId).forEach((key, value) => {
-            this.foundKey = false;
-            this.hotbar.forEach((itemConfig) => {
-                if (itemConfig.id === key) {
-                    this.foundKey = true;
-                }
-            });
-            if (this.foundKey === false) {
-                delete this.saveItemId[key];
-            }
         });
     }
 

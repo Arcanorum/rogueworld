@@ -15,14 +15,13 @@ function LeaveDungeonPanel({ onCloseCallback }) {
             <PanelTemplate
               width="540px"
               height="180px"
-              // Move to text defs
-              panelName="Leave Dungeon?"
+              panelName={`${Utils.getTextDef("Leave dungeon panel: title")}?`}
               icon={leaveDungeonIcon}
               onCloseCallback={onCloseCallback}
             >
                 <div className="leave-dungeon-inner-cont">
                     <div className="leave-dungeon-info-cont">
-                        Your stats, items, and glory will remain unchanged.
+                        {Utils.getTextDef("Leave dungeon panel: info")}
                     </div>
                     <div className="leave-dungeon-bottom-cont">
                         <div
@@ -34,8 +33,7 @@ function LeaveDungeonPanel({ onCloseCallback }) {
                               src={createButtonBorderValid}
                             />
                             <div className="leave-dungeon-button-text">
-                                {/* Todo: add to textdefs */}
-                                Stay
+                                {Utils.getTextDef("Stay")}
                             </div>
                         </div>
                         <div

@@ -151,8 +151,7 @@ function GUI() {
                 <PanelButton
                   icon={leaveDungeonIcon}
                   onClick={() => togglePanel(Panels.LeaveDungeon)}
-                //   move to text defs
-                  tooltipText="Leave Dungeon"
+                  tooltipText={Utils.getTextDef("Leave dungeon panel: title")}
                 />
                 ))}
                 {(inDungeon !== true && (

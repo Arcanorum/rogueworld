@@ -51,7 +51,7 @@ function GUI() {
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
     const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
-    const [inDungeon, setInDungeon] = useState(null);
+    const [inDungeon, setInDungeon] = useState(false);
 
     const closePanelCallback = () => {
         setShownPanel(Panels.NONE);

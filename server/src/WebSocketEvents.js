@@ -766,6 +766,20 @@ eventResponses.start_dungeon = (clientSocket, data) => {
 /**
  * @param {*} clientSocket
  */
+ eventResponses.leave_dungeon = (clientSocket) => {
+    if (clientSocket.inGame === false) return;
+    if (clientSocket.entity.board === null) return;
+
+    /** @type {Dungeon} */
+    const dungeon = clientSocket.entity.board.dungeon;
+    if (dungeon === undefined || dungeon === null) return;
+
+    dungeon.evictPlayer(clientSocket.entity, clientSocket.entity.board);
+};
+
+/**
+ * @param {*} clientSocket
+ */
 eventResponses.respawn = (clientSocket) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are alive.

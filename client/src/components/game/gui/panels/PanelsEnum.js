@@ -9,6 +9,7 @@ const Panels = {
     Stats: Symbol("Stats"),
     Tasks: Symbol("Tasks"),
     Map: Symbol("Map"),
+    LeaveDungeon: Symbol("LeaveDungeon"),
     Chat: Symbol("Chat"),
     Inventory: Symbol("Inventory"),
     Crafting: Symbol("Crafting"),

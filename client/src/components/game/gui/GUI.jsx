@@ -19,7 +19,9 @@ import exitIcon from "../../../assets/images/gui/hud/exit-icon.png";
 import discordIcon from "../../../assets/images/gui/hud/notdiscord-icon.png";
 import wikiIcon from "../../../assets/images/gui/hud/notwiki-icon.png";
 import settingsIcon from "../../../assets/images/gui/panels/settings/settings-icon.png";
+import leaveDungeonIcon from "../../../assets/images/gui/hud/leave-dungeon-icon.png";
 import {
+    DUNGEON_ACTIVE,
     DUNGEON_PORTAL_PRESSED,
     HITPOINTS_VALUE,
     LOGGED_IN,
@@ -49,6 +51,7 @@ function GUI() {
     const [trackedTask, setTrackedTask] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
     const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
+    const [inDungeon, setInDungeon] = useState(false);
 
     const closePanelCallback = () => {
         setShownPanel(Panels.NONE);
@@ -64,6 +67,9 @@ function GUI() {
                 // panel, or it won't know what info to load.
                 setTargetDungeonPortal(portal);
                 setShownPanel(Panels.Dungeon);
+            }),
+            PubSub.subscribe(DUNGEON_ACTIVE, (msg, value) => {
+                setInDungeon(value);
             }),
             PubSub.subscribe(POSITION_VALUE, () => {
                 if (GUIState.activePanel !== Panels.Chat) {
@@ -141,11 +147,20 @@ function GUI() {
                   onClick={() => togglePanel(Panels.Tasks)}
                   tooltipText={`${Utils.getTextDef("Tasks tooltip")} ( B )`}
                 />
+                {(inDungeon === true && (
+                <PanelButton
+                  icon={leaveDungeonIcon}
+                  onClick={() => togglePanel(Panels.LeaveDungeon)}
+                  tooltipText={Utils.getTextDef("Leave dungeon panel: title")}
+                />
+                ))}
+                {(inDungeon !== true && (
                 <PanelButton
                   icon={mapIcon}
                   onClick={() => togglePanel(Panels.Map)}
                   tooltipText={`${Utils.getTextDef("Map tooltip")} ( M )`}
                 />
+                ))}
                 <PanelButton
                   icon={showNewNotification && !showChatBox && quickChatEnabled
                       ? chatUnreadedMessageIcon : chatIcon}

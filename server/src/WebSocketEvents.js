@@ -765,7 +765,6 @@ eventResponses.start_dungeon = (clientSocket, data) => {
 
 /**
  * @param {*} clientSocket
- * @param {String} data.dungeonID - The ID of a dungeon manager.
  */
  eventResponses.leave_dungeon = (clientSocket) => {
     if (clientSocket.inGame === false) return;

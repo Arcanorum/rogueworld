@@ -768,6 +768,7 @@ eventResponses.start_dungeon = (clientSocket, data) => {
  */
  eventResponses.leave_dungeon = (clientSocket) => {
     if (clientSocket.inGame === false) return;
+    if (clientSocket.entity.board === null) return;
 
     /** @type {Dungeon} */
     const dungeon = clientSocket.entity.board.dungeon;

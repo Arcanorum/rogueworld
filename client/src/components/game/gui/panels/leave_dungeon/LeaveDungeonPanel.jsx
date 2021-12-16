@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import PanelTemplate from "../panel_template/PanelTemplate";
 import Utils from "../../../../../shared/Utils";
 import leaveDungeonIcon from "../../../../../assets/images/gui/hud/leave-dungeon-icon.png";
-import "leaflet/dist/leaflet.css";
 import "./LeaveDungeonPanel.scss";
 import { ApplicationState } from "../../../../../shared/state/States";
 import leavePartyButtonBorder from "../../../../../assets/images/gui/panels/dungeon/leave-party-button-border.png";

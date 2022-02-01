@@ -3,6 +3,6 @@
   "private": true,
   "workspaces": [
     "shared",
-    "website"
+    "clients/website"
   ]
 }

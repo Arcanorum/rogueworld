@@ -6,7 +6,7 @@
   "author": "Pierre de la Martinière <pierre.de.la.martiniere@gmail.com>",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "test:unit": "jest",
     "test:lint": "next lint"

@@ -75,51 +75,6 @@ class MyDocument extends Document {
                             gtag("config", "UA-111760957-3");
                         ` }}
                     />
-
-                    <style>{
-                        `body {
-                            overflow: hidden;
-                            margin: 0;
-                            background-color: black;
-                        }
-
-                        #page-load {
-                            position: absolute;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            width: 100%;
-                            height: 100%;
-                            background-color: #222034;
-                            color: white;
-                            font-family: 'Courier New', cursive;
-                            font-size: 3rem;
-                            font-weight: bold;
-                            overflow: hidden;
-                            user-select: none;
-                        }
-
-                        #page-load::after {
-                            display: inline-block;
-                            animation: dotty steps(1,end) 2s infinite;
-                            content: '';
-                        }
-                        
-                        @keyframes dotty {
-                            0%   { content: ''; }
-                            25%  { content: '.'; }
-                            50%  { content: '..'; }
-                            75%  { content: '...'; }
-                            100% { content: ''; }
-                        }
-
-                        .gui-scalable {
-                            zoom: 1;
-                            -moz-transform: scale(1);
-                            -moz-transform-origin: 0 0;
-                        }`
-                    }
-                    </style>
                 </Head>
                 <body>
                     <div id="page-load">Loading page</div>

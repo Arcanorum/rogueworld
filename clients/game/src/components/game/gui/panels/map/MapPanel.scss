@@ -1,0 +1,31 @@
+@import "../../../../../shared/Variables";
+
+.map-panel {
+    background-color: $colourDB32White;
+    pointer-events: none;
+
+    .leaflet-container {
+        pointer-events: auto;
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+    }
+
+    .leaflet-div-icon {
+        background: transparent;
+        border: none;
+    }
+
+    .tooltip {
+        border: 0;
+
+        // Hide the down arrow thing in the middle of the marker tooltip.
+        &::before {
+            display: none;
+        }
+    }
+
+    .leaflet-control-zoom {
+        margin-top: 2rem;
+    }
+}

@@ -1,0 +1,17 @@
+@import "../../../../shared/Variables";
+
+.glory-counter {
+    display: flex;
+    align-items: center;
+
+    .glory-gained {
+        margin-left: 16px;
+        color: $colourDB32LimeGreen;
+    }
+
+    .glory-lost {
+        margin-left: 16px;
+        color: $colourDB32Orange;
+    }
+
+}

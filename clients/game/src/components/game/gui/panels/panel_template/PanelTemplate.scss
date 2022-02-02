@@ -1,0 +1,107 @@
+@import "../../../../../shared/Variables.scss";
+
+.panel-template-cont {
+    left: 50%;
+    top: 50%;
+    pointer-events: auto;
+}
+
+// The container the other generic parts are positioned relative to, and gives the main background and side borders.
+.panel-template-main-cont {
+    width: 400px;
+    height: 300px;
+    //background-color: $colourDB32SteelGrey;
+    border: 8px solid $colourDB32VeryDarkPurple;
+    outline: 8px solid $colourDB32VeryDarkPurple;
+    user-select: none;
+}
+
+// The top left icon that goes being the actual panel specific icon.
+.panel-template-icon-border {
+    left: 0%;
+    top: 0%;
+    width: 80px;
+    user-select: none;
+}
+
+// The top left icon that represents this panel.
+.panel-template-icon {
+    left: 0%;
+    top: 0%;
+    width: 54px;
+    user-select: none;
+}
+
+.panel-template-close-button {
+    left: 100%;
+    top: 0%;
+    width: 52px;
+    user-select: none;
+    pointer-events: auto;
+    cursor: $cursorHand;
+    &:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+        filter: brightness(150%);
+    }
+}
+
+.panel-template-top-corner {
+    left: 100%;
+    top: 0%;
+    width: 36px;
+    user-select: none;
+}
+
+.panel-template-left-corner {
+    left: 0%;
+    top: 100%;
+    width: 36px;
+    user-select: none;
+}
+
+.panel-template-right-corner {
+    left: 100%;
+    top: 100%;
+    width: 36px;
+    user-select: none;
+}
+
+.centered {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+// The shown localised name of the context of this panel.
+.panel-template-name-border {
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    padding: 4px;
+    color: $colourDB32White;
+    font-size: 20px;
+    -webkit-text-stroke: 14px $colourDB32VeryDarkPurple;
+    transform: translateY(-50%);
+    user-select: none;
+}
+
+// The shown localised name of the context of this panel.
+.panel-template-name {
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    padding: 4px;
+    color: $colourDB32White;
+    font-size: 20px;
+    transform: translateY(-50%);
+    user-select: none;
+}
+
+// The container for all of the specific stuff for this panel.
+.panel-template-contents-cont {
+    width: 100%;
+    height: 100%;
+}
+
+.panel-template-spacer {
+    background-color: $colourDB32VeryDarkPurple;
+}

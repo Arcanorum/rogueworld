@@ -1,0 +1,91 @@
+@import "../../../../../shared/Variables";
+
+.account-panel {
+    background-color: $colourDB32IronGreyOpacity80;
+
+    .account-inner-cont {
+        background-color: $colourDB32VeryDarkPurple;
+        color: $colourDB32Black;
+        height: 100%;
+        display: grid;
+        grid-template-rows: 18% 16% 16% 16% auto;
+        grid-template-columns: 100%;
+        grid-gap: 12px;
+        align-items: center;
+        justify-items: center;
+        text-align: center;
+        
+        &.password-changed {
+            grid-template-rows: auto;
+        }
+    }
+
+    .account-top-info-cont {
+        background-color: $colourDB32SteelGrey;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+
+    .account-input {
+        width: 80%;
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
+        font-family: 'Press Start 2P', cursive;
+        letter-spacing: 0.1em;
+        border: $colourDB32Black solid 4px;
+        padding: 10px;
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .account-accept-button-cont {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        cursor: $cursorHand;
+        &:hover {
+            filter: brightness(150%);
+            transform: scale(1.1);
+        }
+    }
+
+    .account-accept-button-text {
+        position: absolute;
+        width: 57%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 14px;
+        font-weight: bold;
+        color: $colourDB32VeryDarkPurple;
+    }
+    .account-accept-button {
+        height: 100%;
+    }
+
+    .account-warning-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        background-color: orange;
+        border: 4px solid black;
+        padding: 10px;
+        font-size: 14px;
+
+        &.password-changed {
+            background-color: lime;
+        }
+    }
+    
+    .account-input::-webkit-input-placeholder {
+        font-size: 16px;
+    }
+
+}

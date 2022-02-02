@@ -1,0 +1,1440 @@
+# name
+# A unique human readable name to use for the generated Item class for this item type.
+# Used in the code to get items by their name, instead of by their code.
+# i.e. `ItemsList.BY_NAME["IronSword"]` will be a reference to the IronSword item class.
+
+# code
+# A unique randomly generated code to identify this item config.
+# It is important that this code does not describe anything about the item itself, as it should
+# just be used as an identifier for this config, so it can be stored in the database and when
+# loaded back into the game when a player logs in, the right item config can be found, even if
+# other values on the config have changed, such as the name.
+# As such, once set, this code should never be changed, as doing so would mean that any saved items
+# won't know which config to use when loaded again.
+# There is a script that can be ran in a terminal to generate a standard item code for you.
+# In the root of the project, run:
+# `npm run itemcode`
+# Which would output:
+# * Generated item code:
+# KSES6122 <-- a new item code to use for this config
+
+# extends
+# Optional. The name of an abstract item type to use as the class file that this item type should
+# extend from.
+# When an item extends from another class, it will inherit the functionality of that class.
+# Some other config properties that can be set for this item type only work when the appropriate
+# class is extended from.
+# e.g. The defenceBonus property only works when extending Clothes.
+
+# translationId
+# A value from the ID column in the ITEMS tab in the translations spreadsheet to use to get the name and
+# description for this item in language selected by the player.
+# Just the item name itself, which gets added onto the "Item name: " and "Item description: "
+# prefixes on the client to create the actual id.
+# e.g. Where there would be "Item name: Iron sword" and "Item description: Iron sword" for an item
+# in the spreadsheet, simply use "Iron sword" here and the client will figure out the rest.
+# Translations spreadsheet:
+# https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA
+
+# textureSource
+# The base name of the texture/sprite/image/whatever to use for this item on the client.
+# e.g. For an iron sword item, this value will probably be "iron-sword".
+# This would make the source image to use for the GUI icon to be "icon-iron-sword", so make sure
+# that an image with that file name exists.
+
+# pickupSpriteScaleModifier
+# Optional. How much to scale the sprite of the pickup of this item from it's default size.
+# e.g. pickupSpriteScaleModifier: 0.7 would scale the pickup sprite down to 70% of its base size.
+
+# soundType
+# # Optional. The name of the group of sounds to play when this item is dropped, equipped,
+# unequipped, or used. See SoundManager.js in client.
+
+# category
+# # Optional. A generic way of grouping items by purpose.
+# What this does specifically depends on what the item is interacting with.
+# e.g. An ore rock resource node would only allow gathering when an item of the "Pickaxe" category
+# is used on it, so any pickaxe type items should use that category here.
+# See the ResourceNodes.yaml configs for what item category is required for each resource node type.
+
+# ProjectileType
+# Optional. The class name of the projectile type to create an instance of when this item is used.
+# Each weapon item that shoots out some kind of projectile should have an associated projectile entity class.
+# e.g. for an IronSword item that extends Weapon, there should also be in the entities list a
+# ProjIronSword entity class that extends from the Projectile class.
+# The projectile classes are automatically generated from the list of configs in Projectiles.yaml.
+# Simply use the `name` property of any config defined there for this property.
+
+# unitWeight
+# Optional. The weight value of this item, either for the whole item for an unstackable, or for
+# each one in a stack of stackables.
+# Can be either a number, or a string name of a item weight class in ItemWeightClasses.yaml.
+
+# baseQuantity
+# Optional. For stackables, this is the default quantity to use when no specific quantity is
+# specified for where this item type is used.
+# e.g. This will be the size of the stack given to a player for pickups spawned by pickup spawner,
+# created by a crafting recipe, or bought from a shop.
+
+# baseDurability
+# Optional. For unstackables, this is the default durability (and max durability) to use when no
+# specific quantity is specified for where this item type is used.
+# e.g. This will be the durability of the item given to a player for pickups spawned by a pickup
+# spanwer, created by a crafting recipe, or bought from a shop.
+
+# gatherTimeReduction
+# Optional. For gathering tools, the percentage to reduce the gather time by when this item is used
+# to gather from a resource node.
+
+# defenceBonus
+# Optional. How much to increase the player's defence by when this item is equipped.
+
+# useEnergyCost
+# Optional. How much energy is consumed when this item is used.
+
+# expGivenStatName
+# Optional. The name of the stat to give exp in when this item is used.
+
+# expGivenOnUse
+# Optional. How much exp to give in the selected stat (expGivenStatName) when this item is used.
+
+# statBonuses
+# Optional. A list of stat names and values for how much to increase each stat by while this item
+# is equipped.
+# e.g.
+# statBonuses:
+#   Weaponry: 2
+#   Toolery: 4
+
+# craftTasks
+# Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft,
+
+
+# Ammunition
+
+# - name: AgoniteArrows
+#   code: LOEO6269
+#   translationId: Agonite arrows
+#   textureSource: agonite-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjAgoniteArrow
+#   unitWeight: Arrow
+#   baseQuantity: 5
+#   craftTasks:
+#     - Arrows
+#     - AgoniteGear
+
+# - name: DungiumArrows
+#   code: ONCE9214
+#   translationId: Dungium arrows
+#   textureSource: dungium-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjDungiumArrow
+#   unitWeight: Arrow
+#   baseQuantity: 5
+#   craftTasks:
+#     - Arrows
+#     - DungiumGear
+
+# - name: IronArrows
+#   code: EFQV6850
+#   translationId: Iron arrows
+#   textureSource: iron-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjIronArrow
+#   baseQuantity: 5
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+#     - IronGear
+
+# - name: NoctisArrows
+#   code: GOWQ7155
+#   translationId: Noctis arrows
+#   textureSource: noctis-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjNoctisArrow
+#   baseQuantity: 5
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+#     - NoctisGear
+
+# - name: ExplosiveArrows
+#   code: FHFV1114
+#   translationId: Explosive arrows
+#   textureSource: explosive-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjExplosiveArrow
+#   baseQuantity: 2
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+
+# - name: IceArrows
+#   code: YRIN2041
+#   translationId: Ice arrows
+#   textureSource: ice-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjIceArrow
+#   baseQuantity: 2
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+
+# - name: PoisonArrows
+#   code: LJCR7302
+#   translationId: Poison arrows
+#   textureSource: poison-arrows
+#   extends: Ammunition
+#   ProjectileType: ProjPoisonArrow
+#   baseQuantity: 2
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+
+# Clan structures
+
+# Clothes
+
+# - name: AgoniteArmour
+#   code: PXQF2023
+#   extends: Clothes
+#   translationId: Agonite armour
+#   textureSource: agonite-armour
+#   soundType: Metal clothing
+#   category: Clothing
+#   unitWeight: MetalArmour
+#   baseDurability: 200
+#   defenceBonus: 70
+#   statBonuses:
+#     Melee: 3
+#   craftTasks:
+#     - MetalArmour
+#     - AgoniteGear
+
+# - name: ArmorOfIre
+#   code: CFBO6832
+#   extends: Clothes
+#   translationId: Armor of Ire
+#   textureSource: armor-of-ire
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: MetalArmour
+#   useGloryCost: 10
+#   baseDurability: 1000
+#   defenceBonus: 100
+#   statBonuses:
+#     Melee: 2
+
+# - name: Cloak
+#   code: XVXP6397
+#   extends: Clothes
+#   translationId: Cloak
+#   textureSource: cloak
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Cloak
+#   baseDurability: 100
+#   defenceBonus: 25
+#   statBonuses:
+#     Ranged: 1
+#   craftTasks:
+#     - Cloaks
+#     - FabricGear
+
+# - name: DungiumArmour
+#   code: JKYL4271
+#   extends: Clothes
+#   translationId: Dungium armour
+#   textureSource: dungium-armour
+#   soundType: Metal clothing
+#   category: Clothing
+#   unitWeight: MetalArmour
+#   baseDurability: 180
+#   defenceBonus: 60
+#   statBonuses:
+#     Melee: 3
+#   craftTasks:
+#     - MetalArmour
+#     - DungiumGear
+
+# - name: Etherweave
+#   code: CAMJ8537
+#   extends: Clothes
+#   translationId: Etherweave
+#   textureSource: etherweave
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Robe
+#   baseDurability: 1000
+#   defenceBonus: 20
+#   statBonuses:
+#     Magic: 2
+
+# - name: IronArmour
+#   code: XEBH5037
+#   extends: Clothes
+#   translationId: Iron armour
+#   textureSource: iron-armour
+#   soundType: Metal clothing
+#   category: Clothing
+#   unitWeight: MetalArmour
+#   baseDurability: 160
+#   defenceBonus: 50
+#   statBonuses:
+#     Melee: 2
+#   craftTasks:
+#     - MetalArmour
+#     - IronGear
+
+# - name: MageRobe
+#   code: UIQB4427
+#   extends: Clothes
+#   translationId: Mage robe
+#   textureSource: mage-robe
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Robe
+#   baseDurability: 100
+#   defenceBonus: 20
+#   statBonuses:
+#     Magic: 1
+#   craftTasks:
+#     - Robes
+#     - FabricGear
+
+# - name: NecromancerRobe
+#   code: HNOI4167
+#   extends: Clothes
+#   translationId: Necromancer robe
+#   textureSource: necromancer-robe
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Robe
+#   baseDurability: 100
+#   defenceBonus: 20
+#   statBonuses:
+#     Magic: 1
+#   craftTasks:
+#     - Robes
+#     - FabricGear
+
+# - name: NinjaGarb
+#   code: MYJZ0020
+#   extends: Clothes
+#   translationId: Ninja garb
+#   textureSource: ninja-garb
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Cloak
+#   baseDurability: 100
+#   defenceBonus: 30
+#   statBonuses:
+#     Melee: 1
+#     Ranged: 1
+#   craftTasks:
+#     - Cloaks
+#     - FabricGear
+
+# - name: NoctisArmour
+#   code: OELK7246
+#   extends: Clothes
+#   translationId: Noctis armour
+#   textureSource: noctis-armour
+#   soundType: Metal clothing
+#   category: Clothing
+#   unitWeight: MetalArmour
+#   baseDurability: 220
+#   defenceBonus: 80
+#   statBonuses:
+#     Melee: 4
+#   craftTasks:
+#     - MetalArmour
+#     - NoctisGear
+
+# - name: PlainRobe
+#   code: RBKW4762
+#   extends: Clothes
+#   translationId: Plain robe
+#   textureSource: plain-robe
+#   soundType: Fabric clothing
+#   category: Clothing
+#   unitWeight: Robe
+#   baseDurability: 100
+#   defenceBonus: 20
+#   statBonuses:
+#     Potionry: 1
+#   craftTasks:
+#     - Robes
+#     - FabricGear
+
+# Holdable
+
+# Holdable - Spell books
+
+- name: AgoniteDagger
+  code: KVKC1852
+  extends: Holdable
+  translationId: Agonite dagger
+  textureSource: agonite-dagger
+  soundType: Metal weapon
+  ProjectileType: ProjAgoniteDagger
+  category: Weapon
+  unitWeight: MetalDagger
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Daggers
+    - AgoniteGear
+
+- name: AgoniteHammer
+  code: TMWQ0215
+  extends: Holdable
+  translationId: Agonite hammer
+  textureSource: agonite-hammer
+  soundType: Metal weapon
+  ProjectileType: ProjAgoniteHammer
+  category: Weapon
+  unitWeight: MetalHammer
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Hammers
+    - AgoniteGear
+
+- name: AgoniteHatchet
+  code: KDJM6256
+  translationId: Agonite hatchet
+  textureSource: agonite-hatchet
+  extends: Holdable
+  ProjectileType: ProjAgoniteHatchet
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.7
+  baseDurability: 50
+  craftTasks:
+    - Hatchets
+
+- name: AgonitePickaxe
+  code: UXBP5028
+  translationId: Agonite pickaxe
+  textureSource: agonite-pickaxe
+  extends: Holdable
+  ProjectileType: ProjAgonitePickaxe
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.7
+  baseDurability: 50
+  craftTasks:
+    - Pickaxes
+
+- name: AgoniteSickle
+  code: ITJQ1040
+  translationId: Agonite sickle
+  textureSource: agonite-sickle
+  extends: Holdable
+  ProjectileType: ProjAgoniteSickle
+  unitWeight: Sickle
+  category: Sickle
+  gatherTimeReduction: 0.65
+  baseDurability: 50
+  craftTasks:
+    - Sickles
+
+- name: AgoniteSword
+  code: BNZQ3113
+  extends: Holdable
+  translationId: Agonite sword
+  textureSource: agonite-sword
+  soundType: Metal weapon
+  ProjectileType: ProjAgoniteSword
+  category: Weapon
+  unitWeight: MetalSword
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Swords
+    - AgoniteGear
+
+- name: BloodStaff
+  code: CRMZ8928
+  extends: Holdable
+  translationId: Blood staff
+  textureSource: blood-staff
+  soundType: Magic weapon
+  ProjectileType: ProjBloodBolt
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 2
+  expGivenStatName: Magic
+  craftTasks:
+    - Staffs
+
+- name: BoneHatchet
+  code: XGEA0957
+  translationId: Bone hatchet
+  textureSource: bone-hatchet
+  extends: Holdable
+  ProjectileType: ProjBoneHatchet
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.4
+  baseDurability: 20
+  craftTasks:
+    - Hatchets
+
+- name: BonePickaxe
+  code: SEPO2838
+  translationId: Bone pickaxe
+  textureSource: bone-pickaxe
+  extends: Holdable
+  ProjectileType: ProjBonePickaxe
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.4
+  baseDurability: 20
+  craftTasks:
+    - Pickaxes
+
+- name: DungiumDagger
+  code: EDBL4872
+  extends: Holdable
+  translationId: Dungium dagger
+  textureSource: dungium-dagger
+  soundType: Metal weapon
+  ProjectileType: ProjDungiumDagger
+  category: Weapon
+  unitWeight: MetalDagger
+  baseDurability: 45
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Daggers
+    - DungiumGear
+
+- name: DungiumHammer
+  code: LBVC0112
+  extends: Holdable
+  translationId: Dungium hammer
+  textureSource: dungium-hammer
+  soundType: Metal weapon
+  ProjectileType: ProjDungiumHammer
+  category: Weapon
+  unitWeight: MetalHammer
+  baseDurability: 45
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Hammers
+    - DungiumGear
+
+- name: DungiumHatchet
+  code: NIWY6955
+  translationId: Dungium hatchet
+  textureSource: dungium-hatchet
+  extends: Holdable
+  ProjectileType: ProjDungiumHatchet
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.6
+  baseDurability: 45
+  craftTasks:
+    - Hatchets
+
+- name: DungiumPickaxe
+  code: HGKW8248
+  translationId: Dungium pickaxe
+  textureSource: dungium-pickaxe
+  extends: Holdable
+  ProjectileType: ProjDungiumPickaxe
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.6
+  baseDurability: 45
+  craftTasks:
+    - Pickaxes
+
+- name: DungiumSickle
+  code: WAHF0883
+  translationId: Dungium sickle
+  textureSource: dungium-sickle
+  extends: Holdable
+  ProjectileType: ProjDungiumSickle
+  unitWeight: Sickle
+  category: Sickle
+  gatherTimeReduction: 0.65
+  baseDurability: 45
+  craftTasks:
+    - Sickles
+
+- name: DungiumSword
+  code: OFLM3602
+  extends: Holdable
+  translationId: Dungium sword
+  textureSource: dungium-sword
+  soundType: Metal weapon
+  ProjectileType: ProjDungiumSword
+  category: Weapon
+  unitWeight: MetalSword
+  baseDurability: 45
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Swords
+    - DungiumGear
+
+- name: Hellraiser
+  code: HDYY9831
+  extends: Holdable
+  translationId: Hellraiser
+  textureSource: hellraiser
+  soundType: Magic weapon
+  ProjectileType: ProjSuperFireball
+  category: Weapon
+  unitWeight: Staff
+  useGloryCost: 10
+  baseDurability: 1000
+  useEnergyCost: 4
+  expGivenStatName: Magic
+
+- name: FireStaff
+  code: JZYO3459
+  extends: Holdable
+  translationId: Fire staff
+  textureSource: fire-staff
+  ProjectileType: ProjFireball
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 2
+  expGivenStatName: Magic
+  craftTasks:
+    - Staffs
+
+- name: HammerOfGlory
+  code: OWEF7178
+  extends: Holdable
+  translationId: Hammer of Glory
+  textureSource: hammer-of-glory
+  soundType: Metal weapon
+  ProjectileType: ProjHammerOfGlory
+  category: Weapon
+  unitWeight: MetalHammer
+  useGloryCost: 15
+  useEnergyCost: 2
+  expGivenStatName: Melee
+  baseDurability: 1000
+
+- name: IronDagger
+  code: WFCA0984
+  extends: Holdable
+  translationId: Iron dagger
+  textureSource: iron-dagger
+  soundType: Metal weapon
+  ProjectileType: ProjIronDagger
+  category: Weapon
+  unitWeight: MetalDagger
+  baseDurability: 40
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Daggers
+    - IronGear
+
+- name: IronHammer
+  code: BRCX5152
+  extends: Holdable
+  translationId: Iron hammer
+  textureSource: iron-hammer
+  soundType: Metal weapon
+  ProjectileType: ProjIronHammer
+  category: Weapon
+  unitWeight: MetalHammer
+  baseDurability: 40
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Hammers
+    - IronGear
+
+- name: IronHatchet
+  code: TNBM9295
+  translationId: Iron hatchet
+  textureSource: iron-hatchet
+  extends: Holdable
+  ProjectileType: ProjIronHatchet
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.5
+  baseDurability: 40
+  craftTasks:
+    - Hatchets
+
+- name: IronPickaxe
+  code: HGST8704
+  translationId: Iron pickaxe
+  textureSource: iron-pickaxe
+  extends: Holdable
+  ProjectileType: ProjIronPickaxe
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.5
+  baseDurability: 40
+  craftTasks:
+    - Pickaxes
+
+- name: IronSickle
+  code: CMUY6245
+  translationId: Iron sickle
+  textureSource: iron-sickle
+  extends: Holdable
+  ProjectileType: ProjIronSickle
+  unitWeight: Sickle
+  category: Sickle
+  gatherTimeReduction: 0.5
+  baseDurability: 40
+  craftTasks:
+    - Sickles
+
+- name: IronSword
+  code: ZUUW4723
+  extends: Holdable
+  translationId: Iron sword
+  textureSource: iron-sword
+  soundType: Metal weapon
+  ProjectileType: ProjIronSword
+  category: Weapon
+  unitWeight: MetalSword
+  baseDurability: 40
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Swords
+    - IronGear
+
+- name: NoctisDagger
+  code: EMGG7774
+  extends: Holdable
+  translationId: Noctis dagger
+  textureSource: noctis-dagger
+  soundType: Metal weapon
+  ProjectileType: ProjNoctisDagger
+  category: Weapon
+  unitWeight: MetalDagger
+  baseDurability: 55
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Daggers
+    - NoctisGear
+
+- name: NoctisHammer
+  code: FYOP1681
+  extends: Holdable
+  translationId: Noctis hammer
+  textureSource: noctis-hammer
+  soundType: Metal weapon
+  ProjectileType: ProjNoctisHammer
+  category: Weapon
+  unitWeight: MetalHammer
+  baseDurability: 55
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Hammers
+    - NoctisGear
+
+- name: NoctisHatchet
+  code: CTPW6414
+  translationId: Noctis hatchet
+  textureSource: noctis-hatchet
+  extends: Holdable
+  ProjectileType: ProjNoctisHatchet
+  unitWeight: GatheringTool
+  category: Hatchet
+  gatherTimeReduction: 0.8
+  baseDurability: 55
+  craftTasks:
+    - Hatchets
+
+- name: NoctisPickaxe
+  code: LOEF4388
+  translationId: Noctis pickaxe
+  textureSource: noctis-pickaxe
+  extends: Holdable
+  ProjectileType: ProjNoctisPickaxe
+  unitWeight: GatheringTool
+  category: Pickaxe
+  gatherTimeReduction: 0.8
+  baseDurability: 55
+  craftTasks:
+    - Pickaxes
+
+- name: NoctisSickle
+  code: EZGR0794
+  translationId: Noctis sickle
+  textureSource: noctis-sickle
+  extends: Holdable
+  ProjectileType: ProjNoctisSickle
+  unitWeight: Sickle
+  category: Sickle
+  gatherTimeReduction: 0.8
+  baseDurability: 55
+  craftTasks:
+    - Sickles
+
+- name: NoctisSword
+  code: BPHJ9303
+  extends: Holdable
+  translationId: Noctis sword
+  textureSource: noctis-sword
+  soundType: Metal weapon
+  ProjectileType: ProjNoctisSword
+  category: Weapon
+  unitWeight: MetalSword
+  baseDurability: 55
+  useEnergyCost: 1
+  expGivenStatName: Melee
+  craftTasks:
+    - Swords
+    - NoctisGear
+
+- name: Shuriken
+  code: FKUT5967
+  extends: Holdable
+  translationId: Shuriken
+  textureSource: shuriken
+  soundType: Metal weapon
+  ProjectileType: ProjShuriken
+  category: Weapon
+  unitWeight: 2
+  baseQuantity: 5
+  useEnergyCost: 1
+  expGivenStatName: Ranged
+  craftTasks:
+    - Shurikens
+    - IronGear
+
+- name: Galestorm
+  code: YNIU9709
+  translationId: Galestorm
+  textureSource: galestorm
+  soundType: Magic weapon
+  category: Weapon
+  unitWeight: Staff
+  useGloryCost: 10
+  baseDurability: 1000
+  useEnergyCost: 4
+  expGivenStatName: Magic
+
+- name: SuperBloodStaff
+  code: FZBN5698
+  extends: Holdable
+  translationId: Super blood staff
+  textureSource: super-blood-staff
+  ProjectileType: ProjSuperBloodBolt
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  craftTasks:
+    - Staffs
+
+- name: SuperFireStaff
+  code: CPAO5445
+  extends: Holdable
+  translationId: Super fire staff
+  textureSource: super-fire-staff
+  ProjectileType: ProjSuperFireball
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  craftTasks:
+    - Staffs
+
+- name: SuperWindStaff
+  code: SGBE8487
+  extends: Holdable
+  translationId: Super wind staff
+  textureSource: super-wind-staff
+  ProjectileType: ProjSuperWind
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 3
+  expGivenStatName: Magic
+  craftTasks:
+    - Staffs
+
+- name: VampireFang
+  code: VSVM7178
+  extends: Holdable
+  translationId: Vampire fang
+  textureSource: vampire-fang
+  ProjectileType: ProjVampireFang
+  category: Weapon
+  unitWeight: MetalDagger
+  baseDurability: 50
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+- name: WindStaff
+  code: TMOR5543
+  extends: Holdable
+  translationId: Wind staff
+  textureSource: wind-staff
+  ProjectileType: ProjWind
+  category: Weapon
+  unitWeight: Staff
+  baseDurability: 30
+  useEnergyCost: 2
+  expGivenStatName: Magic
+  craftTasks:
+    - Staffs
+
+- name: WoodenClub
+  code: KGFQ9975
+  extends: Holdable
+  translationId: Wooden club
+  textureSource: wooden-club
+  soundType: Metal weapon
+  ProjectileType: ProjWoodenClub
+  category: Weapon
+  unitWeight: WoodenWeapon
+  baseDurability: 30
+  useEnergyCost: 1
+  expGivenStatName: Melee
+
+# Holdable - Weapons - Launchers
+
+# - name: PineBow
+#   code: JQHL5966
+#   extends: Launcher
+#   translationId: Pine bow
+#   textureSource: pine-bow
+#   category: Weapon
+#   unitWeight: Bow
+#   soundType: Bow
+#   baseDurability: 140
+#   useEnergyCost: 1
+#   expGivenStatName: Ranged
+#   craftTasks:
+#     - Bows
+
+# - name: WillowBow
+#   code: PDZE8350
+#   extends: Launcher
+#   translationId: Willow bow
+#   textureSource: willow-bow
+#   category: Weapon
+#   unitWeight: Bow
+#   soundType: Bow
+#   baseDurability: 160
+#   useEnergyCost: 1
+#   expGivenStatName: Ranged
+#   craftTasks:
+#     - Bows
+
+# - name: OakBow
+#   code: MIIE6860
+#   extends: Launcher
+#   translationId: Oak bow
+#   textureSource: oak-bow
+#   category: Weapon
+#   unitWeight: Bow
+#   soundType: Bow
+#   baseDurability: 200
+#   useEnergyCost: 1
+#   expGivenStatName: Ranged
+#   craftTasks:
+#     - Bows
+
+# - name: IllOmen
+#   code: VOVA1616
+#   extends: Holdable
+#   translationId: Ill Omen
+#   textureSource: ill-omen
+#   category: Weapon
+#   ProjectileType: ProjIllOmen
+#   unitWeight: Bow
+#   soundType: Bow
+#   baseDurability: 1000
+#   useEnergyCost: 3
+#   expGivenStatName: Ranged
+#   craftTasks:
+#     - Bows
+
+# Spell scrolls
+
+# - name: CleanseSpellScroll
+#   code: KVHL3512
+#   translationId: Scroll of cleansing
+#   textureSource: cleanse-spell-scroll
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: ConsumeSpellScroll
+#   code: VMFW6679
+#   translationId: Scroll of consume
+#   textureSource: consume-spell-scroll
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: DeathbindSpellScroll
+#   code: VNHK6849
+#   extends: Holdable
+#   translationId: Scroll of deathbind
+#   textureSource: deathbind-spell-scroll
+#   ProjectileType: ProjDeathbind
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: EnthrallSpellScroll
+#   code: FYRX1359
+#   translationId: Scroll of enthrall
+#   textureSource: enthrall-spell-scroll
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: HealAreaSpellScroll
+#   code: KXAD5315
+#   translationId: Scroll of heal area
+#   textureSource: heal-area-spell-scroll
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: PacifySpellScroll
+#   code: TFCL0641
+#   extends: Holdable
+#   translationId: Scroll of pacify
+#   textureSource: pacify-spell-scroll
+#   ProjectileType: ProjPacify
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: ReanimateSpellScroll
+#   code: KMGJ5860
+#   translationId: Scroll of reanimate
+#   textureSource: reanimate-spell-scroll
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: WardSpellScroll
+#   code: ZZAB3297
+#   translationId: Scroll of warding
+#   textureSource: ward-spell-scroll
+#   useEnergyCost: 5
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+
+# - name: TailwindSpellScroll
+#   code: UIVL3131
+#   translationId: Scroll of tailwind
+#   textureSource: tailwind-spell-scroll
+#   useEnergyCost: 6
+#   soundType: Scroll
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 1
+
+# Loot boxes
+
+# - name: MediumLootBox
+#   code: CKKM9873
+#   extends: loot_boxes/LootBox
+#   translationId: Medium loot box
+#   textureSource: medium-loot-box
+
+# - name: SmallLootBox
+#   code: QNBV6059
+#   extends: loot_boxes/LootBox
+#   translationId: Small loot box
+#   textureSource: small-loot-box
+
+# - name: TinyLootBox
+#   code: EZCI1839
+#   extends: loot_boxes/LootBox
+#   translationId: Tiny loot box
+#   textureSource: tiny-loot-box
+
+# Everything else
+
+- name: AgoniteBar
+  code: SNHM1247
+  translationId: Agonite bar
+  textureSource: agonite-bar
+  unitWeight: Ore
+
+- name: AgoniteOre
+  code: EMTX2561
+  translationId: Agonite ore
+  textureSource: agonite-ore
+  unitWeight: Ore
+
+- name: AntiFreezePotion
+  code: KSTX5766
+  translationId: Anti-freeze potion
+  textureSource: anti-freeze-potion
+  soundType: Drink
+  unitWeight: Potion
+  craftingExpValue: 60
+  craftTasks:
+    - Potions
+
+- name: AngelHair
+  code: KZWG2153
+  translationId: Angel hair
+  textureSource: angel-hair
+  unitWeight: RelicGem
+
+- name: BloodGem
+  code: SFTP8910
+  translationId: Blood gem
+  textureSource: blood-gem
+  unitWeight: Gem
+  craftingExpValue: 40
+
+- name: Bluecap
+  code: NKJQ0632
+  translationId: Bluecap
+  textureSource: bluecap
+  unitWeight: PotionIngredient
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+
+- name: Bomb
+  code: MAHF2091
+  translationId: Bomb
+  textureSource: bomb
+  unitWeight: 35
+  useEnergyCost: 5
+
+- name: Bones
+  code: PTKR2708
+  translationId: Bones
+  textureSource: bones
+  unitWeight: GenericMaterial
+
+- name: Cotton
+  code: YSGN2105
+  translationId: Cotton
+  textureSource: cotton
+  unitWeight: GenericMaterial
+  craftingExpValue: 5
+
+- name: CurePotion
+  code: AZEM3259
+  translationId: Cure potion
+  textureSource: cure-potion
+  soundType: Drink
+  unitWeight: Potion
+  craftingExpValue: 40
+  craftTasks:
+    - Potions
+
+- name: DungiumBar
+  code: YWMQ4086
+  translationId: Dungium bar
+  textureSource: dungium-bar
+  unitWeight: Ore
+
+- name: DungiumOre
+  code: OGGT9699
+  translationId: Dungium ore
+  textureSource: dungium-ore
+  unitWeight: Ore
+
+- name: EnergyPotion
+  code: FPEV2793
+  translationId: "Energy potion"
+  textureSource: energy-potion
+  soundType: Drink
+  unitWeight: Potion
+  craftingExpValue: 20
+  craftTasks:
+    - Potions
+
+- name: EternalFlame
+  code: DHQI3663
+  translationId: Eternal flame
+  textureSource: eternal-flame
+  unitWeight: RelicGem
+  craftingExpValue: 100
+
+- name: ExpOrbArmoury
+  code: FPYN6527
+  translationId: "Exp orb: Armoury"
+  textureSource: exp-orb
+  expGivenStatName: Armoury
+  expGivenOnUse: 100
+
+- name: ExpOrbGathering
+  code: EIAQ2426
+  translationId: "Exp orb: Gathering"
+  textureSource: exp-orb
+  expGivenStatName: Gathering
+  expGivenOnUse: 100
+
+- name: ExpOrbMagic
+  code: DFER2419
+  translationId: "Exp orb: Magic"
+  textureSource: exp-orb
+  expGivenStatName: Magic
+  expGivenOnUse: 100
+
+- name: ExpOrbMelee
+  code: LUUG3398
+  translationId: "Exp orb: Melee"
+  textureSource: exp-orb
+  expGivenStatName: Melee
+  expGivenOnUse: 100
+
+- name: ExpOrbPotionry
+  code: FNAC5053
+  translationId: "Exp orb: Potionry"
+  textureSource: exp-orb
+  expGivenStatName: Potionry
+  expGivenOnUse: 100
+
+- name: ExpOrbRanged
+  code: RIZU4123
+  translationId: "Exp orb: Ranged"
+  textureSource: exp-orb
+  expGivenStatName: Ranged
+  expGivenOnUse: 100
+
+- name: ExpOrbToolery
+  code: AOFN9156
+  translationId: "Exp orb: Toolery"
+  textureSource: exp-orb
+  expGivenStatName: Toolery
+  expGivenOnUse: 100
+
+- name: ExpOrbWeaponry
+  code: FIZA1207
+  translationId: "Exp orb: Weaponry"
+  textureSource: exp-orb
+  expGivenStatName: Weaponry
+  expGivenOnUse: 100
+
+- name: EyeOfTheStorm
+  code: NULZ2450
+  translationId: Eye of the storm
+  textureSource: eye-of-the-storm
+  unitWeight: RelicGem
+  craftingExpValue: 100
+
+- name: Fabric
+  code: TMCC2407
+  translationId: Fabric
+  textureSource: fabric
+  pickupSpriteScaleModifier: 0.8
+  unitWeight: GenericMaterial
+
+- name: Feathers
+  code: GSYP8310
+  translationId: Feathers
+  textureSource: feathers
+  pickupSpriteScaleModifier: 0.8
+  unitWeight: 1
+
+- name: FighterKey
+  code: AMGH8457
+  translationId: Fighter key
+  textureSource: fighter-key
+  baseDurability: 1
+  category: FighterKey
+
+- name: FireGem
+  code: XHSO3018
+  translationId: Fire gem
+  textureSource: fire-gem
+  unitWeight: Gem
+  craftingExpValue: 40
+
+- name: Frostcap
+  code: FHHB6658
+  translationId: Frostcap
+  textureSource: frostcap
+  unitWeight: PotionIngredient
+  craftingExpValue: 30
+  expGivenStatName: Potionry
+  expGivenOnUse: 10
+
+- name: Gem
+  code: CJVO1172
+  translationId: Gem
+  textureSource: gem
+  unitWeight: Gem
+  craftingExpValue: 40
+
+- name: GloryOrb
+  code: VRAS0927
+  translationId: Glory orb
+  textureSource: glory-orb
+
+- name: Greencap
+  code: DTCV1640
+  translationId: Greencap
+  textureSource: greencap
+  unitWeight: PotionIngredient
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+
+- name: HealthPotion
+  code: SMAG7657
+  translationId: Health potion
+  textureSource: health-potion
+  soundType: Drink
+  unitWeight: Potion
+  craftingExpValue: 20
+  craftTasks:
+    - Potions
+
+- name: HeartOfTheMountain
+  code: MKIP5608
+  translationId: Heart of the mountain
+  textureSource: heart-of-the-mountain
+  unitWeight: RelicGem
+  
+- name: IceShard
+  code: XRHI1546
+  translationId: Ice shard
+  textureSource: ice-shard
+  unitWeight: GenericMaterial
+
+- name: IronBar
+  code: NUKK7066
+  translationId: Iron bar
+  textureSource: iron-bar
+  unitWeight: Ore
+
+- name: IronOre
+  code: QXIX4238
+  translationId: Iron ore
+  textureSource: iron-ore
+  unitWeight: Ore
+
+- name: NoctisBar
+  code: XWSA3111
+  translationId: Noctis bar
+  textureSource: noctis-bar
+  unitWeight: Ore
+
+- name: NoctisOre
+  code: LVQF9484
+  translationId: Noctis ore
+  textureSource: noctis-ore
+  unitWeight: Ore
+
+- name: OakLogs
+  code: KPNK4602
+  translationId: Oak logs
+  textureSource: oak-logs
+  unitWeight: Logs
+
+- name: PitKey
+  code: NRQI3219
+  translationId: Pit key
+  textureSource: pit-key
+  baseDurability: 1
+  category: PitKey
+
+- name: PineLogs
+  code: EIYO7730
+  translationId: Pine logs
+  textureSource: pine-logs
+  unitWeight: Logs
+
+- name: PrimeMatter
+  code: PPOQ8228
+  translationId: Prime matter
+  textureSource: prime-matter
+  unitWeight: 14
+
+- name: Redcap
+  code: BYKI5361
+  translationId: Redcap
+  textureSource: redcap
+  unitWeight: PotionIngredient
+  craftingExpValue: 10
+  expGivenStatName: Potionry
+  expGivenOnUse: 5
+
+- name: SacredBranch
+  code: AYTE6455
+  translationId: Sacred branch
+  textureSource: sacred-branch
+  craftingExpValue: 100
+  unitWeight: 8
+
+- name: String
+  code: ETGI7171
+  translationId: String
+  textureSource: string
+  unitWeight: 1
+
+- name: Trap
+  code: HUIT7971
+  translationId: Trap
+  textureSource: trap
+  unitWeight: 35
+  useEnergyCost: 10
+
+- name: WindGem
+  code: ODWX2496
+  translationId: Wind gem
+  textureSource: wind-gem
+  unitWeight: Gem
+  craftingExpValue: 40
+
+- name: WillowLogs
+  code: GIJD9170
+  translationId: Willow logs
+  textureSource: willow-logs
+  unitWeight: Logs
+
+- name: Soil
+  code: INCR6763
+  translationId: Soil
+  textureSource: soil
+  unitWeight: GenericMaterial
+
+- name: Water
+  code: VPGV3302
+  translationId: Water
+  textureSource: water
+  unitWeight: GenericMaterial

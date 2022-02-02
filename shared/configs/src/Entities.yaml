@@ -1,0 +1,7 @@
+
+- name: Wall
+  movable: false
+  destroyable: false
+
+- name: Trap
+  movable: false

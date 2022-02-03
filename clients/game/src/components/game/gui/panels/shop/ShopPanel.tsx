@@ -74,7 +74,7 @@ function BuyOptions({
             </div>
             <div className="buttons">
                 <div className="price">
-                    <img src={gloryIcon} draggable={false} />
+                    <img src={gloryIcon.src} draggable={false} />
                     <span className={`high-contrast-text ${canAfford(price) ? '' : 'cannot-afford'}`}>{price}</span>
                 </div>
                 {!canAfford(price) && <div className="button cannot-afford">{getTextDef('Not enough glory')}</div>}
@@ -143,7 +143,7 @@ function ItemSlot({
                     </div>
                 </div>
                 <div className="price">
-                    <img src={gloryIcon} draggable={false} />
+                    <img src={gloryIcon.src} draggable={false} />
                     <div className={`high-contrast-text ${canAfford(price) ? '' : 'cannot-afford'}`}>
                         <AnimatedNumber
                             value={price}
@@ -231,7 +231,7 @@ function ShopPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 width="50vw"
                 height="80vh"
                 panelName={GUIState.shop?.name}
-                icon={shopIcon}
+                icon={shopIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className="inner-cont">
@@ -246,7 +246,7 @@ function ShopPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                             }}
                         >
                             <img
-                                src={weightIcon}
+                                src={weightIcon.src}
                                 width="32px"
                                 height="32px"
                             />

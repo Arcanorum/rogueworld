@@ -20,7 +20,7 @@ function MinusButton({
 }) {
     return (
         <img
-            src={minusIcon}
+            src={minusIcon.src}
             className={`button ${state === 0 ? 'disabled' : ''}`}
             draggable={false}
             onClick={() => {
@@ -39,7 +39,7 @@ function PlusButton({
 }) {
     return (
         <img
-            src={plusIcon}
+            src={plusIcon.src}
             className={`button ${state === 200 ? 'disabled' : ''}`}
             draggable={false}
             onClick={() => {
@@ -176,7 +176,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 width="50vw"
                 height="80vh"
                 panelName={getTextDef('Settings')}
-                icon={settingsIcon}
+                icon={settingsIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className="inner-cont">
@@ -185,7 +185,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                             <span className="high-contrast-text description">{getTextDef('Setting: Fullscreen')}</span>
                             <div className="action">
                                 <img
-                                    src={fullscreen ? toggleActiveIcon : toggleInactiveIcon}
+                                    src={fullscreen ? toggleActiveIcon.src : toggleInactiveIcon.src}
                                     className="button"
                                     draggable={false}
                                     onClick={onFullscreenTogglePressed}
@@ -220,7 +220,9 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                             <span className="high-contrast-text description">{getTextDef('Setting: Add to hotbar')}</span>
                             <div className="action">
                                 <img
-                                    src={autoAddToHotbar ? toggleActiveIcon : toggleInactiveIcon}
+                                    src={autoAddToHotbar
+                                        ? toggleActiveIcon.src
+                                        : toggleInactiveIcon.src}
                                     className="button"
                                     draggable={false}
                                     onClick={onAutoAddToHotbarTogglePressed}
@@ -233,8 +235,8 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                                 <img
                                     src={
                                         profanityFilterEnabled
-                                            ? toggleActiveIcon
-                                            : toggleInactiveIcon
+                                            ? toggleActiveIcon.src
+                                            : toggleInactiveIcon.src
                                     }
                                     className="button"
                                     draggable={false}
@@ -248,8 +250,8 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                                 <img
                                     src={
                                         lightFlickerEnabled ?
-                                            toggleActiveIcon :
-                                            toggleInactiveIcon
+                                            toggleActiveIcon.src :
+                                            toggleInactiveIcon.src
                                     }
                                     className="button"
                                     draggable={false}
@@ -261,7 +263,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                             <span className="high-contrast-text description">{getTextDef('Setting: Show FPS')}</span>
                             <div className="action">
                                 <img
-                                    src={showFPS ? toggleActiveIcon : toggleInactiveIcon}
+                                    src={showFPS ? toggleActiveIcon.src : toggleInactiveIcon.src}
                                     className="button"
                                     draggable={false}
                                     onClick={onShowFPSTogglePressed}

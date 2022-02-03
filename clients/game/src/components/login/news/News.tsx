@@ -11,7 +11,7 @@ function News() {
                 <br />
                 Craftable relics
             </p>
-            <img className="news-image" draggable="false" src={image} />
+            <img className="news-image" draggable="false" src={image.src} />
         </div>
     );
 }

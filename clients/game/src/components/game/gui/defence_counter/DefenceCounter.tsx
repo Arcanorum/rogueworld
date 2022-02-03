@@ -30,7 +30,7 @@ function DefenceCounter() {
     return (
         <div className="defence-counter">
             <PanelButton
-                icon={defenceIcon}
+                icon={defenceIcon.src}
                 tooltipText={getTextDef('Defence tooltip')}
             />
             <AnimatedNumber

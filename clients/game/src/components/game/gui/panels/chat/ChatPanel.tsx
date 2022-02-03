@@ -211,7 +211,7 @@ function ChatPanel() {
                     readOnly={placeHolder !== defaultPlaceHolder}
                 />
                 <button type="button" className="send-btn" onClick={handleSendBtnClick}>
-                    <img className="send-btn-icon" src={enterChatIcon} alt="send" />
+                    <img className="send-btn-icon" src={enterChatIcon.src} alt="send" />
                 </button>
             </div>
             { showSelectScopeDropdown && (

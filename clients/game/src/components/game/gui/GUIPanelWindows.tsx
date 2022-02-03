@@ -7,10 +7,7 @@ import RespawnPanel from './panels/respawn/RespawnPanel';
 // import StatsPanel from './panels/stats/StatsPanel';
 // import TasksPanel from './panels/tasks/TasksPanel';
 import dynamic, { DynamicOptions } from 'next/dynamic';
-const MapPanel = dynamic(
-    ((() => import('./panels/map/MapPanel')) as DynamicOptions),
-    { ssr: false },
-);
+import MapPanel from './panels/map/MapPanel';
 // import LeaveDungeonPanel from './panels/leave_dungeon/LeaveDungeonPanel';
 import InventoryPanel from './panels/inventory/InventoryPanel';
 import CraftingPanel from './panels/crafting/CraftingPanel';

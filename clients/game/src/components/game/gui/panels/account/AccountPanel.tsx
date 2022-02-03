@@ -67,7 +67,7 @@ function AccountPanel({
                 width="440px"
                 height="420px"
                 panelName={getTextDef('Account panel: name')}
-                icon={exitIcon}
+                icon={exitIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className={`account-inner-cont ${passwordChanged ? 'password-changed' : ''}`}>
@@ -111,7 +111,7 @@ function AccountPanel({
                                 }}
                             >
                                 <img
-                                    src={borderImage}
+                                    src={borderImage.src}
                                     className="account-accept-button"
                                     draggable={false}
                                 />

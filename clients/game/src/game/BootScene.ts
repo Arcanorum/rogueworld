@@ -32,17 +32,17 @@ class BootScene extends Phaser.Scene {
         });
 
         // Graphics.
-        this.load.image('highlight', highlightImage);
-        this.load.image('action-progress-bar', actionProgressBarImage);
-        this.load.image('action-progress-border', actionProgressBorderImage);
-        this.load.atlas('game-atlas', gameAtlasImage, gameAtlasData);
-        this.load.spritesheet('ground-tileset', groundTileset, {
+        this.load.image('highlight', highlightImage.src);
+        this.load.image('action-progress-bar', actionProgressBarImage.src);
+        this.load.image('action-progress-border', actionProgressBorderImage.src);
+        this.load.atlas('game-atlas', gameAtlasImage.src, gameAtlasData);
+        this.load.spritesheet('ground-tileset', groundTileset.src, {
             frameWidth: 16 * Config.GAME_SCALE,
             frameHeight: 16 * Config.GAME_SCALE,
             margin: 1 * Config.GAME_SCALE,
             spacing: 2 * Config.GAME_SCALE,
         });
-        this.load.spritesheet('statics-tileset', staticsTileset, {
+        this.load.spritesheet('statics-tileset', staticsTileset.src, {
             frameWidth: 16,
             frameHeight: 16,
             margin: 1,

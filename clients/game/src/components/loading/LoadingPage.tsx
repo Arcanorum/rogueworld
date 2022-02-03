@@ -106,7 +106,7 @@ function LoadingPage() {
 
             {!loading && (
                 <div className="loading-play-button-cont" onClick={playPressed}>
-                    <img className="loading-play-button-border" src={playButtonBorder} draggable={false} />
+                    <img className="loading-play-button-border" src={playButtonBorder.src} draggable={false} />
                     <div className="loading-play-text">{getTextDef('Play')}</div>
                 </div>
             )}

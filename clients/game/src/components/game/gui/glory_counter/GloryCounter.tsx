@@ -50,7 +50,7 @@ function GloryCounter() {
     return (
         <div className="glory-counter">
             <PanelButton
-                icon={gloryIcon}
+                icon={gloryIcon.src}
                 tooltipText={getTextDef('Glory tooltip')}
             />
             <AnimatedNumber

@@ -169,7 +169,7 @@ function Meters() {
             <div className="combat-indicator-icon">
                 <img
                     className="gui-icon"
-                    src={((combatTimer > 0) && combatIcon) || outOfcombatIcon.src}
+                    src={((combatTimer > 0) && combatIcon.src) || outOfcombatIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
                         GUIState.setTooltipContent(

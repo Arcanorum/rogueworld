@@ -156,14 +156,14 @@ function GUI() {
                 ))} */}
 
                 <PanelButton
-                    icon={mapIcon}
+                    icon={mapIcon.src}
                     onClick={() => togglePanel(Panels.Map)}
                     tooltipText={`${getTextDef('Map tooltip')} ( M )`}
                 />
 
                 <PanelButton
                     icon={showNewNotification && !showChatBox && quickChatEnabled
-                        ? chatUnreadedMessageIcon : chatIcon}
+                        ? chatUnreadedMessageIcon.src : chatIcon.src}
                     onClick={() => {
                         setShowNewNotification(false);
                         GUIState.setQuickChatEnabled(!GUIState.quickChatEnabled);
@@ -175,7 +175,7 @@ function GUI() {
 
             <div className="top-right-corner-cont gui-scalable">
                 <PanelButton
-                    icon={exitIcon}
+                    icon={exitIcon.src}
                     onClick={() => {
                         if (loggedIn) togglePanel(Panels.Account);
                         else togglePanel(Panels.CreateAccount);
@@ -184,19 +184,19 @@ function GUI() {
                 />
 
                 <PanelButton
-                    icon={settingsIcon}
+                    icon={settingsIcon.src}
                     onClick={() => togglePanel(Panels.Settings)}
                     tooltipText={getTextDef('Settings tooltip')}
                 />
 
                 <PanelButton
-                    icon={discordIcon}
+                    icon={discordIcon.src}
                     onClick={() => window.open(discordInviteLink, '_blank')}
                     tooltipText={getTextDef('Discord tooltip')}
                 />
 
                 <PanelButton
-                    icon={wikiIcon}
+                    icon={wikiIcon.src}
                     onClick={() => window.open(wikiLink, '_blank')}
                     tooltipText={getTextDef('Wikia tooltip')}
                 />

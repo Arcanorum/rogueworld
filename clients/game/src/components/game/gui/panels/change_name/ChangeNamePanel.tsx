@@ -81,7 +81,7 @@ function ChangeNamePanel({
                 width="50vw"
                 height="50vh"
                 panelName={getTextDef('Change name panel: name')}
-                icon={registerIcon}
+                icon={registerIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className={`inner-cont ${nameChanged ? 'name-changed' : ''}`}>
@@ -116,7 +116,7 @@ function ChangeNamePanel({
                             </div>
 
                             <div className="cost">
-                                <img src={gloryIcon} draggable={false} />
+                                <img src={gloryIcon.src} draggable={false} />
                                 <div className={`high-contrast-text ${PlayerState.glory < ApplicationState.displayNameChangeCost ? 'warning' : ''}`}>{ApplicationState.displayNameChangeCost}</div>
                             </div>
 
@@ -129,7 +129,7 @@ function ChangeNamePanel({
                                     }}
                                 >
                                     <img
-                                        src={borderImage}
+                                        src={borderImage.src}
                                         className="accept-button"
                                         draggable={false}
                                     />

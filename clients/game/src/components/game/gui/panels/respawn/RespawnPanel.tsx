@@ -18,7 +18,7 @@ function RespawnPanel() {
                 width="440px"
                 height="220px"
                 panelName={getTextDef('Respawn panel: name')}
-                icon={respawnIcon}
+                icon={respawnIcon.src}
             >
                 <div className="inner-cont">
                     <div className="main-cont">
@@ -35,7 +35,7 @@ function RespawnPanel() {
                             }}
                         >
                             <img
-                                src={borderImage}
+                                src={borderImage.src}
                                 className="button centered"
                                 draggable={false}
                             />

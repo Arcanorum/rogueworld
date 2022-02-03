@@ -319,7 +319,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 width="50vw"
                 height="80vh"
                 panelName={getTextDef('Inventory panel: name')}
-                icon={inventoryIcon}
+                icon={inventoryIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className="inner-cont">
@@ -334,7 +334,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                             }}
                         >
                             <img
-                                src={weightIcon}
+                                src={weightIcon.src}
                                 width="32px"
                                 height="32px"
                             />

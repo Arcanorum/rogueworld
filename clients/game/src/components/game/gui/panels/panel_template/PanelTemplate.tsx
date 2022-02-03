@@ -27,7 +27,7 @@ function PanelTemplate({
             draggable={false}
         >
             <img
-                src={iconBorderImage}
+                src={iconBorderImage.src}
                 className="centered panel-template-icon-border"
                 draggable={false}
             />
@@ -48,7 +48,7 @@ function PanelTemplate({
 
             {onCloseCallback && (
                 <img
-                    src={closeButtonImage}
+                    src={closeButtonImage.src}
                     className="centered panel-template-close-button"
                     draggable={false}
                     onClick={onCloseCallback}
@@ -59,20 +59,20 @@ function PanelTemplate({
             )}
             {!onCloseCallback && (
                 <img
-                    src={cornerImage}
+                    src={cornerImage.src}
                     className="centered panel-template-top-corner"
                     draggable={false}
                 />
             )}
 
             <img
-                src={iconBorderImage}
+                src={iconBorderImage.src}
                 className="centered panel-template-left-corner"
                 draggable={false}
             />
 
             <img
-                src={iconBorderImage}
+                src={iconBorderImage.src}
                 className="centered panel-template-right-corner"
                 draggable={false}
             />

@@ -58,7 +58,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                 width="440px"
                 height="420px"
                 panelName={getTextDef('Create account panel: name')}
-                icon={exitIcon}
+                icon={exitIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className="create-account-inner-cont">
@@ -98,7 +98,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                         }}
                     >
                         <img
-                            src={borderImage}
+                            src={borderImage.src}
                             className="create-account-button"
                         />
                         <div className="create-account-button-text">

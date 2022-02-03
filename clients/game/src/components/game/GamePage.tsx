@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
-import dynamic, { DynamicOptions } from 'next/dynamic';
-const createGame = dynamic(
-    ((() => import('../../game/PhaserConfig')) as DynamicOptions),
-    { ssr: false },
-);
+import createGame from '../../game/PhaserConfig';
 import GUI from './gui/GUI';
 import { ApplicationState } from '../../shared/state';
 import { LOAD_ACCEPTED, BEFORE_PAGE_UNLOAD } from '../../shared/EventTypes';

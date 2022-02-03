@@ -14,13 +14,13 @@ import { ApplicationState, PlayerState } from '../../../../../shared/state';
 const markerScale = 4;
 
 const playerMarker = Leaflet.icon({
-    iconUrl: playerIcon,
+    iconUrl: playerIcon.src,
     iconSize: [ 12 * markerScale, 14 * markerScale ],
     iconAnchor: [ 24, 48 ],
 });
 
 const locationMarker = Leaflet.icon({
-    iconUrl: destinationIcon,
+    iconUrl: destinationIcon.src,
     iconSize: [ 12 * markerScale, 14 * markerScale ],
     iconAnchor: [ 24, 48 ],
 });
@@ -76,7 +76,7 @@ function MapPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 width="80vw"
                 height="80vh"
                 panelName="World map"
-                icon={mapIcon}
+                icon={mapIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <MapContainer

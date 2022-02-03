@@ -106,9 +106,9 @@ function HotbarSlot({
             }}
             onClick={slotPressed}
         >
-            {isHolding && <img src={holdingIcon} className="equipped-icon" />}
-            {isAmmunition && <img src={ammunitionIcon} className="equipped-icon" />}
-            {isClothing && <img src={clothingIcon} className="equipped-icon" />}
+            {isHolding && <img src={holdingIcon.src} className="equipped-icon" />}
+            {isAmmunition && <img src={ammunitionIcon.src} className="equipped-icon" />}
+            {isClothing && <img src={clothingIcon.src} className="equipped-icon" />}
             <img
                 src={ItemIconsList[Config.ItemTypes[itemState.typeCode].iconSource]}
                 draggable={false}

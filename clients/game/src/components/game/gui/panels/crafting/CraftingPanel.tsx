@@ -252,7 +252,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                 }}
                             >
                                 <img
-                                    src={weightIcon}
+                                    src={weightIcon.src}
                                     width="32px"
                                     height="32px"
                                     draggable={false}
@@ -327,7 +327,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                         || selectedRecipe.result.baseDurability}
                                     </div>
                                     <img
-                                        src={infoIcon}
+                                        src={infoIcon.src}
                                         className="info"
                                         draggable={false}
                                         onClick={() => { setShowItemDetails(true); }}
@@ -362,8 +362,8 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                             <img
                                 src={
                                     (selectedRecipe && playerHasIngredients)
-                                        ? craftButtonBorderValid
-                                        : craftButtonBorderInvalid
+                                        ? craftButtonBorderValid.src
+                                        : craftButtonBorderInvalid.src
                                 }
                                 draggable={false}
                             />

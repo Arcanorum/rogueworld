@@ -10,7 +10,7 @@ import {
     PANEL_CHANGE,
 } from '../../../../shared/EventTypes';
 import { GUIState, InventoryState } from '../../../../shared/state';
-import './Hotbar.scss';
+import styles from './Hotbar.module.scss';
 import UseItem from '../../../../shared/UseItem';
 import Panels from '../panels/Panels';
 import holdingIcon from '../../../../assets/images/gui/hud/hotbar/holding-icon.png';

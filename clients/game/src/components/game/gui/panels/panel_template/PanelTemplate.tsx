@@ -1,5 +1,5 @@
 import { MouseEventHandler, ReactElement } from 'react';
-import './PanelTemplate.scss';
+import styles from './PanelTemplate.module.scss';
 import closeButtonImage from '../../../../../assets/images/gui/panels/panel-close-button.png';
 import cornerImage from '../../../../../assets/images/gui/panels/panel-corner.png';
 import iconBorderImage from '../../../../../assets/images/gui/panels/panel-icon-border.png';

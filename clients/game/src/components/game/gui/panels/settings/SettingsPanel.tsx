@@ -5,7 +5,7 @@ import toggleActiveIcon from '../../../../../assets/images/gui/panels/settings/t
 import toggleInactiveIcon from '../../../../../assets/images/gui/panels/settings/toggle-inactive.png';
 import plusIcon from '../../../../../assets/images/gui/hud/plus-icon.png';
 import minusIcon from '../../../../../assets/images/gui/hud/minus-icon.png';
-import './SettingsPanel.scss';
+import styles from './SettingsPanel.module.scss';
 import Global from '../../../../../shared/Global';
 import { GUIState, InventoryState } from '../../../../../shared/state';
 import { getStyle, warning } from '../../../../../../../../shared/utils/src';

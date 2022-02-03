@@ -4,7 +4,7 @@ import AnimatedNumber from 'animated-number-react';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import inventoryIcon from '../../../../../assets/images/gui/hud/inventory-icon.png';
 import weightIcon from '../../../../../assets/images/gui/hud/weight-icon.png';
-import './InventoryPanel.scss';
+import styles from './InventoryPanel.module.scss';
 import { InventoryState, GUIState, ApplicationState } from '../../../../../shared/state';
 import {
     ADD_INVENTORY_ITEM,

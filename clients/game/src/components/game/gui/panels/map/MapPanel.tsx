@@ -8,7 +8,7 @@ import mapIcon from '../../../../../assets/images/gui/hud/map-icon.png';
 import playerIcon from '../../../../../assets/images/gui/panels/map/player-marker.png';
 import destinationIcon from '../../../../../assets/images/gui/panels/map/destination-marker.png';
 import 'leaflet/dist/leaflet.css';
-import './MapPanel.scss';
+import './MapPanel.module.scss';
 import { ApplicationState, PlayerState } from '../../../../../shared/state';
 
 const markerScale = 4;

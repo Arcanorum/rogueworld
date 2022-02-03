@@ -4,7 +4,7 @@ import PubSub from 'pubsub-js';
 import defenceIcon from '../../../../assets/images/gui/hud/defence-icon.png';
 import { DEFENCE_VALUE } from '../../../../shared/EventTypes';
 import PanelButton from '../panel_button/PanelButton';
-import './DefenceCounter.scss';
+import styles from './DefenceCounter.module.scss';
 import getTextDef from '../../../../shared/GetTextDef';
 
 function DefenceCounter() {

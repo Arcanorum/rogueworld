@@ -3,7 +3,7 @@ import PubSub from 'pubsub-js';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import exitIcon from '../../../../../assets/images/gui/hud/exit-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
-import './CreateAccountPanel.scss';
+import styles from './CreateAccountPanel.module.scss';
 import { CREATE_ACCOUNT_FAILURE } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';

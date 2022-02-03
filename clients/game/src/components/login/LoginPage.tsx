@@ -8,7 +8,7 @@ import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.pn
 import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
 import notFandomLogo from '../../assets/images/misc/branding/notfandom-logo.png';
 import notRedditLogo from '../../assets/images/misc/branding/notreddit-logo.png';
-import './LoginPage.scss';
+import './LoginPage.module.scss';
 import {
     CONNECTED,
     CONNECTING,
@@ -41,6 +41,8 @@ const Languages = [
 ];
 
 function LoginPage() {
+    console.log('in login page');
+
     const [ showPartners, setShowPartners ] = useState(false);
     const [ loginExistingUser, setLoginExistingUser ] = useState(false);
     const [ newCharacterName, setNewCharacterName ] = useState('');
@@ -200,7 +202,7 @@ function LoginPage() {
 
     return (
         <div className="press-start-font">
-            <img className="background-img" src={background} />
+            <img className="background-img" src={background.src} />
             <div className="background-shadow" />
 
             <div className="center-text-cont">
@@ -246,7 +248,7 @@ function LoginPage() {
 
                 <div id="center-bar">
                     <div id="title-cont">
-                        <img id="title-img" src={dungeonzLogo} />
+                        <img id="title-img" src={dungeonzLogo.src} />
                         <div id="new-character-continue-cont">
                             <div
                                 id="new-character"
@@ -324,7 +326,7 @@ function LoginPage() {
                         <div id="notdiscord-button" className="antisocial-button">
                             <img
                                 className="antisocial-icon"
-                                src={notDiscordLogo}
+                                src={notDiscordLogo.src}
                                 onClick={() => {
                                     window.open('https://discord.gg/7wjyU7B', '_blank');
                                 }}
@@ -333,7 +335,7 @@ function LoginPage() {
                         <div id="notreddit-button" className="antisocial-button">
                             <img
                                 className="antisocial-icon"
-                                src={notRedditLogo}
+                                src={notRedditLogo.src}
                                 onClick={() => {
                                     window.open('https://www.reddit.com/r/dungeonz/', '_blank');
                                 }}
@@ -342,7 +344,7 @@ function LoginPage() {
                         <div id="notwiki-button" className="antisocial-button">
                             <img
                                 className="antisocial-icon"
-                                src={notFandomLogo}
+                                src={notFandomLogo.src}
                                 onClick={() => {
                                     window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');
                                 }}
@@ -351,7 +353,7 @@ function LoginPage() {
                         <div id="notgithub-button" className="antisocial-button">
                             <img
                                 className="antisocial-icon"
-                                src={notGithubLogo}
+                                src={notGithubLogo.src}
                                 onClick={() => {
                                     window.open('https://github.com/Arcanorum/dungeonz', '_blank');
                                 }}

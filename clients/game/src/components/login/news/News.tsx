@@ -1,5 +1,5 @@
 import image from '../../../assets/images/misc/news/news-05-09-2021.png';
-import './News.scss';
+import styles from './News.module.scss';
 
 function News() {
     return (

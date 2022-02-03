@@ -2,13 +2,15 @@ import PubSub from 'pubsub-js';
 import { useEffect, useState } from 'react';
 import { JOINED, LOADING, LOAD_ACCEPTED } from '../shared/EventTypes';
 import { ApplicationState } from '../shared/state';
-import './App.module.scss';
+import styles from './App.module.scss';
 import GamePage from './game/GamePage';
 import Hints from './loading/Hints';
-import LoadingPage from './loading/LoadingPage';
+// import LoadingPage from './loading/LoadingPage';
 import LoginPage from './login/LoginPage';
 
 function App() {
+    console.log('in app component');
+
     const [ currentPage, setCurrentPage ] = useState('login');
     const [ loading, setLoading ] = useState(false);
 
@@ -50,9 +52,12 @@ function App() {
 
     return (
         <div className="App press-start-font normal-cursor">
+            <p>
+                {currentPage}
+            </p>
             {currentPage === 'login' && <LoginPage />}
-            {currentPage === 'game' && <GamePage />}
-            {loading && <LoadingPage />}
+            {/* {currentPage === 'game' && <GamePage />} */}
+            {/* {loading && <LoadingPage />} */}
         </div>
     );
 }

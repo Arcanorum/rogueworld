@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
 import playButtonBorder from '../../assets/images/misc/play-button-border.png';
-import './LoadingPage.scss';
+import './LoadingPage.module.scss';
 import { LOADING, LOAD_PROGRESS, LOAD_FILE_PROGRESS } from '../../shared/EventTypes';
 import { ApplicationState } from '../../shared/state';
 import Hints from './Hints';

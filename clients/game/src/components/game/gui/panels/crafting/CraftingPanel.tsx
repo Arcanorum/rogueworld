@@ -7,7 +7,7 @@ import infoIcon from '../../../../../assets/images/gui/panels/crafting/info-icon
 import craftButtonBorderValid from '../../../../../assets/images/gui/panels/crafting/craft-button-border-valid.png';
 import craftButtonBorderInvalid from '../../../../../assets/images/gui/panels/crafting/craft-button-border-invalid.png';
 import ItemIconsList from '../../../../../shared/ItemIconsList';
-import './CraftingPanel.scss';
+import styles from './CraftingPanel.module.scss';
 import { ApplicationState, GUIState, InventoryState } from '../../../../../shared/state';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import {

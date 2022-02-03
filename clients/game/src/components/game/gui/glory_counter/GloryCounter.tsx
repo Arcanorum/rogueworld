@@ -4,7 +4,7 @@ import PubSub from 'pubsub-js';
 import gloryIcon from '../../../../assets/images/gui/hud/glory-icon.png';
 import { GLORY_VALUE } from '../../../../shared/EventTypes';
 import PanelButton from '../panel_button/PanelButton';
-import './GloryCounter.scss';
+import styles from './GloryCounter.module.scss';
 import getTextDef from '../../../../shared/GetTextDef';
 import Config from '../../../../shared/Config';
 

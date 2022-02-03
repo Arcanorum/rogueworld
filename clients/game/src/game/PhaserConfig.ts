@@ -3,7 +3,7 @@ import BootScene from './BootScene';
 import GameScene from './GameScene';
 import Global from '../shared/Global';
 
-export default () => {
+const PhaserGame = () => {
     const config = {
         type: Phaser.WEBGL,
         parent: 'game-canvas',
@@ -31,3 +31,5 @@ export default () => {
 
     return game;
 };
+
+export default PhaserGame;

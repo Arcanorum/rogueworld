@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import './ChatPanel.scss';
+import styles from './ChatPanel.module.scss';
 import PubSub from 'pubsub-js';
 import {
     GUIState, PlayerState, ChatState,

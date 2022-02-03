@@ -1,7 +1,7 @@
 import PanelTemplate from '../panel_template/PanelTemplate';
 import respawnIcon from '../../../../../assets/images/gui/panels/respawn/respawn-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/respawn/respawn-button-border.png';
-import './RespawnPanel.scss';
+import styles from './RespawnPanel.module.scss';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
-import './Tooltip.scss';
+import styles from './Tooltip.module.scss';
 import { CURSOR_MOVE, TOOLTIP_CONTENT } from '../../../../shared/EventTypes';
 import { GUIState } from '../../../../shared/state';
 

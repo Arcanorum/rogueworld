@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
-import createGame from '../../game/PhaserConfig';
+import dynamic, { DynamicOptions } from 'next/dynamic';
+const createGame = dynamic(
+    ((() => import('../../game/PhaserConfig')) as DynamicOptions),
+    { ssr: false },
+);
 import GUI from './gui/GUI';
 import { ApplicationState } from '../../shared/state';
 import { LOAD_ACCEPTED, BEFORE_PAGE_UNLOAD } from '../../shared/EventTypes';
 import { removeGameEventResponses } from '../../network/websocket_events/WebSocketEvents';
-import './GamePage.scss';
+import styles from './GamePage.module.scss';
 import Config from '../../shared/Config';
 
 function GamePage() {
@@ -61,7 +65,7 @@ function GamePage() {
 
     return (
         <div>
-            <div id="game-cont" className={`${loadFinished ? 'fade-in' : ''}`}>
+            <div id="game-cont" className={`${loadFinished ? styles['fade-in'] : ''}`}>
                 <div id="game-canvas" onClick={loseAllInputFocus} />
                 <GUI />
             </div>

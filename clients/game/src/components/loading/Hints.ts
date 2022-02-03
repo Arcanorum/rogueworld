@@ -22,18 +22,18 @@ class Hint {
 }
 
 const Hints = [
-    new Hint(github, 'Open source'),
-    new Hint(bat, 'Night creatures'),
-    new Hint(cave, 'Resource rarity'),
-    new Hint(dungeonPortal, 'Dungeon portals'),
-    new Hint(banditLeader, 'Overworld bosses'),
-    new Hint(stats, 'Stat level inventory weight'),
-    new Hint(craftingHammer, 'Crafting stat bonus'),
-    new Hint(discord, 'Join discord'),
-    new Hint(dungeonDoor, 'Dungeon doors'),
-    new Hint(bluecaps, 'Bluecaps location'),
-    new Hint(redcaps, 'Redcaps location'),
-    new Hint(sharedGlory, 'Shared glory'),
+    new Hint(github.src, 'Open source'),
+    new Hint(bat.src, 'Night creatures'),
+    new Hint(cave.src, 'Resource rarity'),
+    new Hint(dungeonPortal.src, 'Dungeon portals'),
+    new Hint(banditLeader.src, 'Overworld bosses'),
+    new Hint(stats.src, 'Stat level inventory weight'),
+    new Hint(craftingHammer.src, 'Crafting stat bonus'),
+    new Hint(discord.src, 'Join discord'),
+    new Hint(dungeonDoor.src, 'Dungeon doors'),
+    new Hint(bluecaps.src, 'Bluecaps location'),
+    new Hint(redcaps.src, 'Redcaps location'),
+    new Hint(sharedGlory.src, 'Shared glory'),
 ];
 
 export default Hints;

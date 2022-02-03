@@ -4,7 +4,7 @@ import PanelTemplate from '../panel_template/PanelTemplate';
 import registerIcon from '../../../../../assets/images/gui/panels/change_name/register.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
 import gloryIcon from '../../../../../assets/images/gui/hud/glory-icon.png';
-import './ChangeNamePanel.scss';
+import styles from './ChangeNamePanel.module.scss';
 import { DISPLAY_NAME_VALUE } from '../../../../../shared/EventTypes';
 import { ApplicationState, PlayerState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';

@@ -14,7 +14,7 @@ import bankIcon from '../../../../../assets/images/gui/panels/bank/bank-chest.pn
 import depositIcon from '../../../../../assets/images/gui/panels/bank/deposit-all-icon.png';
 import buyIcon from '../../../../../assets/images/gui/panels/bank/buy-storage-icon.png';
 import gloryIcon from '../../../../../assets/images/gui/hud/glory-icon.png';
-import './BankPanel.scss';
+import './BankPanel.module.scss';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import {
     ADD_INVENTORY_ITEM,

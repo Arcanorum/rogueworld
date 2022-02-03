@@ -1,5 +1,5 @@
 import { GUIState } from '../../../../shared/state';
-import './PanelButton.scss';
+import styles from './PanelButton.module.scss';
 import Global from '../../../../shared/Global';
 import { ReactElement } from 'react';
 

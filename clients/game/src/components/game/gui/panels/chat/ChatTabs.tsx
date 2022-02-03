@@ -1,4 +1,4 @@
-import './ChatTabs.scss';
+import styles from './ChatTabs.module.scss';
 import { ChatState } from '../../../../../shared/state';
 import { ChatScope } from '../../../../../shared/state/Chat';
 import { getScopeColor } from './ChatPanel';

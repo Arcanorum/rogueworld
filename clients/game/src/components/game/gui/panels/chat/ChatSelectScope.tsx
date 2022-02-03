@@ -1,5 +1,5 @@
 import { ChatState } from '../../../../../shared/state';
-import './ChatSelectScope.scss';
+import styles from './ChatSelectScope.module.scss';
 import getTextDef from '../../../../../shared/GetTextDef';
 import { ChatScope } from '../../../../../shared/state/Chat';
 

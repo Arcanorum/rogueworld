@@ -6,6 +6,12 @@ module.exports = withTM({
         if (!isServer) {
             config.resolve.fallback.fs = false;
         }
+
+        config.module.rules.push({
+            test: /\.(mp3|ogg|opus)$/i,
+            type: 'asset/resource',
+        });
+
         return config;
     },
 });

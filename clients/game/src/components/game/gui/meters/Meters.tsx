@@ -7,7 +7,7 @@ import combatIcon from '../../../../assets/images/gui/hud/combat-icon.png';
 import outOfcombatIcon from '../../../../assets/images/gui/hud/out-of-combat-icon.png';
 import energyCounter from '../../../../assets/images/gui/hud/energy-counter.png';
 import emptyCounter from '../../../../assets/images/gui/hud/empty-counter.png';
-import './Meters.scss';
+import styles from './Meters.module.scss';
 import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, FOOD_VALUE, MAX_FOOD_VALUE,
     COMBAT_STATUS_TRIGGER,
@@ -41,7 +41,7 @@ function Counters({
             if (i < filledCount) {
                 return <img key={i} src={counterImage} draggable={false} className="meter-counter" />;
             }
-            return <img key={i} src={emptyCounter} draggable={false} className="meter-counter" />;
+            return <img key={i} src={emptyCounter.src} draggable={false} className="meter-counter" />;
         })
     }</>;
 }
@@ -115,7 +115,7 @@ function Meters() {
         <div className="meters gui-scalable">
             <div className="inventory-button">
                 <PanelButton
-                    icon={inventoryIcon}
+                    icon={inventoryIcon.src}
                     onClick={() => {
                         GUIState.setActivePanel(Panels.Inventory);
                     }}
@@ -125,7 +125,7 @@ function Meters() {
             <div className="meter">
                 <img
                     className="gui-icon"
-                    src={hitpointIcon}
+                    src={hitpointIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
                         GUIState.setTooltipContent(
@@ -140,14 +140,14 @@ function Meters() {
                     <Counters
                         stat={hitPoints}
                         maxStat={maxHitPoints}
-                        counterImage={hitpointCounter}
+                        counterImage={hitpointCounter.src}
                     />
                 </div>
             </div>
             <div className="meter">
                 <img
                     className="gui-icon"
-                    src={energyIcon}
+                    src={energyIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
                         GUIState.setTooltipContent(
@@ -162,14 +162,14 @@ function Meters() {
                     <Counters
                         stat={energy}
                         maxStat={maxEnergy}
-                        counterImage={energyCounter}
+                        counterImage={energyCounter.src}
                     />
                 </div>
             </div>
             <div className="combat-indicator-icon">
                 <img
                     className="gui-icon"
-                    src={((combatTimer > 0) && combatIcon) || outOfcombatIcon}
+                    src={((combatTimer > 0) && combatIcon) || outOfcombatIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
                         GUIState.setTooltipContent(

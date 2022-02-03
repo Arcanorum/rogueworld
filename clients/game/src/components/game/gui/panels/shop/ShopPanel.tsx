@@ -5,7 +5,7 @@ import PanelTemplate from '../panel_template/PanelTemplate';
 import shopIcon from '../../../../../assets/images/gui/panels/shop/shop-icon.png';
 import weightIcon from '../../../../../assets/images/gui/hud/weight-icon.png';
 import gloryIcon from '../../../../../assets/images/gui/hud/glory-icon.png';
-import './ShopPanel.scss';
+import styles from './ShopPanel.module.scss';
 import {
     InventoryState, GUIState, ApplicationState, PlayerState,
 } from '../../../../../shared/state';

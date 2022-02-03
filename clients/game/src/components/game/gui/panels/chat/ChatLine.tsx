@@ -1,4 +1,4 @@
-import './ChatLine.scss';
+import styles from './ChatLine.module.scss';
 import { getScopeColor } from './ChatPanel';
 import { ChatScope } from '../../../../../shared/state/Chat';
 

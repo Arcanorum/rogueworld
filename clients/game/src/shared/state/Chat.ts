@@ -2,7 +2,8 @@ import PubSub from 'pubsub-js';
 import { v4 as uuidv4 } from 'uuid';
 import Global from '../Global';
 import { NEW_CHAT } from '../EventTypes';
-import { censorString } from '../../../../../shared/utils';
+import { censorString } from '@dungeonz/utils';
+import BadWords from '@dungeonz/utils/src/BadWords.yaml';
 
 export type ChatScope = 'ALL' | 'LOCAL' | 'GLOBAL' | 'TRADE';
 
@@ -87,7 +88,7 @@ class Chat {
         if (Global.states.GUIState.profanityFilterEnabled) {
             // Check if message contains letters or numbers to avoid error
             if (this.isAlphaNumericSpace(message)) {
-                return censorString(message);
+                return censorString(BadWords, message);
             }
         }
 

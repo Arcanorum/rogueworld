@@ -1,12 +1,12 @@
-import Boss from "./Boss";
+import Boss from './Boss';
 
 class Entity extends Boss {
     constructor(x: number, y: number, config: any) {
-        config.displayName = "Great gnarl";
+        config.displayName = 'Great gnarl';
         super(x, y, config);
     }
 }
 
-Entity.prototype.animationSetName = "gnarl-pine";
+Entity.prototype.animationSetName = 'gnarl-pine';
 
 export default Entity;

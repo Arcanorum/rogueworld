@@ -17,3 +17,4 @@
 // Sprite.prototype.constructor = Sprite;
 
 // export default Sprite;
+export {};

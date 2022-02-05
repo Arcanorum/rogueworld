@@ -16,3 +16,4 @@
 // };
 
 // export default Sprite;
+export {};

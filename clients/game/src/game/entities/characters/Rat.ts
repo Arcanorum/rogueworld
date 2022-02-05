@@ -6,7 +6,7 @@ class Entity extends Mob {
         super(x, y, config);
 
         this.baseSprite.setScale(0.5);
-        this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`);
+        // this.baseSprite.anims.play(`${this.animationSetName}-${this.direction}`);
     }
 }
 

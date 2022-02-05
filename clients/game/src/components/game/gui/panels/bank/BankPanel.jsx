@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
 import AnimatedNumber from 'animated-number-react';
-import Utils from '../../../../../shared/Utils';
+import Utils, { formatItemValue } from '@dungeonz/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import {
     ApplicationState, BankState, GUIState, InventoryState, PlayerState,
 } from '../../../../../shared/state';
 import ItemIconsList from '../../../../../shared/ItemIconsList';
-import ItemTypes from '../../../../../catalogues/ItemTypes.json';
+// import ItemTypes from '../../../../../catalogues/ItemTypes.json';
 import weightIcon from '../../../../../assets/images/gui/hud/weight-icon.png';
 import bankIcon from '../../../../../assets/images/gui/panels/bank/bank-chest.png';
 import depositIcon from '../../../../../assets/images/gui/panels/bank/deposit-all-icon.png';
@@ -28,7 +28,10 @@ import {
     MODIFY_BANK_MAX_WEIGHT,
 } from '../../../../../shared/EventTypes';
 import Global from '../../../../../shared/Global';
-import Panels from '../PanelsEnum';
+import Panels from '../Panels';
+import getTextDef from '../../../../../shared/GetTextDef';
+
+const ItemTypes = {};
 
 const canTransferItem = (FromState, itemConfig, quantity) => {
     if (!itemConfig) return false;
@@ -66,9 +69,9 @@ function UpgradeOptions({
     const [ styleTop ] = useState(GUIState.cursorY - panelBounds.y);
     const [ styleLeft ] = useState(GUIState.cursorX - panelBounds.x);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, []);
+    // }, []);
 
     const upgradePressed = () => {
         ApplicationState.connection.sendEvent('bank_buy_upgrade');
@@ -92,14 +95,14 @@ function UpgradeOptions({
                         <img src={gloryIcon} draggable={false} />
                         <div className={`high-contrast-text ${PlayerState.glory < BankState.maxWeightUpgradeCost ? 'warning' : ''}`}>{BankState.maxWeightUpgradeCost}</div>
                     </div>
-                    {PlayerState.glory >= BankState.maxWeightUpgradeCost && <div className="button accept" onClick={upgradePressed}>{Utils.getTextDef('Buy')}</div>}
-                    {PlayerState.glory < BankState.maxWeightUpgradeCost && <div className="button warning">{Utils.getTextDef('Not enough glory')}</div>}
+                    {PlayerState.glory >= BankState.maxWeightUpgradeCost && <div className="button accept" onClick={upgradePressed}>{getTextDef('Buy')}</div>}
+                    {PlayerState.glory < BankState.maxWeightUpgradeCost && <div className="button warning">{getTextDef('Not enough glory')}</div>}
                 </div>
             )}
             {!ApplicationState.loggedIn && (
                 <div className="upgrade">
                     <div className="create-account">
-                        {Utils.getTextDef('Bank upgrade account needed')}
+                        {getTextDef('Bank upgrade account needed')}
                     </div>
                     <div
                         className="button accept"
@@ -107,7 +110,7 @@ function UpgradeOptions({
                             GUIState.setActivePanel(Panels.CreateAccount);
                         }}
                     >
-                        {Utils.getTextDef('Create account')}
+                        {getTextDef('Create account')}
                     </div>
                 </div>
             )}
@@ -150,18 +153,18 @@ function ItemOptions({
 
     const getTransferButtonText = () => {
         if (State === InventoryState) {
-            return Utils.getTextDef('Deposit');
+            return getTextDef('Deposit');
         }
 
-        return Utils.getTextDef('Withdraw');
+        return getTextDef('Withdraw');
     };
 
     const getTransferAllButtonText = () => {
         if (State === InventoryState) {
-            return Utils.getTextDef('Deposit entire stack');
+            return getTextDef('Deposit entire stack');
         }
 
-        return Utils.getTextDef('Withdraw entire stack');
+        return getTextDef('Withdraw entire stack');
     };
 
     /**
@@ -206,14 +209,14 @@ function ItemOptions({
         >
             <div className={`info ${GUIState.cursorInTopSide ? 'top' : 'bottom'} ${GUIState.cursorInLeftSide ? 'left' : 'right'}`}>
                 <div className="name">
-                    {Utils.getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationId}`)}
+                    {getTextDef(`Item name: ${ItemTypes[itemConfig.typeCode].translationId}`)}
                 </div>
                 {itemConfig.durability && <div className="detail">{`${itemConfig.durability}/${itemConfig.maxDurability}`}</div>}
                 {itemConfig.quantity && <div className="detail">{`x${transferQuantity}`}</div>}
-                {itemConfig.durability && <div className={`detail ${canTransferItem(State, itemConfig) ? '' : 'no-space'}`}>{`${Utils.getTextDef('Weight')}: ${itemConfig.totalWeight}`}</div>}
-                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? '' : 'no-space'}`}>{`${Utils.getTextDef('Weight')}: ${transferQuantity * (itemConfig.totalWeight / itemConfig.quantity)}`}</div>}
+                {itemConfig.durability && <div className={`detail ${canTransferItem(State, itemConfig) ? '' : 'no-space'}`}>{`${getTextDef('Weight')}: ${itemConfig.totalWeight}`}</div>}
+                {itemConfig.quantity && <div className={`detail ${canTransferItem(State, itemConfig, transferQuantity) ? '' : 'no-space'}`}>{`${getTextDef('Weight')}: ${transferQuantity * (itemConfig.totalWeight / itemConfig.quantity)}`}</div>}
                 <div className="description">
-                    {Utils.getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationId}`)}
+                    {getTextDef(`Item description: ${ItemTypes[itemConfig.typeCode].translationId}`)}
                 </div>
             </div>
             <div className="buttons">
@@ -244,7 +247,7 @@ function ItemOptions({
                         {transferQuantity <= 0 && canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space">{getTransferButtonText()}</div>}
                     </>
                 )}
-                {!canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space" onClick={transferPressed}>{Utils.getTextDef('Not enough free space')}</div>}
+                {!canTransferItem(State, itemConfig, transferQuantity) && <div className="button options-no-space" onClick={transferPressed}>{getTextDef('Not enough free space')}</div>}
             </div>
         </div>
     );
@@ -296,7 +299,7 @@ function ItemSlot({ State, itemConfig, onClick }) {
                 <div
                     className={`high-contrast-text ${(itemConfig.quantity > 999 || itemConfig.durability > 999) ? 'small' : ''}`}
                 >
-                    {Utils.formatItemValue(itemConfig.quantity) || Utils.formatItemValue(itemConfig.durability) || '???'}
+                    {formatItemValue(itemConfig.quantity) || formatItemValue(itemConfig.durability) || '???'}
                 </div>
             </div>
         </div>
@@ -332,7 +335,7 @@ function BankPanel({ onCloseCallback }) {
         setTargetState(State);
     };
 
-    const useNotEnoughSpaceStyle = (FromState) => {
+    const shouldUseNotEnoughSpaceStyle = (FromState) => {
         if (FromState === TargetState) {
             return false;
         }
@@ -407,7 +410,7 @@ function BankPanel({ onCloseCallback }) {
             <PanelTemplate
                 width="70vw"
                 height="60vh"
-                panelName={Utils.getTextDef('Bank panel: name')}
+                panelName={getTextDef('Bank panel: name')}
                 icon={bankIcon}
                 onCloseCallback={onCloseCallback}
             >
@@ -415,7 +418,7 @@ function BankPanel({ onCloseCallback }) {
                     <div className="top-bar">
                         <div className="search">
                             <input
-                                placeholder={Utils.getTextDef('Item search')}
+                                placeholder={getTextDef('Item search')}
                                 onChange={(event) => {
                                     setSearchText(event.target.value.toLowerCase());
                                 }}
@@ -425,11 +428,11 @@ function BankPanel({ onCloseCallback }) {
                     </div>
                     <div className="headers">
                         <div className="header inventory">
-                            <div className="col-name high-contrast-text">{Utils.getTextDef('Inventory panel: name')}</div>
+                            <div className="col-name high-contrast-text">{getTextDef('Inventory panel: name')}</div>
                             <div
                                 className="weight"
                                 onMouseEnter={() => {
-                                    GUIState.setTooltipContent(Utils.getTextDef('Inventory weight'));
+                                    GUIState.setTooltipContent(getTextDef('Inventory weight'));
                                 }}
                                 onMouseLeave={() => {
                                     GUIState.setTooltipContent(null);
@@ -439,7 +442,7 @@ function BankPanel({ onCloseCallback }) {
                                     src={weightIcon}
                                     className="icon"
                                 />
-                                <span className={`high-contrast-text ${selectedItem ? `${useNotEnoughSpaceStyle(InventoryState) ? 'no-space' : ''}` : ''}`}>
+                                <span className={`high-contrast-text ${selectedItem ? `${shouldUseNotEnoughSpaceStyle(InventoryState) ? 'no-space' : ''}` : ''}`}>
                                     <AnimatedNumber
                                         value={inventoryWeight}
                                         duration={dungeonz.Config.NUMBER_ANIMATION_DURATION}
@@ -461,7 +464,7 @@ function BankPanel({ onCloseCallback }) {
                                     }}
                                     onMouseEnter={() => {
                                         GUIState.setTooltipContent(
-                                            Utils.getTextDef('Deposit all'),
+                                            getTextDef('Deposit all'),
                                         );
                                         setHighlightInventoryWeight(true);
                                         dungeonz.gameScene.soundManager.effects.playGUITick();
@@ -474,11 +477,11 @@ function BankPanel({ onCloseCallback }) {
                             </div>
                         </div>
                         <div className="header storage">
-                            <div className="col-name high-contrast-text">{Utils.getTextDef('Storage')}</div>
+                            <div className="col-name high-contrast-text">{getTextDef('Storage')}</div>
                             <div
                                 className="weight"
                                 onMouseEnter={() => {
-                                    GUIState.setTooltipContent(Utils.getTextDef('Storage weight'));
+                                    GUIState.setTooltipContent(getTextDef('Storage weight'));
                                 }}
                                 onMouseLeave={() => {
                                     GUIState.setTooltipContent(null);
@@ -490,7 +493,7 @@ function BankPanel({ onCloseCallback }) {
                                 />
                                 <span className={`
                                     high-contrast-text
-                                    ${selectedItem ? `${useNotEnoughSpaceStyle(BankState) ? 'no-space' : ''}` : ''}
+                                    ${selectedItem ? `${shouldUseNotEnoughSpaceStyle(BankState) ? 'no-space' : ''}` : ''}
                                 `}
                                 >
                                     <AnimatedNumber
@@ -513,7 +516,7 @@ function BankPanel({ onCloseCallback }) {
                                     onClick={() => { setShowUpgradeBankOptions(true); }}
                                     onMouseEnter={() => {
                                         GUIState.setTooltipContent(
-                                            Utils.getTextDef('Upgrade bank'),
+                                            getTextDef('Upgrade bank'),
                                         );
                                         setHighlightStorageWeight(true);
                                         dungeonz.gameScene.soundManager.effects.playGUITick();
@@ -536,7 +539,7 @@ function BankPanel({ onCloseCallback }) {
                                     onClick={onItemPressed}
                                 />
                             ))}
-                            {searchText && !searchInventoryItems.length && <div className="warning">{Utils.getTextDef('No items found')}</div>}
+                            {searchText && !searchInventoryItems.length && <div className="warning">{getTextDef('No items found')}</div>}
                             {!searchText && inventoryItems.map((item) => (
                                 <ItemSlot
                                     key={item.id}
@@ -545,7 +548,7 @@ function BankPanel({ onCloseCallback }) {
                                     onClick={onItemPressed}
                                 />
                             ))}
-                            {!searchText && !inventoryItems.length && <div className="warning">{Utils.getTextDef('Empty inventory')}</div>}
+                            {!searchText && !inventoryItems.length && <div className="warning">{getTextDef('Empty inventory')}</div>}
                         </div>
                         <div className="list storage">
                             {searchText && searchStorageItems.map((item) => (
@@ -556,7 +559,7 @@ function BankPanel({ onCloseCallback }) {
                                     onClick={onItemPressed}
                                 />
                             ))}
-                            {searchText && !searchStorageItems.length && <div className="warning">{Utils.getTextDef('No items found')}</div>}
+                            {searchText && !searchStorageItems.length && <div className="warning">{getTextDef('No items found')}</div>}
                             {!searchText && storageItems.map((item) => (
                                 <ItemSlot
                                     key={item.id}
@@ -565,7 +568,7 @@ function BankPanel({ onCloseCallback }) {
                                     onClick={onItemPressed}
                                 />
                             ))}
-                            {!searchText && !storageItems.length && <div className="warning">{Utils.getTextDef('Empty storage')}</div>}
+                            {!searchText && !storageItems.length && <div className="warning">{getTextDef('Empty storage')}</div>}
                         </div>
                     </div>
                 </div>

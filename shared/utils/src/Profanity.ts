@@ -1,8 +1,8 @@
-type WordsList = Array<string>;
-
 const regex = /\b/;
 const placeHolder = '*';
 const replaceRegex = /\w/g;
+
+export type WordsList = Array<string>;
 
 /**
  * Determine if a string contains profane language.

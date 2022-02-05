@@ -23,3 +23,4 @@
 // Sprite.prototype.lightDistance = 4;
 
 // export default Sprite;
+export {};

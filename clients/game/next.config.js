@@ -1,6 +1,7 @@
+const withYaml = require('next-plugin-yaml');
 const withTM = require('next-transpile-modules')([ '@dungeonz/utils' ]);
 
-module.exports = withTM({
+module.exports = withYaml(withTM({
     // https://github.com/vercel/next.js/issues/7755#issuecomment-916022379
     webpack: (config, { isServer }) => {
         if (!isServer) {
@@ -14,4 +15,4 @@ module.exports = withTM({
 
         return config;
     },
-});
+}));

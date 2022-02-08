@@ -5,7 +5,7 @@ import { Settings } from '@dungeonz/configs';
 
 const app = express();
 
-app.listen(Settings.GAME_SERVER_PORT || 1111);
+app.listen(Settings.GAME_SERVICE_PORT || 1111);
 
 /**
  * Need to provide the item types for the client via an API request, as this info is only available

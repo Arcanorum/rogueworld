@@ -5,9 +5,9 @@ DEV_MODE: true
 # avoid getting spammed. Warning should be fixed though for a prod build.
 IGNORE_WARNINGS: false
 
-GAME_SERVER_PORT: 1111
+GAME_SERVICE_PORT: 1111
 
-MAP_SERVER_PORT: 2222
+MAP_SERVICE_PORT: 2222
 
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000

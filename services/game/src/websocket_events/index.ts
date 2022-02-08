@@ -1,16 +1,38 @@
-import {} from './';
 import wss from '../Server';
 import PlayerWebSocket from './PlayerWebSocket';
 import { message, warning } from '@dungeonz/utils';
 import EventResponses from './EventResponses';
 import ClientSettings from './ClientSettings';
+import { Settings } from '@dungeonz/configs';
+import { World } from '../space';
+import './Account';
+import './Communication';
+import './Entity';
+import './Item';
+import './Login';
+
+export function isDisplayNameValid(displayName: string) {
+    // Check a display name was given.
+    if (!displayName) return false;
+
+    // Check it is a string.
+    if (typeof displayName !== 'string') return false;
+
+    // Check it isn't empty, or just a space.
+    if (displayName.trim() === '') return false;
+
+    // Check it isn't too long.
+    if (displayName.length > (Settings.MAX_CHARACTER_DISPLAY_NAME_LENGTH || 20)) return false;
+
+    return true;
+}
 
 // "What is all this stuff below?"
 // https://github.com/websockets/ws#how-to-detect-and-close-broken-connections
 
 function noop() { }
 
-function heartbeat() {
+function heartbeat(this: PlayerWebSocket) {
     this.isAlive = true;
 }
 
@@ -19,7 +41,7 @@ function closeConnection(clientSocket: PlayerWebSocket) {
 
     if (clientSocket.inGame === false) return;
 
-    world.removePlayer(clientSocket);
+    World.removePlayer(clientSocket);
 
     clientSocket.terminate();
 }

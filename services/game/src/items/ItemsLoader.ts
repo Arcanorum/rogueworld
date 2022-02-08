@@ -46,8 +46,6 @@ const makeClass = ({
 export const populateList = () => {
     message('Populating items list.');
 
-    message('require:', requireDir);
-
     // Import all of the files for items that have their own class file for specific logic.
     // eslint-disable-next-line global-require
     requireDir('classes', {
@@ -55,21 +53,17 @@ export const populateList = () => {
         mapKey: (value: {default: typeof Item}, baseName: string) => {
             const ItemClass = value.default;
             if (typeof ItemClass === 'function') {
-                console.log('requiring item class:', baseName);
-                console.log(value.default);
                 if (ItemsList.BY_NAME[baseName]) {
                     error(`Cannot load item "${baseName}", as it already exists in the items list.`);
                 }
                 // Don't add abstract classes.
                 // Only bother with classes that are actually going to get instantiated.
                 if (ItemClass.hasOwnProperty.call(ItemClass, 'abstract')) {
-                    console.log('is abstract');
                     if (ItemsList.ABSTRACT_CLASSES[baseName]) {
                         error(`Cannot load abstract item type "${baseName}", as it already exists in the abstract classes list.`);
                     }
                     // Still add it to the separate list of abstract classes though, as it may still be needed.
                     ItemsList.ABSTRACT_CLASSES[baseName] = ItemClass;
-                    console.log('added to abstract items list');
                     return;
                 }
 
@@ -77,12 +71,9 @@ export const populateList = () => {
                 ItemClass.typeName = baseName;
 
                 ItemsList.BY_NAME[baseName] = ItemClass;
-                console.log('added to byname list');
             }
         },
     });
-
-    message('after requireDir');
 
     try {
         // Load all of the item configs.

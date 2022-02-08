@@ -1,11 +1,10 @@
+import ChatScopes from '@dungeonz/types/src/ChatScopes';
 import WebSocket from 'ws';
 import Player from '../entities/classes/Player';
 
-interface ChatMessageTimes {
-    LOCAL: number;
-    GLOBAL: number;
-    TRADE: number;
-}
+type ChatMessageTimes = {
+    [scope in ChatScopes]: number;
+};
 
 class PlayerWebSocket extends WebSocket {
     isAlive = false;

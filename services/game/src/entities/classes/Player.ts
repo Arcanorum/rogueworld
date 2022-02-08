@@ -23,6 +23,8 @@ class Player extends Character {
 
     displayName = '';
 
+    glory = 0;
+
     /**
      * What this player is wearing. Such as armour, robes, cloak, disguise, apron.
      * A reference to an item in their inventory.

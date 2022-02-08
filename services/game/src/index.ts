@@ -1,6 +1,7 @@
 import { message } from '@dungeonz/utils';
 import { World } from './space';
 import './Server';
+import './websocket_events';
 // Init the list of task types before loading items.
 import './tasks/TaskTypesList';
 import { ItemsLoader } from './items';

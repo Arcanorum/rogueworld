@@ -8,14 +8,11 @@ const App = dynamic(
 );
 
 const HomePage = () => {
-    console.log('in home component');
-
     return (
         <>
             <Head>
                 <title>Dungeonz.io</title>
             </Head>
-            <div>stuff</div>
             <App />
         </>
     );

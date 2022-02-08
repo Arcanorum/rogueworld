@@ -8,7 +8,7 @@ import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.pn
 import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
 import notFandomLogo from '../../assets/images/misc/branding/notfandom-logo.png';
 import notRedditLogo from '../../assets/images/misc/branding/notreddit-logo.png';
-import './LoginPage.module.scss';
+import styles from './LoginPage.module.scss';
 import {
     CONNECTED,
     CONNECTING,
@@ -200,25 +200,28 @@ function LoginPage() {
         setShowPartners(!showPartners);
     };
 
+    console.log(styles);
+
+
     return (
         <div className="press-start-font">
-            <img className="background-img" src={background.src} />
-            <div className="background-shadow" />
+            <img className={`${styles['background-img']}`} src={background.src} />
+            <div className={`${styles['background-shadow']}`} />
 
-            <div className="center-text-cont">
-                {connectionIssue && <div className="connection-issue scale-up-center">{connectionIssue}</div>}
-                {joinIssue && <div className="connection-issue scale-up-center">{joinIssue}</div>}
-                {connectionIssue && <div className="scale-up-center">{getTextDef('Reconnect')}</div>}
-                {connecting && <div className="scale-up-center">{getTextDef('Connecting to game server')}</div>}
-                {connected && !joining && <div className="scale-up-center">{getTextDef('Play')}</div>}
-                {joining && <div className="scale-up-center">{getTextDef('Joining game world')}</div>}
+            <div className={styles['center-text-cont']}>
+                {connectionIssue && <div className={`${styles['connection-issue']} ${styles['scale-up-center']}`}>{connectionIssue}</div>}
+                {joinIssue && <div className={`${styles['connection-issue']} ${styles['scale-up-center']}`}>{joinIssue}</div>}
+                {connectionIssue && <div className={styles['scale-up-center']}>{getTextDef('Reconnect')}</div>}
+                {connecting && <div className={styles['scale-up-center']}>{getTextDef('Connecting to game server')}</div>}
+                {connected && !joining && <div className={styles['scale-up-center']}>{getTextDef('Play')}</div>}
+                {joining && <div className={styles['scale-up-center']}>{getTextDef('Joining game world')}</div>}
             </div>
 
-            <div id="main-columns">
-                <div id="left-bar">
-                    <div id="partners-credits-cont" className="bottom-texts">
+            <div id={styles['main-columns']}>
+                <div id={styles['left-bar']}>
+                    <div id={styles['partners-credits-cont']} className={styles['bottom-texts']}>
                         <span
-                            id="partners-text"
+                            id={styles['partners-text']}
                             onClick={() => {
                                 toggleShowPartners();
                             }}
@@ -227,7 +230,7 @@ function LoginPage() {
                         </span>
                         |
                         <span
-                            id="credits-text"
+                            id={styles['credits-text']}
                             onClick={() => {
                                 window.open('/credits', '_blank');
                             }}
@@ -236,7 +239,7 @@ function LoginPage() {
                         </span>
                         |
                         <span
-                            id="test-server-text"
+                            id={styles['test-server-text']}
                             onClick={() => {
                                 window.open('https://test.dungeonz.io/', '_blank');
                             }}
@@ -246,31 +249,31 @@ function LoginPage() {
                     </div>
                 </div>
 
-                <div id="center-bar">
-                    <div id="title-cont">
-                        <img id="title-img" src={dungeonzLogo.src} />
-                        <div id="new-character-continue-cont">
+                <div id={styles['center-bar']}>
+                    <div id={styles['title-cont']}>
+                        <img id={styles['title-img']} src={dungeonzLogo.src} />
+                        <div id={styles['new-character-continue-cont']}>
                             <div
-                                id="new-character"
-                                className={!loginExistingUser ? 'title-button-selected' : 'title-button-unselected'}
+                                id={styles['new-character']}
+                                className={!loginExistingUser ? styles['title-button-selected'] : styles['title-button-unselected']}
                                 onClick={newCharacterPressed}
                             >
                                 {getTextDef('New character')}
                             </div>
                             <div
-                                id="continue"
-                                className={loginExistingUser ? 'title-button-selected' : 'title-button-unselected'}
+                                id={styles['continue']}
+                                className={loginExistingUser ? styles['title-button-selected'] : styles['title-button-unselected']}
                                 onClick={continuePressed}
                             >
                                 {getTextDef('Continue')}
                             </div>
                         </div>
-                        <div id="play-inputs-cont">
+                        <div id={styles['play-inputs-cont']}>
                             {!loginExistingUser && (
                                 <>
                                     <input
-                                        id="name-input"
-                                        className="home-input"
+                                        id={styles['name-input']}
+                                        className={styles['home-input']}
                                         type="text"
                                         maxLength={ApplicationState.maxDisplayNameLength}
                                         value={newCharacterName}
@@ -286,8 +289,8 @@ function LoginPage() {
                             {loginExistingUser && (
                                 <>
                                     <input
-                                        id="username-input"
-                                        className="home-input"
+                                        id={styles['username-input']}
+                                        className={styles['home-input']}
                                         type="text"
                                         // Max username length might have been lowered since they
                                         // made the account, so don't be strict about length here,
@@ -302,8 +305,8 @@ function LoginPage() {
                                         }}
                                     />
                                     <input
-                                        id="password-input"
-                                        className="home-input"
+                                        id={styles['password-input']}
+                                        className={styles['home-input']}
                                         type="password"
                                         maxLength={50}
                                         value={password}
@@ -317,42 +320,42 @@ function LoginPage() {
                             )}
                         </div>
                     </div>
-                    {connected && <div id="center-button" className="hand-cursor" onClick={playPressed} />}
-                    {connectionIssue && <div id="center-button" className="hand-cursor" onClick={reconnectPressed} />}
+                    {connected && <div id={styles['center-button']} className={styles['hand-cursor']} onClick={playPressed} />}
+                    {connectionIssue && <div id={styles['center-button']} className={styles['hand-cursor']} onClick={reconnectPressed} />}
                 </div>
 
-                <div id="right-bar">
-                    <div id="antisocial-bar">
-                        <div id="notdiscord-button" className="antisocial-button">
+                <div id={styles['right-bar']}>
+                    <div id={styles['antisocial-bar']}>
+                        <div id={styles['notdiscord-button']} className={styles['antisocial-button']}>
                             <img
-                                className="antisocial-icon"
+                                className={styles['antisocial-icon']}
                                 src={notDiscordLogo.src}
                                 onClick={() => {
                                     window.open('https://discord.gg/7wjyU7B', '_blank');
                                 }}
                             />
                         </div>
-                        <div id="notreddit-button" className="antisocial-button">
+                        <div id={styles['notreddit-button']} className={styles['antisocial-button']}>
                             <img
-                                className="antisocial-icon"
+                                className={styles['antisocial-icon']}
                                 src={notRedditLogo.src}
                                 onClick={() => {
                                     window.open('https://www.reddit.com/r/dungeonz/', '_blank');
                                 }}
                             />
                         </div>
-                        <div id="notwiki-button" className="antisocial-button">
+                        <div id={styles['notwiki-button']} className={styles['antisocial-button']}>
                             <img
-                                className="antisocial-icon"
+                                className={styles['antisocial-icon']}
                                 src={notFandomLogo.src}
                                 onClick={() => {
                                     window.open('https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki', '_blank');
                                 }}
                             />
                         </div>
-                        <div id="notgithub-button" className="antisocial-button">
+                        <div id={styles['notgithub-button']} className={styles['antisocial-button']}>
                             <img
-                                className="antisocial-icon"
+                                className={styles['antisocial-icon']}
                                 src={notGithubLogo.src}
                                 onClick={() => {
                                     window.open('https://github.com/Arcanorum/dungeonz', '_blank');
@@ -362,20 +365,20 @@ function LoginPage() {
                     </div>
                     <News />
                     <div />
-                    <div id="language-cont" className="bottom-texts">
+                    <div id={styles['language-cont']} className={styles['bottom-texts']}>
                         <span
-                            id="language-text"
+                            id={styles['language-text']}
                             onClick={() => { setShowLanguageList(!showLanguageList); }}
                         >
                             {getTextDef('Language')}
                         </span>
                     </div>
                     {showLanguageList && (
-                        <ul id="language-list">
+                        <ul id={styles['language-list']}>
                             {Languages.map((language) => (
                                 <li
                                     key={language.listName}
-                                    className="language-option"
+                                    className={styles['language-option']}
                                     onClick={() => { changeLanguage(language.translationId); }}
                                 >
                                     {language.listName}
@@ -383,7 +386,7 @@ function LoginPage() {
                             ))}
                             <li
                                 key="add-translation"
-                                className="language-option"
+                                className={styles['language-option']}
                                 onClick={() => {
                                     window.open('https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/edit#gid=0', '_blank');
                                 }}

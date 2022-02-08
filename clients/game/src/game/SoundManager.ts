@@ -115,7 +115,7 @@ class Effects {
             equipped: {
                 default: this.addSound(scene.sound.add('weapon-equipped') as SoundType),
                 // Add what ever kinds of sounds you want a particular item to play when equipped.
-                // Should also be defined in the server item config in Items.yml.
+                // Should also be defined in the server item config in Items.yaml.
                 'Metal weapon': this.addSound(scene.sound.add('weapon-equipped') as SoundType),
                 'Metal clothing': this.addSound(scene.sound.add('clothing-equipped') as SoundType),
                 'Fabric clothing': this.addSound(scene.sound.add('clothing-equipped') as SoundType),
@@ -123,7 +123,7 @@ class Effects {
             unequipped: { },
             used: {
                 // Add what ever kinds of sounds you want a particular item to play when used.
-                // Should also be defined in the server item config in Items.yml.
+                // Should also be defined in the server item config in Items.yaml.
                 Scroll: this.addSound(scene.sound.add('fast-magic-spell') as SoundType),
                 // "Food": // TODO: Add food consumed sound here
                 Drink: this.addSound(scene.sound.add('magical-potion-drink') as SoundType),

@@ -192,7 +192,7 @@ abstract class Item {
             // Load all of the weight classes.
             const WeightClasses = jsyaml.load(
                 fs.readFileSync(
-                    path.resolve('./src/configs/ItemWeightClasses.yml'), 'utf8',
+                    path.resolve('./src/configs/ItemWeightClasses.yaml'), 'utf8',
                 ),
             ) as {[name: string]: number};
 

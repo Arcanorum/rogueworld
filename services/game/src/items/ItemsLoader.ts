@@ -30,7 +30,7 @@ const makeClass = ({
             SuperClass = ItemsList.ABSTRACT_CLASSES[extendsClassName];
         }
         else {
-            error(`Failed to load item config from Items.yml for "${name}".
+            error(`Failed to load item config from Items.yaml for "${name}".
           The class to extend from cannot be found for given "extends" property "${extendsClassName}".
           Check it is actually extending from an abstract item type.`);
         }
@@ -88,7 +88,7 @@ export const populateList = () => {
         // Load all of the item configs.
         const itemConfigs = jsyaml.load(
             fs.readFileSync(
-                path.resolve('../../shared/configs/src/Items.yml'), 'utf8',
+                path.resolve('../../shared/configs/src/Items.yaml'), 'utf8',
             ),
         ) as any;
 
@@ -123,7 +123,7 @@ export const initialiseList = () => {
         // Get the pure config items values again to finish setting them up, now that the classes are created.
         const itemConfigs = jsyaml.load(
             fs.readFileSync(
-                path.resolve('../../shared/configs/src/Items.yml'), 'utf8',
+                path.resolve('../../shared/configs/src/Items.yaml'), 'utf8',
             ),
         ) as any;
 
@@ -188,7 +188,7 @@ export const createCatalogue = () => {
         // the client needs was added to the class.
         const itemConfigs = jsyaml.load(
             fs.readFileSync(
-                path.resolve('../../shared/configs/src/Items.yml'), 'utf8',
+                path.resolve('../../shared/configs/src/Items.yaml'), 'utf8',
             ),
         ) as any;
 

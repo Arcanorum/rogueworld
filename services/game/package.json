@@ -17,7 +17,7 @@
         "ignore": [
             "src/api/catalogues"
         ],
-        "ext": "ts,js,json,yml,txt,png,xlsx",
+        "ext": "ts,js,json,yaml,txt,png,xlsx",
         "verbose": true
     }
 }

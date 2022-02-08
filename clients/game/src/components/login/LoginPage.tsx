@@ -41,8 +41,6 @@ const Languages = [
 ];
 
 function LoginPage() {
-    console.log('in login page');
-
     const [ showPartners, setShowPartners ] = useState(false);
     const [ loginExistingUser, setLoginExistingUser ] = useState(false);
     const [ newCharacterName, setNewCharacterName ] = useState('');
@@ -199,9 +197,6 @@ function LoginPage() {
     const toggleShowPartners = () => {
         setShowPartners(!showPartners);
     };
-
-    console.log(styles);
-
 
     return (
         <div className="press-start-font">

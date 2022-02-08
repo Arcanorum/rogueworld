@@ -57,3 +57,4 @@ jspm_packages/
 # next.js build output
 .next
 out
+services/game/src/api/catalogues/ItemTypes.json

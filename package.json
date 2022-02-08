@@ -53,8 +53,10 @@
   },
   "workspaces": [
     "./clients/game",
+    "./services/admin",
     "./services/game",
     "./services/map",
+    "./services/translations",
     "./shared/configs",
     "./shared/types",
     "./shared/utils"

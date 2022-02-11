@@ -18,7 +18,7 @@
     "animated-number-react": "^0.1.1",
     "bad-words": "^3.0.4",
     "leaflet": "^1.7.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "outline-image": "0.0.5",
     "phaser": "^3.55.2",
     "prop-types": "^15.7.2",

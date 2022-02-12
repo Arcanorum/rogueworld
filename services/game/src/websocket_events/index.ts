@@ -32,10 +32,6 @@ export function isDisplayNameValid(displayName: string) {
 
 function noop() { }
 
-function heartbeat(this: PlayerWebSocket) {
-    this.isAlive = true;
-}
-
 function closeConnection(clientSocket: PlayerWebSocket) {
     message('Closing dead connection.');
 
@@ -59,10 +55,7 @@ function ping() {
 }
 
 // How often to ping each client to see if the connection is still alive.
-const pingRate = 30000;
-setInterval(() => {
-    ping();
-}, pingRate);
+setInterval(ping, 30000);
 
 /**
  * Broadcasts to all connected clients that are in the game.
@@ -79,7 +72,7 @@ wss.broadcastToInGame = (eventName: string, data?: any) => {
 
 wss.on('connection', (clientSocket: PlayerWebSocket) => {
     clientSocket.isAlive = true;
-    clientSocket.on('pong', heartbeat);
+    clientSocket.on('pong', () => { clientSocket.isAlive = true; });
 
     clientSocket.inGame = false;
 
@@ -113,6 +106,6 @@ wss.on('connection', (clientSocket: PlayerWebSocket) => {
         message('Client socket close event.');
         if (clientSocket.inGame === false) return;
 
-        world.removePlayer(clientSocket);
+        World.removePlayer(clientSocket);
     });
 });

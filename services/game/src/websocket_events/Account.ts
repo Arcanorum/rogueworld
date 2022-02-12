@@ -1,22 +1,28 @@
 import { Settings } from '@dungeonz/configs';
 import { message } from '@dungeonz/utils';
 import { isDisplayNameValid } from '.';
+import { AccountManager } from '../account';
 import EventResponses from './EventResponses';
 
 EventResponses.create_account = (clientSocket, data: {username: string; password: string}) => {
     if (!data) return;
     if (!data.username) {
-        clientSocket.sendEvent('create_account_failure', { messageID: 'No username' });
+        clientSocket.sendEvent('create_account_failure', { messageId: 'No username' });
         return;
     }
     if (!data.password) {
-        clientSocket.sendEvent('create_account_failure', { messageID: 'No password' });
+        clientSocket.sendEvent('create_account_failure', { messageId: 'No password' });
         return;
     }
     // Limit the username length. Also limited on client, but check here too.
     // Don't check password length, as it will be encrypted and potentially very long.
     if (data.username.length > (Settings.MAX_ACCOUNT_USERNAME_LENGTH || 50)) {
-        clientSocket.sendEvent('create_account_failure', { messageID: 'Username too long' });
+        clientSocket.sendEvent('create_account_failure', { messageId: 'Username too long' });
+        return;
+    }
+
+    if(!clientSocket.entity) {
+        clientSocket.sendEvent('something_went_wrong');
         return;
     }
 
@@ -25,12 +31,12 @@ EventResponses.create_account = (clientSocket, data: {username: string; password
             message('Create account success:', data.username);
             clientSocket.sendEvent('create_account_success');
         },
-        (error) => {
-            if (error) {
+        (err) => {
+            if (err) {
                 // An index with this key (the username) already exists. Must be unique.
-                if (error.code === 11000) {
+                if (err.code === '11000') {
                     // Username already taken.
-                    clientSocket.sendEvent('create_account_failure', { messageID: 'Username taken' });
+                    clientSocket.sendEvent('create_account_failure', { messageId: 'Username taken' });
                 }
             }
         });

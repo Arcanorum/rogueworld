@@ -50,7 +50,7 @@ function AccountPanel({
                 setPasswordChanged(true);
             }),
             PubSub.subscribe(CHANGE_PASSWORD_FAILURE, (msg, data) => {
-                setWarningText(getTextDef(data.messageID));
+                setWarningText(getTextDef(data.messageId));
             }),
         ];
 

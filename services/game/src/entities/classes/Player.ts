@@ -56,6 +56,43 @@ class Player extends Character {
         this.displayName = config.displayName;
     }
 
+    setDisplayName(displayName: string) {
+        this.displayName = displayName;
+
+        // Tell every other nearby player the new name of player's character.
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            'change_display_name',
+            {
+                displayName,
+                entityId: this.id,
+            },
+        );
+
+        // If they already have an account, save the new display name.
+        if (this.socket.account) {
+            this.socket.account.displayName = displayName;
+        }
+    }
+
+    modGlory(amount: number) {
+        this.glory += amount;
+        this.glory = Math.floor(this.glory);
+
+        if (this.glory < 0) {
+            this.glory = 0;
+        }
+
+        // Tell the player their new glory amount.
+        this.socket.sendEvent('glory_value', this.glory);
+
+        // If this player has an account, save the new glory amount.
+        if (this.socket.account) {
+            this.socket.account.glory = this.glory;
+        }
+    }
+
     modDefence(amount: number) {
         super.modDefence(amount);
         // Tell the player their new defence amount.

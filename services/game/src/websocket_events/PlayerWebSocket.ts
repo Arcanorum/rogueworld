@@ -1,6 +1,7 @@
 import ChatScopes from '@dungeonz/types/src/ChatScopes';
 import WebSocket from 'ws';
 import Player from '../entities/classes/Player';
+import { AccountSchema } from '../account';
 
 type ChatMessageTimes = {
     [scope in ChatScopes]: number;
@@ -11,13 +12,16 @@ class PlayerWebSocket extends WebSocket {
 
     inGame = false;
 
+    account: AccountSchema | null = null;
+
+    entity: Player | null = null;
+
     nextMessageTimes: ChatMessageTimes = {
         LOCAL: 0,
         GLOBAL: 0,
         TRADE: 0,
     };
 
-    entity: Player|null = null;
 
     /**
      * Sends an event to this socket, with optional data.

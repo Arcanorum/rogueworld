@@ -121,7 +121,7 @@ export interface AccountSchema extends Document {
     // tasks: object;
 }
 
-const accountSchema = new Schema(
+const accountSchema = new Schema( // TODO: figure out how to type this as the Account interface, weird Date issue...
     {
         username: {
             type: String, required: true, index: true, unique: true,

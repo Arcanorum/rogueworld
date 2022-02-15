@@ -2,12 +2,6 @@ import { warning } from '@dungeonz/utils';
 import { v4 as uuidv4 } from 'uuid';
 import Item from '../items/classes/Item';
 
-interface ItemStateConfig {
-    ItemType: typeof Item;
-    id: string;
-    quantity: number;
-}
-
 class ItemState {
     /**
      * The class/type of this item (NOT an instance).
@@ -27,11 +21,10 @@ class ItemState {
     /**
      * How big this item stack can be before it overflows into a new stack.
      */
-    static MAX_QUANTITY = 99999;
+    static MAX_QUANTITY = 9999;
 
     /**
      * How much this item (or each unit of a stack) contributes to the total weight of the owner.
-     * @type {Number}
      */
     totalWeight = 0;
 
@@ -43,22 +36,35 @@ class ItemState {
      * Does all necessary item type validation with the given properties, to avoid having to grab
      * and check the needed properties each time it is passed around.
      */
-    constructor(config: ItemStateConfig) {
-        this.ItemType = config.ItemType;
+    constructor({
+        ItemType,
+        id,
+        quantity,
+    }: {
+        ItemType: typeof Item;
+        id?: string;
+        quantity?: number;
+    }) {
+        this.ItemType = ItemType;
 
         // Add a unique id to stop React crying when this item is used in displaying a list, and so
         // it can be saved on the account so it can be loaded into the hotbar in the same position.
-        this.id = config.id || uuidv4();
+        this.id = id || uuidv4();
 
-        if (!config.ItemType) {
-            warning('ItemState constructor, config.ItemType is not a valid item type.');
+        if (!ItemType) {
+            warning('ItemState constructor, ItemType is not a valid item type.');
             throw new Error('Failed ItemState validation.');
         }
 
         // Use a given quantity, or default to the base value for quantity from the item type.
         // Also handles the case for older saved items that used durability, so they can fall back
         // to the default base quantity for that item type.
-        this.quantity = Math.floor(config.quantity) || this.ItemType.baseQuantity;
+        if(quantity) {
+            this.quantity = Math.floor(quantity);
+        }
+        else {
+            this.quantity = this.ItemType.baseQuantity;
+        }
 
         this.totalWeight = this.quantity * this.ItemType.unitWeight;
     }
@@ -73,7 +79,5 @@ class ItemState {
         this.totalWeight = Math.floor(this.quantity * this.ItemType.unitWeight);
     }
 }
-
-ItemState.MAX_QUANTITY = 99999;
 
 export default ItemState;

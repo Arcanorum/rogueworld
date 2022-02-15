@@ -37,7 +37,19 @@ abstract class Entity {
     /**
      * The board that this entity is on.
      */
-    board: Board;
+    board?: Board;
+
+    /**
+     * How long an entity of this type lasts for after being spawned, before being destroyed.
+     */
+    static lifespan?: number;
+
+    /**
+     * The timeout to destroy this entity after the lifespan expires.
+     * Timeout types are a bit weird in TS...
+     * https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
+     */
+    lifespanTimeout?: NodeJS.Timeout;
 
     /**
      * Whether this entity is currently blocking movement on the tile it is on, but not projectiles.
@@ -88,10 +100,36 @@ abstract class Entity {
         }
 
         this.isBlocking = true;
+
+        if(_this.lifespan) {
+            this.lifespanTimeout = setTimeout(this.destroy.bind(this), _this.lifespan);
+        }
     }
 
     static registerEntityType() {
         return;
+    }
+
+    /**
+     * Remove this entity from the game world completely, and allow it to be GCed.
+     * Any specific destruction functionality should be added to onDestroy, which is called from this method.
+     */
+    destroy() {
+        // Prevent multiple destruction of entities.
+        if (this.destroyed === true) return;
+
+        this.destroyed = true;
+
+        this.onDestroy();
+    }
+
+    /**
+     * Specific destruction functionality. If overridden, should still be chained from the overrider up to this.
+     */
+    onDestroy() {
+        // Remove the reference to the board it was on (that every entity
+        // has), so it can be cleaned up if the board is to be destroyed.
+        delete this.board;
     }
 
     /**
@@ -155,7 +193,7 @@ abstract class Entity {
 
         const difference = this.hitPoints - original;
 
-        this.board.emitToNearbyPlayers(
+        this.board?.emitToNearbyPlayers(
             this.row,
             this.col,
             'heal',
@@ -190,7 +228,7 @@ abstract class Entity {
         }
         // Entity is still alive. Tell nearby players.
         else {
-            this.board.emitToNearbyPlayers(
+            this.board?.emitToNearbyPlayers(
                 this.row,
                 this.col,
                 'damage',
@@ -228,7 +266,7 @@ abstract class Entity {
      * Shouldn't have to worry about the tile being valid, as they shouldn't be occupying an invalid tile.
      */
     getBoardTile() {
-        return this.board.grid[this.row][this.col];
+        return this.board?.grid[this.row][this.col];
     }
 }
 

@@ -30,7 +30,7 @@ export function isDisplayNameValid(displayName: string) {
 // "What is all this stuff below?"
 // https://github.com/websockets/ws#how-to-detect-and-close-broken-connections
 
-function noop() { }
+function noop() { return; }
 
 function closeConnection(clientSocket: PlayerWebSocket) {
     message('Closing dead connection.');

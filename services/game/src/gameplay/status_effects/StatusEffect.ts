@@ -65,8 +65,6 @@ class StatusEffect {
     /**
      * A reference to the loop of this effect.
      * Counts down the remaining duration, and is used to stop and thus remove this status effect.
-     * Timeout types are a bit weird in TS...
-     * https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
      */
     _effectLoop!: NodeJS.Timeout;
 

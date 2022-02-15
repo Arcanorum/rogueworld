@@ -9,7 +9,7 @@ import EntitiesList from '../../entities/EntitiesList';
 import { ItemState } from '../../inventory';
 import { TaskTypes } from '../../tasks';
 
-abstract class Item {
+class Item {
     /**
      * Need this here to check if this class is abstract during runtime so the abstract classes can be
      * separated in the items list.

@@ -1,5 +1,5 @@
 import mongoose, { Document, Error } from 'mongoose';
-import AccountModel, { AccountSchema } from './AccountModel';
+import AccountModel, { AccountDocument } from './AccountModel';
 import World from '../space/World';
 import { error, message, warning } from '@dungeonz/utils';
 import { Settings } from '@dungeonz/configs';
@@ -137,7 +137,7 @@ export default {
         clientSocket: PlayerWebSocket,
         username: string,
         password: string,
-        onSuccess: (account: AccountSchema) => void,
+        onSuccess: (account: AccountDocument) => void,
     ) {
         try {
             const account = await AccountModel.findOne({ username });
@@ -207,7 +207,7 @@ export default {
     /**
      * Load the data from the given account into the entity of the player.
      */
-    loadPlayerData(entity: Player, account: AccountSchema) {
+    loadPlayerData(entity: Player, account: AccountDocument) {
         entity.displayName = account.displayName;
         // Round down, in case they were somehow decimals.
         entity.glory = Math.floor(account.glory);

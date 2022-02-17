@@ -11,11 +11,11 @@ interface BoardPoint {
  * Useful for creating unique incremental IDs.
  */
 export class Counter {
-    _count = 0;
+    private count = 0;
 
     getNext() {
-        this._count += 1;
-        return this._count;
+        this.count += 1;
+        return this.count;
     }
 }
 

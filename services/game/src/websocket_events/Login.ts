@@ -1,4 +1,6 @@
 import { isDisplayNameValid } from '.';
+import { AccountManager } from '../account';
+import { World } from '../space';
 import EventResponses from './EventResponses';
 
 /**
@@ -13,7 +15,7 @@ EventResponses.log_in = (clientSocket, data: {username: string; password: string
     // setting has been lowered since they made the account.
 
     AccountManager.logIn(clientSocket, data.username, data.password, (account) => {
-        world.addExistingPlayer(clientSocket, account);
+        World.addExistingPlayer(clientSocket, account);
     });
 };
 
@@ -32,5 +34,5 @@ EventResponses.new_char = (clientSocket, data: {displayName: string}) => {
         displayName = data.displayName;
     }
 
-    world.addNewPlayer(clientSocket, displayName);
+    World.addNewPlayer(clientSocket, displayName);
 };

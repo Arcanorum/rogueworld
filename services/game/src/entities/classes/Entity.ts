@@ -1,6 +1,8 @@
+import { ObjectOfUnknown, Offset } from '@dungeonz/types';
 import { Counter } from '@dungeonz/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
+import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import Heal from '../../gameplay/Heal';
 import { StatusEffect } from '../../gameplay/status_effects';
 import Board from '../../space/Board';
@@ -13,7 +15,7 @@ export interface EntityConfig {
     board: Board;
 }
 
-abstract class Entity {
+class Entity {
     /**
      * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
      */
@@ -82,6 +84,11 @@ abstract class Entity {
     static damageTypeImmunities: Array<DamageTypes>;
 
     statusEffects: {[name: string]: StatusEffect} = {};
+
+    /**
+     * How often this entity moves, in ms.
+     */
+    moveRate = 1000;
 
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
@@ -257,7 +264,7 @@ abstract class Entity {
      * adds from Character, and so on until Entity, then returns the result back down the stack.
      * @param properties The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
      */
-    getEmittableProperties(properties: object) {
+    getEmittableProperties(properties: ObjectOfUnknown) {
         return properties;
     }
 
@@ -267,6 +274,142 @@ abstract class Entity {
      */
     getBoardTile() {
         return this.board?.grid[this.row][this.col];
+    }
+
+    /**
+     * Move this entity from the current board to another one.
+     * @param fromBoard - The board the entity is being moved from.
+     * @param toBoard - The board to move the entity to.
+     * @param toRow - The board grid row to reposition the entity to.
+     * @param toCol - The board grid col to reposition the entity to.
+     */
+    changeBoard(fromBoard: Board, toBoard: Board, toRow: number, toCol: number) {
+        // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
+        if (fromBoard) {
+            // Tell players around this entity on the previous board to remove it.
+            fromBoard.emitToNearbyPlayers(
+                this.row,
+                this.col,
+                'remove_entity',
+                this.id,
+            );
+
+            // Remove this entity from the board it is currently in before adding to the next board.
+            // Don't use Movable.reposition as that would only move it around on the same board, not between boards.
+            fromBoard.removeEntity(this);
+        }
+
+        this.board = toBoard;
+        this.row = toRow;
+        this.col = toCol;
+
+        this.board.addEntity(this);
+
+        // Tell players around this entity on the new board to add it.
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            'add_entity',
+            this.getEmittableProperties({}),
+        );
+    }
+
+    /**
+     * When finished constructing this entity, use this to tell the nearby players to add this entity.
+     */
+    emitToNearbyPlayers() {
+        // Tell all players around this one (including itself) that this one has joined.
+        this.board?.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            'add_entity',
+            this.getEmittableProperties({}),
+        );
+        return this;
+    }
+
+    /**
+     * Moves this entity along the board relative to its current position.
+     * To directly change the position of an entity, use Entity.reposition.
+     * @param byRows - How many rows to move along by. +1 to move down, -1 to move up.
+     * @param byCols - How many cols to move along by. +1 to move right, -1 to move left.
+     */
+    move(byRows: Offset, byCols: Offset) {
+        const origRow = this.row;
+        const origCol = this.col;
+
+        // Only let an entity move along a row OR a col, not both at the same time or they can move diagonally through things.
+        if (byRows) this.reposition(this.row + byRows, this.col);
+        else if (byCols) this.reposition(this.row, this.col + byCols);
+
+        if(!this.board) return;
+
+        // Tell the players in this zone that this dynamic has moved.
+        this.board.emitToNearbyPlayers(
+            origRow,
+            origCol,
+            'moved',
+            {
+                id: this.id,
+                row: this.row,
+                col: this.col,
+                moveRate: this.getMoveRate(),
+            },
+        );
+
+        // Only the players that can already see this dynamic will move it, but for ones that this has just come in range of, they will
+        // need to be told to add this entity, so tell any players at the edge of the view range in the direction this entity moved.
+        this.board.emitToPlayersAtViewRange(
+            this.row,
+            this.col,
+            rowColOffsetToDirection(byRows, byCols),
+            'add_entity',
+            this.getEmittableProperties({}),
+        );
+        // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that only calls getEmittableProperties
+        // if any other players have been found, as the current way calls it for every move, even if there is nobody else seeing it,
+        // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that another
+        // player is found on, instead of just once and use it if needed.
+
+        this.postMove();
+    }
+
+    /**
+     * Can be overridden in a subclass to run any extra functionality after this entity has successfully moved.
+     */
+    postMove() { return; }
+
+    /**
+     * Changes the position of this entity on the board it is on.
+     * @param toRow - The board grid row to reposition the entity to.
+     * @param toCol - The board grid col to reposition the entity to.
+     */
+    reposition(toRow: number, toCol: number) {
+        if(!this.board) return;
+
+        // Remove this entity from the tile it currently occupies on the board.
+        this.board.removeEntity(this);
+
+        this.row = toRow;
+        this.col = toCol;
+
+        // Add the entity to the tile it is now over on the board.
+        this.board.addEntity(this);
+    }
+
+    /**
+     * Returns the effective move rate of this entity.
+     * i.e. apply environmental effects that slow down, enchantments that speed up.
+     * Can be overridden to apply move rate modifiers within different subclasses.
+     * If overridden, should still be chained from the overrider up to this.
+     * @param chainedMoveRate - If this method has been overridden, a value can be passed
+     *      in here for what the value so far is.
+     * @returns The effective move rate.
+     */
+    getMoveRate(chainedMoveRate?: number) {
+        if (chainedMoveRate) return chainedMoveRate;
+
+        return this.moveRate;
     }
 }
 

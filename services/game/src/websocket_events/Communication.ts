@@ -1,6 +1,7 @@
 import { Settings } from '@dungeonz/configs';
 import ChatScopes from '@dungeonz/types/src/ChatScopes';
 import { message, warning } from '@dungeonz/utils';
+import Commands from '../commands/Commands';
 import wss from '../Server';
 import EventResponses from './EventResponses';
 
@@ -55,7 +56,7 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
     }
 
     // Send local chats.
-    entity.board.emitToNearbyPlayers(
+    entity.board?.emitToNearbyPlayers(
         entity.row,
         entity.col,
         'chat',
@@ -71,6 +72,8 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
                 // Separate the command (first word) from the arguments (everything after).
                 const parts = content.split(' ');
                 const commandName = parts.shift()?.substring(1);
+                if(!commandName) return;
+
                 let response;
                 // Check the command is valid.
                 if (Commands[commandName]) {
@@ -82,7 +85,7 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
                 }
 
                 if (response) {
-                    entity.board.emitToNearbyPlayers(
+                    entity.board?.emitToNearbyPlayers(
                         entity.row,
                         entity.col,
                         'chat',

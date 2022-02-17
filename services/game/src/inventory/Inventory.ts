@@ -1,10 +1,12 @@
 import { Settings } from '@dungeonz/configs';
 import { message, warning } from '@dungeonz/utils';
+import { Types } from 'mongoose';
 import { ItemState } from '.';
 import { AccountDocument } from '../account';
 import Player from '../entities/classes/Player';
 import { ItemsList } from '../items';
 import Item from '../items/classes/Item';
+import { list as starterInventoryItemStatesList } from './StarterInventoryItemStates';
 
 class Inventory {
     owner: Player;
@@ -408,7 +410,11 @@ class Inventory {
 
         const { owner } = this;
 
+        if(!owner.board) return;
+
         const boardTile = owner.getBoardTile();
+
+        if(!boardTile) return;
 
         // Check the board tile the player is standing on doesn't already have an item or interactable on it.
         if (boardTile.isLowBlocked() === true) {
@@ -469,18 +475,22 @@ class Inventory {
         const { owner } = this;
 
         this.items.forEach((item) => {
+            const PickupType = (item.constructor as typeof Item).PickupType;
+
             // If no pickup type set, destroy the item without leaving a pickup on the ground.
-            if (!item.PickupType) {
+            if (!PickupType) {
                 this.removeItemBySlotIndex(item.slotIndex);
                 return;
             }
 
+            if(!owner.board) return;
+
             // Add a pickup entity of that item to the board.
-            new item.PickupType({
+            new PickupType({
                 row: owner.row,
                 col: owner.col,
                 board: owner.board,
-                itemConfig: item.itemConfig,
+                itemState: item.itemState,
             }).emitToNearbyPlayers();
 
             // Let the item clean itself up.
@@ -493,7 +503,7 @@ class Inventory {
         // If this player has an account, save the now empty inventory.
         if (owner.socket.account) {
             try {
-                owner.socket.account.inventoryItems = [];
+                owner.socket.account.inventoryItems = new Types.DocumentArray([]);
             }
             catch (err) {
                 warning(err);
@@ -513,7 +523,7 @@ class Inventory {
             const slotIndex = this.items.length;
 
             const item = new starterItemState.ItemType({
-                itemConfig: new ItemState(starterItemState),
+                itemState: new ItemState(starterItemState),
                 slotIndex,
                 owner: this.owner,
             });

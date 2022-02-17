@@ -26,7 +26,7 @@ class Poison extends StatusEffect {
     shouldStop() {
         // Check if they are standing in poison. If so, keep poisoned.
         const tilePoisons = this.appliedTo
-            .getBoardTile().groundType.statusEffects
+            .getBoardTile()?.groundType.statusEffects
             ?.some((StatusEffect) => { return StatusEffect === Poison; });
 
         if (tilePoisons) {

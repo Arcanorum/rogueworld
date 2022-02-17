@@ -8,7 +8,7 @@ class Burn extends StatusEffect {
     shouldContinueEffect() {
         // If it is water, remove burning if it is applied.
         // Can't walk into deep water.
-        if (this.appliedTo.getBoardTile().groundType === GroundTypes.ShallowWater) {
+        if (this.appliedTo.getBoardTile()?.groundType === GroundTypes.ShallowWater) {
             return false;
         }
 
@@ -18,7 +18,7 @@ class Burn extends StatusEffect {
     shouldStop() {
         // Check if they are standing in anything that burns. If so, keep burning.
         const tileBurns = this.appliedTo
-            .getBoardTile().groundType.statusEffects
+            .getBoardTile()?.groundType.statusEffects
             ?.some((StatusEffect) => { return StatusEffect === Burn; });
 
         if (tileBurns) {

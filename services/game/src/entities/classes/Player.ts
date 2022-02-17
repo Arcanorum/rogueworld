@@ -1,3 +1,6 @@
+import { Settings } from '@dungeonz/configs';
+import { warning } from '@dungeonz/utils';
+import DamageTypes from '../../gameplay/DamageTypes';
 import { Inventory } from '../../inventory';
 import Ammunition from '../../items/classes/ammunition/Ammunition';
 import Clothes from '../../items/classes/clothes/Clothes';
@@ -17,13 +20,28 @@ class Player extends Character {
      */
     static viewRange = 9;
 
-    inventory = {};
+    inventory: Inventory;
 
     socket: PlayerWebSocket;
 
     displayName = '';
 
     glory = 0;
+
+    maxFood: number = Settings.PLAYER_STARTING_MAX_FOOD || 1000;
+
+    food = this.maxFood;
+
+    foodDrainRate: number = Settings.PLAYER_FOOD_DRAIN_RATE || 1000;
+
+    foodDrainAmount: number = Settings.PLAYER_FOOD_DRAIN_AMOUNT || 10;
+
+    foodDrainLoop = setTimeout(() => { /**/ });
+
+    /**
+     * The time when this player was last damaged.
+     */
+    lastDamagedTime = 0;
 
     /**
      * What this player is wearing. Such as armour, robes, cloak, disguise, apron.
@@ -43,6 +61,8 @@ class Player extends Character {
      */
     ammunition: Ammunition|null = null;
 
+    autoSaveTimeout: NodeJS.Timeout;
+
     constructor(config: PlayerConfig) {
         super(config);
 
@@ -54,13 +74,97 @@ class Player extends Character {
         this.inventory = new Inventory(this);
 
         this.displayName = config.displayName;
+
+        // Start the food drain loop.
+        if (this.foodDrainRate > 0) {
+            this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
+        }
+
+        this.autoSaveTimeout = setTimeout(
+            this.saveAccount.bind(this),
+            5000,
+        );
+    }
+
+    /**
+     * Special function for players, so the inventory isn't dropped when they close the game,
+     * otherwise the inventory would be saved and also dropped so would duplicate items.
+     * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
+     */
+    remove() {
+        // If player was in combat and closed client to cheat death
+        // items should be removed from inventory.
+        if (this.isInCombat()) {
+            this.inventory.dropAllItems();
+        }
+
+        clearTimeout(this.autoSaveTimeout);
+        // clearTimeout(this.gatherTimeout);
+        // clearTimeout(this.hitpointRegenLoop);
+        clearTimeout(this.foodDrainLoop);
+
+        // They might be dead when they disconnect, and so will already be removed from the board.
+        // Check they are on the board/alive first.
+        if (this.board) {
+            this.board.removePlayer(this);
+
+            // Call Destroyable.onDestroy directly, without going through the whole
+            // onDestroy chain, so skips Player.onDestroy (no duplicate dropped items).
+            super.onDestroy();
+        }
+    }
+
+    saveAccount() {
+        if (!this.socket) return;
+
+        if (!this.socket.account) return;
+
+        try {
+            this.socket.account.save();
+        }
+        catch (error) {
+            warning(error);
+        }
+
+        this.autoSaveTimeout = setTimeout(
+            this.saveAccount.bind(this),
+            Settings.ACCOUNT_AUTO_SAVE_RATE || 15000,
+        );
+    }
+
+    /**
+     * Returns true if player was damaged in last x seconds.
+     */
+    isInCombat() {
+        if (this.lastDamagedTime === 0) {
+            return false;
+        }
+        return Date.now() - this.lastDamagedTime < (Settings.IN_COMBAT_STATUS_DURATION || 5000);
+    }
+
+    drainFood() {
+        if (this.food > 0) {
+            this.modFood(-this.foodDrainAmount);
+        }
+        else {
+            // this.damage(new Damage({
+            //     amount: 20,
+            //     types: [ DamageTypes.Biological ],
+            //     armourPiercing: 100,
+            // }));
+        }
+
+        // Might have died above. Check they are still alive before restarting the loop.
+        if (this.hitPoints > 0) {
+            this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
+        }
     }
 
     setDisplayName(displayName: string) {
         this.displayName = displayName;
 
         // Tell every other nearby player the new name of player's character.
-        this.board.emitToNearbyPlayers(
+        this.board?.emitToNearbyPlayers(
             this.row,
             this.col,
             'change_display_name',
@@ -91,6 +195,22 @@ class Player extends Character {
         if (this.socket.account) {
             this.socket.account.glory = this.glory;
         }
+    }
+
+    modFood(amount: number) {
+        this.food += amount;
+        this.food = Math.floor(this.food);
+
+        // Make sure they can't go above max food or below the minimum.
+        if (this.food > this.maxFood) {
+            this.food = this.maxFood;
+        }
+        else if (this.food < 0) {
+            this.food = 0;
+        }
+
+        // Tell the player their new food amount.
+        this.socket.sendEvent('food_value', this.food);
     }
 
     modDefence(amount: number) {

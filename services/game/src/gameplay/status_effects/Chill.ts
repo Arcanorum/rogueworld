@@ -14,7 +14,7 @@ class Chill extends StatusEffect {
 
     shouldContinueEffect() {
         // If it is lava, remove chill if it is applied.
-        if (this.appliedTo.getBoardTile().groundType === GroundTypes.Lava) {
+        if (this.appliedTo.getBoardTile()?.groundType === GroundTypes.Lava) {
             return false;
         }
 
@@ -29,7 +29,7 @@ class Chill extends StatusEffect {
     shouldStop() {
         // Check if they are standing on a chilling tile. If so, keep chilled.
         const tileChills = this.appliedTo
-            .getBoardTile().groundType.statusEffects
+            .getBoardTile()?.groundType.statusEffects
             ?.some((StatusEffect) => { return StatusEffect === Chill; });
 
         if (tileChills) {

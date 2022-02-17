@@ -15,7 +15,7 @@ abstract class Clothes extends Item {
         if (this.owner.clothing === this) {
             this.owner.modClothing(null);
             // Tell nearby players the owner entity is now wearing nothing.
-            this.owner.board.emitToNearbyPlayers(
+            this.owner.board?.emitToNearbyPlayers(
                 this.owner.row,
                 this.owner.col,
                 'unequip_clothes',
@@ -47,7 +47,7 @@ abstract class Clothes extends Item {
         if (owner.clothing === this) {
             this.unequip();
             // Tell nearby players the owner entity is now wearing nothing.
-            owner.board.emitToNearbyPlayers(
+            owner.board?.emitToNearbyPlayers(
                 owner.row,
                 owner.col,
                 'unequip_clothes',
@@ -66,7 +66,7 @@ abstract class Clothes extends Item {
             // Add the defence bonus of this item to the owner.
             this.owner.modDefence(+this.constructor.prototype.defenceBonus);
             // Tell nearby players the owner entity is now wearing this clothing item.
-            owner.board.emitToNearbyPlayers(
+            owner.board?.emitToNearbyPlayers(
                 owner.row,
                 owner.col,
                 'equip_clothes',

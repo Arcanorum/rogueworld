@@ -121,7 +121,7 @@ class StatusEffect {
         this.appliedTo.statusEffects[this.effectName] = this;
 
         // Tell nearby players the effect has been applied.
-        this.appliedTo.board.emitToNearbyPlayers(
+        this.appliedTo.board?.emitToNearbyPlayers(
             this.appliedTo.row,
             this.appliedTo.col,
             this._startEffectEventName,
@@ -194,7 +194,7 @@ class StatusEffect {
         delete this.appliedTo.statusEffects[this.effectName];
         // Don't send if they are already dead.
         if (this.appliedTo.hitPoints > 0) {
-            this.appliedTo.board.emitToNearbyPlayers(
+            this.appliedTo.board?.emitToNearbyPlayers(
                 this.appliedTo.row,
                 this.appliedTo.col,
                 this._stopEffectEventName,

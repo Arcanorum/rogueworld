@@ -1,5 +1,5 @@
 import mongoose, { Document, Error } from 'mongoose';
-import AccountModel, { AccountDocument } from './AccountModel';
+import AccountModel, { AccountDocument, ItemDocument } from './AccountModel';
 import World from '../space/World';
 import { error, message, warning } from '@dungeonz/utils';
 import { Settings } from '@dungeonz/configs';
@@ -14,7 +14,7 @@ interface FormattedSaveData {
     displayName: string;
     glory: number;
     // bankItems: [];
-    inventoryItems: [];
+    inventoryItems: Array<ItemDocument>;
 }
 
 export default {
@@ -81,8 +81,6 @@ export default {
             glory: formattedData.glory,
             // bankItems: formattedData.bankItems,
             inventoryItems: formattedData.inventoryItems,
-            // stats: formattedData.stats,
-            // tasks: formattedData.tasks,
         });
 
         await account.save()
@@ -217,12 +215,6 @@ export default {
 
         // Inventory.
         entity.inventory.loadData(account);
-
-        // Stats exp.
-        // entity.stats.loadData(account);
-
-        // Tasks.
-        // entity.tasks.loadData(account);
     },
 
     /**
@@ -239,26 +231,7 @@ export default {
             glory: entity.glory,
             // bankItems: entity.bank.getSaveData(),
             inventoryItems: entity.inventory.getSaveData(),
-            // stats: {},
-            // tasks: {},
         };
-
-        // Object.entries(entity.stats).forEach(([ statKey, stat ]) => {
-        //     data.stats[statKey] = stat.exp;
-        // });
-
-        // Object.entries(entity.tasks.list).forEach(([ taskKey, task ]) => {
-        //     data.tasks[taskKey] = {
-        //         taskId: task.taskType.taskId,
-        //         progress: task.progress,
-        //         completionThreshold: task.completionThreshold,
-        //         rewardGlory: task.rewardGlory,
-        //         // Can't save the class references, so save the codes.
-        //         rewardItemTypeCodes: task.rewardItemTypes.map(
-        //             (rewardItemType) => rewardItemType.prototype.typeCode,
-        //         ),
-        //     };
-        // });
 
         return data;
     },

@@ -1,3 +1,5 @@
+import { ObjectOfAny } from '@dungeonz/types';
+
 /**
  * Gets a random element from the given array.
  */
@@ -43,17 +45,31 @@ export const getPermutations = (array: Array<any>) => {
 };
 
 /**
+ * Takes an array of objects, and returns a new object where each key/value is pulled from each
+ * element (object) in the array, by the given target property names.
+ * Useful for formatting JSON data from Tiled.
  * @param nameKey - The name of each property key on the result object.
  * @param valueKey - The name of the property to use as each propety value.
- * @returns The array as an object.
+ * @example
+ * const objects = [{foo: "bar", baz: 123}, {foo: "qux"}, {baz: "corge"}];
+ * arrayOfObjectsToObject(objects, "baz", "foo");
+ * // {
+ * //   "123": "bar",
+ * //   "undefined": "qux",
+ * //   "corge": undefined
+ * // }
  */
-export const arrayToObject = (array: Array<any>, nameKey: string, valueKey: string) => {
+export const arrayOfObjectsToObject = (
+    array: Array<ObjectOfAny>,
+    nameKey: string,
+    valueKey: string,
+): ObjectOfAny => {
     if (Array.isArray(array) === false) return {};
 
     return array.reduce((obj, item) => {
-        obj[item[nameKey]] = item[valueKey];
+        obj[(item[nameKey])] = item[valueKey];
         return obj;
-    }, {});
+    }, {} as ObjectOfAny);
 };
 
 /**

@@ -148,8 +148,8 @@ class Inventory {
     }
 
     saveHotbar() {
-        const hotbarItemIDs = this.getHotbarItemIds();
-        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(hotbarItemIDs));
+        const hotbarItemIds = this.getHotbarItemIds();
+        window.localStorage.setItem(this.loadHotBarRequest, JSON.stringify(hotbarItemIds));
     }
 
     defaultHotBar() {

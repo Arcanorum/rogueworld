@@ -11,8 +11,9 @@
         "watch": [
             "src",
             "../../shared/configs",
-            "../../shared/utils",
-            "../../shared/types"
+            "../../shared/map",
+            "../../shared/types",
+            "../../shared/utils"
         ],
         "ignore": [
             "src/api/catalogues"

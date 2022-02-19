@@ -9,6 +9,8 @@ GAME_SERVICE_PORT: 1111
 
 MAP_SERVICE_PORT: 2222
 
+TILED_PATH: /snap/bin
+
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000
 

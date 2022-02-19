@@ -1,34 +1,35 @@
-import fs from 'fs';
+import { message } from '@dungeonz/utils';
+import fs from 'fs-extra';
 import path from 'path';
 import img2LeafletTile from './GenerateMapTiles';
-import { message } from '@dungeonz/utils';
 
-const outputPath = path.join(__dirname, './../../map/leaflet-map'); // path to folder output
+// Delete all existing build files before generating new ones, to make sure redundant ones are cleaned up.
+fs.emptyDirSync('../build');
 
-// check if outputPath already exists
-fs.stat(outputPath, async (err) => {
-    if (err === null) {
-        message('leaflet-map folder already exists, skipping...');
-    }
-    else if (err.code === 'ENOENT') {
-        message('leaflet-map folder not found, creating...');
-        message('this may take a while...');
+import './GenerateMapImages';
 
-        const inputPath = path.join(__dirname, './../../map/overworld.png'); // path to input image
+(async() => {
+    const outputPath = path.join(__dirname, '../build/leaflet-map');
+    const inputPath = path.join(__dirname, '../build/images/test-map.png'); // path to input image
 
-        const zoomLevels = [
-            [ 1, 2048 ], // 2048 x 2048
-            [ 2, 1024 ], // 1024 x 1024
-            [ 3, 512 ], // 512 x 512
-            [ 4, 256 ], // 256 x 256
-        ];
+    // Make sure the output directory exists.
+    fs.ensureDirSync(outputPath);
 
-        await img2LeafletTile({
-            inputFile: inputPath,
-            outputFolder: outputPath,
-            zoomLevels,
-        });
+    const zoomLevels = [
+        [ 1, 2048 ], // 2048 x 2048
+        [ 2, 1024 ], // 1024 x 1024
+        [ 3, 512 ], // 512 x 512
+        [ 4, 256 ], // 256 x 256
+    ];
 
-        message('Done!');
-    }
-});
+    message('Creating leaflet-map directory.');
+    message('This may take a while...');
+
+    await img2LeafletTile({
+        inputFile: inputPath,
+        outputFolder: outputPath,
+        zoomLevels,
+    });
+
+    message('Done!');
+})();

@@ -3,9 +3,9 @@ import sharp from 'sharp';
 import fs from 'fs';
 
 interface Config {
-    inputFile: string,
-    outputFolder: string,
-    zoomLevels: Array<Array<number>>,
+    inputFile: string;
+    outputFolder: string;
+    zoomLevels: Array<Array<number>>;
 }
 
 async function img2LeafletTile(config: Config) {

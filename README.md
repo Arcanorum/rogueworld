@@ -2,6 +2,9 @@
 
 ## TODO
 
+# Map service
+*Need Tiled (version?) installed as it needs some scripts (tmxrasterizer)*
+
 # Notes
 
 

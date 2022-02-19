@@ -57,4 +57,9 @@ jspm_packages/
 # next.js build output
 .next
 out
+
+# User specific configs
+Settings.yml
+
+# Generated resources for APIs
 services/game/src/api/resources/ItemTypes.json

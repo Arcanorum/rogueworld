@@ -11,7 +11,7 @@ app.listen(Settings.GAME_SERVICE_PORT || 1111);
  * Need to provide the item types for the client via an API request, as this info is only available
  * once the server has started, so isn't suitable for being included in the client build files.
  */
-const itemTypesPath = path.join(__dirname, '../items/ItemTypes.json');
+const itemTypesPath = path.join(__dirname, './resources/ItemTypes.json');
 app.get('api/item-types', (req, res) => {
     message('getting item types from api');
 

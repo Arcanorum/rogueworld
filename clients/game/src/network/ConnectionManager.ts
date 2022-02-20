@@ -1,7 +1,8 @@
-import { digestMessage, message } from '../../../../shared/utils';
+import { Settings } from '@dungeonz/configs';
 import PubSub from 'pubsub-js';
+import { digestMessage, message } from '@dungeonz/utils';
 import Config from '../shared/Config';
-import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';
+import { SOMETHING_WENT_WRONG, WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';
 import { ApplicationState } from '../shared/state';
 import eventResponses from './websocket_events/EventResponses';
 
@@ -104,26 +105,31 @@ const getErrorCategory = () => {
 
 /**
  * Attempt to create a new websocket connection to the game server.
- * @returns {Boolean} Whether a the function finished without a problem.
+ * @returns Whether a the function finished without a problem.
  */
 export const connectToGameServer = () => {
     // If the game is running in dev mode (localhost), connect without SSL.
     if (Config.host === 'local') {
-        const serverBaseURL = '127.0.0.1:4567';
-        ApplicationState.httpServerURL = `http://${serverBaseURL}`;
-        ApplicationState.websocketServerURL = `ws://${serverBaseURL}`;
+        const gameServiceBaseURL = `127.0.0.1:${Settings.GAME_SERVICE_PORT || 1111}`;
+        ApplicationState.httpServerURL = `http://${gameServiceBaseURL}`;
+        ApplicationState.gameServiceWebSocketServerURL = `ws://${gameServiceBaseURL}`;
     }
     else if (Config.host === 'test') {
         // Test mode. Connect to public test server, which should be using SSL.
-        const serverBaseURL = 'test.dungeonz.io:443';
-        ApplicationState.httpServerURL = `https://${serverBaseURL}`;
-        ApplicationState.websocketServerURL = `wss://${serverBaseURL}`;
+        const gameServiceBaseURL = 'test.dungeonz.io:443';
+        ApplicationState.httpServerURL = `https://${gameServiceBaseURL}`;
+        ApplicationState.gameServiceWebSocketServerURL = `wss://${gameServiceBaseURL}`;
+    }
+    else if(Config.host === 'live') {
+        // Deployment mode. Connect to live server, which should be using SSL.
+        const gameServiceBaseURL = 'dungeonz.io:443';
+        ApplicationState.httpServerURL = `https://${gameServiceBaseURL}`;
+        ApplicationState.gameServiceWebSocketServerURL = `wss://${gameServiceBaseURL}`;
     }
     else {
-        // Deployment mode. Connect to live server, which should be using SSL.
-        const serverBaseURL = 'dungeonz.io:443';
-        ApplicationState.httpServerURL = `https://${serverBaseURL}`;
-        ApplicationState.websocketServerURL = `wss://${serverBaseURL}`;
+        // Config is invalid. Code problem somewhere.
+        PubSub.publish(SOMETHING_WENT_WRONG);
+        return false;
     }
 
     if (ApplicationState.connected || ApplicationState.connecting) {
@@ -131,7 +137,7 @@ export const connectToGameServer = () => {
     }
 
     // Connect to the game server.
-    ApplicationState.connection = new GameWebSocket(ApplicationState.websocketServerURL);
+    ApplicationState.connection = new GameWebSocket(ApplicationState.gameServiceWebSocketServerURL);
 
     ApplicationState.setConnecting(true);
 

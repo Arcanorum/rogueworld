@@ -71,16 +71,9 @@ wss.broadcastToInGame = (eventName: string, data?: any) => {
 };
 
 wss.on('connection', (clientSocket: PlayerWebSocket) => {
-    clientSocket.isAlive = true;
+    PlayerWebSocket.extend(clientSocket);
+
     clientSocket.on('pong', () => { clientSocket.isAlive = true; });
-
-    clientSocket.inGame = false;
-
-    clientSocket.nextMessageTimes = {
-        LOCAL: 0,
-        GLOBAL: 0,
-        TRADE: 0,
-    };
 
     clientSocket.sendEvent('settings', ClientSettings);
 

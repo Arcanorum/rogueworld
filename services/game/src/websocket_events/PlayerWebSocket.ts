@@ -8,29 +8,42 @@ type ChatMessageTimes = {
 };
 
 class PlayerWebSocket extends WebSocket {
-    isAlive = false;
+    isAlive!: boolean;
 
-    inGame = false;
+    inGame!: boolean;
 
     account: AccountDocument | null = null;
 
     entity: Player | null = null;
 
-    nextMessageTimes: ChatMessageTimes = {
-        LOCAL: 0,
-        GLOBAL: 0,
-        TRADE: 0,
-    };
+    nextMessageTimes!: ChatMessageTimes;
 
+    sendEvent!: (eventName: string, data?: any) => void;
 
     /**
      * Sends an event to this socket, with optional data.
      */
-    sendEvent(eventName: string, data?: any) {
+    static sendEvent(this: PlayerWebSocket, eventName: string, data?: any) {
         // Check the connection is in the ready state.
         if (this.readyState === 1) {
             this.send(JSON.stringify({ eventName, data }));
         }
+    }
+
+    /**
+     * Need to fuck around a bit here with adding our custom stuff to the websocket object as the
+     * ws package doesn't facilitate using this custom websocket class as the constructor for the
+     * websocket instances it passes to the server event callbacks.
+     */
+    static extend(clientSocket: PlayerWebSocket) {
+        clientSocket.isAlive = true;
+        clientSocket.inGame = false;
+        clientSocket.nextMessageTimes = {
+            LOCAL: 0,
+            GLOBAL: 0,
+            TRADE: 0,
+        };
+        clientSocket.sendEvent = this.sendEvent;
     }
 }
 

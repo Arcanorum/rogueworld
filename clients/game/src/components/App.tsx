@@ -1,5 +1,7 @@
+import { message } from '@dungeonz/utils';
 import PubSub from 'pubsub-js';
 import { useEffect, useState } from 'react';
+import Config from '../shared/Config';
 import { JOINED, LOADING, LOAD_ACCEPTED } from '../shared/EventTypes';
 import { ApplicationState } from '../shared/state';
 import GamePage from './game/GamePage';
@@ -7,9 +9,27 @@ import Hints from './loading/Hints';
 import LoadingPage from './loading/LoadingPage';
 import LoginPage from './login/LoginPage';
 
+// Check if the game should be run in dev mode by checking if it is localhost, or what other server to
+// connect to based on the domain, i.e. go to test server for test.dungeonz.io, or live server for dungeonz.io
+if ((window as any).location.hostname === 'localhost' || (window as any).location.hostname === '127.0.0.1' || (window as any).location.hostname === '') {
+    message('Running in dev mode.');
+    Config.devMode = true;
+    Config.host = 'local';
+}
+else if ((window as any).location.hostname === 'test.dungeonz.io') {
+    message('Running in test mode.');
+    Config.devMode = false;
+    Config.host = 'test';
+}
+else {
+    message('Running in prod mode.');
+    Config.devMode = false;
+    Config.host = 'live';
+}
+
 function App() {
-    const [ currentPage, setCurrentPage ] = useState('login');
-    const [ loading, setLoading ] = useState(false);
+    const [currentPage, setCurrentPage] = useState('login');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         // Hide the initial page load loading message.

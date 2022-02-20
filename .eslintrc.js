@@ -32,7 +32,7 @@ module.exports = {
             },
         ],
         'no-unused-vars': [
-            'error',
+            'warn',
         ],
         'no-param-reassign': [
             'off',

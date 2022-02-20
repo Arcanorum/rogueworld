@@ -24,9 +24,9 @@ import {
 import Panels from '../components/game/gui/panels/Panels';
 import Global from '../shared/Global';
 import eventResponses from '../network/websocket_events/EventResponses';
-import { message, pixelDistanceBetween, warning } from '../../../../shared/utils/src';
+import { message, pixelDistanceBetween, warning } from '@dungeonz/utils';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
-import { DayPhases } from '../../../../shared/types/src/DayPhases';
+import { DayPhases } from '@dungeonz/types';
 import Player from './entities/characters/Player';
 
 class GameScene extends Phaser.Scene {
@@ -227,7 +227,7 @@ class GameScene extends Phaser.Scene {
         const damageParticles = this.add.particles('game-atlas');
 
         this.damageParticleEmitter = damageParticles.createEmitter({
-            frame: [ 'damage-particle-1', 'damage-particle-2', 'damage-particle-3' ],
+            frame: ['damage-particle-1', 'damage-particle-2', 'damage-particle-3'],
             x: { min: -200, max: 200 },
             speed: { min: 200, max: 300 },
             angle: { min: 220, max: 320 },
@@ -245,7 +245,7 @@ class GameScene extends Phaser.Scene {
         const skillUpParticles = this.add.particles('game-atlas');
 
         this.skillUpParticleEmitter = skillUpParticles.createEmitter({
-            frame: [ 'star-particle-01', 'star-particle-02', 'star-particle-03', 'star-particle-04', 'star-particle-05' ],
+            frame: ['star-particle-01', 'star-particle-02', 'star-particle-03', 'star-particle-04', 'star-particle-05'],
             x: { min: -200, max: 200 },
             speed: { min: 200, max: 300 },
             angle: { min: 220, max: 320 },
@@ -798,7 +798,7 @@ class GameScene extends Phaser.Scene {
         const playerColRightViewRange = PlayerState.col + Config.VIEW_RANGE;
         // let darknessGridDirty = false;
 
-        Object.entries(dynamics).forEach(([ key, dynamic ]) => {
+        Object.entries(dynamics).forEach(([key, dynamic]) => {
             dynamicSpriteContainer = dynamic.spriteContainer;
 
             // Skip the player entity's sprite.

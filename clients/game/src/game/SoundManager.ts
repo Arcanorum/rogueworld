@@ -1,5 +1,5 @@
-import { ObjectOfStrings } from '../../../../shared/types/src';
-import { getRandomElement, warning } from '../../../../shared/utils/src';
+import { ObjectOfStrings } from '@dungeonz/types';
+import { getRandomElement, warning } from '@dungeonz/utils';
 import Config from '../shared/Config';
 import Global from '../shared/Global';
 import { GUIState } from '../shared/state';
@@ -260,7 +260,7 @@ class SoundManager {
                     list[fileName].push(values[index].default);
                 }
                 else {
-                    list[fileName] = [ values[index].default ];
+                    list[fileName] = [values[index].default];
                 }
                 return list;
             }, {} as {[key: string]: Array<string>});

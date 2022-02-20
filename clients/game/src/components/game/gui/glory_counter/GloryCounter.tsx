@@ -11,9 +11,9 @@ import Config from '../../../../shared/Config';
 let transitionValueTimeout = 0;
 
 function GloryCounter() {
-    const [ glory, setGlory ] = useState(0);
+    const [glory, setGlory] = useState(0);
     // Use a string, so it will show the + when positive change.
-    const [ difference, setDifference ] = useState('');
+    const [difference, setDifference] = useState('');
 
     useEffect(() => {
         const subs = [

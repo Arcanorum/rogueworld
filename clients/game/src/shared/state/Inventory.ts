@@ -1,4 +1,4 @@
-import { warning } from '../../../../../shared/utils';
+import { warning } from '@dungeonz/utils';
 import PubSub from 'pubsub-js';
 import {
     ADD_INVENTORY_ITEM,

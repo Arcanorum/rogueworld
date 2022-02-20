@@ -8,7 +8,7 @@ import minusIcon from '../../../../../assets/images/gui/hud/minus-icon.png';
 import styles from './SettingsPanel.module.scss';
 import Global from '../../../../../shared/Global';
 import { GUIState, InventoryState } from '../../../../../shared/state';
-import { getStyle, warning } from '../../../../../../../../shared/utils/src';
+import { getStyle, warning } from '@dungeonz/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function MinusButton({
@@ -50,16 +50,16 @@ function PlusButton({
 }
 
 function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
-    const [ fullscreen, setFullscreen ] = useState(Global.gameScene.scale.isFullscreen);
-    const [ musicVolume, setMusicVolume ] = useState(GUIState.musicVolume);
-    const [ effectsVolume, setEffectsVolume ] = useState(GUIState.effectsVolume);
+    const [fullscreen, setFullscreen] = useState(Global.gameScene.scale.isFullscreen);
+    const [musicVolume, setMusicVolume] = useState(GUIState.musicVolume);
+    const [effectsVolume, setEffectsVolume] = useState(GUIState.effectsVolume);
     // const [ guiScale, setGUIScale ] = useState(GUIState.guiScale);
-    const [ autoAddToHotbar, setAutoAddToHotbar ] = useState(InventoryState.autoAddToHotbar);
-    const [ profanityFilterEnabled, setProfanityFilterEnabled ] = useState(
+    const [autoAddToHotbar, setAutoAddToHotbar] = useState(InventoryState.autoAddToHotbar);
+    const [profanityFilterEnabled, setProfanityFilterEnabled] = useState(
         GUIState.profanityFilterEnabled,
     );
-    const [ lightFlickerEnabled, setLightFlickerEnabled ] = useState(GUIState.lightFlickerEnabled);
-    const [ showFPS, setShowFPS ] = useState(GUIState.showFPS);
+    const [lightFlickerEnabled, setLightFlickerEnabled] = useState(GUIState.lightFlickerEnabled);
+    const [showFPS, setShowFPS] = useState(GUIState.showFPS);
 
     const saveSetting = (key: string, value: any) => {
         try {
@@ -97,7 +97,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
         Global.gameScene.soundManager.music.updateVolume();
 
         saveSetting('music_volume', musicVolume);
-    }, [ musicVolume ]);
+    }, [musicVolume]);
 
     useEffect(() => {
         if (effectsVolume > 200) {
@@ -112,7 +112,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
         Global.gameScene.soundManager.effects.updateVolume();
 
         saveSetting('effects_volume', effectsVolume);
-    }, [ effectsVolume ]);
+    }, [effectsVolume]);
 
     // useEffect(() => {
     //     if (guiScale > 200) {

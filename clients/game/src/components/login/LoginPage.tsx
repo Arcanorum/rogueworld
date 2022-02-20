@@ -24,7 +24,7 @@ import {
     connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
 } from '../../network/ConnectionManager';
 import { ApplicationState } from '../../shared/state';
-import { message } from '../../../../../shared/utils/src';
+import { message } from '@dungeonz/utils';
 import getTextDef from '../../shared/GetTextDef';
 import Config from '../../shared/Config';
 
@@ -41,20 +41,20 @@ const Languages = [
 ];
 
 function LoginPage() {
-    const [ showPartners, setShowPartners ] = useState(false);
-    const [ loginExistingUser, setLoginExistingUser ] = useState(false);
-    const [ newCharacterName, setNewCharacterName ] = useState('');
-    const [ username, setUsername ] = useState('');
-    const [ password, setPassword ] = useState('');
+    const [showPartners, setShowPartners] = useState(false);
+    const [loginExistingUser, setLoginExistingUser] = useState(false);
+    const [newCharacterName, setNewCharacterName] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const [ connecting, setConnecting ] = useState(false);
-    const [ connected, setConnected ] = useState(false);
-    const [ joining, setJoining ] = useState(false);
+    const [connecting, setConnecting] = useState(false);
+    const [connected, setConnected] = useState(false);
+    const [joining, setJoining] = useState(false);
 
-    const [ connectionIssue, setConnectionIssue ] = useState<string | null>(null);
-    const [ joinIssue, setJoinIssue ] = useState<string | null>(null);
+    const [connectionIssue, setConnectionIssue] = useState<string | null>(null);
+    const [joinIssue, setJoinIssue] = useState<string | null>(null);
 
-    const [ showLanguageList, setShowLanguageList ] = useState(false);
+    const [showLanguageList, setShowLanguageList] = useState(false);
 
     const playPressed = () => {
         message('Play pressed');
@@ -184,7 +184,7 @@ function LoginPage() {
 
     useEffect(() => {
         setJoinIssue(null);
-    }, [ connectionIssue, loginExistingUser, username, password ]);
+    }, [connectionIssue, loginExistingUser, username, password]);
 
     const newCharacterPressed = () => {
         setLoginExistingUser(false);

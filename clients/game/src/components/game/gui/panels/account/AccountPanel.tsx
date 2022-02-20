@@ -7,7 +7,7 @@ import styles from './AccountPanel.module.scss';
 import { CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
-import { digestMessage, message } from '../../../../../../../../shared/utils/src';
+import { digestMessage, message } from '@dungeonz/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function AccountPanel({
@@ -15,10 +15,10 @@ function AccountPanel({
 }: {
     onCloseCallback: () => void;
 }) {
-    const [ currentPassword, setCurrentPassword ] = useState('');
-    const [ newPassword, setNewPassword ] = useState('');
-    const [ warningText, setWarningText ] = useState('');
-    const [ passwordChanged, setPasswordChanged ] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [warningText, setWarningText] = useState('');
+    const [passwordChanged, setPasswordChanged] = useState(false);
 
     const acceptPressed = async() => {
         message('Reset password pressed.');

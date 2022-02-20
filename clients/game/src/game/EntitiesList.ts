@@ -1,4 +1,4 @@
-import { warning } from '../../../../shared/utils';
+import { warning } from '@dungeonz/utils';
 import Entity from './entities/Entity';
 // import GenericPickupsList from './entities/pickups/GenericPickupsList';
 // import GenericProjectilesList from './entities/projectiles/GenericProjectilesList';

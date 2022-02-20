@@ -18,7 +18,7 @@ import ItemIconsList from '../../../../../shared/ItemIconsList';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '../../../../../../../../shared/utils/src';
+import { formatItemValue } from '@dungeonz/utils';
 import Config from '../../../../../shared/Config';
 import { ShopItemConfig } from '../../../../../shared/types';
 
@@ -94,7 +94,7 @@ function ItemSlot({
     price: number;
     onClick: (shopItem: ShopItemConfig) => void;
 }) {
-    const [ canFitThis, setCanFitThis ] = useState(canItemFit(shopItem));
+    const [canFitThis, setCanFitThis] = useState(canItemFit(shopItem));
 
     useEffect(() => {
         const subs = [
@@ -158,15 +158,15 @@ function ItemSlot({
 }
 
 function ShopPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
-    const [ items, setItems ] = useState<Array<ShopItemConfig>>(
+    const [items, setItems] = useState<Array<ShopItemConfig>>(
         GUIState.shop?.shopType.stock || [],
     );
-    const [ prices, setPrices ] = useState<Array<number>>(GUIState.shop?.prices || []);
-    const [ searchItems, setSearchItems ] = useState<Array<ShopItemConfig>>([]);
-    const [ searchText, setSearchText ] = useState('');
-    const [ inventoryWeight, setInventoryWeight ] = useState(InventoryState.weight);
-    const [ inventoryMaxWeight ] = useState(InventoryState.maxWeight);
-    const [ selectedItem, setSelectedItem ] = useState<ShopItemConfig | null>(null);
+    const [prices, setPrices] = useState<Array<number>>(GUIState.shop?.prices || []);
+    const [searchItems, setSearchItems] = useState<Array<ShopItemConfig>>([]);
+    const [searchText, setSearchText] = useState('');
+    const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [selectedItem, setSelectedItem] = useState<ShopItemConfig | null>(null);
     const panelRef = useRef<HTMLDivElement>(null);
 
     const onItemPressed = (item: ShopItemConfig) => {
@@ -196,7 +196,7 @@ function ShopPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
         // if the cursor is over one of the items and showing the tooltip when someone searches, if
         // the item gets filtered out the tooltip for it will remain visible.
         GUIState.setTooltipContent(null);
-    }, [ searchText, items ]);
+    }, [searchText, items]);
 
     useEffect(() => {
         getShopPrices();

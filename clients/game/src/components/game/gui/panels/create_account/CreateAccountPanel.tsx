@@ -7,13 +7,13 @@ import styles from './CreateAccountPanel.module.scss';
 import { CREATE_ACCOUNT_FAILURE } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
-import { digestMessage, message } from '../../../../../../../../shared/utils/src';
+import { digestMessage, message } from '@dungeonz/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
-    const [ username, setUsername ] = useState('');
-    const [ password, setPassword ] = useState('');
-    const [ warningText, setWarningText ] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [warningText, setWarningText] = useState('');
 
     const createAccountPressed = async() => {
         message('Create account pressed.');

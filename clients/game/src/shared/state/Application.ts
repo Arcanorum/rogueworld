@@ -1,4 +1,4 @@
-import { DayPhases } from '../../../../../shared/types/src/DayPhases';
+import { DayPhases } from '@dungeonz/types';
 import PubSub from 'pubsub-js';
 import { GameWebSocket } from '../../network/ConnectionManager';
 import {
@@ -56,7 +56,7 @@ class Application {
     loadAccepted!: boolean;
     loggedIn!: boolean;
     httpServerURL!: string;
-    websocketServerURL!: string;
+    gameServiceWebSocketServerURL!: string;
     missedWebsocketEvents!: Array<MissedWebsocketEvent>;
     maxDisplayNameLength!: number;
     maxUsernameLength!: number;
@@ -93,7 +93,7 @@ class Application {
 
         this.httpServerURL = '';
 
-        this.websocketServerURL = '';
+        this.gameServiceWebSocketServerURL = '';
 
         this.missedWebsocketEvents = [];
 

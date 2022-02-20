@@ -1,4 +1,4 @@
-import { ItemConfig, ObjectOfStrings } from '../../../../shared/types/src';
+import { ItemConfig, ObjectOfStrings } from '@dungeonz/types';
 import Sprite from '../game/entities/Sprite';
 import { CraftingRecipe } from './types';
 

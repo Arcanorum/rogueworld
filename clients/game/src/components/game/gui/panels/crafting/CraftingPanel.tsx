@@ -15,7 +15,7 @@ import {
 } from '../../../../../shared/EventTypes';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '../../../../../../../../shared/utils/src';
+import { formatItemValue } from '@dungeonz/utils';
 import Config from '../../../../../shared/Config';
 import { CraftingRecipe, CraftingRecipeIngredient } from '../../../../../shared/types';
 
@@ -37,7 +37,7 @@ const checkPlayerHasEveryIngredient = (recipe: CraftingRecipe) => (
 );
 
 function IngredientRow({ ingredient }: { ingredient: CraftingRecipeIngredient }) {
-    const [ amountInInventory, setAmountInInventory ] = useState(findAmountInInventory(ingredient));
+    const [amountInInventory, setAmountInInventory] = useState(findAmountInInventory(ingredient));
 
     useEffect(() => {
         const subs = [
@@ -96,7 +96,7 @@ function RecipeSlot({
     selected: boolean;
     onClick: (recipe: CraftingRecipe) => void;
 }) {
-    const [ canBeCrafted, setCanBeCrafted ] = useState(checkPlayerHasEveryIngredient(recipe));
+    const [canBeCrafted, setCanBeCrafted] = useState(checkPlayerHasEveryIngredient(recipe));
 
     useEffect(() => {
         const subs = [
@@ -151,8 +151,8 @@ function RecipeSlot({
 }
 
 function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
-    const [ items, setItems ] = useState(InventoryState.items);
-    const [ recipes ] = useState(Config.CraftingRecipes.filter((recipe) => {
+    const [items, setItems] = useState(InventoryState.items);
+    const [recipes] = useState(Config.CraftingRecipes.filter((recipe) => {
         // Get all of the recipes that are valid at this crafting station type.
         if (recipe.stationTypeNumbers.some(
             (stationTypeNumber) => stationTypeNumber === GUIState.craftingStation?.typeNumber,
@@ -161,13 +161,13 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
         }
         return false;
     }));
-    const [ searchRecipes, setSearchRecipes ] = useState<Array<CraftingRecipe>>([]);
-    const [ searchText, setSearchText ] = useState('');
-    const [ inventoryWeight, setInventoryWeight ] = useState(InventoryState.weight);
-    const [ inventoryMaxWeight ] = useState(InventoryState.maxWeight);
-    const [ selectedRecipe, setSelectedRecipe ] = useState<CraftingRecipe | null>(null);
-    const [ playerHasIngredients, setPlayerHasIngredients ] = useState(false);
-    const [ showItemDetails, setShowItemDetails ] = useState(true);
+    const [searchRecipes, setSearchRecipes] = useState<Array<CraftingRecipe>>([]);
+    const [searchText, setSearchText] = useState('');
+    const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [selectedRecipe, setSelectedRecipe] = useState<CraftingRecipe | null>(null);
+    const [playerHasIngredients, setPlayerHasIngredients] = useState(false);
+    const [showItemDetails, setShowItemDetails] = useState(true);
 
     const onRecipePressed = (recipe: CraftingRecipe) => {
         setSelectedRecipe(recipe);
@@ -189,7 +189,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
         }
 
         setShowItemDetails(false);
-    }, [ selectedRecipe, items ]);
+    }, [selectedRecipe, items]);
 
     useEffect(() => {
         const filteredRecipes = recipes.filter((recipe) =>
@@ -205,7 +205,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
         // if the cursor is over one of the slots and showing the tooltip when someone searches, if
         // the slot gets filtered out the tooltip for it will remain visible.
         GUIState.setTooltipContent(null);
-    }, [ searchText, recipes ]);
+    }, [searchText, recipes]);
 
     useEffect(() => {
         const subs = [
@@ -213,13 +213,13 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                 setInventoryWeight(data.new);
             }),
             PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
         ];
 

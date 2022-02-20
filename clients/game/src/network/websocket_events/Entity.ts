@@ -1,4 +1,4 @@
-import { tileDistanceBetween } from '../../../../../shared/utils';
+import { tileDistanceBetween } from '@dungeonz/utils';
 import Player from '../../game/entities/characters/Player';
 import Pickup from '../../game/entities/pickups/Pickup';
 import Config from '../../shared/Config';

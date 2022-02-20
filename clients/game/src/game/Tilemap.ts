@@ -4,7 +4,7 @@ import {
     shiftMatrixLeft,
     shiftMatrixRight,
     shiftMatrixUp,
-} from '../../../../shared/utils';
+} from '@dungeonz/utils';
 import Phaser from 'phaser';
 import Config from '../shared/Config';
 import { PlayerState } from '../shared/state';

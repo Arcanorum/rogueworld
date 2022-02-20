@@ -5,12 +5,12 @@ import './LoadingPage.module.scss';
 import { LOADING, LOAD_PROGRESS, LOAD_FILE_PROGRESS } from '../../shared/EventTypes';
 import { ApplicationState } from '../../shared/state';
 import Hints from './Hints';
-import { getShuffledArray } from '../../../../../shared/utils/src';
+import { getShuffledArray } from '@dungeonz/utils';
 import getTextDef from '../../shared/GetTextDef';
 
 function LoadingBar() {
-    const [ progress, setProgress ] = useState('0%');
-    const [ fileName, setFileName ] = useState('');
+    const [progress, setProgress] = useState('0%');
+    const [fileName, setFileName] = useState('');
 
     useEffect(() => {
         const subs = [
@@ -42,10 +42,10 @@ function LoadingBar() {
 }
 
 function LoadingPage() {
-    const [ randomHints ] = useState(getShuffledArray(Hints));
-    const [ currentHintIndex, setCurrentHintIndex ] = useState(0);
-    const [ hint, setHint ] = useState(randomHints[currentHintIndex]);
-    const [ loading, setLoading ] = useState(ApplicationState.loading);
+    const [randomHints] = useState(getShuffledArray(Hints));
+    const [currentHintIndex, setCurrentHintIndex] = useState(0);
+    const [hint, setHint] = useState(randomHints[currentHintIndex]);
+    const [loading, setLoading] = useState(ApplicationState.loading);
 
     useEffect(() => {
         const subs = [
@@ -64,7 +64,7 @@ function LoadingPage() {
 
     useEffect(() => {
         setHint(randomHints[currentHintIndex]);
-    }, [ currentHintIndex ]);
+    }, [currentHintIndex]);
 
     const nextHintPressed = () => {
         if (currentHintIndex === randomHints.length - 1) {

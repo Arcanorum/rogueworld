@@ -5,7 +5,7 @@ import styles from './RespawnPanel.module.scss';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { getRandomIntInclusive } from '../../../../../../../../shared/utils/src';
+import { getRandomIntInclusive } from '@dungeonz/utils';
 
 function RespawnPanel() {
     const respawnPressed = async() => {

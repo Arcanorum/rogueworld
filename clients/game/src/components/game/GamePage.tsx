@@ -9,7 +9,7 @@ import styles from './GamePage.module.scss';
 import Config from '../../shared/Config';
 
 function GamePage() {
-    const [ loadFinished, setLoadFinished ] = useState({});
+    const [loadFinished, setLoadFinished] = useState({});
 
     // Initial setup.
     useEffect(() => {

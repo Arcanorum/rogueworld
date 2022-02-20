@@ -17,7 +17,7 @@ import holdingIcon from '../../../../assets/images/gui/hud/hotbar/holding-icon.p
 import ammunitionIcon from '../../../../assets/images/gui/hud/hotbar/ammunition-icon.png';
 import clothingIcon from '../../../../assets/images/gui/hud/hotbar/clothing-icon.png';
 import Global from '../../../../shared/Global';
-import { formatItemValue } from '../../../../../../../shared/utils/src';
+import { formatItemValue } from '@dungeonz/utils';
 import getTextDef from '../../../../shared/GetTextDef';
 import ItemState from '../../../../shared/ItemState';
 import Config from '../../../../shared/Config';
@@ -37,14 +37,14 @@ function HotbarSlot({
 }: {
     itemState: ItemState;
 }) {
-    const [ inventoryPanelOpen, setInventoryPanelOpen ] = useState(
+    const [inventoryPanelOpen, setInventoryPanelOpen] = useState(
         GUIState.activePanel === Panels.Inventory,
     );
-    const [ isHolding, setIsHolding ] = useState(itemState === InventoryState.holding);
-    const [ isAmmunition, setIsAmmunition ] = useState(
+    const [isHolding, setIsHolding] = useState(itemState === InventoryState.holding);
+    const [isAmmunition, setIsAmmunition] = useState(
         itemState === InventoryState.ammunition,
     );
-    const [ isClothing, setIsClothing ] = useState(itemState === InventoryState.clothing);
+    const [isClothing, setIsClothing] = useState(itemState === InventoryState.clothing);
 
     useEffect(() => {
         const subs = [
@@ -123,15 +123,15 @@ function HotbarSlot({
 }
 
 function Hotbar() {
-    const [ hotbarItems, setHotbarItems ] = useState<Array<ItemState>>([]);
+    const [hotbarItems, setHotbarItems] = useState<Array<ItemState>>([]);
 
     useEffect(() => {
         const subs = [
             PubSub.subscribe(HOTBAR_ITEM, () => {
-                setHotbarItems([ ...InventoryState.hotbar ]);
+                setHotbarItems([...InventoryState.hotbar]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
-                setHotbarItems([ ...InventoryState.hotbar ]);
+                setHotbarItems([...InventoryState.hotbar]);
             }),
         ];
 

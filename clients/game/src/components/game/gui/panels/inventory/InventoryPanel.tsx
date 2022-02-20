@@ -18,7 +18,7 @@ import UseItem from '../../../../../shared/UseItem';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '../../../../../../../../shared/utils/src';
+import { formatItemValue } from '@dungeonz/utils';
 import ItemState from '../../../../../shared/ItemState';
 import Config from '../../../../../shared/Config';
 
@@ -32,7 +32,7 @@ function DropOptions({
     itemConfig: ItemState;
     onCursorLeave: () => void;
 }) {
-    const [ dropQuantity, setDropQuantity ] = useState(1);
+    const [dropQuantity, setDropQuantity] = useState(1);
 
     useEffect(() => {
         // Prevent the drop amount going over the actual quantity.
@@ -43,7 +43,7 @@ function DropOptions({
         if (dropQuantity < 0) {
             setDropQuantity(0);
         }
-    }, [ dropQuantity ]);
+    }, [dropQuantity]);
 
     const modDropQuantity = (amount: number) => {
         setDropQuantity(dropQuantity + amount);
@@ -101,13 +101,13 @@ function ItemOptions({
     onCursorLeave: () => void;
     panelBounds: DOMRect;
 }) {
-    const [ inHotbar ] = useState(isItemInHotbar(itemConfig));
-    const [ hotbarFull ] = useState(
+    const [inHotbar] = useState(isItemInHotbar(itemConfig));
+    const [hotbarFull] = useState(
         InventoryState.hotbar.length >= InventoryState.MAX_HOTBAR_SLOTS,
     );
-    const [ hasUseEffect ] = useState(Config.ItemTypes[itemConfig.typeCode].hasUseEffect);
-    const [ isEquippable ] = useState(Config.ItemTypes[itemConfig.typeCode].equippable);
-    const [ showDropOptions, setShowDropOptions ] = useState(false);
+    const [hasUseEffect] = useState(Config.ItemTypes[itemConfig.typeCode].hasUseEffect);
+    const [isEquippable] = useState(Config.ItemTypes[itemConfig.typeCode].equippable);
+    const [showDropOptions, setShowDropOptions] = useState(false);
 
     const addToHotbarPressed = () => {
         InventoryState.addToHotbar(itemConfig);
@@ -203,7 +203,7 @@ function ItemSlot({
     itemConfig: ItemState;
     onClick: (itemConfig: ItemState) => void;
 }) {
-    const [ inHotbar, setInHotbar ] = useState(isItemInHotbar(itemConfig));
+    const [inHotbar, setInHotbar] = useState(isItemInHotbar(itemConfig));
 
     useEffect(() => {
         const subs = [
@@ -261,12 +261,12 @@ function ItemSlot({
 }
 
 function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
-    const [ items, setItems ] = useState(InventoryState.items);
-    const [ searchItems, setSearchItems ] = useState<Array<ItemState>>([]);
-    const [ searchText, setSearchText ] = useState('');
-    const [ inventoryWeight, setInventoryWeight ] = useState(InventoryState.weight);
-    const [ inventoryMaxWeight ] = useState(InventoryState.maxWeight);
-    const [ selectedItem, setSelectedItem ] = useState<ItemState | null>(null);
+    const [items, setItems] = useState(InventoryState.items);
+    const [searchItems, setSearchItems] = useState<Array<ItemState>>([]);
+    const [searchText, setSearchText] = useState('');
+    const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [selectedItem, setSelectedItem] = useState<ItemState | null>(null);
     const panelRef = useRef<HTMLDivElement>(null);
 
     const onItemPressed = (item: ItemState) => {
@@ -285,21 +285,21 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
         // if the cursor is over one of the items and showing the tooltip when someone searches, if
         // the item gets filtered out the tooltip for it will remain visible.
         GUIState.setTooltipContent(null);
-    }, [ searchText, items ]);
+    }, [searchText, items]);
 
     useEffect(() => {
         const subs = [
             PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(REMOVE_ALL_INVENTORY_ITEMS, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
-                setItems([ ...InventoryState.items ]);
+                setItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {
                 setInventoryWeight(data.new);

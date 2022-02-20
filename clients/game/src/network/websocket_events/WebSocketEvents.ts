@@ -8,7 +8,7 @@ import PlayerValues from './PlayerValues';
 import Entity from './Entity';
 import Account from './Account';
 import { GUIState, ChatState } from '../../shared/state';
-import { message } from '../../../../../shared/utils';
+import { message } from '@dungeonz/utils';
 import { DayPhases } from '@dungeonz/types';
 
 // Add the login/home page related events immediately.

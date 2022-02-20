@@ -2,7 +2,7 @@ import PubSub from 'pubsub-js';
 import eventResponses from './EventResponses';
 import { CREATE_ACCOUNT_FAILURE, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE } from '../../shared/EventTypes';
 import { ApplicationState } from '../../shared/state';
-import { message } from '../../../../../shared/utils';
+import { message } from '@dungeonz/utils';
 
 export default () => {
     eventResponses.create_account_success = () => {

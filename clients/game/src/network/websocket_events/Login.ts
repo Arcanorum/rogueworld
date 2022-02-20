@@ -4,7 +4,7 @@ import { ApplicationState } from '../../shared/state';
 import {
     ALREADY_LOGGED_IN, INVALID_LOGIN_DETAILS, WORLD_FULL, SOMETHING_WENT_WRONG,
 } from '../../shared/EventTypes';
-import { message } from '../../../../../shared/utils';
+import { message } from '@dungeonz/utils';
 
 export default () => {
     message('Adding login events');

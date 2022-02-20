@@ -1,4 +1,4 @@
-import { ObjectOfStrings } from '../../../../shared/types/src';
+import { ObjectOfStrings } from '@dungeonz/types';
 
 /**
  * Returns a list of all of the item icon source URIs as output by webpack, so

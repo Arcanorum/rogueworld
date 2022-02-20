@@ -10,7 +10,10 @@ const loadYAMLConfig = (fileName: string) => {
             'utf8',
         );
 
-        return jsyaml.load(data) as any;
+        const loadedYaml = jsyaml.load(data) as any;
+
+        // Prevent the config from being modified after it has left this package.
+        return Object.freeze(loadedYaml);
     }
     catch (err) {
         warning(err);
@@ -21,8 +24,10 @@ const loadYAMLConfig = (fileName: string) => {
 
 const Settings = loadYAMLConfig('Settings') || loadYAMLConfig('Settings.default');
 const Entities = loadYAMLConfig('Entities');
+const Items = loadYAMLConfig('Items');
 
 export {
     Settings,
     Entities,
+    Items,
 };

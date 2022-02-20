@@ -1,11 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import jsyaml from 'js-yaml';
 import ItemsList from './ItemsList';
 import Item from './classes/Item';
 import requireDir from 'require-dir';
 import { error, message } from '@dungeonz/utils';
 import { ItemConfig } from '@dungeonz/types';
+import { Items } from '@dungeonz/configs';
+import { ensureDirSync, writeFileSync } from 'fs-extra';
 
 /**
  * Creates a generic class for an item based on the Item class, or one of it's abstract subclasses.
@@ -77,13 +76,7 @@ export const populateList = () => {
 
     try {
         // Load all of the item configs.
-        const itemConfigs = jsyaml.load(
-            fs.readFileSync(
-                path.resolve('../../shared/configs/src/Items.yaml'), 'utf8',
-            ),
-        ) as any;
-
-        itemConfigs.forEach((config: {name: string; extends: string}) => {
+        Items.forEach((config: {name: string; extends: string}) => {
             // Only generate a class for this item if one doesn't already
             // exist, as it might have it's own special logic file.
             if (!ItemsList.BY_NAME[config.name]) {
@@ -111,14 +104,8 @@ export const initialiseList = () => {
     message('Initialising items list.');
 
     try {
-        // Get the pure config items values again to finish setting them up, now that the classes are created.
-        const itemConfigs = jsyaml.load(
-            fs.readFileSync(
-                path.resolve('../../shared/configs/src/Items.yaml'), 'utf8',
-            ),
-        ) as any;
-
-        itemConfigs.forEach((config: any) => {
+        // Use the pure config items values again to finish setting them up, now that the classes are created.
+        Items.forEach((config: any) => {
             if (!config.code) {
                 error('Item config missing type code:', config);
             }
@@ -177,13 +164,7 @@ export const createCatalogue = () => {
     try {
         // Get the pure config items values again to finish setting them up, as not everything that
         // the client needs was added to the class.
-        const itemConfigs = jsyaml.load(
-            fs.readFileSync(
-                path.resolve('../../shared/configs/src/Items.yaml'), 'utf8',
-            ),
-        ) as any;
-
-        itemConfigs.forEach((config: any) => {
+        Items.forEach((config: any) => {
             const itemData: ItemConfig = dataToWrite[config.code];
 
             if (!config.translationId) {
@@ -204,10 +185,12 @@ export const createCatalogue = () => {
         error(err);
     }
 
-    // Utils.checkClientCataloguesExists();
+    const outputPath = './src/api/resources/catalogues';
+
+    ensureDirSync(outputPath);
 
     // Write the data to the file in the client files.
-    fs.writeFileSync('./src/api/catalogues/ItemTypes.json', JSON.stringify(dataToWrite));
+    writeFileSync(`${outputPath}/ItemTypes.json`, JSON.stringify(dataToWrite));
 
     message('Item types catalogue written to file.');
 };

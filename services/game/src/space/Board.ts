@@ -17,12 +17,6 @@ const entitiesString = 'entities';
 const playersString = 'players';
 const pickupsString = 'pickups';
 
-interface BoardConfig {
-    mapData: Array<any>;
-    name: string;
-    alwaysNight: boolean;
-}
-
 class Board {
     /**
      * A generic unique ID for this board.
@@ -56,10 +50,16 @@ class Board {
      */
     alwaysNight: boolean;
 
-    constructor(config: BoardConfig) {
-        this.name = config.name;
+    constructor({
+        name,
+        alwaysNight,
+    }: {
+        name: string;
+        alwaysNight: boolean;
+    }) {
+        this.name = name;
 
-        this.alwaysNight = config.alwaysNight || false;
+        this.alwaysNight = alwaysNight;
 
         // If always night, then set time to night.
         if (this.alwaysNight === true) this.dayPhase = DayPhases.Night;

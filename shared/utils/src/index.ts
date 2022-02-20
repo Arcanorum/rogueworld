@@ -29,16 +29,6 @@ export const getRandomIntInclusive = (min: number, max: number) => {
 };
 
 /**
- * Checks the location to write to exists. If not, creates it.
- * @param directory - The directory to check for.
- */
-export const checkDirectoryExists = (directory: string) => {
-    if (existsSync(directory) === false) {
-        mkdirSync(directory);
-    }
-};
-
-/**
  * Gets the distance in pixels between a Phaser display object and a pointer.
  */
 export const pixelDistanceBetween = (

@@ -11,12 +11,12 @@
         "watch": [
             "src",
             "../../shared/configs",
-            "../../shared/map",
+            "../../shared/maps",
             "../../shared/types",
             "../../shared/utils"
         ],
         "ignore": [
-            "src/api/catalogues"
+            "src/api/resources"
         ],
         "ext": "ts,js,json,yaml,txt,png,xlsx",
         "verbose": true

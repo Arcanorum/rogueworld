@@ -62,4 +62,4 @@ out
 Settings.yml
 
 # Generated resources for APIs
-services/game/src/api/resources/ItemTypes.json
+services/game/src/api/resources

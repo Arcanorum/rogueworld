@@ -1,11 +1,29 @@
 import { Settings } from '@dungeonz/configs';
+import { GameMap, Maps } from '@dungeonz/maps';
 import { DayPhases, ObjectOfUnknown, RowCol } from '@dungeonz/types';
-import { getRandomElement, message, warning } from '@dungeonz/utils';
+import { arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning } from '@dungeonz/utils';
+import { Board } from '.';
 import { AccountDocument, AccountManager } from '../account';
 import Player from '../entities/classes/Player';
 import EntitiesList from '../entities/EntitiesList';
+import wss from '../Server';
 import PlayerWebSocket from '../websocket_events/PlayerWebSocket';
-import { boardsObject } from './BoardsList';
+import { boardsArray, boardsObject } from './BoardsList';
+import { createClientBoardData } from './CreateClientBoardData';
+
+// Set up the day phase cycle.
+const dayPhaseCycle: Array<DayPhases> = [];
+// 11 parts day and night, 1 part transition between them.
+arrayMultiPush(dayPhaseCycle, DayPhases.Day, 10);
+arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 3);
+arrayMultiPush(dayPhaseCycle, DayPhases.Night, 9);
+arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 2);
+
+const fullDayDuration = 60000 * Settings.FULL_DAY_DURATION_MINUTES;
+// Keep the length of a whole day the same, regarless of how many cycle phases each day has.
+const dayPhaseRate = fullDayDuration / dayPhaseCycle.length;
+message('Full day duration:', Settings.FULL_DAY_DURATION_MINUTES, 'minutes.');
+message('Day phase rate:', dayPhaseRate / 60000, 'minutes.');
 
 interface PlayerData {
     inventory: ObjectOfUnknown;
@@ -42,7 +60,52 @@ const World = {
     dayPhase: DayPhases.Day,
 
     init() {
-        message('Starting game world.');
+        Maps.forEach((map) => {
+            if (this.createBoard(map)) {
+                // Do this after the board/dungeon manager is created, or the client board data won't
+                // have the dungeon manager ID to use for any dungeon portals that need that ID.
+                createClientBoardData(map);
+            }
+        });
+
+        // Load the saved structures into the game world after the boards are created, or there
+        // will be nothing to add them to.
+        // TODO ^
+
+        // Start the day/night cycle loop.
+        setTimeout(this.progressTime, dayPhaseRate);
+    },
+
+    /**
+     * Create an instance of a board for a map that should exist at the start and not be added in later.
+     * @returns Whether the world should continue any other setup that involves this board.
+     */
+    createBoard(map: GameMap) {
+        const mapProperties = arrayOfObjectsToObject(map.data.properties, 'name', 'value');
+
+        // Skip disabled maps.
+        if (mapProperties.Disabled === true) {
+            message('Skipping disabled map:', map.name);
+            return false;
+        }
+
+        let alwaysNight = false;
+        if (mapProperties.AlwaysNight === undefined) warning(`Map data is missing property: "AlwaysNight". Using default (false). On map: ${map.name}`);
+        if (mapProperties.AlwaysNight === true) alwaysNight = true;
+
+        const board = new Board({
+            name: map.name,
+            alwaysNight,
+        });
+
+        if (board.alwaysNight === false) {
+            board.dayPhase = this.dayPhase;
+        }
+
+        boardsArray.push(board);
+        boardsObject[map.name] = board;
+
+        return true;
     },
 
     /**
@@ -74,7 +137,6 @@ const World = {
                 playerEntity.col,
             ),
         };
-
 
         return dataToSend;
     },
@@ -209,6 +271,34 @@ const World = {
         }
 
         message('Player count:', this.playerCount);
+    },
+
+    /**
+     * Move the game day phase along one phase.
+     */
+    progressTime() {
+        // Shuffle the time along to the next period.
+        dayPhaseCycle.push(dayPhaseCycle.shift()!);
+
+        // Utils.message("Day phase progressed:", dayPhaseCycle[0]);
+
+        // Check if the period is different than last. Don't bother updating the boards/players if it is the same. i.e. day and night last more than one phase.
+        if (dayPhaseCycle[0] !== this.dayPhase) {
+            // Get whatever is at the front.
+            this.dayPhase = dayPhaseCycle[0];
+
+            boardsArray.forEach((board) => {
+                // Don't change the time inside dungeons and caves etc. They are always dark (night).
+                if (board.alwaysNight === false) {
+                    board.dayPhase = this.dayPhase;
+                }
+            });
+
+            // Tell the boards and everyone on them the time has changed.
+            wss.broadcastToInGame('change_day_phase', this.dayPhase);
+        }
+
+        setTimeout(World.progressTime, dayPhaseRate);
     },
 
 };

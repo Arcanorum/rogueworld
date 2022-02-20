@@ -14,7 +14,7 @@ export const getShuffledArray = (array: Array<any>) => {
     const shuffled = array.slice(0);
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
-        [ shuffled[i], shuffled[j] ] = [ shuffled[j], shuffled[i] ];
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
 };
@@ -136,4 +136,52 @@ export const shiftMatrixRight = (matrix: Array<Array<any>>) => {
     matrix.forEach((array) => {
         shiftArrayRight(array);
     });
+};
+
+/**
+ * Creates a new array compressed using run-length encoding.
+ * @example
+ * const myArr = ['a', 'a', 'a', 'a', 'b', 'b', 'c', 'c', 'c'];
+ * runLengthEncodeArray(myArr); // [4,'a',2,'b',3,'c']
+ */
+export const runLengthEncodeArray = <T>(array: Array<T>) => {
+    const result: Array<T | number> = [];
+    if (array.length > 0) {
+        let count = 1;
+        let value = array[0];
+        for (let i = 1; i < array.length; ++i) {
+            const entry = array[i];
+            if (entry == value) {
+                count += 1;
+            }
+            else {
+                result.push(count);
+                result.push(value);
+              	count = 1;
+                value = entry;
+            }
+        }
+        result.push(count);
+        result.push(value);
+    }
+    return result;
+};
+
+/**
+ * Inflates an array encoded using `runLengthEncodeArray` back to its original uncompressed form.
+ * @example
+ * const encodedArr = [4,'a',2,'b',3,'c'];
+ * runLengthDecodeArray(encodedArr); // ['a', 'a', 'a', 'a', 'b', 'b', 'c', 'c', 'c']
+ */
+export const runLengthDecodeArray = <T>(array: Array<T | number>) => {
+    const result: Array<T> = [];
+
+    array.forEach((runLength, i) => {
+        // Only use the even numbered elements, as they are the run length values.
+        if(!(i % 2)) {
+            arrayMultiPush(result, array[i + 1], runLength as number);
+        }
+    });
+
+    return result;
 };

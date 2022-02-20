@@ -1,20 +1,21 @@
 import Damage from '../gameplay/Damage';
 import DamageTypes from '../gameplay/DamageTypes';
 import { StatusEffect } from '../gameplay/status_effects';
+import { GroundTypeName } from './GroundTypes';
 
 interface GroundTileConfig {
-    name: string,
-    damageConfig?: Damage,
-    canBeStoodOn?: boolean,
-    canBeBuiltOn?: boolean,
-    statusEffects?: Array<typeof StatusEffect>,
+    name: GroundTypeName;
+    damageConfig?: Damage;
+    canBeStoodOn?: boolean;
+    canBeBuiltOn?: boolean;
+    statusEffects?: Array<typeof StatusEffect>;
 }
 
 class GroundTile {
     /**
      * A unique name for this type of tile.
      */
-    name: string;
+    name: GroundTypeName;
 
     /**
      * How much damage this tile deals to entities that stand on it.

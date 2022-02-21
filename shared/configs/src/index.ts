@@ -21,20 +21,18 @@ export const loadYAMLConfig = (fileName: string, relativePath?: string) => {
         return Object.freeze(loadedYaml);
     }
     catch (err) {
-        warning(err);
+        // Check if this package is being used correctly before warning about missing config files.
+        // When used incorrectly by a build tool (see NextJS __dirname bug...) then it shouldn't
+        // bother logging the error to avoid terminal spam for each file it can't find.
+        if(__dirname.includes('shared/configs/src')) {
+            warning(err);
+        }
 
         return false;
     }
 };
 
-const Settings = loadYAMLConfig('Settings') || loadYAMLConfig('Settings.default');
-const Entities = loadYAMLConfig('Entities');
-const Items = loadYAMLConfig('Items');
-const ItemWeightClasses = loadYAMLConfig('ItemWeightClasses') as {[key: string]: number};
-
-export {
-    Settings,
-    Entities,
-    Items,
-    ItemWeightClasses,
-};
+export const Settings = loadYAMLConfig('Settings') || loadYAMLConfig('Settings.default');
+export const Entities = loadYAMLConfig('Entities');
+export const Items = loadYAMLConfig('Items');
+export const ItemWeightClasses = loadYAMLConfig('ItemWeightClasses') as {[key: string]: number};

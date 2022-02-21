@@ -95,6 +95,7 @@ const World = {
 
         const board = new Board({
             name: map.name,
+            mapData: map.data,
             alwaysNight,
         });
 

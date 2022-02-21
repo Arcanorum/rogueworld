@@ -1,9 +1,13 @@
+import { MapLayer, TiledMap } from '@dungeonz/maps';
 import { DayPhases, Directions, ObjectOfUnknown, RowCol } from '@dungeonz/types';
-import { Counter } from '@dungeonz/utils';
+import { Counter, error, warning } from '@dungeonz/utils';
+import { GroundTypes } from '.';
 import Entity from '../entities/classes/Entity';
 import Pickup from '../entities/classes/Pickup';
 import Player from '../entities/classes/Player';
 import BoardTile from './BoardTile';
+import { groundTilesetTiles } from './CreateClientBoardData';
+import { GroundTypeName, PlayerSpawn } from './GroundTypes';
 
 const playerViewRange = Player.viewRange;
 /**
@@ -52,9 +56,11 @@ class Board {
 
     constructor({
         name,
+        mapData,
         alwaysNight,
     }: {
         name: string;
+        mapData: TiledMap;
         alwaysNight: boolean;
     }) {
         this.name = name;
@@ -63,6 +69,78 @@ class Board {
 
         // If always night, then set time to night.
         if (this.alwaysNight === true) this.dayPhase = DayPhases.Night;
+
+        this.init(mapData);
+    }
+
+    init(mapData: TiledMap) {
+        const findLayer = (layerName: string) => {
+            const foundLayer = mapData.layers.find((eachLayer) => eachLayer.name === layerName);
+
+            if (foundLayer) return foundLayer;
+
+            warning(`Couldn't find tilemap layer '${layerName}' for board ${this.name}.`);
+            return;
+        };
+
+        let i = 0;
+        let j = 0;
+        let len = 0;
+        let tilesData: Array<number>;
+        // A tile layer tile on the tilemap data.
+        let mapTile: number;
+        let type: GroundTypeName;
+        let row: number;
+        let col: number;
+
+        // Initialise an empty grid, with a board tile instance for each column in each row.
+        for (i = 0; i < mapData.height; i += 1) {
+            // Add a new row.
+            this.grid[i] = [];
+
+            for (j = 0; j < mapData.width; j += 1) {
+                // Add a board tile to the grid.
+                this.grid[i].push(new BoardTile());
+            }
+        }
+
+        // Check that the ground layer exists in the map data.
+        const layer: MapLayer | undefined = findLayer('Ground');
+        if (layer) {
+            tilesData = layer.data;
+            row = 0;
+            col = 0;
+
+            // Add the tiles to the grid.
+            for (i = 0, len = tilesData.length; i < len; i += 1) {
+                mapTile = tilesData[i] - 1;
+
+                if (groundTilesetTiles[mapTile] === undefined) {
+                    error(`Invalid/empty map tile found while creating board: ${this.name} at row: ${row}, col: ${col}`);
+                }
+                // Get and separate the type from the prefix using the tile GID.
+                type = groundTilesetTiles[mapTile].type;
+                // Move to the next row when at the width of the map.
+                if (col === mapData.width) {
+                    col = 0;
+                    row += 1;
+                }
+                // Check that the type of this tile is a valid one.
+                if (GroundTypes[type]) {
+                    // Assign it to the matching ground type object of the type of this tile.
+                    this.grid[row][col].groundType = GroundTypes[type];
+
+                    if(GroundTypes[type] === PlayerSpawn) {
+                        this.entranceTilePositions.push({ row, col });
+                    }
+                }
+                else {
+                    warning(`Invalid ground mapTile type: ${type}`);
+                }
+                // Move to the next column.
+                col += 1;
+            }
+        }
     }
 
     addEntity(entity: Entity) {

@@ -7,7 +7,7 @@ import { GroundTypeName } from './GroundTypes';
 
 // A recent version of Tiled may have changed the tileset.tiles property to be an array of {id: Number, type: String}
 // Map the values back to an object by ID.
-const groundTilesetTiles = Tilesets.groundTileset.tiles.reduce((map, obj) => {
+export const groundTilesetTiles = Tilesets.groundTileset.tiles.reduce((map, obj) => {
     map[obj.id] = obj;
     return map;
 }, {} as ObjectOfAny);
@@ -50,7 +50,7 @@ export const createClientBoardData = (map: GameMap) => {
     let tilesData: Array<number>;
     // A tile layer tile on the tilemap data.
     let mapTile: number;
-    let type: string;
+    let type: GroundTypeName;
     let row: number;
     let col: number;
 
@@ -84,7 +84,7 @@ export const createClientBoardData = (map: GameMap) => {
             // Keep the tile number to create the client map data.
             clientData.groundGrid[row][col] = mapTile;
             // Check that the type of this tile is a valid one.
-            if (!GroundTypes[type as GroundTypeName]) {
+            if (!GroundTypes[type]) {
                 warning(`Invalid ground mapTile type: ${type}`);
             }
             // Move to the next column.

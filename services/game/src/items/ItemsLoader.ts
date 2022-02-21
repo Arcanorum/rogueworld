@@ -89,7 +89,7 @@ export const populateList = () => {
     }
 
     // Check all of the items are valid. i.e. are a class/function.
-    Object.entries(ItemsList.BY_NAME).forEach(([ name, ItemType ]) => {
+    Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
         if (typeof ItemType !== 'function') {
             error('Invalid item type added to ItemsList:', name);
         }
@@ -133,7 +133,7 @@ export const initialiseList = () => {
 
     // Check for any item classes that don't have an entry in the Items list.
     // All item types MUST have a type code at a minimum, so check for that.
-    Object.entries(ItemsList.BY_NAME).forEach(([ name, ItemType ]) => {
+    Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
         if (!ItemType.typeCode) {
             error('Invalid item type, missing typeCode. Item does not have a config in the Items list:', name);
         }

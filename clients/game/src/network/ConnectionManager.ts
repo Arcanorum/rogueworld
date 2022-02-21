@@ -1,10 +1,10 @@
-import { Settings } from '@dungeonz/configs';
-import PubSub from 'pubsub-js';
 import { digestMessage, message } from '@dungeonz/utils';
+import PubSub from 'pubsub-js';
 import Config from '../shared/Config';
 import { SOMETHING_WENT_WRONG, WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';
 import { ApplicationState } from '../shared/state';
 import eventResponses from './websocket_events/EventResponses';
+const { Settings } = Config;
 
 export class GameWebSocket extends WebSocket {
     /**

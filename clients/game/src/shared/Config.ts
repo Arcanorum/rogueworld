@@ -1,4 +1,4 @@
-import { ItemConfig, ObjectOfStrings } from '@dungeonz/types';
+import { ItemConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
 import Sprite from '../game/entities/Sprite';
 import { CraftingRecipe } from './types';
 
@@ -35,6 +35,9 @@ type Host = 'local' | 'test' | 'live';
  * A global object of things that relate to gameplay.
  */
 const Config = {
+    /** A copy of the Settings object from the config package, due to NextJS weirdness. See index.tsx. */
+    Settings: {} as ObjectOfAny,
+
     /** Whether the client should use development only features. */
     devMode: false,
 

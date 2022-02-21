@@ -1,12 +1,17 @@
-import jsyaml from 'js-yaml';
-import fs from 'fs';
-import path from 'path';
 import { warning } from '@dungeonz/utils';
+import fs from 'fs';
+import jsyaml from 'js-yaml';
+import path from 'path';
 
-const loadYAMLConfig = (fileName: string) => {
+/**
+ * Only .yaml is allowed (not .yml, .json, or anything else).
+ * @param fileName - The name part of the file to load, WITHOUT the extension.
+ * @param relativePath - A relative path to the src directory of this package, for when `__dirname` gets messed up by NextJS...
+ */
+export const loadYAMLConfig = (fileName: string, relativePath?: string) => {
     try {
         const data = fs.readFileSync(
-            path.resolve(`${__dirname}/${fileName}.yaml`),
+            path.resolve(__dirname, relativePath || '', `${fileName}.yaml`),
             'utf8',
         );
 

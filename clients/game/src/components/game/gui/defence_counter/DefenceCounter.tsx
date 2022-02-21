@@ -8,7 +8,7 @@ import styles from './DefenceCounter.module.scss';
 import getTextDef from '../../../../shared/GetTextDef';
 
 function DefenceCounter() {
-    const [ defence, setDefence ] = useState(0);
+    const [defence, setDefence] = useState(0);
 
     const formatValue = (value: number) => value.toFixed(0);
 

@@ -5,8 +5,8 @@ import { CURSOR_MOVE, TOOLTIP_CONTENT } from '../../../../shared/EventTypes';
 import { GUIState } from '../../../../shared/state';
 
 function Tooltip() {
-    const [ content, setContent ] = useState(null);
-    const [ cursorPosition, setCursorPosition ] = useState({ cursorX: 0, cursorY: 0 });
+    const [content, setContent] = useState(null);
+    const [cursorPosition, setCursorPosition] = useState({ cursorX: 0, cursorY: 0 });
 
     useEffect(() => {
         const subs = [

@@ -51,13 +51,13 @@ const Tooltip = (content: ReactElement | string) => (
 );
 
 function Meters() {
-    const [ hitPoints, setHitPoints ] = useState(0);
-    const [ maxHitPoints, setMaxHitPoints ] = useState(0);
+    const [hitPoints, setHitPoints] = useState(0);
+    const [maxHitPoints, setMaxHitPoints] = useState(0);
 
-    const [ energy, setEnergy ] = useState(0);
-    const [ maxEnergy, setMaxEnergy ] = useState(0);
+    const [energy, setEnergy] = useState(0);
+    const [maxEnergy, setMaxEnergy] = useState(0);
 
-    const [ combatTimer, setCombatTimer ] = useState(0);
+    const [combatTimer, setCombatTimer] = useState(0);
 
     let combatTimerUpdateInterval = -1;
     let combatTimerInternal = 0;

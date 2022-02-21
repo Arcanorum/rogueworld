@@ -16,9 +16,9 @@ function ChangeNamePanel({
 }: {
     onCloseCallback: () => void;
 }) {
-    const [ newName, setNewName ] = useState('');
-    const [ warningText, setWarningText ] = useState<string | null>(null);
-    const [ nameChanged, setNameChanged ] = useState(false);
+    const [newName, setNewName] = useState('');
+    const [warningText, setWarningText] = useState<string | null>(null);
+    const [nameChanged, setNameChanged] = useState(false);
 
     const acceptPressed = async() => {
         message('Change name pressed.');
@@ -48,7 +48,7 @@ function ChangeNamePanel({
                 setWarningText(getTextDef('Not enough glory'));
             }
         }
-    }, [ warningText ]);
+    }, [warningText]);
 
     useEffect(() => {
         // Check it is not the same.
@@ -58,7 +58,7 @@ function ChangeNamePanel({
         else {
             setWarningText('');
         }
-    }, [ newName ]);
+    }, [newName]);
 
     useEffect(() => {
         const subs = [

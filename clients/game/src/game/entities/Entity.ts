@@ -264,7 +264,7 @@ class Entity extends Container {
 
 Entity.prototype.animationSetName = '';
 
-Entity.prototype.animationFrameSequence = [ 1, 2, 1, 2 ];
+Entity.prototype.animationFrameSequence = [1, 2, 1, 2];
 
 Entity.prototype.animationRepeats = false;
 

@@ -8,6 +8,6 @@ class Entity extends Mob {
 }
 
 Entity.prototype.animationSetName = 'gnarl-pine';
-Entity.prototype.animationFrameSequence = [ 1, 2 ];
+Entity.prototype.animationFrameSequence = [1, 2];
 
 export default Entity;

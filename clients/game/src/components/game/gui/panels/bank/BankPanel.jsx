@@ -66,8 +66,8 @@ const canTransferItem = (FromState, itemConfig, quantity) => {
 function UpgradeOptions({
     onCursorLeave, panelBounds,
 }) {
-    const [ styleTop ] = useState(GUIState.cursorY - panelBounds.y);
-    const [ styleLeft ] = useState(GUIState.cursorX - panelBounds.x);
+    const [styleTop] = useState(GUIState.cursorY - panelBounds.y);
+    const [styleLeft] = useState(GUIState.cursorX - panelBounds.x);
 
     // useEffect(() => {
 
@@ -126,9 +126,9 @@ UpgradeOptions.propTypes = {
 function ItemOptions({
     State, itemConfig, onCursorLeave, onTransferQuantityChanged, panelBounds,
 }) {
-    const [ transferQuantity, setTransferQuantity ] = useState(1);
-    const [ styleTop ] = useState(GUIState.cursorY - panelBounds.y);
-    const [ styleLeft ] = useState(GUIState.cursorX - panelBounds.x);
+    const [transferQuantity, setTransferQuantity] = useState(1);
+    const [styleTop] = useState(GUIState.cursorY - panelBounds.y);
+    const [styleLeft] = useState(GUIState.cursorX - panelBounds.x);
 
     useEffect(() => {
         // Prevent the deposit amount going over the actual quantity.
@@ -141,7 +141,7 @@ function ItemOptions({
         }
 
         onTransferQuantityChanged(transferQuantity);
-    }, [ transferQuantity ]);
+    }, [transferQuantity]);
 
     const modTransferQuantity = (amount) => {
         setTransferQuantity(transferQuantity + amount);
@@ -313,21 +313,21 @@ ItemSlot.propTypes = {
 };
 
 function BankPanel({ onCloseCallback }) {
-    const [ inventoryItems, setInventoryItems ] = useState(InventoryState.items);
-    const [ storageItems, setStorageItems ] = useState(BankState.items);
-    const [ searchInventoryItems, setSearchInventoryItems ] = useState([]);
-    const [ searchStorageItems, setSearchStorageItems ] = useState([]);
-    const [ searchText, setSearchText ] = useState('');
-    const [ inventoryWeight, setInventoryWeight ] = useState(InventoryState.weight);
-    const [ inventoryMaxWeight ] = useState(InventoryState.maxWeight);
-    const [ storageWeight, setStorageWeight ] = useState(BankState.weight);
-    const [ storageMaxWeight, setStorageMaxWeight ] = useState(BankState.maxWeight);
-    const [ selectedItem, setSelectedItem ] = useState(null);
-    const [ selectedItemTransferQuantity, setSelectedItemTransferQuantity ] = useState(0);
-    const [ TargetState, setTargetState ] = useState(InventoryState);
-    const [ showUpgradeBankOptions, setShowUpgradeBankOptions ] = useState(false);
-    const [ highlightStorageWeight, setHighlightStorageWeight ] = useState(false);
-    const [ highlightInventoryWeight, setHighlightInventoryWeight ] = useState(false);
+    const [inventoryItems, setInventoryItems] = useState(InventoryState.items);
+    const [storageItems, setStorageItems] = useState(BankState.items);
+    const [searchInventoryItems, setSearchInventoryItems] = useState([]);
+    const [searchStorageItems, setSearchStorageItems] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
+    const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
+    const [storageWeight, setStorageWeight] = useState(BankState.weight);
+    const [storageMaxWeight, setStorageMaxWeight] = useState(BankState.maxWeight);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItemTransferQuantity, setSelectedItemTransferQuantity] = useState(0);
+    const [TargetState, setTargetState] = useState(InventoryState);
+    const [showUpgradeBankOptions, setShowUpgradeBankOptions] = useState(false);
+    const [highlightStorageWeight, setHighlightStorageWeight] = useState(false);
+    const [highlightInventoryWeight, setHighlightInventoryWeight] = useState(false);
     const panelRef = useRef();
 
     const onItemPressed = (item, State) => {
@@ -365,30 +365,30 @@ function BankPanel({ onCloseCallback }) {
         // if the cursor is over one of the items and showing the tooltip when someone searches, if
         // the item gets filtered out the tooltip for it will remain visible.
         GUIState.setTooltipContent(null);
-    }, [ searchText, inventoryItems, storageItems ]);
+    }, [searchText, inventoryItems, storageItems]);
 
     useEffect(() => {
         const subs = [
             PubSub.subscribe(ADD_INVENTORY_ITEM, () => {
-                setInventoryItems([ ...InventoryState.items ]);
+                setInventoryItems([...InventoryState.items]);
             }),
             PubSub.subscribe(REMOVE_INVENTORY_ITEM, () => {
-                setInventoryItems([ ...InventoryState.items ]);
+                setInventoryItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_ITEM, () => {
-                setInventoryItems([ ...InventoryState.items ]);
+                setInventoryItems([...InventoryState.items]);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_WEIGHT, (msg, data) => {
                 setInventoryWeight(data.new);
             }),
             PubSub.subscribe(ADD_BANK_ITEM, () => {
-                setStorageItems([ ...BankState.items ]);
+                setStorageItems([...BankState.items]);
             }),
             PubSub.subscribe(REMOVE_BANK_ITEM, () => {
-                setStorageItems([ ...BankState.items ]);
+                setStorageItems([...BankState.items]);
             }),
             PubSub.subscribe(MODIFY_BANK_ITEM, () => {
-                setStorageItems([ ...BankState.items ]);
+                setStorageItems([...BankState.items]);
             }),
             PubSub.subscribe(MODIFY_BANK_WEIGHT, (msg, data) => {
                 setStorageWeight(data.new);

@@ -25,11 +25,11 @@ export const getScopeColor = (scope: ChatScope) => {
 
 function ChatPanel() {
     const defaultPlaceHolder = getTextDef('Enter message');
-    const [ chats, setChats ] = useState(ChatState.chats);
-    const [ viewChatScope, setViewChatScope ] = useState(ChatState.tabScope);
-    const [ sendChatScope, setSendChatScope ] = useState(ChatState.chatScope);
-    const [ placeHolder, setPlaceHolder ] = useState(defaultPlaceHolder);
-    const [ showSelectScopeDropdown, setShowSelectScopeDropdown ] = useState(false);
+    const [chats, setChats] = useState(ChatState.chats);
+    const [viewChatScope, setViewChatScope] = useState(ChatState.tabScope);
+    const [sendChatScope, setSendChatScope] = useState(ChatState.chatScope);
+    const [placeHolder, setPlaceHolder] = useState(defaultPlaceHolder);
+    const [showSelectScopeDropdown, setShowSelectScopeDropdown] = useState(false);
     const chatContentsRef = useRef<HTMLDivElement>(null);
     const chatInputRef = useRef<HTMLInputElement>(null);
     let autoScroll = true;

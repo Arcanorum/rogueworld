@@ -1,34 +1,34 @@
+import Leaflet, { CRS, LatLngLiteral, LatLngTuple } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
 import {
-    MapContainer, TileLayer, Marker, useMapEvents, Tooltip,
+    MapContainer, Marker, TileLayer, Tooltip, useMapEvents,
 } from 'react-leaflet';
-import Leaflet, { CRS, LatLngLiteral, LatLngTuple } from 'leaflet';
-import PanelTemplate from '../panel_template/PanelTemplate';
 import mapIcon from '../../../../../assets/images/gui/hud/map-icon.png';
-import playerIcon from '../../../../../assets/images/gui/panels/map/player-marker.png';
 import destinationIcon from '../../../../../assets/images/gui/panels/map/destination-marker.png';
-import 'leaflet/dist/leaflet.css';
-import './MapPanel.module.scss';
+import playerIcon from '../../../../../assets/images/gui/panels/map/player-marker.png';
 import { ApplicationState, PlayerState } from '../../../../../shared/state';
+import PanelTemplate from '../panel_template/PanelTemplate';
+import './MapPanel.module.scss';
 
 const markerScale = 4;
 
 const playerMarker = Leaflet.icon({
     iconUrl: playerIcon.src,
-    iconSize: [ 12 * markerScale, 14 * markerScale ],
-    iconAnchor: [ 24, 48 ],
+    iconSize: [12 * markerScale, 14 * markerScale],
+    iconAnchor: [24, 48],
 });
 
 const locationMarker = Leaflet.icon({
     iconUrl: destinationIcon.src,
-    iconSize: [ 12 * markerScale, 14 * markerScale ],
-    iconAnchor: [ 24, 48 ],
+    iconSize: [12 * markerScale, 14 * markerScale],
+    iconAnchor: [24, 48],
 });
 
 type Position = LatLngLiteral | null;
 
 function LocationMarker() {
-    const [ position, setPosition ] = useState<Position>(null);
+    const [position, setPosition] = useState<Position>(null);
 
     useMapEvents({
         click(e) {
@@ -54,7 +54,7 @@ function LocationMarker() {
 
     return position === null ? null : (
         <Marker position={position} icon={locationMarker}>
-            <Tooltip className="press-start-font tooltip" direction="top" offset={[ 0, -44 ]} opacity={1} permanent>
+            <Tooltip className="press-start-font tooltip" direction="top" offset={[0, -44]} opacity={1} permanent>
                 { `X: ${Math.abs(Math.floor(position.lng))}, Y: ${Math.abs(position.lat)}` }
             </Tooltip>
         </Marker>
@@ -98,7 +98,7 @@ function MapPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 >
                     <TileLayer url={`${ApplicationState.httpServerURL}/map/{z}/{x}/{y}.png`} />
                     <Marker position={leafletConfig.center} icon={playerMarker}>
-                        <Tooltip className="press-start-font tooltip" direction="top" offset={[ 0, -44 ]} opacity={1} permanent>
+                        <Tooltip className="press-start-font tooltip" direction="top" offset={[0, -44]} opacity={1} permanent>
                             You
                             <br />
                             {/* The center is a decimal (with the extra half tile), so round down for display. */}

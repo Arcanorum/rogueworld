@@ -112,7 +112,7 @@ class Chat {
 
         const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
 
-        this.chats = [ ...this.chats, newChat ];
+        this.chats = [...this.chats, newChat];
 
         if (this.chats.length > this.LIMIT) {
             this.chats.shift();

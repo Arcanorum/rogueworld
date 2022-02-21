@@ -44,14 +44,14 @@ const discordInviteLink = 'https://discord.com/invite/7wjyU7B';
 const wikiLink = 'https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki';
 
 function GUI() {
-    const [ shownPanel, setShownPanel ] = useState<Panels>(Panels.NONE);
-    const [ showChatBox, setShowChatBox ] = useState(GUIState.showChatBox);
-    const [ quickChatEnabled, setQuickChatEnabled ] = useState(GUIState.quickChatEnabled);
-    const [ showNewNotification, setShowNewNotification ] = useState(ChatState.newChatNotification);
+    const [shownPanel, setShownPanel] = useState<Panels>(Panels.NONE);
+    const [showChatBox, setShowChatBox] = useState(GUIState.showChatBox);
+    const [quickChatEnabled, setQuickChatEnabled] = useState(GUIState.quickChatEnabled);
+    const [showNewNotification, setShowNewNotification] = useState(ChatState.newChatNotification);
     // const [ trackedTask, setTrackedTask ] = useState(null);
-    const [ loggedIn, setLoggedIn ] = useState(ApplicationState.loggedIn);
-    const [ targetDungeonPortal, setTargetDungeonPortal ] = useState(null);
-    const [ inDungeon, setInDungeon ] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
+    const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
+    const [inDungeon, setInDungeon] = useState(false);
 
     const closePanelCallback = () => {
         setShownPanel(Panels.NONE);
@@ -116,11 +116,11 @@ function GUI() {
         if (shownPanel === Panels.CreateAccount) {
             setShownPanel(Panels.Account);
         }
-    }, [ loggedIn ]);
+    }, [loggedIn]);
 
     useEffect(() => {
         GUIState.setActivePanel(shownPanel);
-    }, [ shownPanel ]);
+    }, [shownPanel]);
 
     const togglePanel = (panel: Panels) => {
         if (PlayerState.hitPoints <= 0) return; // prevent toggling the panels if player is dead

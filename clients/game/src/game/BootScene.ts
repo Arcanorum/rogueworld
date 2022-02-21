@@ -1,17 +1,17 @@
+import { message } from '@dungeonz/utils';
 import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
-import SoundManager from './SoundManager';
-import gameAtlasImage from '../assets/images/game-atlas.png';
 import gameAtlasData from '../assets/images/game-atlas.json';
+import gameAtlasImage from '../assets/images/game-atlas.png';
 import groundTileset from '../assets/images/ground.png';
-import staticsTileset from '../assets/images/statics.png';
-import highlightImage from '../assets/images/gui/highlight.png';
 import actionProgressBarImage from '../assets/images/gui/action-progress-bar.png';
 import actionProgressBorderImage from '../assets/images/gui/action-progress-border.png';
+import highlightImage from '../assets/images/gui/highlight.png';
+import staticsTileset from '../assets/images/statics.png';
+import Config from '../shared/Config';
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from '../shared/EventTypes';
 import { ApplicationState, GUIState, InventoryState } from '../shared/state';
-import Config from '../shared/Config';
-import { getStyle, message } from '../../../../shared/utils/src';
+import SoundManager from './SoundManager';
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
@@ -49,13 +49,20 @@ class BootScene extends Phaser.Scene {
             spacing: 2,
         });
 
-        Object.entries(audioAssetPaths).forEach(([ name, paths ]) => {
+        Object.entries(audioAssetPaths).forEach(([name, paths]) => {
             this.load.audio(name, paths as Array<string>);
         });
 
         // TODO: handle missing resources, send back to login screen :/
         const itemTypesRes = await fetch(`${ApplicationState.httpServerURL}/api/item-types`);
         console.log('itemTypesRes', itemTypesRes);
+
+        // TODO: request and parse map data;
+        // const raw = JSON.parse(outputData2);
+
+        // raw.groundGrid.forEach((row: Array<number>, index: number) => {
+        //     raw.groundGrid[index] = runLengthDecodeArray(row);
+        // });
     }
 
     create() {
@@ -92,7 +99,7 @@ class BootScene extends Phaser.Scene {
         // if (typeof guiScale === 'number') {
         //     GUIState.guiScale = guiScale;
 
-        //     const style = getStyle('.gui-scalable');
+        //     const style = .gui-scalable');
 
         //     if (style) {
         //         style.zoom = guiScale / 100;

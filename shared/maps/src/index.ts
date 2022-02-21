@@ -1,4 +1,4 @@
-import testMap from './maps/test-map.json';
+import plains from './maps/plains.json';
 import groundTileset from './tilesets/ground.json';
 
 export interface MapLayer {
@@ -41,9 +41,9 @@ export interface GameMap {
 
 export const Maps: Array<GameMap> = [
     {
-        name: 'test-map',
-        path: `${__dirname}/maps/test-map.json`,
-        data: testMap as TiledMap,
+        name: 'plains',
+        path: `${__dirname}/maps/plains.json`,
+        data: plains as TiledMap,
     },
 ];
 

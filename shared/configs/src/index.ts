@@ -30,9 +30,11 @@ export const loadYAMLConfig = (fileName: string, relativePath?: string) => {
 const Settings = loadYAMLConfig('Settings') || loadYAMLConfig('Settings.default');
 const Entities = loadYAMLConfig('Entities');
 const Items = loadYAMLConfig('Items');
+const ItemWeightClasses = loadYAMLConfig('ItemWeightClasses') as {[key: string]: number};
 
 export {
     Settings,
     Entities,
     Items,
+    ItemWeightClasses,
 };

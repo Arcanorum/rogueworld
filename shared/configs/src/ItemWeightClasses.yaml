@@ -1,0 +1,29 @@
+# Weapons
+WoodenWeapon: 20
+MetalDagger: 30
+MetalSword: 40
+MetalHammer: 50
+Staff: 40
+Bow: 40
+Arrow: 1
+
+# Clothing
+MetalArmour: 80
+Cloak: 60
+Robe: 50
+
+# Tools
+GatheringTool: 30
+Sickle: 20
+
+# Resources/ingredients.
+GenericMaterial: 4
+Logs: 4
+Ore: 5
+PotionIngredient: 4
+Gem: 2
+RelicGem: 8
+
+# Consumables
+Potion: 6
+Scroll: 4

@@ -1,8 +1,6 @@
+import { ItemWeightClasses } from '@dungeonz/configs';
 import { ItemCategories } from '@dungeonz/types';
 import { error } from '@dungeonz/utils';
-import fs from 'fs';
-import jsyaml from 'js-yaml';
-import path from 'path';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
 import EntitiesList from '../../entities/EntitiesList';
@@ -134,7 +132,7 @@ class Item {
     static loadConfig(config: any) {
         // Load anything else that hasn't already been set by the loadConfig method of a subclass.
 
-        Object.entries(config).forEach(([ key, value ]) => {
+        Object.entries(config).forEach(([key, value]) => {
             if (key === 'name') {
                 this.typeName = value as string;
                 return;
@@ -188,23 +186,16 @@ class Item {
         // Check for any items that are referencing a weight class by name.
         if (typeof this.unitWeight === 'string') {
             // Use the weight value for the corresponding weight class.
-
-            // Load all of the weight classes.
-            const WeightClasses = jsyaml.load(
-                fs.readFileSync(
-                    path.resolve('./src/configs/ItemWeightClasses.yaml'), 'utf8',
-                ),
-            ) as {[name: string]: number};
-
-            if (WeightClasses[this.unitWeight] === undefined) {
+            // Check for undefined instead of using !, as the weight might be 0.
+            if (ItemWeightClasses[this.unitWeight] === undefined) {
                 error('Item weight class name does not exist in the item weight classes list: ', this.unitWeight);
             }
 
-            if (typeof WeightClasses[this.unitWeight] !== 'number') {
+            if (typeof ItemWeightClasses[this.unitWeight] !== 'number') {
                 error('The entry in the item weight class list is not a number. All weight classes must be numbers: ', this.unitWeight);
             }
 
-            this.unitWeight = WeightClasses[this.unitWeight];
+            this.unitWeight = ItemWeightClasses[this.unitWeight];
         }
     }
 

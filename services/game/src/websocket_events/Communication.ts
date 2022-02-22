@@ -2,7 +2,7 @@ import { Settings } from '@dungeonz/configs';
 import ChatScopes from '@dungeonz/types/src/ChatScopes';
 import { message, warning } from '@dungeonz/utils';
 import Commands from '../commands/Commands';
-import wss from '../Server';
+import { webSocketServer as wss } from '../Server';
 import EventResponses from './EventResponses';
 
 EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string}) => {

@@ -1,4 +1,4 @@
-import wss from '../Server';
+import { webSocketServer as wss } from '../Server';
 import PlayerWebSocket from './PlayerWebSocket';
 import { message, warning } from '@dungeonz/utils';
 import EventResponses from './EventResponses';

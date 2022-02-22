@@ -1,4 +1,4 @@
-import { ItemConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
+import { EntityDataConfig, ItemDataConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
 import Sprite from '../game/entities/Sprite';
 import { CraftingRecipe } from './types';
 
@@ -7,12 +7,7 @@ interface TextDefsType {
 }
 
 interface ItemTypes {
-    [key: string]: ItemConfig;
-}
-
-interface EntityConfig {
-    id: number;
-    typeName: string;
+    [key: string]: ItemDataConfig;
 }
 
 interface EntitiesList {
@@ -20,7 +15,7 @@ interface EntitiesList {
 }
 
 interface EntityTypes {
-    [key: string]: EntityConfig;
+    [key: string]: EntityDataConfig;
 }
 
 interface MapsData {

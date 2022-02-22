@@ -1,18 +1,17 @@
-import express from 'express';
 import path from 'path';
 import { message, warning } from '@dungeonz/utils';
-import { Settings } from '@dungeonz/configs';
+import { expressServer } from '../Server';
+import cors from 'cors';
 
-const app = express();
-
-app.listen(Settings.GAME_SERVICE_PORT || 1111);
+expressServer.use(cors());
 
 /**
  * Need to provide the item types for the client via an API request, as this info is only available
  * once the server has started, so isn't suitable for being included in the client build files.
  */
 const itemTypesPath = path.join(__dirname, './resources/catalogues/ItemTypes.json');
-app.get('api/item-types', (req, res) => {
+
+expressServer.get('/api/item-types', (req, res) => {
     message('getting item types from api');
 
     try {
@@ -26,5 +25,3 @@ app.get('api/item-types', (req, res) => {
         res.send(err);
     }
 });
-
-export default app;

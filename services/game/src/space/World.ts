@@ -5,8 +5,8 @@ import { arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warn
 import { Board } from '.';
 import { AccountDocument, AccountManager } from '../account';
 import Player from '../entities/classes/Player';
-import EntitiesList from '../entities/EntitiesList';
-import wss from '../Server';
+import { EntitiesList } from '../entities';
+import { webSocketServer as wss } from '../Server';
 import PlayerWebSocket from '../websocket_events/PlayerWebSocket';
 import { boardsArray, boardsObject } from './BoardsList';
 import { createClientBoardData } from './CreateClientBoardData';

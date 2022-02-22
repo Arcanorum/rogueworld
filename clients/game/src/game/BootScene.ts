@@ -1,4 +1,4 @@
-import { message } from '@dungeonz/utils';
+import { message, runLengthDecodeArray } from '@dungeonz/utils';
 import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
 import gameAtlasData from '../assets/images/game-atlas.json';
@@ -68,6 +68,11 @@ class BootScene extends Phaser.Scene {
             const key = `${mapName}-map`;
             this.load.json(key, `${ApplicationState.httpServerURL}/api/maps/${mapName}`);
             this.load.on(`filecomplete-json-${key}`, (key, type, data) => {
+                // Data arrives RLE compressed. Inflate it back to its full form.
+                data.groundGrid.forEach((row: Array<number>, index: number) => {
+                    data.groundGrid[index] = runLengthDecodeArray(row);
+                });
+
                 Config.mapsData[mapName] = data;
             });
         });

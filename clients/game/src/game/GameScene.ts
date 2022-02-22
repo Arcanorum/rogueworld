@@ -144,11 +144,11 @@ class GameScene extends Phaser.Scene {
         InventoryState.loadHotbar(data.accountId);
         InventoryState.setWeight(data.inventory.weight);
         InventoryState.setMaxWeight(data.inventory.maxWeight);
-        BankState.items = data.bank.items;
-        BankState.setWeight(data.bank.weight);
-        BankState.setMaxWeight(data.bank.maxWeight);
-        BankState.setMaxWeightUpgradeCost(data.bank.maxWeightUpgradeCost);
-        BankState.additionalMaxBankWeightPerUpgrade = data.bank.additionalMaxBankWeightPerUpgrade;
+        // BankState.items = data.bank.items;
+        // BankState.setWeight(data.bank.weight);
+        // BankState.setMaxWeight(data.bank.maxWeight);
+        // BankState.setMaxWeightUpgradeCost(data.bank.maxWeightUpgradeCost);
+        // BankState.additionalMaxBankWeightPerUpgrade = data.bank.additionalMaxBankWeightPerUpgrade;
 
         this.dynamicsData = data.dynamicsData;
 

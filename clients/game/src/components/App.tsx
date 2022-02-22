@@ -31,8 +31,10 @@ else {
     Config.host = 'live';
 }
 
+type Page = 'login' | 'game';
+
 function App() {
-    const [currentPage, setCurrentPage] = useState('login');
+    const [currentPage, setCurrentPage] = useState<Page>('login');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

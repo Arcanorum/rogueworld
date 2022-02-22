@@ -1,5 +1,5 @@
 import Item from '../Item';
-import EntitiesList from '../../../entities/EntitiesList';
+import { EntitiesList } from '../../../entities';
 import { error } from '@dungeonz/utils';
 import Entity from '../../../entities/classes/Entity';
 

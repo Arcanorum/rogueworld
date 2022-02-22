@@ -1,6 +1,6 @@
 import Pickup from '../entities/classes/Pickup';
 import Player from '../entities/classes/Player';
-import EntitiesList from '../entities/EntitiesList';
+import { EntitiesList } from '../entities';
 import { ItemState } from '../inventory';
 import { ItemsList } from '../items';
 // const Damage = require("../gameplay/Damage");
@@ -16,7 +16,7 @@ interface Command {
 const Commands: {[key: string]: Command} = {
     help: {
         run: (player, ...options: [string]) => {
-            const [ commandName ] = options;
+            const [commandName] = options;
 
             if (commandName) {
                 if (Commands[commandName]) {
@@ -48,7 +48,7 @@ const Commands: {[key: string]: Command} = {
     },
     spawnitem: {
         run: (player, ...options: [string, number]) => {
-            const [ typeName, size ] = options;
+            const [typeName, size] = options;
 
             const pickupTypeName = `Pickup${typeName}`;
 
@@ -85,7 +85,7 @@ const Commands: {[key: string]: Command} = {
     },
     spawnentity: {
         run: (player, ...options: [string, string, string]) => {
-            const [ typeName, row, col ] = options;
+            const [typeName, row, col] = options;
 
             if (typeName === 'Player') return 'Restricted entity type.';
             if (typeName === 'ABSTRACT_CLASSES') return 'Restricted entity type.';
@@ -142,7 +142,7 @@ const Commands: {[key: string]: Command} = {
     },
     listentities: {
         run: () => {
-            const types = Object.entries(EntitiesList).filter(([ typeKey, EntityType ]) => {
+            const types = Object.entries(EntitiesList).filter(([typeKey, EntityType]) => {
                 if (typeKey === 'Player') return false;
                 // Don't include pickups, as they are covered by listitems.
                 if (typeKey.startsWith('Pickup')) return false;
@@ -161,7 +161,7 @@ const Commands: {[key: string]: Command} = {
     },
     teleport: {
         run: (player, ...options: [string, string]) => {
-            const [ row, col ] = options;
+            const [row, col] = options;
 
             if (!row || !col) return 'Missing inputs.';
 

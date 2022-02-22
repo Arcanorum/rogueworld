@@ -1,7 +1,7 @@
 import Board from './Board';
 
 const boardsArray: Array<Board> = [];
-const boardsObject: { [name: string]: Board} = {};
+const boardsObject: { [key: string]: Board} = {};
 
 export {
     boardsArray,

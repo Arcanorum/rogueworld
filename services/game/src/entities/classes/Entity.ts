@@ -8,6 +8,7 @@ import { StatusEffect } from '../../gameplay/status_effects';
 import Board from '../../space/Board';
 
 const idCounter = new Counter();
+const typeNumberCounter = new Counter();
 
 export interface EntityConfig {
     row: number;
@@ -16,6 +17,13 @@ export interface EntityConfig {
 }
 
 class Entity {
+    /**
+     * A type number is an ID for all entities that appear on the client, so the client knows which entity to add.
+     * Used to send a number to get the entity name from the entity type catalogue, instead of a lengthy string of the entity name.
+     * All entities that appear on the client must be registered with ENTITYCLASS.registerEntityType().
+     */
+    static typeNumber: number;
+
     /**
      * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
      */
@@ -83,7 +91,7 @@ class Entity {
 
     static damageTypeImmunities: Array<DamageTypes>;
 
-    statusEffects: {[name: string]: StatusEffect} = {};
+    statusEffects: {[key: string]: StatusEffect} = {};
 
     /**
      * How often this entity moves, in ms.
@@ -114,7 +122,7 @@ class Entity {
     }
 
     static registerEntityType() {
-        return;
+        this.typeNumber = typeNumberCounter.getNext();
     }
 
     /**

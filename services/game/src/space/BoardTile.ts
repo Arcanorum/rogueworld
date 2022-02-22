@@ -25,7 +25,7 @@ class BoardTile {
      * Just add it as an own property for the tiles that need it.
      * Saves a lot of memory. Like, hundreds of MB...
      */
-    entities!: { [name: string]: Entity };
+    entities!: { [key: string]: Entity };
 
     /**
      * A sepearate list of entities that can be picked up by players and added to their inventory.
@@ -36,7 +36,7 @@ class BoardTile {
      * Keep this on the prototype, so not every instance has this as it's own property.
      * Saves a lot of memory. Like, hundreds of MB...
      */
-    pickups!: { [name: string]: Pickup };
+    pickups!: { [key: string]: Pickup };
 
     /**
      * A separate list of entities just for Players, mainly for emitting events, less messing around filtering other entities.
@@ -46,7 +46,7 @@ class BoardTile {
      * Just add it as an own property for the tiles that need it.
      * Saves a lot of memory. Like, hundreds of MB...
      */
-    players!: { [name: string]: Player };
+    players!: { [key: string]: Player };
 
     /**
      * Whether this tile is currently being low blocked by the static on it, if there is one.

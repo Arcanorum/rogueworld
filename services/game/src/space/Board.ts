@@ -205,7 +205,7 @@ class Board {
         let colOffset = -playerViewRange;
         let currentRow: Array<BoardTile>;
         let currentTile: BoardTile;
-        let entities: { [name: string]: Entity };
+        let entities: { [key: string]: Entity };
 
         for (; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
             for (colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {

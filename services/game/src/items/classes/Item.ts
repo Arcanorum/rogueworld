@@ -3,7 +3,7 @@ import { ItemCategories } from '@dungeonz/types';
 import { error } from '@dungeonz/utils';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
-import EntitiesList from '../../entities/EntitiesList';
+import { EntitiesList } from '../../entities';
 import { ItemState } from '../../inventory';
 import { TaskTypes } from '../../tasks';
 

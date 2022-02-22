@@ -2,7 +2,7 @@ import ItemsList from './ItemsList';
 import Item from './classes/Item';
 import requireDir from 'require-dir';
 import { error, message } from '@dungeonz/utils';
-import { ItemConfig } from '@dungeonz/types';
+import { ItemDataConfig } from '@dungeonz/types';
 import { Items } from '@dungeonz/configs';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 
@@ -144,7 +144,7 @@ export const initialiseList = () => {
 
 export const createCatalogue = () => {
     // Write the registered item types to the client, so the client knows what item to add for each type number.
-    const dataToWrite: {[name: string]: ItemConfig} = {};
+    const dataToWrite: {[key: string]: ItemDataConfig} = {};
 
     Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
         const itemTypePrototype = ItemType.prototype;
@@ -165,7 +165,7 @@ export const createCatalogue = () => {
         // Get the pure config items values again to finish setting them up, as not everything that
         // the client needs was added to the class.
         Items.forEach((config: any) => {
-            const itemData: ItemConfig = dataToWrite[config.code];
+            const itemData: ItemDataConfig = dataToWrite[config.code];
 
             if (!config.translationId) {
                 error('Item config missing translation id:', config);

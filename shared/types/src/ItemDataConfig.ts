@@ -1,6 +1,6 @@
 import { ItemCategories } from './ItemCategories';
 
-export interface ItemConfig {
+export interface ItemDataConfig {
     typeName: string;
     typeCode: string;
     hasUseEffect: boolean;

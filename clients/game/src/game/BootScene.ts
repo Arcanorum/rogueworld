@@ -58,6 +58,11 @@ class BootScene extends Phaser.Scene {
             Config.ItemTypes = data;
         });
 
+        this.load.json('entity-types', `${ApplicationState.httpServerURL}/api/entity-types`);
+        this.load.on('filecomplete-json-entity-types', (key, type, data) => {
+            Config.EntityTypes = data;
+        });
+
         const mapNames = ['plains'];
         mapNames.forEach((mapName) => {
             const key = `${mapName}-map`;

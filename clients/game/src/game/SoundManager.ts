@@ -1,4 +1,3 @@
-import { ObjectOfStrings } from '@dungeonz/types';
 import { getRandomElement, warning } from '@dungeonz/utils';
 import Config from '../shared/Config';
 import Global from '../shared/Global';
@@ -236,7 +235,7 @@ class SoundManager {
     static getAudioAssetPaths() {
         return ((context) => {
             const paths = context.keys();
-            const values = paths.map(context) as Array<ObjectOfStrings>;
+            const values = paths.map(context) as Array<string>;
             // Add each class to the list by file name.
             return paths.reduce((list, path, index) => {
                 const end = path.split('/').pop()!;
@@ -254,13 +253,12 @@ class SoundManager {
                 else {
                     warning('Cannot load unsupported audio file format for file:', path);
                 }
-                // Need to use .default to get the resolved path for the file, or would need to actually import it.
                 // Add both file types under the same file name. {"my-sound": ["../my-sound.mp3", "../my-sound.ogg"]}
                 if (list[fileName]) {
-                    list[fileName].push(values[index].default);
+                    list[fileName].push(values[index]);
                 }
                 else {
-                    list[fileName] = [values[index].default];
+                    list[fileName] = [values[index]];
                 }
                 return list;
             }, {} as {[key: string]: Array<string>});

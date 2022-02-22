@@ -12,6 +12,7 @@ import Config from '../shared/Config';
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from '../shared/EventTypes';
 import { ApplicationState, GUIState, InventoryState } from '../shared/state';
 import SoundManager from './SoundManager';
+import './EntitiesList';
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
@@ -76,13 +77,6 @@ class BootScene extends Phaser.Scene {
                 Config.mapsData[mapName] = data;
             });
         });
-
-        // TODO: request and parse map data;
-        // const raw = JSON.parse(outputData2);
-
-        // raw.groundGrid.forEach((row: Array<number>, index: number) => {
-        //     raw.groundGrid[index] = runLengthDecodeArray(row);
-        // });
     }
 
     create() {

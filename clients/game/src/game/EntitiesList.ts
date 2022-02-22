@@ -1,11 +1,12 @@
 import { warning } from '@dungeonz/utils';
+import Config from '../shared/Config';
 import Entity from './entities/Entity';
 // import GenericPickupsList from './entities/pickups/GenericPickupsList';
 // import GenericProjectilesList from './entities/projectiles/GenericProjectilesList';
 
 /**
  * A list of all client display entities that can be instantiated.
- * Created using all of the JS files found in /entities, to avoid having a huge list of imports.
+ * Created using all of the TS files found in /entities, to avoid having a huge list of imports.
  * The list looks like `<FILENAME>: <TYPE/CLASS>`.
  * @example
  * {
@@ -16,25 +17,28 @@ import Entity from './entities/Entity';
  * }
  */
 export default (() => {
-    const context = require.context('./entities/', true, /.js$/);
+    const context = require.context('./entities/', true, /.ts$/);
     const paths = context.keys();
     const values = paths.map(context) as Array<{[key: string]: typeof Entity}>;
 
     // Add each class to the list by file name.
-    const entitiesList = paths
-        .reduce((list: {[key: string]: typeof Entity}, path, index) => {
-            const popped = path.split('/').pop();
-            if(!popped) return list;
+    paths.forEach((path, index) => {
+        const popped = path.split('/').pop();
+        if(!popped) return;
 
-            let fileName = popped;
-            // Skip the generic lists.
-            if (fileName.startsWith('Generic')) return list;
-            // Trim the ".js" from the end of the file name.
-            fileName = fileName.slice(0, -3);
-            // Need to use .default to get the class from the file, or would need to actually import it.
-            list[fileName] = values[index].default;
-            return list;
-        }, {});
+        let fileName = popped;
+        // Skip the generic lists.
+        if (fileName.startsWith('Generic')) return;
+        // Trim the ".ts" from the end of the file name.
+        fileName = fileName.slice(0, -3);
+        // Check it isn't already loaded.
+        if(Config.EntitiesList[fileName]) {
+            warning('Loading entities list. Entity type already exists in entities list:', fileName);
+            return;
+        }
+        // Need to use .default to get the class from the file, or would need to actually import it.
+        Config.EntitiesList[fileName] = values[index].default;
+    });
 
     // Add the generic pickups that don't have their own class files.
     // They get classes made for them on startup.
@@ -66,6 +70,4 @@ export default (() => {
 
     //     entitiesList[key] = value;
     // });
-
-    return entitiesList;
 })();

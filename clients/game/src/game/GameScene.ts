@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
-import EntitiesList from './EntitiesList'; // TODO: what am I doing with this?
 import Tilemap from './Tilemap';
 import UseItem from '../shared/UseItem';
 import SoundManager from './SoundManager';
@@ -155,7 +154,7 @@ class GameScene extends Phaser.Scene {
         // this.dayPhase = data.dayPhase || DayPhases.Day;
 
         // Setup animations for entity types that have them configured.
-        Object.values(EntitiesList).forEach((EntityType) => {
+        Object.values(Config.EntitiesList).forEach((EntityType) => {
             // The file might be commented out to disable it for the time being.
             // Check it has something added for this entity type.
             if (EntityType) {
@@ -296,14 +295,8 @@ class GameScene extends Phaser.Scene {
                 }
             }),
             PubSub.subscribe(GLORY_VALUE, (msg, data) => {
-                const onGloryModified = (
-                    this.dynamics[PlayerState.entityId].spriteContainer as Player
-                ).onGloryModified;
-
-                if(onGloryModified) {
-                    // Show how much glory was gained or lost.
-                    onGloryModified(`${data.new - data.old}`);
-                }
+                // Show how much glory was gained or lost.
+                (this.dynamics[PlayerState.entityId].spriteContainer as Player).onGloryModified(`${data.new - data.old}`);
             }),
             PubSub.subscribe(POSITION_VALUE, (msg, data) => {
                 // Check the music to play.
@@ -718,7 +711,7 @@ class GameScene extends Phaser.Scene {
         }
 
         // Check that an entity type exists with the type name that corresponds to the given type number.
-        if (!EntitiesList[Config.EntityTypes[typeNumber].typeName]) {
+        if (!Config.EntitiesList[Config.EntityTypes[typeNumber].typeName]) {
             warning(`Invalid entity type number: "${typeNumber}". Entity types:`, Config.EntityTypes);
             return;
         }
@@ -728,7 +721,7 @@ class GameScene extends Phaser.Scene {
             id,
             row,
             col,
-            spriteContainer: new EntitiesList[Config.EntityTypes[typeNumber].typeName](
+            spriteContainer: new Config.EntitiesList[Config.EntityTypes[typeNumber].typeName](
                 col * Config.TILE_SIZE * Config.GAME_SCALE,
                 row * Config.TILE_SIZE * Config.GAME_SCALE,
                 data,

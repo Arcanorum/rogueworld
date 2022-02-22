@@ -1,6 +1,6 @@
 import { EntityDataConfig, ItemDataConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
-import Sprite from '../game/entities/Sprite';
 import { CraftingRecipe } from './types';
+import Entity from '../game/entities/Entity';
 
 interface TextDefsType {
     [key: string]: ObjectOfStrings;
@@ -11,7 +11,7 @@ interface ItemTypes {
 }
 
 interface EntitiesList {
-    [key: string]: typeof Sprite;
+    [key: string]: typeof Entity;
 }
 
 interface EntityTypes {
@@ -96,8 +96,6 @@ const Config = {
 
     EntityTypes: {} as EntityTypes,
 
-    // TODO: change the loaders for these lists to use this object, instead of reassigning, so
-    // can just import it directly without having to worry about referencing the old object
     EntitiesList: {} as EntitiesList,
 };
 

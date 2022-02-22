@@ -10,6 +10,7 @@ import { ApplicationState, PlayerState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
 import { message } from '@dungeonz/utils';
+import Config from '../../../../../shared/Config';
 
 function ChangeNamePanel({
     onCloseCallback,
@@ -44,7 +45,7 @@ function ChangeNamePanel({
         // The warning text might have been cleared, but some other message to show might still be met.
         if (!warningText) {
             // Check they have enough glory.
-            if (ApplicationState.displayNameChangeCost > PlayerState.glory) {
+            if (Config.Settings.DISPLAY_NAME_CHANGE_COST > PlayerState.glory) {
                 setWarningText(getTextDef('Not enough glory'));
             }
         }
@@ -103,7 +104,7 @@ function ChangeNamePanel({
 
                                 <input
                                     type="text"
-                                    maxLength={ApplicationState.maxDisplayNameLength}
+                                    maxLength={Config.Settings.MAX_CHARACTER_DISPLAY_NAME_LENGTH}
                                     className="name new"
                                     placeholder={getTextDef('Name input')}
                                     onChange={(event) => {
@@ -117,7 +118,9 @@ function ChangeNamePanel({
 
                             <div className="cost">
                                 <img src={gloryIcon.src} draggable={false} />
-                                <div className={`high-contrast-text ${PlayerState.glory < ApplicationState.displayNameChangeCost ? 'warning' : ''}`}>{ApplicationState.displayNameChangeCost}</div>
+                                <div className={`high-contrast-text ${PlayerState.glory < Config.Settings.DISPLAY_NAME_CHANGE_COST ? 'warning' : ''}`}>
+                                    {Config.Settings.DISPLAY_NAME_CHANGE_COST}
+                                </div>
                             </div>
 
                             {!warningText && (

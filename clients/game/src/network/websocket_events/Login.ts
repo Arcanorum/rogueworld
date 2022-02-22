@@ -9,12 +9,6 @@ import { message } from '@dungeonz/utils';
 export default () => {
     message('Adding login events');
 
-    eventResponses.settings = (data) => {
-        ApplicationState.maxDisplayNameLength = data.maxDisplayNameLength;
-        ApplicationState.maxUsernameLength = data.maxUsernameLength;
-        ApplicationState.displayNameChangeCost = data.displayNameChangeCost;
-    };
-
     eventResponses.something_went_wrong = () => {
         ApplicationState.setJoining(false);
 

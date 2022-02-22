@@ -270,7 +270,9 @@ function LoginPage() {
                                         id={styles['name-input']}
                                         className={styles['home-input']}
                                         type="text"
-                                        maxLength={ApplicationState.maxDisplayNameLength}
+                                        maxLength={
+                                            Config.Settings.MAX_CHARACTER_DISPLAY_NAME_LENGTH
+                                        }
                                         value={newCharacterName}
                                         placeholder={getTextDef('Name input')}
                                         onKeyDown={inputEnterPressed}

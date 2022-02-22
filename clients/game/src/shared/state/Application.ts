@@ -58,9 +58,6 @@ class Application {
     httpServerURL!: string;
     gameServiceWebSocketServerURL!: string;
     missedWebsocketEvents!: Array<MissedWebsocketEvent>;
-    maxDisplayNameLength!: number;
-    maxUsernameLength!: number;
-    displayNameChangeCost!: number;
 
     constructor() {
         this.init();
@@ -96,12 +93,6 @@ class Application {
         this.gameServiceWebSocketServerURL = '';
 
         this.missedWebsocketEvents = [];
-
-        this.maxDisplayNameLength = 0;
-
-        this.maxUsernameLength = 0;
-
-        this.displayNameChangeCost = 0;
     }
 
     setConnecting(value: boolean) {

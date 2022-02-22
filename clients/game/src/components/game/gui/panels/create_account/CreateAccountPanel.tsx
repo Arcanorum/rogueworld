@@ -9,6 +9,7 @@ import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import { digestMessage, message } from '@dungeonz/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
+import Config from '../../../../../shared/Config';
 
 function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     const [username, setUsername] = useState('');
@@ -67,7 +68,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                     <input
                         className="create-account-input"
                         type="text"
-                        maxLength={ApplicationState.maxUsernameLength}
+                        maxLength={Config.Settings.MAX_ACCOUNT_USERNAME_LENGTH}
                         placeholder={getTextDef('Enter username')}
                         onChange={(event) => {
                             setUsername(event.target.value);

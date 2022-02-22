@@ -2,7 +2,6 @@ import { webSocketServer as wss } from '../Server';
 import PlayerWebSocket from './PlayerWebSocket';
 import { message, warning } from '@dungeonz/utils';
 import EventResponses from './EventResponses';
-import ClientSettings from './ClientSettings';
 import { Settings } from '@dungeonz/configs';
 import { World } from '../space';
 import './Account';
@@ -74,8 +73,6 @@ wss.on('connection', (clientSocket: PlayerWebSocket) => {
     PlayerWebSocket.extend(clientSocket);
 
     clientSocket.on('pong', () => { clientSocket.isAlive = true; });
-
-    clientSocket.sendEvent('settings', ClientSettings);
 
     clientSocket.on('message', (payload: string) => {
         let parsedMessage;

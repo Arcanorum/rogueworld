@@ -163,7 +163,6 @@ const World = {
             boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME].entranceTilePositions,
         );
 
-        /** @type {Player} */
         const playerEntity = new (EntitiesList.BY_NAME.Player as typeof Player)({
             row: randomPosition.row,
             col: randomPosition.col,
@@ -182,7 +181,7 @@ const World = {
         // To uniquely identify accounts on the client.
         dataToSend.accountId = account._id;
 
-        // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
+        // Tell the nearby players to add this new player, after they are fully set up (if an account was loaded, the properties will have been modified after object creation).
         playerEntity.emitToNearbyPlayers();
 
         clientSocket.sendEvent('join_world_success', dataToSend);
@@ -216,7 +215,6 @@ const World = {
             boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME].entranceTilePositions,
         );
 
-        /** @type {Player} */
         const playerEntity = new (EntitiesList.BY_NAME.Player as typeof Player)({
             row: randomPosition.row,
             col: randomPosition.col,
@@ -232,7 +230,7 @@ const World = {
 
         const dataToSend = this.getPlayerDataToSend(playerEntity);
 
-        // Tell the nearby players to add this new player, after they are full set up (if an account was loaded, the properties will have been modified after object creation).
+        // Tell the nearby players to add this new player, after they are fully set up.
         playerEntity.emitToNearbyPlayers();
 
         clientSocket.sendEvent('join_world_success', dataToSend);

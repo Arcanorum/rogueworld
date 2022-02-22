@@ -195,6 +195,9 @@ class GameScene extends Phaser.Scene {
             this.addEntity(dynamicData);
         });
 
+        // Initial entities data not needed any more.
+        delete this.dynamicsData;
+
         this.setupKeyboardControls();
 
         // Lock the camera to the player sprite.

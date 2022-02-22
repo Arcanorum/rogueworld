@@ -119,6 +119,8 @@ class Entity {
         if(_this.lifespan) {
             this.lifespanTimeout = setTimeout(this.destroy.bind(this), _this.lifespan);
         }
+
+        this.board.addEntity(this);
     }
 
     static registerEntityType() {
@@ -142,9 +144,94 @@ class Entity {
      * Specific destruction functionality. If overridden, should still be chained from the overrider up to this.
      */
     onDestroy() {
-        // Remove the reference to the board it was on (that every entity
-        // has), so it can be cleaned up if the board is to be destroyed.
+        if(this.lifespanTimeout) {
+            clearTimeout(this.lifespanTimeout);
+        }
+
+        // Tell players around this entity to remove it.
+        this.board?.emitToNearbyPlayers(this.row, this.col, 'remove_entity', this.id);
+
+        this.board?.removeEntity(this);
+
+        // Remove the reference to the board it was on (that every entity has), so it can be
+        // cleaned up if the board is to be destroyed.
         delete this.board;
+    }
+
+    /**
+     * Get all of the properties of this entity that can be emitted to clients.
+     * This method should be overridden on each subclass (and any further subclasses), and
+     * then called on the superclass of every subclass, calling it's way back up to Entity.
+     * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
+     * adds from Character, and so on until Entity, then returns the result back down the stack.
+     * @param properties The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
+     */
+    getEmittableProperties(properties: ObjectOfUnknown) {
+        properties.id = this.id;
+        properties.typeNumber = (this.constructor as typeof Entity).typeNumber;
+        properties.row = this.row;
+        properties.col = this.col;
+        return properties;
+    }
+
+    /**
+     * Returns the board tile this entity is currently occupying.
+     * Shouldn't have to worry about the tile being valid, as they shouldn't be occupying an invalid tile.
+     */
+    getBoardTile() {
+        return this.board?.grid[this.row][this.col];
+    }
+
+    /**
+     * Move this entity from the current board to another one.
+     * @param fromBoard - The board the entity is being moved from.
+     * @param toBoard - The board to move the entity to.
+     * @param toRow - The board grid row to reposition the entity to.
+     * @param toCol - The board grid col to reposition the entity to.
+     */
+    changeBoard(fromBoard: Board, toBoard: Board, toRow: number, toCol: number) {
+        // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
+        if (fromBoard) {
+            // Tell players around this entity on the previous board to remove it.
+            fromBoard.emitToNearbyPlayers(
+                this.row,
+                this.col,
+                'remove_entity',
+                this.id,
+            );
+
+            // Remove this entity from the board it is currently in before adding to the next board.
+            // Don't use Movable.reposition as that would only move it around on the same board, not between boards.
+            fromBoard.removeEntity(this);
+        }
+
+        this.board = toBoard;
+        this.row = toRow;
+        this.col = toCol;
+
+        this.board.addEntity(this);
+
+        // Tell players around this entity on the new board to add it.
+        this.board.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            'add_entity',
+            this.getEmittableProperties({}),
+        );
+    }
+
+    /**
+     * When finished constructing this entity, use this to tell the nearby players to add this entity.
+     */
+    emitToNearbyPlayers() {
+        // Tell all players around this one (including itself) that this one has joined.
+        this.board?.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            'add_entity',
+            this.getEmittableProperties({}),
+        );
+        return this;
     }
 
     /**
@@ -263,78 +350,6 @@ class Entity {
      * If overridden, should still be chained from the overrider up to this.
      */
     onModHitPoints() { return; }
-
-    /**
-     * Get all of the properties of this entity that can be emitted to clients.
-     * This method should be overridden on each subclass (and any further subclasses), and
-     * then called on the superclass of every subclass, calling it's way back up to Entity.
-     * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
-     * adds from Character, and so on until Entity, then returns the result back down the stack.
-     * @param properties The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
-     */
-    getEmittableProperties(properties: ObjectOfUnknown) {
-        return properties;
-    }
-
-    /**
-     * Returns the board tile this entity is currently occupying.
-     * Shouldn't have to worry about the tile being valid, as they shouldn't be occupying an invalid tile.
-     */
-    getBoardTile() {
-        return this.board?.grid[this.row][this.col];
-    }
-
-    /**
-     * Move this entity from the current board to another one.
-     * @param fromBoard - The board the entity is being moved from.
-     * @param toBoard - The board to move the entity to.
-     * @param toRow - The board grid row to reposition the entity to.
-     * @param toCol - The board grid col to reposition the entity to.
-     */
-    changeBoard(fromBoard: Board, toBoard: Board, toRow: number, toCol: number) {
-        // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
-        if (fromBoard) {
-            // Tell players around this entity on the previous board to remove it.
-            fromBoard.emitToNearbyPlayers(
-                this.row,
-                this.col,
-                'remove_entity',
-                this.id,
-            );
-
-            // Remove this entity from the board it is currently in before adding to the next board.
-            // Don't use Movable.reposition as that would only move it around on the same board, not between boards.
-            fromBoard.removeEntity(this);
-        }
-
-        this.board = toBoard;
-        this.row = toRow;
-        this.col = toCol;
-
-        this.board.addEntity(this);
-
-        // Tell players around this entity on the new board to add it.
-        this.board.emitToNearbyPlayers(
-            this.row,
-            this.col,
-            'add_entity',
-            this.getEmittableProperties({}),
-        );
-    }
-
-    /**
-     * When finished constructing this entity, use this to tell the nearby players to add this entity.
-     */
-    emitToNearbyPlayers() {
-        // Tell all players around this one (including itself) that this one has joined.
-        this.board?.emitToNearbyPlayers(
-            this.row,
-            this.col,
-            'add_entity',
-            this.getEmittableProperties({}),
-        );
-        return this;
-    }
 
     /**
      * Moves this entity along the board relative to its current position.

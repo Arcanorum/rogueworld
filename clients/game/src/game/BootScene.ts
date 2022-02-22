@@ -53,9 +53,10 @@ class BootScene extends Phaser.Scene {
             this.load.audio(name, paths as Array<string>);
         });
 
-        // TODO: handle missing resources, send back to login screen :/
-        const itemTypesRes = await fetch(`${ApplicationState.httpServerURL}/api/item-types`);
-        console.log('itemTypesRes', itemTypesRes);
+        this.load.json('item-types', `${ApplicationState.httpServerURL}/api/item-types`);
+        this.load.on('filecomplete-json-item-types', (key, type, data) => {
+            Config.ItemTypes = data;
+        });
 
         // TODO: request and parse map data;
         // const raw = JSON.parse(outputData2);

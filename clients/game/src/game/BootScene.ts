@@ -58,6 +58,15 @@ class BootScene extends Phaser.Scene {
             Config.ItemTypes = data;
         });
 
+        const mapNames = ['plains'];
+        mapNames.forEach((mapName) => {
+            const key = `${mapName}-map`;
+            this.load.json(key, `${ApplicationState.httpServerURL}/api/maps/${mapName}`);
+            this.load.on(`filecomplete-json-${key}`, (key, type, data) => {
+                Config.mapsData[mapName] = data;
+            });
+        });
+
         // TODO: request and parse map data;
         // const raw = JSON.parse(outputData2);
 

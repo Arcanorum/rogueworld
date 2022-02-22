@@ -30,27 +30,22 @@ class Tilemap {
 
     groundTilesGrid: Array<Array<Phaser.GameObjects.Bob>> = [];
 
-    groundTilesBlitter!: Phaser.GameObjects.Blitter;
+    groundTilesBlitter: Phaser.GameObjects.Blitter;
 
-    bordersContainer!: Phaser.GameObjects.Container;
+    bordersContainer: Phaser.GameObjects.Container;
 
-    topBorderSprite!: Phaser.GameObjects.Sprite;
+    topBorderSprite: Phaser.GameObjects.Sprite;
 
-    bottomBorderSprite!: Phaser.GameObjects.Sprite;
+    bottomBorderSprite: Phaser.GameObjects.Sprite;
 
-    leftBorderSprite!: Phaser.GameObjects.Sprite;
+    leftBorderSprite: Phaser.GameObjects.Sprite;
 
-    rightBorderSprite!: Phaser.GameObjects.Sprite;
+    rightBorderSprite: Phaser.GameObjects.Sprite;
 
     constructor(scene: GameScene) {
         this.scene = scene;
 
-        this.createGroundGrid();
-
-        this.createBorders();
-    }
-
-    createGroundGrid() {
+        // Create the ground grid.
         this.groundTilesBlitter = this.scene.add.blitter(0, 0, 'ground-tileset');
         this.groundTilesBlitter.setDepth(this.scene.renderOrder.ground);
 
@@ -65,13 +60,9 @@ class Tilemap {
                 this.groundTilesGrid[row][col] = bob;
             }
         }
-    }
 
-    /**
-     * Creates a sprite for each edge of the screen that covers that edge.
-     * Used to hide the ugly transition pop-in of new tiles/entities during the player move tween.
-     */
-    createBorders() {
+        // Creates a sprite for each edge of the screen that covers that edge.
+        // Used to hide the ugly transition pop-in of new tiles/entities during the player move tween.
         this.bordersContainer = this.scene.add.container();
         this.bordersContainer.setDepth(this.scene.renderOrder.borders);
 

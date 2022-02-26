@@ -6,7 +6,7 @@
  "name":"ground",
  "spacing":0,
  "tilecount":819,
- "tiledversion":"1.6.0",
+ "tiledversion":"1.8.2",
  "tileheight":16,
  "tiles":[
         {
@@ -595,23 +595,23 @@
         }, 
         {
          "id":189,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":190,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":191,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":192,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":194,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":196,
@@ -655,31 +655,31 @@
         }, 
         {
          "id":210,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":211,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":212,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":213,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":214,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":215,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":216,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":217,
@@ -739,19 +739,19 @@
         }, 
         {
          "id":231,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":232,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":233,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":234,
-         "type":"Dirt"
+         "type":"PlayerSpawn"
         }, 
         {
          "id":238,
@@ -1911,5 +1911,5 @@
         }],
  "tilewidth":16,
  "type":"tileset",
- "version":"1.6"
+ "version":"1.8"
 }

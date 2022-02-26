@@ -28,7 +28,7 @@ function DefenceCounter() {
     }, []);
 
     return (
-        <div className="defence-counter">
+        <div className={styles['defence-counter']}>
             <PanelButton
                 icon={defenceIcon.src}
                 tooltipText={getTextDef('Defence tooltip')}

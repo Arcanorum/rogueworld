@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
 import Meters from './meters/Meters';
-import './GUI.module.scss';
+import styles from './GUI.module.scss';
 import GloryCounter from './glory_counter/GloryCounter';
 import DefenceCounter from './defence_counter/DefenceCounter';
 import PanelButton from './panel_button/PanelButton';
@@ -9,8 +9,8 @@ import PanelButton from './panel_button/PanelButton';
 import {
     ApplicationState, GUIState, ChatState, PlayerState,
 } from '../../../shared/state';
-import statsIcon from '../../../assets/images/gui/hud/stats-icon.png';
-import tasksIcon from '../../../assets/images/gui/hud/tasks-icon.png';
+// import statsIcon from '../../../assets/images/gui/hud/stats-icon.png';
+// import tasksIcon from '../../../assets/images/gui/hud/tasks-icon.png';
 import mapIcon from '../../../assets/images/gui/hud/map-icon.png';
 import chatIcon from '../../../assets/images/gui/hud/chat-icon.png';
 import chatUnreadedMessageIcon from '../../../assets/images/gui/hud/chat-unreaded-msg-icon.png';
@@ -18,7 +18,7 @@ import exitIcon from '../../../assets/images/gui/hud/exit-icon.png';
 import discordIcon from '../../../assets/images/gui/hud/notdiscord-icon.png';
 import wikiIcon from '../../../assets/images/gui/hud/notwiki-icon.png';
 import settingsIcon from '../../../assets/images/gui/panels/settings/settings-icon.png';
-import leaveDungeonIcon from '../../../assets/images/gui/hud/leave-dungeon-icon.png';
+// import leaveDungeonIcon from '../../../assets/images/gui/hud/leave-dungeon-icon.png';
 import {
     DUNGEON_ACTIVE,
     DUNGEON_PORTAL_PRESSED,
@@ -50,8 +50,6 @@ function GUI() {
     const [showNewNotification, setShowNewNotification] = useState(ChatState.newChatNotification);
     // const [ trackedTask, setTrackedTask ] = useState(null);
     const [loggedIn, setLoggedIn] = useState(ApplicationState.loggedIn);
-    const [targetDungeonPortal, setTargetDungeonPortal] = useState(null);
-    const [inDungeon, setInDungeon] = useState(false);
 
     const closePanelCallback = () => {
         setShownPanel(Panels.NONE);
@@ -62,15 +60,6 @@ function GUI() {
             PubSub.subscribe(LOGGED_IN, (msg, data) => {
                 setLoggedIn(data.new);
             }),
-            // PubSub.subscribe(DUNGEON_PORTAL_PRESSED, (msg, portal) => {
-            //     // Set the target portal before changing the
-            //     // panel, or it won't know what info to load.
-            //     setTargetDungeonPortal(portal);
-            //     setShownPanel(Panels.Dungeon);
-            // }),
-            // PubSub.subscribe(DUNGEON_ACTIVE, (msg, value) => {
-            //     setInDungeon(value);
-            // }),
             PubSub.subscribe(POSITION_VALUE, () => {
                 if (GUIState.activePanel !== Panels.Chat) {
                     setShownPanel(Panels.NONE);
@@ -129,31 +118,14 @@ function GUI() {
     };
 
     return (
-        <div className="gui">
+        <div className={`${styles['gui']}`}>
             <Meters />
 
             {/* {trackedTask && <TaskTracker />} */}
 
-            <div className="top-left-corner-cont gui-scalable">
+            <div className={`${styles['top-left-corner-cont']} gui-scalable`}>
                 <GloryCounter />
                 <DefenceCounter />
-                {/* <PanelButton
-                    icon={statsIcon}
-                    onClick={() => togglePanel(Panels.Stats)}
-                    tooltipText={`${getTextDef('Stats tooltip')} ( V )`}
-                />
-                <PanelButton
-                    icon={tasksIcon}
-                    onClick={() => togglePanel(Panels.Tasks)}
-                    tooltipText={`${getTextDef('Tasks tooltip')} ( B )`}
-                /> */}
-                {/* {(inDungeon === true && (
-                    <PanelButton
-                        icon={leaveDungeonIcon}
-                        onClick={() => togglePanel(Panels.LeaveDungeon)}
-                        tooltipText={getTextDef('Leave dungeon panel: title')}
-                    />
-                ))} */}
 
                 <PanelButton
                     icon={mapIcon.src}
@@ -173,7 +145,7 @@ function GUI() {
                 />
             </div>
 
-            <div className="top-right-corner-cont gui-scalable">
+            <div className={`${styles['top-right-corner-cont']} gui-scalable`}>
                 <PanelButton
                     icon={exitIcon.src}
                     onClick={() => {
@@ -202,12 +174,12 @@ function GUI() {
                 />
             </div>
 
-            <div className="bottom-right-corner-cont gui-scalable" />
+            <div className={`${styles['bottom-right-corner-cont']} gui-scalable`} />
 
             {/* <DungeonTimer />
             <DungeonKeys /> */}
 
-            <div className="panel-cont">
+            <div>
                 <GUIPanelWindows
                     shownPanel={shownPanel}
                     closePanelCallback={closePanelCallback}

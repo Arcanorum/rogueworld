@@ -76,3 +76,10 @@ body {
 .attack-cursor {
     cursor: $cursorAttack;
 }
+
+.high-contrast-text {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    -webkit-text-stroke: 1.5px black;
+}

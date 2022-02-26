@@ -4,6 +4,7 @@ import PanelTemplate from '../panel_template/PanelTemplate';
 import exitIcon from '../../../../../assets/images/gui/hud/exit-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
 import styles from './AccountPanel.module.scss';
+import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
@@ -62,7 +63,7 @@ function AccountPanel({
     }, []);
 
     return (
-        <div className="account-panel centered panel-template-cont">
+        <div className={`${styles['account-panel']} ${panelTemplateStyles.centered} ${panelTemplateStyles['panel-template-cont']}`}>
             <PanelTemplate
                 width="440px"
                 height="420px"
@@ -73,14 +74,14 @@ function AccountPanel({
                 <div className={`account-inner-cont ${passwordChanged ? 'password-changed' : ''}`}>
                     {!passwordChanged && (
                         <>
-                            <div className="account-top-info-cont">
+                            <div className={panelTemplateStyles['account-top-info-cont']}>
                                 {getTextDef('Account panel: info')}
                             </div>
 
                             <input
                                 type="password"
                                 maxLength={50}
-                                className="account-input"
+                                className={panelTemplateStyles['account-input']}
                                 placeholder={getTextDef('Current password')}
                                 onChange={(event) => {
                                     setCurrentPassword(event.target.value);
@@ -93,7 +94,7 @@ function AccountPanel({
                             <input
                                 type="password"
                                 maxLength={50}
-                                className="account-input"
+                                className={panelTemplateStyles['account-input']}
                                 placeholder={getTextDef('New password')}
                                 onChange={(event) => {
                                     setNewPassword(event.target.value);
@@ -104,7 +105,7 @@ function AccountPanel({
                             />
 
                             <div
-                                className="account-accept-button-cont"
+                                className={panelTemplateStyles['account-accept-button-cont']}
                                 onClick={acceptPressed}
                                 onMouseEnter={() => {
                                     Global.gameScene.soundManager.effects.playGUITick();
@@ -112,10 +113,10 @@ function AccountPanel({
                             >
                                 <img
                                     src={borderImage.src}
-                                    className="account-accept-button"
+                                    className={panelTemplateStyles['account-accept-button']}
                                     draggable={false}
                                 />
-                                <div className="account-accept-button-text">
+                                <div className={panelTemplateStyles['account-accept-button-text']}>
                                     {getTextDef('Accept')}
                                 </div>
 
@@ -124,7 +125,7 @@ function AccountPanel({
                     )}
 
                     {warningText && (
-                        <div className={`account-warning-text ${passwordChanged ? 'password-changed' : ''}`}>
+                        <div className={`${panelTemplateStyles['account-warning-text']} ${passwordChanged ? panelTemplateStyles['password-changed'] : ''}`}>
                             {warningText}
                         </div>
                     )}

@@ -6,7 +6,6 @@ import RespawnPanel from './panels/respawn/RespawnPanel';
 // import DungeonPanel from './panels/dungeon/DungeonPanel';
 // import StatsPanel from './panels/stats/StatsPanel';
 // import TasksPanel from './panels/tasks/TasksPanel';
-import dynamic, { DynamicOptions } from 'next/dynamic';
 import MapPanel from './panels/map/MapPanel';
 // import LeaveDungeonPanel from './panels/leave_dungeon/LeaveDungeonPanel';
 import InventoryPanel from './panels/inventory/InventoryPanel';

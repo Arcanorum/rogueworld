@@ -29,7 +29,7 @@ function Tooltip() {
         <>
             {content && (
                 <div
-                    className={`tooltip ${!GUIState.cursorInLeftSide ? 'right' : ''} ${!GUIState.cursorInTopSide ? 'bottom' : ''}`}
+                    className={`${styles.tooltip} ${!GUIState.cursorInLeftSide ? styles.right : ''} ${!GUIState.cursorInTopSide ? styles.bottom : ''}`}
                     style={{ top: cursorPosition.cursorY, left: cursorPosition.cursorX }}
                 >
                     {content}

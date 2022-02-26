@@ -8,6 +8,7 @@ import outOfcombatIcon from '../../../../assets/images/gui/hud/out-of-combat-ico
 import energyCounter from '../../../../assets/images/gui/hud/energy-counter.png';
 import emptyCounter from '../../../../assets/images/gui/hud/empty-counter.png';
 import styles from './Meters.module.scss';
+import guiStyles from '../GUI.module.scss';
 import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, FOOD_VALUE, MAX_FOOD_VALUE,
     COMBAT_STATUS_TRIGGER,
@@ -39,9 +40,9 @@ function Counters({
     return <>{
         Array.from({ length: maxCounters }, (v, i) => {
             if (i < filledCount) {
-                return <img key={i} src={counterImage} draggable={false} className="meter-counter" />;
+                return <img key={i} src={counterImage} draggable={false} className={styles['meter-counter']} />;
             }
-            return <img key={i} src={emptyCounter.src} draggable={false} className="meter-counter" />;
+            return <img key={i} src={emptyCounter.src} draggable={false} className={styles['meter-counter']} />;
         })
     }</>;
 }
@@ -112,8 +113,8 @@ function Meters() {
     }, []);
 
     return (
-        <div className="meters gui-scalable">
-            <div className="inventory-button">
+        <div className={`${styles['meters']} gui-scalable`}>
+            <div className={styles['inventory-button']}>
                 <PanelButton
                     icon={inventoryIcon.src}
                     onClick={() => {
@@ -122,9 +123,9 @@ function Meters() {
                     tooltipText={`${getTextDef('Inventory tooltip')} ( I, right-click, spacebar )`}
                 />
             </div>
-            <div className="meter">
+            <div className={styles['meter']}>
                 <img
-                    className="gui-icon"
+                    className={guiStyles['gui-icon']}
                     src={hitpointIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
@@ -144,9 +145,9 @@ function Meters() {
                     />
                 </div>
             </div>
-            <div className="meter">
+            <div className={styles['meter']}>
                 <img
-                    className="gui-icon"
+                    className={guiStyles['gui-icon']}
                     src={energyIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
@@ -166,9 +167,9 @@ function Meters() {
                     />
                 </div>
             </div>
-            <div className="combat-indicator-icon">
+            <div className={styles['combat-indicator-icon']}>
                 <img
-                    className="gui-icon"
+                    className={guiStyles['gui-icon']}
                     src={((combatTimer > 0) && combatIcon.src) || outOfcombatIcon.src}
                     draggable={false}
                     onMouseEnter={() => {

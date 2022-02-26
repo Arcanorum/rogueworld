@@ -4,6 +4,7 @@ import PanelTemplate from '../panel_template/PanelTemplate';
 import exitIcon from '../../../../../assets/images/gui/hud/exit-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
 import styles from './CreateAccountPanel.module.scss';
+import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { CREATE_ACCOUNT_FAILURE } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
@@ -54,7 +55,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
     }, []);
 
     return (
-        <div className="create-account-panel centered panel-template-cont">
+        <div className={`${styles['create-account-panel']} ${panelTemplateStyles.centered} ${panelTemplateStyles['panel-template-cont']}`}>
             <PanelTemplate
                 width="440px"
                 height="420px"
@@ -62,11 +63,11 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                 icon={exitIcon.src}
                 onCloseCallback={onCloseCallback}
             >
-                <div className="create-account-inner-cont">
-                    <div className="create-account-top-info-cont">{getTextDef('Create account panel: info')}</div>
+                <div className={styles['create-account-inner-cont']}>
+                    <div className={styles['create-account-top-info-cont']}>{getTextDef('Create account panel: info')}</div>
 
                     <input
-                        className="create-account-input"
+                        className={styles['create-account-input']}
                         type="text"
                         maxLength={Config.Settings.MAX_ACCOUNT_USERNAME_LENGTH}
                         placeholder={getTextDef('Enter username')}
@@ -79,7 +80,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                     />
 
                     <input
-                        className="create-account-input"
+                        className={styles['create-account-input']}
                         type="password"
                         maxLength={50}
                         placeholder={getTextDef('Enter password')}
@@ -92,7 +93,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                     />
 
                     <div
-                        className="create-account-button-cont"
+                        className={styles['create-account-button-cont']}
                         onClick={createAccountPressed}
                         onMouseEnter={() => {
                             Global.gameScene.soundManager.effects.playGUITick();
@@ -100,15 +101,15 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
                     >
                         <img
                             src={borderImage.src}
-                            className="create-account-button"
+                            className={styles['create-account-button']}
                         />
-                        <div className="create-account-button-text">
+                        <div className={styles['create-account-button-text']}>
                             {getTextDef('Create account')}
                         </div>
                     </div>
 
                     {warningText && (
-                        <div className="create-account-warning-text">
+                        <div className={styles['create-account-warning-text']}>
                             {warningText}
                         </div>
                     )}

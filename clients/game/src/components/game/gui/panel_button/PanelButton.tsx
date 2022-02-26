@@ -1,5 +1,6 @@
 import { GUIState } from '../../../../shared/state';
 import styles from './PanelButton.module.scss';
+import guiStyles from '../GUI.module.scss';
 import Global from '../../../../shared/Global';
 import { ReactElement } from 'react';
 
@@ -23,9 +24,9 @@ function PanelButton({
     className?: string;
 }) {
     return (
-        <div className={`panel-button ${className}`}>
+        <div className={`${styles['panel-button']} ${className}`}>
             <img
-                className={`gui-icon ${onClick ? 'interactive hand-cursor' : ''}`}
+                className={`${guiStyles['gui-icon']} ${onClick ? 'interactive hand-cursor' : ''}`}
                 src={icon}
                 draggable={false}
                 onMouseEnter={() => {

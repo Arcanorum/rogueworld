@@ -22,34 +22,34 @@ function PanelTemplate({
 }) {
     return (
         <div
-            className="panel-template-main-cont"
+            className={styles['panel-template-main-cont']}
             style={{ width: `${width}`, height: `${height}` }}
             draggable={false}
         >
             <img
                 src={iconBorderImage.src}
-                className="centered panel-template-icon-border"
+                className={`${styles.centered} ${styles['panel-template-icon-border']}`}
                 draggable={false}
             />
 
-            <div className="panel-template-name-border">
+            <div className={styles['panel-template-name-border']}>
                 {`\xa0\xa0${panelName}`}
             </div>
 
-            <div className="panel-template-name">
+            <div className={styles['panel-template-name']}>
                 {`\xa0\xa0${panelName}`}
             </div>
 
             <img
                 src={icon}
-                className="centered panel-template-icon"
+                className={`${styles.centered} ${styles['panel-template-icon']}`}
                 draggable={false}
             />
 
             {onCloseCallback && (
                 <img
                     src={closeButtonImage.src}
-                    className="centered panel-template-close-button"
+                    className={`${styles.centered} ${styles['panel-template-close-button']}`}
                     draggable={false}
                     onClick={onCloseCallback}
                     onMouseEnter={() => {
@@ -60,24 +60,24 @@ function PanelTemplate({
             {!onCloseCallback && (
                 <img
                     src={cornerImage.src}
-                    className="centered panel-template-top-corner"
+                    className={`${styles.centered} ${styles['panel-template-top-corner']}`}
                     draggable={false}
                 />
             )}
 
             <img
                 src={iconBorderImage.src}
-                className="centered panel-template-left-corner"
+                className={`${styles.centered} ${styles['panel-template-left-corner']}`}
                 draggable={false}
             />
 
             <img
                 src={iconBorderImage.src}
-                className="centered panel-template-right-corner"
+                className={`${styles.centered} ${styles['panel-template-right-corner']}`}
                 draggable={false}
             />
 
-            <div className="panel-template-contents-cont">
+            <div className={styles['panel-template-contents-cont']}>
                 {children}
             </div>
         </div>

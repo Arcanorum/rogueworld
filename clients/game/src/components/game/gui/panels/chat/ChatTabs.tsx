@@ -19,7 +19,7 @@ function ChatTabs({
     focusOnChatInput: () => void;
     scrollChatToBottom: () => void;
 }) {
-    const isActiveTab = (scope: ChatScope) => (viewChatScope === scope ? 'active' : '');
+    const isActiveTab = (scope: ChatScope) => (viewChatScope === scope ? styles.active : '');
 
     const handleChatTabClick = (scope: ChatScope) => {
         // don't set sendChat scope if player selected to view "ALL" tab
@@ -40,10 +40,10 @@ function ChatTabs({
     };
 
     return (
-        <div className="chat-tabs-container">
+        <div className={styles['chat-tabs-container']}>
             <p
                 onClick={(e) => handleChatTabClick(ChatState.generalChatScope)}
-                className={`chat-tab all ${isActiveTab(ChatState.generalChatScope)}`}
+                className={`${styles['chat-tab']} ${styles['all']} ${isActiveTab(ChatState.generalChatScope)}`}
             >
                 {getTextDef('Chat scope: All')}
             </p>
@@ -51,7 +51,7 @@ function ChatTabs({
                 <p
                     key={chatScope.value}
                     onClick={(e) => handleChatTabClick(chatScope.value)}
-                    className={`chat-tab ${getScopeColor(chatScope.value)} ${isActiveTab(chatScope.value)}`}
+                    className={`${styles['chat-tab']} ${getScopeColor(chatScope.value)} ${isActiveTab(chatScope.value)}`}
                 >
                     {getTextDef(`Chat scope: ${formatChatScope(chatScope.value)}`)}
                 </p>

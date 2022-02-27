@@ -16,9 +16,9 @@ import getTextDef from '../../../../../shared/GetTextDef';
 
 export const getScopeColor = (scope: ChatScope) => {
     // return css class based on current scope
-    if (scope === ChatState.Scopes.LOCAL.value) return 'local';
-    if (scope === ChatState.Scopes.GLOBAL.value) return 'global';
-    if (scope === ChatState.Scopes.TRADE.value) return 'trade';
+    if (scope === ChatState.Scopes.LOCAL.value) return styles.local;
+    if (scope === ChatState.Scopes.GLOBAL.value) return styles.global;
+    if (scope === ChatState.Scopes.TRADE.value) return styles.trade;
 
     throw Error(`Chat scope ${scope} not found`);
 };
@@ -174,7 +174,7 @@ function ChatPanel() {
     };
 
     return (
-        <div className="chat-container gui-scalable">
+        <div className={`${styles['chat-container']} gui-scalable`}>
             <ChatTabs
                 updatePlaceHolder={updatePlaceHolder}
                 setViewChatScope={setViewChatScope}
@@ -183,23 +183,23 @@ function ChatPanel() {
                 scrollChatToBottom={scrollChatToBottom}
                 viewChatScope={viewChatScope}
             />
-            <div className="chat-contents-wrapper">
-                <div className="chat-contents" ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
+            <div className={styles['chat-contents-wrapper']}>
+                <div className={styles['chat-contents']} ref={chatContentsRef} onClick={closeSelectScopeDropdown}>
                     {filteredChats()}
                 </div>
             </div>
-            <div className="chat-input-container">
+            <div className={styles['chat-input-container']}>
                 <p
-                    className={`player-name ${getScopeColor(sendChatScope)}`}
+                    className={`${styles['player-name']} ${getScopeColor(sendChatScope)}`}
                     onClick={toggleSelectScopeDropdown}
                 >
-                    <span className="arrow">{`${showSelectScopeDropdown ? '⬇' : '⬆'}`}</span>
-                    <span className="scope-label">{`(${sendChatScope})`}</span>
+                    <span className={styles['arrow']}>{`${showSelectScopeDropdown ? '⬇' : '⬆'}`}</span>
+                    <span className={styles['scope-label']}>{`(${sendChatScope})`}</span>
                     { `${PlayerState.displayName}:` }
                 </p>
                 <input
                     type="text"
-                    className={`chat-input ${placeHolder !== defaultPlaceHolder ? 'disabled' : ''} ${getScopeColor(sendChatScope)}`}
+                    className={`${styles['chat-input']} ${placeHolder !== defaultPlaceHolder ? styles.disabled : ''} ${getScopeColor(sendChatScope)}`}
                     placeholder={placeHolder}
                     onKeyDown={handleChatInputChange}
                     onBlur={handleChatFocusChange}
@@ -210,8 +210,8 @@ function ChatPanel() {
                     autoComplete="off"
                     readOnly={placeHolder !== defaultPlaceHolder}
                 />
-                <button type="button" className="send-btn" onClick={handleSendBtnClick}>
-                    <img className="send-btn-icon" src={enterChatIcon.src} alt="send" />
+                <button type="button" className={styles['send-btn']} onClick={handleSendBtnClick}>
+                    <img className={styles['send-btn-icon']} src={enterChatIcon.src} alt="send" />
                 </button>
             </div>
             { showSelectScopeDropdown && (

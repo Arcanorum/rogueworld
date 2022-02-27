@@ -35,6 +35,8 @@ class Player extends Character {
 
     foodDrainLoop = setTimeout(() => { /**/ });
 
+    moveRate = Settings.PLAYER_MOVE_RATE || 1000;
+
     nextMoveTime = 0;
     isMovePending = false;
     pendingMove = setTimeout(() => { /**/ });

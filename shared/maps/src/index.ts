@@ -50,3 +50,5 @@ export const Maps: Array<GameMap> = [
 export const Tilesets = {
     groundTileset,
 };
+
+export const dirname = __dirname;

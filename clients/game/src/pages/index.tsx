@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import Config from '../shared/Config';
+import { init } from '../shared/Config';
 
 const App = dynamic(
     () => import('../components/App'),
@@ -9,8 +9,7 @@ const App = dynamic(
 );
 
 const HomePage = ({ Settings }) => {
-    // Make the settings available to the rest of the app at runtime through the globalish config object.
-    Config.Settings = Settings;
+    init(Settings);
 
     return (
         <>

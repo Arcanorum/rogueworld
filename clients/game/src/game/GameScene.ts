@@ -169,8 +169,7 @@ class GameScene extends Phaser.Scene {
 
         // Listen for the resize event so anything that needs to be updated can be.
         this.scale.on('resize', () => {
-            this.fpsText.y = window.innerHeight - 30;
-            this.tilemap.updateBorders();
+            this.fpsText.y = this.game.renderer.height / 2;
         });
 
         if(playerData.moveRate) {
@@ -205,23 +204,22 @@ class GameScene extends Phaser.Scene {
         this.boundPointerDownHandler = this.pointerDownHandler.bind(this);
         document.addEventListener('mousedown', this.boundPointerDownHandler);
 
-        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-            if (pointer.rightButtonDown()) {
-                if (GUIState.activePanel === Panels.Inventory) {
-                    GUIState.setActivePanel(Panels.NONE);
-                }
-                else {
-                    GUIState.setActivePanel(Panels.Inventory);
-                }
-            }
-        });
+        // this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+        //     if (pointer.rightButtonDown()) {
+        //         if (GUIState.activePanel === Panels.Inventory) {
+        //             GUIState.setActivePanel(Panels.NONE);
+        //         }
+        //         else {
+        //             GUIState.setActivePanel(Panels.Inventory);
+        //         }
+        //     }
+        // });
 
-        this.fpsText = this.add.text(10, window.innerHeight - 30, 'FPS:', {
+        this.fpsText = this.add.text(10, this.game.renderer.height / 2, 'FPS:', {
             fontFamily: '"Courier"',
-            fontSize: '24px',
+            fontSize: '32px',
             color: '#00ff00',
         });
-        this.fpsText.setFontSize(64);
         this.fpsText.setScrollFactor(0);
         this.fpsText.setDepth(this.renderOrder.fpsText);
         this.fpsText.visible = GUIState.showFPS;
@@ -806,6 +804,8 @@ class GameScene extends Phaser.Scene {
                 || dynamic.col < playerColLeftViewRange
                 || dynamic.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
+                console.log('!!! removing out of bounds sprite');
+
                 dynamicSpriteContainer.destroy();
                 delete this.dynamics[key];
                 // if (dynamicSpriteContainer.lightDistance) {

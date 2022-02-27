@@ -3,11 +3,9 @@ import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
 import gameAtlasData from '../assets/images/game-atlas.json';
 import gameAtlasImage from '../assets/images/game-atlas.png';
-import groundTileset from '../assets/images/ground.png';
 import actionProgressBarImage from '../assets/images/gui/action-progress-bar.png';
 import actionProgressBorderImage from '../assets/images/gui/action-progress-border.png';
 import highlightImage from '../assets/images/gui/highlight.png';
-import staticsTileset from '../assets/images/statics.png';
 import Config from '../shared/Config';
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from '../shared/EventTypes';
 import { ApplicationState, GUIState, InventoryState } from '../shared/state';
@@ -37,17 +35,11 @@ class BootScene extends Phaser.Scene {
         this.load.image('action-progress-bar', actionProgressBarImage.src);
         this.load.image('action-progress-border', actionProgressBorderImage.src);
         this.load.atlas('game-atlas', gameAtlasImage.src, gameAtlasData);
-        this.load.spritesheet('ground-tileset', groundTileset.src, {
+        this.load.spritesheet('ground-tileset', `${ApplicationState.httpServerURL}/api/images/ground.png`, {
             frameWidth: 16 * Config.GAME_SCALE,
             frameHeight: 16 * Config.GAME_SCALE,
             margin: 1 * Config.GAME_SCALE,
             spacing: 2 * Config.GAME_SCALE,
-        });
-        this.load.spritesheet('statics-tileset', staticsTileset.src, {
-            frameWidth: 16,
-            frameHeight: 16,
-            margin: 1,
-            spacing: 2,
         });
 
         Object.entries(audioAssetPaths).forEach(([name, paths]) => {

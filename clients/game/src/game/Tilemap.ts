@@ -32,16 +32,6 @@ class Tilemap {
 
     groundTilesBlitter: Phaser.GameObjects.Blitter;
 
-    bordersContainer: Phaser.GameObjects.Container;
-
-    topBorderSprite: Phaser.GameObjects.Sprite;
-
-    bottomBorderSprite: Phaser.GameObjects.Sprite;
-
-    leftBorderSprite: Phaser.GameObjects.Sprite;
-
-    rightBorderSprite: Phaser.GameObjects.Sprite;
-
     constructor(scene: GameScene) {
         this.scene = scene;
 
@@ -60,54 +50,6 @@ class Tilemap {
                 this.groundTilesGrid[row][col] = bob;
             }
         }
-
-        // Creates a sprite for each edge of the screen that covers that edge.
-        // Used to hide the ugly transition pop-in of new tiles/entities during the player move tween.
-        this.bordersContainer = this.scene.add.container();
-        this.bordersContainer.setDepth(this.scene.renderOrder.borders);
-
-        const gridSize = scaledTileSize * viewDiameter + (scaledTileSize * 2);
-        const thickness = (scaledTileSize * 2) + 32;
-
-        const createBorderSprite = (width: number, height: number) => {
-            const borderSprite = this.scene.add.sprite(0, 0, 'ground-tileset', this.blackFrame);
-            borderSprite.displayWidth = width;
-            borderSprite.displayHeight = height;
-            borderSprite.setOrigin(0.5);
-            borderSprite.setScrollFactor(0);
-            this.bordersContainer.add(borderSprite);
-            return borderSprite;
-        };
-
-        this.topBorderSprite = createBorderSprite(gridSize, thickness);
-        this.bottomBorderSprite = createBorderSprite(gridSize, thickness);
-        this.leftBorderSprite = createBorderSprite(thickness, gridSize);
-        this.rightBorderSprite = createBorderSprite(thickness, gridSize);
-
-        this.updateBorders();
-    }
-
-    /**
-     * Sets the black border sprites (that hide the move transition pop-in) to be at the edges of the screen.
-     */
-    updateBorders() {
-        const halfWindowWidth = window.innerWidth / 2;
-        const halfWindowHeight = window.innerHeight / 2;
-        const gridRangeSize = scaledTileSize * (viewRange + 1);
-        const halfTileScale = scaledTileSize / 2;
-        // When the window resized, set the border covers to be the width/height of the window.
-        // Also move them along to be at the edge of the view range to put them to the edge of the tiled area.
-        this.topBorderSprite.x = halfWindowWidth;
-        this.topBorderSprite.y = halfWindowHeight - gridRangeSize + halfTileScale;
-
-        this.bottomBorderSprite.x = halfWindowWidth;
-        this.bottomBorderSprite.y = halfWindowHeight + gridRangeSize - halfTileScale;
-
-        this.leftBorderSprite.x = halfWindowWidth - gridRangeSize + halfTileScale;
-        this.leftBorderSprite.y = halfWindowHeight;
-
-        this.rightBorderSprite.x = halfWindowWidth + gridRangeSize - halfTileScale;
-        this.rightBorderSprite.y = halfWindowHeight;
     }
 
     /**

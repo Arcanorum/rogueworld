@@ -93,7 +93,7 @@ function HotbarSlot({
 
     return (
         <div
-            className={`slot hand-cursor ${inventoryPanelOpen ? 'remove' : ''} ${isHolding ? 'holding' : ''} ${isAmmunition ? 'ammunition' : ''} ${isClothing ? 'clothing' : ''}`}
+            className={`${styles.slot} hand-cursor ${inventoryPanelOpen ? styles.remove : ''} ${isHolding ? styles.holding : ''} ${isAmmunition ? styles.ammunition : ''} ${isClothing ? styles.clothing : ''}`}
             draggable={false}
             onMouseEnter={() => {
                 GUIState.setTooltipContent(
@@ -106,15 +106,15 @@ function HotbarSlot({
             }}
             onClick={slotPressed}
         >
-            {isHolding && <img src={holdingIcon.src} className="equipped-icon" />}
-            {isAmmunition && <img src={ammunitionIcon.src} className="equipped-icon" />}
-            {isClothing && <img src={clothingIcon.src} className="equipped-icon" />}
+            {isHolding && <img src={holdingIcon.src} className={styles['equipped-icon']} />}
+            {isAmmunition && <img src={ammunitionIcon.src} className={styles['equipped-icon']} />}
+            {isClothing && <img src={clothingIcon.src} className={styles['equipped-icon']} />}
             <img
                 src={ItemIconsList[Config.ItemTypes[itemState.typeCode].iconSource]}
                 draggable={false}
             />
             <div
-                className={`high-contrast-text ${(itemState.quantity > 999 || itemState.durability > 999) ? 'small' : ''}`}
+                className={`high-contrast-text ${(itemState.quantity > 999 || itemState.durability > 999) ? styles.small : ''}`}
             >
                 {formatItemValue(itemState.quantity) || formatItemValue(itemState.durability) || '???'}
             </div>

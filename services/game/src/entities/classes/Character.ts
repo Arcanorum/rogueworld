@@ -8,8 +8,8 @@ class Character extends Entity {
     hitPoints = this.maxHitPoints;
 
     defence = 0;
-    
-    constructor (config: CharacterConfig) {
+
+    constructor(config: CharacterConfig) {
         super(config);
     }
 

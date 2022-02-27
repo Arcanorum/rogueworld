@@ -30,10 +30,8 @@ ACCOUNT_AUTO_SAVE_RATE: 15000
 # is always the same regardless of the ratio between dawn/day/dusk/night.
 FULL_DAY_DURATION_MINUTES: 24
 
-# Prevents all spawner entities from spawning any other entities.
-# Useful for when you want to test just a player entity.
-# Will make any dungeons that require key drops for locked doors impossible to complete.
-DISABLE_SPAWNER_AREAS: false
+# A factor to scale display objects by on the client, and any specific size assets that need to be generated and served over API.
+CLIENT_DISPLAY_SCALE: 2
 
 # How long the player character name can be.
 MAX_CHARACTER_DISPLAY_NAME_LENGTH: 20
@@ -44,6 +42,9 @@ MAX_ACCOUNT_USERNAME_LENGTH: 50
 # The board (map) to spawn players onto.
 # Must be an existing, permanent instance, not a dynamically added board.
 PLAYER_SPAWN_BOARD_NAME: plains
+
+# How many tiles away the players can see on the client, and therefore how much data to send.
+PLAYER_VIEW_RANGE: 9
 
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.

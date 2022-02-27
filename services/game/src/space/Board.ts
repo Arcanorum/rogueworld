@@ -1,3 +1,4 @@
+import { Settings } from '@dungeonz/configs';
 import { MapLayer, TiledMap } from '@dungeonz/maps';
 import { DayPhases, Directions, ObjectOfUnknown, RowCol } from '@dungeonz/types';
 import { Counter, error, warning } from '@dungeonz/utils';
@@ -9,7 +10,7 @@ import BoardTile from './BoardTile';
 import { groundTilesetTiles } from './CreateClientBoardData';
 import { GroundTypeName, PlayerSpawn } from './GroundTypes';
 
-const playerViewRange = Player.viewRange;
+const playerViewRange = Settings.PLAYER_VIEW_RANGE;
 /**
  * Need this so that the loops in the functions that emit to players around the player view range go all the way to
  * the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
@@ -233,6 +234,77 @@ class Board {
     }
 
     /**
+     * Get all of the destroyables (and any interactables that are not in their default state) along the edge of the player view range in a given direction.
+     * @param row
+     * @param col
+     * @param direction
+     * @returns Returns an array containing the entities found, or false if none found.
+     */
+    getDynamicsAtViewRangeData(row: number, col: number, direction: Directions) {
+        const edgeDynamics: Array<Entity> = [];
+
+        let currentTile: BoardTile;
+
+        if (direction === Directions.LEFT) {
+            // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
+                // Check for invalid array index access.
+                // eslint-disable-next-line no-continue
+                if (this.grid[row + i] === undefined) continue;
+                currentTile = this.grid[row + i][col - playerViewRange];
+                // eslint-disable-next-line no-continue
+                if (currentTile === undefined) continue;
+
+                currentTile.addToDynamicsList(edgeDynamics);
+            }
+        }
+        else if (direction === Directions.RIGHT) {
+            // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
+                // Check for invalid array index access.
+                // eslint-disable-next-line no-continue
+                if (this.grid[row + i] === undefined) continue;
+                currentTile = this.grid[row + i][col + playerViewRange];
+                // eslint-disable-next-line no-continue
+                if (currentTile === undefined) continue;
+
+                currentTile.addToDynamicsList(edgeDynamics);
+            }
+        }
+        else if (direction === Directions.UP) {
+            // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
+                // Check for invalid array index access.
+                // eslint-disable-next-line no-continue
+                if (this.grid[row - playerViewRange] === undefined) continue;
+                currentTile = this.grid[row - playerViewRange][col + i];
+                // eslint-disable-next-line no-continue
+                if (currentTile === undefined) continue;
+
+                currentTile.addToDynamicsList(edgeDynamics);
+            }
+        }
+        else {
+            // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
+            for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
+                // Check for invalid array index access.
+                // eslint-disable-next-line no-continue
+                if (this.grid[row + playerViewRange] === undefined) continue;
+                currentTile = this.grid[row + playerViewRange][col + i];
+                // eslint-disable-next-line no-continue
+                if (currentTile === undefined) continue;
+
+                currentTile.addToDynamicsList(edgeDynamics);
+            }
+        }
+
+        // If there were no dynamics at the edge of the view range, return false.
+        if (edgeDynamics.length === 0) return false;
+
+        return edgeDynamics;
+    }
+
+    /**
      * Send an event name ID and optional data to all players around the target position.
      * @param row Target row on this board to emit to players around.
      * @param col Target column on this board to emit to players around.
@@ -241,7 +313,7 @@ class Board {
      * @param range A specific range to define "nearby" to be, otherwise uses the player view range + 1.
      */
     emitToNearbyPlayers(row: number, col: number, eventName: string, data?: any, range?: number) {
-        let nearbyRange = Player.viewRange;
+        let nearbyRange = playerViewRange;
         let nearbyRangePlusOne = playerViewRangePlusOne;
 
         if (range !== undefined) {

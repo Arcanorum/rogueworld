@@ -62,7 +62,7 @@ function GamePage() {
     return (
         <div>
             <div id={styles['game-cont']} className={`${loadFinished ? styles['fade-in'] : ''}`}>
-                <div id={styles['game-canvas']} onClick={loseAllInputFocus} />
+                <canvas id='game-canvas' className={styles['game-canvas']} onClick={loseAllInputFocus}></canvas>
                 <GUI />
             </div>
         </div>

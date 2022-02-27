@@ -43,7 +43,7 @@ const Config = {
     mapsData: {} as MapsData,
 
     /** A factor to scale display objects by. */
-    GAME_SCALE: 4,
+    GAME_SCALE: 0,
 
     /** How big in pixels each tile is. */
     TILE_SIZE: 16,
@@ -61,15 +61,15 @@ const Config = {
     CENTER_OFFSET: 0,
 
     /**
-     * The view range on the client is one less than the view range on the server, so the client
+     * The view range on the server is one greater than the view range on the client, so the client
      * can see things leaving the view range.
      */
-    VIEW_RANGE: 15,
+    VIEW_RANGE: 0,
 
     /**
      * The edge to edge view distance. x2 for both sides, and +1 for the middle (where this player is).
      */
-    VIEW_DIAMETER: (1 + 15 * 2),
+    VIEW_DIAMETER: 0,
 
     /** Minimum amount of time (in ms) for how long any chat messages should stay for. */
     CHAT_BASE_LIFESPAN: 4000,
@@ -99,8 +99,17 @@ const Config = {
     EntitiesList: {} as EntitiesList,
 };
 
-Config.SCALED_TILE_SIZE = Config.TILE_SIZE * Config.GAME_SCALE;
+export const init = (Settings: ObjectOfAny) => {
+    // Make the settings available to the rest of the app at runtime through the globalish config object.
+    Config.Settings = Settings;
 
-Config.CENTER_OFFSET = Config.SCALED_TILE_SIZE * 0.5;
+    Config.GAME_SCALE = Settings.CLIENT_DISPLAY_SCALE;
+
+    Config.SCALED_TILE_SIZE = Config.TILE_SIZE * Config.GAME_SCALE;
+    Config.CENTER_OFFSET = Config.SCALED_TILE_SIZE * 0.5;
+
+    Config.VIEW_RANGE = Settings.PLAYER_VIEW_RANGE;
+    Config.VIEW_DIAMETER = (1 + Config.VIEW_RANGE * 2);
+};
 
 export default Config;

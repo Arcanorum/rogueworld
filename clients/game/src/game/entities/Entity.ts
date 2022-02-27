@@ -163,7 +163,7 @@ class Entity extends Container {
      *      reposition as it looks weird when they teleport but still do a move animation.
      */
     onMove(playMoveAnim?: boolean, moveAnimDuration = 4000) {
-        console.log('character.onMove:', moveAnimDuration);
+        // console.log('character.onMove:', moveAnimDuration);
         //     // TODO: flip the base sprite if moving the other way since the last move
         //     // dont bother for up/down
 

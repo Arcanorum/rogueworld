@@ -1,6 +1,8 @@
 import { Settings } from '@dungeonz/configs';
+import { Offset } from '@dungeonz/types';
 import { warning } from '@dungeonz/utils';
 import DamageTypes from '../../gameplay/DamageTypes';
+import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import { Inventory } from '../../inventory';
 import Ammunition from '../../items/classes/ammunition/Ammunition';
 import Clothes from '../../items/classes/clothes/Clothes';
@@ -15,11 +17,6 @@ interface PlayerConfig extends EntityConfig {
 }
 
 class Player extends Character {
-    /**
-     * How far can a player entity see, and therefore how much data to send to their client.
-     */
-    static viewRange = 9;
-
     inventory: Inventory;
 
     socket: PlayerWebSocket;
@@ -38,10 +35,21 @@ class Player extends Character {
 
     foodDrainLoop = setTimeout(() => { /**/ });
 
-    /**
-     * The time when this player was last damaged.
-     */
+    nextMoveTime = 0;
+    isMovePending = false;
+    pendingMove = setTimeout(() => { /**/ });
+
+    /** The time the player most recently performed an action. */
+    lastActionTime = 0;
+
+    /** The time after which this player can perform another action. */
+    nextActionTime = 0;
+
+    /** The time when this player was last damaged. */
     lastDamagedTime = 0;
+
+    /** How many times this player has moved in the same direction continuously. */
+    momentum = 0;
 
     /**
      * What this player is wearing. Such as armour, robes, cloak, disguise, apron.
@@ -76,14 +84,24 @@ class Player extends Character {
         this.displayName = config.displayName;
 
         // Start the food drain loop.
-        if (this.foodDrainRate > 0) {
-            this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
-        }
+        // if (this.foodDrainRate > 0) {
+        //     this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
+        // }
 
         this.autoSaveTimeout = setTimeout(
             this.saveAccount.bind(this),
             5000,
         );
+    }
+
+    onDestroy() {
+        this.inventory.dropAllItems();
+
+        clearTimeout(this.foodDrainLoop);
+
+        this.board?.removePlayer(this);
+
+        super.onDestroy();
     }
 
     /**
@@ -158,6 +176,90 @@ class Player extends Character {
         if (this.hitPoints > 0) {
             this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
         }
+    }
+
+    reposition(toRow: number, toCol: number) {
+        this.board?.removePlayer(this);
+        super.reposition(toRow, toCol);
+        this.board?.addPlayer(this);
+    }
+
+    getMoveRate() {
+        let { moveRate } = this;
+
+        if (this.lastDamagedTime + Settings.PLAYER_COMBAT_SLOWDOWN_DURATION > Date.now()) {
+            moveRate *= Settings.PLAYER_COMBAT_SLOWDOWN_MOVE_RATE_MODIFIER;
+        }
+
+        // Check the time since the last move, otherwise they will be able to continue with their momentum. Momentum should be lost after standing still.
+        if (Date.now() > this.nextMoveTime + 500) {
+            this.momentum = 0;
+        }
+
+        if (this.momentum) {
+            if (this.momentum > Settings.PLAYER_MAX_MOMENTUM) {
+                this.momentum = Settings.PLAYER_MAX_MOMENTUM;
+            }
+
+            const momentumModifier = (
+                1 - (
+                    Settings.PLAYER_MAX_MOMENTUM_MODIFIER
+                    * (this.momentum / Settings.PLAYER_MAX_MOMENTUM)
+                )
+            );
+
+            moveRate *= momentumModifier;
+        }
+
+        return super.getMoveRate(moveRate);
+    }
+
+    move(byRows: Offset, byCols: Offset, force = false) {
+        // Check if this player can move yet.
+        if (!force && Date.now() < this.nextMoveTime) {
+            // Can't move yet. Make this move command be pending, so it happens as soon as it can.
+
+            clearTimeout(this.pendingMove);
+
+            this.pendingMove = setTimeout(
+                this.move.bind(this),
+                this.nextMoveTime - Date.now(),
+                byRows,
+                byCols,
+            );
+
+            return false;
+        }
+
+        this.nextMoveTime = Date.now() + this.getMoveRate();
+
+        // Check if the entity can move as a character.
+        if (super.move(byRows, byCols) === true) {
+            // Don't move if dead.
+            if (this.hitPoints < 1) return false;
+
+            const dynamicsAtViewRangeData = this.board?.getDynamicsAtViewRangeData(
+                this.row,
+                this.col,
+                rowColOffsetToDirection(byRows, byCols),
+            );
+
+            // Don't bother sending the event if no dynamics were found.
+            if (dynamicsAtViewRangeData !== false) {
+            // Tell the player any dynamics that they can now see in the direction they moved.
+                this.socket.sendEvent(
+                    'add_entities',
+                    dynamicsAtViewRangeData,
+                );
+            }
+
+            this.momentum += 1;
+
+            // Cancel the gathering action if it was in progress.
+            // clearTimeout(this.gatherTimeout);
+        }
+
+        return true;
     }
 
     setDisplayName(displayName: string) {

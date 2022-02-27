@@ -2,19 +2,20 @@ import Phaser from 'phaser';
 import BootScene from './BootScene';
 import GameScene from './GameScene';
 import Global from '../shared/Global';
+import Config from '../shared/Config';
 
 const PhaserGame = () => {
     const config = {
         type: Phaser.WEBGL,
-        parent: 'game-canvas',
-        width: 100,
-        height: 100,
+        // - 2 to the view diameter so the outer edges are not visible during map edge transitons.
+        // Used to hide the ugly transition pop-in of new tiles/entities during the player move tween.
+        width: (Config.SCALED_TILE_SIZE * (Config.VIEW_DIAMETER - 2)) || 100,
+        height: (Config.SCALED_TILE_SIZE * (Config.VIEW_DIAMETER - 2)) || 100,
+        canvas: document.getElementById('game-canvas') as HTMLCanvasElement,
         pixelArt: true,
         antialias: false,
         antialiasGL: false,
         scale: {
-            mode: Phaser.Scale.RESIZE,
-            autoCenter: Phaser.Scale.CENTER_BOTH,
             fullscreenTarget: 'game-cont',
         },
         scene: [

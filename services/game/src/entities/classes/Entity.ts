@@ -365,7 +365,7 @@ class Entity {
         if (byRows) this.reposition(this.row + byRows, this.col);
         else if (byCols) this.reposition(this.row, this.col + byCols);
 
-        if(!this.board) return;
+        if(!this.board) return false;
 
         // Tell the players in this zone that this dynamic has moved.
         this.board.emitToNearbyPlayers(
@@ -395,6 +395,8 @@ class Entity {
         // player is found on, instead of just once and use it if needed.
 
         this.postMove();
+
+        return true;
     }
 
     /**

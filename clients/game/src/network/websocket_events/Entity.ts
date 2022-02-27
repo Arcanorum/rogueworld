@@ -27,7 +27,7 @@ const tweenCompleteDown = () => {
     Global.gameScene.playerTween = null;
 };
 
-export default () => {
+const Entity = () => {
     eventResponses.add_entity = (data) => {
         // console.log("add entity event:", data);
         if (Global.gameScene.addEntity === undefined) return;
@@ -47,8 +47,6 @@ export default () => {
     };
 
     eventResponses.moved = (data) => {
-        // console.log("moved: ", data);
-
         if (Global.gameScene.dynamics === undefined) {
             // Something went wrong... Reload the page.
             // location.reload();
@@ -102,7 +100,7 @@ export default () => {
                 tweenOnCompleteFunction = tweenCompleteLeft;
             }
             // Down.
-            if (data.row > origRow) {
+            else if (data.row > origRow) {
                 tweenOnCompleteFunction = tweenCompleteDown;
             }
             // Up.
@@ -260,3 +258,5 @@ export default () => {
         // TODO: maybe still need this in case want to tell other players when someone clicks in a direction, i.e. side to side, but without moving.
     };
 };
+
+export default Entity;

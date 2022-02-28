@@ -168,7 +168,7 @@ function ChatPanel() {
                 key={chat.id}
                 scope={chat.scope}
                 displayName={chat.displayName}
-                message={chat.message}
+                content={chat.content}
             />
         ));
     };

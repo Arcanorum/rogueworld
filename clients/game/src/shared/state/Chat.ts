@@ -10,7 +10,7 @@ export type ChatScope = 'ALL' | 'LOCAL' | 'GLOBAL' | 'TRADE';
 export interface ChatMessage {
     id: string;
     displayName: string;
-    message: string;
+    content: string;
     scope: ChatScope;
     discreet: boolean;
     nextAvailableDate: number;
@@ -70,8 +70,8 @@ class Chat {
         this.newChatNotification = false;
     }
 
-    send(scope: ChatScope, message: string) {
-        Global.states.ApplicationState.connection?.sendEvent('chat', { scope, message });
+    send(scope: ChatScope, content: string) {
+        Global.states.ApplicationState.connection?.sendEvent('chat', { scope, content });
     }
 
     validateScope(scope: ChatScope) {
@@ -83,16 +83,16 @@ class Chat {
         return str.match('^[\\w\\s]+$');
     }
 
-    filterProfanity(message: string) {
+    filterProfanity(content: string) {
         // Filter profanity only if it is enabled in the settings
         if (Global.states.GUIState.profanityFilterEnabled) {
             // Check if message contains letters or numbers to avoid error
-            if (this.isAlphaNumericSpace(message)) {
-                return censorString(BadWords, message);
+            if (this.isAlphaNumericSpace(content)) {
+                return censorString(BadWords, content);
             }
         }
 
-        return message;
+        return content;
     }
 
     addNewChat(data: ChatMessage) {
@@ -101,16 +101,16 @@ class Chat {
         // Don't filter profanity of current player's chat, so they can't see what might have been censored for other players.
         // Makes offenders less likely to try and get around the filter if they think it wasn't censored at all.
         if (data.id !== Global.states.PlayerState.entityId) {
-            data.message = this.filterProfanity(data.message);
+            data.content = this.filterProfanity(data.content);
             this.newChatNotification = true;
         }
 
         // Some chat messages shouldn't show the overhead text (i.e. chat command responses).
         if (!data.discreet) {
-            Global.gameScene.chat(data.id, data.message);
+            Global.gameScene.chat(data.id, data.content);
         }
 
-        const newChat = { ...data, id: uuidv4() }; // add unique id for react keys
+        const newChat = { ...data, id: uuidv4() }; // Add unique id for react keys.
 
         this.chats = [...this.chats, newChat];
 
@@ -134,8 +134,8 @@ class Chat {
         return this.Scopes[scope].cooldownDate;
     }
 
-    setPendingChat(message: string) {
-        this.pendingChat = message;
+    setPendingChat(content: string) {
+        this.pendingChat = content;
     }
 
     // Accepts ALL, LOCAL, GLOBAL, TRADE

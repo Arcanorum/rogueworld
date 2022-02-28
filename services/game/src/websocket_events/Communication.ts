@@ -31,7 +31,7 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
         id: entity.id,
         displayName: entity.displayName,
         scope,
-        message,
+        content,
         nextAvailableDate: nextMessageTime + cooldown,
     };
 
@@ -91,7 +91,7 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
                         'chat',
                         {
                             ...dataToBroadCast,
-                            message: response,
+                            content: response,
                             discreet: true,
                         },
                     );

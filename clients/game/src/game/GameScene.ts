@@ -843,7 +843,7 @@ class GameScene extends Phaser.Scene {
 
         const style = {
             fontFamily: '\'Press Start 2P\'',
-            fontSize: '20',
+            fontSize: '20px',
             align: 'center',
             fill: fillColour || '#f5f5f5',
             stroke: '#000000',

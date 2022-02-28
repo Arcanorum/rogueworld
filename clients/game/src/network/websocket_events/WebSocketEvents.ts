@@ -50,7 +50,7 @@ export const addGameEventResponses = () => {
     // };
 
     eventResponses.chat = (data) => {
-        // console.log("chat:", data);
+        // console.log('chat:', data);
         ChatState.addNewChat(data);
     };
 

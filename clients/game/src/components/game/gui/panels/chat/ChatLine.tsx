@@ -5,16 +5,16 @@ import { ChatScope } from '../../../../../shared/state/Chat';
 function ChatLine({
     scope,
     displayName,
-    message,
+    content,
 }: {
     scope: ChatScope;
     displayName: string;
-    message: string;
+    content: string;
 }) {
     return (
-        <p className={`chat-line ${getScopeColor(scope)}`}>
-            <span className="display-name">{`${displayName}: `}</span>
-            <span>{message}</span>
+        <p className={`${styles['chat-line']} ${getScopeColor(scope)}`}>
+            <span className={styles['display-name']}>{`${displayName}: `}</span>
+            <span>{content}</span>
         </p>
     );
 }

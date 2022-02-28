@@ -2,6 +2,7 @@ import { ChatState } from '../../../../../shared/state';
 import styles from './ChatSelectScope.module.scss';
 import getTextDef from '../../../../../shared/GetTextDef';
 import { ChatScope } from '../../../../../shared/state/Chat';
+import chatPanelStyles from './ChatPanel.module.scss';
 
 function ChatSelectScope({
     updatePlaceHolder,
@@ -20,21 +21,21 @@ function ChatSelectScope({
     };
 
     return (
-        <div className="chat-select-scope">
+        <div className={styles['chat-select-scope']}>
             <p
-                className="scope-text local"
+                className={`${styles['scope-text']} ${chatPanelStyles['local']}`}
                 onClick={() => setChatScope(ChatState.Scopes.LOCAL.value)}
             >
                 {getTextDef('Chat scope: Local')}
             </p>
             <p
-                className="scope-text global"
+                className={`${styles['scope-text']} ${chatPanelStyles['global']}`}
                 onClick={() => setChatScope(ChatState.Scopes.GLOBAL.value)}
             >
                 {getTextDef('Chat scope: Global')}
             </p>
             <p
-                className="scope-text trade"
+                className={`${styles['scope-text']} ${chatPanelStyles['trade']}`}
                 onClick={() => setChatScope(ChatState.Scopes.TRADE.value)}
             >
                 {getTextDef('Chat scope: Trade')}

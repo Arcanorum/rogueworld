@@ -159,7 +159,7 @@ class GameScene extends Phaser.Scene {
             // Check it has something added for this entity type.
             if (EntityType) {
                 // if (EntityType.setupAnimations) EntityType.setupAnimations();
-                // if (EntityType.addAnimationSet) EntityType.addAnimationSet();
+                if (EntityType.addAnimationSet) EntityType.addAnimationSet();
             }
         });
 

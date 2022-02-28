@@ -5,11 +5,21 @@ DEV_MODE: true
 # avoid getting spammed. Warning should be fixed though for a prod build.
 IGNORE_WARNINGS: false
 
+# Whether any clients should attempt to make HTTP/WS or secured HTTPS/WSS connections to any services.
+# Means that all services will need to be behind a reverse-proxy that terminates the SSL connection.
+USE_SECURE_PROTOCOLS: false
+
 # Port number of the game service.
 GAME_SERVICE_PORT: 1111
 
+# IP address of the map service. Can also be a domain name.
+GAME_SERVICE_IP_ADDRESS: 127.0.0.1
+
 # Port number of the map service.
 MAP_SERVICE_PORT: 2222
+
+# IP address of the map service. Can also be a domain name.
+MAP_SERVICE_IP_ADDRESS: 127.0.0.1
 
 # Absolute path to where ever Tiled is installed.
 # Tiled comes with tmxrasterizer which is used by the map service to generate the source images of
@@ -48,7 +58,7 @@ PLAYER_VIEW_RANGE: 9
 
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.
-PLAYER_MOVE_RATE: 400
+PLAYER_MOVE_RATE: 100
 
 # How much glory a new player starts with.
 PLAYER_STARTING_GLORY: 100

@@ -35,7 +35,7 @@ class BootScene extends Phaser.Scene {
         this.load.image('action-progress-bar', actionProgressBarImage.src);
         this.load.image('action-progress-border', actionProgressBorderImage.src);
         this.load.atlas('game-atlas', gameAtlasImage.src, gameAtlasData);
-        this.load.spritesheet('ground-tileset', `${ApplicationState.httpServerURL}/api/images/ground.png`, {
+        this.load.spritesheet('ground-tileset', `${ApplicationState.gameServiceHTTPServerURL}/api/images/ground.png`, {
             frameWidth: 16 * Config.GAME_SCALE,
             frameHeight: 16 * Config.GAME_SCALE,
             margin: 1 * Config.GAME_SCALE,
@@ -46,12 +46,12 @@ class BootScene extends Phaser.Scene {
             this.load.audio(name, paths as Array<string>);
         });
 
-        this.load.json('item-types', `${ApplicationState.httpServerURL}/api/item-types`);
+        this.load.json('item-types', `${ApplicationState.gameServiceHTTPServerURL}/api/item-types`);
         this.load.on('filecomplete-json-item-types', (key, type, data) => {
             Config.ItemTypes = data;
         });
 
-        this.load.json('entity-types', `${ApplicationState.httpServerURL}/api/entity-types`);
+        this.load.json('entity-types', `${ApplicationState.gameServiceHTTPServerURL}/api/entity-types`);
         this.load.on('filecomplete-json-entity-types', (key, type, data) => {
             Config.EntityTypes = data;
         });
@@ -59,7 +59,7 @@ class BootScene extends Phaser.Scene {
         const mapNames = ['plains'];
         mapNames.forEach((mapName) => {
             const key = `${mapName}-map`;
-            this.load.json(key, `${ApplicationState.httpServerURL}/api/maps/${mapName}`);
+            this.load.json(key, `${ApplicationState.gameServiceHTTPServerURL}/api/maps/${mapName}`);
             this.load.on(`filecomplete-json-${key}`, (key, type, data) => {
                 // Data arrives RLE compressed. Inflate it back to its full form.
                 data.groundGrid.forEach((row: Array<number>, index: number) => {
@@ -142,7 +142,7 @@ class BootScene extends Phaser.Scene {
             GUIState.showFPS = showFPS;
         }
 
-        if (Config.devMode === false) {
+        if (Config.Settings.DEV_MODE === false) {
             // Disable the right click context menu on the game in prod.
             document.getElementById('game-cont')!.addEventListener('contextmenu', (event) => event.preventDefault());
         }

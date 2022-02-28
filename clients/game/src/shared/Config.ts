@@ -24,20 +24,12 @@ interface MapsData {
     };
 }
 
-type Host = 'local' | 'test' | 'live';
-
 /**
  * A global object of things that relate to gameplay.
  */
 const Config = {
     /** A copy of the Settings object from the config package, due to NextJS weirdness. See index.tsx. */
     Settings: {} as ObjectOfAny,
-
-    /** Whether the client should use development only features. */
-    devMode: false,
-
-    /** The host from where this client is being served from. */
-    host: '' as Host,
 
     /** A list of the map data for every map. */
     mapsData: {} as MapsData,

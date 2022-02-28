@@ -5,7 +5,7 @@ import path from 'path';
 
 const app = express();
 
-const port = Settings.MAP_SERVER_PORT || 2222;
+const port = Settings.MAP_SERVICE_PORT || 2222;
 
 app.listen(
     port,

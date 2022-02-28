@@ -1,7 +1,7 @@
 import { digestMessage, message } from '@dungeonz/utils';
 import PubSub from 'pubsub-js';
 import Config from '../shared/Config';
-import { SOMETHING_WENT_WRONG, WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';
+import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';
 import { ApplicationState } from '../shared/state';
 import eventResponses from './websocket_events/EventResponses';
 const { Settings } = Config;
@@ -108,28 +108,19 @@ const getErrorCategory = () => {
  * @returns Whether a the function finished without a problem.
  */
 export const connectToGameServer = () => {
-    // If the game is running in dev mode (localhost), connect without SSL.
-    if (Config.host === 'local') {
-        const gameServiceBaseURL = `127.0.0.1:${Settings.GAME_SERVICE_PORT || 1111}`;
-        ApplicationState.httpServerURL = `http://${gameServiceBaseURL}`;
-        ApplicationState.gameServiceWebSocketServerURL = `ws://${gameServiceBaseURL}`;
-    }
-    else if (Config.host === 'test') {
-        // Test mode. Connect to public test server, which should be using SSL.
-        const gameServiceBaseURL = 'test.dungeonz.io:443';
-        ApplicationState.httpServerURL = `https://${gameServiceBaseURL}`;
+    const gameServiceBaseURL = `${Settings.GAME_SERVICE_IP_ADDRESS}:${Settings.GAME_SERVICE_PORT}`;
+
+    if(Settings.USE_SECURE_PROTOCOLS) {
+        // Live or test. Connect to server, which should be using SSL.
+        ApplicationState.gameServiceHTTPServerURL = `https://${gameServiceBaseURL}`;
         ApplicationState.gameServiceWebSocketServerURL = `wss://${gameServiceBaseURL}`;
-    }
-    else if(Config.host === 'live') {
-        // Deployment mode. Connect to live server, which should be using SSL.
-        const gameServiceBaseURL = 'dungeonz.io:443';
-        ApplicationState.httpServerURL = `https://${gameServiceBaseURL}`;
-        ApplicationState.gameServiceWebSocketServerURL = `wss://${gameServiceBaseURL}`;
+        ApplicationState.mapServiceHTTPServerURL = `https://${Settings.MAP_SERVICE_IP_ADDRESS}:${Settings.MAP_SERVICE_PORT}`;
     }
     else {
-        // Config is invalid. Code problem somewhere.
-        PubSub.publish(SOMETHING_WENT_WRONG);
-        return false;
+        // Connect without SSL for environments (localhost) that don't need it.
+        ApplicationState.gameServiceHTTPServerURL = `http://${gameServiceBaseURL}`;
+        ApplicationState.gameServiceWebSocketServerURL = `ws://${gameServiceBaseURL}`;
+        ApplicationState.mapServiceHTTPServerURL = `http://${Settings.MAP_SERVICE_IP_ADDRESS}:${Settings.MAP_SERVICE_PORT}`;
     }
 
     if (ApplicationState.connected || ApplicationState.connecting) {

@@ -55,8 +55,9 @@ class Application {
     loading!: boolean;
     loadAccepted!: boolean;
     loggedIn!: boolean;
-    httpServerURL!: string;
+    gameServiceHTTPServerURL!: string;
     gameServiceWebSocketServerURL!: string;
+    mapServiceHTTPServerURL!: string;
     missedWebsocketEvents!: Array<MissedWebsocketEvent>;
 
     constructor() {
@@ -88,9 +89,11 @@ class Application {
 
         this.loggedIn = false;
 
-        this.httpServerURL = '';
+        this.gameServiceHTTPServerURL = '';
 
         this.gameServiceWebSocketServerURL = '';
+
+        this.mapServiceHTTPServerURL = '';
 
         this.missedWebsocketEvents = [];
     }

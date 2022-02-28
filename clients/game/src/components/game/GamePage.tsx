@@ -31,8 +31,8 @@ function GamePage() {
         gameInstance.scene.start('Boot');
 
         // Add handler to browser event to prevent closing game by
-        // misclick, if client is not in devmode.
-        if (Config.devMode === false) {
+        // misclick, if client is not in dev mode.
+        if (Config.Settings.DEV_MODE === false) {
             window.onbeforeunload = () => {
                 PubSub.publish(BEFORE_PAGE_UNLOAD);
                 return ('');

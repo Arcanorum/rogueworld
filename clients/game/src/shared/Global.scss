@@ -84,3 +84,19 @@ body {
     font-weight: bold;
     -webkit-text-stroke: 1.5px black;
 }
+
+.leaflet-container {
+    pointer-events: auto;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+}
+
+.leaflet-div-icon {
+    background: transparent;
+    border: none;
+}
+
+.leaflet-control-zoom {
+    margin-top: 2rem;
+}

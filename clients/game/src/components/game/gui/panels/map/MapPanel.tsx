@@ -1,5 +1,4 @@
 import Leaflet, { CRS, LatLngLiteral, LatLngTuple } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
 import {
     MapContainer, Marker, TileLayer, Tooltip, useMapEvents,
@@ -9,7 +8,8 @@ import destinationIcon from '../../../../../assets/images/gui/panels/map/destina
 import playerIcon from '../../../../../assets/images/gui/panels/map/player-marker.png';
 import { ApplicationState, PlayerState } from '../../../../../shared/state';
 import PanelTemplate from '../panel_template/PanelTemplate';
-import './MapPanel.module.scss';
+import styles from './MapPanel.module.scss';
+import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 
 const markerScale = 4;
 
@@ -54,7 +54,7 @@ function LocationMarker() {
 
     return position === null ? null : (
         <Marker position={position} icon={locationMarker}>
-            <Tooltip className="press-start-font tooltip" direction="top" offset={[0, -44]} opacity={1} permanent>
+            <Tooltip className={`press-start-font ${styles.tooltip}`} direction="top" offset={[0, -44]} opacity={1} permanent>
                 { `X: ${Math.abs(Math.floor(position.lng))}, Y: ${Math.abs(position.lat)}` }
             </Tooltip>
         </Marker>
@@ -71,7 +71,7 @@ function MapPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     };
 
     return (
-        <div className="map-panel centered panel-template-cont">
+        <div className={`${styles['map-panel']} ${panelTemplateStyles.centered} ${panelTemplateStyles['panel-template-cont']}`}>
             <PanelTemplate
                 width="80vw"
                 height="80vh"
@@ -96,9 +96,9 @@ function MapPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                     // maxBounds={[[-676, 0], [0, 774]]}
                     // maxBoundsViscosity={0.9}
                 >
-                    <TileLayer url={`${ApplicationState.httpServerURL}/map/{z}/{x}/{y}.png`} />
+                    <TileLayer url={`${ApplicationState.mapServiceHTTPServerURL}/map/{z}/{x}/{y}.png`} />
                     <Marker position={leafletConfig.center} icon={playerMarker}>
-                        <Tooltip className="press-start-font tooltip" direction="top" offset={[0, -44]} opacity={1} permanent>
+                        <Tooltip className={`press-start-font ${styles.tooltip}`} direction="top" offset={[0, -44]} opacity={1} permanent>
                             You
                             <br />
                             {/* The center is a decimal (with the extra half tile), so round down for display. */}

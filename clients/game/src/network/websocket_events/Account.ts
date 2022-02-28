@@ -4,7 +4,7 @@ import { CREATE_ACCOUNT_FAILURE, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILUR
 import { ApplicationState } from '../../shared/state';
 import { message } from '@dungeonz/utils';
 
-export default () => {
+const Account = () => {
     eventResponses.create_account_success = () => {
         message('create_account_success');
 
@@ -33,3 +33,5 @@ export default () => {
         }
     };
 };
+
+export default Account;

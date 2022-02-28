@@ -6,7 +6,7 @@ import {
 } from '../../shared/EventTypes';
 import { message } from '@dungeonz/utils';
 
-export default () => {
+const Login = () => {
     message('Adding login events');
 
     eventResponses.something_went_wrong = () => {
@@ -45,3 +45,5 @@ export default () => {
         message('End of join world success');
     };
 };
+
+export default Login;

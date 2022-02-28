@@ -2,7 +2,7 @@ import eventResponses from './EventResponses';
 import Global from '../../shared/Global';
 import { GUIState, PlayerState } from '../../shared/state';
 
-export default () => {
+const StatusEffects = () => {
     eventResponses.effect_start_burn = (data) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
@@ -46,21 +46,6 @@ export default () => {
         if (!entity.spriteContainer.healthRegenEffect) return;
         entity.spriteContainer.healthRegenEffect.anims.stop();
         entity.spriteContainer.healthRegenEffect.visible = false;
-    };
-
-    eventResponses.effect_start_energy_regen = (data) => {
-        const entity = Global.gameScene.dynamics[data];
-        if (!entity) return;
-        if (!entity.spriteContainer.energyRegenEffect) return;
-        entity.spriteContainer.energyRegenEffect.anims.play('energy-regen');
-    };
-
-    eventResponses.effect_stop_energy_regen = (data) => {
-        const entity = Global.gameScene.dynamics[data];
-        if (!entity) return;
-        if (!entity.spriteContainer.energyRegenEffect) return;
-        entity.spriteContainer.energyRegenEffect.anims.stop();
-        entity.spriteContainer.energyRegenEffect.visible = false;
     };
 
     eventResponses.effect_start_cured = (data) => {
@@ -165,3 +150,5 @@ export default () => {
         entity.spriteContainer.enchantmentEffect.visible = false;
     };
 };
+
+export default StatusEffects;

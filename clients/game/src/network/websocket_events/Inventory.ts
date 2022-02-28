@@ -3,7 +3,7 @@ import eventResponses from './EventResponses';
 import { InventoryState } from '../../shared/state';
 import Global from '../../shared/Global';
 
-export default () => {
+const Inventory = () => {
     eventResponses.add_inventory_item = (data) => {
         InventoryState.addToInventory(data);
     };
@@ -119,3 +119,5 @@ export default () => {
         setDefaultCursor();
     };
 };
+
+export default Inventory;

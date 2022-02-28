@@ -9,7 +9,7 @@ import Global from '../../shared/Global';
 import { GUIState, PlayerState } from '../../shared/state';
 import eventResponses from './EventResponses';
 
-export default () => {
+const PlayerValues = () => {
     eventResponses.change_board = (data) => {
         // console.log("change board, data:", data);
         Global.gameScene.dynamicsData = data.dynamicsData;
@@ -120,3 +120,5 @@ export default () => {
         // }
     };
 };
+
+export default PlayerValues;

@@ -89,9 +89,6 @@
 # defenceBonus
 # Optional. How much to increase the player's defence by when this item is equipped.
 
-# useEnergyCost
-# Optional. How much energy is consumed when this item is used.
-
 # expGivenStatName
 # Optional. The name of the stat to give exp in when this item is used.
 
@@ -383,7 +380,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 50
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -399,7 +395,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 50
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -454,7 +449,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 50
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Swords
@@ -470,7 +464,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useEnergyCost: 2
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -511,7 +504,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 45
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -527,7 +519,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 45
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -582,7 +573,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 45
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Swords
@@ -599,7 +589,6 @@
   unitWeight: Staff
   useGloryCost: 10
   baseDurability: 1000
-  useEnergyCost: 4
   expGivenStatName: Magic
 
 - name: FireStaff
@@ -611,7 +600,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useEnergyCost: 2
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -626,7 +614,6 @@
   category: Weapon
   unitWeight: MetalHammer
   useGloryCost: 15
-  useEnergyCost: 2
   expGivenStatName: Melee
   baseDurability: 1000
 
@@ -640,7 +627,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 40
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -656,7 +642,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 40
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -711,7 +696,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 40
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Swords
@@ -727,7 +711,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 55
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -743,7 +726,6 @@
   category: Weapon
   unitWeight: MetalHammer
   baseDurability: 55
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -798,7 +780,6 @@
   category: Weapon
   unitWeight: MetalSword
   baseDurability: 55
-  useEnergyCost: 1
   expGivenStatName: Melee
   craftTasks:
     - Swords
@@ -814,7 +795,6 @@
   category: Weapon
   unitWeight: 2
   baseQuantity: 5
-  useEnergyCost: 1
   expGivenStatName: Ranged
   craftTasks:
     - Shurikens
@@ -829,7 +809,6 @@
   unitWeight: Staff
   useGloryCost: 10
   baseDurability: 1000
-  useEnergyCost: 4
   expGivenStatName: Magic
 
 - name: SuperBloodStaff
@@ -841,7 +820,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useEnergyCost: 3
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -855,7 +833,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useEnergyCost: 3
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -869,7 +846,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useEnergyCost: 3
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -883,7 +859,6 @@
   category: Weapon
   unitWeight: MetalDagger
   baseDurability: 50
-  useEnergyCost: 1
   expGivenStatName: Melee
 
 - name: WindStaff
@@ -895,7 +870,6 @@
   category: Weapon
   unitWeight: Staff
   baseDurability: 30
-  useEnergyCost: 2
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -910,7 +884,6 @@
   category: Weapon
   unitWeight: WoodenWeapon
   baseDurability: 30
-  useEnergyCost: 1
   expGivenStatName: Melee
 
 # Holdable - Weapons - Launchers
@@ -924,7 +897,6 @@
 #   unitWeight: Bow
 #   soundType: Bow
 #   baseDurability: 140
-#   useEnergyCost: 1
 #   expGivenStatName: Ranged
 #   craftTasks:
 #     - Bows
@@ -938,7 +910,6 @@
 #   unitWeight: Bow
 #   soundType: Bow
 #   baseDurability: 160
-#   useEnergyCost: 1
 #   expGivenStatName: Ranged
 #   craftTasks:
 #     - Bows
@@ -952,7 +923,6 @@
 #   unitWeight: Bow
 #   soundType: Bow
 #   baseDurability: 200
-#   useEnergyCost: 1
 #   expGivenStatName: Ranged
 #   craftTasks:
 #     - Bows
@@ -967,7 +937,6 @@
 #   unitWeight: Bow
 #   soundType: Bow
 #   baseDurability: 1000
-#   useEnergyCost: 3
 #   expGivenStatName: Ranged
 #   craftTasks:
 #     - Bows
@@ -978,7 +947,6 @@
 #   code: KVHL3512
 #   translationId: Scroll of cleansing
 #   textureSource: cleanse-spell-scroll
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -988,7 +956,6 @@
 #   code: VMFW6679
 #   translationId: Scroll of consume
 #   textureSource: consume-spell-scroll
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1000,7 +967,6 @@
 #   translationId: Scroll of deathbind
 #   textureSource: deathbind-spell-scroll
 #   ProjectileType: ProjDeathbind
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1010,7 +976,6 @@
 #   code: FYRX1359
 #   translationId: Scroll of enthrall
 #   textureSource: enthrall-spell-scroll
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1020,7 +985,6 @@
 #   code: KXAD5315
 #   translationId: Scroll of heal area
 #   textureSource: heal-area-spell-scroll
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1032,7 +996,6 @@
 #   translationId: Scroll of pacify
 #   textureSource: pacify-spell-scroll
 #   ProjectileType: ProjPacify
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1042,7 +1005,6 @@
 #   code: KMGJ5860
 #   translationId: Scroll of reanimate
 #   textureSource: reanimate-spell-scroll
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1052,7 +1014,6 @@
 #   code: ZZAB3297
 #   translationId: Scroll of warding
 #   textureSource: ward-spell-scroll
-#   useEnergyCost: 5
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1062,7 +1023,6 @@
 #   code: UIVL3131
 #   translationId: Scroll of tailwind
 #   textureSource: tailwind-spell-scroll
-#   useEnergyCost: 6
 #   soundType: Scroll
 #   unitWeight: Scroll
 #   expGivenStatName: Magic
@@ -1139,7 +1099,6 @@
   translationId: Bomb
   textureSource: bomb
   unitWeight: 35
-  useEnergyCost: 5
 
 - name: Bones
   code: PTKR2708
@@ -1412,7 +1371,6 @@
   translationId: Trap
   textureSource: trap
   unitWeight: 35
-  useEnergyCost: 10
 
 - name: WindGem
   code: ODWX2496

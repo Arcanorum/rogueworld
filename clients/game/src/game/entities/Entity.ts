@@ -27,8 +27,6 @@ class Entity extends Container {
 
     particlesOnDestroy?: boolean;
 
-    energyRegenEffect?: Phaser.GameObjects.Sprite;
-
     healthRegenEffect?: Phaser.GameObjects.Sprite;
 
     curedEffect?: Phaser.GameObjects.Sprite;
@@ -88,7 +86,6 @@ class Entity extends Container {
             this.addDisplayName(config.displayName);
         }
 
-        this.energyRegenEffect = this.addEffect('energy-regen-effect-1');
         this.healthRegenEffect = this.addEffect('health-regen-effect-1');
         this.curedEffect = this.addEffect('cured-effect-1');
         this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
@@ -221,7 +218,6 @@ class Entity extends Container {
         }
 
         createTwoFrameAnim('health-regen');
-        createTwoFrameAnim('energy-regen');
         createTwoFrameAnim('cured');
         createTwoFrameAnim('cold-resistance');
         createTwoFrameAnim('poison');

@@ -4,6 +4,7 @@ import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import Heal from '../../gameplay/Heal';
+import { Curse, Enchantment } from '../../gameplay/MagicEffects';
 import { StatusEffect } from '../../gameplay/status_effects';
 import Board from '../../space/Board';
 
@@ -27,7 +28,7 @@ class Entity {
     /**
      * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
      */
-    private destroyed = false;
+    protected destroyed = false;
 
     /**
      * A unique id for this entity.
@@ -81,22 +82,28 @@ class Entity {
     static movable = false;
 
     /**
+     * How often this entity moves, in ms.
+     */
+    moveRate = 1000;
+
+    /**
      * Whether this entity is currently blocking the low/high of this tile.
      */
     isBlocking = true;
 
-    hitPoints = 0;
-
     maxHitPoints = 0;
+
+    hitPoints = this.maxHitPoints;
 
     static damageTypeImmunities: Array<DamageTypes>;
 
+    curse?: Curse;
+
+    enchantment?: Enchantment;
+
     statusEffects: {[key: string]: StatusEffect} = {};
 
-    /**
-     * How often this entity moves, in ms.
-     */
-    moveRate = 1000;
+    gloryValue = 0;
 
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
@@ -144,9 +151,19 @@ class Entity {
      * Specific destruction functionality. If overridden, should still be chained from the overrider up to this.
      */
     onDestroy() {
+        // Stop all status effects, otherwise they can keep being damaged, and
+        // potentially die multiple times while already dead, or be healed and revived.
+        this.removeStatusEffects();
+
+        // Make sure this character is marked as dead, so anything that is targeting it will stop doing so.
+        this.hitPoints = -1;
+
         if(this.lifespanTimeout) {
             clearTimeout(this.lifespanTimeout);
         }
+
+        if (this.curse) this.curse.remove();
+        if (this.enchantment) this.enchantment.remove();
 
         // Tell players around this entity to remove it.
         this.board?.emitToNearbyPlayers(this.row, this.col, 'remove_entity', this.id);
@@ -189,7 +206,7 @@ class Entity {
      * @param toRow - The board grid row to reposition the entity to.
      * @param toCol - The board grid col to reposition the entity to.
      */
-    changeBoard(fromBoard: Board, toBoard: Board, toRow: number, toCol: number) {
+    changeBoard(fromBoard: Board | undefined, toBoard: Board, toRow: number, toCol: number) {
         // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
         if (fromBoard) {
             // Tell players around this entity on the previous board to remove it.
@@ -343,7 +360,45 @@ class Entity {
      * This entity has been taken to or below 0 hitpoints.
      * If overridden, should still be chained from the overrider up to this.
      */
-    onAllHitPointsLost() { return; }
+    onAllHitPointsLost() {
+        if(this.board) {
+            // Give all nearby players the glory value of this mob.
+            const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
+            for (let i = 0; i < nearbyPlayers.length; i += 1) {
+                nearbyPlayers[i].modGlory(+this.gloryValue);
+                // nearbyPlayers[i].tasks.progressTask(this.taskIdKilled);
+            }
+
+            this.dropItems();
+
+            if (this.curse) {
+                // If should keep processing after curse has fired, create a corpse.
+                if (this.curse.onEntityDeath() === true) {
+                    // If this character has a corpse type, create a new corpse of the specified type.
+                    // if (this.CorpseType) {
+                    //     new this.CorpseType({
+                    //         row: this.row,
+                    //         col: this.col,
+                    //         board: this.board,
+                    //     }).emitToNearbyPlayers();
+                    // }
+                }
+            }
+            // No curse. Just create the corpse.
+            // else if (this.CorpseType) {
+            //     new this.CorpseType({
+            //         row: this.row,
+            //         col: this.col,
+            //         board: this.board,
+            //     }).emitToNearbyPlayers();
+            // }
+        }
+
+        // Destroy this character.
+        this.destroy();
+
+        return;
+    }
 
     /**
      * This entity has had its hitpoints changed.
@@ -436,6 +491,16 @@ class Entity {
 
         return this.moveRate;
     }
+
+    addStatusEffect(StatusEffectClass: typeof StatusEffect, source: Entity) {
+        new StatusEffectClass(this, source);
+    }
+
+    removeStatusEffects() {
+        Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
+    }
+
+    dropItems() { return; }
 }
 
 export default Entity;

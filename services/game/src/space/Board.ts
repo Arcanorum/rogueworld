@@ -305,6 +305,45 @@ class Board {
     }
 
     /**
+     * Gets all Player entities within a given range around a target position.
+     * @param row
+     * @param col
+     * @param range
+     * @returns An array of Player entities.
+     */
+    getNearbyPlayers(row: number, col: number, range: number) {
+        const nearbyPlayers: Array<Player> = [];
+        const { grid } = this;
+        const rangePlusOne = range + 1;
+
+        let rowOffset = -range;
+        let colOffset = -range;
+        let targetRow: number;
+        let targetCol: number;
+
+        for (; rowOffset < rangePlusOne; rowOffset += 1) {
+            for (colOffset = -range; colOffset < rangePlusOne; colOffset += 1) {
+                targetRow = rowOffset + row;
+                // Check the grid element being accessed is valid.
+                // eslint-disable-next-line no-continue
+                if (grid[targetRow] === undefined) continue;
+                targetCol = colOffset + col;
+
+                const tile = grid[targetRow][targetCol];
+                // eslint-disable-next-line no-continue
+                if (tile === undefined) continue;
+
+                Object.values(tile.players)
+                    .forEach((player) => {
+                        nearbyPlayers.push(player);
+                    });
+            }
+        }
+
+        return nearbyPlayers;
+    }
+
+    /**
      * Send an event name ID and optional data to all players around the target position.
      * @param row Target row on this board to emit to players around.
      * @param col Target column on this board to emit to players around.

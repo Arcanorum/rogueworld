@@ -64,15 +64,18 @@ PLAYER_MOVE_RATE: 100
 PLAYER_STARTING_GLORY: 100
 
 # How many hitpoints a player entity can have.
-PLAYER_MAX_HITPOINTS: 200
+PLAYER_MAX_HITPOINTS: 50
 
-# How much energy a player entity can have.
-PLAYER_MAX_ENERGY: 20
+# How much food the player starts with as their max.
+PLAYER_STARTING_MAX_FOOD: 50
 
-# How long each energy point takes to regenerate. (ms)
-PLAYER_ENERGY_REGEN_RATE: 1000
+# How often food will be drained from the player. (ms)
+PLAYER_FOOD_DRAIN_RATE: 1000
 
-# How long to modify the player move rate for when they are in combat.
+# How much food will be drained from the player each time the drain loop loops.
+PLAYER_FOOD_DRAIN_AMOUNT: 10
+
+# How long to modify the player move rate for when they are in combat. (ms)
 PLAYER_COMBAT_SLOWDOWN_DURATION: 5000
 
 # How much to modify the player move rate by when they are in combat.

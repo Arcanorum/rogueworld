@@ -1,4 +1,5 @@
 import PubSub from 'pubsub-js';
+import Panels from '../../components/game/gui/panels/Panels';
 import {
     DUNGEON_ACTIVE,
     DUNGEON_KEYS,
@@ -65,6 +66,7 @@ const PlayerValues = () => {
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setFood(PlayerState.maxFood);
+        GUIState.setActivePanel(Panels.NONE);
         // Clear in combat status after respawn.
         PubSub.publish(COMBAT_STATUS_TRIGGER, 0);
     };

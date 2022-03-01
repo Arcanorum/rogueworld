@@ -1,15 +1,19 @@
 import { Settings } from '@dungeonz/configs';
-import { Offset } from '@dungeonz/types';
-import { warning } from '@dungeonz/utils';
+import { Offset, RowCol } from '@dungeonz/types';
+import { getRandomElement, warning } from '@dungeonz/utils';
+import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
+import Heal from '../../gameplay/Heal';
 import { Inventory } from '../../inventory';
 import Ammunition from '../../items/classes/ammunition/Ammunition';
 import Clothes from '../../items/classes/clothes/Clothes';
 import Holdable from '../../items/classes/holdable/Holdable';
+import { Board } from '../../space';
+import { boardsObject } from '../../space/BoardsList';
 import PlayerWebSocket from '../../websocket_events/PlayerWebSocket';
 import Character from './Character';
-import { EntityConfig } from './Entity';
+import Entity, { EntityConfig } from './Entity';
 
 interface PlayerConfig extends EntityConfig {
     socket: PlayerWebSocket;
@@ -24,6 +28,10 @@ class Player extends Character {
     displayName = '';
 
     glory = 0;
+
+    maxHitPoints = Settings.PLAYER_MAX_HITPOINTS || 200;
+
+    hitPoints = this.maxHitPoints;
 
     maxFood: number = Settings.PLAYER_STARTING_MAX_FOOD || 1000;
 
@@ -86,9 +94,9 @@ class Player extends Character {
         this.displayName = config.displayName;
 
         // Start the food drain loop.
-        // if (this.foodDrainRate > 0) {
-        //     this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
-        // }
+        if (this.foodDrainRate > 0) {
+            this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
+        }
 
         this.autoSaveTimeout = setTimeout(
             this.saveAccount.bind(this),
@@ -162,16 +170,40 @@ class Player extends Character {
         return Date.now() - this.lastDamagedTime < (Settings.IN_COMBAT_STATUS_DURATION || 5000);
     }
 
+    respawn() {
+        this.hitPoints = this.maxHitPoints;
+        this.food = this.maxFood;
+        // Players are a special case that can be undestroyed.
+        this.destroyed = false;
+        // Clear timestamp used for in combat status.
+        this.lastDamagedTime = 0;
+        this.drainFood();
+
+        // Reposition them to somewhere within the respawn entrance bounds.
+        const randomPosition: RowCol = getRandomElement(
+            boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME].entranceTilePositions,
+        );
+
+        this.changeBoard(
+            this.board,
+            boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME],
+            randomPosition.row,
+            randomPosition.col,
+        );
+
+        this.socket.sendEvent('player_respawn');
+    }
+
     drainFood() {
         if (this.food > 0) {
             this.modFood(-this.foodDrainAmount);
         }
         else {
-            // this.damage(new Damage({
-            //     amount: 20,
-            //     types: [ DamageTypes.Biological ],
-            //     armourPiercing: 100,
-            // }));
+            this.damage({
+                amount: 20,
+                types: [DamageTypes.Biological],
+                penetration: 100,
+            });
         }
 
         // Might have died above. Check they are still alive before restarting the loop.
@@ -238,7 +270,9 @@ class Player extends Character {
         // Check if the entity can move as a character.
         if (super.move(byRows, byCols) === true) {
             // Don't move if dead.
-            if (this.hitPoints < 1) return false;
+            if (this.hitPoints < 1) {
+                return false;
+            }
 
             const dynamicsAtViewRangeData = this.board?.getDynamicsAtViewRangeData(
                 this.row,
@@ -262,6 +296,28 @@ class Player extends Character {
         }
 
         return true;
+    }
+
+    changeBoard(fromBoard: Board | undefined, toBoard: Board, toRow: number, toCol: number) {
+        // Need to check if there is a board, as the board will be nulled if the player dies, but they can be revived.
+        if (fromBoard) {
+            fromBoard.removePlayer(this);
+        }
+
+        super.changeBoard(fromBoard, toBoard, toRow, toCol);
+
+        if(this.board) {
+            this.board.addPlayer(this);
+
+            // Tell the client to load the new board map.
+            this.socket.sendEvent('change_board', {
+                boardName: this.board.name,
+                boardAlwaysNight: this.board.alwaysNight,
+                playerRow: this.row,
+                playerCol: this.col,
+                dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col),
+            });
+        }
     }
 
     setDisplayName(displayName: string) {
@@ -299,6 +355,18 @@ class Player extends Character {
         if (this.socket.account) {
             this.socket.account.glory = this.glory;
         }
+    }
+
+    modHitPoints(hitPointModifier: Damage|Heal, source: Entity) {
+        // If damaged by another player in a safe zone, ignore the damage.
+        if (source instanceof Player) {
+            if (this.board?.grid[this.row][this.col].safeZone === true) {
+                return;
+            }
+        }
+        super.modHitPoints(hitPointModifier);
+        // Tell the player their new HP amount.
+        this.socket.sendEvent('hit_point_value', this.hitPoints);
     }
 
     modFood(amount: number) {

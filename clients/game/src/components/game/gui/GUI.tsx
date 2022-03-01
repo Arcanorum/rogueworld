@@ -18,10 +18,7 @@ import exitIcon from '../../../assets/images/gui/hud/exit-icon.png';
 import discordIcon from '../../../assets/images/gui/hud/notdiscord-icon.png';
 import wikiIcon from '../../../assets/images/gui/hud/notwiki-icon.png';
 import settingsIcon from '../../../assets/images/gui/panels/settings/settings-icon.png';
-// import leaveDungeonIcon from '../../../assets/images/gui/hud/leave-dungeon-icon.png';
 import {
-    DUNGEON_ACTIVE,
-    DUNGEON_PORTAL_PRESSED,
     HITPOINTS_VALUE,
     LOGGED_IN,
     PANEL_CHANGE,
@@ -31,8 +28,6 @@ import {
     QUICK_CHAT_ENABLED,
     NEW_CHAT,
 } from '../../../shared/EventTypes';
-// import DungeonTimer from './dungeon_timer/DungeonTimer';
-// import DungeonKeys from './dungeon_keys/DungeonKeys';
 import Tooltip from './tooltip/Tooltip';
 import Panels from './panels/Panels';
 import Hotbar from './hotbar/Hotbar';

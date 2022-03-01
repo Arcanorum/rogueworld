@@ -3,7 +3,7 @@ import Player from '../entities/classes/Player';
 import { EntitiesList } from '../entities';
 import { ItemState } from '../inventory';
 import { ItemsList } from '../items';
-// const Damage = require("../gameplay/Damage");
+import DamageTypes from '../gameplay/DamageTypes';
 
 const EntitiesListByName = EntitiesList.BY_NAME;
 
@@ -201,18 +201,19 @@ const Commands: {[key: string]: Command} = {
             /teleport 123 456
         `,
     },
-    // killself: {
-    //     run:
-    //     (player) => {
-    //         player.damage(new Damage({
-    //             amount: 99999,
-    //             armourPiercing: 100,
-    //         }));
-    //     },
-    //     help: `
-    //         Kills your character.
-    //     `,
-    // },
+    killself: {
+        run:
+        (player) => {
+            player.damage({
+                amount: 99999,
+                types: [DamageTypes.Biological, DamageTypes.Magical, DamageTypes.Physical],
+                penetration: 100,
+            });
+        },
+        help: `
+            Kills your character.
+        `,
+    },
 };
 
 export default Commands;

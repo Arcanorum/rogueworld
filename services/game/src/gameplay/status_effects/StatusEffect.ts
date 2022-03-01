@@ -1,10 +1,10 @@
-import Character from '../../entities/classes/Character';
+import Entity from '../../entities/classes/Entity';
 import DamageTypes from '../DamageTypes';
 
 class StatusEffect {
-    appliedTo: Character;
+    appliedTo: Entity;
 
-    source: Character | undefined;
+    source: Entity | undefined;
 
     /**
      * The name of this effect, to be used as an ID in any lists of status effects.
@@ -95,7 +95,7 @@ class StatusEffect {
      */
     moveRateModifier!: number;
 
-    constructor(entity: Character, source?: Character) {
+    constructor(entity: Entity, source?: Entity) {
         this.appliedTo = entity;
         this.source = source;
         this.effectName = this.constructor.name;

@@ -21,3 +21,11 @@ EventResponses.mv_d = (clientSocket) => move(clientSocket, 1, 0);
 EventResponses.mv_l = (clientSocket) => move(clientSocket, 0, -1);
 
 EventResponses.mv_r = (clientSocket) => move(clientSocket, 0, 1);
+
+EventResponses.respawn = (clientSocket) => {
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are alive.
+    if (clientSocket.entity?.hitPoints > 0) return;
+
+    clientSocket.entity?.respawn();
+};

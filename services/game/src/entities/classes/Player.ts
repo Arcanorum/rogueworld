@@ -1,5 +1,5 @@
 import { Settings } from '@dungeonz/configs';
-import { Offset, RowCol } from '@dungeonz/types';
+import { ObjectOfUnknown, Offset, RowCol } from '@dungeonz/types';
 import { getRandomElement, warning } from '@dungeonz/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
@@ -140,6 +140,11 @@ class Player extends Character {
             // onDestroy chain, so skips Player.onDestroy (no duplicate dropped items).
             super.onDestroy();
         }
+    }
+
+    getEmittableProperties(properties: ObjectOfUnknown) {
+        properties.displayName = this.displayName;
+        return super.getEmittableProperties(properties);
     }
 
     saveAccount() {

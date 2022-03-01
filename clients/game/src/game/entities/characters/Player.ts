@@ -78,7 +78,7 @@ class Player extends Entity {
 
         const text = Global.gameScene.add.text(0, 0, amount, {
             fontFamily: '\'Press Start 2P\'',
-            fontSize: '16',
+            fontSize: '16px',
             align: 'center',
             color: '#76428a',
             stroke: '#000000',

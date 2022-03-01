@@ -24,7 +24,7 @@ class Container extends Phaser.GameObjects.Container {
         if (parseInt(amount) < 0) {
             const damageParticle = Global.gameScene.add.text(0, 0, amount, {
                 fontFamily: '\'Press Start 2P\'',
-                fontSize: '16',
+                fontSize: '16px',
                 align: 'center',
                 color: '#ff2f00',
                 stroke: '#000000',
@@ -59,7 +59,7 @@ class Container extends Phaser.GameObjects.Container {
 
             const damageParticle = Global.gameScene.add.text(0, 0, amount, {
                 fontFamily: '\'Press Start 2P\'',
-                fontSize: '16',
+                fontSize: '16px',
                 align: 'center',
                 color: '#6abe30',
                 stroke: '#000000',
@@ -116,7 +116,7 @@ class Container extends Phaser.GameObjects.Container {
         // The anchor is still in the top left, so offset by half the width to center the text.
         this.displayName = Global.gameScene.add.text(0, -6, displayName, {
             fontFamily: '\'Press Start 2P\'',
-            fontSize: '20',
+            fontSize: '20px',
             align: 'center',
             color: '#f5f5f5',
             stroke: '#000000',

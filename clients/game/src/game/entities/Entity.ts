@@ -80,7 +80,7 @@ class Entity extends Container {
         this.baseSprite.setOrigin(0.5);
         this.add(this.baseSprite);
 
-        this.baseSprite.anims.play('player');
+        this.baseSprite.anims.play(this.animationSetName);
 
         if(config.displayName) {
             this.addDisplayName(config.displayName);

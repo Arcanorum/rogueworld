@@ -8,5 +8,6 @@ class Entity extends Mob {
 }
 
 Entity.prototype.animationSetName = 'bandit';
+Entity.prototype.animationRepeats = true;
 
 export default Entity;

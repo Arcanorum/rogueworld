@@ -1,7 +1,16 @@
 
 - name: Wall
   movable: false
-  destroyable: false
 
 - name: Trap
   movable: false
+
+- name: Bandit
+  baseMaxHitPoints: 200
+  baseGloryValue: 30
+  baseDefence: 30
+  baseMoveRate: 700
+
+- name: Bat
+  baseMaxHitPoints: 50
+  baseMoveRate: 6000

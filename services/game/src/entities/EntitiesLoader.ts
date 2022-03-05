@@ -37,6 +37,8 @@ const makeClass = ({
 
     class GenericEntity extends SuperClass { }
 
+    GenericEntity.registerEntityType();
+
     return GenericEntity;
 };
 

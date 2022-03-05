@@ -18,7 +18,7 @@ class BoardTile {
 
     /**
      * Entities that do not have a definite existence, and so must be sent dynamically to the player.
-     * Pickups, Movables (can move and change board), Characters (players, mobs), Projectiles).
+     * Anything that can be added to and be removed from a board, change board, or can move.
      * Should NOT occupy a tile that has an active blocking static.
      * Accessed by their entity ID.
      * Keep this on the prototype, so not every instance has this as it's own property.

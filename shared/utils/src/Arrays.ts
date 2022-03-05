@@ -3,7 +3,7 @@ import { ObjectOfAny } from '@dungeonz/types';
 /**
  * Gets a random element from the given array.
  */
-export const getRandomElement = (array: Array<any>) => (
+export const getRandomElement = <T>(array: Array<T>) => (
     array[Math.floor(Math.random() * array.length)]
 );
 

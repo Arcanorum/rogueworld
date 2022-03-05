@@ -6,6 +6,8 @@ const { Biological } = DamageTypes;
 
 class Poison extends StatusEffect {
     shouldStart() {
+        if(this.appliedTo.statusEffects === undefined) return false;
+
         // If the target is cured, don't apply the poison effect.
         if (this.appliedTo.statusEffects[Cured.name]) {
             return false;
@@ -15,6 +17,8 @@ class Poison extends StatusEffect {
     }
 
     shouldContinueEffect() {
+        if(this.appliedTo.statusEffects === undefined) return false;
+
         // If the target is cured, stop the poison effect.
         if (this.appliedTo.statusEffects[Cured.name]) {
             return false;
@@ -39,7 +43,7 @@ class Poison extends StatusEffect {
 }
 
 Poison.prototype._effectDamageAmount = 5;
-Poison.prototype._effectDamageTypes = [ Biological ];
+Poison.prototype._effectDamageTypes = [Biological];
 Poison.prototype._effectDamagePenetration = 100;
 Poison.prototype._startingEffectsRemaining = 5;
 Poison.prototype._effectRate = 2000;

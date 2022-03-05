@@ -15,7 +15,7 @@ class Pickup extends Entity {
     static lifespan = OneMinute;
 
     /**
-     * The type of item to be added to the inventory of the character that picks this pickup up.
+     * The type of item to be added to the inventory of the player that picks this pickup up.
      * The class itself, NOT an instance of it.
      * Set in Item.assignPickupType on server start.
      */
@@ -32,11 +32,11 @@ class Pickup extends Entity {
 
         this.board?.addPickup(this);
 
-        const _this = this.constructor as typeof Pickup;
+        const EntityType = this.constructor as typeof Pickup;
 
         this.itemState = (
             config.itemState ||
-            new ItemState({ ItemType: _this.ItemType })
+            new ItemState({ ItemType: EntityType.ItemType })
         );
     }
 

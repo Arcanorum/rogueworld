@@ -9,11 +9,11 @@ abstract class Ammunition extends Item {
     static ProjectileType: typeof Entity;
 
     static loadConfig(config: any) {
-        const _this = this.constructor as typeof Ammunition;
+        const EntityType = this.constructor as typeof Ammunition;
 
-        _this.ProjectileType = EntitiesList.BY_NAME[config.ProjectileType];
+        EntityType.ProjectileType = EntitiesList.BY_NAME[config.ProjectileType];
 
-        if (!_this.ProjectileType) {
+        if (!EntityType.ProjectileType) {
             error(`Loading ammunition config. Invalid projectile type name "${config.ProjectileType}" for configured item "${config.name}". Type to use must be in the entities list.`);
         }
 

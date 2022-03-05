@@ -75,7 +75,7 @@ class Item {
     static hasUseEffect = false;
 
     /**
-     * How much glory it costs for a character to use this item.
+     * How much glory it costs for a player to use this item.
      */
     static useGloryCost = 0;
 

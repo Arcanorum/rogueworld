@@ -1,9 +1,44 @@
+import { Entities } from '@dungeonz/configs';
 import { EntityDataConfig } from '@dungeonz/types';
 import { error, message } from '@dungeonz/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import requireDir from 'require-dir';
 import { EntitiesList } from '.';
 import Entity from './classes/Entity';
+
+/**
+ * Creates a generic class for an entity based on the Entity class, or one of it's abstract subclasses.
+ */
+const makeClass = ({
+    name,
+    extendsClassName,
+}: {
+    name: string;
+    extendsClassName?: string;
+}) => {
+    if (!name) {
+        error('Cannot load entity config, required property "name" is missing.');
+    }
+
+    // Use the base entity class to extend from by default.
+    let SuperClass: typeof Entity = Entity;
+
+    // Use a more specific type (i.e. Boss, Structure) to extend from if specified.
+    if (extendsClassName) {
+        if (EntitiesList.ABSTRACT_CLASSES[extendsClassName]) {
+            SuperClass = EntitiesList.ABSTRACT_CLASSES[extendsClassName];
+        }
+        else {
+            error(`Failed to load entity config from Entities.yaml for "${name}".
+          The class to extend from cannot be found for given "extends" property "${extendsClassName}".
+          Check it is actually extending from an abstract entity type.`);
+        }
+    }
+
+    class GenericEntity extends SuperClass { }
+
+    return GenericEntity;
+};
 
 export const populateList = () => {
     message('Populating entities list.');
@@ -41,13 +76,44 @@ export const populateList = () => {
         },
     });
 
-    // EntitiesList.ABSTRACT_CLASSES.ResourceNode.createClasses();
+    Entities.forEach((config: any) => {
+        // Only generate a class for this entity if one doesn't already
+        // exist, as it might have it's own special logic file.
+        if (!EntitiesList.BY_NAME[config.name]) {
+            EntitiesList.BY_NAME[config.name] = makeClass(config);
+        }
+    });
 
     message('Finished populating entities list.');
 };
 
 export const initialiseList = () => {
     message('Initialising entities list.');
+
+    Entities.forEach((config: any) => {
+        Object.entries(config).forEach(([_key, value]) => {
+            const EntityClass = EntitiesList.BY_NAME[config.name] as typeof Entity;
+            type PropName = keyof typeof Entity;
+
+            const key = _key as PropName;
+
+            // Load whatever properties that have the same key in the config as on this class.
+            if (key in EntityClass) {
+                // Check if the property has already been loaded by a
+                // subclass, or set on the class prototype for class files.
+                if (
+                    Object.getPrototypeOf(EntityClass)[key] === EntityClass[key]
+                ) {
+                    // eslint-disable-next-line
+                    // @ts-ignore
+                    EntityClass[key] = value;
+                }
+            }
+            else {
+                error('Invalid entity config key:', key);
+            }
+        });
+    });
 
     // EntitiesList.ABSTRACT_CLASSES.Mob.loadConfigs();
 

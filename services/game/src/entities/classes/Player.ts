@@ -12,7 +12,6 @@ import Holdable from '../../items/classes/holdable/Holdable';
 import { Board } from '../../space';
 import { boardsObject } from '../../space/BoardsList';
 import PlayerWebSocket from '../../websocket_events/PlayerWebSocket';
-import Character from './Character';
 import Entity, { EntityConfig } from './Entity';
 
 interface PlayerConfig extends EntityConfig {
@@ -20,7 +19,7 @@ interface PlayerConfig extends EntityConfig {
     displayName: string;
 }
 
-class Player extends Character {
+class Player extends Entity {
     inventory: Inventory;
 
     socket: PlayerWebSocket;
@@ -28,6 +27,8 @@ class Player extends Character {
     displayName = '';
 
     glory = 0;
+
+    defence = 0;
 
     maxHitPoints = Settings.PLAYER_MAX_HITPOINTS || 200;
 
@@ -37,9 +38,9 @@ class Player extends Character {
 
     food = this.maxFood;
 
-    foodDrainRate: number = Settings.PLAYER_FOOD_DRAIN_RATE || 1000;
+    foodDrainRate: number = Settings.PLAYER_FOOD_DRAIN_RATE || 0;
 
-    foodDrainAmount: number = Settings.PLAYER_FOOD_DRAIN_AMOUNT || 10;
+    foodDrainAmount: number = Settings.PLAYER_FOOD_DRAIN_AMOUNT || 0;
 
     foodDrainLoop = setTimeout(() => { /**/ });
 
@@ -272,7 +273,7 @@ class Player extends Character {
 
         this.nextMoveTime = Date.now() + this.getMoveRate();
 
-        // Check if the entity can move as a character.
+        // Check if the entity can move.
         if (super.move(byRows, byCols) === true) {
             // Don't move if dead.
             if (this.hitPoints < 1) {
@@ -328,7 +329,7 @@ class Player extends Character {
     setDisplayName(displayName: string) {
         this.displayName = displayName;
 
-        // Tell every other nearby player the new name of player's character.
+        // Tell every other nearby player the new name.
         this.board?.emitToNearbyPlayers(
             this.row,
             this.col,

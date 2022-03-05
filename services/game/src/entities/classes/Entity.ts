@@ -50,10 +50,12 @@ class Entity {
      */
     board?: Board;
 
+    static baseLifespan?: number = undefined;
+
     /**
      * How long an entity of this type lasts for after being spawned, before being destroyed.
      */
-    static lifespan?: number;
+    lifespan?: number;
 
     /**
      * The timeout to destroy this entity after the lifespan expires.
@@ -75,35 +77,45 @@ class Entity {
     static highBlocking = false;
 
     /**
+     * Whether this entity is currently blocking the low/high of this tile.
+     */
+    isBlocking = true;
+
+    /**
      * Whether this entity is capable of moving at all.
      * Things that can move: Players, most mobs.
      * Things that can not move: Walls, doors, rocks, trees (including tree-type mobs), item pickups.
      */
     static movable = false;
 
+    static baseMoveRate?: number = undefined;
+
     /**
      * How often this entity moves, in ms.
      */
-    moveRate = 1000;
+    protected moveRate?: number;
 
-    /**
-     * Whether this entity is currently blocking the low/high of this tile.
-     */
-    isBlocking = true;
+    static baseMaxHitPoints?: number = undefined;
 
-    maxHitPoints = 0;
+    maxHitPoints?: number;
 
-    hitPoints = this.maxHitPoints;
+    hitPoints?: number;
 
-    static damageTypeImmunities: Array<DamageTypes>;
+    static damageTypeImmunities?: Array<DamageTypes> = undefined;
 
     curse?: Curse;
 
     enchantment?: Enchantment;
 
-    statusEffects: {[key: string]: StatusEffect} = {};
+    statusEffects?: {[key: string]: StatusEffect};
 
-    gloryValue = 0;
+    static baseGloryValue?: number = undefined;
+
+    gloryValue?: number;
+
+    static baseDefence?: number = undefined;
+
+    defence?: number;
 
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
@@ -114,17 +126,27 @@ class Entity {
 
         this.board = config.board;
 
-        const _this = this.constructor as typeof Entity;
+        // Need to mess around a bit to get the values of any subclass properties that have been overridden.
+        // For instance, Entity.baseMaxHitPoints would be undefined, but any subclass may then define baseMaxHitPoints.
+        // Since we don't know the class where it was defined we can't just get the static properties from it directly,
+        // so deduce the class from the constructor of the instance.
+        const EntityType = this.constructor as typeof Entity;
 
         // If a tile is high blocked, then it must also be low blocked.
-        if (_this.highBlocking === true) {
-            _this.lowBlocking = true;
+        if (EntityType.highBlocking === true) {
+            EntityType.lowBlocking = true;
         }
 
         this.isBlocking = true;
 
-        if(_this.lifespan) {
-            this.lifespanTimeout = setTimeout(this.destroy.bind(this), _this.lifespan);
+        if(EntityType.baseLifespan) {
+            this.lifespan = EntityType.baseLifespan;
+            this.lifespanTimeout = setTimeout(this.destroy.bind(this), this.lifespan);
+        }
+
+        if(EntityType.baseMaxHitPoints) {
+            this.maxHitPoints = EntityType.baseMaxHitPoints;
+            this.hitPoints = this.maxHitPoints;
         }
 
         this.board.addEntity(this);
@@ -155,7 +177,7 @@ class Entity {
         // potentially die multiple times while already dead, or be healed and revived.
         this.removeStatusEffects();
 
-        // Make sure this character is marked as dead, so anything that is targeting it will stop doing so.
+        // Make sure this entity is marked as dead, so anything that is targeting it will stop doing so.
         this.hitPoints = -1;
 
         if(this.lifespanTimeout) {
@@ -180,7 +202,7 @@ class Entity {
      * This method should be overridden on each subclass (and any further subclasses), and
      * then called on the superclass of every subclass, calling it's way back up to Entity.
      * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
-     * adds from Character, and so on until Entity, then returns the result back down the stack.
+     * any parent classes, and so on until Entity, then returns the result back down the stack.
      * @param properties The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
      */
     getEmittableProperties(properties: ObjectOfUnknown) {
@@ -299,6 +321,9 @@ class Entity {
      * @param heal A heal config object.
      */
     onHeal(heal: Heal) {
+        if(this.hitPoints === undefined) return;
+        if(this.maxHitPoints === undefined) return;
+
         const amount = Math.floor(heal.amount);
 
         const original = this.hitPoints;
@@ -338,6 +363,8 @@ class Entity {
      * @param source The entity that caused this damage.
      */
     onDamage(damage: Damage, source?: Entity) {
+        if(this.hitPoints === undefined) return;
+
         damage.amount = Math.floor(damage.amount);
         this.hitPoints -= damage.amount;
 
@@ -361,6 +388,8 @@ class Entity {
      * If overridden, should still be chained from the overrider up to this.
      */
     onAllHitPointsLost() {
+        if(this.gloryValue === undefined) return;
+
         if(this.board) {
             // Give all nearby players the glory value of this mob.
             const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
@@ -374,7 +403,7 @@ class Entity {
             if (this.curse) {
                 // If should keep processing after curse has fired, create a corpse.
                 if (this.curse.onEntityDeath() === true) {
-                    // If this character has a corpse type, create a new corpse of the specified type.
+                    // If this entity has a corpse type, create a new corpse of the specified type.
                     // if (this.CorpseType) {
                     //     new this.CorpseType({
                     //         row: this.row,
@@ -394,7 +423,7 @@ class Entity {
             // }
         }
 
-        // Destroy this character.
+        // Destroy this entity.
         this.destroy();
 
         return;
@@ -405,6 +434,12 @@ class Entity {
      * If overridden, should still be chained from the overrider up to this.
      */
     onModHitPoints() { return; }
+
+    modDefence(amount: number) {
+        if(this.defence === undefined) return;
+
+        this.defence += amount;
+    }
 
     /**
      * Moves this entity along the board relative to its current position.
@@ -486,10 +521,10 @@ class Entity {
      *      in here for what the value so far is.
      * @returns The effective move rate.
      */
-    getMoveRate(chainedMoveRate?: number) {
+    getMoveRate(chainedMoveRate?: number): number {
         if (chainedMoveRate) return chainedMoveRate;
 
-        return this.moveRate;
+        return this.moveRate || 0;
     }
 
     addStatusEffect(StatusEffectClass: typeof StatusEffect, source: Entity) {
@@ -497,6 +532,8 @@ class Entity {
     }
 
     removeStatusEffects() {
+        if(this.statusEffects === undefined) return;
+
         Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
     }
 

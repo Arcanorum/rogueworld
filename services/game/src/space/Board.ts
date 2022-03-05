@@ -1,8 +1,9 @@
 import { Settings } from '@dungeonz/configs';
 import { MapLayer, TiledMap } from '@dungeonz/maps';
-import { DayPhases, Directions, ObjectOfUnknown, RowCol } from '@dungeonz/types';
-import { Counter, error, warning } from '@dungeonz/utils';
+import { DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol } from '@dungeonz/types';
+import { Counter, error, getRandomElement, getRandomIntInclusive, warning } from '@dungeonz/utils';
 import { GroundTypes } from '.';
+import { EntitiesList } from '../entities';
 import Entity from '../entities/classes/Entity';
 import Pickup from '../entities/classes/Pickup';
 import Player from '../entities/classes/Player';
@@ -55,6 +56,26 @@ class Board {
      */
     alwaysNight: boolean;
 
+    /**
+     * How much "stuff" can be on the board at once.
+     * These could be all kinds of entities.
+     * Population is NOT a direct correlation with amount of entities, as some entities may have a
+     * higher population weight, i.e. a rat might take 1 population space, but a boss might take 8.
+     */
+    maxPopulation = 1000;
+
+    /**
+     * How many entities are currently on the board.
+     */
+    population = 0;
+
+    /**
+     * How often (in ms) to try to populate the board with a new entity.
+     */
+    populateRate = OneSecond * 5;
+
+    populateLoop: NodeJS.Timeout;
+
     constructor({
         name,
         mapData,
@@ -72,6 +93,8 @@ class Board {
         if (this.alwaysNight === true) this.dayPhase = DayPhases.Night;
 
         this.init(mapData);
+
+        this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
     }
 
     init(mapData: TiledMap) {
@@ -192,6 +215,32 @@ class Board {
 
     removePickup(pickup: Pickup) {
         delete this.grid[pickup.row][pickup.col].pickups[pickup.id];
+    }
+
+    populate() {
+        this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
+
+        // Don't go over the max population for this board.
+        if(this.population >= this.maxPopulation) return;
+
+        // Get a random position on the map.
+        const rows = this.grid.length;
+        const cols = this.grid[0].length;
+        const randomRow = getRandomIntInclusive(0, rows - 1);
+        const randomCol = getRandomIntInclusive(0, cols - 1);
+        const randomBoardTile = this.grid[randomRow][randomCol];
+
+        if(!randomBoardTile.groundType.canBeStoodOn) return;
+        if(randomBoardTile.groundType.hazardous) return;
+
+        const SpawnableEntityTypes = [
+            // EntitiesList.BY_NAME['Bandit'],
+            EntitiesList.BY_NAME['Bat'],
+        ];
+
+        const RandomEntityType = getRandomElement(SpawnableEntityTypes);
+
+        new RandomEntityType({ row: randomRow, col: randomCol, board: this });
     }
 
     /**

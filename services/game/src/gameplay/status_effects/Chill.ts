@@ -4,6 +4,8 @@ import StatusEffect from './StatusEffect';
 
 class Chill extends StatusEffect {
     shouldStart() {
+        if(this.appliedTo.statusEffects === undefined) return false;
+
         // If the target has cold resistance, don't apply the chill effect.
         if (this.appliedTo.statusEffects[ColdResistance.name]) {
             return false;
@@ -13,6 +15,8 @@ class Chill extends StatusEffect {
     }
 
     shouldContinueEffect() {
+        if(this.appliedTo.statusEffects === undefined) return false;
+
         // If it is lava, remove chill if it is applied.
         if (this.appliedTo.getBoardTile()?.groundType === GroundTypes.Lava) {
             return false;

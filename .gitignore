@@ -63,3 +63,6 @@ Settings.yml
 
 # Generated resources for APIs
 services/game/src/api/resources
+
+clients/game/src/assets/images/game-atlas.json
+clients/game/src/assets/images/game-atlas.png

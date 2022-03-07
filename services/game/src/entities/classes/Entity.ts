@@ -33,7 +33,7 @@ class Entity {
     /**
      * Any configs that need to be passed to the entity types list for the game client to use when setting up the sprite classes.
      */
-    static spriteConfig: SpriteConfig;
+    static clientConfig: SpriteConfig = {};
 
     /**
      * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.

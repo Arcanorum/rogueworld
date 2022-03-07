@@ -139,7 +139,7 @@ export const createCatalogue = () => {
         // Add this entity type to the type catalogue.
         dataToWrite[EntityType.typeNumber] = {
             typeName: EntityType.typeName,
-            ...EntityType.spriteConfig,
+            ...EntityType.clientConfig,
         };
     });
 

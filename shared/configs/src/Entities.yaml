@@ -1,5 +1,5 @@
 
-- name: Wall
+- name: WoodenWall
   movable: false
 
 - name: Trap
@@ -10,7 +10,31 @@
   baseGloryValue: 30
   baseDefence: 30
   baseMoveRate: 700
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Bandit
+    animationSetName: bandit
+    animationRepeats: true
 
 - name: Bat
   baseMaxHitPoints: 50
   baseMoveRate: 6000
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Bat
+    animationSetName: bat
+    animationRepeats: true
+
+- name: PineTree
+  movable: false
+  baseMaxHitPoints: 10
+  clientConfig:
+    animationSetName: pine-tree
+    animationFrameSequence: [1]
+
+- name: IronRocks
+  movable: false
+  baseMaxHitPoints: 10
+  clientConfig:
+    animationSetName: iron-rocks
+    animationFrameSequence: [1]

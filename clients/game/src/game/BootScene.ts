@@ -10,7 +10,7 @@ import Config from '../shared/Config';
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from '../shared/EventTypes';
 import { ApplicationState, GUIState, InventoryState } from '../shared/state';
 import SoundManager from './SoundManager';
-import './EntitiesList';
+import generateEntitiesList from './EntitiesList';
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();
 
@@ -54,6 +54,8 @@ class BootScene extends Phaser.Scene {
         this.load.json('entity-types', `${ApplicationState.gameServiceHTTPServerURL}/api/entity-types`);
         this.load.on('filecomplete-json-entity-types', (key, type, data) => {
             Config.EntityTypes = data;
+
+            generateEntitiesList();
         });
 
         const mapNames = ['plains'];

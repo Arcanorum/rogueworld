@@ -1,4 +1,4 @@
-import { ObjectOfUnknown, Offset } from '@dungeonz/types';
+import { ObjectOfUnknown, Offset, SpriteConfig } from '@dungeonz/types';
 import { Counter } from '@dungeonz/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
@@ -24,6 +24,16 @@ class Entity {
      * All entities that appear on the client must be registered with ENTITYCLASS.registerEntityType().
      */
     static typeNumber: number;
+
+    /**
+     * Class name of this entity type. Useful for debugging.
+     */
+    static typeName: string;
+
+    /**
+     * Any configs that need to be passed to the entity types list for the game client to use when setting up the sprite classes.
+     */
+    static spriteConfig: SpriteConfig;
 
     /**
      * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.

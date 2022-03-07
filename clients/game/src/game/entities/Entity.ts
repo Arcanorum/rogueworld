@@ -5,23 +5,25 @@ import { GUIState, PlayerState } from '../../shared/state';
 import Container from './Container';
 
 class Entity extends Container {
+    static displayName = '';
+
+    /** The base name of this set of animations. */
+    static animationSetName = '';
+
+    /** The numbers of the frames to play, and the order to play them in. */
+    static animationFrameSequence: Array<number> = [1, 2, 1, 2]; // TODO: why not just [1, 2] ?
+
+    /** Whether the animation should loop. i.e. for things that always look moving, such as bats. */
+    static animationRepeats = false;
+
+    /** How long the animation should last, in ms. */
+    static animationDuration = 1000;
+
     entityId: string;
 
     moveRate?: number;
 
     displayNameColor?: string;
-
-    /** The base name of this set of animations. */
-    animationSetName?: string;
-
-    /** The numbers of the frames to play, and the order to play them in. */
-    animationFrameSequence?: Array<number>;
-
-    /** Whether the animation should loop. i.e. for things that always look moving, such as bats. */
-    animationRepeats?: boolean;
-
-    /** How long the animation should last, in ms. */
-    animationDuration?: number;
 
     baseSprite: Phaser.GameObjects.Sprite;
 
@@ -51,9 +53,9 @@ class Entity extends Container {
         config: {
             id: string;
             moveRate?: number;
-            displayNameColor?: string;
             frameName?: string;
             displayName?: string;
+            displayNameColor?: string;
         },
     ) {
         super(x, y, config);
@@ -66,12 +68,14 @@ class Entity extends Container {
         // Used for differentiating clan members by name color.
         this.displayNameColor = config.displayNameColor;
 
+        const EntityType = this.constructor as typeof Entity;
+
         let frame;
         if (config.frameName) {
             frame = config.frameName;
         }
-        else if (this.animationSetName) {
-            frame = `${this.animationSetName}-1`;
+        else if (EntityType.animationSetName) {
+            frame = `${EntityType.animationSetName}-1`;
         }
         this.baseSprite = Global.gameScene.add.sprite(0, 0, 'game-atlas', frame);
         if(frame) {
@@ -80,10 +84,15 @@ class Entity extends Container {
         this.baseSprite.setOrigin(0.5);
         this.add(this.baseSprite);
 
-        this.baseSprite.anims.play(this.animationSetName);
+        // don't bother playing 1 frame animations.
+        if(EntityType.animationFrameSequence.length > 1) {
+            this.baseSprite.anims.play(EntityType.animationSetName);
+        }
 
-        if(config.displayName) {
-            this.addDisplayName(config.displayName);
+        const displayName = config.displayName || EntityType.displayName;
+
+        if(displayName) {
+            this.addDisplayName(displayName);
         }
 
         this.healthRegenEffect = this.addEffect('health-regen-effect-1');
@@ -169,13 +178,13 @@ class Entity extends Container {
 
 
         //     if (playMoveAnim === true) {
-        //         if (this.animationSetName) {
+        //         if (EntityType.animationSetName) {
         //             if (!this.baseSprite.anims.isPlaying) {
         //                 if(moveAnimDuration) {
         //                     moveAnimDuration = moveAnimDuration * 1.9;
         //                 }
         //                 this.baseSprite.play({
-        //                     key: `${this.animationSetName}`,
+        //                     key: `${EntityType.animationSetName}`,
         //                     // An animation should play in full over 2 move steps, and also in full
         //                     // over just 1 (so it looks like a winddown).
         //                     // If the animation were to run in full for every move step, it would look
@@ -200,6 +209,24 @@ class Entity extends Container {
 
     moveAnimCompleted() {
         return;
+    }
+
+    static loadConfig(config) {
+        // Load anything else that hasn't already been set by the loadConfig method of a subclass.
+        Object.entries(config).forEach(([key, value]) => {
+            // Load whatever properties that have the same key in the config as on this class.
+            if(key in this) {
+                // Check if the property has already been loaded by a
+                // subclass, or set on the class prototype for class files.
+                if (
+                    Object.getPrototypeOf(this)[key] === this[key]
+                ) {
+                    // eslint-disable-next-line
+                    // @ts-ignore
+                    this[key] = value;
+                }
+            }
+        });
     }
 
     static setupAnimations() {
@@ -234,10 +261,10 @@ class Entity extends Container {
      * Uses the 1-2-1-2... pattern for frame sequence.
      */
     static addAnimationSet() {
-        const setName = this.prototype.animationSetName;
-        const frameSequence = this.prototype.animationFrameSequence;
-        const repeats = this.prototype.animationRepeats;
-        const duration = this.prototype.animationDuration;
+        const setName = this.animationSetName;
+        const frameSequence = this.animationFrameSequence;
+        const repeats = this.animationRepeats;
+        const duration = this.animationDuration;
         const defaultTextureKey = 'game-atlas';
 
         if (!setName) {
@@ -257,13 +284,5 @@ class Entity extends Container {
         });
     }
 }
-
-Entity.prototype.animationSetName = '';
-
-Entity.prototype.animationFrameSequence = [1, 2, 1, 2];
-
-Entity.prototype.animationRepeats = false;
-
-Entity.prototype.animationDuration = 500;
 
 export default Entity;

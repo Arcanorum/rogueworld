@@ -226,21 +226,45 @@ class Board {
         // Get a random position on the map.
         const rows = this.grid.length;
         const cols = this.grid[0].length;
-        const randomRow = getRandomIntInclusive(0, rows - 1);
-        const randomCol = getRandomIntInclusive(0, cols - 1);
-        const randomBoardTile = this.grid[randomRow][randomCol];
+        const clusterRow = getRandomIntInclusive(0, rows - 1);
+        const clusterCol = getRandomIntInclusive(0, cols - 1);
+        const clusterBoardTile = this.grid[clusterRow][clusterCol];
 
-        if(!randomBoardTile.groundType.canBeStoodOn) return;
-        if(randomBoardTile.groundType.hazardous) return;
+        if(!clusterBoardTile.groundType.canBeStoodOn) return;
+        if(clusterBoardTile.groundType.hazardous) return;
 
         const SpawnableEntityTypes = [
-            // EntitiesList.BY_NAME['Bandit'],
+            EntitiesList.BY_NAME['Bandit'],
             EntitiesList.BY_NAME['Bat'],
+            EntitiesList.BY_NAME['IronRocks'],
+            EntitiesList.BY_NAME['PineTree'],
         ];
+
+        const clusterSize = 15;
+        const spreadRange = 10;
 
         const RandomEntityType = getRandomElement(SpawnableEntityTypes);
 
-        new RandomEntityType({ row: randomRow, col: randomCol, board: this });
+        for(let i = 0; i < clusterSize; i += 1) {
+            const randomRow = clusterRow + getRandomIntInclusive(-spreadRange, spreadRange);
+            const randomCol = clusterCol + getRandomIntInclusive(-spreadRange, spreadRange);
+            const randomBoardTile = this.getTileAt(randomRow, randomCol);
+
+            if(!randomBoardTile) return;
+            if(!randomBoardTile.groundType.canBeStoodOn) return;
+            if(randomBoardTile.groundType.hazardous) return;
+
+            new RandomEntityType({
+                row: randomRow,
+                col: randomCol,
+                board: this,
+            });
+
+            this.population += 1;
+
+            // Don't go over the max population for this board.
+            if(this.population >= this.maxPopulation) break;
+        }
     }
 
     /**

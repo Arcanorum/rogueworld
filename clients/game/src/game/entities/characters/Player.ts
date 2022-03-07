@@ -7,6 +7,8 @@ class GloryParticleIcon extends Phaser.GameObjects.Sprite {
 }
 
 class Player extends Entity {
+    static animationSetName = 'player';
+
     warningText?: Phaser.GameObjects.Text;
 
     constructor(x: number, y: number, config: any) {
@@ -100,7 +102,5 @@ class Player extends Entity {
         this.add(text);
     }
 }
-
-Player.prototype.animationSetName = 'player';
 
 export default Player;

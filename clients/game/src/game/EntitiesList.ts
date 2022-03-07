@@ -1,8 +1,42 @@
-import { warning } from '@dungeonz/utils';
+import { error, warning } from '@dungeonz/utils';
 import Config from '../shared/Config';
 import Entity from './entities/Entity';
 // import GenericPickupsList from './entities/pickups/GenericPickupsList';
 // import GenericProjectilesList from './entities/projectiles/GenericProjectilesList';
+
+/**
+ * Creates a generic class for an entity based on the Entity class, or one of it's abstract subclasses.
+ */
+const makeClass = ({
+    typeName,
+    extendsClassName,
+}: {
+    typeName: string;
+    extendsClassName?: string;
+}) => {
+    if (!typeName) {
+        error('Cannot load entity config, required property "typeName" is missing.');
+    }
+
+    // Use the base entity class to extend from by default.
+    let SuperClass: typeof Entity = Entity;
+
+    // Use a more specific type (i.e. Boss, Structure) to extend from if specified.
+    if (extendsClassName) {
+        if (Config.EntitiesList[extendsClassName]) {
+            SuperClass = Config.EntitiesList[extendsClassName];
+        }
+        else {
+            error(`Failed to make entity class for "${typeName}".
+          The class to extend from cannot be found for given "extends" property "${extendsClassName}".
+          Check it is actually extending from an existing entity type, i.e. Mob, Pickup.`);
+        }
+    }
+
+    class GenericEntity extends SuperClass { }
+
+    return GenericEntity;
+};
 
 /**
  * A list of all client display entities that can be instantiated.
@@ -16,7 +50,7 @@ import Entity from './entities/Entity';
  *     PickupIronBar: GenericPickup, // Generated pickup class
  * }
  */
-export default (() => {
+const generateEntitiesList = () => {
     const context = require.context('./entities/', true, /.ts$/);
     const paths = context.keys();
     const values = paths.map(context) as Array<{[key: string]: typeof Entity}>;
@@ -39,6 +73,40 @@ export default (() => {
         // Need to use .default to get the class from the file, or would need to actually import it.
         Config.EntitiesList[fileName] = values[index].default;
     });
+
+    Object.entries(Config.EntityTypes).forEach(([typeNumber, config]) => {
+        const { typeName } = config;
+        if(!Config.EntitiesList[typeName]) {
+            // Make a new generic sprite class.
+            Config.EntitiesList[typeName] = makeClass(config);
+        }
+    });
+
+    // Classes from file and generated ones are now ready. Set them up with the config values.
+    Object.entries(Config.EntityTypes).forEach(([typeNumber, config]) => {
+        const { typeName } = config;
+        const SpriteClass = Config.EntitiesList[typeName];
+
+        if(SpriteClass.loadConfig) {
+            SpriteClass.loadConfig(config);
+        }
+    });
+
+    // Add the generic entities that don't have their own class files.
+    // They get classes made for them on startup.
+    // Object.entries(Entities).forEach(([ key, value ]) => {
+    //     key = `Pickup${key}`;
+    //     // Check for duplicate entries in the list.
+    //     if (entitiesList[key]) {
+    //         warning(
+    //             `Building entities list. Adding generated pickup class for "${key}", but type already exists with this key. Skipping. `
+    //             + 'A pickup type should be defined either in a class file (if it does something special), or as an entry in the items list, but not both.',
+    //         );
+    //         return;
+    //     }
+
+    //     entitiesList[key] = value;
+    // });
 
     // Add the generic pickups that don't have their own class files.
     // They get classes made for them on startup.
@@ -70,4 +138,6 @@ export default (() => {
 
     //     entitiesList[key] = value;
     // });
-})();
+};
+
+export default generateEntitiesList;

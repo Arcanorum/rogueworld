@@ -38,6 +38,7 @@ const makeClass = ({
     class GenericEntity extends SuperClass { }
 
     GenericEntity.registerEntityType();
+    GenericEntity.typeName = name;
 
     return GenericEntity;
 };
@@ -72,6 +73,7 @@ export const populateList = () => {
                 }
 
                 EntityClass.registerEntityType();
+                EntityClass.typeName = baseName;
 
                 EntitiesList.BY_NAME[baseName] = EntityClass;
             }
@@ -93,10 +95,10 @@ export const initialiseList = () => {
     message('Initialising entities list.');
 
     Entities.forEach((config: any) => {
-        Object.entries(config).forEach(([_key, value]) => {
-            const EntityClass = EntitiesList.BY_NAME[config.name] as typeof Entity;
-            type PropName = keyof typeof Entity;
+        const EntityClass = EntitiesList.BY_NAME[config.name] as typeof Entity;
+        type PropName = keyof typeof Entity;
 
+        Object.entries(config).forEach(([_key, value]) => {
             const key = _key as PropName;
 
             // Load whatever properties that have the same key in the config as on this class.
@@ -136,7 +138,8 @@ export const createCatalogue = () => {
 
         // Add this entity type to the type catalogue.
         dataToWrite[EntityType.typeNumber] = {
-            typeName: entityTypeKey,
+            typeName: EntityType.typeName,
+            ...EntityType.spriteConfig,
         };
     });
 

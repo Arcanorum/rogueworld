@@ -122,7 +122,7 @@ class BoardTile {
         // // in its default state.
         // const interactable = this.static;
         // // Check there is actually one there.
-        // if (interactable !== null) {
+        // if (interactable) {
         //     // Check if it is not in its default state. If not, add it to the data.
         //     // Also checks if it is actually an interactable.
         //     if (interactable.activeState === false) {

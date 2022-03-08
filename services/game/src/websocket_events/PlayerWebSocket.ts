@@ -14,7 +14,7 @@ class PlayerWebSocket extends WebSocket {
 
     account: AccountDocument | null = null;
 
-    entity: Player | null = null;
+    entity?: Player;
 
     nextMessageTimes!: ChatMessageTimes;
 

@@ -7,7 +7,7 @@ abstract class Holdable extends Item {
     destroy() {
         // If this item is being held, take it off the owner.
         if (this.owner.holding === this) {
-            this.owner.modHolding(null);
+            this.owner.modHolding();
         }
         super.destroy();
     }
@@ -39,7 +39,7 @@ abstract class Holdable extends Item {
         // Owner is trying to hold something else.
         else {
             // If they are already holding something when putting the new holdable on.
-            if (owner.holding !== null) {
+            if (owner.holding) {
                 // Remove the CURRENT item before holding another one.
                 owner.holding.unequip();
             }
@@ -48,7 +48,7 @@ abstract class Holdable extends Item {
     }
 
     unequip() {
-        this.owner.modHolding(null);
+        this.owner.modHolding();
     }
 }
 

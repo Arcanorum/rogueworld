@@ -23,7 +23,7 @@ abstract class Ammunition extends Item {
     destroy() {
         // If this item is being worn, take it off the owner.
         if (this.owner.ammunition === this) {
-            this.owner.modAmmunition(null);
+            this.owner.modAmmunition();
         }
         super.destroy();
     }
@@ -52,7 +52,7 @@ abstract class Ammunition extends Item {
         // Owner is trying to wear something else.
         else {
             // If they are already using something when equipping the new ammunition.
-            if (owner.ammunition !== null) {
+            if (owner.ammunition) {
                 // Remove the CURRENT item before equipping another one.
                 owner.ammunition.unequip();
             }
@@ -62,7 +62,7 @@ abstract class Ammunition extends Item {
     }
 
     unequip() {
-        this.owner.modAmmunition(null);
+        this.owner.modAmmunition();
     }
 }
 

@@ -3,7 +3,7 @@ import Holdable from '../Holdable';
 class Bow extends Holdable {
     checkUseCriteria() {
         // Check there is some ammunition equipped.
-        if (this.owner.ammunition === null) return false;
+        if (this.owner.ammunition) return false;
 
         return super.checkUseCriteria();
     }

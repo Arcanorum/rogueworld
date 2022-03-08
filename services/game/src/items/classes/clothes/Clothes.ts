@@ -13,7 +13,7 @@ abstract class Clothes extends Item {
     destroy() {
         // If this item is being worn, take it off the owner.
         if (this.owner.clothing === this) {
-            this.owner.modClothing(null);
+            this.owner.modClothing();
             // Tell nearby players the owner entity is now wearing nothing.
             this.owner.board?.emitToNearbyPlayers(
                 this.owner.row,
@@ -57,7 +57,7 @@ abstract class Clothes extends Item {
         // Owner is trying to wear something else.
         else {
             // If they are already wearing something when putting the new clothes on.
-            if (owner.clothing !== null) {
+            if (owner.clothing) {
                 // Remove the CURRENT item before wearing another one.
                 owner.clothing.unequip();
             }
@@ -76,7 +76,7 @@ abstract class Clothes extends Item {
     }
 
     unequip() {
-        this.owner.modClothing(null);
+        this.owner.modClothing();
         // Remove the defence bonus of this item from the owner.
         this.owner.modDefence(-this.constructor.prototype.defenceBonus);
     }

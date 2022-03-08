@@ -259,8 +259,9 @@ const World = {
             }
 
             clientSocket.entity?.remove();
+
             // Remove the reference to the player entity.
-            clientSocket.entity = null;
+            delete clientSocket.entity;
         }
 
         if (clientSocket.inGame) {

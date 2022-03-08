@@ -45,7 +45,7 @@ class GroundTile {
     /**
      * Any status effects that can be applied to entities that stand on it.
      */
-    statusEffects:Array<typeof StatusEffect> | null = null;
+    statusEffects?: Array<typeof StatusEffect>;
 
     /**
      * Whether this tile is dangerous in any way (deals damage or applies a damaging status effect).

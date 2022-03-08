@@ -239,7 +239,7 @@ class Entity {
      * @param toCol - The board grid col to reposition the entity to.
      */
     changeBoard(fromBoard: Board | undefined, toBoard: Board, toRow: number, toCol: number) {
-        // Need to check if there is a board, as the board will be nulled if the entity dies, but might be revivable (i.e. players).
+        // Need to check if there is a board, as the board reference will be removed if the entity dies, but might be revivable (i.e. players).
         if (fromBoard) {
             // Tell players around this entity on the previous board to remove it.
             fromBoard.emitToNearbyPlayers(
@@ -284,7 +284,7 @@ class Entity {
     }
 
     /**
-     * Change the hitpoints value of this entity, if it has the hitpoints property set (not null).
+     * Change the hitpoints value of this entity, if it has the hitpoints property set (not undefined).
      * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
      * @param hitPointModifier An object that details how much to increase or decrease the HP by.
      * @param source The entity that caused this change.
@@ -294,7 +294,7 @@ class Entity {
         if (this.destroyed === true) return;
 
         // Make sure this is a damagable entity.
-        if (this.hitPoints === null) return;
+        if (this.hitPoints === undefined) return;
 
         const amount = Math.floor(hitPointModifier.amount);
 

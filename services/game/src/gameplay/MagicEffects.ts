@@ -71,7 +71,7 @@ export class Curse extends MagicEffect {
 
         if(!this.entity) return;
 
-        if (this.entity.curse === null) {
+        if (this.entity.curse) {
             // The entity didn't already have a curse, so tell all nearby players this now has one.
             this.entity.board?.emitToNearbyPlayers(
                 this.entity.row,
@@ -110,7 +110,7 @@ export class Enchantment extends MagicEffect {
 
         if(!this.entity) return;
 
-        if (this.entity.enchantment === null) {
+        if (this.entity.enchantment) {
             // The entity didn't already have an enchantment, so tell all nearby players this now has one.
             this.entity.board?.emitToNearbyPlayers(
                 this.entity.row,
@@ -160,7 +160,7 @@ class Pacify extends Curse {
 class Deathbind extends Curse {
     onEntityDeath() {
         if(this.entity) {
-            // if (this.entity.CorpseType !== null) {
+            // if (this.entity.CorpseType) {
             //     new this.entity.CorpseType.prototype.ZombieType({
             //         row: this.entity.row,
             //         col: this.entity.col,

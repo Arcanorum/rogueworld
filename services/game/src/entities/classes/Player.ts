@@ -66,19 +66,19 @@ class Player extends Entity {
      * What this player is wearing. Such as armour, robes, cloak, disguise, apron.
      * A reference to an item in their inventory.
      */
-    clothing: Clothes|null = null;
+    clothing?: Clothes;
 
     /**
      * What this player is holding. Mostly weapons.
      * A reference to an item in their inventory.
      */
-    holding: Holdable|null = null;
+    holding?: Holdable;
 
     /**
      * What this player is using as ammunition. Mostly arrows.
      * A reference to an item in their inventory.
      */
-    ammunition: Ammunition|null = null;
+    ammunition?: Ammunition;
 
     autoSaveTimeout: NodeJS.Timeout;
 
@@ -326,6 +326,25 @@ class Player extends Entity {
         }
     }
 
+    interactWithEntity(entityId: string, row: number, col: number) {
+        const boardTile = this.board?.getTileAt(row, col);
+        if(!boardTile) return;
+
+        const entity = boardTile.entities[entityId];
+        if(!entity) return;
+
+        entity.damage({
+            amount: 10,
+            penetration: 50,
+            types: [DamageTypes.Physical],
+        });
+
+        console.log('interacted, damaged entity:', entity.hitPoints);
+
+
+        // entity.interaction(this);
+    }
+
     setDisplayName(displayName: string) {
         this.displayName = displayName;
 
@@ -400,51 +419,57 @@ class Player extends Entity {
     /**
      * Swap to a different clothing item, or unequip the currently worn clothing.
      */
-    modClothing(clothing: Clothes|null) {
-        if (clothing === null) {
-            // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent('deactivate_clothing');
-
-            // Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
-            //     this.stats[statKey].levelModifier -= statBonus;
-            // });
-        }
-        else {
+    modClothing(clothing?: Clothes) {
+        if (clothing) {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent('activate_clothing', clothing.slotIndex);
 
             // Object.entries(clothing.statBonuses).forEach(([statKey, statBonus]) => {
             //     this.stats[statKey].levelModifier += statBonus;
             // });
-        }
-        // Do this after, or this.clothing would have already been nulled, so won't have a slot key to send to the client.
-        this.clothing = clothing;
-    }
 
-    modHolding(holding: Holdable|null) {
-        if (holding === null) {
-            // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent('deactivate_holding');
+            this.clothing = clothing;
         }
         else {
+            // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
+            this.socket.sendEvent('deactivate_clothing');
+
+            // Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
+            //     this.stats[statKey].levelModifier -= statBonus;
+            // });
+
+            delete this.clothing;
+        }
+    }
+
+    modHolding(holding?: Holdable) {
+        if (holding) {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent('activate_holding', holding.slotIndex);
-        }
-        // Do this after, or this.holding would have already been nulled, so won't have a slot key to send to the client.
-        this.holding = holding;
-    }
 
-    modAmmunition(ammunition: Ammunition|null) {
-        if (ammunition === null) {
-            // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent('deactivate_ammunition');
+            this.holding = holding;
         }
         else {
+            // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
+            this.socket.sendEvent('deactivate_holding');
+
+            delete this.holding;
+        }
+    }
+
+    modAmmunition(ammunition?: Ammunition) {
+        if (ammunition) {
             // Tell the player to show the ammunition icon on the inventory slot of the item that was equipped.
             this.socket.sendEvent('activate_ammunition', ammunition.slotIndex);
+
+            this.ammunition = ammunition;
         }
-        // Do this after, or this.ammunition would have already been nulled, so won't have a slot key to send to the client.
-        this.ammunition = ammunition;
+        else {
+            // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
+            this.socket.sendEvent('deactivate_ammunition');
+
+            delete this.ammunition;
+        }
     }
 }
 

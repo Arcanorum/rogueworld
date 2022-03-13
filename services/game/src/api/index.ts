@@ -10,7 +10,7 @@ import { expressServer } from '../Server';
 const { extrudeTilesetToImage } = require('tile-extruder'); // Weird TS bug(?), ignoring definitions for tile-extruder...
 
 /**
- * Need to provide these resources the game client via an API request, as this info is only available
+ * Need to provide these resources for the game client via an API request, as this info is only available
  * once the server has started, so isn't suitable for being included in the client build files.
  */
 
@@ -45,6 +45,8 @@ const { extrudeTilesetToImage } = require('tile-extruder'); // Weird TS bug(?), 
 
 expressServer.use(cors());
 
+const apiRouter = express.Router();
+
 const sendFile = (req: Request, res: Response, filePath: string) => {
     try {
         res.sendFile(
@@ -59,12 +61,14 @@ const sendFile = (req: Request, res: Response, filePath: string) => {
 };
 
 const itemTypesPath = path.join(__dirname, './resources/catalogues/ItemTypes.json');
-expressServer.get('/api/item-types', (req, res) => sendFile(req, res, itemTypesPath));
+apiRouter.get('/item-types', (req, res) => sendFile(req, res, itemTypesPath));
 
 const entityTypesPath = path.join(__dirname, './resources/catalogues/EntityTypes.json');
-expressServer.get('/api/entity-types', (req, res) => sendFile(req, res, entityTypesPath));
+apiRouter.get('/entity-types', (req, res) => sendFile(req, res, entityTypesPath));
 
 const mapsPath = path.join(__dirname, './resources/maps/');
-expressServer.get('/api/maps/:name', (req, res) => sendFile(req, res, `${mapsPath + req.params.name}.json`));
+apiRouter.get('/maps/:name', (req, res) => sendFile(req, res, `${mapsPath + req.params.name}.json`));
 
-expressServer.use('/api/images', express.static(path.join(__dirname, './resources/images')));
+apiRouter.use('/images', express.static(path.join(__dirname, './resources/images')));
+
+expressServer.use('/api', apiRouter);

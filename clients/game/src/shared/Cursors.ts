@@ -7,25 +7,25 @@ import pickaxeCursor from '../assets/images/gui/cursors/pickaxe-cursor.png';
 import sickleCursor from '../assets/images/gui/cursors/sickle-cursor.png';
 
 export const setDefaultCursor = () => {
-    dungeonz.gameScene.sys.canvas.style.cursor = `url(${normalCursor}), auto`;
+    dungeonz.gameScene.sys.canvas.style.cursor = `url(${normalCursor.src}), auto`;
 };
 
 export const setHandCursor = () => {
-    dungeonz.gameScene.sys.canvas.style.cursor = `url(${handCursor}) 8 0, auto`;
+    dungeonz.gameScene.sys.canvas.style.cursor = `url(${handCursor.src}) 8 0, auto`;
 };
 
 export const setAttackCursor = () => {
-    dungeonz.gameScene.sys.canvas.style.cursor = `url(${attackCursor}), auto`;
+    dungeonz.gameScene.sys.canvas.style.cursor = `url(${attackCursor.src}), auto`;
 };
 
 export const setHatchetCursor = () => {
-    dungeonz.gameScene.sys.canvas.style.cursor = `url(${hatchetCursor}), auto`;
+    dungeonz.gameScene.sys.canvas.style.cursor = `url(${hatchetCursor.src}), auto`;
 };
 
 export const setPickaxeCursor = () => {
-    dungeonz.gameScene.sys.canvas.style.cursor = `url(${pickaxeCursor}), auto`;
+    dungeonz.gameScene.sys.canvas.style.cursor = `url(${pickaxeCursor.src}), auto`;
 };
 
 export const setSickleCursor = () => {
-    dungeonz.gameScene.sys.canvas.style.cursor = `url(${sickleCursor}), auto`;
+    dungeonz.gameScene.sys.canvas.style.cursor = `url(${sickleCursor.src}), auto`;
 };

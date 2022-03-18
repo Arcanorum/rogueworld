@@ -3,7 +3,7 @@
   movable: false
 
 - name: StoneWall
-  code: QMYX4544
+  # code: QMYX4544
   movable: false
   baseMaxHitPoints: 10
   clientConfig:

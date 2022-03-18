@@ -16,7 +16,7 @@
             "../../shared/utils"
         ],
         "ignore": [
-            "src/api/resources"
+            "src/api/resources/*"
         ],
         "ext": "ts,js,json,yaml,txt,png,xlsx",
         "verbose": true

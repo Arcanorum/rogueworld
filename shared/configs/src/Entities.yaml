@@ -3,6 +3,7 @@
   movable: false
 
 - name: StoneWall
+  code: QMYX4544
   movable: false
   baseMaxHitPoints: 10
   clientConfig:
@@ -45,3 +46,37 @@
   clientConfig:
     animationSetName: iron-rocks
     animationFrameSequence: [1]
+
+# - name: Anvil
+#   code: ZEWT6029
+#   maxHitPoints: 300
+
+# - name: WoodenChest
+#   code: DUZJ6112
+#   maxHitPoints: 250
+#   maxWeight: 1000
+
+# - name: MetalChest
+#   code: EGSZ8363
+#   maxHitPoints: 400
+#   maxWeight: 2000
+
+# - name: DirtPath
+#   code: EGSZ8363
+#   maxHitPoints: 20
+#   flooring: true
+
+# - name: FarmPlot
+#   code: XHDK5308
+#   maxHitPoints: 100
+#   flooring: true
+
+# - name: PumpkinPlant
+#   code: JTUR9078
+#   maxHitPoints: 100
+
+# - name: PurpleFlower
+#   code: OAQN7604
+#   maxHitPoints: 20
+#   ignoresProjectiles: true
+#   flooring: true

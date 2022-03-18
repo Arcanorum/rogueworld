@@ -1,4 +1,3 @@
-import { existsSync, mkdirSync } from 'fs';
 import * as Phaser from 'phaser';
 
 interface BoardPoint {

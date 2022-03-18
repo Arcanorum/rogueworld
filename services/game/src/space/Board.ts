@@ -229,6 +229,8 @@ class Board {
         const clusterRow = getRandomIntInclusive(0, rows - 1);
         const clusterCol = getRandomIntInclusive(0, cols - 1);
         const clusterBoardTile = this.grid[clusterRow][clusterCol];
+        const clusterSize = 30;
+        const spreadRange = 10;
 
         if(!clusterBoardTile.groundType.canBeStoodOn) return;
         if(clusterBoardTile.groundType.hazardous) return;
@@ -238,10 +240,22 @@ class Board {
             EntitiesList.BY_NAME['Bat'],
             EntitiesList.BY_NAME['IronRocks'],
             EntitiesList.BY_NAME['PineTree'],
+            EntitiesList.BY_NAME['StoneWall'],
         ];
 
-        const clusterSize = 15;
-        const spreadRange = 10;
+        // const houseLayout = [
+        //     { row: -2, col: -1 },
+        //     { row: -2, col: 0 },
+        //     { row: -2, col: 1 },
+        //     { row: -2, col: 2 },
+        //     { row: -1, col: -1 },
+        //     { row: -1, col: 2 },
+        //     { row: 0, col: -1 },
+        //     { row: 0, col: 2 },
+        //     { row: 1, col: -1 },
+        //     { row: 1, col: 1 },
+        //     { row: 1, col: 2 },
+        // ];
 
         const RandomEntityType = getRandomElement(SpawnableEntityTypes);
 
@@ -264,6 +278,8 @@ class Board {
 
             // Don't go over the max population for this board.
             if(this.population >= this.maxPopulation) break;
+
+            // console.log('pop:', this.population, ', type:', RandomEntityType.typeName, ', spawned at:', clusterRow, clusterCol);
         }
     }
 

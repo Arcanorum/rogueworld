@@ -29,3 +29,13 @@ EventResponses.respawn = (clientSocket) => {
 
     clientSocket.entity?.respawn();
 };
+
+EventResponses.interact = (clientSocket, data) => {
+    if (clientSocket.inGame === false) return;
+    // Ignore this event if they are alive.
+    if (clientSocket.entity?.hitPoints <= 0) return;
+
+    console.log('doing interaction:', data);
+
+    clientSocket.entity?.interactWithEntity(data.id, data.row, data.col);
+};

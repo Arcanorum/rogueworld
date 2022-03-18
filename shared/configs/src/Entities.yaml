@@ -2,6 +2,13 @@
 - name: WoodenWall
   movable: false
 
+- name: StoneWall
+  movable: false
+  baseMaxHitPoints: 10
+  clientConfig:
+    animationSetName: stone-wall
+    animationFrameSequence: [1]
+
 - name: Trap
   movable: false
 

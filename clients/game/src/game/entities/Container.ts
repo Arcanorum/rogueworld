@@ -92,24 +92,6 @@ class Container extends Phaser.GameObjects.Container {
     }
 
     /**
-     * Show the display name of this entity when it is hovered over.
-     */
-    onPointerOver() {
-        if(this.displayName) {
-            this.displayName.visible = true;
-        }
-    }
-
-    /**
-     * Hide the display name when it isn't being hovered over any more.
-     */
-    onPointerOut() {
-        if(this.displayName) {
-            this.displayName.visible = false;
-        }
-    }
-
-    /**
      * Add a text object to this sprite to use as the display name.
      */
     addDisplayName(displayName: string) {

@@ -1,7 +1,8 @@
 import { tileDistanceBetween, warning } from '@dungeonz/utils';
 import Config from '../../shared/Config';
+import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
 import Global from '../../shared/Global';
-import { GUIState, PlayerState } from '../../shared/state';
+import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
 import Container from './Container';
 
 class Entity extends Container {
@@ -118,6 +119,7 @@ class Entity extends Container {
 
         this.baseSprite.setInteractive();
 
+        this.baseSprite.on('pointerdown', this.onPointerDown, this);
         this.baseSprite.on('pointerover', this.onPointerOver, this);
         this.baseSprite.on('pointerout', this.onPointerOut, this);
 
@@ -147,6 +149,50 @@ class Entity extends Container {
             ) <= 5) {
                 Global.gameScene.sound.play('sword-cutting-flesh', { volume: GUIState.effectsVolume / 100 });
             }
+        }
+    }
+
+    /**
+     * Attempt to interact with the object when pressed.
+     */
+    onPointerDown(thing) {
+        // console.log('onpointerdown, sending interact event:', thing);
+
+        const thisDynamic = Global.gameScene.dynamics[PlayerState.entityId];
+        const playerDynamic = Global.gameScene.dynamics[this.entityId];
+
+        // Check they are within interaction range of the object.
+        const dist = tileDistanceBetween(thisDynamic, playerDynamic);
+        console.log('dist:', dist);
+        if(dist > 2) return;
+
+        ApplicationState.connection?.sendEvent(
+            'interact',
+            {
+                id: playerDynamic.id,
+                row: playerDynamic.row,
+                col: playerDynamic.col,
+            },
+        );
+    }
+
+    /**
+         * Show the display name of this entity when it is hovered over.
+         */
+    onPointerOver() {
+        if(this.displayName) {
+            this.displayName.visible = true;
+            setHandCursor();
+        }
+    }
+
+    /**
+         * Hide the display name when it isn't being hovered over any more.
+         */
+    onPointerOut() {
+        if(this.displayName) {
+            this.displayName.visible = false;
+            setDefaultCursor();
         }
     }
 

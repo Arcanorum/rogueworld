@@ -1,0 +1,56 @@
+@import "../../../../../shared/Variables";
+
+.respawn-panel {
+    background-color: $colourDB32IronGreyOpacity80;
+
+    .inner-cont {
+        background-color: $colourDB32VeryDarkPurple;
+        color: $colourDB32Black;
+        height: 100%;
+        display: grid;
+        grid-template-rows: 60% auto;
+        grid-gap: 12px;
+        text-align: center;
+
+        .main-cont {
+            background-color: $colourDB32SteelGrey;
+            height: 100%;
+            display: grid;
+            align-items: center;
+
+            .info {
+                font-size: 16px;
+            }
+        }
+
+        .bottom-cont {
+            position: relative;
+
+            .button-cont {
+                height: 80%;
+                left: 50%;
+                top: 50%;
+                user-select: none;
+                cursor: $cursorHand;
+                &:hover {
+                    filter: brightness(150%);
+                    transform: translate(-50%, -50%) scale(1.1);
+                }
+
+                .button {
+                    height: 100%;
+                    left: 50%;
+                    top: 50%;
+                }
+
+                .text {
+                    left: 50%;
+                    top: 50%;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: $colourDB32VeryDarkPurple;
+                }
+            }
+        }
+    }
+}

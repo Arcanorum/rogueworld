@@ -1,0 +1,6 @@
+{
+    "name": "@dungeonz/types",
+    "version": "1.0.0",
+    "description": "Shared TypeScript structures, such as types, interfaces, enums, etc.",
+    "main": "src/index.ts"
+}

@@ -1,0 +1,295 @@
+@import '../../shared/Variables';
+
+.background-img {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  height: 100%;
+  margin: auto;
+  image-rendering: pixelated;
+  transform: translateX(-50%);
+}
+
+.background-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#main-columns {
+  //background-color: rgba(95, 205, 228, 0.1);
+  position: absolute;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-gap: 5%;
+  grid-template-columns: 25% auto 25%;
+}
+
+#left-bar {
+  //background-color: rgba(255, 255, 0, 0.1);
+  display: grid;
+  width: 100%;
+  //border: grey solid 2px;
+}
+
+#center-bar {
+  //background-color: rgba(255, 255, 0, 0.1);
+  //display: grid;
+  //justify-items: center;
+  //border: grey solid 2px;
+}
+
+#right-bar {
+  //background-color: rgba(255, 255, 0, 0.1);
+  //border: grey solid 2px;
+  display: grid;
+  grid-gap: 2%;
+  grid-template-rows: auto auto 1fr;
+}
+
+.bottom-texts {
+  bottom: 1vw;
+  align-self: end;
+  color: $colourDB32White;
+  cursor: $cursorHand;
+  font-size: 1.2vw;
+  user-select: none;
+}
+
+#partners-credits-cont {
+  position: absolute;
+  left: 2vw;
+}
+
+#title-cont {
+  display: grid;
+  grid-gap: 1vw;
+  justify-items: center;
+}
+
+#new-character-continue-cont {
+  display: grid;
+  width: 100%;
+  grid-gap: 6%;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  user-select: none;
+}
+
+#title-img {
+  width: 100%;
+  padding-top: 6px;
+  user-select: none;
+}
+
+.title-button-unselected {
+  display: grid;
+  width: 100%;
+  height: 2vw;
+  align-items: center;
+  border: $colourDB32White solid 0.3vw;
+  background-color: $colourDB32Red;
+  color: $colourDB32White;
+  cursor: $cursorHand;
+  font-size: 1vw;
+  justify-items: center;
+  text-align: center;
+
+  &:hover {
+    filter: brightness(150%);
+    transform: scale(1.1);
+  }
+}
+
+.title-button-selected {
+  display: grid;
+  width: 100%;
+  height: 2vw;
+  align-items: center;
+  border: $colourDB32White solid 0.3vw;
+  background-color: $colourDB32Rose;
+  color: $colourDB32White;
+  font-size: 1vw;
+  justify-items: center;
+  text-align: center;
+}
+
+#play-inputs-cont {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 3.5vw;
+  justify-items: center;
+}
+
+.home-input {
+  width: 100%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: $colourDB32White solid 0.3vw;
+  margin-bottom: 14px;
+  background-color: $colourDB32White;
+  color: $colourDB32VeryDarkPurple;
+  cursor: $cursorHand;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5vw;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-align: center;
+
+  &:hover {
+    font-size: 1.6vw;
+    transform: scale(1.05);
+  }
+
+  ::placeholder {
+    font-size: 1.5vw;
+  }
+}
+
+#show-password {
+  position: absolute;
+  left: -50px;
+  width: 2.9vw;
+  padding: 0.3vw;
+  cursor: $cursorHand;
+  user-select: none;
+  visibility: hidden;
+
+  &:hover {
+    filter: brightness(150%);
+    transform: scale(1.2);
+  }
+}
+
+.show-password-active {
+  background-color: $colourDB32White;
+}
+
+.show-password-inactive {
+  background-color: $colourDB32VeryDarkPurple;
+}
+
+#center-button {
+  width: 100%;
+  height: 70%;
+  margin-top: 1vw;
+}
+
+#antisocial-bar {
+  display: grid;
+  padding-top: 8px;
+  grid-gap: 5%;
+  grid-template-columns: repeat(4, 20%);
+  user-select: none;
+}
+
+.antisocial-button {
+  display: grid;
+  width: 4vw;
+  height: 4vw;
+  border: $colourDB32White solid 0.3vw;
+  cursor: $cursorHand;
+
+  &:hover {
+    filter: brightness(150%);
+    transform: scale(1.1);
+  }
+}
+
+.antisocial-icon {
+  width: 80%;
+  align-self: center;
+  justify-self: center;
+}
+
+#notdiscord-button {
+  background-color: #7289da;
+}
+
+#notreddit-button {
+  background-color: #ff3f18;
+}
+
+#notgithub-button {
+  background-color: #171515;
+}
+
+#notwiki-button {
+  background-color: #002a32;
+}
+
+#language-cont {
+  position: absolute;
+  right: 2vw;
+}
+
+#language-list {
+  position: absolute;
+  right: 2vw;
+  bottom: 2vw;
+  padding: 1vw;
+  border: $colourDB32White 0.3vw solid;
+  margin: 0;
+  background-color: $colourDB32VeryDarkPurple;
+  color: $colourDB32White;
+  font-size: 1vw;
+  text-align: center;
+  user-select: none;
+  //visibility: hidden;
+}
+
+.language-option {
+  display: block;
+  cursor: $cursorHand;
+  line-height: 2vw;
+
+  &:hover {
+    border: $colourDB32White 0.3vw solid;
+    background-color: $colourDB32VeryDarkPurple;
+    filter: brightness(150%);
+    font-weight: bold;
+    line-height: 2.5vw;
+  }
+}
+
+.center-text-cont {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 40%;
+  align-content: center;
+  justify-content: center;
+  color: #dadada;
+  font-size: 6vh;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  user-select: none;
+}
+
+.connection-issue {
+  color: orange;
+  font-size: 2vh;
+  white-space: pre-line;
+  border: 0.4vh orange solid;
+  background: #00000078;
+  padding: 1vh;
+  margin: 1vh;
+}
+
+.scale-up-center {
+  animation: scale-up-center 2s ease-out infinite alternate both;
+}
+
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,30 @@
+.fade-in {
+	animation: 4s ease-out fadeIn 1;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+#game-cont {
+    color: hotpink;
+}
+
+.game-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    transform: translate(-50%, -50%);
+}

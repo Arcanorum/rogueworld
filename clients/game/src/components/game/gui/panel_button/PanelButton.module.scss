@@ -1,0 +1,7 @@
+.panel-button {
+    position: relative;
+
+    &.inactive {
+        opacity: 0.5;
+    }
+}

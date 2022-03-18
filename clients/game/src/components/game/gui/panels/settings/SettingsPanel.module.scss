@@ -1,0 +1,62 @@
+@import "../../../../../shared/Variables.scss";
+
+.settings-panel {
+    background-color: $colourDB32IronGreyOpacity80;
+    
+    .inner-cont {
+        background-color: $colourDB32VeryDarkPurpleOpacity50;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+
+        .rows {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 32px;
+            
+            .row {
+                display: grid;
+                grid-template-columns: auto 40%;
+                padding: 8px;
+                margin-top: 8px;
+                margin-bottom: 8px;
+                background-color: $colourDB32VeryDarkPurpleOpacity50;
+                border-top: 2px solid $colourDB32VeryDarkPurple;
+
+                .description {
+                    margin-left: 16px;
+                    align-self: center;
+                }
+
+                .action {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+
+        .button {
+            height: 64px;
+            margin-left: 16px;
+            margin-right: 16px;
+
+            &.disabled {
+                opacity: 0.5;
+
+                &:hover {
+                    filter: none;
+                }
+            }
+
+            &:hover {
+                filter: brightness(120%);
+            }
+        }
+    }
+
+}

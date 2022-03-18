@@ -1,0 +1,9 @@
+{
+    "name": "@dungeonz/map-service",
+    "version": "1.0.0",
+    "description": "REST API for getting map tiles for use with the map panel in game.",
+    "scripts": {
+        "start": "npx ts-node src/Server.ts",
+        "build": "npx ts-node src/GenerateLeafletMap.ts"
+    }
+}

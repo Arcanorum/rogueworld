@@ -1,0 +1,6 @@
+{
+    "name": "@dungeonz/maps",
+    "version": "1.0.0",
+    "description": "All game world map data, image resources and configs.",
+    "main": "src/index.ts"
+}

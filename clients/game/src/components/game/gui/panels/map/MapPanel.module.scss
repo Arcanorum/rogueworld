@@ -1,0 +1,15 @@
+@import "../../../../../shared/Variables";
+
+.map-panel {
+    background-color: $colourDB32White;
+    pointer-events: none !important;
+
+    .tooltip {
+        border: 0;
+
+        // Hide the down arrow thing in the middle of the marker tooltip.
+        &::before {
+            display: none;
+        }
+    }
+}

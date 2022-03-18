@@ -1,0 +1,601 @@
+08/09/2021 - Bugfix 12.1
+
+Bugs:
+- Fixed server crash when crafting items that do not have any stat level buffs applied (such as relics).
+
+05/09/2021 - Update 12 - Craftable relics
+
+New:
+- Corrupted temple:
+    A new map found deep in the mountains. A secret temple once used to study powerful items, now overrun by a dark force.
+- Glory altar:
+    Relics can now be crafted at this new crafting station using rare ingredients that are only dropped by boss tier creatures.
+- Bosses no longer drop relics.
+- Armor of Ire:
+    A new melee armour relic that damages anything that damages the wearer.
+- Etherweave:
+    A new magic armour relic that restores energy to the wearer when they take damage.
+- Relic ingredients:
+    - Heart of the mountain
+    - Eye of the storm
+    - Eternal flame
+    - Angel hair
+    - Prime matter
+    - Sacred branch
+- Galestorm rework:
+    No longer shoots a wave of 3 super wind projectiles when used.
+    Now has 2 modes:
+        - When first used, it summons several small power-ups (tornados) that can be collected. Each one collected adds a charge to the staff (up to 6 charges can be stored at once).
+        - When used again with at least one charge, it shoots a super wind projectile for each charge collected.
+- Broken bones status effect:
+    Any creature with broken bones takes damage each time they move.
+- All hammers now inflict broken bones.
+- All hammers no longer push back creatures when they hit. (They can still reflect projectiles.)
+- Hammer of glory now inflicts broken bones on what it hits and all adjacent creatures instead of pushing them back.
+- Pacify and deathbind spell scrolls are now equippable.
+- Iron golem:
+    A durable elemental creature that guards nearby ore rocks.
+- Tailwind spell scroll:
+    Pushes the user forward when used. Useful for faster travel and extra agility in combat.
+- Trap:
+    Can be placed down and then deals damage to any creature that moves onto it.
+- Poison arrows
+- Cleanse spell scroll now heals each creature that it removes a curse from.
+
+Balance:
+- Dungium weapons base durability 50 -> 45
+- Noctis weapons base durability 60 -> 55
+- Iron hammer damage 20 -> 18
+- Dungium hammer damage 24 -> 21
+- Agonite hammer damage 28 -> 24
+- Noctis hammer damage 32 -> 27
+- Hammer of glory damage 32 -> 27
+- Hammer of glory self push-back 2 tiles -> 1 tile
+- All hammers base damage lowered (to compensate for now inflicting broken bones).
+- Added glory orb to drop list of large adumbrals.
+- Added trap, noctis bar & oak logs to loot box rewards list.
+
+Bugs:
+- The chat box will now automatically scroll down to show new messages when they are received when already scrolled to the bottom of the chat log.
+
+Other:
+- When healed, only the amount of HP gained is shown, instead of the raw heal amount.
+- Added quick transfer options (drop/deposit/withdraw) for stackable items for inventory panel and bank panel.
+- Shift key can be held down when clicking on items in the inventory panel to quickly drop the item/stack.
+- Redesigned fireball projectile sprite.
+- Renamed Eternal flame (fire staff relic) to Hellraiser.
+- The open chat box button now shows a notification icon when a new message is received while the chat box is closed.
+- Added iron and dungium sickles to the tool shop.
+
+
+03/07/2021 - Update 11 - Momentum
+
+New:
+- Player momentum
+    Players now build momentum every time they move in the same direction, which increases their speed.
+    Momentum is reset when a player changes direction, or doesn't keep moving.
+- Move speed changes during combat
+    Mobs move faster when they take damage.
+    Players move slower briefly when they take damage.
+- Eternal Flame now burns user when used.
+- Hammer of Glory now pushes user back when used.
+
+Balance:
+- Mobs now pick a random direction when moving away from a target that is on the same tile, instead of always going up if they can
+- Most mobs now do not drop finished items (swords, staffs, armour, etc.), but drop more resources instead.
+- Added laboratory crafting stations to dwarf city.
+- Arrow range 7 -> 8
+- Wind staffs range 10 -> 6
+- Fire staffs range 10 -> 6
+- Blood staffs range 10 -> 6
+- Eternal Flame energy use cost 1 -> 4
+- Galestorm energy use cost 1 -> 4
+- Hammer of Glory energy use cost 0 -> 2
+- All relics drop rate 5% -> 2%
+
+Bugs:
+- The "Add translation" link now appears in the language select list.
+- Hammer of Glory no longer crashes the server when it hits a mob into a hazard and it dies from the damage.
+- Eternal Flame no longer crashes the server when used by a player on low HP that is then killed by the self-burn damage.
+- The damage immunity gained after not attacking for a while no longer applies while in a dungeon.
+
+
+05/06/2021 - Update 10 - Relics
+
+New:
+- Relics
+    The most powerful item tier, which have a very high durability, and can only be obtained as
+    rare drops from bosses. Costs glory each time they are used.
+    - Galestorm
+    - Eternal Flame
+    - Hammer of Glory
+- Agonite metal tier
+- Mountains area
+    A huge snow covered region of the map, home of the dwarfs.
+- Chilled status effect
+    Slows you down a lot while active. Can be prevented by using an anti-freeze potion.
+- Anti-freeze potion
+- Frostcap mushroom
+- Berserker
+- Dwarf knight
+- Druid
+- Elder (druid boss)
+- Snow scamp
+- Sickles
+    Gather mushrooms faster while equipped.
+
+Balance:
+- Increased player base light range in darkness from 5 to 6.
+- Added another blue key to the keys given by killing the Blood lord in the Blood halls dungeon.
+  (Prevents getting locked out of the exit room if someone wastes a blue key by going back and
+  opening the other starting door).
+- Citizens now drop pine logs instead of oak logs.
+- Added bone to iron armour recipe.
+
+Bugs:
+- Status effects no longer take effect again immediately when applied while already active. (i.e. each
+  fire staff attack would damage on hit, instead of just resetting the burn timer on the target, so you
+  could damage faster by spamming it)
+- Status effect animations no longer play underneath equipped clothing.
+- Clothing animations now play in sync with the player when moving.
+- Server crash.
+- Corrected dungium & noctis equipment descriptions.
+- GUI scale setting now affects chat box size.
+- Disabling the "Add picked up items to hotbar" setting no longer prevents adding items to the
+  hotbar from the inventory panel.
+
+Other:
+- Client performance/FPS optimisations.
+- Players are now invincible in safe zones (i.e. the main city) until they attack. (Prevents griefing
+  by using aggroed NPCs to attack other players).
+- Chat box now returns focus to the game after sending a message. The chat button (below map button)
+  now toggles whether the chat box should stay visible after sending a message.
+- Desert theme updated to have more bass.
+
+
+07/05/2021 - Update 9 - City redesign, chat, content
+
+New:
+- Redesigned main city to improve new player experience and streamline getting around.
+- New player/tutorial map:
+    An introduction area with weak enemies that players can progress through easily without getting lost.
+    New players now spawn with some basic items to get them going.
+- Chat box:
+    An interface for chatting to nearby players (local), and across the map (global/trade).
+- Music themes for:
+    - City
+    - Desert
+    - Vampire island
+    - Blood halls dungeon
+    - Forest maze dungeon
+- Gathering mini-rework:
+    Gathering a resource now starts a timer before the resource is gained.
+    The timer can be sped up by using a higher tier tool, and having a higher gathering level.
+    Removed energy cost for gathering from all resource nodes.
+    Resources that require a certain tool to gather from now show a message for what tool is required.
+- Pickaxes and hatchets can now be equipped, and used as a basic weapon.
+- Bone pickaxe and hatchet:
+    Many creatures now drop bones, that can be crafted into basic gathering tools.
+- Pine, willow & oak tree types:
+    Each tree now has its wood logs type.
+    Pine logs are now used as the generic wood material for all existing crafting recipes that required logs.
+- Pine bow, willow bow & oak bow
+- Wooden club:
+    A beginner weapon that can be made from only pine logs.
+- Gems & altars:
+    Altars for wind, fire, and blood, have been added around the overworld, each guarded by some agility based challenge.
+    Many creatures now drop a generic, uncharged "Gem" item, that has no elemental effect.
+    These gems can be used on the altars to charge them, converting them into a gem of the type of the altar.
+    i.e. using a gem on a fire altar will turn it into a fire gem.
+    Charging each gem costs glory. The amount of glory needed depends on the altar.
+- Spell scrolls:
+    The previously disabled Book of Light and Book of Souls have been replaced with spell scrolls.
+    Each spell from the books has been split out into it's own item.
+- Refresh page death penalty:
+    When damaged, a combat mode timer starts.
+    Closing the game while this timer is active will cause you to lose your items, as if you had died.
+    This is to prevent players from just closing the game to avoid dying during a dangerous encounter.
+- Character display name can now be changed at register stands (looks like a lectern), found near the Rulers in the city and desert town throne rooms.
+- Particle effects for various events (glory gained/lost, stat level gained, health gained/lost) and general visual feedback improvements.
+- Many sound effects, and general audio feedback improvements.
+- More options added to settings panel
+    - Music volume
+    - Sound effects volume
+    - GUI scale
+    - Chat profanity filter
+    - Light flicker (may improve performance slightly if disabled)
+    - Show FPS
+- Training dummy that can be attacked and destroyed, and won't fight back.
+
+Balance:
+- Priest merchants now sell health potions and defensive spell scrolls.
+- Pacify curse now breaks when the target takes damage.
+- Gnarls now drop logs.
+- Crafting stat bonus multiplier: 2 -> 3
+- Potions can no longer be used while their effect is still active.
+- Added some closer cotton resource nodes to the main paths out of the city.
+
+Bugs:
+- Fixed some accounts getting locked out/can't login issues.
+- Server no longer crashes when a player dies by being pushed (wind staff, hammer, etc.) into a damage source (such as floor spikes).
+- Moving should no longer randomly get stuck moving in that direction.
+- Entities (players, mobs, projectiles, etc.) are no longer sometimes invisible to players that have just finished loading the game.
+- Item pickups will no longer disappear when picked up if there is still something left in the stack.
+- Resource nodes that don't require a gathering tool (cotton, mushrooms) now give gathering exp.
+- Ninja robe now uses the sound effect for clothing equipped instead of weapon equipped.
+- The shop panel now shows the correct style for when you cannot afford an item.
+- Can now deposit/withdraw weightless items even when over max weight.
+- Social/share embed images now load.
+- .opus audio files will now be used when supported (was always falling back to .mp3, even when the .opus version was supported).
+
+Other:
+- Updated overworld map panel tiles.
+- Re-added custom mouse cursors.
+- Closing the browser tab now prompts you to confirm closing the tab, to avoid accidentally closing the game.
+- An account is now required to buy bank storage upgrades.
+- The pick up item keybind key now appears above your character when standing on an item pickup.
+- Improved language translations spreadsheet coverage.
+- Updated the credits page.
+- Updated the curse and enchantment icons.
+- Updated the burning effect animation.
+- Updated iron gear to look more like the iron bar, less like bone.
+- Sprites above your character now appear behind, for better depth sorting effect. Pickups will always appear behind characters.
+- Removed C keybind to open inventory panel.
+- Added a link to the public test server (PTS) to the login page.
+
+
+06/04/2021 - Bugfix 8.4
+
+Bugs:
+- The loading screen now shows the correct loading state.
+    Added a progress bar to the loading screen that shows percent progress and files being loaded.
+- Pressing Esc key will no longer close the respawn panel.
+- The death music loop now plays while dead.
+
+Other:
+- Added more hints to the loading screen.
+- Unfinished options in the settings panel have been temporarily removed.
+- Reduced initial music volume by 50% until music volume settings are working.
+
+
+05/04/2021 - Bugfix 8.3
+
+Bugs:
+- Crafting items now progresses the task if you have that task.
+    Most kind of crafting task have been combined into tasks with broader criteria.
+    i.e. instead of having "Craft iron daggers" as a task, you might have a "Craft daggers" task,
+    and/or a "Craft iron gear" task, which you can do simultaneously if you want (if you have both
+    tasks at once) by making iron arrows, and it would progress both at once.
+- Interactable objects (doors, ore rocks, trees) now use the correct frame when it comes into view.
+- Other players now show what clothing item they are wearing when they come into view.
+
+Other:
+- The FPS meter the bottom left now shows on the main game.
+
+
+04/04/2021 - Bugfix 8.2
+
+Balance:
+- Hawk: Feathers drop rate: 20% -> 100% for 1, + 50% chance for another.
+- Vampire: Vampire fang drop rolls: 1 -> 2
+- Blood priest: Vampire fang drop rolls: 1 -> 2
+- Dwarf warrior:
+    Iron bar: 2 -> 1
+    Dungium bar: 0 -> 1
+
+Bugs:
+- Opening and closing the map panel quickly no longer crashes the server.
+- Tasks are now saved when you log out.
+
+Other:
+- Added X/Y labels for the coordinates on the player and target markers on the map panel, and formatted the values correctly.
+
+03/04/2021 - Bugfix 8.1
+
+Balance:
+- Glory orb glory given: 1000 -> 500
+
+Bugs:
+- Fixed item dupe where reloading the game while dead would restore the inventory items lost on death.
+- Fixed extra glory orbs being added when logging in each time on an existing account.
+- Completing tasks no longer crashes the server.
+- Opening the priest merchant shop no longer crashes the client.
+- New accounts are now logged out properly when they close the game, so they can logging in with that account next time.
+- Fixed error when changing the password on new accounts.
+- Gathering tools no longer lose 2 durability when used.
+
+
+01/04/2021 - Update 8 - Items rework
+
+New:
+- Inventory
+    Every item now has a weight, and every player can hold up to a max amount of weight, across any amount of items.
+    A lot more different kinds of items can be kept in this inventory at once now.
+    Some items are now stackable, and are consumed on use, instead of having a durability.
+    The bottom bar of 10 slots has been changed to a hotbar that gives easy access to items in the inventory.
+    Max inventory weight increases as you gain more stat levels.
+- Bank reworked
+    Weight based storage, rather than slot based, so a lot more kinds of items can be stored.
+    Can be upgraded using glory.
+- Crafting reworked
+    Simplified crafting, showing all available items to craft at each crafting station, and their ingredients.
+    More different kinds of items can be required by a crafting recipe.
+    Some recipes use the average of several stats when calculating the bonus quantity/durability for the crafted item.
+- Overworld map
+    A map of the main overworld that shows your location, and is pannable and zoomable.
+- Various sound effects and music.
+- Tasks rewards reworked
+    Tasks now give loot boxes of different sizes, increasing with task length, instead giving of the items directly when claimed.
+    Loot boxes can be opened to receive a random valuable item.
+- Loading screen
+- The respawn panel now shows a random hint.
+- Keybinds to open panels.
+
+Balance:
+- Vampire island boat moved from the main city dock, to the desert town dock.
+- Added adumbral spawns to vampire island.
+- Spreaded vampire island noctis ores more around the island.
+- Added dungium ores to the warrior village mine, desert town mine, and around the desert.
+- Added more light sources to knight training arena, mage training arena, mage tower, and desert town.
+- Blood staffs no longer damage equipped armor when used.
+- Night time duration is now slightly shorter, dusk and dawn are longer.
+- Removed bow and arrows from starter bank items.
+- Added iron pickaxe and hatchet to starter bank items.
+
+Bugs:
+- Fixed "pseudo-dodging" through projectiles. Projectiles now won't pass through targets if the target moves.
+- Other tree types no longer give invalid items when gathered from.
+- Right-click to pick up items now works again.
+- Prevented being able to use only spaces for a character name.
+- Fixed rare bug where removing clothing would not show the correct defence value.
+- Crafting shurikens now gives weaponry exp instead of toolery exp.
+- Fixed duplicate tasks blocking progress for each other. New tasks should always be different from any others you already have.
+- Fixed a rare bug with glory being set to an invalid value.
+- Super staff projectiles no longer collide with corpses.
+
+Removed:
+- Tutorial map.
+
+Other:
+- Replaced Facebook social link on home page with GitHub project link.
+
+
+4/12/2020 - Bugfix 7.1
+
+New:
+- Test server
+    - See the latest changes to the game before they go live on the main game at https://test.dungeonz.io
+- Added adumbrals as a possible kill task.
+
+Balance:
+- Warriors now drop iron hammers instead of iron swords.
+
+Bugs:
+- Equipping a ninja garb no longer crashes the game.
+- Ninja garb now shows the item name and description.
+- Fixed create account panel not showing if account was successfuly created.
+- Fixed warning message not showing when trying to log in using invalid credentials.
+- Fixed password reset on the account panel not working.
+- Fixed "Kill goblins" showing as "KillGoblins".
+- Fixed noctis hammers appearing as noctis daggers.
+- Rulers now use the correct sprite.
+- Dwarf merchants now use correct sprite.
+- Tutorial merchants now use correct sprite.
+- Rat animation now plays as soon as you see it.
+- Hawk animation now plays as soon as you see it.
+- Added names for dwarf, dwarf warrior, adumbral.
+- Fandom wiki tooltip now shows correct text.
+
+
+16/11/2020 - Update 7 - Darkness
+An ominous veil of darkness has fell upon the world, ushering in a new age of uncertainty for the denizens of Munud City.
+Strange figures have been reported swarming in the shadows at night, mauling any creature foolish enough to wander near...
+
+Could this be related to the recent appearance of more drawfs in the known lands? Have they brought this curse with them, or 
+were they fleeing from it themselves? Perhaps a journey into the western mountains will reveal the mystery of this adumbral plague...
+
+New:
+- Day/night cycle
+    - Reduced visibility at night.
+    - Some creatures now only spawn during certain times of day.
+    - Some dungeons are now always at night, such as underground locations.
+- Adumbrals
+    A vicious enemy that spawns only at night. Fledgling adventurers should approach with caution!
+- Punch
+    You can now attack the tile next to you when no item is being held.
+- Interactable objects highlighting
+    Nearby objects that can be interacted with (anvils, banks, etc.) are now shown with a white marker around them.
+- Splatter of particles when damaged
+
+Balance:
+- Assassins now always use daggers when next to their target, and shurikens when there is some distance, instead 
+  of randomly picking either dagger or shurikens when spawned and only ever using that.
+
+Bugs:
+- Fixed super projectiles (super fire/wind/blood staffs) colliding with pickups.
+- Fixed where assassins sometimes permanently stop using their teleport ability.
+- Fixed where assassins could teleport onto tiles that they shouldn't be able to stand on (deep water, pits).
+- Fixed mages/archmages not staying hostile when attacked.
+
+Other:
+- Upgraded the game client to Phaser 3.
+    - Improved FPS (hopefully), smoother animations, particle effects.
+- Removed canvas renderer mode option from login screen.
+    - WebGL support on your device is now required to be able to run the game.
+        - Performance is still being tested and adjusted.
+        - If you suffer from a worse experience from this update, feedback would be appreciated.
+
+
+18/07/2020 - Update 6 - Dungeon instances
+New:
+- Dungeon instances
+    - Every dungeon that you enter is now separate from all others of that same dungeon, meaning it will be for only you and whoever you enter with. Other players cannot enter that instance after the dungeon has started.
+    - The dungeon interface now allows you to create a party for other players to join.
+    - Only the party creator must pay the entry cost.
+    - Creatures and item pickups in dungeons do not respawn.
+    - Dropped items in dungeons do not disappear after a while.
+    - Added a max players limit.
+    - Added a time limit to leave the dungeon.
+    - Removed key pickups for locked doors. Now all keys found from killing the key holders are added to a shared set of party keys, that can be used by anyone in the party.
+    - Adjusted each dungeon to work with this new party key system.
+    - Disabled PvP in dungeons.
+- Defence rework
+    - The damage reduction percentage is now based on a how many defence points you have (from wearing armour, etc.). Each defence point gives you +1% effective HP. So with 100 you can take 2x the damage before dying.
+    - Some weapons can now deal armour piercing type damage, which will ignore a percentage of the defence points of the target.
+- Damage types
+    - Each source of damage now comes in types. The types of damage that something deals determines how/if it can interact with the target. Certain creatures can be immune to some types of damage, such as ghosts being immune to physical attacks.
+    - Physical: Solid objects, such as swords, arrows and melee attacks.
+    - Magical: Magic related things, like fireballs, wind blasts, curses.
+    - Biological: Organic related things, like disease and poison effects, and possibly environmental effects like heat and cold.
+- Added dwarfs
+- Some bosses can now also be found on the overworld, outside of dungeons.
+
+Other:
+- Removed Widgetbot
+
+Also changed a while ago, forgot to do release notes for it.
+- Added mage tower area
+- Added mage training arena dungeon
+- Added Mage mobs.
+- Fixed various GUI display sizing issues on Firefox.
+- Removed the continue code system. Replaced it with an actual permanent account system with username and password. Accounts/characters no longer "expire" after not being played for a while.
+
+
+20/05/2019 - Update 5 - Forest maze
+New:
+- Forest maze
+    - Master tier dungeon that is quite long.
+    - New tree type enemies.
+- Combat rework
+    - Damage amounts have been greatly increased for all damage sources.
+    - Hitpoint amounts have been greatly increased for all creatures.
+    - Player character now have 2x the hitpoints of a citizen. You have a much larger pool of initial hitpoints, so it is harder to die too quickly, but also means healing to full will take longer.
+    - Clothing (armour, robes, etc.) now gives a percent damage reduction.
+    - Clothing durability is reduced by 25% of raw damage taken.
+- Tasks rework
+    - Tasks now come in 3 categories; Kill, Gather, Craft
+    - You will always have 2 tasks from each category, 6 tasks in total. Completing a task will give you another random one from the same category.
+    - Tasks are given a random length, short/medium/long, which determines how many of a thing you need to do, and how many items/how much glory are given as the reward.
+    - The range of different tasks is now much larger.
+- Missing stat purposes
+    - The melee, ranged, magic and gathering stats now affect the chance that when you use an item related to those stats (such as attacking with a staff or using a pickaxe) that the item will not lose any durability. Every level gives a 1% chance that the item can be used without it losing durability.
+
+Bugs:
+- Probably...
+
+Balance:
+- Tweaks to the tutorial area to get people through it a bit faster.
+- Stat level cap 20 -> 50
+- Bandits now use iron daggers instead of iron swords.
+- Warriors now use iron hammers instead of iron swords.
+- The prices of items in shops now take twice as long to return to their starting/default price.
+- Items removed from city NPC shops:
+    - Dungium armour
+    - Necromancer robe
+    - Book of souls
+    - Ninja garb
+- Book of light price 800 -> 1000
+- Health and energy potions price 150 -> 200
+
+
+28/04/2019 - Update 4 - Shadow dōjō:
+The mysterious deaths and disappearances of many notable figures throughout the lands has struck worry into the knights of Munud City. Reports suggest this is unlikely to be the work of common bandits, but instead a more highly trained and dangerous form of outlaw. A new fighting arena has recently finished construction in the dock area of the city, where adventurers can improve their combat skill against each other, in preparation for seeking out this new cunning foe...
+New:
+- Shadow dōjō
+    - Master tier dungeon, 2000 Glory entry cost.
+    - The first enemies with a special attack that they can use to be more of a threat to players. Special attacks for existing creatures will come in future updates.
+- Fight arena: The dock area of the city (where the boat to the vampire island is) now has a PvP arena, where community PvP events can be held.
+    - Fighter key: Sold by the arena master at the arena entrance, which can be used to enter the preparation area below the fight pit.
+    - Pit key: Spawns in the fight pit (the walled area in the middle of the arena), which can be used to exit the pit.
+- Added a button to open the world map in a new tab.
+- Added a button to open the wiki in a new tab.
+- Added a button to join the discord server.
+- Added some mushrooms to the vampire island.
+- Locked doors in dungeons now stay open after being unlocked. They all become locked again when the boss respawns. Less key juggling. Each key now has only 1 use.
+
+Bugs:
+- Moved the HP and energy bars behind the rest of the panels, as on small screens or when zoomed in, they were blocking buttons on any panels they were on top of.
+- Depositing an item into your bank using the up arrow icons on the inventory bar will now add it to the selected bank tab, instead of the first tab with an empty slot.
+- Withdrawing items from the bank using drag and drop now withdraws it from the slot on the correct tab, instead of always taking from the matching slot on the first tab.
+- Fixed being able to go over the stat level cap if you joined the game with more than the level cap's worth of exp.
+- Player controlled zombies can no longer damage other players in safe zones. Also, claimed zombies now inherit the faction of their master, so player controlled zombies become classed as citizens and won't automatically attack or be attacked by citizens or city guards.
+- Pushing effects (wind staff, hammers) can no longer push players in a safe zone.
+- Key dropping creatures in dungeons now only drop 1 key.
+- Key dropping creatures in dungeons now force respawn at their intended area when the boss respawns, to avoid them getting stuck behind locked doors for which their own key is needed to get past.
+- Fixed dungeon portals (and other interactable objects) not appearing in the right state when you enter an area with them in.
+- Fixed (hopefully) the player character log in duplication glitch.
+
+Balance:
+- Hammer range: 1 -> 2 tiles
+- Adjusted the layout of the tutorial area to make it a bit more linear and harder to get lost in.
+- Added some basic items spawns to the combat area of the tutorial zone.
+- Ward and Deathbind duration: 1 minute -> 5 minutes.
+
+Other
+- Increased the DMP account inactivity period, 4 -> 8 weeks
+- Made the backs of some panels semi-transparent so you can still see what is going around you while they are open.
+- Added Chinese and Polish options to language list.
+
+
+18/04/2019 - Update 3
+New:
+- Added a status effects system, which are conditions that do something over a period of time
+    - Burning: Medium damage over a short time. Caused by walking through lava, or hit by fire.
+    - Poisoned: Low damage over a slightly longer time. Caused by walking through sewage.
+    - Cured: Makes you immune to poison for a while.
+    - Health regeneration: Heals slowly over time. Caused by walking through a blood pool, or using a health potion.
+        - Health potions no longer give instant HP. A "blood pool" is the light red stuff found in the Blood halls dungeon on the vampire island.
+    - Energy regeneration: Restores energy over time. Caused by using an energy potion.
+- Cure potion. Removes poison effect and makes you immune to it for a while.
+- Wind gem: Used to craft items with a wind effect.
+- Super wind staff: Shoots wind that shoots more wind.
+- Blood gem: Used to craft items with a lifesteal effect.
+- Blood staff: Shoots a projectile that steals health when it hits. Costs health to use.
+- Super blood staff: Shoots a lifesteal bolt that shoots more lifesteal bolts.
+- Added floor spike traps to certain dungeons.
+- Added a tool merchant to the west desert town.
+- Some creatures can now drop multiple items. Most basic/weak creatures still only drop 1 item, but some now drop 2 or more.
+
+Bugs:
+- Fixed vampires (Vampire, Blood priest, Blood lord) not counting towards "Kill vampires" task completion.
+- Fixed armour being damaged when attacked by another player in the safe zone.
+- Fixed a pickup not appearing on the ground when an iron rod is dropped.
+- Merchants can no longer be killed.
+- Removed the "Kill snoovirs" task as they cannot be found yet.
+- Removed the clay ore rocks as it cannot be mined yet.
+- Fixed dungium pickaxe and noctis pickaxe not giving gathering exp when used.
+- The bank in the west desert town and in the vampire island town are now safe zones. Caution: Players can not damage you there, but creatures still can!
+
+Balance:
+- Dungium hatchet and pickaxe now have a base durability of 300 (was 100, like iron).
+- Noctis hatchet and pickaxe now have a base durability of 200 (was 100, like iron) (Dungium is meant to have higher durability, but has less offensive bonuses than noctis).
+- Increased the base durability of all arrow types to 25 (was 20).
+- Added lava to the vampire island cave.
+- More varied drops from more creatures now, especially better drops for bosses.
+- Removed fire gem and super fire staff from the magic shop.
+- Increased the price of potions from innkeepers to 150 (was 100).
+
+
+15/04/2019 - Update 2
+- Fixed the overworld portals in dungeons not appearing as active when the boss is defeated.
+- Fixed some items having an invalid or infinite durability.
+- Added hawk
+- Added goblin
+- Added sand scamp
+
+
+13/04/2019 - Update 1
+- New dungeon: Knight training arena
+- Dungeon bosses now appear slightly larger than normal creatures.
+- Disabled darkness for now until I can update the client engine, due to major FPS decrease during night for some users.
+- Respawn orb can now be dropped/picked up.
+- Updated credits page.
+- The "Could not connect to server" warning is now clearer to see.
+- Added a debug mode that can be activated by entering localStorage.setItem('debug_mode', true); into the browser console.
+- Fixed claim invalid task server crash.
+
+12/04/2019 - Hotfix:
+- Fixed server crash when suiciding from eating greencaps.
+- Fixed bug where if you die, the respawn panel would close if you tried to move while dead.
+
+11/04/2019 - Launch.

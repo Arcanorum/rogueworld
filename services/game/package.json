@@ -1,0 +1,24 @@
+{
+    "name": "@dungeonz/game-service",
+    "version": "1.0.0",
+    "description": "The main game server that deals with gameplay logic.",
+    "main": "src/index.ts",
+    "scripts": {
+        "dev": "nodemon src/index.ts",
+        "prod": "npx ts-node src/index.ts"
+    },
+    "nodemonConfig": {
+        "watch": [
+            "src",
+            "../../shared/configs",
+            "../../shared/maps",
+            "../../shared/types",
+            "../../shared/utils"
+        ],
+        "ignore": [
+            "src/api/resources"
+        ],
+        "ext": "ts,js,json,yaml,txt,png,xlsx",
+        "verbose": true
+    }
+}

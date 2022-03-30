@@ -1,8 +1,12 @@
 const http = require('http');
 const crypto = require('crypto');
 
-const port = 8080;
+const port = 2222;
 const secret = process.argv[2];
+
+if (secret) {
+    console.log('Secret provided. Requests will be checked before restarting the game.');
+}
 
 /**
  * TODO: doc this
@@ -14,7 +18,7 @@ http.createServer(function(req, res) {
     req.on('data', function(chunk) {
         console.log('Data event');
 
-        if(secret) {
+        if (secret) {
             console.log('Secret provided, checking signature');
             let sig = `sha1=${crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex')}`;
 

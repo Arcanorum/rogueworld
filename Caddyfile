@@ -9,3 +9,4 @@ file_server
 }
 reverse_proxy @websockets localhost:4567
 reverse_proxy /map/* localhost:4567
+reverse_proxy /reload localhost:2222

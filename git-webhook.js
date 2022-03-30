@@ -7,6 +7,9 @@ const secret = process.argv[2];
 if (secret) {
     console.log('Secret provided. Requests will be checked before restarting the game.');
 }
+else {
+    console.log('No secret provided! Any requests will restart the game.');
+}
 
 /**
  * TODO: doc this
@@ -21,6 +24,9 @@ http.createServer(function(req, res) {
         if (secret) {
             console.log('Secret provided, checking signature');
             let sig = `sha1=${crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex')}`;
+
+            console.log('sig:', sig);
+            console.log('x-hub-signature:', req.headers['x-hub-signature']);
 
             if (req.headers['x-hub-signature'] !== sig) return;
         }

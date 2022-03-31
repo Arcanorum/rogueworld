@@ -1,6 +1,6 @@
 const http = require('http');
 const crypto = require('crypto');
-const { exec } = require('process');
+const { exec } = require('child_process');
 
 const port = 2222;
 const secret = process.argv[2];

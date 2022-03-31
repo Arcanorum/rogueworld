@@ -1,8 +1,9 @@
-const http = require('http');
 const crypto = require('crypto');
-const { exec } = require('child_process');
+const http = require('http');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
-const port = 2222;
+const port = 3333;
 const secret = process.argv[2];
 
 if (secret) {
@@ -19,7 +20,7 @@ else {
 http.createServer(function(req, res) {
     console.log('Request received');
 
-    req.on('data', function(chunk) {
+    req.on('data', async function(chunk) {
         console.log('Data event');
 
         if (secret) {
@@ -32,13 +33,27 @@ http.createServer(function(req, res) {
             if (req.headers['x-hub-signature'] !== sig) return;
         }
 
-        console.log('Pulling from github');
-        exec('git pull');
-        console.log('Pulled from github');
+        try {
+            console.log('Pulling from git');
+            await exec('git pull');
+            console.log('Done');
 
-        // exec('npm run build'); // move to bash file?
+            console.log('Building game client');
+            await exec('cd ./clients/game && npm run build');
+            console.log('Done');
 
-        // exec('npm run ');
+            console.log('Restarting services');
+            await exec('pm2 restart ecosystem.config.js');
+            console.log('Done');
+
+            console.log('Building map tiles');
+            // Do this at the end so everything else is running while the map is building.
+            await exec('cd ./services/map && npm run build');
+            console.log('Done');
+        }
+        catch (err) {
+            console.error(err);
+        }
     });
 
     res.end();

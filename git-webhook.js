@@ -1,5 +1,6 @@
 const http = require('http');
 const crypto = require('crypto');
+const { exec } = require('process');
 
 const port = 2222;
 const secret = process.argv[2];
@@ -34,6 +35,8 @@ http.createServer(function(req, res) {
         console.log('Pulling from github');
         exec('git pull');
         console.log('Pulled from github');
+
+        // exec('npm run build'); // move to bash file?
 
         // exec('npm run ');
     });

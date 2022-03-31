@@ -108,24 +108,20 @@ const getErrorCategory = () => {
  * @returns Whether a the function finished without a problem.
  */
 export const connectToGameServer = () => {
-    const gameServiceBaseURL = `${Settings.GAME_SERVICE_IP_ADDRESS}:${Settings.GAME_SERVICE_PORT}`;
-
     if(Settings.USE_SECURE_PROTOCOLS) {
         // Live or test. Connect to server, which should be using SSL.
-        ApplicationState.gameServiceHTTPServerURL = `https://${gameServiceBaseURL}`;
-        ApplicationState.gameServiceWebSocketServerURL = `wss://${gameServiceBaseURL}`;
-        ApplicationState.mapServiceHTTPServerURL = `https://${Settings.MAP_SERVICE_IP_ADDRESS}:${Settings.MAP_SERVICE_PORT}`;
+        ApplicationState.gameServiceHTTPServerURL = `https://${Settings.GAME_SERVICE_URL}`;
+        ApplicationState.gameServiceWebSocketServerURL = `wss://${Settings.GAME_SERVICE_URL}`;
+        ApplicationState.mapServiceHTTPServerURL = `https://${Settings.MAP_SERVICE_URL}`;
     }
     else {
         // Connect without SSL for environments (localhost) that don't need it.
-        ApplicationState.gameServiceHTTPServerURL = `http://${gameServiceBaseURL}`;
-        ApplicationState.gameServiceWebSocketServerURL = `ws://${gameServiceBaseURL}`;
-        ApplicationState.mapServiceHTTPServerURL = `http://${Settings.MAP_SERVICE_IP_ADDRESS}:${Settings.MAP_SERVICE_PORT}`;
+        ApplicationState.gameServiceHTTPServerURL = `http://${Settings.GAME_SERVICE_URL}`;
+        ApplicationState.gameServiceWebSocketServerURL = `ws://${Settings.GAME_SERVICE_URL}`;
+        ApplicationState.mapServiceHTTPServerURL = `http://${Settings.MAP_SERVICE_URL}`;
     }
 
-    if (ApplicationState.connected || ApplicationState.connecting) {
-        return false;
-    }
+    if (ApplicationState.connected || ApplicationState.connecting) return false;
 
     // Connect to the game server.
     ApplicationState.connection = new GameWebSocket(ApplicationState.gameServiceWebSocketServerURL);

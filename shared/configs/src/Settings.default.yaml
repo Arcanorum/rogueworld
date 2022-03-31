@@ -9,17 +9,24 @@ IGNORE_WARNINGS: false
 # Means that all services will need to be behind a reverse-proxy that terminates the SSL connection.
 USE_SECURE_PROTOCOLS: false
 
-# Port number of the game service.
+# URL of the game service.
+# e.g.
+# localhost:1111 (direct access to the running process)
+# dungeonz.io (root level domain name, then reverse-proxied to where ever the service is running).
+# Example Caddyfile rule:
+# reverse_proxy @websockets 167.71.187.147:1111
+GAME_SERVICE_URL: localhost:1111
+
+# Port number of the game service. Should match whatever is set for the port in GAME_SERVICE_URL.
 GAME_SERVICE_PORT: 1111
 
-# IP address of the map service. Can also be a domain name.
-GAME_SERVICE_IP_ADDRESS: 127.0.0.1
+# URL of the map service. e.g. dungeonz.io/map (reverse-proxied to where ever the service is running).
+# Example Caddyfile rule
+# reverse_proxy /map/* 154.72.186.149:4567
+MAP_SERVICE_URL: localhost:2222
 
-# Port number of the map service.
+# Port number of the map service. Should match whatever is set for the port in MAP_SERVICE_URL.
 MAP_SERVICE_PORT: 2222
-
-# IP address of the map service. Can also be a domain name.
-MAP_SERVICE_IP_ADDRESS: 127.0.0.1
 
 # Absolute path to where ever Tiled is installed.
 # Tiled comes with tmxrasterizer which is used by the map service to generate the source images of
@@ -70,7 +77,7 @@ PLAYER_MAX_HITPOINTS: 50
 PLAYER_STARTING_MAX_FOOD: 50
 
 # How often food will be drained from the player. (ms)
-PLAYER_FOOD_DRAIN_RATE: 1000
+PLAYER_FOOD_DRAIN_RATE: 0
 
 # How much food will be drained from the player each time the drain loop loops.
 PLAYER_FOOD_DRAIN_AMOUNT: 10

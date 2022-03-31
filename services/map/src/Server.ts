@@ -3,16 +3,16 @@ import { message, warning } from '@dungeonz/utils';
 import express from 'express';
 import path from 'path';
 
-const app = express();
+const expressServer = express();
 
 const port = Settings.MAP_SERVICE_PORT || 2222;
 
-app.listen(
+expressServer.listen(
     port,
     () => { message(`Map server ready on port ${port}`); },
 );
 
-app.get('/map/:z/:x/:y', (req, res) => {
+expressServer.get('/map/:z/:x/:y', (req, res) => {
     try {
         const { z, x, y } = req.params;
 

@@ -6,7 +6,7 @@
 *Need Tiled (version?) installed as it needs some scripts (tmxrasterizer)*
 
 # Notes
-
+Caddy as an API gateway in live environment
 
 ### Next.js and shared local modules
 

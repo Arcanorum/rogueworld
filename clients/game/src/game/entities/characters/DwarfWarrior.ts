@@ -7,6 +7,6 @@ class Entity extends Mob {
     }
 }
 
-Entity.prototype.animationSetName = 'dwarf-warrior';
+// Entity.prototype.animationSetName = 'dwarf-warrior';
 
 export default Entity;

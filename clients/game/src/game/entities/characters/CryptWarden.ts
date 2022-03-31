@@ -7,6 +7,6 @@ class Entity extends Mob {
     }
 }
 
-Entity.prototype.animationSetName = 'crypt-warden';
+// Entity.prototype.animationSetName = 'crypt-warden';
 
 export default Entity;

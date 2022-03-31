@@ -10,8 +10,8 @@ class Entity extends Mob {
     }
 }
 
-Entity.prototype.animationSetName = 'rat';
-Entity.prototype.animationRepeats = true;
-Entity.prototype.animationDuration = 1000;
+// Entity.prototype.animationSetName = 'rat';
+// Entity.prototype.animationRepeats = true;
+// Entity.prototype.animationDuration = 1000;
 
 export default Entity;

@@ -7,6 +7,6 @@ class Entity extends Boss {
     }
 }
 
-Entity.prototype.animationSetName = 'knight';
+// Entity.prototype.animationSetName = 'knight';
 
 export default Entity;

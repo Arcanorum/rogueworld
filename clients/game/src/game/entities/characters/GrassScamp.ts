@@ -9,6 +9,6 @@ class Entity extends Mob {
     }
 }
 
-Entity.prototype.animationSetName = 'grass-scamp';
+// Entity.prototype.animationSetName = 'grass-scamp';
 
 export default Entity;

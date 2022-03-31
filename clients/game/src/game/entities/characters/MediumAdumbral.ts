@@ -7,6 +7,6 @@ class Entity extends Mob {
     }
 }
 
-Entity.prototype.animationSetName = 'adumbral-medium';
+// Entity.prototype.animationSetName = 'adumbral-medium';
 
 export default Entity;

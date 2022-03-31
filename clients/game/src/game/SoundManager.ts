@@ -180,7 +180,7 @@ class Effects {
         if (itemType && itemType.soundType && scope[itemType.soundType]) {
             // Play a random sound from the list if there are multiple.
             if (Array.isArray(scope[itemType.soundType])) {
-                getRandomElement(scope[itemType.soundType]).play();
+                getRandomElement(scope[itemType.soundType] as Array<SoundType>).play();
             }
             else {
                 scope[itemType.soundType].play();

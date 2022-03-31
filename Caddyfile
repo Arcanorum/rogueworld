@@ -1,12 +1,12 @@
 localhost, dungeonz.io, test.dungeonz.io
 
-root * ./client/build
+root * ./clients/game/out
 file_server
 
 @websockets {
 	header Connection *Upgrade*
 	header Upgrade    websocket
 }
-reverse_proxy @websockets localhost:4567
-reverse_proxy /map/* localhost:4567
-reverse_proxy /reload localhost:2222
+reverse_proxy @websockets localhost:1111
+reverse_proxy /map/* localhost:2222
+reverse_proxy /reload localhost:3333

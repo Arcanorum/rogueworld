@@ -4,7 +4,7 @@ import path from 'path';
 import img2LeafletTile from './GenerateMapTiles';
 
 // Delete all existing build files before generating new ones, to make sure redundant ones are cleaned up.
-fs.emptyDirSync('../build');
+fs.emptyDirSync(path.join(__dirname, '../build'));
 
 import './GenerateMapImages';
 
@@ -16,10 +16,10 @@ import './GenerateMapImages';
     fs.ensureDirSync(outputPath);
 
     const zoomLevels = [
-        [ 1, 2048 ], // 2048 x 2048
-        [ 2, 1024 ], // 1024 x 1024
-        [ 3, 512 ], // 512 x 512
-        [ 4, 256 ], // 256 x 256
+        [1, 2048], // 2048 x 2048
+        [2, 1024], // 1024 x 1024
+        [3, 512], // 512 x 512
+        [4, 256], // 256 x 256
     ];
 
     message('Creating leaflet-map directory.');

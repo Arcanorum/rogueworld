@@ -2,6 +2,7 @@ import { GameMap, MapLayer, Tilesets } from '@dungeonz/maps';
 import { ObjectOfAny } from '@dungeonz/types';
 import { arrayOfObjectsToObject, error, message, runLengthEncodeArray, warning } from '@dungeonz/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
+import path from 'path';
 import { GroundTypes } from '.';
 import { GroundTypeName } from './GroundTypes';
 
@@ -100,7 +101,7 @@ export const createClientBoardData = (map: GameMap) => {
     // Save the client map data that was extracted.
     const outputData = JSON.stringify(clientData);
 
-    const outputPath = './src/api/resources/maps';
+    const outputPath = path.join(__dirname, '../api/resources/maps');
 
     ensureDirSync(outputPath);
 

@@ -1,6 +1,7 @@
 import { Entities } from '@dungeonz/configs';
 import { EntityDataConfig } from '@dungeonz/types';
 import { error, message } from '@dungeonz/utils';
+import path from 'path';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import requireDir from 'require-dir';
 import { EntitiesList } from '.';
@@ -143,7 +144,7 @@ export const createCatalogue = () => {
         };
     });
 
-    const outputPath = './src/api/resources/catalogues';
+    const outputPath = path.join(__dirname, '../api/resources/catalogues');
 
     ensureDirSync(outputPath);
 

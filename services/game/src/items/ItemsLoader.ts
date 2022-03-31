@@ -1,10 +1,11 @@
-import ItemsList from './ItemsList';
-import Item from './classes/Item';
-import requireDir from 'require-dir';
-import { error, message } from '@dungeonz/utils';
-import { ItemDataConfig } from '@dungeonz/types';
 import { Items } from '@dungeonz/configs';
+import { ItemDataConfig } from '@dungeonz/types';
+import { error, message } from '@dungeonz/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
+import path from 'path';
+import requireDir from 'require-dir';
+import Item from './classes/Item';
+import ItemsList from './ItemsList';
 
 /**
  * Creates a generic class for an item based on the Item class, or one of it's abstract subclasses.
@@ -185,7 +186,7 @@ export const createCatalogue = () => {
         error(err);
     }
 
-    const outputPath = './src/api/resources/catalogues';
+    const outputPath = path.join(__dirname, '../api/resources/catalogues');
 
     ensureDirSync(outputPath);
 

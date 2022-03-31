@@ -6,7 +6,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 // Make sure the output directory exists.
-fs.ensureDirSync(path.join(__dirname, '..', 'build/images'));
+fs.ensureDirSync(path.join(__dirname, '../build/images'));
 
 Maps.forEach((map) => {
     message('Generating map image file for:', map.name);

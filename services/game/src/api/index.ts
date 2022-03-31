@@ -16,10 +16,13 @@ const { extrudeTilesetToImage } = require('tile-extruder'); // Weird TS bug(?), 
 
 (async() => {
     try {
-        // Check the location to write to exists. If not, create it.
-        ensureDir('./src/api/resources/images');
+        const outputDir = path.join(__dirname, './resources/images');
 
-        const outputPath = './src/api/resources/images/ground.png';
+        // Check the location to write to exists. If not, create it.
+        ensureDir(outputDir);
+
+        const outputPath = `${outputDir}/ground.png`;
+
         // Serve the same ground tileset image as what is used in the map editor to keep them in sync.
         // Also extrude them by 1 pixel in each direction, as Phaser 3 has some issues with exact size tiles.
         // https://phaser.io/news/2018/05/webgl-tile-extruder

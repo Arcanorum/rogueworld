@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { init } from '../shared/Config';
+import { loadYAMLConfig } from '@dungeonz/configs';
 
 const App = dynamic(
     () => import('../components/App'),
@@ -25,8 +26,6 @@ const HomePage = ({ Settings }) => {
 // https://github.com/vercel/next.js/issues/10943
 // https://github.com/vercel/next.js/discussions/32236
 export async function getStaticProps() {
-    const { loadYAMLConfig } = require('@dungeonz/configs');
-
     const pathToConfigs = '../../../../../shared/configs/src';
 
     // Anything from the @dungeonz/configs package that is needed in this client app should be

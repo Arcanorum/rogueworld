@@ -7,6 +7,8 @@ file_server
 	header Connection *Upgrade*
 	header Upgrade    websocket
 }
+
 reverse_proxy @websockets localhost:1111
+reverse_proxy /api/* localhost:1111
 reverse_proxy /map/* localhost:2222
 reverse_proxy /reload localhost:3333

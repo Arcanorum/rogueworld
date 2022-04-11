@@ -3,6 +3,11 @@
 // --transpile-only flag to reduce memory overhead.
 // https://stackoverflow.com/a/65789609/3213175
 
+// Add any services that the game depends on to this list.
+// How this file is configured depends on the deployment setup.
+// This example makes everything run on the same server.
+// If you have some services running elsewhere, then add them to this file on their respective server.
+
 module.exports = {
     apps: [
         {

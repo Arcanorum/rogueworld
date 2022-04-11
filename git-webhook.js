@@ -50,7 +50,7 @@ http.createServer(function(req, res) {
             console.log('Done');
 
             console.log('Restarting services');
-            await exec('pm2 restart ecosystem.config.js');
+            await exec('pm2 restart services.config.js');
             console.log('Done');
 
             console.log('Building map tiles');

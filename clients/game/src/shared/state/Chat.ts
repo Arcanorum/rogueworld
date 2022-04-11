@@ -84,11 +84,11 @@ class Chat {
     }
 
     filterProfanity(content: string) {
-        // Filter profanity only if it is enabled in the settings
+        // Filter profanity only if it is enabled in the settings.
         if (Global.states.GUIState.profanityFilterEnabled) {
-            // Check if message contains letters or numbers to avoid error
+            // Check if message contains letters or numbers to avoid error.
             if (this.isAlphaNumericSpace(content)) {
-                return censorString(BadWords, content);
+                return censorString(BadWords.words, content);
             }
         }
 

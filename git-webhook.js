@@ -6,6 +6,8 @@ const exec = util.promisify(require('child_process').exec);
 const port = 3333;
 const secret = process.argv[2];
 
+console.log('Starting REST server for git webhook listeners.');
+
 if (secret) {
     console.log('Secret provided. Requests will be checked before restarting the game.');
 }
@@ -79,5 +81,3 @@ http.createServer(function(req, res) {
 }).listen(port);
 
 console.log(`Listening on port ${port} for webhook events.`);
-
-// test

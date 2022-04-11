@@ -38,6 +38,10 @@ http.createServer(function(req, res) {
             await exec('git pull');
             console.log('Done');
 
+            console.log('Installing packages');
+            await exec('npm install');
+            console.log('Done');
+
             console.log('Building game client');
             await exec('cd ./clients/game && npm run build');
             console.log('Done');

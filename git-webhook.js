@@ -67,7 +67,10 @@ http.createServer(function(req, res) {
                 console.log('Secret provided, checking signature');
                 let sig = `sha1=${crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex')}`;
 
-                if (req.headers['x-hub-signature'] !== sig) return;
+                if (req.headers['x-hub-signature'] !== sig) {
+                    console.log('Invalid secret, skipping');
+                    return;
+                }
             }
 
             await restart();
@@ -81,6 +84,3 @@ http.createServer(function(req, res) {
 }).listen(port);
 
 console.log(`Listening on port ${port} for webhook events.`);
-
-//test3
-console.log('test');

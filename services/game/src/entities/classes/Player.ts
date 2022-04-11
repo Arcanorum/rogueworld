@@ -94,10 +94,7 @@ class Player extends Entity {
 
         this.displayName = config.displayName;
 
-        // Start the food drain loop.
-        if (this.foodDrainRate > 0) {
-            this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
-        }
+        this.startFoodDrainLoop();
 
         this.autoSaveTimeout = setTimeout(
             this.saveAccount.bind(this),
@@ -183,7 +180,8 @@ class Player extends Entity {
         this.destroyed = false;
         // Clear timestamp used for in combat status.
         this.lastDamagedTime = 0;
-        this.drainFood();
+
+        this.startFoodDrainLoop();
 
         // Reposition them to somewhere within the respawn entrance bounds.
         const randomPosition: RowCol = getRandomElement(
@@ -198,6 +196,13 @@ class Player extends Entity {
         );
 
         this.socket.sendEvent('player_respawn');
+    }
+
+    startFoodDrainLoop() {
+        // Start the food drain loop.
+        if (this.foodDrainRate > 0) {
+            this.foodDrainLoop = setTimeout(this.drainFood.bind(this), this.foodDrainRate);
+        }
     }
 
     drainFood() {

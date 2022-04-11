@@ -13,7 +13,7 @@ else {
     console.log('No secret provided! Any requests will restart the game.');
 }
 
-function restart() {
+async function restart() {
     console.log('Pulling from git');
     await exec('git pull');
     console.log('Done');
@@ -68,7 +68,7 @@ http.createServer(function(req, res) {
                 if (req.headers['x-hub-signature'] !== sig) return;
             }
 
-            restart();
+            await restart();
         }
         catch (err) {
             console.error(err);

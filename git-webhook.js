@@ -39,7 +39,10 @@ http.createServer(function(req, res) {
             console.log('Done');
 
             console.log('Installing packages');
-            await exec('npm install');
+            // Do a "clean install" to avoid arbitrary changes to package-lock.json which would
+            // prevent further git pulls due to uncommitted changes in that file.
+            // https://stackoverflow.com/questions/45022048/why-does-npm-install-rewrite-package-lock-json
+            await exec('npm ci');
             console.log('Done');
 
             console.log('Building game client');

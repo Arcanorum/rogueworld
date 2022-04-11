@@ -83,4 +83,3 @@ http.createServer(function(req, res) {
 console.log(`Listening on port ${port} for webhook events.`);
 
 //test3
-console.log('test');

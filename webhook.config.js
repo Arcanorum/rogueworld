@@ -6,6 +6,7 @@ module.exports = {
         {
             name: 'Push webhook',
             script: './git-webhook.js',
+            watch: ['./git-webhook.js'],
             // GitHub webhook secret
             args: 'test',
             exp_backoff_restart_delay: 1000,

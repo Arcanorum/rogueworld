@@ -13,50 +13,62 @@ else {
     console.log('No secret provided! Any requests will restart the game.');
 }
 
-/**
- * TODO: doc this
- */
+function restart() {
+    console.log('Pulling from git');
+    await exec('git pull');
+    console.log('Done');
 
+    console.log('Installing packages');
+    // Do a "clean install" to avoid arbitrary changes to package-lock.json which would
+    // prevent further git pulls due to uncommitted changes in that file.
+    // https://stackoverflow.com/questions/45022048/why-does-npm-install-rewrite-package-lock-json
+    await exec('npm ci');
+    console.log('Done');
+
+    console.log('Building game client');
+    await exec('cd ./clients/game && npm run build');
+    console.log('Done');
+
+    console.log('Restarting services');
+    await exec('pm2 restart services.config.js');
+    console.log('Done');
+
+    console.log('Building map tiles');
+    // Do this at the end so everything else is running while the map is building.
+    await exec('cd ./services/map && npm run build');
+    console.log('Done');
+}
+
+/**
+ * The PM2 file watcher should restart this REST app when this file changes, such as when doing a git pull.
+ * This comes with the problem that this app might be in the middle of restarting the game (i.e. building
+ * the client) when it is restarted by PM2, so won't be able to finish each step.
+ * So just run the game restart process on startup to make sure it runs through everything again from
+ * the start in case this app was restarted part way through.
+ */
+restart();
+
+/**
+ * A basic continuous integration setup that create a REST server that listens for any git push
+ * webhook events sent by GitHub.
+ * Used to trigger a restart of the game every time a commit is pushed, so it is up to date with
+ * the latest code.
+ */
 http.createServer(function(req, res) {
     console.log('Request received');
 
     req.on('data', async function(chunk) {
         console.log('Data event');
 
-        if (secret) {
-            console.log('Secret provided, checking signature');
-            let sig = `sha1=${crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex')}`;
-
-            console.log('sig:', sig);
-            console.log('x-hub-signature:', req.headers['x-hub-signature']);
-
-            if (req.headers['x-hub-signature'] !== sig) return;
-        }
-
         try {
-            console.log('Pulling from git');
-            await exec('git pull');
-            console.log('Done');
+            if (secret) {
+                console.log('Secret provided, checking signature');
+                let sig = `sha1=${crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex')}`;
 
-            console.log('Installing packages');
-            // Do a "clean install" to avoid arbitrary changes to package-lock.json which would
-            // prevent further git pulls due to uncommitted changes in that file.
-            // https://stackoverflow.com/questions/45022048/why-does-npm-install-rewrite-package-lock-json
-            await exec('npm ci');
-            console.log('Done');
+                if (req.headers['x-hub-signature'] !== sig) return;
+            }
 
-            console.log('Building game client');
-            await exec('cd ./clients/game && npm run build');
-            console.log('Done');
-
-            console.log('Restarting services');
-            await exec('pm2 restart services.config.js');
-            console.log('Done');
-
-            console.log('Building map tiles');
-            // Do this at the end so everything else is running while the map is building.
-            await exec('cd ./services/map && npm run build');
-            console.log('Done');
+            restart();
         }
         catch (err) {
             console.error(err);

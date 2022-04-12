@@ -22,7 +22,7 @@ Maps.forEach((map) => {
     // Run the tiled script to generate the source images for the map service from the map data.
     try {
         message('Trying headless rendering of map image.');
-        execSync(`xvfb-run ${Settings.TILED_PATH}/tiled.tmxrasterizer --platform offscreen ${input} ${output}`);
+        execSync(`xvfb-run ${Settings.TMXRASTERIZER_PATH} --platform offscreen ${input} ${output}`);
         message('Map image rendered.');
     }
     catch(err1) {
@@ -30,7 +30,7 @@ Maps.forEach((map) => {
         // Try using it normally if there is a connected display for a development setup.
         try {
             message('Trying normal rendering of map image.');
-            execSync(`${Settings.TILED_PATH}/tiled.tmxrasterizer ${input} ${output}`);
+            execSync(`${Settings.TMXRASTERIZER_PATH} ${input} ${output}`);
             message('Map image rendered.');
         }
         catch(err2) {

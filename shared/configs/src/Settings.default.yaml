@@ -28,11 +28,11 @@ MAP_SERVICE_URL: localhost:2222
 # Port number of the map service. Should match whatever is set for the port in MAP_SERVICE_URL.
 MAP_SERVICE_PORT: 2222
 
-# Absolute path to where ever Tiled is installed.
+# Absolute path to where ever the Tiled tmxrasterizer script is installed.
 # Tiled comes with tmxrasterizer which is used by the map service to generate the source images of
 # the map that it needs to then generate the map tiles for the map panel.
 # tmxrasterizer is installed in the same directory as the main Tiled exe, so look there.
-TILED_PATH: /snap/bin
+TMXRASTERIZER_PATH: /snap/bin/tiled.tmxrasterizer
 
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000

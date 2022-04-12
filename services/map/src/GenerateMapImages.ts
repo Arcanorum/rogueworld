@@ -26,7 +26,7 @@ Maps.forEach((map) => {
         message('Map image rendered.');
     }
     catch(err1) {
-        message('Failed to render headlessly:', (err1 as ChildProcess).stderr?.toString());
+        message('Failed to render headlessly:', err1);
         // Try using it normally if there is a connected display for a development setup.
         try {
             message('Trying normal rendering of map image.');
@@ -34,7 +34,7 @@ Maps.forEach((map) => {
             message('Map image rendered.');
         }
         catch(err2) {
-            message('Failed to render normally:', (err2 as ChildProcess).stderr?.toString());
+            message('Failed to render normally:', err2);
         }
     }
 });

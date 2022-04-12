@@ -1,7 +1,7 @@
 import { Settings } from '@dungeonz/configs';
 import { Maps } from '@dungeonz/maps';
 import { message } from '@dungeonz/utils';
-import { execFileSync } from 'child_process';
+import { execSync } from 'child_process';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -11,11 +11,27 @@ fs.ensureDirSync(path.join(__dirname, '../build/images'));
 Maps.forEach((map) => {
     message('Generating map image file for:', map.name);
 
-    execFileSync(
-        `${Settings.TILED_PATH}/tiled.tmxrasterizer`,
-        [
-            map.path, // Input map file path.
-            path.join(__dirname, '../build/images', `${map.name}.png`), // Output image file path.
-        ],
-    );
+    // Input map file path.
+    const input = map.path;
+    // Output image file path.
+    const output = path.join(__dirname, '../build/images', `${map.name}.png`);
+
+    // Run the tiled script to generate the source images for the map service from the map data.
+    try {
+        message('Trying headless rendering of map image.');
+        execSync(`xvfb-run ${Settings.TILED_PATH}/tiled.tmxrasterizer --platform offscreen ${input} ${output}`);
+        message('Map image rendered.');
+    }
+    catch(err1) {
+        message('Failed to render headlessly.');
+        // Try using it normally if there is a connected display for a development setup.
+        try {
+            message('Trying normal rendering of map image.');
+            execSync(`${Settings.TILED_PATH}/tiled.tmxrasterizer ${input} ${output}`);
+            message('Map image rendered.');
+        }
+        catch(err2) {
+            message('Failed to render normally.');
+        }
+    }
 });

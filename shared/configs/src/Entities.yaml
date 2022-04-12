@@ -6,6 +6,7 @@
   # code: QMYX4544
   movable: false
   baseMaxHitPoints: 10
+  baseGloryValue: 5
   clientConfig:
     animationSetName: stone-wall
     animationFrameSequence: [1]
@@ -14,7 +15,7 @@
   movable: false
 
 - name: Bandit
-  baseMaxHitPoints: 200
+  baseMaxHitPoints: 50
   baseGloryValue: 30
   baseDefence: 30
   baseMoveRate: 700
@@ -26,6 +27,7 @@
 
 - name: Bat
   baseMaxHitPoints: 50
+  baseGloryValue: 15
   baseMoveRate: 6000
   clientConfig:
     extendsClassName: Mob
@@ -36,6 +38,7 @@
 - name: PineTree
   movable: false
   baseMaxHitPoints: 10
+  baseGloryValue: 10
   clientConfig:
     animationSetName: pine-tree
     animationFrameSequence: [1]
@@ -43,6 +46,7 @@
 - name: IronRocks
   movable: false
   baseMaxHitPoints: 10
+  baseGloryValue: 20
   clientConfig:
     animationSetName: iron-rocks
     animationFrameSequence: [1]

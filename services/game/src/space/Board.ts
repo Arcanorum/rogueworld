@@ -62,7 +62,7 @@ class Board {
      * Population is NOT a direct correlation with amount of entities, as some entities may have a
      * higher population weight, i.e. a rat might take 1 population space, but a boss might take 8.
      */
-    maxPopulation = 1000;
+    maxPopulation = Settings.MAX_BOARD_POPULATION || 1000;
 
     /**
      * How many entities are currently on the board.
@@ -72,7 +72,7 @@ class Board {
     /**
      * How often (in ms) to try to populate the board with a new entity.
      */
-    populateRate = OneSecond * 5;
+    populateRate = Settings.BOARD_POPULATION_RATE || (OneSecond * 5);
 
     populateLoop: NodeJS.Timeout;
 
@@ -229,7 +229,7 @@ class Board {
         const clusterRow = getRandomIntInclusive(0, rows - 1);
         const clusterCol = getRandomIntInclusive(0, cols - 1);
         const clusterBoardTile = this.grid[clusterRow][clusterCol];
-        const clusterSize = 30;
+        const clusterSize = 10;
         const spreadRange = 10;
 
         if(!clusterBoardTile.groundType.canBeStoodOn) return;

@@ -47,6 +47,15 @@ ACCOUNT_AUTO_SAVE_RATE: 15000
 # is always the same regardless of the ratio between dawn/day/dusk/night.
 FULL_DAY_DURATION_MINUTES: 24
 
+# How much "stuff" can be on a board at once.
+# These could be all kinds of entities.
+# Population is NOT a direct correlation with amount of entities, as some entities may have a
+# higher population weight, i.e. a rat might take 1 population space, but a boss might take 8.
+MAX_BOARD_POPULATION: 100
+
+# How often to try to populate each board with a new entity or group of entities. (ms)
+BOARD_POPULATION_RATE: 500
+
 # A factor to scale display objects by on the client, and any specific size assets that need to be generated and served over API.
 CLIENT_DISPLAY_SCALE: 2
 

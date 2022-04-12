@@ -12,14 +12,14 @@ module.exports = {
     apps: [
         {
             name: 'Game service',
-            script: 'ts-node',
-            args: '--transpile-only ./services/game/src/index.ts',
+            script: 'npm',
+            args: 'run prod -w services/game',
             exp_backoff_restart_delay: 1000,
         },
         {
             name: 'Map service',
-            script: 'ts-node',
-            args: '--transpile-only ./services/map/src/Server.ts',
+            script: 'npm',
+            args: 'run prod -w services/map',
             exp_backoff_restart_delay: 1000,
         },
     ],

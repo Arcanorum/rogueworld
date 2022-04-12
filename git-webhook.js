@@ -28,7 +28,7 @@ async function restart() {
     console.log('Done');
 
     console.log('Building game client');
-    await exec('cd ./clients/game && npm run build');
+    await exec('npm run build -w clients/game');
     console.log('Done');
 
     console.log('Restarting services');
@@ -37,7 +37,7 @@ async function restart() {
 
     console.log('Building map tiles');
     // Do this at the end so everything else is running while the map is building.
-    await exec('cd ./services/map && npm run build');
+    await exec('npm run build -w services/map');
     console.log('Done');
 }
 

@@ -5,7 +5,7 @@
     "main": "src/index.ts",
     "scripts": {
         "dev": "nodemon src/index.ts",
-        "prod": "npx ts-node src/index.ts"
+        "prod": "npx ts-node --transpile-only src/index.ts"
     },
     "nodemonConfig": {
         "watch": [

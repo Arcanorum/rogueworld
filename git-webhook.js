@@ -35,12 +35,10 @@ async function restart() {
     await exec('pm2 restart services.config.js');
     console.log('Done');
 
-    // TODO: this really doesn't want to work... keeps crashing on the headless server when ran
-    // like this, but running `npm run build -w services/map` in the terminal directly works...
-    // console.log('Building map tiles');
-    // // Do this at the end so everything else is running while the map is building.
-    // await exec('npm run build -w services/map');
-    // console.log('Done');
+    console.log('Building map tiles');
+    // Do this at the end so everything else is running while the map is building.
+    await exec('npm run build -w services/map');
+    console.log('Done');
 }
 
 /**

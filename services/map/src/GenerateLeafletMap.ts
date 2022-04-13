@@ -1,14 +1,15 @@
 import { message } from '@dungeonz/utils';
 import fs from 'fs-extra';
 import path from 'path';
+import generateMapImages from './GenerateMapImages';
 import img2LeafletTile from './GenerateMapTiles';
 
 // Delete all existing build files before generating new ones, to make sure redundant ones are cleaned up.
 fs.emptyDirSync(path.join(__dirname, '../build'));
 
-import './GenerateMapImages';
-
 (async() => {
+    await generateMapImages();
+
     const inputPath = path.join(__dirname, '../build/images/plains.png'); // path to input image
     const outputPath = path.join(__dirname, '../build/leaflet-map');
 

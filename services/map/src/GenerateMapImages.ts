@@ -19,9 +19,6 @@ async function generateMapImages() {
         // Output image file path.
         const output = path.join(__dirname, '../build/images', `${map.name}.png`);
 
-        console.log('input path:', input);
-        console.log('output path:', output);
-
         // Run the tiled script to generate the source images for the map service from the map data.
         try {
             message('Trying headless rendering of map image.');

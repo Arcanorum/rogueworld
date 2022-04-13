@@ -45,11 +45,6 @@ export const Maps: Array<GameMap> = [
         path: `${__dirname}/maps/plains.json`,
         data: plains as TiledMap,
     },
-    {
-        name: 'plainstmx',
-        path: `${__dirname}/maps/plains.tmx`,
-        data: plains as TiledMap,
-    },
 ];
 
 export const Tilesets = {

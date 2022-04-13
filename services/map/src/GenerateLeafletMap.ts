@@ -9,8 +9,12 @@ fs.emptyDirSync(path.join(__dirname, '../build'));
 import './GenerateMapImages';
 
 (async() => {
-    const outputPath = path.join(__dirname, '../build/leaflet-map');
     const inputPath = path.join(__dirname, '../build/images/plains.png'); // path to input image
+    const outputPath = path.join(__dirname, '../build/leaflet-map');
+
+    message('Generating leaflet map.');
+    message('Input path:', inputPath);
+    message('Output path:', outputPath);
 
     // Make sure the output directory exists.
     fs.ensureDirSync(outputPath);

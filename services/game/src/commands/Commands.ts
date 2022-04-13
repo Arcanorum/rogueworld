@@ -99,18 +99,22 @@ const Commands: {[key: string]: Command} = {
                 if (row.startsWith('+') || row.startsWith('-')) {
                     parsedRow = player.row + parseInt(row, 10);
                 }
-                parsedRow = parseInt(row, 10);
+                else {
+                    parsedRow = parseInt(row, 10);
+                }
             }
             else {
                 parsedRow = player.row;
             }
 
             if (col) {
-            // Use an offset from player column.
+                // Use an offset from player column.
                 if (col.startsWith('+') || col.startsWith('-')) {
                     parsedCol = player.col + parseInt(col, 10);
                 }
-                parsedCol = parseInt(col, 10);
+                else {
+                    parsedCol = parseInt(col, 10);
+                }
             }
             else {
                 parsedCol = player.col;

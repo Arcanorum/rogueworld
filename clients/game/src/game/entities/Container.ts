@@ -47,7 +47,7 @@ class Container extends Phaser.GameObjects.Container {
                 y: '-=10',
                 duration: 1000,
                 ease: 'Back.easeOut',
-                onComplete: function cb(tween: Phaser.Tweens.Tween, targets: Array<BouncyText>) { // TODO: test this is right
+                onComplete: function cb(tween: Phaser.Tweens.Tween, targets: Array<BouncyText>) {
                     targets[0].destroy();
                 },
             });

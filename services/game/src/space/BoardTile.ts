@@ -116,22 +116,6 @@ class BoardTile {
                 );
             });
         }
-
-        // TODO: is this still needed?
-        // // The static of this tile may be interactable, so also get the state of it if it isn't
-        // // in its default state.
-        // const interactable = this.static;
-        // // Check there is actually one there.
-        // if (interactable) {
-        //     // Check if it is not in its default state. If not, add it to the data.
-        //     // Also checks if it is actually an interactable.
-        //     if (interactable.activeState === false) {
-        //         // Add the relevant data of this entity to the data to return.
-        //         dynamicsList.push(
-        //             interactable.getEmittableProperties({}),
-        //         );
-        //     }
-        // }
     }
 }
 

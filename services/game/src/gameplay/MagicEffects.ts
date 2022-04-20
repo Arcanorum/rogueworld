@@ -87,16 +87,13 @@ export class Curse extends MagicEffect {
     remove() {
         if(this.entity) {
             delete this.entity.curse;
-            // TODO: this effect should have been removed already before the board is nulled on the char, but board is sometimes null already...
-            // this check is just a temp hack around the problem :/
-            if (this.entity.board) {
-                this.entity.board.emitToNearbyPlayers(
-                    this.entity.row,
-                    this.entity.col,
-                    'curse_removed',
-                    this.entity.id,
-                );
-            }
+
+            this.entity.board?.emitToNearbyPlayers(
+                this.entity.row,
+                this.entity.col,
+                'curse_removed',
+                this.entity.id,
+            );
         }
         super.remove();
     }

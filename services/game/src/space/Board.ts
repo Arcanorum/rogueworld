@@ -193,12 +193,12 @@ class Board {
 
             tile.players[player.id] = player;
         }
-        // Players are also added to the destroyables list, in the constructor of Destroyable. // TODO: not true any more
+        // Players are also added to the entities list, in the constructor of Entity.
     }
 
     removePlayer(player: Player) {
         delete this.grid[player.row][player.col].players[player.id];
-        // Players are also removed from the destroyables list, in the onDestroy of Destroyable. // TODO: not true any more
+        // Players are also removed from the entities list, in the onDestroy of Entity.
     }
 
     addPickup(pickup: Pickup) {
@@ -236,11 +236,11 @@ class Board {
         if(clusterBoardTile.groundType.hazardous) return;
 
         const SpawnableEntityTypes = [
-            EntitiesList.BY_NAME['Bandit'],
+            // EntitiesList.BY_NAME['Bandit'],
             EntitiesList.BY_NAME['Bat'],
-            EntitiesList.BY_NAME['IronRocks'],
-            EntitiesList.BY_NAME['PineTree'],
-            EntitiesList.BY_NAME['StoneWall'],
+            // EntitiesList.BY_NAME['IronRocks'],
+            // EntitiesList.BY_NAME['PineTree'],
+            // EntitiesList.BY_NAME['StoneWall'],
         ];
 
         // const houseLayout = [

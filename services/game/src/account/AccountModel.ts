@@ -64,7 +64,7 @@ const accountSchema = new Schema( // TODO: figure out how to type this as the Ac
         glory: { type: Number, default: 0, validate: accountIntegerValidator },
         bankUpgrades: { type: Number, default: 0, validate: accountIntegerValidator },
         // bankItems: [ itemSchema ],
-        inventoryItems: [ itemSchema ],
+        inventoryItems: [itemSchema],
     },
 );
 

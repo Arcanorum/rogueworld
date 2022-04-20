@@ -237,16 +237,6 @@ const Entity = () => {
         );
     };
 
-    eventResponses.active_state = (data) => {
-        // console.log("active state change:", data);
-        // Global.gameScene.tilemap.updateStaticTile(data, true);
-    };
-
-    eventResponses.inactive_state = (data) => {
-        // console.log("inactive state change:", data);
-        // Global.gameScene.tilemap.updateStaticTile(data, false);
-    };
-
     eventResponses.change_direction = (data) => {
         // console.log("change_direction:", data);
         // Check the entity id is valid.

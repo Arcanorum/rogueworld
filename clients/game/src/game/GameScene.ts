@@ -101,7 +101,6 @@ class GameScene extends Phaser.Scene {
 
     /**
      * A list of PubSub subscription IDs, to be removed on shutdown.
-     * @TODO Move to a separate file
      */
     subs: Array<string> = [];
 
@@ -663,34 +662,8 @@ class GameScene extends Phaser.Scene {
      * Used to add any kind of entity to the game world, such as dynamics.
      */
     addEntity(data: DynamicEntityData) {
-        // Sort the statics from the dynamics. Statics don't have an ID.
-        // if (data.id === undefined) {
-        //     this.updateStatic(data);
-        // }
-        // else {
         this.addDynamic(data);
-        // }
     }
-
-    /**
-     * Update a newly added static on the game world, as a static might not be in its default state.
-     * When a player comes into view of a static on the server that is not in its default state, its current state will be sent.
-     * The actual Static object is added when the statics grid is updated in Tilemap.
-     * @param {Number} data.row
-     * @param {Number} data.col
-     */
-    // updateStatic(data) {
-    //     if (Global.gameScene.statics[`${data.row}-${data.col}`] === undefined) {
-    //         // The static is not yet added to the grid. Wait a bit for the current player tween to
-    //         // finish and the edge is loaded, by which point the static tile should have been added.
-    //         setTimeout(this.tilemap.updateStaticTile.bind(this.tilemap), 500, `${data.row}-${data.col}`, false);
-    //     }
-    //     else {
-    //         // Tile already exists/is in view. Make it look inactive.
-    //         this.tilemap.updateStaticTile(`${data.row}-${data.col}`, false);
-    //     }
-    //     // TODO might need to add the above here also, in some weird case. wait and see...
-    // }
 
     /**
      * Add a new dynamic to the game world.

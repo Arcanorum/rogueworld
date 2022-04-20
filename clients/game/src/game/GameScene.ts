@@ -659,16 +659,9 @@ class GameScene extends Phaser.Scene {
     }
 
     /**
-     * Used to add any kind of entity to the game world, such as dynamics.
+     * Add a new dynamic entity to the game world.
      */
     addEntity(data: DynamicEntityData) {
-        this.addDynamic(data);
-    }
-
-    /**
-     * Add a new dynamic to the game world.
-     */
-    addDynamic(data: DynamicEntityData) {
         const {
             id, typeNumber, row, col,
         } = data;

@@ -26,18 +26,31 @@ Commands.help = {
             }
 
             return `
-                    Invalid command. Commands list:
-                    ${Object.keys(Commands).join('\n')}
-                `;
+                Invalid command. Commands list:
+                ${Object.keys(Commands).join('\n')}
+            `;
         }
 
         return Commands.help.help;
     },
     help: `
-            Prints help for a command.
-            Format: /help {command name}
-            Example: /help teleport
-        `,
+        Prints help for a command.
+        Use /commands to list all commands.
+        Format: /help {command name}
+        Example: /help teleport
+    `,
+};
+
+Commands.commands = {
+    run: () => {
+        return `
+            Commands list:
+            ${Object.keys(Commands).join('\n')}
+        `;
+    },
+    help: `
+        Shows a list of all available chat commands.
+    `,
 };
 
 Commands.stopserver = {
@@ -45,8 +58,8 @@ Commands.stopserver = {
         process.exit();
     },
     help: `
-            Stops the server. Equivalent to the server crashing.
-        `,
+        Stops the server. Equivalent to the server crashing.
+    `,
 };
 
 Commands.spawnitem = {
@@ -70,12 +83,12 @@ Commands.spawnitem = {
         }).emitToNearbyPlayers();
     },
     help: `
-            Spawns an item pickup on the floor at your position.
-            Format: /spawnitem {item type name} {quantity}
-            Examples:
-            - Spawn a stack of 25 items:
-            /spawnitem HealthPotion 25
-        `,
+        Spawns an item pickup on the floor at your position.
+        Format: /spawnitem {item type name} {quantity}
+        Examples:
+        - Spawn a stack of 25 items:
+        /spawnitem HealthPotion 25
+    `,
 };
 
 Commands.si = {
@@ -85,12 +98,12 @@ Commands.si = {
 
 Commands.listitems = {
     run: () => `
-                Items list:
-                ${Object.keys(ItemsList.BY_NAME).join('\n')}
-            `,
+        Items list:
+        ${Object.keys(ItemsList.BY_NAME).join('\n')}
+    `,
     help: `
-            Shows a list of all items that can be spawned.
-        `,
+        Shows a list of all items that can be spawned.
+    `,
 };
 
 Commands.li = {
@@ -147,17 +160,17 @@ Commands.spawnentity = {
         return false;
     },
     help: `
-            Spawns an entity at the target position.
-            Use +/- to specify an offset from your position.
-            Format: /spawnentity {entity type name} {row} {column}
-            Examples:
-            - Spawn at your position
-            /spawnentity Bandit
-            - Spawn offset from your position
-            /spawnentity Bandit +2 -5
-            - Spawn at target position
-            /spawnentity Bandit 123 456
-        `,
+        Spawns an entity at the target position.
+        Use +/- to specify an offset from your position.
+        Format: /spawnentity {entity type name} {row} {column}
+        Examples:
+        - Spawn at your position
+        /spawnentity Bandit
+        - Spawn offset from your position
+        /spawnentity Bandit +2 -5
+        - Spawn at target position
+        /spawnentity Bandit 123 456
+    `,
 };
 
 Commands.se = {
@@ -176,13 +189,13 @@ Commands.listentities = {
         }).map((entry) => entry[0]);
 
         return `
-                Items list:
-                ${types.join('\n')}
-            `;
+            Items list:
+            ${types.join('\n')}
+        `;
     },
     help: `
-            Shows a list of all entities that can be spawned.
-        `,
+        Shows a list of all entities that can be spawned.
+    `,
 };
 
 Commands.le = {
@@ -222,15 +235,15 @@ Commands.teleport = {
         return false;
     },
     help: `
-            Instantly moves you to the target position.
-            Use +/- to specify an offset from your position.
-            Format: /teleport {row} {column}
-            Examples:
-            - Teleport offset from your position:
-            /teleport +5 -8
-            - Teleport to target position:
-            /teleport 123 456
-        `,
+        Instantly moves you to the target position.
+        Use +/- to specify an offset from your position.
+        Format: /teleport {row} {column}
+        Examples:
+        - Teleport offset from your position:
+        /teleport +5 -8
+        - Teleport to target position:
+        /teleport 123 456
+    `,
 };
 
 Commands.tp = {
@@ -248,8 +261,8 @@ Commands.killself = {
             });
         },
     help: `
-            Kills your character.
-        `,
+        Kills your character.
+    `,
 };
 
 export default Commands;

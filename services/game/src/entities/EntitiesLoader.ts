@@ -5,10 +5,11 @@ import path from 'path';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import requireDir from 'require-dir';
 import { EntitiesList } from '.';
+import Dynamic from './classes/Dynamic';
 import Entity from './classes/Entity';
 
 /**
- * Creates a generic class for an entity based on the Entity class, or one of it's abstract subclasses.
+ * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract subclasses.
  */
 const makeClass = ({
     name,
@@ -21,8 +22,8 @@ const makeClass = ({
         error('Cannot load entity config, required property "name" is missing.');
     }
 
-    // Use the base entity class to extend from by default.
-    let SuperClass: typeof Entity = Entity;
+    // Use the base dynamic class to extend from by default.
+    let SuperClass: typeof Entity = Dynamic;
 
     // Use a more specific type (i.e. Boss, Structure) to extend from if specified.
     if (extendsClassName) {
@@ -51,7 +52,7 @@ export const populateList = () => {
     // eslint-disable-next-line global-require
     requireDir('classes', {
         recurse: true,
-        mapKey: (value: {default: typeof Entity}, baseName: string) => {
+        mapKey: (value: {default: typeof Dynamic}, baseName: string) => {
             const EntityClass = value.default;
             if (typeof EntityClass === 'function') {
                 if (EntitiesList.BY_NAME[baseName]) {
@@ -96,8 +97,8 @@ export const initialiseList = () => {
     message('Initialising entities list.');
 
     Entities.forEach((config: any) => {
-        const EntityClass = EntitiesList.BY_NAME[config.name] as typeof Entity;
-        type PropName = keyof typeof Entity;
+        const EntityClass = EntitiesList.BY_NAME[config.name] as typeof Dynamic;
+        type PropName = keyof typeof Dynamic;
 
         Object.entries(config).forEach(([_key, value]) => {
             const key = _key as PropName;

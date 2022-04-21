@@ -6,4 +6,3 @@ export * from './ItemDataConfig';
 export * from './ObjectOf';
 export * from './RowCol';
 export * from './Times';
-

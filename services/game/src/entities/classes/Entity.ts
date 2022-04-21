@@ -1,5 +1,5 @@
-import { ObjectOfUnknown, Offset, SpriteConfig } from '@dungeonz/types';
-import { Counter } from '@dungeonz/utils';
+import { Directions, DirectionsValues, ObjectOfUnknown, Offset, RowCol, SpriteConfig } from '@dungeonz/types';
+import { Counter, getRandomElement } from '@dungeonz/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
@@ -96,14 +96,14 @@ class Entity {
      * Things that can move: Players, most mobs.
      * Things that can not move: Walls, doors, rocks, trees (including tree-type mobs), item pickups.
      */
-    static movable = false;
-
     static baseMoveRate?: number = undefined;
 
     /**
      * How often this entity moves, in ms.
      */
     protected moveRate?: number;
+
+    moveLoop?: NodeJS.Timeout;
 
     static baseMaxHitPoints?: number = undefined;
 
@@ -254,7 +254,7 @@ class Entity {
             );
 
             // Remove this entity from the board it is currently in before adding to the next board.
-            // Don't use Movable.reposition as that would only move it around on the same board, not between boards.
+            // Don't use Entity.reposition as that would only move it around on the same board, not between boards.
             fromBoard.removeEntity(this);
         }
 
@@ -456,6 +456,8 @@ class Entity {
         this.defence += amount;
     }
 
+    preMove() { return; }
+
     /**
      * Moves this entity along the board relative to its current position.
      * To directly change the position of an entity, use Entity.reposition.
@@ -467,8 +469,9 @@ class Entity {
         const origCol = this.col;
 
         // Only let an entity move along a row OR a col, not both at the same time or they can move diagonally through things.
-        if (byRows) this.reposition(this.row + byRows, this.col);
-        else if (byCols) this.reposition(this.row, this.col + byCols);
+        if(byRows && byCols) return false;
+
+        this.reposition(this.row + byRows, this.col + byCols);
 
         if(!this.board) return false;
 
@@ -553,6 +556,69 @@ class Entity {
     }
 
     dropItems() { return; }
+
+    getDirectionToPosition(position: RowCol) {
+        const rowDist = this.row - position.row;
+        const colDist = this.col - position.col;
+
+        // Prefer which one has the greatest magnitude.
+
+        // Further away vertically.
+        if(Math.abs(rowDist) < Math.abs(colDist)) {
+            // Is above.
+            if(rowDist > 0) {
+                return Directions.DOWN;
+            }
+            // Is below.
+            else if(rowDist < 0) {
+                return Directions.UP;
+            }
+        }
+        // Further away horizontally.
+        else if(Math.abs(rowDist) > Math.abs(colDist)) {
+            // Is left.
+            if(colDist > 0) {
+                return Directions.LEFT;
+            }
+            // Is right.
+            else if(colDist < 0) {
+                return Directions.RIGHT;
+            }
+        }
+        // Same distance both ways. Pick one at random.
+        else {
+            // Vertically.
+            if(Math.random() < 0.5) {
+                // Is above.
+                if(rowDist > 0) {
+                    return Directions.DOWN;
+                }
+                // Is below.
+                else if(rowDist < 0) {
+                    return Directions.UP;
+                }
+            }
+            // Horizontally.
+            else {
+                // Is left.
+                if(colDist > 0) {
+                    return Directions.LEFT;
+                }
+                // Is right.
+                else if(colDist < 0) {
+                    return Directions.RIGHT;
+                }
+            }
+        }
+
+        // They must be on top of each other.
+        // Pick a random direction so they have something to work with.
+        return getRandomElement(DirectionsValues);
+    }
+
+    getDirectionToEntity(otherEntity: Entity) {
+        return this.getDirectionToPosition({ row: otherEntity.row, col: otherEntity.col });
+    }
 }
 
 export default Entity;

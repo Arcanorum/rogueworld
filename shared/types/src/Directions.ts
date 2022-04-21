@@ -36,10 +36,10 @@ export enum OppositeDirections {
  * The directions that are on each side of each direction.
  */
 export const SideDirections = {
-    u: [ Directions.LEFT, Directions.RIGHT ],
-    d: [ Directions.RIGHT, Directions.LEFT ],
-    l: [ Directions.DOWN, Directions.UP ],
-    r: [ Directions.UP, Directions.DOWN ],
+    u: [Directions.LEFT, Directions.RIGHT],
+    d: [Directions.RIGHT, Directions.LEFT],
+    l: [Directions.DOWN, Directions.UP],
+    r: [Directions.UP, Directions.DOWN],
 };
 
 /**

@@ -1,10 +1,8 @@
 
 - name: WoodenWall
-  movable: false
 
 - name: StoneWall
   # code: QMYX4544
-  movable: false
   baseMaxHitPoints: 10
   baseGloryValue: 5
   clientConfig:
@@ -12,13 +10,14 @@
     animationFrameSequence: [1]
 
 - name: Trap
-  movable: false
 
 - name: Bandit
   baseMaxHitPoints: 50
   baseGloryValue: 30
   baseDefence: 30
-  baseMoveRate: 700
+  baseMoveRate: 1000
+  baseWanderRate: 10000
+  viewRange: 8
   clientConfig:
     extendsClassName: Mob
     displayName: Bandit
@@ -28,7 +27,9 @@
 - name: Bat
   baseMaxHitPoints: 50
   baseGloryValue: 15
-  baseMoveRate: 6000
+  baseMoveRate: 1000
+  baseWanderRate: 10000
+  viewRange: 8
   clientConfig:
     extendsClassName: Mob
     displayName: Bat
@@ -36,7 +37,6 @@
     animationRepeats: true
 
 - name: PineTree
-  movable: false
   baseMaxHitPoints: 10
   baseGloryValue: 10
   clientConfig:
@@ -44,7 +44,6 @@
     animationFrameSequence: [1]
 
 - name: IronRocks
-  movable: false
   baseMaxHitPoints: 10
   baseGloryValue: 20
   clientConfig:

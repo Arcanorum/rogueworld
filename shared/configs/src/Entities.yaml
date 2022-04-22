@@ -3,6 +3,7 @@
 
 - name: StoneWall
   # code: QMYX4544
+  highBlocking: true
   baseMaxHitPoints: 10
   baseGloryValue: 5
   clientConfig:
@@ -39,6 +40,7 @@
     animationRepeats: true
 
 - name: PineTree
+  highBlocking: true
   baseMaxHitPoints: 10
   baseGloryValue: 10
   clientConfig:
@@ -46,6 +48,7 @@
     animationFrameSequence: [1]
 
 - name: IronRocks
+  highBlocking: true
   baseMaxHitPoints: 10
   baseGloryValue: 20
   clientConfig:

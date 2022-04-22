@@ -473,6 +473,18 @@ class Entity {
         // Only let an entity move along a row OR a col, not both at the same time or they can move diagonally through things.
         if(byRows && byCols) return false;
 
+        const currentBoard = this.board;
+
+        const nextBoardTile = currentBoard?.getTileAt(this.row + byRows, this.col + byCols);
+
+        if(!nextBoardTile) return false;
+
+        // Check path isn't blocked.
+        if (nextBoardTile.isLowBlocked() === true) return false;
+
+        // Check if the next tile can be stood on.
+        if (nextBoardTile.groundType.canBeStoodOn === false) return false;
+
         this.reposition(this.row + byRows, this.col + byCols);
 
         if(!this.board) return false;

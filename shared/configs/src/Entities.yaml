@@ -15,8 +15,9 @@
   baseMaxHitPoints: 50
   baseGloryValue: 30
   baseDefence: 30
-  baseMoveRate: 1000
+  baseMoveRate: 700
   baseWanderRate: 10000
+  baseAttackRange: 1
   viewRange: 8
   clientConfig:
     extendsClassName: Mob
@@ -27,8 +28,9 @@
 - name: Bat
   baseMaxHitPoints: 50
   baseGloryValue: 15
-  baseMoveRate: 1000
+  baseMoveRate: 500
   baseWanderRate: 10000
+  baseAttackRange: 1
   viewRange: 8
   clientConfig:
     extendsClassName: Mob

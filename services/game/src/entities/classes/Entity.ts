@@ -127,6 +127,8 @@ class Entity {
 
     defence?: number;
 
+    // static faction?: number = undefined;
+
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
 
@@ -208,7 +210,7 @@ class Entity {
 
         // Remove the reference to the board it was on (that every entity has), so it can be
         // cleaned up if the board is to be destroyed.
-        delete this.board;
+        this.board = undefined;
     }
 
     /**
@@ -564,18 +566,18 @@ class Entity {
         // Prefer which one has the greatest magnitude.
 
         // Further away vertically.
-        if(Math.abs(rowDist) < Math.abs(colDist)) {
+        if(Math.abs(rowDist) > Math.abs(colDist)) {
             // Is above.
             if(rowDist > 0) {
-                return Directions.DOWN;
+                return Directions.UP;
             }
             // Is below.
             else if(rowDist < 0) {
-                return Directions.UP;
+                return Directions.DOWN;
             }
         }
         // Further away horizontally.
-        else if(Math.abs(rowDist) > Math.abs(colDist)) {
+        else if(Math.abs(rowDist) < Math.abs(colDist)) {
             // Is left.
             if(colDist > 0) {
                 return Directions.LEFT;
@@ -591,11 +593,11 @@ class Entity {
             if(Math.random() < 0.5) {
                 // Is above.
                 if(rowDist > 0) {
-                    return Directions.DOWN;
+                    return Directions.UP;
                 }
                 // Is below.
                 else if(rowDist < 0) {
-                    return Directions.UP;
+                    return Directions.DOWN;
                 }
             }
             // Horizontally.
@@ -614,10 +616,6 @@ class Entity {
         // They must be on top of each other.
         // Pick a random direction so they have something to work with.
         return getRandomElement(DirectionsValues);
-    }
-
-    getDirectionToEntity(otherEntity: Entity) {
-        return this.getDirectionToPosition({ row: otherEntity.row, col: otherEntity.col });
     }
 }
 

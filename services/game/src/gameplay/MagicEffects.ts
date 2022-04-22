@@ -36,9 +36,9 @@ class MagicEffect {
     }
 
     remove() {
-        delete this.entity;
+        this.entity = undefined;
 
-        delete this.source;
+        this.source = undefined;
 
         clearTimeout(this.timeout);
     }
@@ -86,7 +86,7 @@ export class Curse extends MagicEffect {
 
     remove() {
         if(this.entity) {
-            delete this.entity.curse;
+            this.entity.curse = undefined;
 
             this.entity.board?.emitToNearbyPlayers(
                 this.entity.row,
@@ -121,7 +121,7 @@ export class Enchantment extends MagicEffect {
 
     remove() {
         if(this.entity) {
-            delete this.entity.enchantment;
+            this.entity.enchantment = undefined;
             if (this.entity.board) {
                 this.entity.board.emitToNearbyPlayers(
                     this.entity.row,

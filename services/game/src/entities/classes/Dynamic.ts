@@ -1,6 +1,10 @@
-import { Offset, RowCol, RowColOffsetsByDirection } from '@dungeonz/types';
-import { getRandomIntInclusive } from '@dungeonz/utils';
+import { DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection } from '@dungeonz/types';
+import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@dungeonz/utils';
+import Damage from '../../gameplay/Damage';
+import DamageTypes from '../../gameplay/DamageTypes';
+import { FactionRelationshipStatuses, getFactionRelationship } from '../../gameplay/Factions';
 import Entity, { EntityConfig } from './Entity';
+import Player from './Player';
 
 class Dynamic extends Entity {
     /**
@@ -29,6 +33,13 @@ class Dynamic extends Entity {
      */
     static viewRange?: number = undefined;
 
+    /**
+     * How far away this entity can attack another entity from.
+     */
+    static baseAttackRange?: number = undefined;
+
+    attackRange?: number;
+
     constructor(config: EntityConfig) {
         super(config);
 
@@ -49,6 +60,10 @@ class Dynamic extends Entity {
                 this.wander.bind(this),
                 EntityType.baseWanderRate + getRandomIntInclusive(0, EntityType.baseWanderRate),
             );
+        }
+
+        if (EntityType.baseAttackRange) {
+            this.attackRange = EntityType.baseAttackRange;
         }
     }
 
@@ -80,22 +95,63 @@ class Dynamic extends Entity {
             }
         }
         else {
-            // // If the target is out of view range, forget about them.
-            // if (this.isEntityWithinViewRange(this.target) === false) {
-            //     this.target = null;
-            //     return;
-            // }
-            // // If they are on the same tile, try to move apart.
-            // if (this.row === this.target.row && this.col === this.target.col) {
-            //     this.moveAwayFromCurrentTile();
-            //     return;
-            // }
+            // If the target is out of view range, forget about them.
+            if (!this.isEntityWithinViewRange(this.target)) {
+                this.target = undefined;
+                return;
+            }
+            // If they are on the same tile, try to move apart.
+            if (this.row === this.target.row && this.col === this.target.col) {
+                this.moveAwayFromCurrentTile();
+                return;
+            }
 
-            // // If the target is out of the attack line, move closer.
-            // if (this.isEntityWithinAttackLine(this.target) === false) {
-            //     this.moveTowardsEntity(this.target);
-            // }
+            // If the target is out of the attack range, move closer.
+            if (!this.isEntityWithinAttackRange(this.target)) {
+                const offset = RowColOffsetsByDirection[
+                    this.getDirectionToPosition(this.target)
+                ];
+
+                // Check if there is a damaging tile in front.
+                if (!this.checkForMoveHazards(offset.row, offset.col)) return false;
+
+                super.move(offset.row, offset.col);
+            }
+            else {
+                this.target.damage(
+                    {
+                        amount: 5,
+                        penetration: 50,
+                        types: [DamageTypes.Physical],
+                    },
+                    this,
+                );
+            }
         }
+    }
+
+    /**
+     * Move this entity away from the tile it is on. Tries each direction in a random order.
+     */
+    moveAwayFromCurrentTile() {
+        if(!this.board) return;
+
+        const { row, col } = this;
+        const { grid } = this.board;
+
+        // Get a randomised set of directions to try to move in.
+        const randomDirectionOffsets = getRandomElement(
+            DirectionsPermutationsAsRowColOffsets,
+        );
+
+        randomDirectionOffsets.some((offsets) => {
+            // Check if any of the directions are not blocked.
+            if (grid[row + offsets.row][col + offsets.col].isLowBlocked() === false) {
+                super.move(offsets.row, offsets.col);
+                return true;
+            }
+            return false;
+        });
     }
 
     checkForMoveHazards(byRows: Offset, byCols: Offset) {
@@ -120,6 +176,7 @@ class Dynamic extends Entity {
     wander() {
         const EntityType = this.constructor as typeof Dynamic;
 
+        // Make sure the loop continues before doing anything else.
         this.wanderLoop = setTimeout(
             this.wander.bind(this),
             (EntityType.baseWanderRate || 10000)
@@ -130,11 +187,48 @@ class Dynamic extends Entity {
         if (this.target) return;
 
         // Get a random position within their view range to use as their new wander target.
-        if (!EntityType.viewRange) return;
-        const rowOffset = getRandomIntInclusive(-EntityType.viewRange, EntityType.viewRange);
-        const colOffset = getRandomIntInclusive(-EntityType.viewRange, EntityType.viewRange);
+        const viewRange = EntityType.viewRange || 0;
+        const rowOffset = getRandomIntInclusive(-viewRange, viewRange);
+        const colOffset = getRandomIntInclusive(-viewRange, viewRange);
 
         this.wanderTargetPosition = { row: this.row + rowOffset, col: this.col + colOffset };
+    }
+
+    onDamage(damage: Damage, damagedBy?: Entity) {
+        if (damagedBy instanceof Player) {
+            this.target = damagedBy;
+        }
+        else if (damagedBy instanceof Entity) {
+            // // Check the faction relationship for if to target the attacker or not.
+            // // If damaged by a friendly mob, ignore the damage.
+            // if (getFactionRelationship(
+            //     this.faction,
+            //     damagedBy.faction,
+            // ) === FactionRelationshipStatuses.Friendly) {
+            //     return;
+            // }
+            // // Damaged by a hostile or neutral mob, target it.
+
+            // this.target = damagedBy;
+        }
+
+        // this.lastDamagedTime = Date.now();
+
+        super.onDamage(damage, damagedBy);
+    }
+
+    /**
+     * Is the entity within the view range of this entity, in any direction.
+     */
+    isEntityWithinViewRange(entity: Entity) {
+        const EntityType = this.constructor as typeof Dynamic;
+        if (Math.abs(this.col - entity.col) >= (EntityType.viewRange || 0)) return false;
+        if (Math.abs(this.row - entity.row) >= (EntityType.viewRange || 0)) return false;
+        return true;
+    }
+
+    isEntityWithinAttackRange(entity: Entity) {
+        return tileDistanceBetween(this, entity) <= (this.attackRange || 0);
     }
 }
 

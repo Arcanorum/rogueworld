@@ -236,11 +236,11 @@ class Board {
         if(clusterBoardTile.groundType.hazardous) return;
 
         const SpawnableEntityTypes = [
-            // EntitiesList.BY_NAME['Bandit'],
+            EntitiesList.BY_NAME['Bandit'],
             EntitiesList.BY_NAME['Bat'],
-            // EntitiesList.BY_NAME['IronRocks'],
-            // EntitiesList.BY_NAME['PineTree'],
-            // EntitiesList.BY_NAME['StoneWall'],
+            EntitiesList.BY_NAME['IronRocks'],
+            EntitiesList.BY_NAME['PineTree'],
+            EntitiesList.BY_NAME['StoneWall'],
         ];
 
         // const houseLayout = [

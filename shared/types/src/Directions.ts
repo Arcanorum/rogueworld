@@ -76,7 +76,7 @@ export const DirectionsPermutations: Array<Array<Directions>> = (
  *      ...
  *  ]
  */
-export const DirectionsPermutationsAsRowColOffsets: Array<Array<RowCol>> = (
+export const DirectionsPermutationsAsRowColOffsets: Array<Array<RowColOffset>> = (
     DirectionsPermutations.map((directions) => (
         directions.map((direction) => (
             RowColOffsetsByDirection[direction]

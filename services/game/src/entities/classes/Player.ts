@@ -338,13 +338,16 @@ class Player extends Entity {
         const entity = boardTile.entities[entityId];
         if(!entity) return;
 
-        entity.damage({
-            amount: 10,
-            penetration: 50,
-            types: [DamageTypes.Physical],
-        });
+        entity.damage(
+            {
+                amount: 10,
+                penetration: 50,
+                types: [DamageTypes.Physical],
+            },
+            this,
+        );
 
-        console.log('interacted, damaged entity:', entity.hitPoints);
+        // console.log('interacted, damaged entity:', entity.hitPoints);
 
 
         // entity.interaction(this);
@@ -443,7 +446,7 @@ class Player extends Entity {
             //     this.stats[statKey].levelModifier -= statBonus;
             // });
 
-            delete this.clothing;
+            this.clothing = undefined;
         }
     }
 
@@ -458,7 +461,7 @@ class Player extends Entity {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
             this.socket.sendEvent('deactivate_holding');
 
-            delete this.holding;
+            this.holding = undefined;
         }
     }
 
@@ -473,7 +476,7 @@ class Player extends Entity {
             // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
             this.socket.sendEvent('deactivate_ammunition');
 
-            delete this.ammunition;
+            this.ammunition = undefined;
         }
     }
 }

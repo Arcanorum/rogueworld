@@ -82,19 +82,7 @@ class Dynamic extends Entity {
     }
 
     onMove() {
-        // No target, wander around.
-        if (!this.target) {
-            if(this.wanderTargetPosition) {
-                const offset = RowColOffsetsByDirection[
-                    this.getDirectionToPosition(this.wanderTargetPosition)
-                ];
-                // Check if there is a damaging tile in front.
-                if (!this.checkForMoveHazards(offset.row, offset.col)) return false;
-
-                super.move(offset.row, offset.col);
-            }
-        }
-        else {
+        if (this.target) {
             // If the target is out of view range, forget about them.
             if (!this.isEntityWithinViewRange(this.target)) {
                 this.target = undefined;
@@ -126,6 +114,21 @@ class Dynamic extends Entity {
                     },
                     this,
                 );
+            }
+        }
+        // No target, wander around.
+        else {
+            if(this.wanderTargetPosition) {
+                // If still too far away, move closer.
+                if(tileDistanceBetween(this.wanderTargetPosition, this) > 1) {
+                    const offset = RowColOffsetsByDirection[
+                        this.getDirectionToPosition(this.wanderTargetPosition)
+                    ];
+                    // Check if there is a damaging tile in front.
+                    if (!this.checkForMoveHazards(offset.row, offset.col)) return false;
+
+                    super.move(offset.row, offset.col);
+                }
             }
         }
     }

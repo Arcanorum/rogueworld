@@ -89,14 +89,24 @@ class BoardTile {
      * Checks if this tile contains any entities. Is the entities object empty.
      */
     containsAnyEntities() {
-        if (!this.entities) return false;
-
         // Check if there are any own properties on the entities object.
-        if (Object.keys(this.entities).length === 0) {
-            return false;
-        }
+        return !(Object.keys(this.entities).length === 0);
+    }
 
-        return true;
+    /**
+     * Checks if this tile contains any players. Is the players object empty.
+     */
+    containsAnyPlayers() {
+        // Check if there are any own properties on the players object.
+        return !(Object.keys(this.players).length === 0);
+    }
+
+    /**
+     * Checks if this tile contains any pickups. Is the pickups object empty.
+     */
+    containsAnyPickups() {
+        // Check if there are any own properties on the pickups object.
+        return !(Object.keys(this.pickups).length === 0);
     }
 
     /**
@@ -105,17 +115,13 @@ class BoardTile {
      * see in an area, or at the edge of their view range.
      */
     addToDynamicsList(dynamicsList: Array<object>) {
-        const { entities } = this;
-
-        if (entities) {
-            // Get all of the dynamic entities on this board tile.
-            Object.values(entities).forEach((entity) => {
-                // Add the relevant data of this entity to the data to return.
-                dynamicsList.push(
-                    entity.getEmittableProperties({}),
-                );
-            });
-        }
+        // Get all of the dynamic entities on this board tile.
+        Object.values(this.entities).forEach((entity) => {
+            // Add the relevant data of this entity to the data to return.
+            dynamicsList.push(
+                entity.getEmittableProperties({}),
+            );
+        });
     }
 }
 
@@ -125,8 +131,8 @@ BoardTile.prototype.safeZone = false;
 
 BoardTile.prototype.entities = {};
 
-BoardTile.prototype.pickups = {};
-
 BoardTile.prototype.players = {};
+
+BoardTile.prototype.pickups = {};
 
 export default BoardTile;

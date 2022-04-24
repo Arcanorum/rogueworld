@@ -216,8 +216,8 @@ const World = {
         );
 
         const playerEntity = new (EntitiesList.BY_NAME.Player as typeof Player)({
-            row: randomPosition.row,
-            col: randomPosition.col,
+            row: 700, //randomPosition.row,
+            col: 700, //randomPosition.col,
             board: boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME],
             displayName,
             socket: clientSocket,

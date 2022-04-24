@@ -169,6 +169,7 @@ class Board {
 
     addEntity(entity: Entity) {
         const tile = this.grid[entity.row][entity.col];
+
         if (Object.prototype.hasOwnProperty.call(tile, entitiesString)) {
             tile.entities[entity.id] = entity;
         }
@@ -180,11 +181,20 @@ class Board {
     }
 
     removeEntity(entity: Entity) {
-        delete this.grid[entity.row][entity.col].entities[entity.id];
+        const tile = this.grid[entity.row][entity.col];
+
+        delete tile.entities[entity.id];
+
+        // Free up this tile if there is nothing else on it.
+        if(!tile.containsAnyEntities()) {
+            // Little hack to avoid making this property optional (as it still exists on the prototype).
+            delete (tile as any).entities;
+        }
     }
 
     addPlayer(player: Player) {
         const tile = this.grid[player.row][player.col];
+
         if (Object.prototype.hasOwnProperty.call(tile, playersString)) {
             tile.players[player.id] = player;
         }
@@ -197,8 +207,16 @@ class Board {
     }
 
     removePlayer(player: Player) {
-        delete this.grid[player.row][player.col].players[player.id];
+        const tile = this.grid[player.row][player.col];
+
+        delete tile.players[player.id];
         // Players are also removed from the entities list, in the onDestroy of Entity.
+
+        // Free up this tile if there is nothing else on it.
+        if(!tile.containsAnyPlayers()) {
+            // Little hack to avoid making this property optional (as it still exists on the prototype).
+            delete (tile as any).players;
+        }
     }
 
     addPickup(pickup: Pickup) {
@@ -214,7 +232,15 @@ class Board {
     }
 
     removePickup(pickup: Pickup) {
-        delete this.grid[pickup.row][pickup.col].pickups[pickup.id];
+        const tile = this.grid[pickup.row][pickup.col];
+
+        delete tile.pickups[pickup.id];
+
+        // Free up this tile if there is nothing else on it.
+        if(!tile.containsAnyPickups()) {
+            // Little hack to avoid making this property optional (as it still exists on the prototype).
+            delete (tile as any).pickups;
+        }
     }
 
     populate() {
@@ -226,14 +252,11 @@ class Board {
         // Get a random position on the map.
         const rows = this.grid.length;
         const cols = this.grid[0].length;
-        const clusterRow = getRandomIntInclusive(0, rows - 1);
-        const clusterCol = getRandomIntInclusive(0, cols - 1);
+        const clusterRow = 700; //getRandomIntInclusive(0, rows - 1);
+        const clusterCol = 700; //getRandomIntInclusive(0, cols - 1);
         const clusterBoardTile = this.grid[clusterRow][clusterCol];
-        const clusterSize = 10;
-        const spreadRange = 10;
-
-        if(!clusterBoardTile.groundType.canBeStoodOn) return;
-        if(clusterBoardTile.groundType.hazardous) return;
+        const clusterSize = 50;
+        const spreadRange = 20;
 
         const SpawnableEntityTypes = [
             EntitiesList.BY_NAME['Bandit'],
@@ -266,13 +289,15 @@ class Board {
 
             if(!randomBoardTile) return;
             if(!randomBoardTile.groundType.canBeStoodOn) return;
+            if(!randomBoardTile.groundType.canBeBuiltOn) return;
             if(randomBoardTile.groundType.hazardous) return;
+            if(randomBoardTile.groundType === PlayerSpawn) return;
 
             new RandomEntityType({
                 row: randomRow,
                 col: randomCol,
                 board: this,
-            });
+            }).emitToNearbyPlayers();
 
             this.population += 1;
 

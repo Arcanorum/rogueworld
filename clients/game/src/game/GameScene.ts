@@ -341,9 +341,9 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        if (GUIState.showFPS) {
-            this.fpsText.setText(`FPS: ${Math.floor(this.game.loop.actualFps)}`);
-        }
+        // if (GUIState.showFPS) {
+        this.fpsText.setText(`FPS: ${Math.floor(this.game.loop.actualFps)}`);
+        // }
     }
 
     shutdown() {
@@ -770,8 +770,6 @@ class GameScene extends Phaser.Scene {
                 || dynamic.col < playerColLeftViewRange
                 || dynamic.col > playerColRightViewRange) {
                 // Out of view range. Remove it.
-                console.log('!!! removing out of bounds sprite');
-
                 dynamicSpriteContainer.destroy();
                 delete this.dynamics[key];
                 // if (dynamicSpriteContainer.lightDistance) {

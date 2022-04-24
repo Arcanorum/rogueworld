@@ -341,9 +341,9 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        // if (GUIState.showFPS) {
-        this.fpsText.setText(`FPS: ${Math.floor(this.game.loop.actualFps)}`);
-        // }
+        if (GUIState.showFPS) {
+            this.fpsText.setText(`FPS: ${Math.floor(this.game.loop.actualFps)}`);
+        }
     }
 
     shutdown() {

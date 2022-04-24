@@ -113,7 +113,7 @@ class GUI {
 
         this.effectsVolume = 50;
 
-        this.showFPS = false;
+        this.showFPS = true;
 
         this.profanityFilterEnabled = true;
 

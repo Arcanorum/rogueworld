@@ -1,23 +1,20 @@
 import Global from '../../../shared/Global';
 import { BouncyText } from '../../../shared/types';
 import Entity from '../Entity';
+import Sprite from '../Sprite';
+import Text from '../Text';
 
-class GloryParticleIcon extends Phaser.GameObjects.Sprite {
+class GloryParticleIcon extends Sprite {
     verticalTween?: Phaser.Tweens.Tween;
 }
 
 class Player extends Entity {
     static animationSetName = 'player';
 
-    warningText?: Phaser.GameObjects.Text;
+    warningText?: Text;
 
     constructor(x: number, y: number, config: any) {
         super(x, y, config);
-
-        this.bringToTop(this.curseEffect!);
-        this.bringToTop(this.enchantmentEffect!);
-        this.bringToTop(this.displayName!);
-        this.sendToBack(this.baseSprite);
 
         const style = {
             fontFamily: '\'Press Start 2P\'',
@@ -30,11 +27,11 @@ class Player extends Entity {
                 width: 250,
             },
         };
-        this.warningText = Global.gameScene.add.text(0, -13, '', style);
+        this.warningText = new Text(0, -13, '', style);
         this.warningText.setOrigin(0.5);
         this.warningText.setScale(0.25);
         this.warningText.setVisible(false);
-        this.add(this.warningText);
+        this.addFollower(this.warningText);
 
         // TODO: add a chat bubble above head when someone starts chatting.
     }
@@ -72,20 +69,20 @@ class Player extends Entity {
             },
         });
 
-        this.add(icon);
+        this.addFollower(icon);
 
         if (parseInt(amount) > 0) {
             amount = `+${amount}`;
         }
 
-        const text = Global.gameScene.add.text(0, 0, amount, {
+        const text = new BouncyText(0, 0, amount, {
             fontFamily: '\'Press Start 2P\'',
             fontSize: '16px',
             align: 'center',
             color: '#76428a',
             stroke: '#000000',
             strokeThickness: 5,
-        }) as BouncyText;
+        });
         text.setOrigin(0.5, 0);
         text.setScale(0.25);
 
@@ -99,7 +96,7 @@ class Player extends Entity {
             },
         });
 
-        this.add(text);
+        this.addFollower(text);
     }
 }
 

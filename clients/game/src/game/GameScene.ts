@@ -27,6 +27,7 @@ import { message, pixelDistanceBetween, warning } from '@dungeonz/utils';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
 import { DayPhases } from '@dungeonz/types';
 import Player from './entities/characters/Player';
+import Text from './entities/Text';
 
 class GameScene extends Phaser.Scene {
     /**
@@ -73,6 +74,8 @@ class GameScene extends Phaser.Scene {
      * at any time, and cannot be loaded into the map data.
      */
     dynamics: {[key: string]: DynamicEntity} = {};
+
+    dynamicsByRowCol: {[key: string]: Array<DynamicEntity>} = {};
 
     /**
      * A list of any dynamics that do anything when interacted
@@ -692,6 +695,14 @@ class GameScene extends Phaser.Scene {
             ),
         };
 
+        // const dynamicsAtRowCol = this.dynamicsByRowCol[`${row}-${col}`];
+
+        // if(!dynamicsAtRowCol) {
+        //     this.dynamicsByRowCol[`${row}-${col}`] = [];
+        // }
+
+        // dynamicsAtRowCol.push(this.dynamics[id]);
+
         const dynamicSpriteContainer = this.dynamics[id].spriteContainer;
 
         // Add the sprite to the world group, as it extends sprite but
@@ -817,9 +828,9 @@ class GameScene extends Phaser.Scene {
             },
         };
 
-        const chatText = Global.gameScene.add.text(0, -16, message, style);
+        const chatText = new Text(0, -16, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
-        dynamic.spriteContainer.add(chatText);
+        dynamic.spriteContainer.addFollower(chatText);
         chatText.setOrigin(0.5);
         chatText.setScale(0.3);
         // Make the chat message scroll up.

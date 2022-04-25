@@ -1,12 +1,19 @@
-import { tileDistanceBetween, warning } from '@dungeonz/utils';
+import { getRandomIntInclusive, tileDistanceBetween, warning } from '@dungeonz/utils';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
 import Global from '../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
-import Container from './Container';
+import { BouncyText } from '../../shared/types';
+// import Container from './Container';
+import Sprite from './Sprite';
+import Text from './Text';
 
-class Entity extends Container {
+class Entity extends Sprite {
+    /** The base display name value of this entity type. The same for all entities of this type. */
     static displayName = '';
+
+    /** The text display object that renders the display name value if defined. */
+    displayName?: Text;
 
     /** The base name of this set of animations. */
     static animationSetName = '';
@@ -26,7 +33,7 @@ class Entity extends Container {
 
     displayNameColor?: string;
 
-    baseSprite: Phaser.GameObjects.Sprite;
+    // baseSprite: Phaser.GameObjects.Sprite;
 
     particlesOnDestroy?: boolean;
 
@@ -59,14 +66,15 @@ class Entity extends Container {
             displayNameColor?: string;
         },
     ) {
-        super(x, y, config);
+        // console.log('new entity, x:', x, ', y:', y);
+
+        super(x, y);
 
         this.setScale(Config.GAME_SCALE);
         this.entityId = config.id;
         this.moveRate = config.moveRate;
         // Can be undefined or an object with an optional "fill" and "stroke"
         // property to be set as any color string value Phaser can take.
-        // Used for differentiating clan members by name color.
         this.displayNameColor = config.displayNameColor;
 
         const EntityType = this.constructor as typeof Entity;
@@ -78,16 +86,14 @@ class Entity extends Container {
         else if (EntityType.animationSetName) {
             frame = `${EntityType.animationSetName}-1`;
         }
-        this.baseSprite = Global.gameScene.add.sprite(0, 0, 'game-atlas', frame);
         if(frame) {
-            this.baseSprite.setFrame(frame);
+            this.setFrame(frame);
         }
-        this.baseSprite.setOrigin(0.5);
-        this.add(this.baseSprite);
+        this.setOrigin(0.5);
 
-        // don't bother playing 1 frame animations.
+        // Don't bother playing 1 frame animations.
         if(EntityType.animationFrameSequence.length > 1) {
-            this.baseSprite.anims.play(EntityType.animationSetName);
+            this.anims.play(EntityType.animationSetName);
         }
 
         const displayName = config.displayName || EntityType.displayName;
@@ -96,34 +102,34 @@ class Entity extends Container {
             this.addDisplayName(displayName);
         }
 
-        this.healthRegenEffect = this.addEffect('health-regen-effect-1');
-        this.curedEffect = this.addEffect('cured-effect-1');
-        this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
-        this.poisonEffect = this.addEffect('poison-effect-1');
-        this.burnEffect = this.addEffect('burn-effect-1');
-        this.chillEffect = this.addEffect('chill-effect-1');
-        this.chillEffect.setAlpha(0.5);
-        this.brokenBonesEffect = this.addEffect('broken-bones-effect-1');
+        // this.healthRegenEffect = this.addEffect('health-regen-effect-1');
+        // this.curedEffect = this.addEffect('cured-effect-1');
+        // this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
+        // this.poisonEffect = this.addEffect('poison-effect-1');
+        // this.burnEffect = this.addEffect('burn-effect-1');
+        // this.chillEffect = this.addEffect('chill-effect-1');
+        // this.chillEffect.setAlpha(0.5);
+        // this.brokenBonesEffect = this.addEffect('broken-bones-effect-1');
 
-        this.curseEffect = this.addEffect('curse-effect-1');
-        this.curseEffect.x = -6;
-        this.curseEffect.y = -10;
-        this.curseEffect.setScale(0.8);
+        // this.curseEffect = this.addEffect('curse-effect-1');
+        // this.curseEffect.x = -6;
+        // this.curseEffect.y = -10;
+        // this.curseEffect.setScale(0.8);
 
-        this.enchantmentEffect = this.addEffect('enchantment-effect-1');
-        this.enchantmentEffect.x = 6;
-        this.enchantmentEffect.y = -10;
-        this.enchantmentEffect.setScale(0.8);
+        // this.enchantmentEffect = this.addEffect('enchantment-effect-1');
+        // this.enchantmentEffect.x = 6;
+        // this.enchantmentEffect.y = -10;
+        // this.enchantmentEffect.setScale(0.8);
 
-        this.baseSprite.on('animationcomplete', this.moveAnimCompleted, this);
+        // this.on('animationcomplete', this.moveAnimCompleted, this);
 
-        this.baseSprite.setInteractive();
+        this.setInteractive();
 
-        this.baseSprite.on('pointerdown', this.onPointerDown, this);
-        this.baseSprite.on('pointerover', this.onPointerOver, this);
-        this.baseSprite.on('pointerout', this.onPointerOut, this);
+        this.on('pointerdown', this.onPointerDown, this);
+        // this.on('pointerover', this.onPointerOver, this);
+        // this.on('pointerout', this.onPointerOut, this);
 
-        this.baseSprite.on('destroy', this.onDestroy, this);
+        this.on('destroy', this.onDestroy, this);
     }
 
     onDestroy() {
@@ -155,9 +161,7 @@ class Entity extends Container {
     /**
      * Attempt to interact with the object when pressed.
      */
-    onPointerDown(thing) {
-        // console.log('onpointerdown, sending interact event:', thing);
-
+    onPointerDown() {
         const thisDynamic = Global.gameScene.dynamics[PlayerState.entityId];
         const playerDynamic = Global.gameScene.dynamics[this.entityId];
 
@@ -177,8 +181,8 @@ class Entity extends Container {
     }
 
     /**
-         * Show the display name of this entity when it is hovered over.
-         */
+     * Show the display name of this entity when it is hovered over.
+     */
     onPointerOver() {
         if(this.displayName) {
             this.displayName.visible = true;
@@ -187,8 +191,8 @@ class Entity extends Container {
     }
 
     /**
-         * Hide the display name when it isn't being hovered over any more.
-         */
+     * Hide the display name when it isn't being hovered over any more.
+     */
     onPointerOut() {
         if(this.displayName) {
             this.displayName.visible = false;
@@ -197,15 +201,15 @@ class Entity extends Container {
     }
 
     addEffect(frameName: string) {
-        const sprite = Global.gameScene.add.sprite(0, 0, 'game-atlas', frameName);
+        const sprite = new Sprite(0, 0, frameName);
         sprite.setOrigin(0.5);
         sprite.visible = false;
-        this.add(sprite);
+        this.addFollower(sprite);
         return sprite;
     }
 
     flipHorizontally(direction: string) {
-        this.baseSprite.setScale(direction === 'l' ? 1 : -1, 1);
+        this.setScale(direction === 'l' ? Config.GAME_SCALE : -Config.GAME_SCALE, Config.GAME_SCALE);
     }
 
     /**
@@ -255,6 +259,99 @@ class Entity extends Container {
 
     moveAnimCompleted() {
         return;
+    }
+
+    /**
+     * Show the damage marker, with the amount of damage/healing taken.
+     */
+    onHitPointsModified(amount: string) {
+        if (parseInt(amount) < 0) {
+            const hpModText = new BouncyText(this.x, this.y, amount, {
+                fontFamily: '\'Press Start 2P\'',
+                fontSize: '16px',
+                align: 'center',
+                color: '#ff2f00',
+                stroke: '#000000',
+                strokeThickness: 5,
+            });
+            hpModText.setOrigin(0.5, 1);
+            hpModText.setScale(0.25);
+
+            const xOffset = getRandomIntInclusive(-50, 50);
+
+            hpModText.horizontalTween = Global.gameScene.tweens.add({
+                targets: hpModText,
+                x: `+=${xOffset}`,
+                duration: 1000,
+                alpha: 0,
+                ease: 'Linear',
+            });
+            hpModText.verticalTween = Global.gameScene.tweens.add({
+                targets: hpModText,
+                y: '-=10',
+                duration: 1000,
+                ease: 'Back.easeOut',
+                onComplete: function cb(tween: Phaser.Tweens.Tween, targets: Array<BouncyText>) {
+                    targets[0].destroy();
+                },
+            });
+
+            this.addFollower(hpModText);
+        }
+        else {
+            amount = `+${amount}`;
+
+            const hpModText = new BouncyText(0, 0, amount, {
+                fontFamily: '\'Press Start 2P\'',
+                fontSize: '16px',
+                align: 'center',
+                color: '#6abe30',
+                stroke: '#000000',
+                strokeThickness: 5,
+            });
+            hpModText.setOrigin(0.5, 1);
+            hpModText.setScale(0.25);
+
+            const xOffset = getRandomIntInclusive(-20, 20);
+
+            hpModText.horizontalTween = Global.gameScene.tweens.add({
+                targets: hpModText,
+                x: `+=${xOffset}`,
+                duration: 1000,
+                alpha: 0,
+                ease: 'Linear',
+            });
+            hpModText.verticalTween = Global.gameScene.tweens.add({
+                targets: hpModText,
+                y: '-=20',
+                duration: 1000,
+                ease: 'Back.easeOut',
+                onComplete: function cb(tween: Phaser.Tweens.Tween, targets: Array<BouncyText>) {
+                    targets[0].destroy();
+                },
+            });
+
+            this.addFollower(hpModText);
+        }
+    }
+
+    /**
+     * Add a text object to this sprite to use as the display name.
+     */
+    addDisplayName(displayName: string) {
+        // The anchor is still in the top left, so offset by half the width to center the text.
+        this.displayName = new Text(0, -6, displayName, {
+            fontFamily: '\'Press Start 2P\'',
+            fontSize: '20px',
+            align: 'center',
+            color: '#f5f5f5',
+            stroke: '#000000',
+            strokeThickness: 5,
+        });
+        this.displayName.setOrigin(0.5, 1);
+        this.displayName.setScale(0.25);
+        this.displayName.visible = false;
+        this.addFollower(this.displayName);
     }
 
     static loadConfig(config) {

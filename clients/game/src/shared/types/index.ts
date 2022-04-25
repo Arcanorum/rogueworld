@@ -3,6 +3,7 @@
 
 import Player from '../../game/entities/characters/Player';
 import Entity from '../../game/entities/Entity';
+import Text from '../../game/entities/Text';
 
 export interface CraftingRecipeIngredient {
     id: string;
@@ -52,7 +53,7 @@ export interface DynamicEntity {
  * Wrapper around Phaser text that accomodates movement tweens to make to look like it is bouncing,
  * i.e. damage numbers flying from the target.
  */
-export class BouncyText extends Phaser.GameObjects.Text {
+export class BouncyText extends Text {
     horizontalTween?: Phaser.Tweens.Tween;
     verticalTween?: Phaser.Tweens.Tween;
 }

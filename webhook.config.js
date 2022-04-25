@@ -5,8 +5,8 @@ module.exports = {
     apps: [
         {
             name: 'Push webhook',
-            script: 'npx',
-            args: 'ts-node --transpile-only ./git-webhook.ts',
+            script: 'npm',
+            args: 'run git-webhook',
             watch: ['./git-webhook.ts'],
             exp_backoff_restart_delay: 1000,
         },

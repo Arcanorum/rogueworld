@@ -4,6 +4,9 @@
   "description": "Monorepo for Dungeonz.io",
   "author": "Johnathan Fisher <team@waywardworlds.com> (https://waywardworlds.com)",
   "license": "MIT",
+  "scripts": {
+    "git-webhook": "npx ts-node --transpile-only ./git-webhook.ts"
+  },
   "dependencies": {
     "@dungeonz/configs": "*",
     "@dungeonz/maps": "*",

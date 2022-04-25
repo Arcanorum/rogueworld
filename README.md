@@ -26,4 +26,4 @@ Each development process uses a large amount of watchers to track the files and 
 
 https://stackoverflow.com/questions/26708205/webpack-watch-isnt-compiling-changed-files
 
-test 8
+test 9

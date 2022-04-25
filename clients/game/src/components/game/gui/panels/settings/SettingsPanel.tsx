@@ -164,7 +164,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
         setShowFPS(!showFPS);
 
         if (Global.gameScene.fpsText) {
-            Global.gameScene.fpsText.visible = !showFPS;
+            Global.gameScene.fpsText.style.display = !showFPS ? 'block' : 'none';
         }
 
         saveSetting('show_fps', !showFPS);

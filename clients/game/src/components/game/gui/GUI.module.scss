@@ -29,6 +29,14 @@
     transform-origin: bottom right;
   }
 
+  .fps-counter {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: lime;
+    font-size: 40px;
+  }
+
   ::-webkit-scrollbar {
     width: 16px;
   }

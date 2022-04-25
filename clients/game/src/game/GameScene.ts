@@ -45,14 +45,13 @@ class GameScene extends Phaser.Scene {
         particles: 4,
         darkness: 5,
         borders: 6,
-        fpsText: 7,
     };
 
     dynamicsData: Array<DynamicEntityData> = [];
 
     dayPhase!: DayPhases;
 
-    fpsText!: Phaser.GameObjects.Text;
+    fpsText!: HTMLElement;
 
     tilemap!: Tilemap;
 
@@ -166,11 +165,6 @@ class GameScene extends Phaser.Scene {
         // is entered, instead of just the game canvas, or the GUI will be invisible.
         this.scale.fullscreenTarget = document.getElementById('game-cont');
 
-        // Listen for the resize event so anything that needs to be updated can be.
-        this.scale.on('resize', () => {
-            this.fpsText.y = this.game.renderer.height / 2;
-        });
-
         if(playerData.moveRate) {
             this.moveRate = playerData.moveRate;
         }
@@ -214,14 +208,7 @@ class GameScene extends Phaser.Scene {
         //     }
         // });
 
-        this.fpsText = this.add.text(10, this.game.renderer.height / 2, 'FPS:', {
-            fontFamily: '"Courier"',
-            fontSize: '32px',
-            color: '#00ff00',
-        });
-        this.fpsText.setScrollFactor(0);
-        this.fpsText.setDepth(this.renderOrder.fpsText);
-        this.fpsText.visible = GUIState.showFPS;
+        this.fpsText = document.getElementById('fps-counter');
 
         const damageParticles = this.add.particles('game-atlas');
 
@@ -342,7 +329,7 @@ class GameScene extends Phaser.Scene {
         }
 
         if (GUIState.showFPS) {
-            this.fpsText.setText(`FPS: ${Math.floor(this.game.loop.actualFps)}`);
+            this.fpsText.textContent = `FPS: ${Math.floor(this.game.loop.actualFps)}`;
         }
     }
 

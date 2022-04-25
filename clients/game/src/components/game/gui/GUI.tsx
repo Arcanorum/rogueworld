@@ -171,8 +171,7 @@ function GUI() {
 
             <div className={`${styles['bottom-right-corner-cont']} gui-scalable`} />
 
-            {/* <DungeonTimer />
-            <DungeonKeys /> */}
+            <div id='fps-counter' className={`${styles['fps-counter']}`}>FPS: </div>
 
             <div>
                 <GUIPanelWindows

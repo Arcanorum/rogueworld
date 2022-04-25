@@ -65,7 +65,7 @@ restart();
  * the latest code.
  */
 createServer(function(req, res) {
-    message('Request received');
+    message('Request received.');
 
     req.on('data', async function(chunk) {
         const data = JSON.parse(chunk.toString());
@@ -73,21 +73,34 @@ createServer(function(req, res) {
 
         try {
             // Github sends events for all branches that are pushed to, so need to check the specific one that was updated.
-            if(refName && refName !== data.ref) return;
+            if(refName) {
+                message('Target branch provided, checking incoming ref.');
+                if(refName !== data.ref) {
+                    message('Invalid target branch or incoming ref, skipping.');
+                    message(`Branch: ${refName}`);
+                    message(`Incoming ref: ${data.ref}`);
+                    return;
+                }
+                message('Branches match.');
+            }
+            else {
+                message('No target branch provided. Accepting requests for branch.');
+            }
 
-            if(req === branchName) {
-                if (secret) {
-                    message('Secret provided, checking signature');
-                    const sig = `sha1=${crypto
-                        .createHmac('sha1', secret)
-                        .update(chunk.toString())
-                        .digest('hex')
-                    }`;
+            if (secret) {
+                message('Secret provided, checking signature.');
+                const sig = `sha1=${crypto
+                    .createHmac('sha1', secret)
+                    .update(chunk.toString())
+                    .digest('hex')
+                }`;
 
-                    if (req.headers['x-hub-signature'] !== sig) {
-                        message('Invalid secret, skipping');
-                        return;
-                    }
+                if (req.headers['x-hub-signature'] === sig) {
+                    message('Secret matches.');
+                }
+                else {
+                    message('Invalid secret, skipping.');
+                    return;
                 }
             }
 

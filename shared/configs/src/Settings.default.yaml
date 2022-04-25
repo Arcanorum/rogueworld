@@ -35,6 +35,24 @@ MAP_SERVICE_PORT: 2222
 # tmxrasterizer is installed in the same directory as the main Tiled exe, so look there.
 TMXRASTERIZER_PATH: /snap/bin/tiled.tmxrasterizer
 
+# Port number of the REST server that listens for webhook events.
+GIT_WEBHOOK_PORT: 3333
+
+# Optional name of the branch to watch for updates to when a webhook event is received.
+# This setting is useful as GitHub doesn't support per-branch webhook events.
+# GitHub sends the webhook event to all listeners when ANY branch is updated.
+# This means that when this setting is not set, the event logic will be ran every time any branch
+# is updated, which is usually undesirable.
+# The request from GitHub should come with the name of the branch that was updated with the
+# request, so per-branch updating can be achieved this way.
+GIT_WEBHOOK_BRANCH_NAME: dev
+
+# Optional secret string to check before running the event logic.
+# The request should contain this secret from the source, i.e. GitHub Webhooks.
+# When not set, ALL requests to the REST server will trigger the event logic, even ones not from
+# the intended source (i.e. GitHub).
+GIT_WEBHOOK_SECRET: ''
+
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000
 
@@ -52,7 +70,7 @@ FULL_DAY_DURATION_MINUTES: 24
 # These could be all kinds of entities.
 # Population is NOT a direct correlation with amount of entities, as some entities may have a
 # higher population weight, i.e. a rat might take 1 population space, but a boss might take 8.
-MAX_BOARD_POPULATION: 100
+MAX_BOARD_POPULATION: 1000
 
 # How often to try to populate each board with a new entity or group of entities. (ms)
 BOARD_POPULATION_RATE: 500
@@ -75,7 +93,7 @@ PLAYER_VIEW_RANGE: 9
 
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.
-PLAYER_MOVE_RATE: 100
+PLAYER_MOVE_RATE: 250
 
 # How much glory a new player starts with.
 PLAYER_STARTING_GLORY: 100

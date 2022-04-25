@@ -8,6 +8,7 @@ const exec = util.promisify(require('child_process').exec);
 const port = Settings.GIT_WEBHOOK_PORT || 3333;
 const branchName = Settings.GIT_WEBHOOK_BRANCH_NAME || '';
 const secret = Settings.GIT_WEBHOOK_SECRET || '';
+const refName = branchName ? `refs/heads/${branchName}` : '';
 
 message('Starting REST server for git webhook listeners.');
 
@@ -67,19 +68,21 @@ createServer(function(req, res) {
     message('Request received');
 
     req.on('data', async function(chunk) {
-        message('start');
-        message('Data event:', chunk);
-        message('  as string:', chunk.toString());
-        message('end');
+        const data = JSON.parse(chunk.toString());
+        message('Triggered by payload data:', data);
 
         try {
             // Github sends events for all branches that are pushed to, so need to check the specific one that was updated.
-            if(branchName && branchName !== chunk) return;
+            if(refName && refName !== data.ref) return;
 
             if(req === branchName) {
                 if (secret) {
                     message('Secret provided, checking signature');
-                    const sig = `sha1=${crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex')}`;
+                    const sig = `sha1=${crypto
+                        .createHmac('sha1', secret)
+                        .update(chunk.toString())
+                        .digest('hex')
+                    }`;
 
                     if (req.headers['x-hub-signature'] !== sig) {
                         message('Invalid secret, skipping');

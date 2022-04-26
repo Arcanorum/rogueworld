@@ -16,6 +16,7 @@ const PhaserGame = () => {
         antialias: false,
         antialiasGL: false,
         scale: {
+            mode: Phaser.Scale.ENVELOP,
             fullscreenTarget: 'game-cont',
         },
         scene: [

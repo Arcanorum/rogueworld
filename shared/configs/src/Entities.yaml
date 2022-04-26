@@ -4,7 +4,7 @@
 - name: StoneWall
   # code: QMYX4544
   highBlocking: true
-  baseMaxHitPoints: 10
+  baseMaxHitPoints: 200
   baseGloryValue: 5
   clientConfig:
     animationSetName: stone-wall
@@ -41,7 +41,7 @@
 
 - name: PineTree
   highBlocking: true
-  baseMaxHitPoints: 10
+  baseMaxHitPoints: 100
   baseGloryValue: 10
   clientConfig:
     animationSetName: pine-tree
@@ -49,7 +49,7 @@
 
 - name: IronRocks
   highBlocking: true
-  baseMaxHitPoints: 10
+  baseMaxHitPoints: 200
   baseGloryValue: 20
   clientConfig:
     animationSetName: iron-rocks

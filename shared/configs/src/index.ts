@@ -32,7 +32,29 @@ export const loadYAMLConfig = (fileName: string, relativePath?: string) => {
     }
 };
 
-export const Settings = loadYAMLConfig('Settings') || loadYAMLConfig('Settings.default');
+const loadSettings = () => {
+    // Clone the default settings, since it is frozen.
+    const settings = JSON.parse(
+        JSON.stringify(
+            loadYAMLConfig('Settings.default'),
+        ),
+    );
+
+    // Overwrite any default setting if it is set in the custom settings file.
+    const customSettings = loadYAMLConfig('Settings');
+
+    if(customSettings) {
+        Object.entries(customSettings).forEach(([key, value]) => {
+            if(settings.hasOwnProperty(key)) {
+                settings[key] = value;
+            }
+        });
+    }
+
+    return settings;
+};
+
+export const Settings = loadSettings();
 export const Entities = loadYAMLConfig('Entities');
 export const Items = loadYAMLConfig('Items');
 export const ItemWeightClasses = loadYAMLConfig('ItemWeightClasses') as {[key: string]: number};

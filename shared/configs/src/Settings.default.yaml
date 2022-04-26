@@ -70,7 +70,7 @@ FULL_DAY_DURATION_MINUTES: 24
 # These could be all kinds of entities.
 # Population is NOT a direct correlation with amount of entities, as some entities may have a
 # higher population weight, i.e. a rat might take 1 population space, but a boss might take 8.
-MAX_BOARD_POPULATION: 1000
+MAX_BOARD_POPULATION: 500
 
 # How often to try to populate each board with a new entity or group of entities. (ms)
 BOARD_POPULATION_RATE: 500

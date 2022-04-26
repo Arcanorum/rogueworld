@@ -96,24 +96,24 @@ class Entity extends Container {
             this.addDisplayName(displayName);
         }
 
-        this.healthRegenEffect = this.addEffect('health-regen-effect-1');
-        this.curedEffect = this.addEffect('cured-effect-1');
-        this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
-        this.poisonEffect = this.addEffect('poison-effect-1');
-        this.burnEffect = this.addEffect('burn-effect-1');
-        this.chillEffect = this.addEffect('chill-effect-1');
-        this.chillEffect.setAlpha(0.5);
-        this.brokenBonesEffect = this.addEffect('broken-bones-effect-1');
+        // this.healthRegenEffect = this.addEffect('health-regen-effect-1');
+        // this.curedEffect = this.addEffect('cured-effect-1');
+        // this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
+        // this.poisonEffect = this.addEffect('poison-effect-1');
+        // this.burnEffect = this.addEffect('burn-effect-1');
+        // this.chillEffect = this.addEffect('chill-effect-1');
+        // this.chillEffect.setAlpha(0.5);
+        // this.brokenBonesEffect = this.addEffect('broken-bones-effect-1');
 
-        this.curseEffect = this.addEffect('curse-effect-1');
-        this.curseEffect.x = -6;
-        this.curseEffect.y = -10;
-        this.curseEffect.setScale(0.8);
+        // this.curseEffect = this.addEffect('curse-effect-1');
+        // this.curseEffect.x = -6;
+        // this.curseEffect.y = -10;
+        // this.curseEffect.setScale(0.8);
 
-        this.enchantmentEffect = this.addEffect('enchantment-effect-1');
-        this.enchantmentEffect.x = 6;
-        this.enchantmentEffect.y = -10;
-        this.enchantmentEffect.setScale(0.8);
+        // this.enchantmentEffect = this.addEffect('enchantment-effect-1');
+        // this.enchantmentEffect.x = 6;
+        // this.enchantmentEffect.y = -10;
+        // this.enchantmentEffect.setScale(0.8);
 
         this.baseSprite.on('animationcomplete', this.moveAnimCompleted, this);
 

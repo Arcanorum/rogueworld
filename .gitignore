@@ -59,7 +59,7 @@ jspm_packages/
 out
 
 # User specific configs
-Settings.yml
+Settings.yaml
 
 # Generated resources for APIs
 services/game/src/api/resources

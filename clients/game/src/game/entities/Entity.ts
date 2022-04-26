@@ -85,7 +85,7 @@ class Entity extends Container {
         this.baseSprite.setOrigin(0.5);
         this.add(this.baseSprite);
 
-        // don't bother playing 1 frame animations.
+        // Don't bother playing 1 frame animations.
         if(EntityType.animationFrameSequence.length > 1) {
             this.baseSprite.anims.play(EntityType.animationSetName);
         }
@@ -153,17 +153,17 @@ class Entity extends Container {
     }
 
     /**
-     * Attempt to interact with the object when pressed.
+     * Attempt to interact with the entity when pressed.
      */
-    onPointerDown(thing) {
-        // console.log('onpointerdown, sending interact event:', thing);
-
+    onPointerDown() {
         const thisDynamic = Global.gameScene.dynamics[PlayerState.entityId];
         const playerDynamic = Global.gameScene.dynamics[this.entityId];
 
-        // Check they are within interaction range of the object.
+        // Make this entity be the current selection target.
+        // TODO
+
+        // Check the player is within the interaction range of the entity.
         const dist = tileDistanceBetween(thisDynamic, playerDynamic);
-        console.log('dist:', dist);
         if(dist > 2) return;
 
         ApplicationState.connection?.sendEvent(
@@ -177,23 +177,23 @@ class Entity extends Container {
     }
 
     /**
-         * Show the display name of this entity when it is hovered over.
-         */
+     * Show the display name of this entity when it is hovered over.
+     */
     onPointerOver() {
         if(this.displayName) {
             this.displayName.visible = true;
-            setHandCursor();
         }
+        setHandCursor();
     }
 
     /**
-         * Hide the display name when it isn't being hovered over any more.
-         */
+     * Hide the display name when it isn't being hovered over any more.
+     */
     onPointerOut() {
         if(this.displayName) {
             this.displayName.visible = false;
-            setDefaultCursor();
         }
+        setDefaultCursor();
     }
 
     addEffect(frameName: string) {

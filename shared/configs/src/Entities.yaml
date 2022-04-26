@@ -39,6 +39,19 @@
     animationSetName: bat
     animationRepeats: true
 
+- name: Snake
+  baseMaxHitPoints: 40
+  baseGloryValue: 20
+  baseMoveRate: 400
+  baseWanderRate: 10000
+  baseAttackRange: 2
+  viewRange: 8
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Snake
+    animationSetName: snake
+    animationRepeats: true
+
 - name: PineTree
   highBlocking: true
   baseMaxHitPoints: 100

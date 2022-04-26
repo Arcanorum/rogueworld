@@ -258,13 +258,17 @@ class Board {
         const clusterSize = 50;
         const spreadRange = 20;
 
-        const SpawnableEntityTypes = [
-            EntitiesList.BY_NAME['Bandit'],
-            EntitiesList.BY_NAME['Bat'],
-            EntitiesList.BY_NAME['IronRocks'],
-            EntitiesList.BY_NAME['PineTree'],
-            EntitiesList.BY_NAME['StoneWall'],
-        ];
+        const SpawnableEntityTypes = Object
+            .values(EntitiesList.BY_NAME)
+            .filter((EntityType) => EntityType.baseGloryValue);
+
+        // const SpawnableEntityTypes = [
+        //     EntitiesList.BY_NAME['Bandit'],
+        //     EntitiesList.BY_NAME['Bat'],
+        //     EntitiesList.BY_NAME['IronRocks'],
+        //     EntitiesList.BY_NAME['PineTree'],
+        //     EntitiesList.BY_NAME['StoneWall'],
+        // ];
 
         // const houseLayout = [
         //     { row: -2, col: -1 },

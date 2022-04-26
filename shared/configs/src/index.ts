@@ -32,16 +32,16 @@ export const loadYAMLConfig = (fileName: string, relativePath?: string) => {
     }
 };
 
-const loadSettings = () => {
+export const loadSettings = (pathToConfigs?: string) => {
     // Clone the default settings, since it is frozen.
     const settings = JSON.parse(
         JSON.stringify(
-            loadYAMLConfig('Settings.default'),
+            loadYAMLConfig('Settings.default', pathToConfigs),
         ),
     );
 
     // Overwrite any default setting if it is set in the custom settings file.
-    const customSettings = loadYAMLConfig('Settings');
+    const customSettings = loadYAMLConfig('Settings', pathToConfigs);
 
     if(customSettings) {
         Object.entries(customSettings).forEach(([key, value]) => {
@@ -51,7 +51,8 @@ const loadSettings = () => {
         });
     }
 
-    return settings;
+    // Prevent the config from being modified after it has left this package.
+    return Object.freeze(settings);
 };
 
 export const Settings = loadSettings();

@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { init } from '../shared/Config';
-import { loadYAMLConfig } from '@dungeonz/configs';
+import { loadSettings } from '@dungeonz/configs';
 
 const App = dynamic(
     () => import('../components/App'),
@@ -30,7 +30,7 @@ export async function getStaticProps() {
 
     // Anything from the @dungeonz/configs package that is needed in this client app should be
     // added here (basically just copy pasted from the index file that lists the exported configs).
-    const Settings = loadYAMLConfig('Settings', pathToConfigs) || loadYAMLConfig('Settings.default', pathToConfigs);
+    const Settings = loadSettings(pathToConfigs);
 
     return {
         props: {

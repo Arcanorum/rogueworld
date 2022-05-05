@@ -226,6 +226,8 @@ class Entity {
         properties.typeNumber = (this.constructor as typeof Entity).typeNumber;
         properties.row = this.row;
         properties.col = this.col;
+        properties.hitPoints = this.hitPoints;
+        properties.maxHitPoints = this.maxHitPoints;
         return properties;
     }
 

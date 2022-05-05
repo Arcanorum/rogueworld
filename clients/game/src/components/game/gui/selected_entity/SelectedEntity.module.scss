@@ -1,0 +1,62 @@
+@import '../../../../shared/Variables.scss';
+
+.selection {
+    display: inline-flex;
+    top: 50px;
+    left: 50%;
+    align-items: center;
+
+    .icon {
+        width: 48px;
+        height: 48px;
+        background-color: $colourDB32VeryDarkPurple;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+
+        img {
+            height: 80%;
+            position: absolute;
+        }
+    }
+
+    .hp-bar {
+        position: relative;
+        width: 256px;
+        height: 24px;
+        background-color: $colourDB32VeryDarkPurple;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 12px 12px 0px;
+
+        &.all-padding {
+            padding: 12px;
+        }
+
+        .entity-name {
+            position: absolute;
+            top: -12px;
+            left: 6px;
+            font-size: 20px;
+            width: 9999px;
+        }
+
+        .hp {
+            width: 100%;
+            height: 100%;
+            background-color: $colourDB32Green;
+        }
+
+        .value {
+            position: absolute;
+            font-size: 14px;
+        }
+    }
+}
+
+.centered {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}

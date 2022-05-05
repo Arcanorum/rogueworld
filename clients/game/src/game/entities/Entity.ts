@@ -1,12 +1,17 @@
 import { tileDistanceBetween, warning } from '@dungeonz/utils';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
+import { SELECTED_ENTITY } from '../../shared/EventTypes';
 import Global from '../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
 import Container from './Container';
+import entityIconsList from '../EntityIconsList';
 
 class Entity extends Container {
     static displayName = '';
+
+    /** The file name (without file type extension) of the image to use for this entity (i.e. when selected). */
+    static iconName = '';
 
     /** The base name of this set of animations. */
     static animationSetName = '';
@@ -21,6 +26,10 @@ class Entity extends Container {
     static animationDuration = 1000;
 
     entityId: string;
+
+    hitPoints: number;
+
+    maxHitPoints: number;
 
     moveRate?: number;
 
@@ -54,6 +63,8 @@ class Entity extends Container {
         config: {
             id: string;
             moveRate?: number;
+            hitPoints?: number;
+            maxHitPoints?: number;
             frameName?: string;
             displayName?: string;
             displayNameColor?: string;
@@ -64,6 +75,8 @@ class Entity extends Container {
         this.setScale(Config.GAME_SCALE);
         this.entityId = config.id;
         this.moveRate = config.moveRate;
+        this.hitPoints = config.hitPoints;
+        this.maxHitPoints = config.maxHitPoints;
         // Can be undefined or an object with an optional "fill" and "stroke"
         // property to be set as any color string value Phaser can take.
         // Used for differentiating clan members by name color.
@@ -90,6 +103,7 @@ class Entity extends Container {
             this.baseSprite.anims.play(EntityType.animationSetName);
         }
 
+        // Use a specific display name if given, or the one for this entity type.
         const displayName = config.displayName || EntityType.displayName;
 
         if(displayName) {
@@ -160,7 +174,12 @@ class Entity extends Container {
         const playerDynamic = Global.gameScene.dynamics[this.entityId];
 
         // Make this entity be the current selection target.
-        // TODO
+        PubSub.publish(SELECTED_ENTITY, { new: {
+            icon: entityIconsList[(this.constructor as typeof Entity).iconName],
+            name: this.displayName?.text,
+            hitPoints: this.hitPoints,
+            maxHitPoints: this.maxHitPoints,
+        } });
 
         // Check the player is within the interaction range of the entity.
         const dist = tileDistanceBetween(thisDynamic, playerDynamic);

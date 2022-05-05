@@ -5,12 +5,9 @@ import styles from './GUI.module.scss';
 import GloryCounter from './glory_counter/GloryCounter';
 import DefenceCounter from './defence_counter/DefenceCounter';
 import PanelButton from './panel_button/PanelButton';
-// import TaskTracker from './task_tracker/TaskTracker';
 import {
     ApplicationState, GUIState, ChatState, PlayerState,
 } from '../../../shared/state';
-// import statsIcon from '../../../assets/images/gui/hud/stats-icon.png';
-// import tasksIcon from '../../../assets/images/gui/hud/tasks-icon.png';
 import mapIcon from '../../../assets/images/gui/hud/map-icon.png';
 import chatIcon from '../../../assets/images/gui/hud/chat-icon.png';
 import chatUnreadedMessageIcon from '../../../assets/images/gui/hud/chat-unreaded-msg-icon.png';
@@ -34,6 +31,7 @@ import Hotbar from './hotbar/Hotbar';
 import GUIPanelWindows from './GUIPanelWindows';
 import ChatPanel from './panels/chat/ChatPanel';
 import getTextDef from '../../../shared/GetTextDef';
+import SelectedEntity from './selected_entity/SelectedEntity';
 
 const discordInviteLink = 'https://discord.com/invite/7wjyU7B';
 const wikiLink = 'https://dungeonz.fandom.com/wiki/Dungeonz.io_Wiki';
@@ -115,6 +113,8 @@ function GUI() {
     return (
         <div className={`${styles['gui']}`}>
             <Meters />
+
+            <SelectedEntity />
 
             {/* {trackedTask && <TaskTracker />} */}
 

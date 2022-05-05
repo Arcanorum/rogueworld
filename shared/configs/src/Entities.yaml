@@ -23,6 +23,7 @@
   clientConfig:
     extendsClassName: Mob
     displayName: Bandit
+    iconName: bandit-1
     animationSetName: bandit
     animationRepeats: true
 
@@ -36,6 +37,7 @@
   clientConfig:
     extendsClassName: Mob
     displayName: Bat
+    iconName: bat-1
     animationSetName: bat
     animationRepeats: true
 
@@ -49,6 +51,7 @@
   clientConfig:
     extendsClassName: Mob
     displayName: Snake
+    iconName: snake-1
     animationSetName: snake
     animationRepeats: true
 

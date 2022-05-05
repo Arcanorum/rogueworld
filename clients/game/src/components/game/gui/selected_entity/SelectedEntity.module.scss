@@ -28,7 +28,7 @@
         background-color: $colourDB32VeryDarkPurple;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
         padding: 12px 12px 12px 0px;
 
         &.all-padding {
@@ -44,12 +44,16 @@
         }
 
         .hp {
+            margin-left: 0;
             width: 100%;
             height: 100%;
             background-color: $colourDB32Green;
         }
 
         .value {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
             position: absolute;
             font-size: 14px;
         }

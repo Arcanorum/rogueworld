@@ -1,7 +1,9 @@
 import PubSub from 'pubsub-js';
 import { ReactElement } from 'react';
+import { GUIState } from '.';
 import Panels from '../../components/game/gui/panels/Panels';
 import PanelTemplate from '../../components/game/gui/panels/panel_template/PanelTemplate';
+import Entity from '../../game/entities/Entity';
 import {
     CURSOR_MOVE,
     TOOLTIP_CONTENT,
@@ -11,8 +13,10 @@ import {
     PANEL_CHANGE,
     SHOW_CHAT_BOX,
     QUICK_CHAT_ENABLED,
+    SELECTED_ENTITY,
 } from '../EventTypes';
 import { ShopItemConfig } from '../types';
+import entityIconsList from '../../game/EntityIconsList';
 
 interface ShopType {
     stock: Array<ShopItemConfig>;
@@ -42,6 +46,7 @@ class GUI {
     showChatBox!: boolean;
     craftingStation!: CraftingStation | null;
     shop!: Shop | null;
+    selectedEntity!: Entity | null;
 
     /** The current percent zoom level for all elements with the 'gui-scalable' style class. */
     guiScale!: number;
@@ -106,6 +111,8 @@ class GUI {
         this.craftingStation = null;
 
         this.shop = null;
+
+        this.selectedEntity = null;
 
         this.guiScale = 100;
 
@@ -180,6 +187,27 @@ class GUI {
 
     //     PubSub.publish(SHOP, this.shop);
     // }
+
+    setSelectedEntity(entity: Entity) {
+        // Don't update if this is already the selected entity.
+        if(entity === GUIState.selectedEntity) return;
+
+        GUIState.selectedEntity = entity;
+
+        // check if it was unset (i.e. no selection).
+        if(!GUIState.selectedEntity) {
+            PubSub.publish(SELECTED_ENTITY);
+            return;
+        }
+
+        // Make this entity be the current selection target.
+        PubSub.publish(SELECTED_ENTITY, { new: {
+            icon: entityIconsList[(entity.constructor as typeof Entity).iconName],
+            name: entity.displayName?.text,
+            hitPoints: entity.hitPoints,
+            maxHitPoints: entity.maxHitPoints,
+        } });
+    }
 
     setStockPrices(value: Array<number>) {
         if(this.shop) {

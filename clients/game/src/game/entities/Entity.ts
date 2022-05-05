@@ -1,11 +1,10 @@
 import { tileDistanceBetween, warning } from '@dungeonz/utils';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
-import { SELECTED_ENTITY } from '../../shared/EventTypes';
+import { SELECTED_ENTITY_HITPOINTS } from '../../shared/EventTypes';
 import Global from '../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
 import Container from './Container';
-import entityIconsList from '../EntityIconsList';
 
 class Entity extends Container {
     static displayName = '';
@@ -164,6 +163,10 @@ class Entity extends Container {
                 Global.gameScene.sound.play('sword-cutting-flesh', { volume: GUIState.effectsVolume / 100 });
             }
         }
+
+        if(this === GUIState.selectedEntity) {
+            GUIState.setSelectedEntity(null);
+        }
     }
 
     /**
@@ -173,13 +176,7 @@ class Entity extends Container {
         const thisDynamic = Global.gameScene.dynamics[PlayerState.entityId];
         const playerDynamic = Global.gameScene.dynamics[this.entityId];
 
-        // Make this entity be the current selection target.
-        PubSub.publish(SELECTED_ENTITY, { new: {
-            icon: entityIconsList[(this.constructor as typeof Entity).iconName],
-            name: this.displayName?.text,
-            hitPoints: this.hitPoints,
-            maxHitPoints: this.maxHitPoints,
-        } });
+        GUIState.setSelectedEntity(this);
 
         // Check the player is within the interaction range of the entity.
         const dist = tileDistanceBetween(thisDynamic, playerDynamic);
@@ -272,6 +269,16 @@ class Entity extends Container {
         //     }
     }
 
+    onHitPointsModified(amount: string) {
+        this.hitPoints += parseInt(amount);
+
+        if(GUIState.selectedEntity === this) {
+            PubSub.publish(SELECTED_ENTITY_HITPOINTS, { new: this.hitPoints });
+        }
+
+        super.onHitPointsModified(amount);
+    }
+
     moveAnimCompleted() {
         return;
     }
@@ -333,7 +340,7 @@ class Entity extends Container {
         const defaultTextureKey = 'game-atlas';
 
         if (!setName) {
-        // Skip the Entity class itself. It has no animation set of it's own to add.
+            // Skip the Entity class itself. It has no animation set of it's own to add.
             if (setName !== null) {
                 warning('Adding animation set. Missing set name on class prototype somewhere. Skipping.');
             }

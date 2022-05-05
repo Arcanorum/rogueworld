@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SELECTED_ENTITY } from '../../../../shared/EventTypes';
+import { SELECTED_ENTITY, SELECTED_ENTITY_HITPOINTS } from '../../../../shared/EventTypes';
 import styles from './SelectedEntity.module.scss';
 
 function SelectedEntity() {
@@ -11,10 +11,13 @@ function SelectedEntity() {
     useEffect(() => {
         const subs = [
             PubSub.subscribe(SELECTED_ENTITY, (msg, data) => {
-                setIcon(data.new.icon || '');
-                setName(data.new.name || '');
-                setHitPoints(data.new.hitPoints || 0);
-                setMaxHitPoints(data.new.maxHitPoints || 0);
+                setIcon(data?.new?.icon || '');
+                setName(data?.new?.name || '');
+                setHitPoints(data?.new?.hitPoints || 0);
+                setMaxHitPoints(data?.new?.maxHitPoints || 0);
+            }),
+            PubSub.subscribe(SELECTED_ENTITY_HITPOINTS, (msg, data) => {
+                setHitPoints(data.new || 0);
             }),
         ];
 
@@ -32,11 +35,13 @@ function SelectedEntity() {
                     <img src={icon} />
                 </div>
             }
-            <div className={`${styles['hp-bar']} ${!icon ? styles['all-padding'] : ''}`}>
-                <div className={`${styles['entity-name']} high-contrast-text`}>{name}</div>
-                <div className={`${styles['hp']}`}></div>
-                <div className={`${styles['value']} high-contrast-text`}>{`${hitPoints}/${maxHitPoints}`}</div>
-            </div>
+            {hitPoints &&
+                <div className={`${styles['hp-bar']} ${!icon ? styles['all-padding'] : ''}`}>
+                    <div className={`${styles['entity-name']} high-contrast-text`}>{name}</div>
+                    <div className={`${styles['hp']}`} style={{ width: `${(hitPoints / maxHitPoints) * 100}%` }}></div>
+                    <div className={`${styles['value']} high-contrast-text`}>{`${hitPoints}/${maxHitPoints}`}</div>
+                </div>
+            || ''}
         </div>
     );
 }

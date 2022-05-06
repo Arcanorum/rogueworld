@@ -7,6 +7,7 @@
   baseMaxHitPoints: 200
   baseGloryValue: 5
   clientConfig:
+    displayName: Stone wall
     animationSetName: stone-wall
     animationFrameSequence: [1]
 
@@ -23,7 +24,6 @@
   clientConfig:
     extendsClassName: Mob
     displayName: Bandit
-    iconName: bandit-1
     animationSetName: bandit
     animationRepeats: true
 
@@ -37,7 +37,6 @@
   clientConfig:
     extendsClassName: Mob
     displayName: Bat
-    iconName: bat-1
     animationSetName: bat
     animationRepeats: true
 
@@ -51,7 +50,6 @@
   clientConfig:
     extendsClassName: Mob
     displayName: Snake
-    iconName: snake-1
     animationSetName: snake
     animationRepeats: true
 
@@ -60,6 +58,7 @@
   baseMaxHitPoints: 100
   baseGloryValue: 10
   clientConfig:
+    displayName: Pine tree
     animationSetName: pine-tree
     animationFrameSequence: [1]
 
@@ -68,6 +67,7 @@
   baseMaxHitPoints: 200
   baseGloryValue: 20
   clientConfig:
+    displayName: Iron rocks
     animationSetName: iron-rocks
     animationFrameSequence: [1]
 

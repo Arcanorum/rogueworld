@@ -299,6 +299,11 @@ class Entity extends Container {
                 }
             }
         });
+
+        // If no config is set for a specific icon name, use the first frame of the animation set.
+        if(!this.iconName && this.animationSetName) {
+            this.iconName = `${this.animationSetName}-1`;
+        }
     }
 
     static setupAnimations() {

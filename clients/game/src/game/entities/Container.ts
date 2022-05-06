@@ -98,7 +98,7 @@ class Container extends Phaser.GameObjects.Container {
         // The anchor is still in the top left, so offset by half the width to center the text.
         this.displayName = Global.gameScene.add.text(0, -6, displayName, {
             fontFamily: '\'Press Start 2P\'',
-            fontSize: '20px',
+            fontSize: '16px',
             align: 'center',
             color: '#f5f5f5',
             stroke: '#000000',

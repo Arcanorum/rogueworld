@@ -407,18 +407,6 @@ class Entity {
      */
     onAllHitPointsLost() {
         if(this.board) {
-            // Give all nearby players the glory value of this mob.
-            const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
-
-            if(this.gloryValue) {
-                for (let i = 0; i < nearbyPlayers.length; i += 1) {
-                    nearbyPlayers[i].modGlory(+this.gloryValue);
-                    // nearbyPlayers[i].tasks.progressTask(this.taskIdKilled);
-                }
-            }
-
-            this.dropItems();
-
             if (this.curse) {
                 // If should keep processing after curse has fired, create a corpse.
                 if (this.curse.onEntityDeath() === true) {

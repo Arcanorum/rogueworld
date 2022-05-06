@@ -57,6 +57,10 @@
   highBlocking: true
   baseMaxHitPoints: 100
   baseGloryValue: 10
+  dropList:
+    - itemName: PineLogs
+      dropRate: 100
+      rolls: 2
   clientConfig:
     displayName: Pine tree
     animationSetName: pine-tree

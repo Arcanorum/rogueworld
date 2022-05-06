@@ -21,11 +21,11 @@ class Player extends Entity {
 
         const style = {
             fontFamily: '\'Press Start 2P\'',
-            fontSize: '16',
+            fontSize: '16px',
             align: 'center',
             fill: '#f5f5f5',
             stroke: '#000000',
-            strokeThickness: 8,
+            strokeThickness: 5,
             wordWrap: {
                 width: 250,
             },

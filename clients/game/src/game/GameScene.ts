@@ -768,7 +768,8 @@ class GameScene extends Phaser.Scene {
                 return;
             }
 
-            dynamicSpriteContainer.onMove();
+            // If the dynamic does something extra when it moves, do it.
+            if (dynamicSpriteContainer.onMove) dynamicSpriteContainer.onMove();
         });
 
         // if (darknessGridDirty) {

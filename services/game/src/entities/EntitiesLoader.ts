@@ -7,6 +7,7 @@ import requireDir from 'require-dir';
 import { EntitiesList } from '.';
 import Dynamic from './classes/Dynamic';
 import Entity from './classes/Entity';
+import Drop, { DropConfig } from '../gameplay/Drop';
 
 /**
  * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract subclasses.
@@ -110,6 +111,17 @@ export const initialiseList = () => {
                 if (
                     Object.getPrototypeOf(EntityClass)[key] === EntityClass[key]
                 ) {
+                    if(key === 'dropList') {
+                        if (!Array.isArray(value)) error('Invalid drop list given. Must be an array:', config.dropList);
+
+                        const dropList: Array<Drop> = [];
+
+                        (value as Array<DropConfig>).forEach((dropConfig) => {
+                            dropList.push(new Drop(dropConfig));
+                        });
+
+                        value = dropList;
+                    }
                     // eslint-disable-next-line
                     // @ts-ignore
                     EntityClass[key] = value;

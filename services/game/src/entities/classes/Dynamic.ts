@@ -2,7 +2,9 @@ import { DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByD
 import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@dungeonz/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
+import Drop from '../../gameplay/Drop';
 import { FactionRelationshipStatuses, getFactionRelationship } from '../../gameplay/Factions';
+import { ItemState } from '../../inventory';
 import Entity, { EntityConfig } from './Entity';
 import Player from './Player';
 
@@ -37,6 +39,11 @@ class Dynamic extends Entity {
      * How far away this entity can attack another entity from.
      */
     static baseAttackRange?: number = undefined;
+
+    /**
+     * An array of pickups that could be created when this mob is destroyed.
+     */
+    static dropList: Array<Drop> = [];
 
     attackRange?: number;
 
@@ -218,6 +225,52 @@ class Dynamic extends Entity {
         // this.lastDamagedTime = Date.now();
 
         super.onDamage(damage, damagedBy);
+    }
+
+    onAllHitPointsLost() {
+        if(this.board) {
+            // Give all nearby players the glory value of this mob.
+            const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
+
+            if(this.gloryValue) {
+                for (let i = 0; i < nearbyPlayers.length; i += 1) {
+                    nearbyPlayers[i].modGlory(+this.gloryValue);
+                    // nearbyPlayers[i].tasks.progressTask(this.taskIdKilled);
+                }
+            }
+
+            this.dropItems();
+        }
+
+        super.onAllHitPointsLost();
+    }
+
+    /**
+     * Create some pickups for whatever this mob has dropped from its drop list.
+     */
+    dropItems() {
+        const EntityType = this.constructor as typeof Dynamic;
+
+        EntityType.dropList.forEach((dropConfig) => {
+            if(!this.board) return;
+
+            // Roll for this drop as many times as it is configured to.
+            for (let roll = 0; roll < dropConfig.rolls; roll += 1) {
+                // Do the roll.
+                if (dropConfig.dropRate >= getRandomIntInclusive(1, 100)) {
+                    // Create a new pickup which will be added to the board.
+                    new dropConfig.PickupType({
+                        row: this.row,
+                        col: this.col,
+                        board: this.board,
+                        itemState: new ItemState({
+                            ItemType: dropConfig.PickupType.ItemType,
+                            quantity: dropConfig.quantity,
+                        }),
+                    }).emitToNearbyPlayers();
+                }
+            }
+        });
     }
 
     /**

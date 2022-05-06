@@ -22,6 +22,13 @@ class Pickup extends Entity {
     static ItemType: typeof Item;
 
     /**
+     * The percent chance this item will be dropped when rolled from a mob drop list.
+     * From 0 to 100 (percent), including 100 but not 0, as 0 would mean the item
+     * can never drop, so pointless to have it on a drop list.
+     */
+    static dropRate = 20;
+
+    /**
      * The state of the item that this pickup represents.
      * If not defined after instantiation, then it will use the defaults from the ItemType.
      */

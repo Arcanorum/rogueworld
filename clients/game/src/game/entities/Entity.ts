@@ -78,10 +78,6 @@ class Entity extends Container {
         this.moveRate = config.moveRate;
         this.hitPoints = config.hitPoints;
         this.maxHitPoints = config.maxHitPoints;
-        // Can be undefined or an object with an optional "fill" and "stroke"
-        // property to be set as any color string value Phaser can take.
-        // Used for differentiating clan members by name color.
-        this.displayNameColor = config.displayNameColor;
 
         const EntityType = this.constructor as typeof Entity;
 
@@ -108,6 +104,11 @@ class Entity extends Container {
         const displayName = config.displayName || EntityType.displayName;
 
         if(displayName) {
+            // Can be undefined or an object with an optional "fill" and "stroke"
+            // property to be set as any color string value Phaser can take.
+            // Used for differentiating clan members by name color.
+            // this.displayNameColor = config.displayNameColor; TODO: remove this? might use for teammates/aggroed?
+
             this.addDisplayName(displayName);
         }
 

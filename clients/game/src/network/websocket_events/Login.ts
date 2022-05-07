@@ -5,6 +5,7 @@ import {
     ALREADY_LOGGED_IN, INVALID_LOGIN_DETAILS, WORLD_FULL, SOMETHING_WENT_WRONG,
 } from '../../shared/EventTypes';
 import { message } from '@dungeonz/utils';
+import { JoinWorldData } from '../../shared/state/Application';
 
 const Login = () => {
     message('Adding login events');
@@ -33,7 +34,7 @@ const Login = () => {
         PubSub.publish(WORLD_FULL);
     };
 
-    eventResponses.join_world_success = (data) => {
+    eventResponses.join_world_success = (data: JoinWorldData) => {
         message('Join world success, data:');
         message(data);
 

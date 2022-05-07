@@ -362,8 +362,8 @@ class Player extends Entity {
             this.col,
             'change_display_name',
             {
+                id: this.id,
                 displayName,
-                entityId: this.id,
             },
         );
 

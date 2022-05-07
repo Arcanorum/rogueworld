@@ -9,6 +9,7 @@ import Entity from './Entity';
 import Account from './Account';
 import { GUIState, ChatState } from '../../shared/state';
 import { message } from '@dungeonz/utils';
+import { ChatMessage } from '../../shared/state/Chat';
 // import { DayPhases } from '@dungeonz/types';
 
 // Add the login/home page related events immediately.
@@ -49,12 +50,12 @@ export const addGameEventResponses = () => {
     //     }
     // };
 
-    eventResponses.chat = (data) => {
+    eventResponses.chat = (data: ChatMessage) => {
         // console.log('chat:', data);
         ChatState.addNewChat(data);
     };
 
-    eventResponses.shop_prices = (data) => {
+    eventResponses.shop_prices = (data: Array<number>) => {
         GUIState.setStockPrices(data);
     };
 };

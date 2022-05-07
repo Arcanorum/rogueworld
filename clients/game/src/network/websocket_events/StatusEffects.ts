@@ -3,14 +3,14 @@ import Global from '../../shared/Global';
 import { GUIState, PlayerState } from '../../shared/state';
 
 const StatusEffects = () => {
-    eventResponses.effect_start_burn = (data) => {
+    eventResponses.effect_start_burn = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.burnEffect) return;
         entity.spriteContainer.burnEffect.anims.play('burn');
     };
 
-    eventResponses.effect_stop_burn = (data) => {
+    eventResponses.effect_stop_burn = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.burnEffect) return;
@@ -18,14 +18,14 @@ const StatusEffects = () => {
         entity.spriteContainer.burnEffect.visible = false;
     };
 
-    eventResponses.effect_start_poison = (data) => {
+    eventResponses.effect_start_poison = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.poisonEffect) return;
         entity.spriteContainer.poisonEffect.anims.play('poison');
     };
 
-    eventResponses.effect_stop_poison = (data) => {
+    eventResponses.effect_stop_poison = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.poisonEffect) return;
@@ -33,14 +33,14 @@ const StatusEffects = () => {
         entity.spriteContainer.poisonEffect.visible = false;
     };
 
-    eventResponses.effect_start_health_regen = (data) => {
+    eventResponses.effect_start_health_regen = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.healthRegenEffect) return;
         entity.spriteContainer.healthRegenEffect.anims.play('health-regen');
     };
 
-    eventResponses.effect_stop_health_regen = (data) => {
+    eventResponses.effect_stop_health_regen = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.healthRegenEffect) return;
@@ -48,14 +48,14 @@ const StatusEffects = () => {
         entity.spriteContainer.healthRegenEffect.visible = false;
     };
 
-    eventResponses.effect_start_cured = (data) => {
+    eventResponses.effect_start_cured = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.curedEffect) return;
         entity.spriteContainer.curedEffect.anims.play('cured');
     };
 
-    eventResponses.effect_stop_cured = (data) => {
+    eventResponses.effect_stop_cured = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.curedEffect) return;
@@ -63,14 +63,14 @@ const StatusEffects = () => {
         entity.spriteContainer.curedEffect.visible = false;
     };
 
-    eventResponses.effect_start_cold_resistance = (data) => {
+    eventResponses.effect_start_cold_resistance = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.coldResistanceEffect) return;
         entity.spriteContainer.coldResistanceEffect.anims.play('cold-resistance');
     };
 
-    eventResponses.effect_stop_cold_resistance = (data) => {
+    eventResponses.effect_stop_cold_resistance = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.coldResistanceEffect) return;
@@ -78,14 +78,14 @@ const StatusEffects = () => {
         entity.spriteContainer.coldResistanceEffect.visible = false;
     };
 
-    eventResponses.effect_start_chill = (data) => {
+    eventResponses.effect_start_chill = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.chillEffect) return;
         entity.spriteContainer.chillEffect.anims.play('chill');
     };
 
-    eventResponses.effect_stop_chill = (data) => {
+    eventResponses.effect_stop_chill = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.chillEffect) return;
@@ -93,14 +93,14 @@ const StatusEffects = () => {
         entity.spriteContainer.chillEffect.visible = false;
     };
 
-    eventResponses.effect_start_broken_bones = (data) => {
+    eventResponses.effect_start_broken_bones = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.brokenBonesEffect) return;
         entity.spriteContainer.brokenBonesEffect.anims.play('broken-bones');
     };
 
-    eventResponses.effect_stop_broken_bones = (data) => {
+    eventResponses.effect_stop_broken_bones = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.brokenBonesEffect) return;
@@ -108,7 +108,7 @@ const StatusEffects = () => {
         entity.spriteContainer.brokenBonesEffect.visible = false;
     };
 
-    eventResponses.curse_set = (data) => {
+    eventResponses.curse_set = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.curseEffect) return;
@@ -121,7 +121,7 @@ const StatusEffects = () => {
         }
     };
 
-    eventResponses.curse_removed = (data) => {
+    eventResponses.curse_removed = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.curseEffect) return;
@@ -129,7 +129,7 @@ const StatusEffects = () => {
         entity.spriteContainer.curseEffect.visible = false;
     };
 
-    eventResponses.enchantment_set = (data) => {
+    eventResponses.enchantment_set = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.enchantmentEffect) return;
@@ -142,7 +142,7 @@ const StatusEffects = () => {
         }
     };
 
-    eventResponses.enchantment_removed = (data) => {
+    eventResponses.enchantment_removed = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.enchantmentEffect) return;

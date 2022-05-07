@@ -5,6 +5,7 @@ import Config from '../../shared/Config';
 import getTextDef from '../../shared/GetTextDef';
 import Global from '../../shared/Global';
 import { PlayerState } from '../../shared/state';
+import { DynamicEntityData } from '../../shared/types';
 import eventResponses from './EventResponses';
 
 const tweenCompleteLeft = () => {
@@ -28,25 +29,25 @@ const tweenCompleteDown = () => {
 };
 
 const Entity = () => {
-    eventResponses.add_entity = (data) => {
+    eventResponses.add_entity = (data: DynamicEntityData) => {
         // console.log("add entity event:", data);
         if (Global.gameScene.addEntity === undefined) return;
         Global.gameScene.addEntity(data);
     };
 
-    eventResponses.remove_entity = (data) => {
+    eventResponses.remove_entity = (data: string) => {
         // console.log("remove entity event:", data);
         Global.gameScene.removeDynamic(data);
     };
 
-    eventResponses.add_entities = (data) => {
+    eventResponses.add_entities = (data: Array<DynamicEntityData>) => {
         // console.log("add entities event");
         for (let i = 0; i < data.length; i += 1) {
             Global.gameScene.addEntity(data[i]);
         }
     };
 
-    eventResponses.moved = (data) => {
+    eventResponses.moved = (data: {id: string; row: number; col: number; moveRate: number}) => {
         if (Global.gameScene.dynamics === undefined) {
             // Something went wrong... Reload the page.
             // location.reload();
@@ -223,11 +224,11 @@ const Entity = () => {
         }
     };
 
-    eventResponses.heal = (data) => {
+    eventResponses.heal = (data: {id: string; amount: string}) => {
         Global.gameScene.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
     };
 
-    eventResponses.damage = (data) => {
+    eventResponses.damage = (data: {id: string; amount: string}) => {
         const { spriteContainer } = Global.gameScene.dynamics[data.id];
         spriteContainer.onHitPointsModified(data.amount);
         // Squirt some juice.
@@ -237,7 +238,7 @@ const Entity = () => {
         );
     };
 
-    eventResponses.change_direction = (data) => {
+    eventResponses.change_direction = (data: {id: string}) => {
         // console.log("change_direction:", data);
         // Check the entity id is valid.
         const dynamic = Global.gameScene.dynamics[data.id];

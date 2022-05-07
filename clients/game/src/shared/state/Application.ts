@@ -12,7 +12,7 @@ interface MissedWebsocketEvent {
     data?: number | string | object | Array<ItemState>;
 }
 
-interface JoinWorldData {
+export interface JoinWorldData {
     boardName: string;
     boardAlwaysNight: boolean;
     accountId: string;

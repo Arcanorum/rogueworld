@@ -1,33 +1,25 @@
 import PubSub from 'pubsub-js';
 import Panels from '../../components/game/gui/panels/Panels';
-import {
-    DUNGEON_ACTIVE,
-    DUNGEON_KEYS,
-    DUNGEON_TIME_LIMIT_MINUTES,
-    COMBAT_STATUS_TRIGGER,
-} from '../../shared/EventTypes';
+import { COMBAT_STATUS_TRIGGER } from '../../shared/EventTypes';
 import Global from '../../shared/Global';
 import { GUIState, PlayerState } from '../../shared/state';
+import { DynamicEntityData } from '../../shared/types';
 import eventResponses from './EventResponses';
 
 const PlayerValues = () => {
-    eventResponses.change_board = (data) => {
+    eventResponses.change_board = (data: {
+        boardName: string;
+        boardAlwaysNight: boolean;
+        playerRow: number;
+        playerCol: number;
+        dynamicsData: Array<DynamicEntityData>;
+    }) => {
         // console.log("change board, data:", data);
         Global.gameScene.dynamicsData = data.dynamicsData;
         Global.gameScene.boardAlwaysNight = data.boardAlwaysNight;
 
         PlayerState.setRow(data.playerRow);
         PlayerState.setCol(data.playerCol);
-
-        // They might be leaving a dungeon, so stop the dungeon timer if it is running.
-        if (!data.boardIsDungeon) {
-            PubSub.publish(DUNGEON_TIME_LIMIT_MINUTES, 0);
-            PubSub.publish(DUNGEON_KEYS, {});
-            PubSub.publish(DUNGEON_ACTIVE, false);
-        }
-        else {
-            PubSub.publish(DUNGEON_ACTIVE, true);
-        }
 
         // Load the map with the given board name.
         Global.gameScene.tilemap.loadMap(data.boardName);
@@ -51,14 +43,14 @@ const PlayerValues = () => {
         );
     };
 
-    eventResponses.change_display_name = (data) => {
+    eventResponses.change_display_name = (data: {id: string; displayName: string}) => {
         // If it the name changed for this player, then update their state.
-        if (data.entityId === PlayerState.entityId) {
+        if (data.id === PlayerState.entityId) {
             PlayerState.setDisplayName(data.displayName);
         }
 
         // Update the display name text on the sprite.
-        const dynamic = Global.gameScene.dynamics[data.entityId];
+        const dynamic = Global.gameScene.dynamics[data.id];
 
         dynamic.spriteContainer?.displayName?.setText(data.displayName);
     };
@@ -71,7 +63,7 @@ const PlayerValues = () => {
         PubSub.publish(COMBAT_STATUS_TRIGGER, 0);
     };
 
-    eventResponses.player_in_combat = (data) => {
+    eventResponses.player_in_combat = (data: {duration: number}) => {
         PubSub.publish(COMBAT_STATUS_TRIGGER, data.duration);
     };
 
@@ -79,19 +71,19 @@ const PlayerValues = () => {
         Global.gameScene.sound.play('punch-1', { volume: GUIState.effectsVolume / 100 });
     };
 
-    eventResponses.hit_point_value = (data) => {
+    eventResponses.hit_point_value = (data: number) => {
         PlayerState.setHitPoints(data);
     };
 
-    eventResponses.food_value = (data) => {
+    eventResponses.food_value = (data: number) => {
         PlayerState.setFood(data);
     };
 
-    eventResponses.defence_value = (data) => {
+    eventResponses.defence_value = (data: number) => {
         PlayerState.setDefence(data);
     };
 
-    eventResponses.glory_value = (data) => {
+    eventResponses.glory_value = (data: number) => {
         PlayerState.setGlory(data);
     };
 

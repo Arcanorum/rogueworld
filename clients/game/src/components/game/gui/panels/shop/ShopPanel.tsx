@@ -20,9 +20,9 @@ import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
 import { formatItemValue } from '@dungeonz/utils';
 import Config from '../../../../../shared/Config';
-import { ShopItemConfig } from '../../../../../shared/types';
+import { ShopItemState } from '../../../../../shared/types';
 
-const canItemFit = (shopItem: ShopItemConfig) => (
+const canItemFit = (shopItem: ShopItemState) => (
     (InventoryState.maxWeight - InventoryState.weight) >= shopItem.totalWeight
 );
 
@@ -34,7 +34,7 @@ function BuyOptions({
     onCursorLeave,
     panelBounds,
 }: {
-    shopItem: ShopItemConfig;
+    shopItem: ShopItemState;
     price: number;
     onCursorLeave: () => void;
     panelBounds: DOMRect;
@@ -90,9 +90,9 @@ function ItemSlot({
     price,
     onClick,
 }: {
-    shopItem: ShopItemConfig;
+    shopItem: ShopItemState;
     price: number;
-    onClick: (shopItem: ShopItemConfig) => void;
+    onClick: (shopItem: ShopItemState) => void;
 }) {
     const [canFitThis, setCanFitThis] = useState(canItemFit(shopItem));
 
@@ -158,18 +158,18 @@ function ItemSlot({
 }
 
 function ShopPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
-    const [items, setItems] = useState<Array<ShopItemConfig>>(
+    const [items, setItems] = useState<Array<ShopItemState>>(
         GUIState.shop?.shopType.stock || [],
     );
     const [prices, setPrices] = useState<Array<number>>(GUIState.shop?.prices || []);
-    const [searchItems, setSearchItems] = useState<Array<ShopItemConfig>>([]);
+    const [searchItems, setSearchItems] = useState<Array<ShopItemState>>([]);
     const [searchText, setSearchText] = useState('');
     const [inventoryWeight, setInventoryWeight] = useState(InventoryState.weight);
     const [inventoryMaxWeight] = useState(InventoryState.maxWeight);
-    const [selectedItem, setSelectedItem] = useState<ShopItemConfig | null>(null);
+    const [selectedItem, setSelectedItem] = useState<ShopItemState | null>(null);
     const panelRef = useRef<HTMLDivElement>(null);
 
-    const onItemPressed = (item: ShopItemConfig) => {
+    const onItemPressed = (item: ShopItemState) => {
         setSelectedItem(item);
     };
 
@@ -185,7 +185,7 @@ function ShopPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     };
 
     useEffect(() => {
-        const filteredItems = items.filter((item: ShopItemConfig) =>
+        const filteredItems = items.filter((item: ShopItemState) =>
             getTextDef(`Item name: ${Config.ItemTypes[item.typeCode].translationId}`)
                 .toLowerCase()
                 .includes(searchText));

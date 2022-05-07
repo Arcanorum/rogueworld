@@ -15,11 +15,11 @@ import {
     QUICK_CHAT_ENABLED,
     SELECTED_ENTITY,
 } from '../EventTypes';
-import { ShopItemConfig } from '../types';
+import { ShopItemState } from '../types';
 import entityIconsList from '../../game/EntityIconsList';
 
 interface ShopType {
-    stock: Array<ShopItemConfig>;
+    stock: Array<ShopItemState>;
 }
 
 interface Shop {

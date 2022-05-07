@@ -1,9 +1,10 @@
-import { Items } from '@dungeonz/configs';
+import { Items, ItemWeightClasses } from '@dungeonz/configs';
 import { ItemDataConfig } from '@dungeonz/types';
 import { error, message } from '@dungeonz/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import path from 'path';
 import requireDir from 'require-dir';
+import { TaskTypes } from '../tasks';
 import Item from './classes/Item';
 import ItemsList from './ItemsList';
 
@@ -75,19 +76,17 @@ export const populateList = () => {
         },
     });
 
-    try {
-        // Load all of the item configs.
-        Items.forEach((config: {name: string; extends: string}) => {
-            // Only generate a class for this item if one doesn't already
-            // exist, as it might have it's own special logic file.
-            if (!ItemsList.BY_NAME[config.name]) {
-                ItemsList.BY_NAME[config.name] = makeClass(config);
-            }
-        });
-    }
-    catch (err) {
-        error(err);
-    }
+    // Load all of the item configs.
+    Items.forEach((config: {name: string; extends: string}) => {
+        // Only generate a class for this item if one doesn't already
+        // exist, as it might have it's own special logic file.
+        if (!ItemsList.BY_NAME[config.name]) {
+            ItemsList.BY_NAME[config.name] = makeClass({
+                name: config.name,
+                extendsClassName: config.extends,
+            });
+        }
+    });
 
     // Check all of the items are valid. i.e. are a class/function.
     Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
@@ -101,38 +100,116 @@ export const populateList = () => {
 
 export const initialiseList = () => {
     // Items list is now complete. Finish any setup for the classes in it.
-
     message('Initialising items list.');
 
-    try {
-        // Use the pure config items values again to finish setting them up, now that the classes are created.
-        Items.forEach((config: any) => {
-            if (!config.code) {
-                error('Item config missing type code:', config);
+    // Use the pure config items values again to finish setting them up, now that the classes are created.
+    Items.forEach((config: any) => {
+        if (!config.code) {
+            error('Item config missing type code:', config);
+        }
+
+        if (ItemsList.BY_CODE[config.code]) {
+            error(`Cannot initialise item for code "${config.code}", as it already exists in the items list. Item codes must be unique.`);
+        }
+
+        const ItemClass = ItemsList.BY_NAME[config.name];
+        type PropName = keyof typeof Item;
+
+        Object.entries(config).forEach(([_key, value]) => {
+            // Need to do these first as these properties have slightly different names in the
+            // items config file vs the actual property name on the Item class.
+            if (_key === 'name') {
+                ItemClass.typeName = value as string;
+                return;
             }
 
-            if (ItemsList.BY_CODE[config.code]) {
-                error(`Cannot initialise item for code "${config.code}", as it already exists in the items list. Item codes must be unique.`);
+            if (_key === 'code') {
+                ItemClass.typeCode = value as string;
+                return;
             }
 
-            ItemsList.BY_NAME[config.name].loadConfig(config);
-            // Add a reference to the item by its type code.
-            ItemsList.BY_CODE[config.code] = ItemsList.BY_NAME[config.name];
+            // Already used to create the item class.
+            if(_key === 'extends') {
+                return;
+            }
 
-            const ItemTypeProto = ItemsList.BY_NAME[config.name].prototype;
+            // Needs to be converted from just the ids into actual task type references.
+            if (_key === 'craftTasks') {
+                if (!Array.isArray(value)) {
+                    error('Item config property `craftTasks` must be an array:', config);
+                }
+
+                // Set own property for this item type, to prevent pushing into the parent (Item class) one.
+                ItemClass.craftTaskIds = [];
+
+                (value as Array<string>).forEach((taskName) => {
+                    const taskId = `Craft${taskName}`;
+                    // Check the task type is valid.
+                    if (!TaskTypes[taskId]) {
+                        error('Invalid task name in `craftTasks` list. Check it is in the task types list:', taskName);
+                    }
+
+                    ItemClass.craftTaskIds.push(taskId);
+                });
+
+                return;
+            }
+
+            // Used later to create the data for how to configure the items on the client.
+            if(_key === 'clientConfig') {
+                return;
+            }
+
+            const key = _key as PropName;
+
+            // Load whatever properties that have the same key in the config as on this class.
+            if (key in ItemClass) {
+                // Check if the property has already been loaded by a
+                // subclass, or set on the class prototype for class files.
+                if (
+                    Object.getPrototypeOf(ItemClass)[key] === ItemClass[key]
+                ) {
+                    // Add any specific config property loaders here.
+
+                    // Check for any configs that are referencing a weight class by name.
+                    if (key === 'unitWeight' && typeof value === 'string') {
+                        // Use the weight value for the corresponding weight class.
+                        // Check for undefined instead of using !, as the weight might be 0.
+                        if (ItemWeightClasses[value] === undefined) {
+                            error('Item weight class name does not exist in the item weight classes list: ', value);
+                        }
+
+                        if (typeof ItemWeightClasses[value] !== 'number') {
+                            error('The entry in the item weight class list is not a number. All weight classes must be numbers: ', value);
+                        }
+
+                        value = ItemWeightClasses[value];
+                    }
+
+                    // eslint-disable-next-line
+                    // @ts-ignore
+                    ItemClass[key] = value;
+                }
+            }
+            else {
+                error(`Invalid item config key "${key}" found on config:`, config);
+            }
 
             // Mark any items that do something when used.
-            if (ItemTypeProto.use !== Item.prototype.use
-                || ItemTypeProto.onUsed !== Item.prototype.onUsed) {
-                ItemsList.BY_NAME[config.name].hasUseEffect = true;
+            if (
+                ItemClass.hitPointsGivenOnUse !== Item.hitPointsGivenOnUse ||
+                ItemClass.prototype.use !== Item.prototype.use ||
+                ItemClass.prototype.onUsed !== Item.prototype.onUsed
+            ) {
+                ItemClass.hasUseEffect = true;
             }
         });
-    }
-    catch (err) {
-        error(err);
-    }
 
-    // Check for any item classes that don't have an entry in the Items list.
+        // Add a reference to the item by its type code.
+        ItemsList.BY_CODE[config.code] = ItemsList.BY_NAME[config.name];
+    });
+
+    // Check for any item classes that don't have an entry in the item configs file.
     // All item types MUST have a type code at a minimum, so check for that.
     Object.entries(ItemsList.BY_NAME).forEach(([name, ItemType]) => {
         if (!ItemType.typeCode) {
@@ -168,18 +245,18 @@ export const createCatalogue = () => {
         Items.forEach((config: any) => {
             const itemData: ItemDataConfig = dataToWrite[config.code];
 
-            if (!config.translationId) {
+            if (!config.clientConfig.translationId) {
                 error('Item config missing translation id:', config);
             }
-            if (!config.textureSource) {
+            if (!config.clientConfig.textureSource) {
                 error('Item config missing texture source:', config);
             }
 
-            itemData.translationId = config.translationId;
-            itemData.iconSource = `icon-${config.textureSource}`;
-            itemData.pickupSource = config.textureSource;
-            itemData.pickupScaleModifier = config.pickupSpriteScaleModifier;
-            itemData.soundType = config.soundType;
+            itemData.translationId = config.clientConfig.translationId;
+            itemData.iconSource = `icon-${config.clientConfig.textureSource}`;
+            itemData.pickupSource = config.clientConfig.textureSource;
+            itemData.pickupScaleModifier = config.clientConfig.pickupSpriteScaleModifier;
+            itemData.soundType = config.clientConfig.soundType;
         });
     }
     catch (err) {

@@ -83,6 +83,7 @@ export const populateList = () => {
         },
     });
 
+    // Load all of the entity configs.
     Entities.forEach((config: any) => {
         // Only generate a class for this entity if one doesn't already
         // exist, as it might have it's own special logic file.
@@ -111,6 +112,7 @@ export const initialiseList = () => {
                 if (
                     Object.getPrototypeOf(EntityClass)[key] === EntityClass[key]
                 ) {
+                    // Add any specific config property loaders here.
                     if(key === 'dropList') {
                         if (!Array.isArray(value)) error('Invalid drop list given. Must be an array:', config.dropList);
 
@@ -122,6 +124,7 @@ export const initialiseList = () => {
 
                         value = dropList;
                     }
+
                     // eslint-disable-next-line
                     // @ts-ignore
                     EntityClass[key] = value;

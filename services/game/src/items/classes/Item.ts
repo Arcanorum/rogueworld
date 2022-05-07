@@ -50,6 +50,11 @@ class Item {
     static useDuration = 0;
 
     /**
+     * How much crafting exp this item contributes to the recipe it is used in.
+     */
+    static craftingExpValue = 0;
+
+    /**
      * The ids of the task types that will be progressed on a player that crafts this item, from any recipe it is a result of.
      * Can be multiple, i.e. crafting iron arrows would progress both "CraftIronGear" and "CraftArrows" tasks.
      */
@@ -78,6 +83,21 @@ class Item {
      * How much glory it costs for a player to use this item.
      */
     static useGloryCost = 0;
+
+    /**
+     * How much stat experience to give when this item is used.
+     */
+    static expGivenOnUse = 0;
+
+    /**
+     * What stat to give experience in when this item is used.
+     */
+    static expGivenStatName?: string = undefined;
+
+    /**
+     * How many hitpoints to give when this item is used.
+     */
+    static hitPointsGivenOnUse = 0;
 
     /**
      * What percent to reduce the gather time by for resource nodes.
@@ -129,76 +149,6 @@ class Item {
 
         // Add the pickup to the entities list, so it can still be manually instantiated, for spawners.
         EntitiesList.BY_NAME[GenericPickup.typeName] = GenericPickup;
-    }
-
-    static loadConfig(config: any) {
-        // Load anything else that hasn't already been set by the loadConfig method of a subclass.
-
-        Object.entries(config).forEach(([key, value]) => {
-            if (key === 'name') {
-                this.typeName = value as string;
-                return;
-            }
-
-            if (key === 'code') {
-                this.typeCode = value as string;
-                return;
-            }
-
-            // Needs to be converted from just the ids into actual task type references.
-            if (key === 'craftTasks') {
-                if (!Array.isArray(value)) {
-                    error('Item config property `craftTasks` must be an array:', config);
-                }
-
-                // Set own property for this item type, to prevent pushing into the parent (Item class) one.
-                this.craftTaskIds = [];
-
-                (value as Array<string>).forEach((taskName) => {
-                    const taskId = `Craft${taskName}`;
-                    // Check the task type is valid.
-                    if (!TaskTypes[taskId]) {
-                        console.log(TaskTypes);
-
-                        error('Invalid task name in `craftTasks` list. Check it is in the task types list:', taskName);
-                    }
-
-                    this.craftTaskIds.push(taskId);
-                });
-
-                return;
-            }
-
-            // Load whatever properties that have the same key in the config as on this class.
-            /* eslint-disable-next-line */
-            // @ts-ignore
-            if (this[key] !== undefined) {
-                // Check if the property has already been loaded by a
-                // subclass, or set on the class prototype for class files.
-                /* eslint-disable-next-line */
-                // @ts-ignore
-                if (Object.getPrototypeOf(this).prototype[key] === this[key]) {
-                    /* eslint-disable-next-line */
-                    // @ts-ignore
-                    this[key] = value;
-                }
-            }
-        });
-
-        // Check for any items that are referencing a weight class by name.
-        if (typeof this.unitWeight === 'string') {
-            // Use the weight value for the corresponding weight class.
-            // Check for undefined instead of using !, as the weight might be 0.
-            if (ItemWeightClasses[this.unitWeight] === undefined) {
-                error('Item weight class name does not exist in the item weight classes list: ', this.unitWeight);
-            }
-
-            if (typeof ItemWeightClasses[this.unitWeight] !== 'number') {
-                error('The entry in the item weight class list is not a number. All weight classes must be numbers: ', this.unitWeight);
-            }
-
-            this.unitWeight = ItemWeightClasses[this.unitWeight];
-        }
     }
 
     use() { return; }

@@ -235,7 +235,7 @@ class Inventory {
      * @param itemState
      * @param forceAdd - Ignore anything that might check and limit how much can be added, such as if it would be over max weight.
      */
-    addItem(itemState: ItemState, forceAdd: boolean) {
+    addItem(itemState: ItemState, forceAdd = false) {
         if (!(itemState instanceof ItemState)) {
             throw new Error(`'Cannot add item to inventory from a state that is not an instance of ItemState. State:' ${itemState}`);
         }

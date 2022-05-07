@@ -125,8 +125,10 @@ class Item {
 
         this.PickupType = GenericPickup;
 
+        GenericPickup.typeName = `Pickup${itemName}`;
+
         // Add the pickup to the entities list, so it can still be manually instantiated, for spawners.
-        EntitiesList.BY_NAME[`Pickup${itemName}`] = GenericPickup;
+        EntitiesList.BY_NAME[GenericPickup.typeName] = GenericPickup;
     }
 
     static loadConfig(config: any) {

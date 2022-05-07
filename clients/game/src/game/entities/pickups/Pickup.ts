@@ -1,20 +1,20 @@
-import Config from '../../../shared/Config';
 import Global from '../../../shared/Global';
-import Sprite from '../Sprite';
+import Entity, { EntityConfig } from '../Entity';
 
-class Pickup extends Sprite {
-    frameName!: string;
+class Pickup extends Entity {
+    static frameName: string;
 
-    scaleModifier!: number;
+    static scaleModifier: number;
 
-    constructor(x: number, y: number, config: object) {
+    constructor(x: number, y: number, config: EntityConfig) {
         // -1 on Y to move it up slightly, so it appears behind the player when stood on after
         // being sorted in the dynamics container.
         super(x, y - 1, config);
+        const PickupType = this.constructor as typeof Pickup;
 
-        this.setFrame(this.frameName);
-        this.setScale(Config.GAME_SCALE * (this.scaleModifier || 1));
-        this.setOrigin(0.5);
+        this.baseSprite.setFrame(PickupType.frameName);
+        this.baseSprite.setScale(PickupType.scaleModifier || 1);
+        this.baseSprite.setOrigin(0.5);
 
         // Starts this sprite doing a bobbing in-out effect.
         Global.gameScene.tweens.add({
@@ -27,8 +27,5 @@ class Pickup extends Sprite {
         });
     }
 }
-
-Pickup.prototype.frameName = '';
-Pickup.prototype.scaleModifier = 0;
 
 export default Pickup;

@@ -32,7 +32,7 @@ class Pickup extends Entity {
      * The state of the item that this pickup represents.
      * If not defined after instantiation, then it will use the defaults from the ItemType.
      */
-    itemState: ItemState | null;
+    itemState: ItemState;
 
     constructor(config: PickupConfig) {
         super(config);

@@ -6,6 +6,16 @@ import Global from '../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
 import Container from './Container';
 
+export interface EntityConfig {
+    id: string;
+    moveRate?: number;
+    hitPoints?: number;
+    maxHitPoints?: number;
+    frameName?: string;
+    displayName?: string;
+    displayNameColor?: string;
+}
+
 class Entity extends Container {
     static displayName = '';
 
@@ -59,15 +69,7 @@ class Entity extends Container {
     constructor(
         x: number,
         y: number,
-        config: {
-            id: string;
-            moveRate?: number;
-            hitPoints?: number;
-            maxHitPoints?: number;
-            frameName?: string;
-            displayName?: string;
-            displayNameColor?: string;
-        },
+        config: EntityConfig,
     ) {
         super(x, y, config);
 

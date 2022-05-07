@@ -479,6 +479,37 @@ class Player extends Entity {
             this.ammunition = undefined;
         }
     }
+
+    pickUpItem() {
+        // Get the tile the character is standing on.
+        const boardTile = this.getBoardTile();
+
+        if(!boardTile) return;
+
+        // Get the first entity in the pickups list.
+        const pickup = Object.values(boardTile.pickups)[0];
+
+        // Check it has a pickup item on it. Might be nothing there.
+        if (!pickup) return;
+
+        const { itemState } = pickup;
+
+        // Check there is enough space to fit this item.
+        if (!this.inventory.canItemBeAdded(itemState)) return;
+
+        try {
+            this.inventory.addItem(itemState);
+        }
+        catch (error) {
+            warning('Cannot add item to player inventory. Error:', error);
+        }
+
+        // If it is a pickup of a stackable, then there might still be some in the stack that they
+        // couldn't fit in their inventory, so check there is anything left before destroying.
+        if (pickup.itemState.quantity < 1) {
+            pickup.destroy();
+        }
+    }
 }
 
 export default Player;

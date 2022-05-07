@@ -60,7 +60,7 @@
   dropList:
     - itemName: PineLogs
       dropRate: 100
-      rolls: 2
+      quantity: 4
   clientConfig:
     displayName: Pine tree
     animationSetName: pine-tree

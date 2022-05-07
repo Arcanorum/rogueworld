@@ -1,8 +1,7 @@
 import { error, warning } from '@dungeonz/utils';
 import Config from '../shared/Config';
 import Entity from './entities/Entity';
-// import GenericPickupsList from './entities/pickups/GenericPickupsList';
-// import GenericProjectilesList from './entities/projectiles/GenericProjectilesList';
+import { generateGenericPickupsList } from './entities/pickups/GenericPickupsList';
 
 /**
  * Creates a generic class for an entity based on the Entity class, or one of it's abstract subclasses.
@@ -29,7 +28,7 @@ const makeClass = ({
         else {
             error(`Failed to make entity class for "${typeName}".
           The class to extend from cannot be found for given "extends" property "${extendsClassName}".
-          Check it is actually extending from an existing entity type, i.e. Mob, Pickup.`);
+          Check it is actually extending from an existing entity type, i.e. Entity, Pickup.`);
         }
     }
 
@@ -74,6 +73,22 @@ const generateEntitiesList = () => {
         Config.EntitiesList[fileName] = values[index].default;
     });
 
+    // Add the generic pickups that don't have their own class files.
+    // They get classes made for them on startup.
+    Object.entries(generateGenericPickupsList()).forEach(([key, value]) => {
+        key = `Pickup${key}`;
+        // Check for duplicate entries in the list.
+        if (Config.EntitiesList[key]) {
+            warning(
+                `Building entities list. Adding generated pickup class for "${key}", but type already exists with this key. Skipping. `
+                + 'A pickup type should be defined either in a class file (if it does something special), or as an entry in the items list, but not both.',
+            );
+            return;
+        }
+
+        Config.EntitiesList[key] = value;
+    });
+
     Object.entries(Config.EntityTypes).forEach(([typeNumber, config]) => {
         const { typeName } = config;
         if(!Config.EntitiesList[typeName]) {
@@ -91,53 +106,6 @@ const generateEntitiesList = () => {
             SpriteClass.loadConfig(config);
         }
     });
-
-    // Add the generic entities that don't have their own class files.
-    // They get classes made for them on startup.
-    // Object.entries(Entities).forEach(([ key, value ]) => {
-    //     key = `Pickup${key}`;
-    //     // Check for duplicate entries in the list.
-    //     if (entitiesList[key]) {
-    //         warning(
-    //             `Building entities list. Adding generated pickup class for "${key}", but type already exists with this key. Skipping. `
-    //             + 'A pickup type should be defined either in a class file (if it does something special), or as an entry in the items list, but not both.',
-    //         );
-    //         return;
-    //     }
-
-    //     entitiesList[key] = value;
-    // });
-
-    // Add the generic pickups that don't have their own class files.
-    // They get classes made for them on startup.
-    // Object.entries(GenericPickupsList).forEach(([ key, value ]) => {
-    //     key = `Pickup${key}`;
-    //     // Check for duplicate entries in the list.
-    //     if (entitiesList[key]) {
-    //         warning(
-    //             `Building entities list. Adding generated pickup class for "${key}", but type already exists with this key. Skipping. `
-    //             + 'A pickup type should be defined either in a class file (if it does something special), or as an entry in the items list, but not both.',
-    //         );
-    //         return;
-    //     }
-
-    //     entitiesList[key] = value;
-    // });
-
-    // Add the generic projectiles that don't have their own class files.
-    // They get classes made for them on startup.
-    // Object.entries(GenericProjectilesList).forEach(([ key, value ]) => {
-    //     // Check for duplicate entries in the list.
-    //     if (entitiesList[key]) {
-    //         warning(
-    //             `Building entities list. Adding generated projectile class for "${key}", but type already exists with this key. Skipping. `
-    //             + 'A projectile type should be defined either in a class file (if it does something special), or in the projectiles list, but not both.',
-    //         );
-    //         return;
-    //     }
-
-    //     entitiesList[key] = value;
-    // });
 };
 
 export default generateEntitiesList;

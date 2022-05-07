@@ -1,4 +1,5 @@
 import { ObjectOfStrings } from '@dungeonz/types';
+import { WebpackRequireValue } from '../shared/types';
 
 /**
  * Returns a list of all of the item icon source URIs as output by webpack, so
@@ -10,17 +11,17 @@ import { ObjectOfStrings } from '@dungeonz/types';
 export default (() => {
     const context = require.context('../assets/images/gui/items/', true, /.png$/);
     const paths = context.keys();
-    const values = paths.map(context) as Array<ObjectOfStrings>;
+    const values = paths.map(context) as Array<WebpackRequireValue>;
 
     // Add each path to the list by their item name.
     const itemIconsList = paths
         .reduce((list: ObjectOfStrings, path, index) => {
             const popped = path.split('/').pop();
             if(!popped) return list;
-            // Trim the "icon-" from the start and ".png" from the end of the path.
+            // Trim the ".png" from the end of the path.
             const itemName = popped.slice(0, -4);
             // Need to use .default to get the value of the path, or would need to actually import it.
-            list[itemName] = values[index].default;
+            list[itemName] = values[index].default.src;
             return list;
         }, {});
 

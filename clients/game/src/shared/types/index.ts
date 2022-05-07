@@ -4,17 +4,24 @@
 import Player from '../../game/entities/characters/Player';
 import Entity from '../../game/entities/Entity';
 
+export interface WebpackRequireValue {
+    default: {
+        src: string;
+        blurDataURL: string;
+        height: number;
+        width: number;
+    };
+}
+
 export interface CraftingRecipeIngredient {
     id: string;
     itemTypeCode: string;
     quantity: number;
-    durability: number;
 }
 
 interface CraftingRecipeResult {
     itemTypeCode: string;
     baseQuantity: number;
-    baseDurability: number;
 }
 
 export interface CraftingRecipe {
@@ -25,12 +32,11 @@ export interface CraftingRecipe {
     result: CraftingRecipeResult;
 }
 
-export interface ShopItemConfig {
+export interface ShopItemState {
     id: string;
     index: number;
     typeCode: string;
     quantity: number;
-    durability: number;
     totalWeight: number;
 }
 

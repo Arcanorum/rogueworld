@@ -26,8 +26,7 @@ const ItemTooltip = (itemState: ItemState) => (
     <div>
         <div>{getTextDef(`Item name: ${Config.ItemTypes[itemState.typeCode].translationId}`)}</div>
         <div>
-            {itemState.durability && <div className="detail">{`${itemState.durability}/${itemState.maxDurability}`}</div>}
-            {itemState.quantity && <div className="detail">{`x${itemState.quantity}`}</div>}
+            {itemState.quantity && <div>{`x${itemState.quantity}`}</div>}
         </div>
     </div>
 );
@@ -114,9 +113,9 @@ function HotbarSlot({
                 draggable={false}
             />
             <div
-                className={`high-contrast-text ${(itemState.quantity > 999 || itemState.durability > 999) ? styles.small : ''}`}
+                className={`high-contrast-text ${itemState.quantity > 999 ? styles.small : ''}`}
             >
-                {formatItemValue(itemState.quantity) || formatItemValue(itemState.durability) || '???'}
+                {formatItemValue(itemState.quantity) || '???'}
             </div>
         </div>
     );
@@ -143,7 +142,7 @@ function Hotbar() {
     }, []);
 
     return (
-        <div className="hotbar gui-scalable">
+        <div className={styles['hotbar']}>
             {hotbarItems.map((item) => (
                 <HotbarSlot
                     key={item.id}

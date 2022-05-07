@@ -1,18 +1,10 @@
 import { warning } from '@dungeonz/utils';
-
-interface WebpackValue {
-    default: {
-        src: string;
-        blurDataURL: string;
-        height: number;
-        width: number;
-    };
-}
+import { WebpackRequireValue } from '../shared/types';
 
 // Load the entity icon images.
 export default ((context) => {
     const paths = context.keys();
-    const values = paths.map(context) as Array<WebpackValue>;
+    const values = paths.map(context) as Array<WebpackRequireValue>;
     // Add each class to the list by file name.
     return paths.reduce((list, path, index) => {
         const end = path.split('/').pop()!;

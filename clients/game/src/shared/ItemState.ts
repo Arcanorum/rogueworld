@@ -3,8 +3,6 @@ interface ItemState {
     typeCode: string;
     slotIndex: number;
     quantity: number;
-    durability: number;
-    maxDurability: number;
     totalWeight: number;
 }
 

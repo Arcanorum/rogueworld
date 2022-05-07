@@ -11,25 +11,25 @@ import {
     CLOTHING_ITEM,
     REMOVE_ALL_INVENTORY_ITEMS,
 } from '../EventTypes';
-import ItemConfig from '../ItemState';
+import ItemState from '../ItemState';
 import Config from '../Config';
 
 class Inventory {
-    items!: Array<ItemConfig>;
+    items!: Array<ItemState>;
 
     /**
      * A separate list of items for the hotbar, as things can be rearranged, so just using the
      * slotIndex from the items won't be enough.
      */
-    hotbar!: Array<ItemConfig>;
+    hotbar!: Array<ItemState>;
 
     MAX_HOTBAR_SLOTS!: 8;
 
-    holding!: ItemConfig | null;
+    holding!: ItemState | null;
 
-    clothing!: ItemConfig | null;
+    clothing!: ItemState | null;
 
-    ammunition!: ItemConfig | null;
+    ammunition!: ItemState | null;
 
     weight!: number;
 
@@ -70,18 +70,18 @@ class Inventory {
         this.loadHotBarRequest = '';
     }
 
-    setItems(itemConfigs: Array<ItemConfig>) {
-        this.items = itemConfigs;
+    setItems(itemStates: Array<ItemState>) {
+        this.items = itemStates;
     }
 
-    addToInventory(itemConfig: ItemConfig) {
-        this.items.push(itemConfig);
+    addToInventory(itemState: ItemState) {
+        this.items.push(itemState);
 
-        PubSub.publish(ADD_INVENTORY_ITEM, itemConfig);
+        PubSub.publish(ADD_INVENTORY_ITEM, itemState);
 
         // Only add automatically if the setting for it is set.
         if (this.autoAddToHotbar) {
-            this.addToHotbar(itemConfig);
+            this.addToHotbar(itemState);
         }
     }
 
@@ -118,14 +118,14 @@ class Inventory {
         PubSub.publish(REMOVE_ALL_INVENTORY_ITEMS);
     }
 
-    addToHotbar(itemConfig: ItemConfig) {
+    addToHotbar(itemState: ItemState) {
         // Don't add to the hotbar if there is no available space on it.
         if (this.hotbar.length >= this.MAX_HOTBAR_SLOTS) return;
 
         // Only add if it is usable.
-        if (!Config.ItemTypes[itemConfig.typeCode].hasUseEffect) return;
+        if (!Config.ItemTypes[itemState.typeCode].hasUseEffect) return;
 
-        this.hotbar.push(itemConfig);
+        this.hotbar.push(itemState);
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
         if (this.userAccountId !== null) {
@@ -133,8 +133,8 @@ class Inventory {
         }
     }
 
-    removeFromHotbar(itemConfig: ItemConfig) {
-        this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemConfig);
+    removeFromHotbar(itemState: ItemState) {
+        this.hotbar = this.hotbar.filter((eachItem) => eachItem !== itemState);
         PubSub.publish(HOTBAR_ITEM);
         PubSub.publish(MODIFY_INVENTORY_ITEM);
         if (this.userAccountId !== null) {
@@ -144,7 +144,7 @@ class Inventory {
 
     getHotbarItemIds() {
         // Generate an array of strings from the item ids.
-        return this.hotbar.map((itemConfig) => itemConfig.id);
+        return this.hotbar.map((itemState) => itemState.id);
     }
 
     saveHotbar() {
@@ -153,8 +153,8 @@ class Inventory {
     }
 
     defaultHotBar() {
-        this.items.forEach((itemConfig) => {
-            this.addToHotbar(itemConfig);
+        this.items.forEach((itemState) => {
+            this.addToHotbar(itemState);
         });
     }
 
@@ -172,34 +172,31 @@ class Inventory {
 
     populateInventoryToHotbar(savedHotbarItemIds: Array<string>) {
         savedHotbarItemIds.forEach((savedItemId) => {
-            this.items.forEach((itemConfig) => {
-                if (savedItemId === itemConfig.id) {
-                    this.addToHotbar(itemConfig);
+            this.items.forEach((itemState) => {
+                if (savedItemId === itemState.id) {
+                    this.addToHotbar(itemState);
                 }
             });
         });
     }
 
-    modifyItem(itemConfig: ItemConfig) {
-        const item = this.items[itemConfig.slotIndex];
+    modifyItem(itemState: ItemState) {
+        const item = this.items[itemState.slotIndex];
 
         if (!item) {
-            warning('Cannot modify item in inventory. Invalid slot index given. Config:', itemConfig);
+            warning('Cannot modify item in inventory. Invalid slot index given. Config:', itemState);
             return;
         }
 
-        if (itemConfig.quantity) {
-            item.quantity = itemConfig.quantity;
-            item.totalWeight = itemConfig.totalWeight;
-        }
-        else if (itemConfig.durability) {
-            item.durability = itemConfig.durability;
+        if (itemState.quantity) {
+            item.quantity = itemState.quantity;
+            item.totalWeight = itemState.totalWeight;
         }
         else {
-            warning('Cannot modify item in inventory. No quantity or durability given. Config:', itemConfig);
+            warning('Cannot modify item in inventory. No quantity given. Config:', itemState);
         }
 
-        PubSub.publish(MODIFY_INVENTORY_ITEM, { new: itemConfig });
+        PubSub.publish(MODIFY_INVENTORY_ITEM, { new: itemState });
     }
 
     setWeight(value: number) {
@@ -212,21 +209,21 @@ class Inventory {
         this.maxWeight = value;
     }
 
-    setHolding(value: ItemConfig | null) {
+    setHolding(value: ItemState | null) {
         // Allow slot index of 0 (falsy).
         this.holding = value;
 
         PubSub.publish(HOLDING_ITEM, value);
     }
 
-    setAmmunition(value: ItemConfig | null) {
+    setAmmunition(value: ItemState | null) {
         // Allow slot index of 0 (falsy).
         this.ammunition = value;
 
         PubSub.publish(AMMUNITION_ITEM, value);
     }
 
-    setClothing(value: ItemConfig | null) {
+    setClothing(value: ItemState | null) {
         // Allow slot index of 0 (falsy).
         this.clothing = value;
 

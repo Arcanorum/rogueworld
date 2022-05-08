@@ -5,7 +5,7 @@ import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import Heal from '../../gameplay/Heal';
-import { Inventory } from '../../inventory';
+import { Inventory, ItemState } from '../../inventory';
 import Ammunition from '../../items/classes/ammunition/Ammunition';
 import Clothes from '../../items/classes/clothes/Clothes';
 import Holdable from '../../items/classes/holdable/Holdable';
@@ -338,6 +338,9 @@ class Player extends Entity {
         const entity = boardTile.entities[entityId];
         if(!entity) return;
 
+        // Skip self.
+        if(entity === this) return;
+
         entity.damage(
             {
                 amount: 10,
@@ -346,11 +349,6 @@ class Player extends Entity {
             },
             this,
         );
-
-        // console.log('interacted, damaged entity:', entity.hitPoints);
-
-
-        // entity.interaction(this);
     }
 
     setDisplayName(displayName: string) {
@@ -489,25 +487,33 @@ class Player extends Entity {
         // Get the first entity in the pickups list.
         const pickup = Object.values(boardTile.pickups)[0];
 
-        // Check it has a pickup item on it. Might be nothing there.
-        if (!pickup) return;
+        // Check it has a pickup item on it.
+        if (pickup) {
+            const { itemState } = pickup;
 
-        const { itemState } = pickup;
+            // Check there is enough space to fit this item.
+            if (!this.inventory.canItemBeAdded(itemState)) return;
 
-        // Check there is enough space to fit this item.
-        if (!this.inventory.canItemBeAdded(itemState)) return;
+            try {
+                this.inventory.addItem(itemState);
+            }
+            catch (error) {
+                warning('Cannot add item to player inventory. Error:', error);
+            }
 
-        try {
-            this.inventory.addItem(itemState);
+            // If it is a pickup of a stackable, then there might still be some in the stack that they
+            // couldn't fit in their inventory, so check there is anything left before destroying.
+            if (pickup.itemState.quantity < 1) {
+                pickup.destroy();
+            }
         }
-        catch (error) {
-            warning('Cannot add item to player inventory. Error:', error);
-        }
-
-        // If it is a pickup of a stackable, then there might still be some in the stack that they
-        // couldn't fit in their inventory, so check there is anything left before destroying.
-        if (pickup.itemState.quantity < 1) {
-            pickup.destroy();
+        // Nothing there, so try digging up whatever the ground is made up of.
+        else {
+            if(boardTile.groundType.gatherItemType) {
+                this.inventory.addItem(
+                    new ItemState({ ItemType: boardTile.groundType.gatherItemType }),
+                );
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 import { message } from '@dungeonz/utils';
-import { World } from './space';
+import { GroundTypes, World } from './space';
 import './Server';
 import './api';
 import './websocket_events';
@@ -11,8 +11,6 @@ import { EntitiesLoader } from './entities';
 message('Starting game server.');
 
 async function init() {
-    World.init();
-
     ItemsLoader.populateList();
     EntitiesLoader.populateList();
 
@@ -21,6 +19,9 @@ async function init() {
 
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();
+
+    GroundTypes.init();
+    World.init();
 
     message('Game server started.');
 }

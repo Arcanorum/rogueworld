@@ -1,6 +1,7 @@
 import Damage from '../gameplay/Damage';
 import DamageTypes from '../gameplay/DamageTypes';
 import { StatusEffect } from '../gameplay/status_effects';
+import Item from '../items/classes/Item';
 import { GroundTypeName } from './GroundTypes';
 
 interface GroundTileConfig {
@@ -9,13 +10,14 @@ interface GroundTileConfig {
     canBeStoodOn?: boolean;
     canBeBuiltOn?: boolean;
     statusEffects?: Array<typeof StatusEffect>;
+    gatherItemType?: typeof Item;
 }
 
 class GroundTile {
     /**
      * A unique name for this type of tile.
      */
-    name: GroundTypeName;
+    name?: GroundTypeName;
 
     /**
      * How much damage this tile deals to entities that stand on it.
@@ -52,7 +54,9 @@ class GroundTile {
      */
     hazardous = false;
 
-    constructor(config: GroundTileConfig) {
+    gatherItemType?: typeof Item;
+
+    init(config: GroundTileConfig) {
         this.name = config.name;
 
         if (config.damageConfig) {
@@ -73,6 +77,10 @@ class GroundTile {
             this.hazardous = this.statusEffects.some((StatusEffect) => {
                 return StatusEffect.prototype.hazardous;
             });
+        }
+
+        if(config.gatherItemType) {
+            this.gatherItemType = config.gatherItemType;
         }
     }
 }

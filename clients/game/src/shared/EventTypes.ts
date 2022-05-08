@@ -65,7 +65,6 @@ export const MODIFY_BANK_MAX_WEIGHT = Symbol('MODIFY_BANK_MAX_WEIGHT');
 export const MODIFY_BANK_MAX_WEIGHT_UPGRADE_COST = Symbol('MODIFY_BANK_MAX_WEIGHT_UPGRADE_COST');
 
 // GUI.
-export const DUNGEON_PORTAL_PRESSED = Symbol('DUNGEON_PORTAL_PRESSED');
 export const CURSOR_MOVE = Symbol('CURSOR_MOVE');
 export const TOOLTIP_CONTENT = Symbol('TOOLTIP_CONTENT');
 export const CRAFTING_STATION = Symbol('CRAFTING_STATION');
@@ -75,12 +74,6 @@ export const SELECTED_ENTITY = Symbol('SELECTED_ENTITY');
 export const SELECTED_ENTITY_HITPOINTS = Symbol('SELECTED_ENTITY_HITPOINTS');
 export const PANEL_CHANGE = Symbol('PANEL_CHANGE');
 export const SHOW_CHAT_BOX = Symbol('SHOW_CHAT_BOX');
-
-// Dungeon.
-export const DUNGEON_ACTIVE = Symbol('DUNGEON_ACTIVE');
-export const DUNGEON_PARTIES = Symbol('DUNGEON_PARTIES');
-export const DUNGEON_TIME_LIMIT_MINUTES = Symbol('DUNGEON_TIME_LIMIT_MINUTES');
-export const DUNGEON_KEYS = Symbol('DUNGEON_KEYS');
 
 // Misc.
 export const WEBSOCKET_CLOSE = Symbol('WEBSOCKET_CLOSE');

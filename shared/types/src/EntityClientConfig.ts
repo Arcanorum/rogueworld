@@ -7,6 +7,6 @@ export interface SpriteConfig {
     animationRepeats?: boolean;
 }
 
-export interface EntityDataConfig extends SpriteConfig {
+export interface EntityClientConfig extends SpriteConfig {
     typeName: string;
 }

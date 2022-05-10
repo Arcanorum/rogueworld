@@ -1,4 +1,4 @@
-import { EntityDataConfig, ItemDataConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
+import { EntityClientConfig, ItemClientConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
 import { CraftingRecipe } from './types';
 import Entity from '../game/entities/Entity';
 
@@ -7,7 +7,7 @@ interface TextDefsType {
 }
 
 interface ItemTypes {
-    [key: string]: ItemDataConfig;
+    [key: string]: ItemClientConfig;
 }
 
 interface EntitiesList {
@@ -15,7 +15,7 @@ interface EntitiesList {
 }
 
 interface EntityTypes {
-    [key: string]: EntityDataConfig;
+    [key: string]: EntityClientConfig;
 }
 
 interface MapsData {

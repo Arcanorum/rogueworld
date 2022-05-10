@@ -1,5 +1,5 @@
 import { Items, ItemWeightClasses } from '@dungeonz/configs';
-import { ItemDataConfig } from '@dungeonz/types';
+import { ItemClientConfig } from '@dungeonz/types';
 import { error, message } from '@dungeonz/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import path from 'path';
@@ -222,7 +222,7 @@ export const initialiseList = () => {
 
 export const createCatalogue = () => {
     // Write the registered item types to the client, so the client knows what item to add for each type number.
-    const dataToWrite: {[key: string]: ItemDataConfig} = {};
+    const dataToWrite: {[key: string]: ItemClientConfig} = {};
 
     Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
         const itemTypePrototype = ItemType.prototype;
@@ -243,7 +243,7 @@ export const createCatalogue = () => {
         // Get the pure config items values again to finish setting them up, as not everything that
         // the client needs was added to the class.
         Items.forEach((config: any) => {
-            const itemData: ItemDataConfig = dataToWrite[config.code];
+            const itemData: ItemClientConfig = dataToWrite[config.code];
 
             if (!config.clientConfig.translationId) {
                 error('Item config missing translation id:', config);
@@ -267,7 +267,6 @@ export const createCatalogue = () => {
 
     ensureDirSync(outputPath);
 
-    // Write the data to the file in the client files.
     writeFileSync(`${outputPath}/ItemTypes.json`, JSON.stringify(dataToWrite));
 
     message('Item types catalogue written to file.');

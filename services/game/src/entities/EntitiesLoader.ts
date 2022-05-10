@@ -1,5 +1,5 @@
 import { Entities } from '@dungeonz/configs';
-import { EntityDataConfig } from '@dungeonz/types';
+import { EntityClientConfig } from '@dungeonz/types';
 import { error, message } from '@dungeonz/utils';
 import path from 'path';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
@@ -145,7 +145,7 @@ export const initialiseList = () => {
 
 export const createCatalogue = () => {
     // Write the registered entity types to the client, so the client knows what entity to add for each type number.
-    const dataToWrite: {[key: number]: EntityDataConfig} = {};
+    const dataToWrite: {[key: number]: EntityClientConfig} = {};
 
     Object.entries(EntitiesList.BY_NAME).forEach(([entityTypeKey, EntityType]) => {
         // Only add registered types.
@@ -164,7 +164,6 @@ export const createCatalogue = () => {
 
     ensureDirSync(outputPath);
 
-    // Write the data to the file in the client files.
     writeFileSync(`${outputPath}/EntityTypes.json`, JSON.stringify(dataToWrite));
 
     message('Entity types catalogue written to file.');

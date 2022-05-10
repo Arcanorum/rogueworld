@@ -129,6 +129,8 @@ class Entity {
 
     // static faction?: number = undefined;
 
+    static craftingStationType?: string = undefined;
+
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
 

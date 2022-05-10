@@ -58,6 +58,11 @@ class BootScene extends Phaser.Scene {
             generateEntitiesList();
         });
 
+        this.load.json('crafting-recipes', `${ApplicationState.gameServiceHTTPServerURL}/api/crafting-recipes`);
+        this.load.on('filecomplete-json-crafting-recipes', (key, type, data) => {
+            Config.CraftingRecipes = data;
+        });
+
         const mapNames = ['plains'];
         mapNames.forEach((mapName) => {
             const key = `${mapName}-map`;

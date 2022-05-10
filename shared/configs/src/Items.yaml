@@ -95,258 +95,246 @@
 # expGivenOnUse
 # Optional. How much exp to give in the selected stat (expGivenStatName) when this item is used.
 
-# statBonuses
-# Optional. A list of stat names and values for how much to increase each stat by while this item
-# is equipped.
-# e.g.
-# statBonuses:
-#   Weaponry: 2
-#   Toolery: 4
-
 # craftTasks
 # Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft,
 
 
 # Ammunition
 
-# - name: AgoniteArrows
-#   code: LOEO6269
-#   translationId: Agonite arrows
-#   textureSource: agonite-arrows
-#   extends: Ammunition
-#   unitWeight: Arrow
-#   baseQuantity: 5
-#   craftTasks:
-#     - Arrows
-#     - AgoniteGear
+- name: AgoniteArrows
+  code: LOEO6269
+  extends: Ammunition
+  unitWeight: Arrow
+  baseQuantity: 5
+  craftTasks:
+    - Arrows
+    - AgoniteGear
+  clientConfig:
+    translationId: Agonite arrows
+    textureSource: agonite-arrows
 
-# - name: DungiumArrows
-#   code: ONCE9214
-#   translationId: Dungium arrows
-#   textureSource: dungium-arrows
-#   extends: Ammunition
-#   unitWeight: Arrow
-#   baseQuantity: 5
-#   craftTasks:
-#     - Arrows
-#     - DungiumGear
 
-# - name: IronArrows
-#   code: EFQV6850
-#   translationId: Iron arrows
-#   textureSource: iron-arrows
-#   extends: Ammunition
-#   baseQuantity: 5
-#   unitWeight: Arrow
-#   craftTasks:
-#     - Arrows
-#     - IronGear
+- name: DungiumArrows
+  code: ONCE9214
+  extends: Ammunition
+  unitWeight: Arrow
+  baseQuantity: 5
+  craftTasks:
+    - Arrows
+    - DungiumGear
+  clientConfig:
+    translationId: Dungium arrows
+    textureSource: dungium-arrows
 
-# - name: NoctisArrows
-#   code: GOWQ7155
-#   translationId: Noctis arrows
-#   textureSource: noctis-arrows
-#   extends: Ammunition
-#   baseQuantity: 5
-#   unitWeight: Arrow
-#   craftTasks:
-#     - Arrows
-#     - NoctisGear
+- name: IronArrows
+  code: EFQV6850
+  extends: Ammunition
+  baseQuantity: 5
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+    - IronGear
+  clientConfig:
+    translationId: Iron arrows
+    textureSource: iron-arrows
 
-# - name: ExplosiveArrows
-#   code: FHFV1114
-#   translationId: Explosive arrows
-#   textureSource: explosive-arrows
-#   extends: Ammunition
-#   baseQuantity: 2
-#   unitWeight: Arrow
-#   craftTasks:
-#     - Arrows
+- name: NoctisArrows
+  code: GOWQ7155
+  extends: Ammunition
+  baseQuantity: 5
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+    - NoctisGear
+  clientConfig:
+    translationId: Noctis arrows
+    textureSource: noctis-arrows
 
-# - name: IceArrows
-#   code: YRIN2041
-#   translationId: Ice arrows
-#   textureSource: ice-arrows
-#   extends: Ammunition
-#   baseQuantity: 2
-#   unitWeight: Arrow
-#   craftTasks:
-#     - Arrows
+- name: ExplosiveArrows
+  code: FHFV1114
+  extends: Ammunition
+  baseQuantity: 2
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+  clientConfig:
+    translationId: Explosive arrows
+    textureSource: explosive-arrows
 
-# - name: PoisonArrows
-#   code: LJCR7302
-#   translationId: Poison arrows
-#   textureSource: poison-arrows
-#   extends: Ammunition
-#   baseQuantity: 2
-#   unitWeight: Arrow
-#   craftTasks:
-#     - Arrows
+- name: IceArrows
+  code: YRIN2041
+  extends: Ammunition
+  baseQuantity: 2
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+  clientConfig:
+    translationId: Ice arrows
+    textureSource: ice-arrows
+
+- name: PoisonArrows
+  code: LJCR7302
+  extends: Ammunition
+  baseQuantity: 2
+  unitWeight: Arrow
+  craftTasks:
+    - Arrows
+  clientConfig:
+    translationId: Poison arrows
+    textureSource: poison-arrows
 
 # Clan structures
 
 # Clothes
 
-# - name: AgoniteArmour
-#   code: PXQF2023
-#   extends: Clothes
-#   translationId: Agonite armour
-#   textureSource: agonite-armour
-#   soundType: Metal clothi
-#   unitWeight: MetalArmour
-#   baseQuantity: 200
-#   defenceBonus: 70
-#   statBonuses:
-#     Melee: 3
-#   craftTasks:
-#     - MetalArmour
-#     - AgoniteGear
+- name: AgoniteArmour
+  code: PXQF2023
+  extends: Clothes
+  unitWeight: MetalArmour
+  baseQuantity: 200
+  defenceBonus: 70
+  craftTasks:
+    - MetalArmour
+    - AgoniteGear
+  clientConfig:
+    translationId: Agonite armour
+    textureSource: agonite-armour
+    soundType: Metal clothing
 
-# - name: ArmorOfIre
-#   code: CFBO6832
-#   extends: Clothes
-#   translationId: Armor of Ire
-#   textureSource: armor-of-ire
-#   soundType: Fabric clothi
-#   unitWeight: MetalArmour
-#   useGloryCost: 10
-#   baseQuantity: 1000
-#   defenceBonus: 100
-#   statBonuses:
-#     Melee: 2
+- name: ArmorOfIre
+  code: CFBO6832
+  extends: Clothes
+  unitWeight: MetalArmour
+  useGloryCost: 10
+  baseQuantity: 1000
+  defenceBonus: 100
+  clientConfig:
+    translationId: Armor of Ire
+    textureSource: armor-of-ire
+    soundType: Fabric clothing
 
-# - name: Cloak
-#   code: XVXP6397
-#   extends: Clothes
-#   translationId: Cloak
-#   textureSource: cloak
-#   soundType: Fabric clothi
-#   unitWeight: Cloak
-#   baseQuantity: 100
-#   defenceBonus: 25
-#   statBonuses:
-#     Ranged: 1
-#   craftTasks:
-#     - Cloaks
-#     - FabricGear
+- name: Cloak
+  code: XVXP6397
+  extends: Clothes
+  unitWeight: Cloak
+  baseQuantity: 100
+  defenceBonus: 25
+  craftTasks:
+    - Cloaks
+    - FabricGear
+  clientConfig:
+    translationId: Cloak
+    textureSource: cloak
+    soundType: Fabric clothing
 
-# - name: DungiumArmour
-#   code: JKYL4271
-#   extends: Clothes
-#   translationId: Dungium armour
-#   textureSource: dungium-armour
-#   soundType: Metal clothi
-#   unitWeight: MetalArmour
-#   baseQuantity: 180
-#   defenceBonus: 60
-#   statBonuses:
-#     Melee: 3
-#   craftTasks:
-#     - MetalArmour
-#     - DungiumGear
+- name: DungiumArmour
+  code: JKYL4271
+  extends: Clothes
+  unitWeight: MetalArmour
+  baseQuantity: 180
+  defenceBonus: 60
+  craftTasks:
+    - MetalArmour
+    - DungiumGear
+  clientConfig:
+    translationId: Dungium armour
+    textureSource: dungium-armour
+    soundType: Metal clothing
 
-# - name: Etherweave
-#   code: CAMJ8537
-#   extends: Clothes
-#   translationId: Etherweave
-#   textureSource: etherweave
-#   soundType: Fabric clothi
-#   unitWeight: Robe
-#   baseQuantity: 1000
-#   defenceBonus: 20
-#   statBonuses:
-#     Magic: 2
+- name: Etherweave
+  code: CAMJ8537
+  extends: Clothes
+  unitWeight: Robe
+  baseQuantity: 1000
+  defenceBonus: 20
+  clientConfig:
+    translationId: Etherweave
+    textureSource: etherweave
+    soundType: Fabric clothing
 
-# - name: IronArmour
-#   code: XEBH5037
-#   extends: Clothes
-#   translationId: Iron armour
-#   textureSource: iron-armour
-#   soundType: Metal clothi
-#   unitWeight: MetalArmour
-#   baseQuantity: 160
-#   defenceBonus: 50
-#   statBonuses:
-#     Melee: 2
-#   craftTasks:
-#     - MetalArmour
-#     - IronGear
+- name: IronArmour
+  code: XEBH5037
+  extends: Clothes
+  unitWeight: MetalArmour
+  baseQuantity: 160
+  defenceBonus: 50
+  craftTasks:
+    - MetalArmour
+    - IronGear
+  clientConfig:
+    translationId: Iron armour
+    textureSource: iron-armour
+    soundType: Metal clothing
 
-# - name: MageRobe
-#   code: UIQB4427
-#   extends: Clothes
-#   translationId: Mage robe
-#   textureSource: mage-robe
-#   soundType: Fabric clothi
-#   unitWeight: Robe
-#   baseQuantity: 100
-#   defenceBonus: 20
-#   statBonuses:
-#     Magic: 1
-#   craftTasks:
-#     - Robes
-#     - FabricGear
+- name: MageRobe
+  code: UIQB4427
+  extends: Clothes
+  unitWeight: Robe
+  baseQuantity: 100
+  defenceBonus: 20
+  craftTasks:
+    - Robes
+    - FabricGear
+  clientConfig:
+    translationId: Mage robe
+    textureSource: mage-robe
+    soundType: Fabric clothing
 
-# - name: NecromancerRobe
-#   code: HNOI4167
-#   extends: Clothes
-#   translationId: Necromancer robe
-#   textureSource: necromancer-robe
-#   soundType: Fabric clothi
-#   unitWeight: Robe
-#   baseQuantity: 100
-#   defenceBonus: 20
-#   statBonuses:
-#     Magic: 1
-#   craftTasks:
-#     - Robes
-#     - FabricGear
+- name: NecromancerRobe
+  code: HNOI4167
+  extends: Clothes
+  unitWeight: Robe
+  baseQuantity: 100
+  defenceBonus: 20
+  craftTasks:
+    - Robes
+    - FabricGear
+  clientConfig:
+    translationId: Necromancer robe
+    textureSource: necromancer-robe
+    soundType: Fabric clothing
 
-# - name: NinjaGarb
-#   code: MYJZ0020
-#   extends: Clothes
-#   translationId: Ninja garb
-#   textureSource: ninja-garb
-#   soundType: Fabric clothi
-#   unitWeight: Cloak
-#   baseQuantity: 100
-#   defenceBonus: 30
-#   statBonuses:
-#     Melee: 1
-#     Ranged: 1
-#   craftTasks:
-#     - Cloaks
-#     - FabricGear
+- name: NinjaGarb
+  code: MYJZ0020
+  extends: Clothes
+  unitWeight: Cloak
+  baseQuantity: 100
+  defenceBonus: 30
+  craftTasks:
+    - Cloaks
+    - FabricGear
+  clientConfig:
+    translationId: Ninja garb
+    textureSource: ninja-garb
+    soundType: Fabric clothing
 
-# - name: NoctisArmour
-#   code: OELK7246
-#   extends: Clothes
-#   translationId: Noctis armour
-#   textureSource: noctis-armour
-#   soundType: Metal clothi
-#   unitWeight: MetalArmour
-#   baseQuantity: 220
-#   defenceBonus: 80
-#   statBonuses:
-#     Melee: 4
-#   craftTasks:
-#     - MetalArmour
-#     - NoctisGear
+- name: NoctisArmour
+  code: OELK7246
+  extends: Clothes
+  unitWeight: MetalArmour
+  baseQuantity: 220
+  defenceBonus: 80
+  craftTasks:
+    - MetalArmour
+    - NoctisGear
+  clientConfig:
+    translationId: Noctis armour
+    textureSource: noctis-armour
+    soundType: Metal clothing
 
-# - name: PlainRobe
-#   code: RBKW4762
-#   extends: Clothes
-#   translationId: Plain robe
-#   textureSource: plain-robe
-#   soundType: Fabric clothi
-#   unitWeight: Robe
-#   baseQuantity: 100
-#   defenceBonus: 20
-#   statBonuses:
-#     Potionry: 1
-#   craftTasks:
-#     - Robes
-#     - FabricGear
+- name: PlainRobe
+  code: RBKW4762
+  extends: Clothes
+  unitWeight: Robe
+  baseQuantity: 100
+  defenceBonus: 20
+  craftTasks:
+    - Robes
+    - FabricGear
+  clientConfig:
+    translationId: Plain robe
+    textureSource: plain-robe
+    soundType: Fabric clothing
 
 # Holdable
 
@@ -365,7 +353,6 @@
     translationId: Agonite dagger
     textureSource: agonite-dagger
     soundType: Metal weapon
-
 
 - name: AgoniteHammer
   code: TMWQ0215
@@ -871,102 +858,112 @@
 #   craftTasks:
 #     - Bows
 
-# - name: IllOmen
-#   code: VOVA1616
-#   extends: Holdable
-#   translationId: Ill Omen
-#   textureSource: ill-om
-#   unitWeight: Bow
-#   soundType: Bow
-#   baseQuantity: 1000
-#   expGivenStatName: Ranged
-#   craftTasks:
-#     - Bows
+- name: IllOmen
+  code: VOVA1616
+  extends: Holdable
+  unitWeight: Bow
+  baseQuantity: 1000
+  expGivenStatName: Ranged
+  craftTasks:
+    - Bows
+  clientConfig:
+    translationId: Ill Omen
+    textureSource: ill-om
+    soundType: Bow
 
 # Spell scrolls
 
-# - name: CleanseSpellScroll
-#   code: KVHL3512
-#   translationId: Scroll of cleansing
-#   textureSource: cleanse-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: CleanseSpellScroll
+  code: KVHL3512
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of cleansing
+    textureSource: cleanse-spell-scroll
+    soundType: Scroll
 
-# - name: ConsumeSpellScroll
-#   code: VMFW6679
-#   translationId: Scroll of consume
-#   textureSource: consume-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: ConsumeSpellScroll
+  code: VMFW6679
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of consume
+    textureSource: consume-spell-scroll
+    soundType: Scroll
 
-# - name: DeathbindSpellScroll
-#   code: VNHK6849
-#   extends: Holdable
-#   translationId: Scroll of deathbind
-#   textureSource: deathbind-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: DeathbindSpellScroll
+  code: VNHK6849
+  extends: Holdable
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of deathbind
+    textureSource: deathbind-spell-scroll
+    soundType: Scroll
 
-# - name: EnthrallSpellScroll
-#   code: FYRX1359
-#   translationId: Scroll of enthrall
-#   textureSource: enthrall-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: EnthrallSpellScroll
+  code: FYRX1359
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of enthrall
+    textureSource: enthrall-spell-scroll
+    soundType: Scroll
 
-# - name: HealAreaSpellScroll
-#   code: KXAD5315
-#   translationId: Scroll of heal area
-#   textureSource: heal-area-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: HealAreaSpellScroll
+  code: KXAD5315
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of heal area
+    textureSource: heal-area-spell-scroll
+    soundType: Scroll
 
-# - name: PacifySpellScroll
-#   code: TFCL0641
-#   extends: Holdable
-#   translationId: Scroll of pacify
-#   textureSource: pacify-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: PacifySpellScroll
+  code: TFCL0641
+  extends: Holdable
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of pacify
+    textureSource: pacify-spell-scroll
+    soundType: Scroll
 
-# - name: ReanimateSpellScroll
-#   code: KMGJ5860
-#   translationId: Scroll of reanimate
-#   textureSource: reanimate-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: ReanimateSpellScroll
+  code: KMGJ5860
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of reanimate
+    textureSource: reanimate-spell-scroll
+    soundType: Scroll
 
-# - name: WardSpellScroll
-#   code: ZZAB3297
-#   translationId: Scroll of warding
-#   textureSource: ward-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 15
+- name: WardSpellScroll
+  code: ZZAB3297
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 15
+  clientConfig:
+    translationId: Scroll of warding
+    textureSource: ward-spell-scroll
+    soundType: Scroll
 
-# - name: TailwindSpellScroll
-#   code: UIVL3131
-#   translationId: Scroll of tailwind
-#   textureSource: tailwind-spell-scroll
-#   soundType: Scroll
-#   unitWeight: Scroll
-#   expGivenStatName: Magic
-#   expGivenOnUse: 1
+- name: TailwindSpellScroll
+  code: UIVL3131
+  unitWeight: Scroll
+  expGivenStatName: Magic
+  expGivenOnUse: 1
+  clientConfig:
+    translationId: Scroll of tailwind
+    textureSource: tailwind-spell-scroll
+    soundType: Scroll
 
 # Loot boxes
 
@@ -1372,12 +1369,12 @@
     translationId: Willow logs
     textureSource: willow-logs
 
-- name: Soil
+- name: Clay
   code: INCR6763
   unitWeight: GenericMaterial
   clientConfig:
-    translationId: Soil
-    textureSource: soil
+    translationId: Clay
+    textureSource: clay
 
 - name: Water
   code: VPGV3302

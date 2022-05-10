@@ -27,7 +27,7 @@ interface CraftingRecipeResult {
 export interface CraftingRecipe {
     id: string;
     index: string;
-    stationTypeNumbers: Array<number>;
+    stationClasses: Array<string>;
     ingredients: Array<CraftingRecipeIngredient>;
     result: CraftingRecipeResult;
 }

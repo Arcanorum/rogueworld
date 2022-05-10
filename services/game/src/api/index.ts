@@ -69,6 +69,9 @@ apiRouter.get('/item-types', (req, res) => sendFile(req, res, itemTypesPath));
 const entityTypesPath = path.join(__dirname, './resources/catalogues/EntityTypes.json');
 apiRouter.get('/entity-types', (req, res) => sendFile(req, res, entityTypesPath));
 
+const craftingRecipesPath = path.join(__dirname, './resources/catalogues/CraftingRecipes.json');
+apiRouter.get('/crafting-recipes', (req, res) => sendFile(req, res, craftingRecipesPath));
+
 const mapsPath = path.join(__dirname, './resources/maps/');
 apiRouter.get('/maps/:name', (req, res) => sendFile(req, res, `${mapsPath + req.params.name}.json`));
 

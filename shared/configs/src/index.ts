@@ -59,3 +59,5 @@ export const Settings = loadSettings();
 export const Entities = loadYAMLConfig('Entities');
 export const Items = loadYAMLConfig('Items');
 export const ItemWeightClasses = loadYAMLConfig('ItemWeightClasses') as {[key: string]: number};
+export const CraftingRecipes = loadYAMLConfig('CraftingRecipes');
+export const CraftingStationClasses = loadYAMLConfig('CraftingStationClasses') as Array<string>;

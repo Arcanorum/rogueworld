@@ -21,6 +21,10 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  dropList:
+    - itemName: Fabric
+      dropRate: 100
+      quantity: 4
   clientConfig:
     extendsClassName: Mob
     displayName: Bandit
@@ -34,6 +38,11 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  craftingStationClass: Workbench
+  dropList:
+    - itemName: Redcap
+      dropRate: 100
+      quantity: 4
   clientConfig:
     extendsClassName: Mob
     displayName: Bat
@@ -47,10 +56,32 @@
   baseWanderRate: 10000
   baseAttackRange: 2
   viewRange: 8
+  dropList:
+    - itemName: Greencap
+      dropRate: 100
+      quantity: 4
   clientConfig:
     extendsClassName: Mob
     displayName: Snake
     animationSetName: snake
+    animationRepeats: true
+
+- name: FireElemental
+  baseMaxHitPoints: 60
+  baseGloryValue: 40
+  baseMoveRate: 600
+  baseWanderRate: 10000
+  baseAttackRange: 3
+  viewRange: 8
+  craftingStationClass: Furnace
+  dropList:
+    - itemName: Greencap
+      dropRate: 100
+      quantity: 4
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Fire elemental
+    animationSetName: fire-elemental
     animationRepeats: true
 
 - name: PineTree
@@ -70,6 +101,10 @@
   highBlocking: true
   baseMaxHitPoints: 200
   baseGloryValue: 20
+  dropList:
+    - itemName: IronOre
+      dropRate: 100
+      quantity: 4
   clientConfig:
     displayName: Iron rocks
     animationSetName: iron-rocks

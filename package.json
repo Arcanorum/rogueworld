@@ -5,7 +5,8 @@
   "author": "Johnathan Fisher <team@waywardworlds.com> (https://waywardworlds.com)",
   "license": "MIT",
   "scripts": {
-    "git-webhook": "npx ts-node --transpile-only ./git-webhook.ts"
+    "git-webhook": "npx ts-node --transpile-only ./git-webhook.ts",
+    "itemcode": "npx ts-node --transpile-only ./scripts/GenerateItemCode.ts"
   },
   "dependencies": {
     "@dungeonz/configs": "*",

@@ -1,6 +1,8 @@
+import { error } from '@dungeonz/utils';
 import Damage from '../gameplay/Damage';
 import DamageTypes from '../gameplay/DamageTypes';
 import { StatusEffect } from '../gameplay/status_effects';
+import { ItemsList } from '../items';
 import Item from '../items/classes/Item';
 import { GroundTypeName } from './GroundTypes';
 
@@ -10,7 +12,7 @@ interface GroundTileConfig {
     canBeStoodOn?: boolean;
     canBeBuiltOn?: boolean;
     statusEffects?: Array<typeof StatusEffect>;
-    gatherItemType?: typeof Item;
+    gatherItemTypeName?: string;
 }
 
 class GroundTile {
@@ -79,8 +81,12 @@ class GroundTile {
             });
         }
 
-        if(config.gatherItemType) {
-            this.gatherItemType = config.gatherItemType;
+        if(config.gatherItemTypeName) {
+            const ItemType = ItemsList.BY_NAME[config.gatherItemTypeName];
+            if(!ItemType) {
+                error('Invalid item to give for ground type, item name not found in the items list:', config.gatherItemTypeName);
+            }
+            this.gatherItemType = ItemType;
         }
     }
 }

@@ -37,7 +37,7 @@ const init = () => {
     Empty.init({ name: 'Empty', canBeStoodOn: false });
     PlayerSpawn.init({ name: 'PlayerSpawn' });
     Path.init({ name: 'Path' });
-    Grass.init({ name: 'Grass', canBeBuiltOn: true, gatherItemType: ItemsList.BY_NAME['Soil'] });
+    Grass.init({ name: 'Grass', canBeBuiltOn: true, gatherItemType: ItemsList.BY_NAME['Clay'] });
     Dirt.init({ name: 'Dirt', canBeBuiltOn: true });
     Snow.init({ name: 'Snow', canBeBuiltOn: true, statusEffects: [Chill] });
     ShallowWater.init({ name: 'ShallowWater', gatherItemType: ItemsList.BY_NAME['Water'] });

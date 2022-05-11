@@ -183,6 +183,7 @@
 # Wooden equipment
 
 - stationClasses:
+    - Self
     - Workbench
   stats:
     - Weaponry
@@ -196,6 +197,7 @@
 # Bone equipment
 
 - stationClasses:
+    - Self
     - Workbench
   stats:
     - Toolery
@@ -208,6 +210,7 @@
     itemName: BonePickaxe
 
 - stationClasses:
+    - Self
     - Workbench
   stats:
     - Toolery

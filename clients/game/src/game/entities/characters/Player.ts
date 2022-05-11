@@ -1,4 +1,6 @@
+import Panels from '../../../components/game/gui/panels/Panels';
 import Global from '../../../shared/Global';
+import { GUIState, PlayerState } from '../../../shared/state';
 import { BouncyText } from '../../../shared/types';
 import Entity from '../Entity';
 
@@ -52,6 +54,27 @@ class Player extends Entity {
         }
 
         super.onMove(playMoveAnim, moveAnimDuration);
+    }
+
+    onPointerDown(): void {
+        // Check this is this client's entity.
+        if(this.entityId === PlayerState.entityId) {
+            // Open the crafting panel when a player clicks on their own avatar.
+            // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+            if (GUIState.activePanel !== Panels.NONE) {
+                // Except chat panel.
+                if (GUIState.activePanel !== Panels.Chat) return;
+            }
+
+            const EntityType = this.constructor as typeof Entity;
+
+            GUIState.setCraftingStation(
+                'Self',
+                this.displayName.text,
+                EntityType.iconName,
+            );
+            GUIState.setActivePanel(Panels.Crafting);
+        }
     }
 
     /**

@@ -985,3 +985,15 @@
 #       quantity: 20
 #   result:
 #     itemName: ArmorOfIre
+
+# Structures
+
+- stationClasses:
+    - Self
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: Clay
+      quantity: 8
+  result:
+    itemName: ClayOven

@@ -1,6 +1,16 @@
 
 - name: WoodenWall
 
+- name: ClayOven
+  highBlocking: true
+  baseMaxHitPoints: 100
+  baseGloryValue: 10
+  craftingStationClass: Furnace
+  clientConfig:
+    displayName: Clay oven
+    animationSetName: clay-oven
+    animationRepeats: true
+
 - name: StoneWall
   # code: QMYX4544
   highBlocking: true

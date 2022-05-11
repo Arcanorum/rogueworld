@@ -113,7 +113,6 @@
     translationId: Agonite arrows
     textureSource: agonite-arrows
 
-
 - name: DungiumArrows
   code: ONCE9214
   extends: Ammunition
@@ -182,8 +181,6 @@
   clientConfig:
     translationId: Poison arrows
     textureSource: poison-arrows
-
-# Clan structures
 
 # Clothes
 
@@ -568,7 +565,6 @@
     translationId: Hammer of Glory
     textureSource: hammer-of-glory
     soundType: Metal weapon
-  
 
 - name: IronDagger
   code: WFCA0984
@@ -871,6 +867,26 @@
     textureSource: ill-om
     soundType: Bow
 
+# Loot boxes
+
+# - name: MediumLootBox
+#   code: CKKM9873
+#   extends: loot_boxes/LootBox
+#   translationId: Medium loot box
+#   textureSource: medium-loot-box
+
+# - name: SmallLootBox
+#   code: QNBV6059
+#   extends: loot_boxes/LootBox
+#   translationId: Small loot box
+#   textureSource: small-loot-box
+
+# - name: TinyLootBox
+#   code: EZCI1839
+#   extends: loot_boxes/LootBox
+#   translationId: Tiny loot box
+#   textureSource: tiny-loot-box
+
 # Spell scrolls
 
 - name: CleanseSpellScroll
@@ -965,25 +981,14 @@
     textureSource: tailwind-spell-scroll
     soundType: Scroll
 
-# Loot boxes
+# Structures
 
-# - name: MediumLootBox
-#   code: CKKM9873
-#   extends: loot_boxes/LootBox
-#   translationId: Medium loot box
-#   textureSource: medium-loot-box
-
-# - name: SmallLootBox
-#   code: QNBV6059
-#   extends: loot_boxes/LootBox
-#   translationId: Small loot box
-#   textureSource: small-loot-box
-
-# - name: TinyLootBox
-#   code: EZCI1839
-#   extends: loot_boxes/LootBox
-#   translationId: Tiny loot box
-#   textureSource: tiny-loot-box
+- name: ClayOven
+  code: XUQX7366
+  unitWeight: 20
+  clientConfig:
+    translationId: Clay oven
+    textureSource: clay-oven
 
 # Everything else
 
@@ -1378,10 +1383,3 @@
   clientConfig:
     translationId: Clay
     textureSource: clay
-
-- name: Water
-  code: VPGV3302
-  unitWeight: GenericMaterial
-  clientConfig:
-    translationId: Water
-    textureSource: water

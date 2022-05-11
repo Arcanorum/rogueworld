@@ -1,4 +1,5 @@
 import { tileDistanceBetween, warning } from '@dungeonz/utils';
+import Panels from '../../components/game/gui/panels/Panels';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
 import { SELECTED_ENTITY_HITPOINTS } from '../../shared/EventTypes';
@@ -33,6 +34,9 @@ class Entity extends Container {
 
     /** How long the animation should last, in ms. */
     static animationDuration = 1000;
+
+    /** Whether this entity should allow opening the crafting panel, and for what station. */
+    static craftingStationClass = '';
 
     entityId: string;
 
@@ -181,9 +185,29 @@ class Entity extends Container {
 
         GUIState.setSelectedEntity(this);
 
-        // Check the player is within the interaction range of the entity.
         const dist = tileDistanceBetween(thisDynamic, playerDynamic);
-        if(dist > 2) return;
+
+        const EntityType = this.constructor as typeof Entity;
+        // If this is something that can be crafted at, open the crafting panel.
+        if(EntityType.craftingStationClass) {
+            // Check they are within range to interact with the entity.
+            if(dist <= 1) {
+                // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+                if (GUIState.activePanel !== Panels.NONE) {
+                    // Except chat panel.
+                    if (GUIState.activePanel !== Panels.Chat) return;
+                }
+
+                GUIState.setCraftingStation(
+                    EntityType.craftingStationClass,
+                    this.displayName.text,
+                    EntityType.iconName,
+                );
+                GUIState.setActivePanel(Panels.Crafting);
+
+                return;
+            }
+        }
 
         ApplicationState.connection?.sendEvent(
             'interact',

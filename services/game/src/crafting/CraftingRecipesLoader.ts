@@ -30,7 +30,7 @@ export const populateList = () => {
             const ResultItemType = ItemsList.BY_NAME[config.result.itemName];
 
             const craftingRecipe: CraftingRecipe = {
-                stationClasses: [],
+                stationClasses: config.stationClasses || [],
                 statNames: config.stats || [],
                 expGiven: config.expGiven || 0,
                 ingredients: [],

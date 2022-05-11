@@ -9,4 +9,5 @@ export interface SpriteConfig {
 
 export interface EntityClientConfig extends SpriteConfig {
     typeName: string;
+    craftingStationClass?: string;
 }

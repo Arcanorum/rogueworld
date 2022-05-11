@@ -32,7 +32,7 @@ interface Shop {
 interface CraftingStation {
     name: string;
     icon: string;
-    typeNumber: number;
+    className: string;
 }
 
 class GUI {
@@ -167,9 +167,9 @@ class GUI {
         PubSub.publish(SHOW_CHAT_BOX, { new: value });
     }
 
-    setCraftingStation(typeNumber: number, name: string, icon: string) {
+    setCraftingStation(className: string, name: string, icon: string) {
         this.craftingStation = {
-            typeNumber,
+            className,
             name,
             icon,
         };
@@ -194,18 +194,21 @@ class GUI {
 
         GUIState.selectedEntity = entity;
 
-        // check if it was unset (i.e. no selection).
+        // Check if it was unset (i.e. no selection).
         if(!GUIState.selectedEntity) {
             PubSub.publish(SELECTED_ENTITY);
             return;
         }
 
+        const EntityType = entity.constructor as typeof Entity;
+
         // Make this entity be the current selection target.
         PubSub.publish(SELECTED_ENTITY, { new: {
-            icon: entityIconsList[(entity.constructor as typeof Entity).iconName],
+            icon: entityIconsList[EntityType.iconName],
             name: entity.displayName?.text,
             hitPoints: entity.hitPoints,
             maxHitPoints: entity.maxHitPoints,
+            canBeCraftedAt: Boolean(EntityType.craftingStationClass),
         } });
     }
 

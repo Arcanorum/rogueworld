@@ -1,4 +1,4 @@
-import { Entities } from '@dungeonz/configs';
+import { CraftingStationClasses, Entities } from '@dungeonz/configs';
 import { EntityClientConfig } from '@dungeonz/types';
 import { error, message } from '@dungeonz/utils';
 import path from 'path';
@@ -125,6 +125,13 @@ export const initialiseList = () => {
                         value = dropList;
                     }
 
+                    // Check the given crafting station class is valid.
+                    if(key === 'craftingStationClass') {
+                        if(!CraftingStationClasses.includes(value as string)) {
+                            error('Invalid crafting station class given. Must be in the crafting station classes list:', config.craftingStationClass);
+                        }
+                    }
+
                     // eslint-disable-next-line
                     // @ts-ignore
                     EntityClass[key] = value;
@@ -156,6 +163,7 @@ export const createCatalogue = () => {
         // Add this entity type to the type catalogue.
         dataToWrite[EntityType.typeNumber] = {
             typeName: EntityType.typeName,
+            craftingStationClass: EntityType.craftingStationClass,
             ...EntityType.clientConfig,
         };
     });

@@ -8,6 +8,7 @@ import craftButtonBorderValid from '../../../../../assets/images/gui/panels/craf
 import craftButtonBorderInvalid from '../../../../../assets/images/gui/panels/crafting/craft-button-border-invalid.png';
 import ItemIconsList from '../../../../../shared/ItemIconsList';
 import styles from './CraftingPanel.module.scss';
+import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { ApplicationState, GUIState, InventoryState } from '../../../../../shared/state';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import {
@@ -18,6 +19,7 @@ import getTextDef from '../../../../../shared/GetTextDef';
 import { formatItemValue } from '@dungeonz/utils';
 import Config from '../../../../../shared/Config';
 import { CraftingRecipe, CraftingRecipeIngredient } from '../../../../../shared/types';
+import EntityIconsList from '../../../../../game/EntityIconsList';
 
 const findAmountInInventory = (ingredient: CraftingRecipeIngredient) => {
     const found = InventoryState.items.find(
@@ -60,12 +62,12 @@ function IngredientRow({ ingredient }: { ingredient: CraftingRecipeIngredient })
     }, []);
 
     return (
-        <div className="row">
+        <div className={styles.row}>
             <img
                 src={ItemIconsList[
                     Config.ItemTypes[ingredient.itemTypeCode].iconSource
                 ]}
-                className="icon"
+                className={styles.icon}
                 draggable={false}
                 onMouseEnter={() => {
                     GUIState.setTooltipContent(
@@ -78,9 +80,9 @@ function IngredientRow({ ingredient }: { ingredient: CraftingRecipeIngredient })
                     GUIState.setTooltipContent(null);
                 }}
             />
-            <span className="text high-contrast-text">{ingredient.quantity || ingredient.durability}</span>
-            <span className="space" />
-            <span className={`text high-contrast-text ${amountInInventory < ingredient.quantity ? 'invalid' : ''}`}>
+            <span className={`${styles['text']} high-contrast-text`}>{ingredient.quantity}</span>
+            <span className={styles.space} />
+            <span className={`${styles.text} high-contrast-text ${amountInInventory < ingredient.quantity ? styles.invalid : ''}`}>
                 {`(${amountInInventory})`}
             </span>
         </div>
@@ -119,9 +121,9 @@ function RecipeSlot({
     }, []);
 
     return (
-        <div className="item-slot">
+        <div className={styles['item-slot']}>
             <div
-                className={`details ${canBeCrafted ? '' : 'invalid'} ${selected ? 'selected' : ''}`}
+                className={`${styles.details} ${canBeCrafted ? '' : styles.invalid} ${selected ? styles.selected : ''}`}
                 draggable={false}
                 onMouseEnter={() => {
                     GUIState.setTooltipContent(
@@ -141,9 +143,9 @@ function RecipeSlot({
                     draggable={false}
                 />
                 <div
-                    className={`high-contrast-text ${(recipe.result.baseQuantity > 999 || recipe.result.baseDurability > 999) ? 'small' : ''}`}
+                    className={`high-contrast-text ${(recipe.result.baseQuantity > 999) ? styles.small : ''}`}
                 >
-                    {formatItemValue(recipe.result.baseQuantity) || formatItemValue(recipe.result.baseDurability) || '???'}
+                    {formatItemValue(recipe.result.baseQuantity) || '???'}
                 </div>
             </div>
         </div>
@@ -153,9 +155,9 @@ function RecipeSlot({
 function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
     const [items, setItems] = useState(InventoryState.items);
     const [recipes] = useState(Config.CraftingRecipes.filter((recipe) => {
-        // Get all of the recipes that are valid at this crafting station type.
-        if (recipe.stationTypeNumbers.some(
-            (stationTypeNumber) => stationTypeNumber === GUIState.craftingStation?.typeNumber,
+        // Get all of the recipes that are valid at this kind of crafting station.
+        if (recipe.stationClasses.some(
+            (stationClass) => stationClass === GUIState.craftingStation?.className,
         )) {
             return recipe.result;
         }
@@ -231,19 +233,19 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
     }, []);
 
     return (
-        <div className="crafting-panel centered panel-template-cont">
+        <div className={`${styles['crafting-panel']} ${panelTemplateStyles.centered} ${panelTemplateStyles['panel-template-cont']}`}>
             <PanelTemplate
                 width="70vw"
                 height="60vh"
                 panelName={GUIState.craftingStation?.name}
-                icon={GUIState.craftingStation?.icon}
+                icon={EntityIconsList[GUIState.craftingStation?.icon]}
                 onCloseCallback={onCloseCallback}
             >
-                <div className="inner-cont">
-                    <div className="list-cont">
-                        <div className="top-bar">
+                <div className={styles['inner-cont']}>
+                    <div className={styles['list-cont']}>
+                        <div className={styles['top-bar']}>
                             <div
-                                className="weight"
+                                className={styles['weight']}
                                 onMouseEnter={() => {
                                     GUIState.setTooltipContent(getTextDef('Inventory weight'));
                                 }}
@@ -271,7 +273,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                     />
                                 </span>
                             </div>
-                            <div className="search">
+                            <div className={styles['search']}>
                                 <input
                                     placeholder={getTextDef('Item search')}
                                     onChange={(event) => {
@@ -281,7 +283,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                 />
                             </div>
                         </div>
-                        <div className="list">
+                        <div className={styles['list']}>
                             {searchText && searchRecipes.map((recipe) => (
                                 <RecipeSlot
                                     key={recipe.id}
@@ -290,7 +292,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                     onClick={onRecipePressed}
                                 />
                             ))}
-                            {searchText && !searchRecipes.length && <div className="warning">{getTextDef('No items found')}</div>}
+                            {searchText && !searchRecipes.length && <div className={styles['warning']}>{getTextDef('No items found')}</div>}
                             {!searchText && recipes.map((recipe) => (
                                 <RecipeSlot
                                     key={recipe.id}
@@ -299,18 +301,18 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                     onClick={onRecipePressed}
                                 />
                             ))}
-                            {!searchText && !recipes.length && <div className="warning">{getTextDef('No crafting options')}</div>}
+                            {!searchText && !recipes.length && <div className={styles['warning']}>{getTextDef('No crafting options')}</div>}
                         </div>
                     </div>
-                    <div className={`selection-cont ${selectedRecipe ? '' : 'unselected'}`}>
-                        <div className="name high-contrast-text">
+                    <div className={`${styles['selection-cont']} ${selectedRecipe ? '' : styles.unselected}`}>
+                        <div className={`${styles.name} high-contrast-text`}>
                             {
                                 selectedRecipe
                                     ? getTextDef(`Item name: ${Config.ItemTypes[selectedRecipe.result.itemTypeCode].translationId}`)
                                     : ''
                             }
                         </div>
-                        <div className="icon-cont">
+                        <div className={styles['icon-cont']}>
                             {selectedRecipe && (
                                 <>
                                     <img
@@ -319,16 +321,15 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                                 selectedRecipe.result.itemTypeCode
                                             ].iconSource
                                         ]}
-                                        className="icon"
+                                        className={styles.icon}
                                         draggable={false}
                                     />
-                                    <div className="amount high-contrast-text">
-                                        {selectedRecipe.result.baseQuantity
-                                        || selectedRecipe.result.baseDurability}
+                                    <div className={`${styles.amount} high-contrast-text`}>
+                                        {selectedRecipe.result.baseQuantity}
                                     </div>
                                     <img
                                         src={infoIcon.src}
-                                        className="info"
+                                        className={styles.info}
                                         draggable={false}
                                         onClick={() => { setShowItemDetails(true); }}
                                         onMouseEnter={() => {
@@ -341,7 +342,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                 </>
                             )}
                         </div>
-                        <div className="ingredients-list">
+                        <div className={styles['ingredients-list']}>
                             {selectedRecipe
                             && selectedRecipe.ingredients.map((ingredient) => (
                                 <IngredientRow
@@ -351,7 +352,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                             ))}
                         </div>
                         <div
-                            className={`button-cont ${(selectedRecipe && playerHasIngredients) ? 'valid' : ''}`}
+                            className={`${styles['button-cont']} ${(selectedRecipe && playerHasIngredients) ? styles.valid : ''}`}
                             onClick={onCraftPressed}
                             onMouseEnter={() => {
                                 if (selectedRecipe && playerHasIngredients) {
@@ -370,11 +371,14 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                             <div>{(selectedRecipe && playerHasIngredients) ? getTextDef('Craft') : ''}</div>
                         </div>
                         {selectedRecipe && showItemDetails && (
-                            <div className="details" onMouseLeave={() => { setShowItemDetails(false); }}>
-                                <div className="name">
+                            <div
+                                className={styles.details}
+                                onMouseLeave={() => { setShowItemDetails(false); }}
+                            >
+                                <div className={styles.name}>
                                     {getTextDef(`Item name: ${Config.ItemTypes[selectedRecipe.result.itemTypeCode].translationId}`)}
                                 </div>
-                                <div className="description">
+                                <div className={styles.description}>
                                     {getTextDef(`Item description: ${Config.ItemTypes[selectedRecipe.result.itemTypeCode].translationId}`)}
                                 </div>
                             </div>

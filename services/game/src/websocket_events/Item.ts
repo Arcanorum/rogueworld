@@ -10,3 +10,18 @@ EventResponses.pick_up_item = (clientSocket) => {
 
     clientSocket?.entity?.pickUpItem();
 };
+
+/**
+ * @param clientSocket
+ * @param data - The index in the crafting recipes list of the thing to craft.
+ */
+EventResponses.craft_item = (clientSocket, data: number) => {
+    // Allow 0.
+    if (!Number.isFinite(data)) return;
+    if (clientSocket.inGame === false) return;
+    if (!clientSocket.entity) return;
+    // Ignore this event if they are dead.
+    if (clientSocket.entity?.hitPoints <= 0) return;
+
+    clientSocket.entity.craft(data);
+};

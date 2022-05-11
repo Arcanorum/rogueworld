@@ -1,6 +1,7 @@
 import { Settings } from '@dungeonz/configs';
 import { ObjectOfUnknown, Offset, RowCol } from '@dungeonz/types';
 import { getRandomElement, warning } from '@dungeonz/utils';
+import { CraftingRecipesList } from '../../crafting';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
@@ -515,6 +516,98 @@ class Player extends Entity {
                 );
             }
         }
+    }
+
+    craft(recipeIndex: number) {
+        if (Number.isFinite(recipeIndex) === false) return;
+
+        const recipe = CraftingRecipesList[recipeIndex];
+
+        if (!recipe) return;
+
+        // TODO: figure out what to do about moving stations :S
+        // Check the player is stood next to any of the valid types of crafting station for this recipe.
+        // const nextToStation = recipe.stationClasses.some((stationType) => (
+        //     this.isAdjacentToStaticType(stationType.prototype.typeNumber)));
+
+        // if (!nextToStation) return;
+
+        // Check the player has all of the required ingredients.
+        const { items } = this.inventory;
+        const hasEveryIngredient = recipe.ingredients.every((ingredient) => (
+            items.some((item) => (
+                item.itemState.ItemType === ingredient.ItemType
+                && item.itemState.quantity >= ingredient.quantity
+            ))
+        ));
+
+        if (!hasEveryIngredient) return;
+
+        // Calculate the amount of bonus durability/quantity for the result item.
+        let averageCraftingLevel = 0;
+
+        // recipe.statNames.forEach((statName) => {
+        //     averageCraftingLevel += this.stats[statName].level;
+        // });
+        averageCraftingLevel += 1;// TODO: remove, used for testing
+
+        // Divide by the number of stats used, rounded down.
+        // averageCraftingLevel = Math.floor(averageCraftingLevel /= recipe.statNames.length);
+
+        const craftingStatBonusMultiplier = Settings.CRAFTING_STAT_BONUS_MULTIPLIER || 1;
+
+        const percentCraftingBonus = averageCraftingLevel * craftingStatBonusMultiplier * 0.01;
+
+        let resultQuantity = recipe.result.baseQuantity;
+
+        if (recipe.result.baseQuantity) {
+            resultQuantity = (
+                recipe.result.baseQuantity // The minimum amount.
+                + (recipe.result.baseQuantity * percentCraftingBonus) // The bonus amount.
+            );
+        }
+
+        // Remove the items from the crafter that were used in the recipe.
+        recipe.ingredients.forEach((ingredient) => {
+            this.inventory.removeQuantityByItemType(ingredient.quantity, ingredient.ItemType);
+        });
+
+        const itemState = new ItemState({
+            ItemType: recipe.result.ItemType,
+            quantity: resultQuantity,
+        });
+
+        this.inventory.addItem(itemState);
+
+        // Check there is any of the item left.
+        // Due to stat levels being able to increase the quantity of an item (and therefore it's
+        // total weight), not all of it might have been able to fit into the inventory, so some
+        // might be left over. Add anything remaining to the ground.
+        if (itemState.quantity > 0) {
+            if(itemState.ItemType.PickupType && this.board) {
+                new itemState.ItemType.PickupType(
+                    {
+                        row: this.row,
+                        col: this.col,
+                        board: this.board,
+                        itemState,
+                    },
+                ).emitToNearbyPlayers();
+            }
+        }
+
+        // Divide the exp among all the stats that this recipe gives exp to.
+        // const sharedExp = recipe.expGiven / recipe.statNames.length;
+        // recipe.statNames.forEach((statName) => {
+        //     this.stats[statName].gainExp(sharedExp);
+        // });
+
+        // Don't give the full exp amount as glory, it is a bit too much.
+        // this.modGlory(recipe.expGiven * 0.5);
+
+        recipe.result.ItemType.craftTaskIds.forEach((taskTypeId) => {
+            // this.tasks.progressTask(taskTypeId);
+        });
     }
 }
 

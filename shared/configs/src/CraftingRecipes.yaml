@@ -1,4 +1,4 @@
-# stationTypes
+# stationClasses
 # A list of the names of crafting station types that this recipe can be made from. Most items can
 # only be crafted from one station type, but some can be crafted from multiple types, such as being
 # able to make basic potions at both a mortar & pestle, and at a laboratory.
@@ -31,7 +31,7 @@
 
 # Materials
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Toolery
@@ -40,7 +40,7 @@
   result:
     itemName: String
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Toolery
@@ -50,7 +50,7 @@
   result:
     itemName: Fabric
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -59,7 +59,7 @@
   result:
     itemName: IronBar
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -70,7 +70,7 @@
     itemName: IronBar
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -79,7 +79,7 @@
   result:
     itemName: DungiumBar
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -90,7 +90,7 @@
     itemName: DungiumBar
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -99,7 +99,7 @@
   result:
     itemName: AgoniteBar
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -110,7 +110,7 @@
     itemName: AgoniteBar
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -119,7 +119,7 @@
   result:
     itemName: NoctisBar
 
-- stationTypes:
+- stationClasses:
     - Furnace
   stats:
     - Toolery
@@ -132,7 +132,7 @@
 
 # Potions
 
-- stationTypes:
+- stationClasses:
     - Laboratory
   stats:
     - Potionry
@@ -143,7 +143,7 @@
     itemName: HealthPotion
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Laboratory
   stats:
     - Potionry
@@ -154,7 +154,7 @@
     itemName: EnergyPotion
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Laboratory
   stats:
     - Potionry
@@ -167,7 +167,7 @@
     itemName: CurePotion
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Laboratory
   stats:
     - Potionry
@@ -182,7 +182,7 @@
 
 # Wooden equipment
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -195,7 +195,7 @@
 
 # Bone equipment
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Toolery
@@ -207,7 +207,7 @@
   result:
     itemName: BonePickaxe
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Toolery
@@ -221,7 +221,7 @@
 
 # Iron equipment
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -237,7 +237,7 @@
     itemName: IronArrows
     baseQuantity: 20
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -249,7 +249,7 @@
   result:
     itemName: IronPickaxe
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -261,7 +261,7 @@
   result:
     itemName: IronHatchet
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -273,7 +273,7 @@
   result:
     itemName: IronSickle
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -284,7 +284,7 @@
   result:
     itemName: IronDagger
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -295,7 +295,7 @@
   result:
     itemName: IronSword
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -308,7 +308,7 @@
   result:
     itemName: IronHammer
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Armoury
@@ -325,7 +325,7 @@
 
 # Dungium equipment
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -341,7 +341,7 @@
     itemName: DungiumArrows
     baseQuantity: 20
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -353,7 +353,7 @@
   result:
     itemName: DungiumPickaxe
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -365,7 +365,7 @@
   result:
     itemName: DungiumHatchet
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -377,7 +377,7 @@
   result:
     itemName: DungiumSickle
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -388,7 +388,7 @@
   result:
     itemName: DungiumDagger
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -399,7 +399,7 @@
   result:
     itemName: DungiumSword
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -412,7 +412,7 @@
   result:
     itemName: DungiumHammer
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Armoury
@@ -427,7 +427,7 @@
 
 # Agonite equipment
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -443,7 +443,7 @@
     itemName: AgoniteArrows
     baseQuantity: 20
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -455,7 +455,7 @@
   result:
     itemName: AgonitePickaxe
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -467,7 +467,7 @@
   result:
     itemName: AgoniteHatchet
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -479,7 +479,7 @@
   result:
     itemName: AgoniteSickle
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -490,7 +490,7 @@
   result:
     itemName: AgoniteDagger
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -501,7 +501,7 @@
   result:
     itemName: AgoniteSword
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -514,7 +514,7 @@
   result:
     itemName: AgoniteHammer
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Armoury
@@ -529,7 +529,7 @@
 
 # Noctis equipment
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -545,7 +545,7 @@
     itemName: NoctisArrows
     baseQuantity: 20
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -557,7 +557,7 @@
   result:
     itemName: NoctisPickaxe
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -569,7 +569,7 @@
   result:
     itemName: NoctisHatchet
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -581,7 +581,7 @@
   result:
     itemName: NoctisSickle
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -592,7 +592,7 @@
   result:
     itemName: NoctisDagger
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -603,7 +603,7 @@
   result:
     itemName: NoctisSword
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -616,7 +616,7 @@
   result:
     itemName: NoctisHammer
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Armoury
@@ -631,7 +631,7 @@
 
 # Ranged equipment
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Weaponry
@@ -643,7 +643,7 @@
     itemName: Shuriken
     baseQuantity: 10
 
-# - stationTypes:
+# - stationClasses:
 #     - Workbench
 #   stats:
 #     - Weaponry
@@ -656,7 +656,7 @@
 #   result:
 #     itemName: PineBow
 
-# - stationTypes:
+# - stationClasses:
 #     - Workbench
 #   stats:
 #     - Weaponry
@@ -669,7 +669,7 @@
 #   result:
 #     itemName: WillowBow
 
-# - stationTypes:
+# - stationClasses:
 #     - Workbench
 #   stats:
 #     - Weaponry
@@ -682,22 +682,22 @@
 #   result:
 #     itemName: OakBow
 
-- stationTypes:
-    - GloryAltar
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: AngelHair
-      quantity: 2
-    - itemName: SacredBranch
-      quantity: 6
-    - itemName: GloryOrb
-      quantity: 20
-  result:
-    itemName: IllOmen
+# - stationClasses:
+#     - GloryAltar
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: AngelHair
+#       quantity: 2
+#     - itemName: SacredBranch
+#       quantity: 6
+#     - itemName: GloryOrb
+#       quantity: 20
+#   result:
+#     itemName: IllOmen
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Armoury
@@ -712,7 +712,7 @@
   result:
     itemName: Cloak
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Armoury
@@ -725,7 +725,7 @@
   result:
     itemName: NinjaGarb
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -741,7 +741,7 @@
     itemName: ExplosiveArrows
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -757,7 +757,7 @@
     itemName: IceArrows
     baseQuantity: 5
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -775,7 +775,7 @@
 
 # Mage equipment
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -788,7 +788,7 @@
   result:
     itemName: FireStaff
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -801,7 +801,7 @@
   result:
     itemName: SuperFireStaff
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -814,7 +814,7 @@
   result:
     itemName: WindStaff
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -827,7 +827,7 @@
   result:
     itemName: SuperWindStaff
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -840,7 +840,7 @@
   result:
     itemName: BloodStaff
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Weaponry
@@ -853,29 +853,29 @@
   result:
     itemName: SuperBloodStaff
 
-- stationTypes:
-    - GloryAltar
-  ingredients:
-    - itemName: EyeOfTheStorm
-    - itemName: SacredBranch
-      quantity: 4
-    - itemName: GloryOrb
-      quantity: 20
-  result:
-    itemName: Galestorm
+# - stationClasses:
+#     - GloryAltar
+#   ingredients:
+#     - itemName: EyeOfTheStorm
+#     - itemName: SacredBranch
+#       quantity: 4
+#     - itemName: GloryOrb
+#       quantity: 20
+#   result:
+#     itemName: Galestorm
 
-- stationTypes:
-    - GloryAltar
-  ingredients:
-    - itemName: EternalFlame
-    - itemName: SacredBranch
-      quantity: 4
-    - itemName: GloryOrb
-      quantity: 20
-  result:
-    itemName: Hellraiser
+# - stationClasses:
+#     - GloryAltar
+#   ingredients:
+#     - itemName: EternalFlame
+#     - itemName: SacredBranch
+#       quantity: 4
+#     - itemName: GloryOrb
+#       quantity: 20
+#   result:
+#     itemName: Hellraiser
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Armoury
@@ -887,7 +887,7 @@
   result:
     itemName: PlainRobe
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Armoury
@@ -900,7 +900,7 @@
   result:
     itemName: MageRobe
 
-- stationTypes:
+- stationClasses:
     - Workbench
   stats:
     - Armoury
@@ -913,21 +913,21 @@
   result:
     itemName: NecromancerRobe
 
-- stationTypes:
-    - GloryAltar
-  ingredients:
-    - itemName: PrimeMatter
-      quantity: 2
-    - itemName: AngelHair
-      quantity: 4
-    - itemName: GloryOrb
-      quantity: 20
-  result:
-    itemName: Etherweave
+# - stationClasses:
+#     - GloryAltar
+#   ingredients:
+#     - itemName: PrimeMatter
+#       quantity: 2
+#     - itemName: AngelHair
+#       quantity: 4
+#     - itemName: GloryOrb
+#       quantity: 20
+#   result:
+#     itemName: Etherweave
 
 # Misc
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -944,7 +944,7 @@
   result:
     itemName: Bomb
 
-- stationTypes:
+- stationClasses:
     - Anvil
   stats:
     - Toolery
@@ -957,28 +957,28 @@
   result:
     itemName: Trap
 
-- stationTypes:
-    - GloryAltar
-  ingredients:
-    - itemName: HeartOfTheMountain
-      quantity: 1
-    - itemName: PrimeMatter
-      quantity: 2
-    - itemName: SacredBranch
-      quantity: 4
-    - itemName: GloryOrb
-      quantity: 20
-  result:
-    itemName: HammerOfGlory
+# - stationClasses:
+#     - GloryAltar
+#   ingredients:
+#     - itemName: HeartOfTheMountain
+#       quantity: 1
+#     - itemName: PrimeMatter
+#       quantity: 2
+#     - itemName: SacredBranch
+#       quantity: 4
+#     - itemName: GloryOrb
+#       quantity: 20
+#   result:
+#     itemName: HammerOfGlory
 
-- stationTypes:
-    - GloryAltar
-  ingredients:
-    - itemName: EternalFlame
-      quantity: 1
-    - itemName: PrimeMatter
-      quantity: 6
-    - itemName: GloryOrb
-      quantity: 20
-  result:
-    itemName: ArmorOfIre
+# - stationClasses:
+#     - GloryAltar
+#   ingredients:
+#     - itemName: EternalFlame
+#       quantity: 1
+#     - itemName: PrimeMatter
+#       quantity: 6
+#     - itemName: GloryOrb
+#       quantity: 20
+#   result:
+#     itemName: ArmorOfIre

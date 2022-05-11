@@ -101,7 +101,7 @@ class Inventory {
 
         // Tell the player a new item was added to their inventory.
         if (sendEvent) {
-            this.owner.socket.sendEvent(
+            this.owner.socket?.sendEvent(
                 'add_inventory_item',
                 {
                     slotIndex,
@@ -113,7 +113,7 @@ class Inventory {
         }
 
         // If this player has an account, save the new inventory item.
-        if (!skipSave && this.owner.socket.account) {
+        if (!skipSave && this.owner.socket?.account) {
             try {
                 // Need to use Mongoose setter when modifying array by index directly.
                 // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
@@ -157,7 +157,7 @@ class Inventory {
         // Only send if it has changed.
         if (this.weight !== originalWeight) {
             // Tell the player their new inventory weight.
-            this.owner.socket.sendEvent('inventory_weight', this.weight);
+            this.owner.socket?.sendEvent('inventory_weight', this.weight);
         }
     }
 
@@ -173,7 +173,7 @@ class Inventory {
         // );
 
         // Tell the player their new max inventory weight.
-        this.owner.socket.sendEvent('inventory_max_weight', this.maxWeight);
+        this.owner.socket?.sendEvent('inventory_max_weight', this.maxWeight);
     }
 
     quantityThatCanBeAdded(itemState: ItemState) {
@@ -360,10 +360,10 @@ class Inventory {
         });
 
         // Tell the player the item was removed from their inventory.
-        this.owner.socket.sendEvent('remove_inventory_item', slotIndex);
+        this.owner.socket?.sendEvent('remove_inventory_item', slotIndex);
 
         // If this player has an account, update their account document that the item has been removed.
-        if (!skipSave && this.owner.socket.account) {
+        if (!skipSave && this.owner.socket?.account) {
             this.owner.socket.account.inventoryItems.splice(slotIndex, 1);
         }
 
@@ -463,7 +463,7 @@ class Inventory {
 
         this.updateWeight();
 
-        owner.socket.sendEvent('item_dropped');
+        owner.socket?.sendEvent('item_dropped');
     }
 
     /**
@@ -501,7 +501,7 @@ class Inventory {
         this.items = [];
 
         // If this player has an account, save the now empty inventory.
-        if (owner.socket.account) {
+        if (owner.socket?.account) {
             try {
                 owner.socket.account.inventoryItems = new Types.DocumentArray([]);
             }
@@ -511,7 +511,7 @@ class Inventory {
         }
 
         // Tell the player all items were removed from their inventory.
-        owner.socket.sendEvent('remove_all_inventory_items');
+        owner.socket?.sendEvent('remove_all_inventory_items');
 
         this.updateWeight();
     }

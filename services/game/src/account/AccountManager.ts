@@ -85,6 +85,10 @@ export default {
 
         await account.save()
             .then((res: Document) => {
+                if(!entity.socket) {
+                    error('Account save success, but entity.socket is somehow undefined.');
+                    return;
+                }
                 // Player is now logged into their newly created account, so attach it to them as if they
                 // have logged in normally so they can have their progress saved.
                 entity.socket.account = account;

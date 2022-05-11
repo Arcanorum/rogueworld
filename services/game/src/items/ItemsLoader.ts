@@ -197,7 +197,8 @@ export const initialiseList = () => {
 
             // Mark any items that do something when used.
             if (
-                ItemClass.hitPointsGivenOnUse !== Item.hitPointsGivenOnUse ||
+                ItemClass.healingOnUseAmount !== Item.healingOnUseAmount ||
+                ItemClass.damageOnUseAmount !== Item.damageOnUseAmount ||
                 ItemClass.prototype.use !== Item.prototype.use ||
                 ItemClass.prototype.onUsed !== Item.prototype.onUsed
             ) {

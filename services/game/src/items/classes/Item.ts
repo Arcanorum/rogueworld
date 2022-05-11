@@ -1,11 +1,10 @@
-import { ItemWeightClasses } from '@dungeonz/configs';
 import { ItemCategories } from '@dungeonz/types';
-import { error } from '@dungeonz/utils';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
 import { EntitiesList } from '../../entities';
 import { ItemState } from '../../inventory';
-import { TaskTypes } from '../../tasks';
+// import { TaskTypes } from '../../tasks';
+import DamageTypes from '../../gameplay/DamageTypes';
 
 class Item {
     /**
@@ -97,7 +96,22 @@ class Item {
     /**
      * How many hitpoints to give when this item is used.
      */
-    static hitPointsGivenOnUse = 0;
+    static healingOnUseAmount = 0;
+
+    /**
+     * How many hitpoints to take when this item is used.
+     */
+    static damageOnUseAmount = 0;
+
+    /**
+     * What damage types should be used when dealing damage with damageOnUseAmount.
+     */
+    static damageOnUseTypes: Array<DamageTypes> = [DamageTypes.Physical];
+
+    /**
+     * How much penetration should be used when dealing damage with damageOnUseAmount.
+     */
+    static damageOnUsePenetration = 100;
 
     /**
      * What percent to reduce the gather time by for resource nodes.
@@ -128,11 +142,6 @@ class Item {
         // Prevent multiple destruction of items.
         if (this.destroyed === true) return;
         this.destroyed = true;
-
-        // Dereference other objects so they can be GCed if not needed anywhere else.
-        this.owner = Player.prototype;
-        this.itemState = ItemState.prototype;
-        this.slotIndex = 0;
     }
 
     static assignPickupType(itemName: string) {
@@ -151,11 +160,57 @@ class Item {
         EntitiesList.BY_NAME[GenericPickup.typeName] = GenericPickup;
     }
 
-    use() { return; }
+    /**
+     * Activate the effect of this item. i.e. Restore energy, equip armour, use tool.
+     */
+    use() {
+        if (this.checkUseCriteria()) {
+            this.onUsed();
+        }
+    }
 
     checkUseCriteria(options?: object) { return true; }
 
-    onUsed(options?: object) { return; }
+    onUsed(options?: object) {
+        // Keep a reference to the owner, as if the item gets destroyed when used
+        // here, owner will be nulled, but still want to be able to send events.
+        const { owner } = this;
+
+        // Something might have happened to the owner of this item when it was used by them.
+        // Such as eating a greencap on 1HP to suicide, but then owner is null.
+        if (!owner) return;
+
+        const ItemType = this.constructor as typeof Item;
+
+        if (ItemType.useGloryCost) owner.modGlory(-ItemType.useGloryCost);
+
+        if (ItemType.hasUseEffect) {
+            if(ItemType.healingOnUseAmount) {
+                this.owner.heal({ amount: ItemType.healingOnUseAmount });
+            }
+
+            if(ItemType.damageOnUseAmount) {
+                this.owner.damage({
+                    amount: ItemType.damageOnUseAmount,
+                    types: ItemType.damageOnUseTypes,
+                    penetration: ItemType.damageOnUsePenetration,
+                });
+            }
+            // // Check if this item gives any stat exp when used.
+            // if (owner.stats[this.expGivenStatName] !== undefined) {
+            //     owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
+            // }
+
+            this.modQuantity(-1);
+
+            // Tell the user the item was used. Might not have had an immediate effect, but
+            // the client might like to know right away (i.e. to play a sound effect).
+            owner.socket?.sendEvent(
+                'item_used',
+                { itemTypeCode: ItemType.typeCode },
+            );
+        }
+    }
 
     equip() { return; }
 
@@ -171,11 +226,11 @@ class Item {
         if (this.itemState.quantity < 1) {
             // Remove this empty item stack.
             // This needs to be done here as some items can use each other (e.g. bows using arrows).
-            // this.owner.inventory.removeItemBySlotIndex(this.slotIndex); TODO
+            this.owner.inventory.removeItemBySlotIndex(this.slotIndex);
         }
         else {
             // Tell the player the new quantity.
-            this.owner.socket.sendEvent(
+            this.owner.socket?.sendEvent(
                 'modify_inventory_item',
                 {
                     slotIndex: this.slotIndex,

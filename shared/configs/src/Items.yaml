@@ -1236,6 +1236,9 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
+  damageOnUseAmount: 10
+  damageOnUseTypes:
+    - Biological
   clientConfig:
     translationId: Greencap
     textureSource: greencap
@@ -1327,7 +1330,7 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
-  hitPointsGivenOnUse: 10
+  healingOnUseAmount: 10
   clientConfig:
     translationId: Redcap
     textureSource: redcap

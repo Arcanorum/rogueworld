@@ -23,7 +23,7 @@ interface PlayerConfig extends EntityConfig {
 class Player extends Entity {
     inventory: Inventory;
 
-    socket: PlayerWebSocket;
+    socket?: PlayerWebSocket;
 
     displayName = '';
 
@@ -119,6 +119,8 @@ class Player extends Entity {
      * Called in World.removePlayer when the client is closed (by user or timeout, etc.).
      */
     remove() {
+        this.socket = undefined;
+
         // If player was in combat and closed client to cheat death
         // items should be removed from inventory.
         if (this.isInCombat()) {
@@ -196,7 +198,7 @@ class Player extends Entity {
             randomPosition.col,
         );
 
-        this.socket.sendEvent('player_respawn');
+        this.socket?.sendEvent('player_respawn');
     }
 
     startFoodDrainLoop() {
@@ -295,7 +297,7 @@ class Player extends Entity {
             // Don't bother sending the event if no dynamics were found.
             if (dynamicsAtViewRangeData !== false) {
             // Tell the player any dynamics that they can now see in the direction they moved.
-                this.socket.sendEvent(
+                this.socket?.sendEvent(
                     'add_entities',
                     dynamicsAtViewRangeData,
                 );
@@ -322,7 +324,7 @@ class Player extends Entity {
             this.board.addPlayer(this);
 
             // Tell the client to load the new board map.
-            this.socket.sendEvent('change_board', {
+            this.socket?.sendEvent('change_board', {
                 boardName: this.board.name,
                 boardAlwaysNight: this.board.alwaysNight,
                 playerRow: this.row,
@@ -367,7 +369,7 @@ class Player extends Entity {
         );
 
         // If they already have an account, save the new display name.
-        if (this.socket.account) {
+        if (this.socket?.account) {
             this.socket.account.displayName = displayName;
         }
     }
@@ -381,10 +383,10 @@ class Player extends Entity {
         }
 
         // Tell the player their new glory amount.
-        this.socket.sendEvent('glory_value', this.glory);
+        this.socket?.sendEvent('glory_value', this.glory);
 
         // If this player has an account, save the new glory amount.
-        if (this.socket.account) {
+        if (this.socket?.account) {
             this.socket.account.glory = this.glory;
         }
     }
@@ -398,7 +400,7 @@ class Player extends Entity {
         }
         super.modHitPoints(hitPointModifier);
         // Tell the player their new HP amount.
-        this.socket.sendEvent('hit_point_value', this.hitPoints);
+        this.socket?.sendEvent('hit_point_value', this.hitPoints);
     }
 
     modFood(amount: number) {
@@ -414,13 +416,13 @@ class Player extends Entity {
         }
 
         // Tell the player their new food amount.
-        this.socket.sendEvent('food_value', this.food);
+        this.socket?.sendEvent('food_value', this.food);
     }
 
     modDefence(amount: number) {
         super.modDefence(amount);
         // Tell the player their new defence amount.
-        this.socket.sendEvent('defence_value', this.defence);
+        this.socket?.sendEvent('defence_value', this.defence);
     }
 
     /**
@@ -429,7 +431,7 @@ class Player extends Entity {
     modClothing(clothing?: Clothes) {
         if (clothing) {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent('activate_clothing', clothing.slotIndex);
+            this.socket?.sendEvent('activate_clothing', clothing.slotIndex);
 
             // Object.entries(clothing.statBonuses).forEach(([statKey, statBonus]) => {
             //     this.stats[statKey].levelModifier += statBonus;
@@ -439,7 +441,7 @@ class Player extends Entity {
         }
         else {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent('deactivate_clothing');
+            this.socket?.sendEvent('deactivate_clothing');
 
             // Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
             //     this.stats[statKey].levelModifier -= statBonus;
@@ -452,13 +454,13 @@ class Player extends Entity {
     modHolding(holding?: Holdable) {
         if (holding) {
             // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent('activate_holding', holding.slotIndex);
+            this.socket?.sendEvent('activate_holding', holding.slotIndex);
 
             this.holding = holding;
         }
         else {
             // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent('deactivate_holding');
+            this.socket?.sendEvent('deactivate_holding');
 
             this.holding = undefined;
         }
@@ -467,13 +469,13 @@ class Player extends Entity {
     modAmmunition(ammunition?: Ammunition) {
         if (ammunition) {
             // Tell the player to show the ammunition icon on the inventory slot of the item that was equipped.
-            this.socket.sendEvent('activate_ammunition', ammunition.slotIndex);
+            this.socket?.sendEvent('activate_ammunition', ammunition.slotIndex);
 
             this.ammunition = ammunition;
         }
         else {
             // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
-            this.socket.sendEvent('deactivate_ammunition');
+            this.socket?.sendEvent('deactivate_ammunition');
 
             this.ammunition = undefined;
         }

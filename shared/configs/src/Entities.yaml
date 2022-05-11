@@ -31,22 +31,21 @@
     animationSetName: bandit
     animationRepeats: true
 
-- name: Bat
+- name: FruitBat
   baseMaxHitPoints: 50
   baseGloryValue: 15
   baseMoveRate: 500
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
-  craftingStationClass: Workbench
   dropList:
     - itemName: Redcap
       dropRate: 100
       quantity: 4
   clientConfig:
     extendsClassName: Mob
-    displayName: Bat
-    animationSetName: bat
+    displayName: Fruit bat
+    animationSetName: fruit-bat
     animationRepeats: true
 
 - name: Snake

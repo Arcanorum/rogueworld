@@ -2,6 +2,13 @@
 
 .gui {
 
+  .backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: $colourDB32VeryDarkPurpleOpacity50;
+  }
+
   .top-left-corner-cont {
     position: absolute;
     display: block;

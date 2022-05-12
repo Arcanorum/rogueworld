@@ -112,6 +112,11 @@ function GUI() {
 
     return (
         <div className={`${styles['gui']}`}>
+            {shownPanel !== Panels.NONE && <div
+                className={styles['backdrop']}
+                onClick={closePanelCallback}
+            />}
+
             <Meters />
 
             <SelectedEntity />

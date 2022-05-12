@@ -8,16 +8,20 @@ import './tasks/TaskTypesList';
 import { ItemsLoader } from './items';
 import { EntitiesLoader } from './entities';
 import { CraftingRecipesLoader } from './crafting';
+import { StarterInventoryItemStates } from './inventory';
 
 message('Starting game server.');
 
 async function init() {
     ItemsLoader.populateList();
     EntitiesLoader.populateList();
-    CraftingRecipesLoader.populateList();
 
     ItemsLoader.initialiseList();
     EntitiesLoader.initialiseList();
+
+    // Do these after the items list is set up, as they need to check the items they use are valid.
+    CraftingRecipesLoader.populateList();
+    StarterInventoryItemStates.populateList();
 
     ItemsLoader.createCatalogue();
     EntitiesLoader.createCatalogue();

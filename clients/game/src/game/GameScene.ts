@@ -392,7 +392,7 @@ class GameScene extends Phaser.Scene {
 
     pointerDownHandler(event: PointerEvent) {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
-        // event.preventDefault();
+        event.preventDefault();
         // Only use the selected item if the input wasn't over any other GUI element.
         if (((event.target as Element).parentNode as Element)!.id === 'game-canvas') {
             // If the user pressed on their character sprite, pick up item.

@@ -180,9 +180,6 @@ class Entity extends Container {
      * Attempt to interact with the entity when pressed.
      */
     onPointerDown() {
-        // Prevent interacting with things in the game while any panel is open.
-        if(GUIState.activePanel !== Panels.NONE) return;
-
         const thisDynamic = Global.gameScene.dynamics[PlayerState.entityId];
         const playerDynamic = Global.gameScene.dynamics[this.entityId];
 

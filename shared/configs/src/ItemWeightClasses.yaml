@@ -1,16 +1,16 @@
 # Weapons
-WoodenWeapon: 20
-MetalDagger: 30
-MetalSword: 40
-MetalHammer: 50
-Staff: 40
-Bow: 40
+WoodenWeapon: 1
+MetalDagger: 1
+MetalSword: 1
+MetalHammer: 1
+Staff: 1
+Bow: 1
 Arrow: 1
 
 # Clothing
-MetalArmour: 80
-Cloak: 60
-Robe: 50
+MetalArmour: 1
+Cloak: 1
+Robe: 1
 
 # Tools
 GatheringTool: 30

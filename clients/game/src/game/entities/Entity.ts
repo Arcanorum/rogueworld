@@ -187,12 +187,12 @@ class Entity extends Container {
      * Attempt to interact with the entity when pressed.
      */
     onPointerDown() {
-        const thisDynamic = Global.gameScene.dynamics[PlayerState.entityId];
-        const playerDynamic = Global.gameScene.dynamics[this.entityId];
+        const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
+        const thisDynamic = Global.gameScene.dynamics[this.entityId];
 
         GUIState.setSelectedEntity(this);
 
-        const dist = tileDistanceBetween(thisDynamic, playerDynamic);
+        const dist = tileDistanceBetween(playerDynamic, thisDynamic);
 
         const EntityType = this.constructor as typeof Entity;
         // If this is something that can be crafted at, open the crafting panel.
@@ -219,9 +219,9 @@ class Entity extends Container {
         ApplicationState.connection?.sendEvent(
             'interact',
             {
-                id: playerDynamic.id,
-                row: playerDynamic.row,
-                col: playerDynamic.col,
+                id: thisDynamic.id,
+                row: thisDynamic.row,
+                col: thisDynamic.col,
             },
         );
     }

@@ -1,6 +1,7 @@
+import { tileDistanceBetween } from '@rogueworld/utils';
 import Panels from '../../../components/game/gui/panels/Panels';
 import Global from '../../../shared/Global';
-import { GUIState, PlayerState } from '../../../shared/state';
+import { ApplicationState, GUIState, PlayerState } from '../../../shared/state';
 import { BouncyText } from '../../../shared/types';
 import Entity from '../Entity';
 
@@ -74,6 +75,26 @@ class Player extends Entity {
                 EntityType.iconName,
             );
             GUIState.setActivePanel(Panels.Crafting);
+        }
+        // Another player.
+        else {
+            GUIState.setSelectedEntity(this);
+
+            const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
+            const thisDynamic = Global.gameScene.dynamics[this.entityId];
+
+            const dist = tileDistanceBetween(playerDynamic, thisDynamic);
+
+            if(dist <= 1) {
+                ApplicationState.connection?.sendEvent(
+                    'interact',
+                    {
+                        id: thisDynamic.id,
+                        row: thisDynamic.row,
+                        col: thisDynamic.col,
+                    },
+                );
+            }
         }
     }
 

@@ -65,7 +65,6 @@ function BuyOptions({
                 <div className="name">
                     {getTextDef(`Item name: ${Config.ItemTypes[shopItem.typeCode].translationId}`)}
                 </div>
-                {shopItem.durability && <div className="detail">{`${shopItem.durability}/${shopItem.durability}`}</div>}
                 {shopItem.quantity && <div className="detail">{`x${shopItem.quantity}`}</div>}
                 <div className={`detail ${canItemFit(shopItem) ? '' : 'no-space'}`}>{`${getTextDef('Weight')}: ${shopItem.totalWeight}`}</div>
                 <div className="description">
@@ -136,9 +135,9 @@ function ItemSlot({
                             className="icon"
                         />
                         <div
-                            className={`high-contrast-text amount ${(shopItem.quantity > 999 || shopItem.durability > 999) ? 'small' : ''}`}
+                            className={`high-contrast-text amount ${(shopItem.quantity > 999) ? 'small' : ''}`}
                         >
-                            {formatItemValue(shopItem.quantity) || formatItemValue(shopItem.durability) || '???'}
+                            {formatItemValue(shopItem.quantity) || '???'}
                         </div>
                     </div>
                 </div>

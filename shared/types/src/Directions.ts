@@ -1,4 +1,4 @@
-import { getPermutations } from '@dungeonz/utils';
+import { getPermutations } from '@rogueworld/utils';
 import { RowCol, RowColOffset } from '.';
 
 /**

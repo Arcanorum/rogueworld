@@ -19,7 +19,7 @@ import UseItem from '../../../../../shared/UseItem';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '@dungeonz/utils';
+import { formatItemValue } from '@rogueworld/utils';
 import ItemState from '../../../../../shared/ItemState';
 import Config from '../../../../../shared/Config';
 

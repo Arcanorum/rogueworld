@@ -22,13 +22,13 @@ We can keep running the game server on unsecure WS, and just have any requests r
 We also need to have a file server running alongside the game server, so any requests to the web page the game is running on can load the game files, as they are not sent from the game server itself. This file server also needs to be secured, as a regular HTTP requests will cause the same browser security problems as above, so files must be served over HTTPS instead.
 
 It would also be nice if we could automatically redirect any requests using unsecured protocols (HTTP) to the secured variant instead (HTTPS), so if a user mistakenly goes to the wrong URL they are redirected to the correct one.
-i.e. `http://dungeonz.io/` -> `https://dungeonz.io`
+i.e. `http://rogueworld.io/` -> `https://rogueworld.io`
 
 Typically to do all of this we would have to request a digital certificate from from a certificate authority, install it, and configure our game server to load and use those certificates. This quickly becomes a long, error prone and headache inducing process. Luckily there is an easier way where we don't have to mess around much to set this up ourselves.
 
 For this, Caddy is recommended, due to it's ease of setup, and the fact that almost straight out of the box it does everything we need:
 - An ACME client (Certbot) to get digital certificates to upgrade our HTTP/WS to HTTPS/WSS.
-- A file server to serve our built client files from /dungeonz/client
+- A file server to serve our built client files from /rogueworld/client
 - A reverse proxy to send incoming WebSocket traffic to our game server running locally on localhost:4567.
 - Automatic URL redirection.
 
@@ -67,15 +67,15 @@ First, install PM2:
 
 `sudo npm i pm2 -g`
 
-Then in the project root (/dungeonz), run:
+Then in the project root (/rogueworld), run:
 
-`pm2 start npm --name "Dungeonz game server" -- run server`
+`pm2 start npm --name "Rogueworld game server" -- run server`
 
 Wait a few seconds for the game server to finish starting and building the client files, then check it is running:
 
 `pm2 list`
 
-"Dungeonz game server" should appear in the list of running daemons. The terminal and your connection to the remote server can now be closed and the game will keep running.
+"Rogueworld game server" should appear in the list of running daemons. The terminal and your connection to the remote server can now be closed and the game will keep running.
 
 ## Misc info
 

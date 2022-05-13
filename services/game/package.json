@@ -1,5 +1,5 @@
 {
-    "name": "@dungeonz/game-service",
+    "name": "@rogueworld/game-service",
     "version": "1.0.0",
     "description": "The main game server that deals with gameplay logic.",
     "main": "src/index.ts",

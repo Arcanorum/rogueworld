@@ -1,4 +1,4 @@
-import { warning } from '@dungeonz/utils';
+import { warning } from '@rogueworld/utils';
 import PubSub from 'pubsub-js';
 import {
     ADD_BANK_ITEM,

@@ -8,7 +8,7 @@ import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
-import { digestMessage, message } from '@dungeonz/utils';
+import { digestMessage, message } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function AccountPanel({

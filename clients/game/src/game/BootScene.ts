@@ -1,4 +1,4 @@
-import { message, runLengthDecodeArray } from '@dungeonz/utils';
+import { message, runLengthDecodeArray } from '@rogueworld/utils';
 import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
 import gameAtlasData from '../assets/images/game-atlas.json';

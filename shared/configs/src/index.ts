@@ -1,4 +1,4 @@
-import { warning } from '@dungeonz/utils';
+import { warning } from '@rogueworld/utils';
 import fs from 'fs';
 import jsyaml from 'js-yaml';
 import path from 'path';

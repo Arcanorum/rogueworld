@@ -1,4 +1,4 @@
-import { Directions, Offset, RowCol } from '@dungeonz/types';
+import { Directions, Offset, RowCol } from '@rogueworld/types';
 
 /**
  * Converts a row and column offset into a direction.

@@ -18,7 +18,7 @@ import ItemIconsList from '../../../../../shared/ItemIconsList';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '@dungeonz/utils';
+import { formatItemValue } from '@rogueworld/utils';
 import Config from '../../../../../shared/Config';
 import { ShopItemState } from '../../../../../shared/types';
 

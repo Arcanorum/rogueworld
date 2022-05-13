@@ -1,4 +1,4 @@
-import { ObjectOfAny } from '@dungeonz/types';
+import { ObjectOfAny } from '@rogueworld/types';
 
 /**
  * Gets a random element from the given array.

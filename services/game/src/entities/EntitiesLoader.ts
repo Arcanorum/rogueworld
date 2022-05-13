@@ -1,6 +1,6 @@
-import { CraftingStationClasses, Entities } from '@dungeonz/configs';
-import { EntityClientConfig } from '@dungeonz/types';
-import { error, message } from '@dungeonz/utils';
+import { CraftingStationClasses, Entities } from '@rogueworld/configs';
+import { EntityClientConfig } from '@rogueworld/types';
+import { error, message } from '@rogueworld/utils';
 import path from 'path';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import requireDir from 'require-dir';

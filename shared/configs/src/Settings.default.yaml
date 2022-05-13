@@ -12,7 +12,7 @@ USE_SECURE_PROTOCOLS: false
 # URL of the game service.
 # e.g.
 # localhost:1111 (direct access to the running process)
-# dungeonz.io (root level domain name, then reverse-proxied to where ever the service is running).
+# rogueworld.io (root level domain name, then reverse-proxied to where ever the service is running).
 # Example Caddyfile rules:
 # reverse_proxy @websockets 167.71.187.147:1111
 # reverse_proxy /api/* 167.71.187.147:1111
@@ -21,7 +21,7 @@ GAME_SERVICE_URL: localhost:1111
 # Port number of the game service. Should match whatever is set for the port in GAME_SERVICE_URL.
 GAME_SERVICE_PORT: 1111
 
-# URL of the map service. e.g. dungeonz.io (reverse-proxied to where ever the service is running).
+# URL of the map service. e.g. rogueworld.io (reverse-proxied to where ever the service is running).
 # Example Caddyfile rule
 # reverse_proxy /map/* 154.72.186.149:4567
 MAP_SERVICE_URL: localhost:2222

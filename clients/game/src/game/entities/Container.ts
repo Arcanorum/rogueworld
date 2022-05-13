@@ -1,4 +1,4 @@
-import { getRandomIntInclusive } from '@dungeonz/utils';
+import { getRandomIntInclusive } from '@rogueworld/utils';
 import Phaser from 'phaser';
 import Global from '../../shared/Global';
 import { BouncyText } from '../../shared/types';

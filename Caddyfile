@@ -1,4 +1,4 @@
-localhost, dungeonz.io, test.dungeonz.io
+localhost, rogueworld.io, test.rogueworld.io
 
 root * ./clients/game/out
 file_server

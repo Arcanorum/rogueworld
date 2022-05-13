@@ -1,4 +1,4 @@
-import { error } from '@dungeonz/utils';
+import { error } from '@rogueworld/utils';
 import Damage from '../gameplay/Damage';
 import DamageTypes from '../gameplay/DamageTypes';
 import { StatusEffect } from '../gameplay/status_effects';

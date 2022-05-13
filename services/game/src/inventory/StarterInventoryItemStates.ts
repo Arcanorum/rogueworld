@@ -1,5 +1,5 @@
-import { Settings } from '@dungeonz/configs';
-import { error } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { error } from '@rogueworld/utils';
 import { ItemState } from '.';
 import { ItemsList } from '../items';
 

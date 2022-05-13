@@ -8,7 +8,7 @@ import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { CREATE_ACCOUNT_FAILURE } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
-import { digestMessage, message } from '@dungeonz/utils';
+import { digestMessage, message } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 import Config from '../../../../../shared/Config';
 

@@ -1,6 +1,6 @@
-import { Settings } from '@dungeonz/configs';
-import { dirname as mapsDirname } from '@dungeonz/maps';
-import { error, message, warning } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { dirname as mapsDirname } from '@rogueworld/maps';
+import { error, message, warning } from '@rogueworld/utils';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import { ensureDir } from 'fs-extra';

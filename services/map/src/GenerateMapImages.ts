@@ -1,6 +1,6 @@
-import { Settings } from '@dungeonz/configs';
-import { Maps } from '@dungeonz/maps';
-import { message } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { Maps } from '@rogueworld/maps';
+import { message } from '@rogueworld/utils';
 import fs from 'fs-extra';
 import path from 'path';
 import util from 'util';

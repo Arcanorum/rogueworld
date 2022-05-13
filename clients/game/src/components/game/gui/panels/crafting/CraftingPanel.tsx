@@ -16,7 +16,7 @@ import {
 } from '../../../../../shared/EventTypes';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '@dungeonz/utils';
+import { formatItemValue } from '@rogueworld/utils';
 import Config from '../../../../../shared/Config';
 import { CraftingRecipe, CraftingRecipeIngredient } from '../../../../../shared/types';
 import EntityIconsList from '../../../../../game/EntityIconsList';

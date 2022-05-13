@@ -1,4 +1,4 @@
-import { EntityClientConfig, ItemClientConfig, ObjectOfAny, ObjectOfStrings } from '@dungeonz/types';
+import { EntityClientConfig, ItemClientConfig, ObjectOfAny, ObjectOfStrings } from '@rogueworld/types';
 import { CraftingRecipe } from './types';
 import Entity from '../game/entities/Entity';
 

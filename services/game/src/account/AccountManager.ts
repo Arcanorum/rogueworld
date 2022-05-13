@@ -1,8 +1,8 @@
 import mongoose, { Document, Error } from 'mongoose';
 import AccountModel, { AccountDocument, ItemDocument } from './AccountModel';
 import World from '../space/World';
-import { error, message, warning } from '@dungeonz/utils';
-import { Settings } from '@dungeonz/configs';
+import { error, message, warning } from '@rogueworld/utils';
+import { Settings } from '@rogueworld/configs';
 import Player from '../entities/classes/Player';
 import PlayerWebSocket from '../websocket_events/PlayerWebSocket';
 
@@ -30,7 +30,7 @@ export default {
         if (isSetup) error('Attempt to setup account manager again.');
 
         try {
-            await mongoose.connect('mongodb://localhost/dungeonzDB', {
+            await mongoose.connect('mongodb://localhost/rogueworldDB', {
                 serverSelectionTimeoutMS: 2000,
             });
 

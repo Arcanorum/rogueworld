@@ -1,4 +1,4 @@
-import { OneMinute } from '@dungeonz/types';
+import { OneMinute } from '@rogueworld/types';
 import { ItemState } from '../../inventory';
 import Item from '../../items/classes/Item';
 import Entity, { EntityConfig } from './Entity';

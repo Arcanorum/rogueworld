@@ -5,7 +5,7 @@ import styles from './LoadingPage.module.scss';
 import { LOADING, LOAD_PROGRESS, LOAD_FILE_PROGRESS } from '../../shared/EventTypes';
 import { ApplicationState } from '../../shared/state';
 import Hints from './Hints';
-import { getShuffledArray } from '@dungeonz/utils';
+import { getShuffledArray } from '@rogueworld/utils';
 import getTextDef from '../../shared/GetTextDef';
 
 function LoadingBar() {

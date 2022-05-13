@@ -1,6 +1,6 @@
 import Item from '../Item';
 import { EntitiesList } from '../../../entities';
-import { error } from '@dungeonz/utils';
+import { error } from '@rogueworld/utils';
 import Entity from '../../../entities/classes/Entity';
 
 abstract class Ammunition extends Item {

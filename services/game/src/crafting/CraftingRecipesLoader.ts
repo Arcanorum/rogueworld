@@ -1,7 +1,7 @@
-import { CraftingRecipes, CraftingStationClasses } from '@dungeonz/configs';
-import { CraftingRecipeClientConfig } from '@dungeonz/types/src/CraftingRecipeClientConfig';
+import { CraftingRecipes, CraftingStationClasses } from '@rogueworld/configs';
+import { CraftingRecipeClientConfig } from '@rogueworld/types/src/CraftingRecipeClientConfig';
 // import Statset from '../stats/Statset';
-import { error, message } from '@dungeonz/utils';
+import { error, message } from '@rogueworld/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';

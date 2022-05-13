@@ -6,7 +6,7 @@ import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { getRandomIntInclusive } from '@dungeonz/utils';
+import { getRandomIntInclusive } from '@rogueworld/utils';
 
 function RespawnPanel() {
     const respawnPressed = async() => {

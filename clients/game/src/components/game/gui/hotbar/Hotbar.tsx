@@ -17,7 +17,7 @@ import holdingIcon from '../../../../assets/images/gui/hud/hotbar/holding-icon.p
 import ammunitionIcon from '../../../../assets/images/gui/hud/hotbar/ammunition-icon.png';
 import clothingIcon from '../../../../assets/images/gui/hud/hotbar/clothing-icon.png';
 import Global from '../../../../shared/Global';
-import { formatItemValue } from '@dungeonz/utils';
+import { formatItemValue } from '@rogueworld/utils';
 import getTextDef from '../../../../shared/GetTextDef';
 import ItemState from '../../../../shared/ItemState';
 import Config from '../../../../shared/Config';

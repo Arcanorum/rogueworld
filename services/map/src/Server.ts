@@ -1,5 +1,5 @@
-import { Settings } from '@dungeonz/configs';
-import { message, warning } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { message, warning } from '@rogueworld/utils';
 import express from 'express';
 import path from 'path';
 

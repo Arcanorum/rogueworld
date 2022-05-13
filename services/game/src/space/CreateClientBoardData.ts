@@ -1,6 +1,6 @@
-import { GameMap, MapLayer, Tilesets } from '@dungeonz/maps';
-import { ObjectOfAny } from '@dungeonz/types';
-import { arrayOfObjectsToObject, error, message, runLengthEncodeArray, warning } from '@dungeonz/utils';
+import { GameMap, MapLayer, Tilesets } from '@rogueworld/maps';
+import { ObjectOfAny } from '@rogueworld/types';
+import { arrayOfObjectsToObject, error, message, runLengthEncodeArray, warning } from '@rogueworld/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import path from 'path';
 import { GroundTypes } from '.';

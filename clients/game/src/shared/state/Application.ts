@@ -1,4 +1,4 @@
-import { DayPhases } from '@dungeonz/types';
+import { DayPhases } from '@rogueworld/types';
 import PubSub from 'pubsub-js';
 import { GameWebSocket } from '../../network/ConnectionManager';
 import {

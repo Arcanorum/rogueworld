@@ -1,4 +1,4 @@
-import { Offset } from '@dungeonz/types';
+import { Offset } from '@rogueworld/types';
 import EventResponses from './EventResponses';
 import PlayerWebSocket from './PlayerWebSocket';
 

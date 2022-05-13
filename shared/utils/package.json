@@ -1,5 +1,5 @@
 {
-    "name": "@dungeonz/utils",
+    "name": "@rogueworld/utils",
     "version": "1.0.0",
     "description": "General shared utilities that may be used anywhere.",
     "main": "src/index.ts"

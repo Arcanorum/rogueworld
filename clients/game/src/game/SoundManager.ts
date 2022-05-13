@@ -1,4 +1,4 @@
-import { getRandomElement, warning } from '@dungeonz/utils';
+import { getRandomElement, warning } from '@rogueworld/utils';
 import Config from '../shared/Config';
 import Global from '../shared/Global';
 import { GUIState } from '../shared/state';

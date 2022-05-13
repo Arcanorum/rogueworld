@@ -1,4 +1,4 @@
-import { tileDistanceBetween, warning } from '@dungeonz/utils';
+import { tileDistanceBetween, warning } from '@rogueworld/utils';
 import Panels from '../../components/game/gui/panels/Panels';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';

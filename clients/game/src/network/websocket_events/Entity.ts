@@ -1,4 +1,4 @@
-import { tileDistanceBetween } from '@dungeonz/utils';
+import { tileDistanceBetween } from '@rogueworld/utils';
 import Player from '../../game/entities/characters/Player';
 import Pickup from '../../game/entities/pickups/Pickup';
 import Config from '../../shared/Config';

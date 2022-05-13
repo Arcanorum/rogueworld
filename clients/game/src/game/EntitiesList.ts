@@ -1,4 +1,4 @@
-import { error, warning } from '@dungeonz/utils';
+import { error, warning } from '@rogueworld/utils';
 import Config from '../shared/Config';
 import Entity from './entities/Entity';
 import { generateGenericPickupsList } from './entities/pickups/GenericPickupsList';

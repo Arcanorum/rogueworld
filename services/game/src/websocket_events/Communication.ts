@@ -1,6 +1,6 @@
-import { Settings } from '@dungeonz/configs';
-import ChatScopes from '@dungeonz/types/src/ChatScopes';
-import { message, warning } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import ChatScopes from '@rogueworld/types/src/ChatScopes';
+import { message, warning } from '@rogueworld/utils';
 import Commands from '../commands/Commands';
 import { webSocketServer as wss } from '../Server';
 import EventResponses from './EventResponses';

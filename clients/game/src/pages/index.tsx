@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { init } from '../shared/Config';
-import { loadSettings } from '@dungeonz/configs';
+import { loadSettings } from '@rogueworld/configs';
 
 const App = dynamic(
     () => import('../components/App'),
@@ -15,7 +15,7 @@ const HomePage = ({ Settings }) => {
     return (
         <>
             <Head>
-                <title>Dungeonz.io</title>
+                <title>Rogueworld.io</title>
             </Head>
             <App />
         </>
@@ -28,7 +28,7 @@ const HomePage = ({ Settings }) => {
 export async function getStaticProps() {
     const pathToConfigs = '../../../../../shared/configs/src';
 
-    // Anything from the @dungeonz/configs package that is needed in this client app should be
+    // Anything from the @rogueworld/configs package that is needed in this client app should be
     // added here (basically just copy pasted from the index file that lists the exported configs).
     const Settings = loadSettings(pathToConfigs);
 

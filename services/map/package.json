@@ -1,5 +1,5 @@
 {
-    "name": "@dungeonz/map-service",
+    "name": "@rogueworld/map-service",
     "version": "1.0.0",
     "description": "REST API for getting map tiles for use with the map panel in game.",
     "scripts": {

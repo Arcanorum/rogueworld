@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
 import News from './news/News';
 import Partners from './partners/Partners';
-import dungeonzLogo from '../../assets/images/misc/branding/dungeonz-title.png';
+import rogueworldLogo from '../../assets/images/misc/branding/rogueworld-title.png';
 import background from '../../assets/images/misc/home-background.gif';
 import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.png';
 import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
@@ -23,8 +23,7 @@ import {
 import {
     connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
 } from '../../network/ConnectionManager';
-import { ApplicationState } from '../../shared/state';
-import { message } from '@dungeonz/utils';
+import { message } from '@rogueworld/utils';
 import getTextDef from '../../shared/GetTextDef';
 import Config from '../../shared/Config';
 
@@ -236,7 +235,7 @@ function LoginPage() {
                         <span
                             id={styles['test-server-text']}
                             onClick={() => {
-                                window.open('https://test.dungeonz.io/', '_blank');
+                                window.open('https://test.rogueworld.io/', '_blank');
                             }}
                         >
                             {getTextDef('PTS')}
@@ -246,7 +245,7 @@ function LoginPage() {
 
                 <div id={styles['center-bar']}>
                     <div id={styles['title-cont']}>
-                        <img id={styles['title-img']} src={dungeonzLogo.src} />
+                        <img id={styles['title-img']} src={rogueworldLogo.src} />
                         <div id={styles['new-character-continue-cont']}>
                             <div
                                 id={styles['new-character']}
@@ -337,7 +336,7 @@ function LoginPage() {
                                 className={styles['antisocial-icon']}
                                 src={notRedditLogo.src}
                                 onClick={() => {
-                                    window.open('https://www.reddit.com/r/dungeonz/', '_blank');
+                                    window.open('https://www.reddit.com/r/rogueworld/', '_blank');
                                 }}
                             />
                         </div>
@@ -355,7 +354,7 @@ function LoginPage() {
                                 className={styles['antisocial-icon']}
                                 src={notGithubLogo.src}
                                 onClick={() => {
-                                    window.open('https://github.com/Arcanorum/dungeonz', '_blank');
+                                    window.open('https://github.com/Arcanorum/rogueworld', '_blank');
                                 }}
                             />
                         </div>

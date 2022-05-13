@@ -1,4 +1,4 @@
-import { warning } from '@dungeonz/utils';
+import { warning } from '@rogueworld/utils';
 import { WebpackRequireValue } from '../shared/types';
 
 // Load the entity icon images.

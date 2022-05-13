@@ -1,4 +1,4 @@
-import { ObjectOfStrings } from '@dungeonz/types';
+import { ObjectOfStrings } from '@rogueworld/types';
 import { WebpackRequireValue } from '../shared/types';
 
 /**

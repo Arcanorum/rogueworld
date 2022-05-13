@@ -11,6 +11,6 @@ const Global = {
 };
 
 // Make available from the browser console for debugging.
-(window as any).dungeonz = Global;
+(window as any).rogueworld = Global;
 
 export default Global;

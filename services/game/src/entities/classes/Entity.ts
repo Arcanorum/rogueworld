@@ -1,5 +1,5 @@
-import { Directions, DirectionsValues, ObjectOfUnknown, Offset, RowCol, SpriteConfig } from '@dungeonz/types';
-import { Counter, getRandomElement } from '@dungeonz/utils';
+import { Directions, DirectionsValues, ObjectOfUnknown, Offset, RowCol, SpriteConfig } from '@rogueworld/types';
+import { Counter, getRandomElement } from '@rogueworld/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';

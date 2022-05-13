@@ -8,7 +8,7 @@ import minusIcon from '../../../../../assets/images/gui/hud/minus-icon.png';
 import styles from './SettingsPanel.module.scss';
 import Global from '../../../../../shared/Global';
 import { GUIState, InventoryState } from '../../../../../shared/state';
-import { getStyle, warning } from '@dungeonz/utils';
+import { getStyle, warning } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function MinusButton({

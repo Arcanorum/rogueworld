@@ -1,7 +1,7 @@
-import { Settings } from '@dungeonz/configs';
-import { MapLayer, TiledMap } from '@dungeonz/maps';
-import { DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol } from '@dungeonz/types';
-import { Counter, error, getRandomElement, getRandomIntInclusive, warning } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { MapLayer, TiledMap } from '@rogueworld/maps';
+import { DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol } from '@rogueworld/types';
+import { Counter, error, getRandomElement, getRandomIntInclusive, warning } from '@rogueworld/utils';
 import { GroundTypes } from '.';
 import { EntitiesList } from '../entities';
 import Entity from '../entities/classes/Entity';

@@ -1,7 +1,7 @@
-import { Settings } from '@dungeonz/configs';
-import { GameMap, Maps } from '@dungeonz/maps';
-import { DayPhases, ObjectOfUnknown, RowCol } from '@dungeonz/types';
-import { arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { GameMap, Maps } from '@rogueworld/maps';
+import { DayPhases, ObjectOfUnknown, RowCol } from '@rogueworld/types';
+import { arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning } from '@rogueworld/utils';
 import { Board } from '.';
 import { AccountDocument, AccountManager } from '../account';
 import Player from '../entities/classes/Player';

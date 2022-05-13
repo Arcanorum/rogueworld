@@ -1,5 +1,5 @@
-import { DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection } from '@dungeonz/types';
-import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@dungeonz/utils';
+import { DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection } from '@rogueworld/types';
+import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@rogueworld/utils';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import Drop from '../../gameplay/Drop';

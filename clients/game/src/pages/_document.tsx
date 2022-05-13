@@ -26,7 +26,7 @@ class MyDocument extends Document {
                     <meta httpEquiv="X-UA-Compatible" content="chrome=1, IE=9" />
                     <meta
                         name="description"
-                        content="Dungeonz.io, the free to play massively multiplayer online roguelite io game. Play with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons."
+                        content="Rogueworld.io, the free to play massively multiplayer online roguelite io game. Play with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons."
                     />
                     <meta name="keywords" content="game,io,multiplayer,roguelite,MMO,dungeon,online,games,gaming" />
                     <meta name="format-detection" content="telephone=no" />
@@ -34,19 +34,19 @@ class MyDocument extends Document {
                     <meta name="robots" content="noindex,nofollow" />
                     <meta name="apple-mobile-web-app-capable" content="yes" />
                     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-                    <meta name="apple-mobile-web-app-title" content="Dungeonz.io" />
+                    <meta name="apple-mobile-web-app-title" content="Rogueworld.io" />
                     <meta name="mobile-web-app-capable" content="yes" />
                     <meta
                         name="viewport"
                         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui"
                     />
 
-                    <meta property="og:title" content="Dungeonz.io" />
-                    <meta property="og:url" content="https://dungeonz.io/" />
+                    <meta property="og:title" content="Rogueworld.io" />
+                    <meta property="og:url" content="https://rogueworld.io/" />
                     <meta property="og:type" content="game" />
                     <meta
                         property="og:description"
-                        content="Dungeonz.io, the free to play massively multiplayer online roguelite io game. Play with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons."
+                        content="Rogueworld.io, the free to play massively multiplayer online roguelite io game. Play with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons."
                     />
                     <meta property="og:image" content="/assets/share-banner.png" />
                     <meta property="og:image:width" content="1032" />
@@ -55,11 +55,11 @@ class MyDocument extends Document {
                     <meta property="twitter:card" content="summary_large_image" />
                     <meta property="twitter:site" content="@waywardworlds" />
                     <meta property="twitter:creator" content="@waywardworlds" />
-                    <meta property="twitter:url" content="https://dungeonz.io/" />
-                    <meta property="twitter:title" content="Dungeonz.io" />
+                    <meta property="twitter:url" content="https://rogueworld.io/" />
+                    <meta property="twitter:title" content="Rogueworld.io" />
                     <meta
                         property="twitter:description"
-                        content="Dungeonz.io, the free to play massively multiplayer online roguelite io game. Play with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons."
+                        content="Rogueworld.io, the free to play massively multiplayer online roguelite io game. Play with and against other players to gather resources, craft items, train skills and fight monsters to clear dungeons."
                     />
                     <meta property="twitter:image" content="/assets/share-banner.png" />
                     <meta property="twitter:image:alt" content="A scene from the game with players fighting monsters." />

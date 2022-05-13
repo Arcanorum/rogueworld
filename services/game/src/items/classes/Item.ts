@@ -1,4 +1,4 @@
-import { ItemCategories } from '@dungeonz/types';
+import { ItemCategories } from '@rogueworld/types';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
 import { EntitiesList } from '../../entities';

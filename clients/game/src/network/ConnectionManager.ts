@@ -1,4 +1,4 @@
-import { digestMessage, message } from '@dungeonz/utils';
+import { digestMessage, message } from '@rogueworld/utils';
 import PubSub from 'pubsub-js';
 import Config from '../shared/Config';
 import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';

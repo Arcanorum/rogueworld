@@ -1,6 +1,6 @@
 import ItemsList from '../items/ItemsList';
 import Pickup from '../entities/classes/Pickup';
-import { error } from '@dungeonz/utils';
+import { error } from '@rogueworld/utils';
 
 export interface DropConfig {
     itemName: string;

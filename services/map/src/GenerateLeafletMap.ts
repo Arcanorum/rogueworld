@@ -1,5 +1,5 @@
-import { dirname } from '@dungeonz/maps';
-import { message } from '@dungeonz/utils';
+import { dirname } from '@rogueworld/maps';
+import { message } from '@rogueworld/utils';
 import fs from 'fs-extra';
 import path from 'path';
 // import generateMapImages from './GenerateMapImages';

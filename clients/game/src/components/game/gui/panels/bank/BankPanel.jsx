@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
 import AnimatedNumber from 'animated-number-react';
-import Utils, { formatItemValue } from '@dungeonz/utils';
+import Utils, { formatItemValue } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import {
     ApplicationState, BankState, GUIState, InventoryState, PlayerState,

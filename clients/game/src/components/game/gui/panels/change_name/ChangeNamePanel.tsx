@@ -9,7 +9,7 @@ import { DISPLAY_NAME_VALUE } from '../../../../../shared/EventTypes';
 import { ApplicationState, PlayerState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { message } from '@dungeonz/utils';
+import { message } from '@rogueworld/utils';
 import Config from '../../../../../shared/Config';
 
 function ChangeNamePanel({

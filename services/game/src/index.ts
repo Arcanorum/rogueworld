@@ -1,4 +1,4 @@
-import { message } from '@dungeonz/utils';
+import { message } from '@rogueworld/utils';
 import { GroundTypes, World } from './space';
 import './Server';
 import './api';

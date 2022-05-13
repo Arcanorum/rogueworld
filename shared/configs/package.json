@@ -1,5 +1,5 @@
 {
-    "name": "@dungeonz/configs",
+    "name": "@rogueworld/configs",
     "version": "1.0.0",
     "description": "All configurable settings used by all of the game systems, including dev setup, general gameplay, items, mobs, etc.",
     "main": "src/index.ts"

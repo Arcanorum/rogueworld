@@ -1,5 +1,5 @@
-import { Settings } from '@dungeonz/configs';
-import { message } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { message } from '@rogueworld/utils';
 import { isDisplayNameValid } from '.';
 import { AccountManager } from '../account';
 import EventResponses from './EventResponses';

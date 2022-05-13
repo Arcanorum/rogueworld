@@ -1,6 +1,6 @@
-import { Items, ItemWeightClasses } from '@dungeonz/configs';
-import { ItemClientConfig } from '@dungeonz/types';
-import { error, message } from '@dungeonz/utils';
+import { Items, ItemWeightClasses } from '@rogueworld/configs';
+import { ItemClientConfig } from '@rogueworld/types';
+import { error, message } from '@rogueworld/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import path from 'path';
 import requireDir from 'require-dir';

@@ -2,8 +2,8 @@ import PubSub from 'pubsub-js';
 import { v4 as uuidv4 } from 'uuid';
 import Global from '../Global';
 import { NEW_CHAT } from '../EventTypes';
-import { censorString } from '@dungeonz/utils';
-import BadWords from '@dungeonz/utils/src/BadWords.yaml';
+import { censorString } from '@rogueworld/utils';
+import BadWords from '@rogueworld/utils/src/BadWords.yaml';
 
 export type ChatScope = 'ALL' | 'LOCAL' | 'GLOBAL' | 'TRADE';
 

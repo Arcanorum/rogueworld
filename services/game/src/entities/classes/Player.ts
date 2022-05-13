@@ -1,6 +1,6 @@
-import { Settings } from '@dungeonz/configs';
-import { ObjectOfUnknown, Offset, RowCol } from '@dungeonz/types';
-import { getRandomElement, warning } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { ObjectOfUnknown, Offset, RowCol } from '@rogueworld/types';
+import { getRandomElement, warning } from '@rogueworld/utils';
 import { CraftingRecipesList } from '../../crafting';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';

@@ -1,8 +1,8 @@
 import { webSocketServer as wss } from '../Server';
 import PlayerWebSocket from './PlayerWebSocket';
-import { message, warning } from '@dungeonz/utils';
+import { message, warning } from '@rogueworld/utils';
 import EventResponses from './EventResponses';
-import { Settings } from '@dungeonz/configs';
+import { Settings } from '@rogueworld/configs';
 import { World } from '../space';
 import './Account';
 import './Communication';

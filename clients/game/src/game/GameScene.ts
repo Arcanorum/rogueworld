@@ -23,9 +23,9 @@ import {
 import Panels from '../components/game/gui/panels/Panels';
 import Global from '../shared/Global';
 import eventResponses from '../network/websocket_events/EventResponses';
-import { message, pixelDistanceBetween, warning } from '@dungeonz/utils';
+import { message, pixelDistanceBetween, warning } from '@rogueworld/utils';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
-import { DayPhases } from '@dungeonz/types';
+import { DayPhases } from '@rogueworld/types';
 import Player from './entities/characters/Player';
 
 class GameScene extends Phaser.Scene {

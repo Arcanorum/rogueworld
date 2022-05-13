@@ -1,4 +1,4 @@
-import ChatScopes from '@dungeonz/types/src/ChatScopes';
+import ChatScopes from '@rogueworld/types/src/ChatScopes';
 import WebSocket from 'ws';
 import Player from '../entities/classes/Player';
 import { AccountDocument } from '../account';

@@ -1,5 +1,5 @@
 // All types that are used across the game client, NOT across the project.
-// Project-scoped types belong in the @dungeonz/types package.
+// Project-scoped types belong in the @rogueworld/types package.
 
 import Player from '../../game/entities/characters/Player';
 import Entity from '../../game/entities/Entity';

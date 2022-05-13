@@ -1,4 +1,4 @@
-import { error, getRandomElement } from '@dungeonz/utils';
+import { error, getRandomElement } from '@rogueworld/utils';
 import TaskTypes from './TaskTypes';
 
 class TaskType {

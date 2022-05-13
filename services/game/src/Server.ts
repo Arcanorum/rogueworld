@@ -1,5 +1,5 @@
-import { Settings } from '@dungeonz/configs';
-import { message } from '@dungeonz/utils';
+import { Settings } from '@rogueworld/configs';
+import { message } from '@rogueworld/utils';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import PlayerWebSocket from './websocket_events/PlayerWebSocket';

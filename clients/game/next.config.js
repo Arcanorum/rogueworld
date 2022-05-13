@@ -1,5 +1,5 @@
 const withYaml = require('next-plugin-yaml');
-const withTM = require('next-transpile-modules')(['@dungeonz/configs', '@dungeonz/maps', '@dungeonz/types', '@dungeonz/utils']);
+const withTM = require('next-transpile-modules')(['@rogueworld/configs', '@rogueworld/maps', '@rogueworld/types', '@rogueworld/utils']);
 
 module.exports = withYaml(withTM({
     // https://github.com/vercel/next.js/issues/7755#issuecomment-916022379

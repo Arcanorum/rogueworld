@@ -36,7 +36,7 @@ class Clothes extends Sprite {
         // ];
         // const addAnimationSet = (setName, baseFrameName) => {
         //     directions.forEach((direction) => {
-        //         dungeonz.gameScene.anims.create({
+        //         rogueworld.gameScene.anims.create({
         //             key: `${setName}-${direction}`,
         //             defaultTextureKey,
         //             frames: generateFrames(baseFrameName, direction),

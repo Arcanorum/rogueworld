@@ -248,6 +248,14 @@ const Entity = () => {
 
         // TODO: maybe still need this in case want to tell other players when someone clicks in a direction, i.e. side to side, but without moving.
     };
+
+    eventResponses.start_action = (data: {id: string; actionName: string; duration: number}) => {
+        console.log('start action:', data);
+        const dynamic = Global.gameScene.dynamics[data.id];
+        if (dynamic === undefined) return;
+
+        dynamic.spriteContainer.startAction(data.actionName, data.duration);
+    };
 };
 
 export default Entity;

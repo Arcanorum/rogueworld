@@ -70,6 +70,8 @@ class Entity extends Container {
 
     enchantmentEffect?: Phaser.GameObjects.Sprite;
 
+    actionIcon?: Phaser.GameObjects.Sprite;
+
     constructor(
         x: number,
         y: number,
@@ -134,6 +136,11 @@ class Entity extends Container {
         // this.enchantmentEffect.x = 6;
         // this.enchantmentEffect.y = -10;
         // this.enchantmentEffect.setScale(0.8);
+
+        this.actionIcon = Global.gameScene.add.sprite(0, 0, 'game-atlas', 'punch');
+        this.actionIcon.setOrigin(0.5);
+        this.actionIcon.visible = false;
+        this.add(this.actionIcon);
 
         this.baseSprite.on('animationcomplete', this.moveAnimCompleted, this);
 
@@ -308,6 +315,25 @@ class Entity extends Container {
 
     moveAnimCompleted() {
         return;
+    }
+
+    startAction(actionName: string, duration: number) {
+        console.log('entity.startAction');
+
+        this.actionIcon.visible = true;
+        this.actionIcon.setFrame(actionName);
+
+        setTimeout(this.endAction.bind(this), duration || 1000);
+
+        // Play an optional starting animation here.
+    }
+
+    endAction() {
+        console.log('entity.endAction');
+        console.log('actionicon:', this.actionIcon);
+        this.actionIcon.visible = false;
+
+        // Play an optional ending animation here.
     }
 
     static loadConfig(config) {

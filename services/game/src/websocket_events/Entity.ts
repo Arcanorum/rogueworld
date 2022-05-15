@@ -1,4 +1,5 @@
 import { Offset } from '@rogueworld/types';
+import Entity from '../entities/classes/Entity';
 import EventResponses from './EventResponses';
 import PlayerWebSocket from './PlayerWebSocket';
 
@@ -30,12 +31,37 @@ EventResponses.respawn = (clientSocket) => {
     clientSocket.entity?.respawn();
 };
 
-EventResponses.interact = (clientSocket, data) => {
+EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?: number}) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are alive.
     if (clientSocket.entity?.hitPoints <= 0) return;
 
+    if(!data) return;
+
     console.log('doing interaction:', data);
 
-    clientSocket.entity?.interactWithEntity(data.id, data.row, data.col);
+    let targetEntity: Entity | undefined;
+
+    if(data.id) {
+        const playerEntity = clientSocket.entity;
+
+        if(!playerEntity) return;
+
+        // Check if it is in the movables list, so we can get a reference to it.
+        if(playerEntity.board?.movables[data.id]) {
+            targetEntity = playerEntity.board.movables[data.id];
+        }
+        // Non-movable entity, so access it by row/col, which should have been provided.
+        else {
+            if(data.row && data.col) {
+                const boardTile = playerEntity.board?.getTileAt(data.row, data.col);
+                if(!boardTile) return;
+
+                targetEntity = boardTile.entities[data.id];
+                if(!targetEntity) return;
+            }
+        }
+    }
+
+    clientSocket.entity?.performAction('punch', targetEntity, data.row, data.col);
 };

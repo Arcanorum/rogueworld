@@ -70,7 +70,15 @@ class Entity extends Container {
 
     enchantmentEffect?: Phaser.GameObjects.Sprite;
 
+    actionBorder?: Phaser.GameObjects.Sprite;
+
+    actionProgress?: Phaser.GameObjects.Sprite;
+
     actionIcon?: Phaser.GameObjects.Sprite;
+
+    actionTimeout?: ReturnType<typeof setTimeout>;
+
+    actionTween?: Phaser.Tweens.Tween;
 
     constructor(
         x: number,
@@ -137,7 +145,21 @@ class Entity extends Container {
         // this.enchantmentEffect.y = -10;
         // this.enchantmentEffect.setScale(0.8);
 
-        this.actionIcon = Global.gameScene.add.sprite(0, 0, 'game-atlas', 'punch');
+        // TODO: Make all this action stuff be added dynamically, don't need it on every entity...
+        this.actionProgress = Global.gameScene.add.sprite(0, 4.5, 'game-atlas', 'action-progress');
+        this.actionProgress.setScale(0.5);
+        this.actionProgress.setOrigin(0.5, 1);
+        this.actionProgress.visible = false;
+        this.add(this.actionProgress);
+
+        this.actionBorder = Global.gameScene.add.sprite(0, 0, 'game-atlas', 'action-border');
+        this.actionBorder.setScale(0.5);
+        this.actionBorder.setOrigin(0.5);
+        this.actionBorder.visible = false;
+        this.add(this.actionBorder);
+
+        this.actionIcon = Global.gameScene.add.sprite(0, 0, 'game-atlas', 'action-punch');
+        this.actionIcon.setScale(0.5);
         this.actionIcon.setOrigin(0.5);
         this.actionIcon.visible = false;
         this.add(this.actionIcon);
@@ -318,19 +340,37 @@ class Entity extends Container {
     }
 
     startAction(actionName: string, duration: number) {
-        console.log('entity.startAction');
+        clearTimeout(this.actionTimeout);
+
+        if(this.actionTween) {
+            this.actionTween.stop();
+        }
+
+        this.actionProgress.visible = true;
+        this.actionProgress.scaleY = 0;
+
+        this.actionTween = Global.gameScene.tweens.add({
+            targets: this.actionProgress,
+            scaleY: 0.5,
+            duration,
+            ease: 'Linear',
+        });
+
+        this.actionBorder.visible = true;
 
         this.actionIcon.visible = true;
-        this.actionIcon.setFrame(actionName);
+        this.actionIcon.setFrame(`action-${actionName}`);
 
-        setTimeout(this.endAction.bind(this), duration || 1000);
+        this.actionTimeout = setTimeout(this.endAction.bind(this), duration || 1000);
 
         // Play an optional starting animation here.
     }
 
     endAction() {
-        console.log('entity.endAction');
-        console.log('actionicon:', this.actionIcon);
+        clearTimeout(this.actionTimeout);
+
+        this.actionProgress.visible = false;
+        this.actionBorder.visible = false;
         this.actionIcon.visible = false;
 
         // Play an optional ending animation here.

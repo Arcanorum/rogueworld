@@ -1,5 +1,7 @@
 import { Directions, DirectionsValues, ObjectOfUnknown, Offset, RowCol, SpriteConfig } from '@rogueworld/types';
 import { Counter, getRandomElement } from '@rogueworld/utils';
+import Action from '../../gameplay/actions/Action';
+import ActionsList from '../../gameplay/actions/ActionsList';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
@@ -93,8 +95,8 @@ class Entity {
 
     /**
      * Whether this entity is capable of moving at all.
-     * Things that can move: Players, most mobs.
-     * Things that can not move: Walls, doors, rocks, trees (including tree-type mobs), item pickups.
+     * Things that can move: Players and most creatures.
+     * Things that can not move: Walls, doors, rocks, trees (including tree-type NPCs), item pickups.
      */
     static baseMoveRate?: number = undefined;
 
@@ -118,6 +120,15 @@ class Entity {
     enchantment?: Enchantment;
 
     statusEffects?: {[key: string]: StatusEffect};
+
+    /**
+     * The list of actions that this entity type can pick from.
+     * For creatures, this will mostly be combat actions, but players can have other ones with more
+     * player specific functionality.
+     */
+    static actions?: Array<string> = undefined;
+
+    actionTimeout?: NodeJS.Timeout;
 
     static baseGloryValue?: number = undefined;
 
@@ -200,6 +211,10 @@ class Entity {
 
         if(this.lifespanTimeout) {
             clearTimeout(this.lifespanTimeout);
+        }
+
+        if(this.actionTimeout) {
+            clearTimeout(this.actionTimeout);
         }
 
         if (this.curse) this.curse.remove();
@@ -562,6 +577,57 @@ class Entity {
     }
 
     dropItems() { return; }
+
+    performAction(actionName: string, entity?: Entity, row?: number, col?: number) {
+        if(this.actionTimeout) {
+            // Cancel any in-progress action before starting this one
+            clearTimeout(this.actionTimeout);
+            // Empty the property in case it doesn't get set again below.
+            this.actionTimeout = undefined;
+        }
+
+        const action = ActionsList[actionName];
+        if(!action) return;
+
+        // Check if it is a entity targetted action.
+        if(entity) {
+            this.startAction(action, undefined, entity);
+        }
+        // Check if it is a position targetted action.
+        else if(row && col) {
+            const boardTile = this.board?.getTileAt(row, col);
+            if(!boardTile) return;
+
+            this.startAction(action, { row, col });
+        }
+        // Must be a non-targetted or self-targetted action.
+        else {
+            this.startAction(action);
+        }
+
+        // Tell the clients to start the action on this entity, so they can show the telegraph for it.
+        this.board?.emitToNearbyPlayers(
+            this.row,
+            this.col,
+            'start_action',
+            {
+                id: this.id,
+                actionName: action.name,
+                duration: action.duration,
+            },
+        );
+    }
+
+    startAction(action: Action, targetPosition?: RowCol, targetEntity?: Entity) {
+        this.actionTimeout = setTimeout(
+            () => {
+                action.run(this, targetPosition, targetEntity, action.config);
+                // Action is over, so clear the reference to it doesn't block anything.
+                this.actionTimeout = undefined;
+            },
+            action.duration,
+        );
+    }
 
     getDirectionToPosition(position: RowCol) {
         const rowDist = this.row - position.row;

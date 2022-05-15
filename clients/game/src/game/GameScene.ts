@@ -393,8 +393,9 @@ class GameScene extends Phaser.Scene {
     pointerDownHandler(event: PointerEvent) {
         // Stop double clicking from highlighting text elements, and zooming in on mobile.
         event.preventDefault();
+
         // Only use the selected item if the input wasn't over any other GUI element.
-        if (((event.target as Element).parentNode as Element)!.id === 'game-canvas') {
+        if (((event.target as Element) as Element)!.id === 'game-canvas') {
             // If the user pressed on their character sprite, pick up item.
             if (pixelDistanceBetween(
                 this.dynamics[PlayerState.entityId].spriteContainer,
@@ -405,28 +406,30 @@ class GameScene extends Phaser.Scene {
                 return;
             }
 
-            const midX = window.innerWidth / 2;
-            const midY = window.innerHeight / 2;
-            const targetX = event.clientX - midX;
-            const targetY = event.clientY - midY;
-            let direction = 'u';
-            if (Math.abs(targetX) > Math.abs(targetY)) {
-                if (targetX > 0) direction = 'r';
-                else direction = 'l';
-            }
-            else if (targetY > 0) direction = 'd';
-            else direction = 'u';
+            // // Try to use the held item if one is selected.
+            // if (InventoryState.holding) {
+            //     // Tell the game server this player wants to use this item.
+            //     PubSub.publish(USED_ITEM, InventoryState.holding);
+            //     ApplicationState.connection?.sendEvent('use_held_item', direction);
+            // }
+            // // Do a melee attack.
+            // else {
+            //     ApplicationState.connection?.sendEvent('melee_attack', direction);
+            // }
 
-            // Try to use the held item if one is selected.
-            if (InventoryState.holding) {
-                // Tell the game server this player wants to use this item.
-                PubSub.publish(USED_ITEM, InventoryState.holding);
-                ApplicationState.connection?.sendEvent('use_held_item', direction);
-            }
-            // Do a melee attack.
-            else {
-                ApplicationState.connection?.sendEvent('melee_attack', direction);
-            }
+            // const cursorRow = 10;
+            // const cursorCol = 10;
+
+            // console.log('sending interaction for row/col:', cursorRow, cursorCol);
+
+            // // Do a tile targetted attack.
+            // ApplicationState.connection?.sendEvent(
+            //     'interact',
+            //     {
+            //         row: cursorRow,
+            //         col: cursorCol,
+            //     },
+            // );
         }
     }
 

@@ -4,8 +4,8 @@
   },
   "images": [],
   "folders": [
-    "./src/assets/images/actions",
     "./src/assets/images/entities",
+    "./src/assets/images/gui/actions",
     "./src/assets/images/gui/particles"
   ],
   "packOptions": {

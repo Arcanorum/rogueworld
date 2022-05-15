@@ -108,19 +108,23 @@ class Dynamic extends Entity {
                 ];
 
                 // Check if there is a damaging tile in front.
-                if (!this.checkForMoveHazards(offset.row, offset.col)) return false;
+                if (!this.checkForMoveHazards(offset.row, offset.col)) return;
 
                 super.move(offset.row, offset.col);
             }
+            // Target is within attack range, attack them.
             else {
-                this.target.damage(
-                    {
-                        amount: 5,
-                        penetration: 50,
-                        types: [DamageTypes.Physical],
-                    },
-                    this,
-                );
+                // Don't attempt to attack while they are already doing something.
+                if(!this.actionTimeout) {
+                    // Use one of their available actions.
+                    const EntityType = this.constructor as typeof Entity;
+                    if(!EntityType.actions) return;
+
+                    this.performAction(
+                        getRandomElement(EntityType.actions),
+                        this.target,
+                    );
+                }
             }
         }
         // No target, wander around.
@@ -132,7 +136,7 @@ class Dynamic extends Entity {
                         this.getDirectionToPosition(this.wanderTargetPosition)
                     ];
                     // Check if there is a damaging tile in front.
-                    if (!this.checkForMoveHazards(offset.row, offset.col)) return false;
+                    if (!this.checkForMoveHazards(offset.row, offset.col)) return;
 
                     super.move(offset.row, offset.col);
                 }

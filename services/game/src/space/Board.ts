@@ -40,6 +40,17 @@ class Board {
     grid: Array<Array<BoardTile>> = [];
 
     /**
+     * A list of references to any movable entities by their ID.
+     * Used for accessing an entity to be interacted with that may have moved from where a client
+     * thinks it is, as just sending row & col (to get it via the entities list of a board tile)
+     * won't be enough to always be able to get the entity.
+     * Could just keep every entity in a list like this, but most of there references would be
+     * redundant as the majority of entities on the board will most likely be non-moving things
+     * like walls and resource nodes, which can be reliably accessed by row & col.
+     */
+    movables: {[key: number]: Entity} = {};
+
+    /**
      * Keep a list of the positions that a player can spawn onto.
      * Can't just refer to the board tiles directly as they don't track their own row/col.
      */
@@ -168,6 +179,12 @@ class Board {
     }
 
     addEntity(entity: Entity) {
+        // Add movable entities to the movables list.
+        const EntityType = entity.constructor as typeof Entity;
+        if(EntityType.baseMoveRate) {
+            this.movables[entity.id] = entity;
+        }
+
         const tile = this.grid[entity.row][entity.col];
 
         if (Object.prototype.hasOwnProperty.call(tile, entitiesString)) {
@@ -181,6 +198,11 @@ class Board {
     }
 
     removeEntity(entity: Entity) {
+        // If the entity was added to the movables list, remove them from it.
+        if(this.movables[entity.id]) {
+            delete this.movables[entity.id];
+        }
+
         const tile = this.grid[entity.row][entity.col];
 
         delete tile.entities[entity.id];

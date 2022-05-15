@@ -51,12 +51,6 @@ class Player extends Entity {
     isMovePending = false;
     pendingMove = setTimeout(() => { /**/ });
 
-    /** The time the player most recently performed an action. */
-    lastActionTime = 0;
-
-    /** The time after which this player can perform another action. */
-    nextActionTime = 0;
-
     /** The time when this player was last damaged. */
     lastDamagedTime = 0;
 
@@ -332,26 +326,6 @@ class Player extends Entity {
                 dynamicsData: this.board.getNearbyDynamicsData(this.row, this.col),
             });
         }
-    }
-
-    interactWithEntity(entityId: string, row: number, col: number) {
-        const boardTile = this.board?.getTileAt(row, col);
-        if(!boardTile) return;
-
-        const entity = boardTile.entities[entityId];
-        if(!entity) return;
-
-        // Skip self.
-        if(entity === this) return;
-
-        entity.damage(
-            {
-                amount: 10,
-                penetration: 50,
-                types: [DamageTypes.Physical],
-            },
-            this,
-        );
     }
 
     setDisplayName(displayName: string) {

@@ -110,6 +110,19 @@ class BoardTile {
     }
 
     /**
+     * Gets the first entity that can be found on this tile.
+     * @returns Whatever entity is at the top of the entities list, or false if there are no entities.
+     */
+    getFirstEntity() {
+        for(const key in this.entities) {
+            if(this.entities.hasOwnProperty(key)) {
+                return this.entities[key];
+            }
+        }
+        return false;
+    }
+
+    /**
      * Adds the dynamics of a tile to a given list.
      * Useful for building a view of what the player can
      * see in an area, or at the edge of their view range.

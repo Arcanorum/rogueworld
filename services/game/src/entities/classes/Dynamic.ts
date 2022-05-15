@@ -97,6 +97,9 @@ class Dynamic extends Entity {
             }
             // If they are on the same tile, try to move apart.
             if (this.row === this.target.row && this.col === this.target.col) {
+                // Don't move if doing an action, or it will interrupt itself.
+                if(this.actionTimeout) return;
+
                 this.moveAwayFromCurrentTile();
                 return;
             }
@@ -109,6 +112,9 @@ class Dynamic extends Entity {
 
                 // Check if there is a damaging tile in front.
                 if (!this.checkForMoveHazards(offset.row, offset.col)) return;
+
+                // Don't move if doing an action, or it will interrupt itself.
+                if(this.actionTimeout) return;
 
                 super.move(offset.row, offset.col);
             }

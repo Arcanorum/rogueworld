@@ -184,7 +184,6 @@
 
 - stationClasses:
     - Self
-    - Workbench
   stats:
     - Weaponry
     - Melee
@@ -198,7 +197,6 @@
 
 - stationClasses:
     - Self
-    - Workbench
   stats:
     - Toolery
   ingredients:
@@ -211,7 +209,6 @@
 
 - stationClasses:
     - Self
-    - Workbench
   stats:
     - Toolery
   ingredients:
@@ -997,3 +994,15 @@
       quantity: 8
   result:
     itemName: ClayOven
+  
+- stationClasses:
+    - Self
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: PineLogs
+      quantity: 8
+    - itemName: IronBar
+      quantity: 4
+  result:
+    itemName: Workbench

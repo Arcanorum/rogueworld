@@ -11,6 +11,16 @@
     animationSetName: clay-oven
     animationRepeats: true
 
+- name: Workbench
+  highBlocking: true
+  baseMaxHitPoints: 100
+  baseGloryValue: 10
+  craftingStationClass: Workbench
+  clientConfig:
+    displayName: Workbench
+    animationSetName: workbench
+    animationFrameSequence: [1]
+
 - name: StoneWall
   # code: QMYX4544
   highBlocking: true

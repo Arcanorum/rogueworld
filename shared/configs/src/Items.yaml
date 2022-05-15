@@ -972,6 +972,13 @@
     translationId: Clay oven
     textureSource: clay-oven
 
+- name: Workbench
+  code: BQAT2939
+  unitWeight: 20
+  clientConfig:
+    translationId: Workbench
+    textureSource: workbench
+
 # Everything else
 
 - name: AgoniteBar

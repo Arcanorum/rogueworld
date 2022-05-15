@@ -29,6 +29,10 @@ export const populateList = () => {
         CraftingRecipes.forEach((config: CraftingRecipeConfig) => {
             const ResultItemType = ItemsList.BY_NAME[config.result.itemName];
 
+            if(!ResultItemType) {
+                error('Invalid crafting recipe. Result item type doesn\'t exist in the item types list for itemName:', config.result.itemName);
+            }
+
             const craftingRecipe: CraftingRecipe = {
                 stationClasses: config.stationClasses || [],
                 statNames: config.stats || [],
@@ -43,7 +47,7 @@ export const populateList = () => {
             // Check all of the crafting station classes used in the recipe are valid.
             craftingRecipe.stationClasses?.forEach((stationClass) => {
                 if(!CraftingStationClasses.includes(stationClass)) {
-                    error('Invalid crafting recipe. Crafting station type doesnt exist in the entity types list for stationTypeName:', stationClass);
+                    error('Invalid crafting recipe. Crafting station type doesn\'t exist in the entity types list for stationTypeName:', stationClass);
                 }
             });
 

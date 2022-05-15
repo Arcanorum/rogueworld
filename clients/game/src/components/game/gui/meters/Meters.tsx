@@ -2,10 +2,10 @@ import { useEffect, useState, ReactElement } from 'react';
 import PubSub from 'pubsub-js';
 import hitpointIcon from '../../../../assets/images/gui/hud/hitpoint-icon.png';
 import hitpointCounter from '../../../../assets/images/gui/hud/hitpoint-counter.png';
-import energyIcon from '../../../../assets/images/gui/hud/energy-icon.png';
+import foodIcon from '../../../../assets/images/gui/hud/food-icon.png';
 import combatIcon from '../../../../assets/images/gui/hud/combat-icon.png';
 import outOfcombatIcon from '../../../../assets/images/gui/hud/out-of-combat-icon.png';
-import energyCounter from '../../../../assets/images/gui/hud/energy-counter.png';
+import foodCounter from '../../../../assets/images/gui/hud/food-counter.png';
 import emptyCounter from '../../../../assets/images/gui/hud/empty-counter.png';
 import styles from './Meters.module.scss';
 import guiStyles from '../GUI.module.scss';
@@ -36,7 +36,7 @@ function Counters({
     // Get the % of the stat this player has. i.e.
     const filledCount = Math.floor((stat / maxStat) * maxCounters);
     // Add some counters, up to the max amount, and show them filled in
-    // if they are within the amount of HP/energy that the player has.
+    // if they are within the amount of HP/food that the player has.
     return <>{
         Array.from({ length: maxCounters }, (v, i) => {
             if (i < filledCount) {
@@ -55,8 +55,8 @@ function Meters() {
     const [hitPoints, setHitPoints] = useState(0);
     const [maxHitPoints, setMaxHitPoints] = useState(0);
 
-    const [energy, setEnergy] = useState(0);
-    const [maxEnergy, setMaxEnergy] = useState(0);
+    const [food, setFood] = useState(0);
+    const [maxFood, setMaxFood] = useState(0);
 
     const [combatTimer, setCombatTimer] = useState(0);
 
@@ -84,10 +84,10 @@ function Meters() {
                 setMaxHitPoints(data.new);
             }),
             PubSub.subscribe(FOOD_VALUE, (msg, data) => {
-                setEnergy(data.new);
+                setFood(data.new);
             }),
             PubSub.subscribe(MAX_FOOD_VALUE, (msg, data) => {
-                setMaxEnergy(data.new);
+                setMaxFood(data.new);
             }),
             PubSub.subscribe(COMBAT_STATUS_TRIGGER, (msg, data) => {
                 data = parseInt(data, 10);
@@ -148,22 +148,22 @@ function Meters() {
             <div className={styles['meter']}>
                 <img
                     className={guiStyles['gui-icon']}
-                    src={energyIcon.src}
+                    src={foodIcon.src}
                     draggable={false}
                     onMouseEnter={() => {
                         GUIState.setTooltipContent(
-                            Tooltip(getTextDef('Energy tooltip')),
+                            Tooltip(getTextDef('Food tooltip')),
                         );
                     }}
                     onMouseLeave={() => {
                         GUIState.setTooltipContent(null);
                     }}
                 />
-                <div id="energy-counters">
+                <div id="food-counters">
                     <Counters
-                        stat={energy}
-                        maxStat={maxEnergy}
-                        counterImage={energyCounter.src}
+                        stat={food}
+                        maxStat={maxFood}
+                        counterImage={foodCounter.src}
                     />
                 </div>
             </div>

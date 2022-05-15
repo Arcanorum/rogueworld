@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
 import News from './news/News';
-import Partners from './partners/Partners';
+// import Partners from './partners/Partners';
 import rogueworldLogo from '../../assets/images/misc/branding/rogueworld-title.png';
 import background from '../../assets/images/misc/home-background.gif';
 import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.png';
@@ -40,7 +40,7 @@ const Languages = [
 ];
 
 function LoginPage() {
-    const [showPartners, setShowPartners] = useState(false);
+    // const [showPartners, setShowPartners] = useState(false);
     const [loginExistingUser, setLoginExistingUser] = useState(false);
     const [newCharacterName, setNewCharacterName] = useState('');
     const [username, setUsername] = useState('');
@@ -193,9 +193,9 @@ function LoginPage() {
         setLoginExistingUser(true);
     };
 
-    const toggleShowPartners = () => {
-        setShowPartners(!showPartners);
-    };
+    // const toggleShowPartners = () => {
+    //     setShowPartners(!showPartners);
+    // };
 
     return (
         <div className="press-start-font">
@@ -214,7 +214,7 @@ function LoginPage() {
             <div id={styles['main-columns']}>
                 <div id={styles['left-bar']}>
                     <div id={styles['partners-credits-cont']} className={styles['bottom-texts']}>
-                        <span
+                        {/* <span
                             id={styles['partners-text']}
                             onClick={() => {
                                 toggleShowPartners();
@@ -222,7 +222,7 @@ function LoginPage() {
                         >
                             {getTextDef('Partners')}
                         </span>
-                        |
+                        | */}
                         <span
                             id={styles['credits-text']}
                             onClick={() => {
@@ -394,11 +394,11 @@ function LoginPage() {
                 </div>
             </div>
 
-            {showPartners && (
+            {/* {showPartners && (
                 <Partners
                     toggleShowPartners={toggleShowPartners}
                 />
-            )}
+            )} */}
         </div>
     );
 }

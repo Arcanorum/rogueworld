@@ -53,8 +53,8 @@
 # category
 # # Optional. A generic way of grouping items by purpose.
 # What this does specifically depends on what the item is interacting with.
-# e.g. An ore rock resource node would only allow gathering when an item of the "Pickaxe" category
-# is used on it, so any pickaxe type items should use that category here.
+# e.g. An ore rock resource node would take bonus damage when attacked with an item of the
+# "Pickaxe" category is used on it, so any pickaxe type items should use that category here.
 # See the ResourceNodes.yaml configs for what item category is required for each resource node type.
 
 # ProjectileType
@@ -81,10 +81,6 @@
 # specific quantity is specified for where this item type is used.
 # e.g. This will be the durability of the item given to a player for pickups spawned by a pickup
 # spanwer, created by a crafting recipe, or bought from a shop.
-
-# gatherTimeReduction
-# Optional. For gathering tools, the percentage to reduce the gather time by when this item is used
-# to gather from a resource node.
 
 # defenceBonus
 # Optional. How much to increase the player's defence by when this item is equipped.
@@ -369,7 +365,6 @@
   code: KDJM6256
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.7
   baseQuantity: 50
   craftTasks:
     - Hatchets
@@ -381,7 +376,6 @@
   code: UXBP5028
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.7
   baseQuantity: 50
   craftTasks:
     - Pickaxes
@@ -393,7 +387,6 @@
   code: ITJQ1040
   extends: Holdable
   unitWeight: Sickle
-  gatherTimeReduction: 0.65
   baseQuantity: 50
   craftTasks:
     - Sickles
@@ -432,7 +425,6 @@
   code: XGEA0957
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.4
   baseQuantity: 20
   craftTasks:
     - Hatchets
@@ -444,7 +436,6 @@
   code: SEPO2838
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.4
   baseQuantity: 20
   craftTasks:
     - Pickaxes
@@ -484,7 +475,6 @@
   code: NIWY6955
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.6
   baseQuantity: 45
   craftTasks:
     - Hatchets
@@ -496,7 +486,6 @@
   code: HGKW8248
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.6
   baseQuantity: 45
   craftTasks:
     - Pickaxes
@@ -508,7 +497,6 @@
   code: WAHF0883
   extends: Holdable
   unitWeight: Sickle
-  gatherTimeReduction: 0.65
   baseQuantity: 45
   craftTasks:
     - Sickles
@@ -598,7 +586,6 @@
   code: TNBM9295
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.5
   baseQuantity: 40
   craftTasks:
     - Hatchets
@@ -610,7 +597,6 @@
   code: HGST8704
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.5
   baseQuantity: 40
   craftTasks:
     - Pickaxes
@@ -622,7 +608,6 @@
   code: CMUY6245
   extends: Holdable
   unitWeight: Sickle
-  gatherTimeReduction: 0.5
   baseQuantity: 40
   craftTasks:
     - Sickles
@@ -676,7 +661,6 @@
   code: CTPW6414
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.8
   baseQuantity: 55
   craftTasks:
     - Hatchets
@@ -688,7 +672,6 @@
   code: LOEF4388
   extends: Holdable
   unitWeight: GatheringTool
-  gatherTimeReduction: 0.8
   baseQuantity: 55
   craftTasks:
     - Pickaxes
@@ -700,7 +683,6 @@
   code: EZGR0794
   extends: Holdable
   unitWeight: Sickle
-  gatherTimeReduction: 0.8
   baseQuantity: 55
   craftTasks:
     - Sickles

@@ -155,14 +155,6 @@ const Entity = () => {
                 }
             }
 
-            // interactablesInRange.forEach((interactable) => {
-            //     interactable.shouldShowHighlight();
-            //     // If it has some kind of timer (i.e. gathering progress) then hide it.
-            //     if (interactable.hideTimer) {
-            //         interactable.hideTimer();
-            //     }
-            // });
-
             // Show the pickup keybind if they are now standing on a pickup.
             const standingOnPickup = Object
                 .values(Global.gameScene.dynamics)

@@ -113,11 +113,6 @@ class Item {
      */
     static damageOnUsePenetration = 100;
 
-    /**
-     * What percent to reduce the gather time by for resource nodes.
-     */
-    static gatherTimeReduction = 0;
-
     itemState: ItemState;
 
     slotIndex: number;

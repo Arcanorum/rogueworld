@@ -122,9 +122,9 @@ class Player extends Entity {
         }
 
         clearTimeout(this.autoSaveTimeout);
-        // clearTimeout(this.gatherTimeout);
-        // clearTimeout(this.hitpointRegenLoop);
         clearTimeout(this.foodDrainLoop);
+        // clearTimeout(this.hitpointRegenLoop);
+        if(this.actionTimeout) clearTimeout(this.actionTimeout);
 
         // They might be dead when they disconnect, and so will already be removed from the board.
         // Check they are on the board/alive first.
@@ -298,9 +298,6 @@ class Player extends Entity {
             }
 
             this.momentum += 1;
-
-            // Cancel the gathering action if it was in progress.
-            // clearTimeout(this.gatherTimeout);
         }
 
         return true;

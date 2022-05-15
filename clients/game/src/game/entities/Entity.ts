@@ -288,6 +288,9 @@ class Entity extends Container {
      */
     onMove(playMoveAnim?: boolean, moveAnimDuration = 4000) {
         // console.log('character.onMove:', moveAnimDuration);
+
+        this.endAction();
+
         //     // TODO: flip the base sprite if moving the other way since the last move
         //     // dont bother for up/down
 
@@ -340,11 +343,7 @@ class Entity extends Container {
     }
 
     startAction(actionName: string, duration: number) {
-        clearTimeout(this.actionTimeout);
-
-        if(this.actionTween) {
-            this.actionTween.stop();
-        }
+        this.endAction();
 
         this.actionProgress.visible = true;
         this.actionProgress.scaleY = 0;
@@ -368,6 +367,8 @@ class Entity extends Container {
 
     endAction() {
         clearTimeout(this.actionTimeout);
+
+        if(this.actionTween) this.actionTween.stop();
 
         this.actionProgress.visible = false;
         this.actionBorder.visible = false;

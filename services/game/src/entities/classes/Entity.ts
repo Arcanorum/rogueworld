@@ -523,6 +523,12 @@ class Entity {
         // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that another
         // player is found on, instead of just once and use it if needed.
 
+        // Cancel any action if one is in progress.
+        if(this.actionTimeout) {
+            clearTimeout(this.actionTimeout);
+            this.actionTimeout = undefined;
+        }
+
         this.postMove();
 
         return true;

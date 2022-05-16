@@ -2,9 +2,10 @@
   "name": "@rogueworld/game-client",
   "version": "1.0.0",
   "scripts": {
-    "dev": "npm run pack && next",
-    "build": "npm run pack && next build && next export",
+    "dev": "npm run generate-pickups && npm run pack && next",
+    "build": "npm run generate-pickups && npm run pack && next build && next export",
     "serve": "next start",
+    "generate-pickups": "npx ts-node --transpile-only src/scripts/GeneratePickupSprites.ts",
     "pack": "npm run pack:sprites",
     "pack:sprites": "free-tex-packer-cli --project src/assets/images/game-atlas-packer.ftpp --output src/assets/images"
   }

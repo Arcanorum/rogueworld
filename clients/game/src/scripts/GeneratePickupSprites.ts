@@ -1,9 +1,9 @@
 // Generates the pickup sprite image files from the item icon sources.
 // Saves having to manually draw new images for every item type.
 
-import outline from 'outline-image';
-import path from 'path';
-import fs from 'fs';
+const outline = require('outline-image');
+const path = require('path');
+const fs = require('fs');
 
 const itemsPath = path.join(__dirname, '../assets/images/gui/items/');
 const pickupsPath = path.join(__dirname, '../assets/images/entities/pickups/');

@@ -199,6 +199,7 @@ export const initialiseList = () => {
             if (
                 ItemClass.healingOnUseAmount !== Item.healingOnUseAmount ||
                 ItemClass.damageOnUseAmount !== Item.damageOnUseAmount ||
+                ItemClass.foodOnUseAmount !== Item.foodOnUseAmount ||
                 ItemClass.prototype.use !== Item.prototype.use ||
                 ItemClass.prototype.onUsed !== Item.prototype.onUsed
             ) {

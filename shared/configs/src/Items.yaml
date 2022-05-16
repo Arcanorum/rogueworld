@@ -329,6 +329,16 @@
     textureSource: plain-robe
     soundType: Fabric clothing
 
+# Food
+
+- name: Carrot
+  code: TGEZ1994
+  unitWeight: GenericMaterial
+  foodOnUseAmount: 10
+  clientConfig:
+    translationId: Carrot
+    textureSource: carrot
+
 # Holdable
 
 # Holdable - Spell books

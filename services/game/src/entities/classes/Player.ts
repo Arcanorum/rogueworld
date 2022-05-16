@@ -378,7 +378,7 @@ class Player extends Entity {
         this.food += amount;
         this.food = Math.floor(this.food);
 
-        // Make sure they can't go above max food or below the minimum.
+        // Make sure they can't go above max or below minimum food.
         if (this.food > this.maxFood) {
             this.food = this.maxFood;
         }

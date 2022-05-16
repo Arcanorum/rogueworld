@@ -113,6 +113,11 @@ class Item {
      */
     static damageOnUsePenetration = 100;
 
+    /**
+     * How much food to restore when this item is used.
+     */
+    static foodOnUseAmount = 0;
+
     itemState: ItemState;
 
     slotIndex: number;
@@ -191,6 +196,11 @@ class Item {
                     penetration: ItemType.damageOnUsePenetration,
                 });
             }
+
+            if(ItemType.foodOnUseAmount) {
+                this.owner.modFood(ItemType.foodOnUseAmount);
+            }
+
             // // Check if this item gives any stat exp when used.
             // if (owner.stats[this.expGivenStatName] !== undefined) {
             //     owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);

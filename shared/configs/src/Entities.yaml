@@ -140,6 +140,22 @@
     animationSetName: iron-rocks
     animationFrameSequence: [1]
 
+- name: CarrotPlant
+  baseMaxHitPoints: 20
+  baseGloryValue: 5
+  dropList:
+    - itemName: Carrot
+      dropRate: 100
+      quantity: 2
+    - itemName: Carrot
+      dropRate: 20
+      quantity: 1
+      rolls: 3
+  clientConfig:
+    displayName: Carrots
+    animationSetName: carrot-plant
+    animationFrameSequence: [1]
+
 # - name: Anvil
 #   code: ZEWT6029
 #   maxHitPoints: 300

@@ -242,7 +242,7 @@ const Entity = () => {
     };
 
     eventResponses.start_action = (data: {id: string; actionName: string; duration: number}) => {
-        console.log('start action:', data);
+        // console.log('start action:', data);
         const dynamic = Global.gameScene.dynamics[data.id];
         if (dynamic === undefined) return;
 

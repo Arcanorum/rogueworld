@@ -15,6 +15,7 @@ import {
 } from '../../../../shared/EventTypes';
 import { GUIState } from '../../../../shared/state';
 import inventoryIcon from '../../../../assets/images/gui/hud/inventory-icon.png';
+import craftIcon from '../../../../assets/images/gui/hud/craft-icon.png';
 import PanelButton from '../panel_button/PanelButton';
 import Panels from '../panels/Panels';
 import getTextDef from '../../../../shared/GetTextDef';
@@ -121,6 +122,17 @@ function Meters() {
                         GUIState.setActivePanel(Panels.Inventory);
                     }}
                     tooltipText={`${getTextDef('Inventory tooltip')} ( I, right-click, spacebar )`}
+                />
+                <PanelButton
+                    icon={craftIcon.src}
+                    onClick={() => {
+                        GUIState.setCraftingStation(
+                            'Self',
+                            'Crafting',
+                        );
+                        GUIState.setActivePanel(Panels.Crafting);
+                    }}
+                    tooltipText={`${getTextDef('Craft tooltip')} ( C )`}
                 />
             </div>
             <div className={styles['meter']}>

@@ -28,21 +28,6 @@ export const getRandomIntInclusive = (min: number, max: number) => {
 };
 
 /**
- * Gets the distance in pixels between a Phaser display object and a pointer.
- */
-export const pixelDistanceBetween = (
-    displayObject: {x: number; y: number},
-    camera: Phaser.Cameras.Scene2D.Camera,
-    pointer: PointerEvent,
-) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const dist = Math.abs(camera.scrollX - (displayObject.x - pointer.clientX))
-    // eslint-disable-next-line no-underscore-dangle
-    + Math.abs(camera.scrollY - (displayObject.y - pointer.clientY));
-    return dist;
-};
-
-/**
  * Gets the Manhattan distance in tiles between two points.
  */
 export const tileDistanceBetween = (dynamic1: BoardPoint, dynamic2: BoardPoint) => {

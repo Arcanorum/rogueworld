@@ -20,6 +20,7 @@ import { formatItemValue } from '@rogueworld/utils';
 import Config from '../../../../../shared/Config';
 import { CraftingRecipe, CraftingRecipeIngredient } from '../../../../../shared/types';
 import EntityIconsList from '../../../../../game/EntityIconsList';
+import craftIcon from '../../../../../assets/images/gui/hud/craft-icon.png';
 
 const findAmountInInventory = (ingredient: CraftingRecipeIngredient) => {
     const found = InventoryState.items.find(
@@ -238,7 +239,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                 width="70vw"
                 height="60vh"
                 panelName={GUIState.craftingStation?.name}
-                icon={EntityIconsList[GUIState.craftingStation?.icon]}
+                icon={EntityIconsList[GUIState.craftingStation?.icon] || craftIcon.src}
                 onCloseCallback={onCloseCallback}
             >
                 <div className={styles['inner-cont']}>

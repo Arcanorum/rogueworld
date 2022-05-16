@@ -30,9 +30,9 @@ interface Shop {
 }
 
 interface CraftingStation {
-    name: string;
-    icon: string;
     className: string;
+    name: string;
+    icon?: string;
 }
 
 class GUI {
@@ -167,7 +167,7 @@ class GUI {
         PubSub.publish(SHOW_CHAT_BOX, { new: value });
     }
 
-    setCraftingStation(className: string, name: string, icon: string) {
+    setCraftingStation(className: string, name: string, icon?: string) {
         this.craftingStation = {
             className,
             name,

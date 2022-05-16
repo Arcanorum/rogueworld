@@ -208,12 +208,15 @@ class Entity extends Container {
     /**
      * Attempt to interact with the entity when pressed.
      */
-    onPointerDown() {
-        const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
-        const thisDynamic = Global.gameScene.dynamics[this.entityId];
+    onPointerDown(pointer, x, y, event) {
+        // Prevent the pointer event from bubbling up to the scene, so it doesn't try to do a tile
+        // action as well.
+        event.stopPropagation();
 
         GUIState.setSelectedEntity(this);
 
+        const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
+        const thisDynamic = Global.gameScene.dynamics[this.entityId];
         const dist = tileDistanceBetween(playerDynamic, thisDynamic);
 
         const EntityType = this.constructor as typeof Entity;

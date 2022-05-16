@@ -57,32 +57,15 @@ class Player extends Entity {
         super.onMove(playMoveAnim, moveAnimDuration);
     }
 
-    onPointerDown(): void {
-        // Check this is this client's entity.
-        if(this.entityId === PlayerState.entityId) {
-            // Open the crafting panel when a player clicks on their own avatar.
-            // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
-            if (GUIState.activePanel !== Panels.NONE) {
-                // Except chat panel.
-                if (GUIState.activePanel !== Panels.Chat) return;
-            }
+    onPointerDown(pointer, x, y, event) {
+        // Check don't try to interact with self.
+        if(this.entityId !== PlayerState.entityId) {
+            event.stopPropagation();
 
-            const EntityType = this.constructor as typeof Entity;
-
-            GUIState.setCraftingStation(
-                'Self',
-                this.displayName.text,
-                EntityType.iconName,
-            );
-            GUIState.setActivePanel(Panels.Crafting);
-        }
-        // Another player.
-        else {
             GUIState.setSelectedEntity(this);
 
             const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
             const thisDynamic = Global.gameScene.dynamics[this.entityId];
-
             const dist = tileDistanceBetween(playerDynamic, thisDynamic);
 
             if(dist <= 1) {

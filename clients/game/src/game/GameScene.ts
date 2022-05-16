@@ -6,7 +6,7 @@ import SoundManager from './SoundManager';
 import Config from '../shared/Config';
 import {
     ApplicationState,
-    BankState,
+    // BankState,
     GUIState,
     InventoryState,
     PlayerState,
@@ -18,12 +18,11 @@ import {
     HITPOINTS_VALUE,
     POSITION_VALUE,
     FOCUS_CHAT,
-    USED_ITEM,
 } from '../shared/EventTypes';
 import Panels from '../components/game/gui/panels/Panels';
 import Global from '../shared/Global';
 import eventResponses from '../network/websocket_events/EventResponses';
-import { message, pixelDistanceBetween, warning } from '@rogueworld/utils';
+import { message, warning } from '@rogueworld/utils';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
 import { DayPhases } from '@rogueworld/types';
 import Player from './entities/characters/Player';
@@ -104,8 +103,6 @@ class GameScene extends Phaser.Scene {
     subs: Array<string> = [];
 
     keyboardKeys: {[key: string]: any} = {};
-
-    boundPointerDownHandler!: (event: any) => void;
 
     boundKeyDownHandler!: (event: any) => void;
 
@@ -194,19 +191,7 @@ class GameScene extends Phaser.Scene {
         // Lock the camera to the player sprite.
         this.cameras.main.startFollow(this.dynamics[PlayerState.entityId].spriteContainer);
 
-        this.boundPointerDownHandler = this.pointerDownHandler.bind(this);
-        document.addEventListener('mousedown', this.boundPointerDownHandler);
-
-        // this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-        //     if (pointer.rightButtonDown()) {
-        //         if (GUIState.activePanel === Panels.Inventory) {
-        //             GUIState.setActivePanel(Panels.NONE);
-        //         }
-        //         else {
-        //             GUIState.setActivePanel(Panels.Inventory);
-        //         }
-        //     }
-        // });
+        this.input.on('pointerdown', this.pointerDownHandler, this);
 
         this.fpsText = document.getElementById('fps-counter');
 
@@ -338,7 +323,6 @@ class GameScene extends Phaser.Scene {
 
         // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
         document.removeEventListener('keydown', this.boundKeyDownHandler);
-        document.removeEventListener('mousedown', this.boundPointerDownHandler);
 
         // Clean up subscriptions before stopping the game.
         this.subs.forEach((sub) => {
@@ -390,47 +374,29 @@ class GameScene extends Phaser.Scene {
         }
     }
 
-    pointerDownHandler(event: PointerEvent) {
-        // Stop double clicking from highlighting text elements, and zooming in on mobile.
-        event.preventDefault();
+    pointerDownHandler(pointer: Phaser.Input.Pointer) {
+        const halfScaledTileSize = Config.SCALED_TILE_SIZE / 2;
+        const scaledTileSize = Config.SCALED_TILE_SIZE;
+        const targetRow = Math.floor((pointer.worldY + halfScaledTileSize) / scaledTileSize);
+        const targetCol = Math.floor((pointer.worldX + halfScaledTileSize) / scaledTileSize);
 
-        // Only use the selected item if the input wasn't over any other GUI element.
-        if (((event.target as Element) as Element)!.id === 'game-canvas') {
-            // If the user pressed on their character sprite, pick up item.
-            if (pixelDistanceBetween(
-                this.dynamics[PlayerState.entityId].spriteContainer,
-                this.cameras.main,
-                event,
-            ) < 32) {
-                ApplicationState.connection?.sendEvent('pick_up_item');
-                return;
-            }
-
-            // // Try to use the held item if one is selected.
-            // if (InventoryState.holding) {
-            //     // Tell the game server this player wants to use this item.
-            //     PubSub.publish(USED_ITEM, InventoryState.holding);
-            //     ApplicationState.connection?.sendEvent('use_held_item', direction);
-            // }
-            // // Do a melee attack.
-            // else {
-            //     ApplicationState.connection?.sendEvent('melee_attack', direction);
-            // }
-
-            // const cursorRow = 10;
-            // const cursorCol = 10;
-
-            // console.log('sending interaction for row/col:', cursorRow, cursorCol);
-
-            // // Do a tile targetted attack.
-            // ApplicationState.connection?.sendEvent(
-            //     'interact',
-            //     {
-            //         row: cursorRow,
-            //         col: cursorCol,
-            //     },
-            // );
+        // Check if it was the tile the player is stood on. If so, try to pick up an item.
+        // Need to have this here, as if a bunch of players are piled on top of each other
+        // they player might not be able to click their own sprite display object, so can't
+        // just listen for a pointerdown event on the player's sprite.
+        if(targetRow === PlayerState.row && targetCol === PlayerState.col) {
+            ApplicationState.connection?.sendEvent('pick_up_item');
+            return;
         }
+
+        // Do a tile targetted attack.
+        ApplicationState.connection?.sendEvent(
+            'interact',
+            {
+                row: targetRow,
+                col: targetCol,
+            },
+        );
     }
 
     checkKeyFilters() {
@@ -540,6 +506,7 @@ class GameScene extends Phaser.Scene {
                 escape: Phaser.Input.Keyboard.KeyCodes.ESC,
 
                 i: Phaser.Input.Keyboard.KeyCodes.I,
+                c: Phaser.Input.Keyboard.KeyCodes.C,
                 v: Phaser.Input.Keyboard.KeyCodes.V,
                 b: Phaser.Input.Keyboard.KeyCodes.B,
                 m: Phaser.Input.Keyboard.KeyCodes.M,
@@ -611,6 +578,21 @@ class GameScene extends Phaser.Scene {
             }
             else {
                 GUIState.setActivePanel(Panels.Inventory);
+            }
+        });
+
+        this.keyboardKeys.c.on('down', () => {
+            if (this.checkKeyFilters()) return;
+
+            if (GUIState.activePanel === Panels.Crafting) {
+                GUIState.setActivePanel(Panels.NONE);
+            }
+            else {
+                GUIState.setCraftingStation(
+                    'Self',
+                    'Crafting',
+                );
+                GUIState.setActivePanel(Panels.Crafting);
             }
         });
 

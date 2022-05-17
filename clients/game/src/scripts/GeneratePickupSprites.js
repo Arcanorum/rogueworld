@@ -8,7 +8,7 @@ const fs = require('fs');
 const itemsPath = path.join(__dirname, '../assets/images/gui/items/');
 const pickupsPath = path.join(__dirname, '../assets/images/entities/pickups/');
 
-fs.readdir(itemsPath, (err: NodeJS.ErrnoException | null, files: Array<string>) => {
+fs.readdir(itemsPath, (err, files) => {
     if (err) {
         console.log(`* Unable to scan directory: ${err}`);
     }

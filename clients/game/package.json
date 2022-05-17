@@ -5,7 +5,7 @@
     "dev": "npm run generate-pickups && npm run pack && next",
     "build": "npm run generate-pickups && npm run pack && next build && next export",
     "serve": "next start",
-    "generate-pickups": "npx ts-node --transpile-only src/scripts/GeneratePickupSprites.ts",
+    "generate-pickups": "node src/scripts/GeneratePickupSprites.js",
     "pack": "npm run pack:sprites",
     "pack:sprites": "free-tex-packer-cli --project src/assets/images/game-atlas-packer.ftpp --output src/assets/images"
   }

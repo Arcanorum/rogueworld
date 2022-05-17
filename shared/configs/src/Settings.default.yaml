@@ -73,7 +73,7 @@ FULL_DAY_DURATION_MINUTES: 24
 MAX_BOARD_POPULATION: 500
 
 # How often to try to populate each board with a new entity or group of entities. (ms)
-BOARD_POPULATION_RATE: 500
+BOARD_POPULATION_RATE: 100
 
 # A factor to scale display objects by on the client, and any specific size assets that need to be generated and served over API.
 CLIENT_DISPLAY_SCALE: 2
@@ -93,7 +93,7 @@ PLAYER_VIEW_RANGE: 9
 
 # How long between each time the player entity can move. (ms)
 # Lower is less delay, so faster move speed.
-PLAYER_MOVE_RATE: 250
+PLAYER_MOVE_RATE: 400
 
 # How much glory a new player starts with.
 PLAYER_STARTING_GLORY: 100
@@ -105,10 +105,10 @@ PLAYER_MAX_HITPOINTS: 50
 PLAYER_STARTING_MAX_FOOD: 50
 
 # How often food will be drained from the player. (ms)
-PLAYER_FOOD_DRAIN_RATE: 0
+PLAYER_FOOD_DRAIN_RATE: 5000
 
 # How much food will be drained from the player each time the drain loop loops.
-PLAYER_FOOD_DRAIN_AMOUNT: 10
+PLAYER_FOOD_DRAIN_AMOUNT: 1
 
 # How long to modify the player move rate for when they are in combat. (ms)
 PLAYER_COMBAT_SLOWDOWN_DURATION: 5000
@@ -163,11 +163,9 @@ MAX_BANK_WEIGHT_UPGRADE_COST_MULTIPLIER: 4
 STARTER_INVENTORY_ITEMS:
   - itemName: WoodenClub
   - itemName: HealthPotion
-    quantity: 4
-  - itemName: PineLogs
-    quantity: 12
-  - itemName: Bones
-    quantity: 6
+    quantity: 1
+  - itemName: Carrot
+    quantity: 2
 
 STARTER_BANK_ITEMS:
   - itemName: HealthPotion

@@ -38,8 +38,6 @@ class BootScene extends Phaser.Scene {
         this.load.spritesheet('ground-tileset', `${ApplicationState.gameServiceHTTPServerURL}/api/images/ground.png`, {
             frameWidth: 16 * Config.GAME_SCALE,
             frameHeight: 16 * Config.GAME_SCALE,
-            margin: 1 * Config.GAME_SCALE,
-            spacing: 2 * Config.GAME_SCALE,
         });
 
         Object.entries(audioAssetPaths).forEach(([name, paths]) => {

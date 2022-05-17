@@ -1,3 +1,5 @@
+# TODO: rewrite this, loads of stuff is different now
+
 # Deployment
 
 This deployment guide assumes you are going to be running the game server on an Ubuntu or other linux based machine.
@@ -38,7 +40,7 @@ Though you may use whatever file server and reverse proxy tools you wish (Apache
 
 ### Using Caddy
 
-The project already has a Caddyfile for expected config that a typical deployment would use.
+The project already has a Caddyfile for expected config that a typical deployment would use, namely using it as an API gateway that directs requests to the appropriate service.
 
 In the project root, run:
 
@@ -120,3 +122,12 @@ https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu
 ### Reboot a machine
 
 `sudo shutdown -r now`
+
+
+// TODO
+install:
+apt install snap
+tiled
+
+nvm 16.13.0
+pm2 globally

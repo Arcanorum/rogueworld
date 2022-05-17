@@ -61,7 +61,7 @@ class Container extends Phaser.GameObjects.Container {
                 fontFamily: '\'Press Start 2P\'',
                 fontSize: '16px',
                 align: 'center',
-                color: '#6abe30',
+                color: '#99e550',
                 stroke: '#000000',
                 strokeThickness: 5,
             }) as BouncyText;

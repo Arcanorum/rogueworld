@@ -1,5 +1,4 @@
-import { tileDistanceBetween } from '@rogueworld/utils';
-import Panels from '../../../components/game/gui/panels/Panels';
+import { getRandomIntInclusive, tileDistanceBetween } from '@rogueworld/utils';
 import Global from '../../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../../shared/state';
 import { BouncyText } from '../../../shared/types';
@@ -79,6 +78,48 @@ class Player extends Entity {
                 );
             }
         }
+    }
+
+    onFoodModified?(amount: string) {
+        if(parseInt(amount) < 0) {
+            // Only show the food drain when on low food.
+            if(PlayerState.food > (PlayerState.maxFood * 0.2)) return;
+        }
+        else {
+            amount = `+${amount}`;
+        }
+
+        const particle = Global.gameScene.add.text(0, 0, amount, {
+            fontFamily: '\'Press Start 2P\'',
+            fontSize: '16px',
+            align: 'center',
+            color: '#d95763',
+            stroke: '#000000',
+            strokeThickness: 5,
+        }) as BouncyText;
+        particle.setOrigin(0.5, 1);
+        particle.setScale(0.25);
+
+        const xOffset = getRandomIntInclusive(-20, 20);
+
+        particle.horizontalTween = Global.gameScene.tweens.add({
+            targets: particle,
+            x: `+=${xOffset}`,
+            duration: 1000,
+            alpha: 0,
+            ease: 'Linear',
+        });
+        particle.verticalTween = Global.gameScene.tweens.add({
+            targets: particle,
+            y: '-=20',
+            duration: 1000,
+            ease: 'Back.easeOut',
+            onComplete: function cb(tween: Phaser.Tweens.Tween, targets: Array<BouncyText>) {
+                targets[0].destroy();
+            },
+        });
+
+        this.add(particle);
     }
 
     /**

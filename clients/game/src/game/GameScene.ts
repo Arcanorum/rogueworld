@@ -18,6 +18,7 @@ import {
     HITPOINTS_VALUE,
     POSITION_VALUE,
     FOCUS_CHAT,
+    FOOD_VALUE,
 } from '../shared/EventTypes';
 import Panels from '../components/game/gui/panels/Panels';
 import Global from '../shared/Global';
@@ -262,6 +263,10 @@ class GameScene extends Phaser.Scene {
                         this.soundManager.music.sounds.deathLoop,
                     );
                 }
+            }),
+            PubSub.subscribe(FOOD_VALUE, (msg, data) => {
+                // Show how much food was gained or lost.
+                (this.dynamics[PlayerState.entityId].spriteContainer as Player).onFoodModified(`${data.new - data.old}`);
             }),
             PubSub.subscribe(GLORY_VALUE, (msg, data) => {
                 // Show how much glory was gained or lost.

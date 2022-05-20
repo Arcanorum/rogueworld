@@ -67,7 +67,7 @@ This is the first solution that I found would work nicely with this kind of mono
 # Configuration
 I'm a big advocate of abstracting any regularly changed values within the codebase out into options that can be set in a config file. This removes the need to keep editing code files, and allows non-programmers to experiment with changing things without needing to expose them to the complexities of whatever is using that value.
 
-All of these kinds of configuration files can be foudn in the `shared/config` module.
+All of these kinds of configuration files can be found in the `shared/config` module.
 
 The main one that you will want to concern yourself with at first is `Settings.default.yaml`, which contains options for the top level project config, and various aspects of core gameplay.
 

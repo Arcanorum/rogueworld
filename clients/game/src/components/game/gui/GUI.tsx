@@ -113,9 +113,6 @@ function GUI() {
     return (
         <div
             className={`${styles['gui']}`}
-            onMouseDown={(event) => {
-                event.preventDefault();
-            }}
         >
             {shownPanel !== Panels.NONE && <div
                 className={styles['backdrop']}

@@ -57,6 +57,9 @@ class Player extends Entity {
     }
 
     onPointerDown(pointer, x, y, event) {
+        // Only do game canvas related logic if the input wasn't over any other GUI element.
+        if ((pointer.event.target as Element)!.id !== 'game-canvas') return;
+
         // Check don't try to interact with self.
         if(this.entityId !== PlayerState.entityId) {
             event.stopPropagation();

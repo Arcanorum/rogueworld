@@ -380,6 +380,9 @@ class GameScene extends Phaser.Scene {
     }
 
     pointerDownHandler(pointer: Phaser.Input.Pointer) {
+        // Only do game canvas related logic if the input wasn't over any other GUI element.
+        if ((pointer.event.target as Element)!.id !== 'game-canvas') return;
+
         const halfScaledTileSize = Config.SCALED_TILE_SIZE / 2;
         const scaledTileSize = Config.SCALED_TILE_SIZE;
         const targetRow = Math.floor((pointer.worldY + halfScaledTileSize) / scaledTileSize);

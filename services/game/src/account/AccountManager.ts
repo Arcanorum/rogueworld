@@ -19,13 +19,9 @@ interface FormattedSaveData {
 
 export default {
 
-    // world: null,
-
     isShutDown: false,
 
-    async setup(/*world: World*/) {
-        // this.world = world;
-
+    async setup() {
         // Setup should only happen once.
         if (isSetup) error('Attempt to setup account manager again.');
 

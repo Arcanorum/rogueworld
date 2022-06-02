@@ -9,8 +9,9 @@ import { ItemsLoader } from './items';
 import { EntitiesLoader } from './entities';
 import { CraftingRecipesLoader } from './crafting';
 import { StarterInventoryItemStates } from './inventory';
+import AccountManager from './account/AccountManager';
 
-message('Starting game server.');
+message('Starting game service.');
 
 async function init() {
     ItemsLoader.populateList();
@@ -30,7 +31,9 @@ async function init() {
     GroundTypes.init();
     World.init();
 
-    message('Game server started.');
+    await AccountManager.setup();
+
+    message('Game service started.');
 }
 
 init();

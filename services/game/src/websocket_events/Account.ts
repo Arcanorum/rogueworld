@@ -38,6 +38,9 @@ EventResponses.create_account = (clientSocket, data: {username: string; password
                     // Username already taken.
                     clientSocket.sendEvent('create_account_failure', { messageId: 'Username taken' });
                 }
+                else {
+                    clientSocket.sendEvent('create_account_failure', { messageId: 'Database error' });
+                }
             }
         });
 };

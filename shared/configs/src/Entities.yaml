@@ -85,6 +85,7 @@
   viewRange: 8
   actions:
     - bite
+    - spit-venom
   dropList:
     - itemName: Greencap
       dropRate: 100

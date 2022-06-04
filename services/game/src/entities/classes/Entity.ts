@@ -567,12 +567,21 @@ class Entity {
      * @returns The effective move rate.
      */
     getMoveRate(chainedMoveRate?: number): number {
-        if (chainedMoveRate) return chainedMoveRate;
+        let moveRate = chainedMoveRate || this.moveRate || 0;
 
-        return this.moveRate || 0;
+        if(this.statusEffects) {
+            // Check for any status effects that modify the move rate.
+            Object.values(this.statusEffects).forEach((statusEffect) => {
+                moveRate *= statusEffect.moveRateModifier;
+            });
+        }
+
+        return moveRate;
     }
 
     addStatusEffect(StatusEffectClass: typeof StatusEffect, source: Entity) {
+        if(!this.statusEffects) this.statusEffects = {};
+
         new StatusEffectClass(this, source);
     }
 
@@ -580,6 +589,8 @@ class Entity {
         if(this.statusEffects === undefined) return;
 
         Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
+
+        delete this.statusEffects;
     }
 
     dropItems() { return; }

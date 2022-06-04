@@ -19,3 +19,15 @@ export {
     Poison,
     StatusEffect,
 };
+
+export default {
+    BrokenBones,
+    Burn,
+    Chill,
+    ColdResistance,
+    Cured,
+    Disease,
+    HealthRegen,
+    Poison,
+    StatusEffect,
+};

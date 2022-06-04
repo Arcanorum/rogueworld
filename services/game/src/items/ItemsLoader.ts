@@ -7,6 +7,7 @@ import requireDir from 'require-dir';
 import { TaskTypes } from '../tasks';
 import Item from './classes/Item';
 import ItemsList from './ItemsList';
+import StatusEffects from '../gameplay/status_effects';
 
 /**
  * Creates a generic class for an item based on the Item class, or one of it's abstract subclasses.
@@ -186,6 +187,13 @@ export const initialiseList = () => {
                         value = ItemWeightClasses[value];
                     }
 
+                    // Check for any configs that are referencing status effects by name.
+                    if(key === 'statusEffectsOnUse' && Array.isArray(value)) {
+                        value = value.map((statusEffectClassName: keyof typeof StatusEffects) => {
+                            return StatusEffects[statusEffectClassName];
+                        });
+                    }
+
                     // eslint-disable-next-line
                     // @ts-ignore
                     ItemClass[key] = value;
@@ -200,6 +208,7 @@ export const initialiseList = () => {
                 ItemClass.healingOnUseAmount !== Item.healingOnUseAmount ||
                 ItemClass.damageOnUseAmount !== Item.damageOnUseAmount ||
                 ItemClass.foodOnUseAmount !== Item.foodOnUseAmount ||
+                ItemClass.statusEffectsOnUse !== Item.statusEffectsOnUse ||
                 ItemClass.prototype.use !== Item.prototype.use ||
                 ItemClass.prototype.onUsed !== Item.prototype.onUsed
             ) {

@@ -5,6 +5,7 @@ import { EntitiesList } from '../../entities';
 import { ItemState } from '../../inventory';
 // import { TaskTypes } from '../../tasks';
 import DamageTypes from '../../gameplay/DamageTypes';
+import { StatusEffect } from '../../gameplay/status_effects';
 
 class Item {
     /**
@@ -118,6 +119,11 @@ class Item {
      */
     static foodOnUseAmount = 0;
 
+    /**
+     * What status effects will be applied to the user when this item is used.
+     */
+    static statusEffectsOnUse: Array<typeof StatusEffect> = [];
+
     itemState: ItemState;
 
     slotIndex: number;
@@ -199,6 +205,12 @@ class Item {
 
             if(ItemType.foodOnUseAmount) {
                 this.owner.modFood(ItemType.foodOnUseAmount);
+            }
+
+            if(ItemType.statusEffectsOnUse.length > 0) {
+                ItemType.statusEffectsOnUse.forEach((StatusEffect) => {
+                    this.owner.addStatusEffect(StatusEffect, this.owner);
+                });
             }
 
             // // Check if this item gives any stat exp when used.

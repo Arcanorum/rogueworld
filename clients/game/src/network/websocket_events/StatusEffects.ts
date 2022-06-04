@@ -36,7 +36,9 @@ const StatusEffects = () => {
     eventResponses.effect_start_health_regen = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.healthRegenEffect) return;
+        if (!entity.spriteContainer.healthRegenEffect) {
+            entity.spriteContainer.healthRegenEffect = entity.spriteContainer.addEffect('health-regen-effect-1');
+        }
         entity.spriteContainer.healthRegenEffect.anims.play('health-regen');
     };
 
@@ -44,8 +46,8 @@ const StatusEffects = () => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.healthRegenEffect) return;
-        entity.spriteContainer.healthRegenEffect.anims.stop();
-        entity.spriteContainer.healthRegenEffect.visible = false;
+        entity.spriteContainer.healthRegenEffect.destroy();
+        delete entity.spriteContainer.healthRegenEffect;
     };
 
     eventResponses.effect_start_cured = (data: string) => {

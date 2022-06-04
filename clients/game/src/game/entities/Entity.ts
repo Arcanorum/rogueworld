@@ -277,7 +277,6 @@ class Entity extends Container {
     addEffect(frameName: string) {
         const sprite = Global.gameScene.add.sprite(0, 0, 'game-atlas', frameName);
         sprite.setOrigin(0.5);
-        sprite.visible = false;
         this.add(sprite);
         return sprite;
     }

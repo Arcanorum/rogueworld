@@ -1251,6 +1251,8 @@
   code: SMAG7657
   unitWeight: Potion
   craftingExpValue: 20
+  statusEffectsOnUse:
+    - HealthRegen
   craftTasks:
     - Potions
   clientConfig:

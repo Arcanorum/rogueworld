@@ -209,6 +209,7 @@ export const initialiseList = () => {
                 ItemClass.damageOnUseAmount !== Item.damageOnUseAmount ||
                 ItemClass.foodOnUseAmount !== Item.foodOnUseAmount ||
                 ItemClass.statusEffectsOnUse !== Item.statusEffectsOnUse ||
+                ItemClass.actionName !== Item.actionName ||
                 ItemClass.prototype.use !== Item.prototype.use ||
                 ItemClass.prototype.onUsed !== Item.prototype.onUsed
             ) {

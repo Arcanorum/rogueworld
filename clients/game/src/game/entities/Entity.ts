@@ -129,7 +129,6 @@ class Entity extends Container {
             this.addDisplayName(displayName);
         }
 
-        // this.healthRegenEffect = this.addEffect('health-regen-effect-1');
         // this.curedEffect = this.addEffect('cured-effect-1');
         // this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
         // this.poisonEffect = this.addEffect('poison-effect-1');

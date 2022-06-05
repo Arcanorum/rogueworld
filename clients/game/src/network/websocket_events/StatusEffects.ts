@@ -6,7 +6,9 @@ const StatusEffects = () => {
     eventResponses.effect_start_burn = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.burnEffect) return;
+        if (!entity.spriteContainer.burnEffect) {
+            entity.spriteContainer.burnEffect = entity.spriteContainer.addEffect('burn-effect-1');
+        }
         entity.spriteContainer.burnEffect.anims.play('burn');
     };
 
@@ -14,8 +16,8 @@ const StatusEffects = () => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.burnEffect) return;
-        entity.spriteContainer.burnEffect.anims.stop();
-        entity.spriteContainer.burnEffect.visible = false;
+        entity.spriteContainer.burnEffect.destroy();
+        delete entity.spriteContainer.burnEffect;
     };
 
     eventResponses.effect_start_poison = (data: string) => {

@@ -18,6 +18,9 @@ export interface EntityConfig {
 }
 
 class Entity extends Container {
+    /** Debug name of this entity type. Useful for generated classes where the constructor name is meaningless. */
+    static typeName = 'Entity';
+
     static displayName = '';
 
     /** The file name (without file type extension) of the image to use for this entity (i.e. when selected). */
@@ -446,7 +449,7 @@ class Entity extends Container {
         if (!setName) {
             // Skip the Entity class itself. It has no animation set of it's own to add.
             if (setName !== null) {
-                warning('Adding animation set. Missing set name on class prototype somewhere. Skipping.');
+                warning(`No animation set defined for entity type with type name '${this.typeName}'. Skipping.`);
             }
             return;
         }

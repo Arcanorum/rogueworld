@@ -160,6 +160,9 @@ export const createCatalogue = () => {
             error('Entity type is missing a type number:', EntityType);
         }
 
+        // Skip entity classes that are irrelevant to the frontend.
+        if(EntityType.hasOwnProperty('serverOnly') && EntityType.serverOnly) return;
+
         // Add this entity type to the type catalogue.
         dataToWrite[EntityType.typeNumber] = {
             typeName: EntityType.typeName,

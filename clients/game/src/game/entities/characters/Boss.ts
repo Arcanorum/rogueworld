@@ -1,6 +1,10 @@
 import Mob from './Mob';
 
 class Boss extends Mob {
+    static typeName = 'Boss';
+
+    static animationSetName = null;
+
     constructor(x: number, y: number, config: any) {
         super(x, y, config);
 

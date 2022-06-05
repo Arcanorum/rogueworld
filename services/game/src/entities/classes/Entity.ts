@@ -21,6 +21,14 @@ export interface EntityConfig {
 
 class Entity {
     /**
+     * Whether information from this entity type should be made available for the game client to
+     * use on startup, such as when generating it's own entity class list, as some classes are only
+     * meaningful as backend logic with no direct frontend representation, so shouldn't be added to
+     * any catalogues.
+     */
+    static serverOnly = true;
+
+    /**
      * A type number is an ID for all entities that appear on the client, so the client knows which entity to add.
      * Used to send a number to get the entity name from the entity type catalogue, instead of a lengthy string of the entity name.
      * All entities that appear on the client must be registered with ENTITYCLASS.registerEntityType().

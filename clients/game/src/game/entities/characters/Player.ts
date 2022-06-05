@@ -9,6 +9,8 @@ class GloryParticleIcon extends Phaser.GameObjects.Sprite {
 }
 
 class Player extends Entity {
+    static typeName = 'Player';
+
     static animationSetName = 'player';
 
     warningText?: Phaser.GameObjects.Text;

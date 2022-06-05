@@ -6,6 +6,8 @@ class Pickup extends Entity {
 
     static scaleModifier: number;
 
+    static animationSetName = null;
+
     constructor(x: number, y: number, config: EntityConfig) {
         // -1 on Y to move it up slightly, so it appears behind the player when stood on after
         // being sorted in the dynamics container.

@@ -1,6 +1,3 @@
-
-- name: WoodenWall
-
 - name: ClayOven
   highBlocking: true
   baseMaxHitPoints: 100
@@ -30,8 +27,6 @@
     displayName: Stone wall
     animationSetName: stone-wall
     animationFrameSequence: [1]
-
-- name: Trap
 
 - name: Bandit
   baseMaxHitPoints: 50

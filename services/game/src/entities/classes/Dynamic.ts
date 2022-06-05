@@ -1,14 +1,16 @@
 import { DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection } from '@rogueworld/types';
 import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@rogueworld/utils';
 import Damage from '../../gameplay/Damage';
-import DamageTypes from '../../gameplay/DamageTypes';
+// import DamageTypes from '../../gameplay/DamageTypes';
 import Drop from '../../gameplay/Drop';
-import { FactionRelationshipStatuses, getFactionRelationship } from '../../gameplay/Factions';
+// import { FactionRelationshipStatuses, getFactionRelationship } from '../../gameplay/Factions';
 import { ItemState } from '../../inventory';
 import Entity, { EntityConfig } from './Entity';
 import Player from './Player';
 
 class Dynamic extends Entity {
+    static serverOnly = true;
+
     /**
      * The other entity that this entity is trying to do something with.
      * i.e. mob to attack, item to pick up, object to interact with.

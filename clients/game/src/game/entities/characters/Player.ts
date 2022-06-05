@@ -12,6 +12,7 @@ class Player extends Entity {
     static typeName = 'Player';
 
     static animationSetName = 'player';
+    static animationRepeats = true;
 
     warningText?: Phaser.GameObjects.Text;
 

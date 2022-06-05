@@ -179,7 +179,7 @@ function ItemOptions({
                     {hasUseEffect && inHotbar && <div className={`${styles['button']} ${styles['options-remove-hotbar']}`} onClick={removeFromHotbarPressed}>{getTextDef('Remove from hotbar')}</div>}
                     {hasUseEffect && hotbarFull && !inHotbar && <div className={`${styles['button']} ${styles['options-full-hotbar']}`}>{getTextDef('Hotbar full')}</div>}
                     {hasUseEffect && !hotbarFull && !inHotbar && <div className={`${styles['button']} ${styles['options-add-hotbar']}`} onClick={addToHotbarPressed}>{getTextDef('Add to hotbar')}</div>}
-                    {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className="button options-equip" onClick={quickEquipPressed}>{getTextDef('Quick equip')}</div>}
+                    {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className={`${styles['button']} ${styles['options-equip']}`} onClick={quickEquipPressed}>{getTextDef('Quick equip')}</div>}
                     {hasUseEffect && !isEquippable && <div className={`${styles['button']} ${styles['options-equip']}`} onClick={quickUsePressed}>{getTextDef('Quick use')}</div>}
                     {itemConfig.quantity > 1 && <div className={`${styles['button']} ${styles['options-drop']}`} onClick={() => { setShowDropOptions(true); }}>{getTextDef('Drop')}</div>}
                     {itemConfig.quantity === 1 && <div className={`${styles['button']} ${styles['options-drop']}`} onClick={dropPressed}>{getTextDef('Drop')}</div>}

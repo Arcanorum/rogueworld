@@ -803,6 +803,7 @@
   unitWeight: WoodenWeapon
   baseQuantity: 30
   expGivenStatName: Melee
+  actionName: wooden-club
   clientConfig:
     translationId: Wooden club
     textureSource: wooden-club
@@ -1251,6 +1252,7 @@
   code: SMAG7657
   unitWeight: Potion
   craftingExpValue: 20
+  actionName: health-potion
   statusEffectsOnUse:
     - HealthRegen
   craftTasks:

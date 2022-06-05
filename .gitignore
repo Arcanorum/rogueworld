@@ -67,3 +67,4 @@ services/game/src/api/resources
 clients/game/src/assets/images/game-atlas.json
 clients/game/src/assets/images/game-atlas.png
 clients/game/src/assets/images/entities/pickups/
+clients/game/src/assets/images/gui/actions/items/

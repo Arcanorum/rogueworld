@@ -10,8 +10,10 @@ function addAction(name: string, duration: number, run: ActionFunction, config: 
 
 addAction('punch', 1000, basicAttack, { amount: 10, types: [DamageTypes.Physical], penetration: 0 });
 addAction('bite', 2000, basicAttack, { amount: 7, types: [DamageTypes.Physical], penetration: 50 });
+addAction('health-potion', 2000, basicAttack, { amount: 7, types: [DamageTypes.Physical], penetration: 50 });
+addAction('wooden-club', 1000, basicAttack, { amount: 15, types: [DamageTypes.Physical], penetration: 0 });
+addAction('iron-sword', 2000, basicAttack, { amount: 7, types: [DamageTypes.Physical], penetration: 0 });
 addAction('spit-venom', 2000, basicAttack, { amount: 7, types: [DamageTypes.Biological], penetration: 50 });
-addAction('iron-sword', 2000, basicAttack, { amount: 7, types: [DamageTypes.Physical], penetration: 50 });
 addAction('fireball', 2000, basicAttack, { amount: 10, types: [DamageTypes.Magical], penetration: 50 });
 
 export default ActionsList;

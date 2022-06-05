@@ -1,4 +1,4 @@
-import { ItemCategories } from '@rogueworld/types';
+import { ItemCategories, RowCol } from '@rogueworld/types';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
 import { EntitiesList } from '../../entities';
@@ -6,6 +6,7 @@ import { ItemState } from '../../inventory';
 // import { TaskTypes } from '../../tasks';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { StatusEffect } from '../../gameplay/status_effects';
+import Entity from '../../entities/classes/Entity';
 
 class Item {
     /**
@@ -124,6 +125,8 @@ class Item {
      */
     static statusEffectsOnUse: Array<typeof StatusEffect> = [];
 
+    static actionName?: string = undefined;
+
     itemState: ItemState;
 
     slotIndex: number;
@@ -177,7 +180,7 @@ class Item {
 
     checkUseCriteria(options?: object) { return true; }
 
-    onUsed(options?: object) {
+    onUsed(targetEntity?: Entity, targetPosition?: RowCol) {
         // Keep a reference to the owner, as if the item gets destroyed when used
         // here, owner will be nulled, but still want to be able to send events.
         const { owner } = this;
@@ -189,6 +192,16 @@ class Item {
         const ItemType = this.constructor as typeof Item;
 
         if (ItemType.useGloryCost) owner.modGlory(-ItemType.useGloryCost);
+
+        const actionName = (this.constructor as typeof Item).actionName;
+        if(actionName) {
+            this.owner.performAction(
+                actionName,
+                targetEntity,
+                targetPosition?.row,
+                targetPosition?.col,
+            );
+        }
 
         if (ItemType.hasUseEffect) {
             if(ItemType.healingOnUseAmount) {

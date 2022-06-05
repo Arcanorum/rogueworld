@@ -35,18 +35,16 @@ EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are alive.
     if (clientSocket.entity?.hitPoints <= 0) return;
-
     if(!data) return;
+
+    const playerEntity = clientSocket.entity;
+    if(!playerEntity) return;
 
     console.log('doing interaction:', data);
 
     let targetEntity: Entity | undefined;
 
     if(data.id) {
-        const playerEntity = clientSocket.entity;
-
-        if(!playerEntity) return;
-
         // Check if it is in the movables list, so we can get a reference to it.
         if(playerEntity.board?.movables[data.id]) {
             targetEntity = playerEntity.board.movables[data.id];
@@ -63,5 +61,15 @@ EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?
         }
     }
 
-    clientSocket.entity?.performAction('punch', targetEntity, data.row, data.col);
+    if(playerEntity.holding) {
+        if(data.row && data.col) {
+            playerEntity.holding.useWhileHeld(targetEntity, { row: data.row, col: data.col });
+        }
+        else {
+            playerEntity.holding.useWhileHeld(targetEntity);
+        }
+    }
+    else {
+        playerEntity.performAction('punch', targetEntity, data.row, data.col);
+    }
 };

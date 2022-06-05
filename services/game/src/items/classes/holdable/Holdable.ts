@@ -1,4 +1,5 @@
-import TargetPosition from '../../../gameplay/TargetPosition';
+import { RowCol } from '@rogueworld/types';
+import Entity from '../../../entities/classes/Entity';
 import Item from '../Item';
 
 abstract class Holdable extends Item {
@@ -16,17 +17,17 @@ abstract class Holdable extends Item {
         this.equip();
     }
 
-    useWhileHeld(targetPosition: TargetPosition) {
-        if (this.checkUseCriteria(targetPosition)) {
-            this.onUsedWhileHeld(targetPosition);
+    useWhileHeld(targetEntity?: Entity, targetPosition?: RowCol) {
+        if (this.checkUseCriteria({ targetEntity, targetPosition })) {
+            this.onUsedWhileHeld(targetEntity, targetPosition);
         }
     }
 
     /**
      * Use this held item. Typically attacks.
      */
-    onUsedWhileHeld(targetPosition: TargetPosition) {
-        this.onUsed(targetPosition);
+    onUsedWhileHeld(targetEntity?: Entity, targetPosition?: RowCol) {
+        this.onUsed(targetEntity, targetPosition);
     }
 
     equip() {

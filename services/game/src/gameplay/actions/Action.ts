@@ -21,7 +21,7 @@ interface Action {
     /**
      * The function to run when this action completes.
      */
-    run: ActionFunction;
+    run?: ActionFunction;
     /**
      * A config object that can be used to pass extra details to the run function.
      */

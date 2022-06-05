@@ -604,7 +604,7 @@ class Entity {
     dropItems() { return; }
 
     performAction(
-        actionName: string,
+        action: Action | string,
         entity?: Entity,
         row?: number,
         col?: number,
@@ -617,8 +617,10 @@ class Entity {
             this.actionTimeout = undefined;
         }
 
-        const action = ActionsList[actionName];
-        if(!action) return;
+        if(typeof action === 'string') {
+            action = ActionsList[action];
+            if(!action) return;
+        }
 
         // Check if it is a entity targetted action.
         if(entity) {
@@ -657,7 +659,7 @@ class Entity {
     ) {
         this.actionTimeout = setTimeout(
             () => {
-                action.run(this, targetPosition, targetEntity, action.config);
+                if(action.run) action.run(this, targetPosition, targetEntity, action.config);
                 // Action is over, so clear the reference to it doesn't block anything.
                 this.actionTimeout = undefined;
 

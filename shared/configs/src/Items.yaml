@@ -546,6 +546,8 @@
   unitWeight: Staff
   baseQuantity: 30
   expGivenStatName: Magic
+  statusEffectsOnUse:
+    - Burn
   craftTasks:
     - Staffs
   clientConfig:
@@ -631,6 +633,9 @@
   unitWeight: MetalSword
   baseQuantity: 40
   expGivenStatName: Melee
+  damageOnUseAmount: 20
+  damageOnUseTypes:
+    - Physical
   craftTasks:
     - Swords
     - IronGear
@@ -803,7 +808,9 @@
   unitWeight: WoodenWeapon
   baseQuantity: 30
   expGivenStatName: Melee
-  actionName: wooden-club
+  damageOnUseAmount: 10
+  damageOnUseTypes:
+    - Physical
   clientConfig:
     translationId: Wooden club
     textureSource: wooden-club
@@ -1241,6 +1248,7 @@
   craftingExpValue: 10
   expGivenStatName: Potionry
   expGivenOnUse: 5
+  foodOnUseAmount: 5
   damageOnUseAmount: 10
   damageOnUseTypes:
     - Biological
@@ -1252,7 +1260,7 @@
   code: SMAG7657
   unitWeight: Potion
   craftingExpValue: 20
-  actionName: health-potion
+  foodOnUseAmount: 5
   statusEffectsOnUse:
     - HealthRegen
   craftTasks:
@@ -1339,6 +1347,7 @@
   expGivenStatName: Potionry
   expGivenOnUse: 5
   healingOnUseAmount: 10
+  foodOnUseAmount: 5
   clientConfig:
     translationId: Redcap
     textureSource: redcap

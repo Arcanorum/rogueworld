@@ -7,6 +7,7 @@ import { ItemState } from '../../inventory';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { StatusEffect } from '../../gameplay/status_effects';
 import Entity from '../../entities/classes/Entity';
+import { Action } from '../../gameplay/actions';
 
 class Item {
     /**
@@ -172,9 +173,19 @@ class Item {
     /**
      * Activate the effect of this item. i.e. Restore energy, equip armour, use tool.
      */
-    use() {
+    use(targetEntity?: Entity, targetPosition?: RowCol) {
         if (this.checkUseCriteria()) {
-            this.onUsed();
+            const ItemType = this.constructor as typeof Item;
+            const action: Action = { name: ItemType.typeName, duration: 1000 };
+            this.owner.performAction(
+                action,
+                targetEntity,
+                targetPosition?.row,
+                targetPosition?.col,
+                () => {
+                    this.onUsed(targetEntity, targetPosition);
+                },
+            );
         }
     }
 
@@ -189,30 +200,43 @@ class Item {
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
         if (!owner) return;
 
+        let target: Entity = owner;
+
+        if(targetEntity) {
+            target = targetEntity;
+        }
+        else if(targetPosition) {
+            const boardTile = owner.board?.getTileAt(targetPosition.row, targetPosition.col);
+            if(!boardTile) return;
+
+            const foundEntity = boardTile.getFirstEntity();
+            if(!foundEntity) return;
+        }
+
         const ItemType = this.constructor as typeof Item;
 
         if (ItemType.useGloryCost) owner.modGlory(-ItemType.useGloryCost);
 
         if (ItemType.hasUseEffect) {
             if(ItemType.healingOnUseAmount) {
-                this.owner.heal({ amount: ItemType.healingOnUseAmount });
+                target.heal({ amount: ItemType.healingOnUseAmount }, owner);
             }
 
             if(ItemType.damageOnUseAmount) {
-                this.owner.damage({
+                target.damage({
                     amount: ItemType.damageOnUseAmount,
                     types: ItemType.damageOnUseTypes,
                     penetration: ItemType.damageOnUsePenetration,
-                });
+                }, owner);
             }
 
             if(ItemType.foodOnUseAmount) {
-                this.owner.modFood(ItemType.foodOnUseAmount);
+                owner.modFood(ItemType.foodOnUseAmount);
             }
 
             if(ItemType.statusEffectsOnUse.length > 0) {
                 ItemType.statusEffectsOnUse.forEach((StatusEffect) => {
-                    this.owner.addStatusEffect(StatusEffect, this.owner);
+                    target.addStatusEffect(StatusEffect, owner);
                 });
             }
 
@@ -221,16 +245,7 @@ class Item {
             //     owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
             // }
 
-            const actionName = (this.constructor as typeof Item).actionName;
-            if(actionName) {
-                this.owner.performAction(
-                    actionName,
-                    targetEntity,
-                    targetPosition?.row,
-                    targetPosition?.col,
-                    () => { this.modQuantity(-1); },
-                );
-            }
+            this.modQuantity(-1);
 
             // Tell the user the item was used. Might not have had an immediate effect, but
             // the client might like to know right away (i.e. to play a sound effect).

@@ -1,5 +1,6 @@
 import { RowCol } from '@rogueworld/types';
 import Entity from '../../../entities/classes/Entity';
+import { Action } from '../../../gameplay/actions';
 import Item from '../Item';
 
 abstract class Holdable extends Item {
@@ -19,7 +20,17 @@ abstract class Holdable extends Item {
 
     useWhileHeld(targetEntity?: Entity, targetPosition?: RowCol) {
         if (this.checkUseCriteria({ targetEntity, targetPosition })) {
-            this.onUsedWhileHeld(targetEntity, targetPosition);
+            const ItemType = this.constructor as typeof Item;
+            const action: Action = { name: ItemType.typeName, duration: 1000 };
+            this.owner.performAction(
+                action,
+                targetEntity,
+                targetPosition?.row,
+                targetPosition?.col,
+                () => {
+                    this.onUsedWhileHeld(targetEntity, targetPosition);
+                },
+            );
         }
     }
 

@@ -63,26 +63,23 @@ class Player extends Entity {
         // Only do game canvas related logic if the input wasn't over any other GUI element.
         if ((pointer.event.target as Element)!.id !== 'game-canvas') return;
 
-        // Check don't try to interact with self.
-        if(this.entityId !== PlayerState.entityId) {
-            event.stopPropagation();
+        event.stopPropagation();
 
-            GUIState.setSelectedEntity(this);
+        GUIState.setSelectedEntity(this);
 
-            const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
-            const thisDynamic = Global.gameScene.dynamics[this.entityId];
-            const dist = tileDistanceBetween(playerDynamic, thisDynamic);
+        const playerDynamic = Global.gameScene.dynamics[PlayerState.entityId];
+        const thisDynamic = Global.gameScene.dynamics[this.entityId];
+        const dist = tileDistanceBetween(playerDynamic, thisDynamic);
 
-            if(dist <= 1) {
-                ApplicationState.connection?.sendEvent(
-                    'interact',
-                    {
-                        id: thisDynamic.id,
-                        row: thisDynamic.row,
-                        col: thisDynamic.col,
-                    },
-                );
-            }
+        if(dist <= 1) {
+            ApplicationState.connection?.sendEvent(
+                'interact',
+                {
+                    id: thisDynamic.id,
+                    row: thisDynamic.row,
+                    col: thisDynamic.col,
+                },
+            );
         }
     }
 

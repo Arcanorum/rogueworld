@@ -3,8 +3,6 @@ import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
 import gameAtlasData from '../assets/images/game-atlas.json';
 import gameAtlasImage from '../assets/images/game-atlas.png';
-import actionProgressBarImage from '../assets/images/gui/action-progress-bar.png';
-import actionProgressBorderImage from '../assets/images/gui/action-progress-border.png';
 import highlightImage from '../assets/images/gui/highlight.png';
 import Config from '../shared/Config';
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from '../shared/EventTypes';
@@ -32,8 +30,6 @@ class BootScene extends Phaser.Scene {
 
         // Graphics.
         this.load.image('highlight', highlightImage.src);
-        this.load.image('action-progress-bar', actionProgressBarImage.src);
-        this.load.image('action-progress-border', actionProgressBorderImage.src);
         this.load.atlas('game-atlas', gameAtlasImage.src, gameAtlasData);
         this.load.spritesheet('ground-tileset', `${ApplicationState.gameServiceHTTPServerURL}/api/images/ground.png`, {
             frameWidth: 16 * Config.GAME_SCALE,

@@ -193,16 +193,6 @@ class Item {
 
         if (ItemType.useGloryCost) owner.modGlory(-ItemType.useGloryCost);
 
-        const actionName = (this.constructor as typeof Item).actionName;
-        if(actionName) {
-            this.owner.performAction(
-                actionName,
-                targetEntity,
-                targetPosition?.row,
-                targetPosition?.col,
-            );
-        }
-
         if (ItemType.hasUseEffect) {
             if(ItemType.healingOnUseAmount) {
                 this.owner.heal({ amount: ItemType.healingOnUseAmount });
@@ -231,7 +221,16 @@ class Item {
             //     owner.stats[this.expGivenStatName].gainExp(this.expGivenOnUse);
             // }
 
-            this.modQuantity(-1);
+            const actionName = (this.constructor as typeof Item).actionName;
+            if(actionName) {
+                this.owner.performAction(
+                    actionName,
+                    targetEntity,
+                    targetPosition?.row,
+                    targetPosition?.col,
+                    () => { this.modQuantity(-1); },
+                );
+            }
 
             // Tell the user the item was used. Might not have had an immediate effect, but
             // the client might like to know right away (i.e. to play a sound effect).

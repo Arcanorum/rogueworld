@@ -603,7 +603,13 @@ class Entity {
 
     dropItems() { return; }
 
-    performAction(actionName: string, entity?: Entity, row?: number, col?: number) {
+    performAction(
+        actionName: string,
+        entity?: Entity,
+        row?: number,
+        col?: number,
+        onComplete?: () => void,
+    ) {
         if(this.actionTimeout) {
             // Cancel any in-progress action before starting this one
             clearTimeout(this.actionTimeout);
@@ -616,18 +622,18 @@ class Entity {
 
         // Check if it is a entity targetted action.
         if(entity) {
-            this.startAction(action, undefined, entity);
+            this.startAction(action, undefined, entity, onComplete);
         }
         // Check if it is a position targetted action.
         else if(row && col) {
             const boardTile = this.board?.getTileAt(row, col);
             if(!boardTile) return;
 
-            this.startAction(action, { row, col });
+            this.startAction(action, { row, col }, undefined, onComplete);
         }
         // Must be a non-targetted or self-targetted action.
         else {
-            this.startAction(action);
+            this.startAction(action, undefined, undefined, onComplete);
         }
 
         // Tell the clients to start the action on this entity, so they can show the telegraph for it.
@@ -643,12 +649,19 @@ class Entity {
         );
     }
 
-    startAction(action: Action, targetPosition?: RowCol, targetEntity?: Entity) {
+    startAction(
+        action: Action,
+        targetPosition?: RowCol,
+        targetEntity?: Entity,
+        onComplete?: () => void,
+    ) {
         this.actionTimeout = setTimeout(
             () => {
                 action.run(this, targetPosition, targetEntity, action.config);
                 // Action is over, so clear the reference to it doesn't block anything.
                 this.actionTimeout = undefined;
+
+                if(onComplete) onComplete();
             },
             action.duration,
         );

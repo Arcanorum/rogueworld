@@ -5,6 +5,7 @@ import './api';
 import './websocket_events';
 // Init the list of task types before loading items.
 import './tasks/TaskTypesList';
+import './gameplay/actions';
 import { ItemsLoader } from './items';
 import { EntitiesLoader } from './entities';
 import { CraftingRecipesLoader } from './crafting';

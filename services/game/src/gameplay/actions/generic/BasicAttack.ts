@@ -1,6 +1,6 @@
 import { RowCol } from '@rogueworld/types';
-import Entity from '../../entities/classes/Entity';
-import Damage from '../Damage';
+import Entity from '../../../entities/classes/Entity';
+import Damage from '../../Damage';
 
 export default function basicAttack(
     source: Entity,

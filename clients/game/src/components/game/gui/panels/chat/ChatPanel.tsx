@@ -174,7 +174,7 @@ function ChatPanel() {
     };
 
     return (
-        <div className={`${styles['chat-container']} gui-scalable`}>
+        <div className={styles['chat-container']}>
             <ChatTabs
                 updatePlaceHolder={updatePlaceHolder}
                 setViewChatScope={setViewChatScope}

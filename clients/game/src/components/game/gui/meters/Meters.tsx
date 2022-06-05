@@ -114,7 +114,7 @@ function Meters() {
     }, []);
 
     return (
-        <div className={`${styles['meters']} gui-scalable`}>
+        <div className={styles['meters']}>
             <div className={styles['inventory-button']}>
                 <PanelButton
                     icon={inventoryIcon.src}

@@ -106,18 +106,6 @@ class BootScene extends Phaser.Scene {
             GUIState.effectsVolume = effectsVolume;
         }
 
-        // const guiScale = JSON.parse(localStorage.getItem('gui_scale') || 'null');
-        // if (typeof guiScale === 'number') {
-        //     GUIState.guiScale = guiScale;
-
-        //     const style = .gui-scalable');
-
-        //     if (style) {
-        //         style.zoom = guiScale / 100;
-        //         style['-moz-transform'] = `scale(${guiScale / 100})`;
-        //     }
-        // }
-
         const virtualDPadEnabled = JSON.parse(localStorage.getItem('virtual_d_pad_enabled') || 'null');
         if (typeof virtualDPadEnabled === 'boolean') {
             GUIState.virtualDPadEnabled = virtualDPadEnabled;

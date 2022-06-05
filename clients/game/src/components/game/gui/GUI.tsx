@@ -125,7 +125,7 @@ function GUI() {
 
             {/* {trackedTask && <TaskTracker />} */}
 
-            <div className={`${styles['top-left-corner-cont']} gui-scalable`}>
+            <div className={styles['top-left-corner-cont']}>
                 <GloryCounter />
                 <DefenceCounter />
 
@@ -147,7 +147,7 @@ function GUI() {
                 />
             </div>
 
-            <div className={`${styles['top-right-corner-cont']} gui-scalable`}>
+            <div className={styles['top-right-corner-cont']}>
                 <PanelButton
                     icon={exitIcon.src}
                     onClick={() => {
@@ -176,7 +176,7 @@ function GUI() {
                 />
             </div>
 
-            <div className={`${styles['bottom-right-corner-cont']} gui-scalable`} />
+            <div className={styles['bottom-right-corner-cont']} />
 
             <div id='fps-counter' className={`${styles['fps-counter']}`}>FPS: </div>
 

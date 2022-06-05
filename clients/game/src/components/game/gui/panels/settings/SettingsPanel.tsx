@@ -53,7 +53,6 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     const [fullscreen, setFullscreen] = useState(Global.gameScene.scale.isFullscreen);
     const [musicVolume, setMusicVolume] = useState(GUIState.musicVolume);
     const [effectsVolume, setEffectsVolume] = useState(GUIState.effectsVolume);
-    // const [ guiScale, setGUIScale ] = useState(GUIState.guiScale);
     const [autoAddToHotbar, setAutoAddToHotbar] = useState(InventoryState.autoAddToHotbar);
     const [profanityFilterEnabled, setProfanityFilterEnabled] = useState(
         GUIState.profanityFilterEnabled,
@@ -113,26 +112,6 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
 
         saveSetting('effects_volume', effectsVolume);
     }, [effectsVolume]);
-
-    // useEffect(() => {
-    //     if (guiScale > 200) {
-    //         setGUIScale(200);
-    //     }
-    //     else if (guiScale < 0) {
-    //         setGUIScale(0);
-    //     }
-
-    //     const style = getStyle('.gui-scalable');
-
-    //     if (style) {
-    //         style.zoom = guiScale / 100;
-    //         style['-moz-transform'] = `scale(${guiScale / 100})`;
-    //     }
-
-    //     GUIState.guiScale = guiScale;
-
-    //     saveSetting('gui_scale', guiScale);
-    // }, [ guiScale ]);
 
     const onAutoAddToHotbarTogglePressed = () => {
         InventoryState.autoAddToHotbar = !autoAddToHotbar;
@@ -208,14 +187,6 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                                 <PlusButton state={effectsVolume} setter={setEffectsVolume} />
                             </div>
                         </div>
-                        {/* <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: GUI scale')}</span>
-                            <div className="action">
-                                <MinusButton state={guiScale} setter={setGUIScale} />
-                                <span className="high-contrast-text value">{`${guiScale}%`}</span>
-                                <PlusButton state={guiScale} setter={setGUIScale} />
-                            </div>
-                        </div> */}
                         <div className="row">
                             <span className="high-contrast-text description">{getTextDef('Setting: Add to hotbar')}</span>
                             <div className="action">

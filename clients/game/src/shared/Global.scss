@@ -42,13 +42,6 @@ body {
     100% { content: ''; }
 }
 
-// TODO: remove? not being used, removed the GUI zoom stuff
-.gui-scalable {
-    zoom: 1;
-    -moz-transform: scale(1);
-    -moz-transform-origin: 0 0;
-}
-
 ::placeholder {
     color: $colourDB32IronGrey;
 }

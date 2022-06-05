@@ -48,9 +48,6 @@ class GUI {
     shop!: Shop | null;
     selectedEntity!: Entity | null;
 
-    /** The current percent zoom level for all elements with the 'gui-scalable' style class. */
-    guiScale!: number;
-
     /**
      * The volume of the music. 0 is no music, 100 is full volume. Can't use floats due to imperfect decimal precision.
      * @todo find somewhere else for this, doesn't really belong with this GUI stuff
@@ -113,8 +110,6 @@ class GUI {
         this.shop = null;
 
         this.selectedEntity = null;
-
-        this.guiScale = 100;
 
         this.musicVolume = 50;
 

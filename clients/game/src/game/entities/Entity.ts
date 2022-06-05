@@ -30,13 +30,13 @@ class Entity extends Container {
     static animationSetName = '';
 
     /** The numbers of the frames to play, and the order to play them in. */
-    static animationFrameSequence: Array<number> = [1, 2, 1, 2]; // TODO: why not just [1, 2] ?
+    static animationFrameSequence: Array<number> = [1, 2];
 
     /** Whether the animation should loop. i.e. for things that always look moving, such as bats. */
     static animationRepeats = false;
 
     /** How long the animation should last, in ms. */
-    static animationDuration = 1000;
+    static animationDuration = 500;
 
     /** Whether this entity should allow opening the crafting panel, and for what station. */
     static craftingStationClass = '';

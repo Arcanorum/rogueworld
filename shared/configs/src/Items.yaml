@@ -234,16 +234,16 @@
     textureSource: dungium-armour
     soundType: Metal clothing
 
-- name: Etherweave
-  code: CAMJ8537
-  extends: Clothes
-  unitWeight: Robe
-  baseQuantity: 1000
-  defenceBonus: 20
-  clientConfig:
-    translationId: Etherweave
-    textureSource: etherweave
-    soundType: Fabric clothing
+# - name: Etherweave
+#   code: CAMJ8537
+#   extends: Clothes
+#   unitWeight: Robe
+#   baseQuantity: 1000
+#   defenceBonus: 20
+#   clientConfig:
+#     translationId: Etherweave
+#     textureSource: etherweave
+#     soundType: Fabric clothing
 
 - name: IronArmour
   code: XEBH5037
@@ -348,6 +348,7 @@
   extends: Holdable
   unitWeight: MetalDagger
   baseQuantity: 50
+  useRange: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -362,6 +363,7 @@
   extends: Holdable
   unitWeight: MetalHammer
   baseQuantity: 50
+  useRange: 2
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -376,6 +378,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 50
+  useRange: 2
   craftTasks:
     - Hatchets
   clientConfig:
@@ -387,6 +390,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 50
+  useRange: 2
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -398,6 +402,7 @@
   extends: Holdable
   unitWeight: Sickle
   baseQuantity: 50
+  useRange: 1
   craftTasks:
     - Sickles
   clientConfig:
@@ -409,6 +414,7 @@
   extends: Holdable
   unitWeight: MetalSword
   baseQuantity: 50
+  useRange: 2
   expGivenStatName: Melee
   craftTasks:
     - Swords
@@ -423,6 +429,7 @@
   extends: Holdable
   unitWeight: Staff
   baseQuantity: 30
+  useRange: 5
   expGivenStatName: Magic
   craftTasks:
     - Staffs
@@ -436,6 +443,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 20
+  useRange: 2
   craftTasks:
     - Hatchets
   clientConfig:
@@ -447,6 +455,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 20
+  useRange: 2
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -458,6 +467,7 @@
   extends: Holdable
   unitWeight: MetalDagger
   baseQuantity: 45
+  useRange: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -472,6 +482,7 @@
   extends: Holdable
   unitWeight: MetalHammer
   baseQuantity: 45
+  useRange: 2
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -486,6 +497,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 45
+  useRange: 2
   craftTasks:
     - Hatchets
   clientConfig:
@@ -497,6 +509,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 45
+  useRange: 2
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -508,6 +521,7 @@
   extends: Holdable
   unitWeight: Sickle
   baseQuantity: 45
+  useRange: 1
   craftTasks:
     - Sickles
   clientConfig:
@@ -519,6 +533,7 @@
   extends: Holdable
   unitWeight: MetalSword
   baseQuantity: 45
+  useRange: 2
   expGivenStatName: Melee
   craftTasks:
     - Swords
@@ -545,6 +560,7 @@
   extends: Holdable
   unitWeight: Staff
   baseQuantity: 30
+  useRange: 5
   expGivenStatName: Magic
   statusEffectsOnUse:
     - Burn
@@ -571,6 +587,7 @@
   extends: Holdable
   unitWeight: MetalDagger
   baseQuantity: 40
+  useRange: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -585,6 +602,7 @@
   extends: Holdable
   unitWeight: MetalHammer
   baseQuantity: 40
+  useRange: 2
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -599,6 +617,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 40
+  useRange: 1
   craftTasks:
     - Hatchets
   clientConfig:
@@ -610,6 +629,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 40
+  useRange: 1
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -621,6 +641,7 @@
   extends: Holdable
   unitWeight: Sickle
   baseQuantity: 40
+  useRange: 1
   craftTasks:
     - Sickles
   clientConfig:
@@ -632,6 +653,7 @@
   extends: Holdable
   unitWeight: MetalSword
   baseQuantity: 40
+  useRange: 2
   expGivenStatName: Melee
   damageOnUseAmount: 20
   damageOnUseTypes:
@@ -649,6 +671,7 @@
   extends: Holdable
   unitWeight: MetalDagger
   baseQuantity: 55
+  useRange: 1
   expGivenStatName: Melee
   craftTasks:
     - Daggers
@@ -663,6 +686,7 @@
   extends: Holdable
   unitWeight: MetalHammer
   baseQuantity: 55
+  useRange: 2
   expGivenStatName: Melee
   craftTasks:
     - Hammers
@@ -677,6 +701,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 55
+  useRange: 1
   craftTasks:
     - Hatchets
   clientConfig:
@@ -688,6 +713,7 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 55
+  useRange: 1
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -699,6 +725,7 @@
   extends: Holdable
   unitWeight: Sickle
   baseQuantity: 55
+  useRange: 1
   craftTasks:
     - Sickles
   clientConfig:
@@ -711,6 +738,7 @@
   unitWeight: MetalSword
   baseQuantity: 55
   expGivenStatName: Melee
+  useRange: 2
   craftTasks:
     - Swords
     - NoctisGear
@@ -725,6 +753,7 @@
   unitWeight: 2
   baseQuantity: 5
   expGivenStatName: Ranged
+  useRange: 5
   craftTasks:
     - Shurikens
     - IronGear
@@ -796,6 +825,7 @@
   unitWeight: Staff
   baseQuantity: 30
   expGivenStatName: Magic
+  useRange: 5
   craftTasks:
     - Staffs
   clientConfig:
@@ -808,6 +838,7 @@
   unitWeight: WoodenWeapon
   baseQuantity: 30
   expGivenStatName: Melee
+  useRange: 2
   damageOnUseAmount: 10
   damageOnUseTypes:
     - Physical

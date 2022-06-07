@@ -128,6 +128,11 @@ class Item {
 
     static entityTypeSpawnedOnUse?: typeof Entity = undefined;
 
+    /**
+     * How far away in tiles (Manhattan distance) the target of this item can be away from the owner.
+     */
+    static useRange?: number = undefined;
+
     itemState: ItemState;
 
     slotIndex: number;
@@ -200,15 +205,8 @@ class Item {
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
         if (!owner) return;
 
-        if(!targetEntity && targetPosition) {
-            const boardTile = owner.board?.getTileAt(targetPosition.row, targetPosition.col);
-            if(!boardTile) return;
-
-            targetEntity = boardTile.getFirstEntity();
-
-            // If there is neither a target entity, or an entity at the target position, target the owner as a fallback.
-            if(!targetEntity) targetEntity = owner;
-        }
+        // Target the owner if no other entity was specified.
+        if(!targetEntity) targetEntity = owner;
 
         const ItemType = this.constructor as typeof Item;
 

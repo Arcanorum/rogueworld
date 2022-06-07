@@ -41,3 +41,20 @@ EventResponses.craft_item = (clientSocket, data: number) => {
 
     clientSocket.entity.craft(data);
 };
+
+/**
+ * @param clientSocket
+ * @param data.slotIndex - The key of the inventory slot of the item to drop.
+ * @param data.quantity - How many of the stack in the given slot to drop.
+ */
+EventResponses.drop_item = (clientSocket, data: {slotIndex: number; quantity: number}) => {
+    if (!data) return;
+    if (clientSocket.inGame === false) return;
+
+    const { entity } = clientSocket;
+
+    // Ignore this event if they are dead.
+    if (entity?.hitPoints <= 0) return;
+
+    clientSocket.entity?.inventory.dropItem(data.slotIndex, data.quantity);
+};

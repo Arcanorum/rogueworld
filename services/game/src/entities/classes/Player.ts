@@ -516,7 +516,7 @@ class Player extends Entity {
 
         if (!hasEveryIngredient) return;
 
-        // Calculate the amount of bonus durability/quantity for the result item.
+        // Calculate the amount of bonus quantity for the result item.
         let averageCraftingLevel = 0;
 
         // recipe.statNames.forEach((statName) => {

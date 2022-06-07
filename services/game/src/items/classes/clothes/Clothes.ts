@@ -82,7 +82,7 @@ abstract class Clothes extends Item {
     }
 
     /**
-     * Deal damage to this clothing item. Reduces the durability.
+     * Deal damage to this clothing item. Reduces the quantity.
      */
     damage(damage: Damage, source: Entity) {
         // Reduce the damage taken by the piercing amount.

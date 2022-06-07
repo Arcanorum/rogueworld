@@ -97,29 +97,29 @@
 
 # Ammunition
 
-- name: AgoniteArrows
-  code: LOEO6269
-  extends: Ammunition
-  unitWeight: Arrow
-  baseQuantity: 5
-  craftTasks:
-    - Arrows
-    - AgoniteGear
-  clientConfig:
-    translationId: Agonite arrows
-    textureSource: agonite-arrows
+# - name: AgoniteArrows
+#   code: LOEO6269
+#   extends: Ammunition
+#   unitWeight: Arrow
+#   baseQuantity: 5
+#   craftTasks:
+#     - Arrows
+#     - AgoniteGear
+#   clientConfig:
+#     translationId: Agonite arrows
+#     textureSource: agonite-arrows
 
-- name: DungiumArrows
-  code: ONCE9214
-  extends: Ammunition
-  unitWeight: Arrow
-  baseQuantity: 5
-  craftTasks:
-    - Arrows
-    - DungiumGear
-  clientConfig:
-    translationId: Dungium arrows
-    textureSource: dungium-arrows
+# - name: DungiumArrows
+#   code: ONCE9214
+#   extends: Ammunition
+#   unitWeight: Arrow
+#   baseQuantity: 5
+#   craftTasks:
+#     - Arrows
+#     - DungiumGear
+#   clientConfig:
+#     translationId: Dungium arrows
+#     textureSource: dungium-arrows
 
 - name: IronArrows
   code: EFQV6850
@@ -133,66 +133,66 @@
     translationId: Iron arrows
     textureSource: iron-arrows
 
-- name: NoctisArrows
-  code: GOWQ7155
-  extends: Ammunition
-  baseQuantity: 5
-  unitWeight: Arrow
-  craftTasks:
-    - Arrows
-    - NoctisGear
-  clientConfig:
-    translationId: Noctis arrows
-    textureSource: noctis-arrows
+# - name: NoctisArrows
+#   code: GOWQ7155
+#   extends: Ammunition
+#   baseQuantity: 5
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+#     - NoctisGear
+#   clientConfig:
+#     translationId: Noctis arrows
+#     textureSource: noctis-arrows
 
-- name: ExplosiveArrows
-  code: FHFV1114
-  extends: Ammunition
-  baseQuantity: 2
-  unitWeight: Arrow
-  craftTasks:
-    - Arrows
-  clientConfig:
-    translationId: Explosive arrows
-    textureSource: explosive-arrows
+# - name: ExplosiveArrows
+#   code: FHFV1114
+#   extends: Ammunition
+#   baseQuantity: 2
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+#   clientConfig:
+#     translationId: Explosive arrows
+#     textureSource: explosive-arrows
 
-- name: IceArrows
-  code: YRIN2041
-  extends: Ammunition
-  baseQuantity: 2
-  unitWeight: Arrow
-  craftTasks:
-    - Arrows
-  clientConfig:
-    translationId: Ice arrows
-    textureSource: ice-arrows
+# - name: IceArrows
+#   code: YRIN2041
+#   extends: Ammunition
+#   baseQuantity: 2
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+#   clientConfig:
+#     translationId: Ice arrows
+#     textureSource: ice-arrows
 
-- name: PoisonArrows
-  code: LJCR7302
-  extends: Ammunition
-  baseQuantity: 2
-  unitWeight: Arrow
-  craftTasks:
-    - Arrows
-  clientConfig:
-    translationId: Poison arrows
-    textureSource: poison-arrows
+# - name: PoisonArrows
+#   code: LJCR7302
+#   extends: Ammunition
+#   baseQuantity: 2
+#   unitWeight: Arrow
+#   craftTasks:
+#     - Arrows
+#   clientConfig:
+#     translationId: Poison arrows
+#     textureSource: poison-arrows
 
 # Clothes
 
-- name: AgoniteArmour
-  code: PXQF2023
-  extends: Clothes
-  unitWeight: MetalArmour
-  baseQuantity: 200
-  defenceBonus: 70
-  craftTasks:
-    - MetalArmour
-    - AgoniteGear
-  clientConfig:
-    translationId: Agonite armour
-    textureSource: agonite-armour
-    soundType: Metal clothing
+# - name: AgoniteArmour
+#   code: PXQF2023
+#   extends: Clothes
+#   unitWeight: MetalArmour
+#   baseQuantity: 200
+#   defenceBonus: 70
+#   craftTasks:
+#     - MetalArmour
+#     - AgoniteGear
+#   clientConfig:
+#     translationId: Agonite armour
+#     textureSource: agonite-armour
+#     soundType: Metal clothing
 
 # - name: ArmorOfIre
 #   code: CFBO6832
@@ -206,33 +206,33 @@
 #     textureSource: armor-of-ire
 #     soundType: Fabric clothing
 
-- name: Cloak
-  code: XVXP6397
-  extends: Clothes
-  unitWeight: Cloak
-  baseQuantity: 100
-  defenceBonus: 25
-  craftTasks:
-    - Cloaks
-    - FabricGear
-  clientConfig:
-    translationId: Cloak
-    textureSource: cloak
-    soundType: Fabric clothing
+# - name: Cloak
+#   code: XVXP6397
+#   extends: Clothes
+#   unitWeight: Cloak
+#   baseQuantity: 100
+#   defenceBonus: 25
+#   craftTasks:
+#     - Cloaks
+#     - FabricGear
+#   clientConfig:
+#     translationId: Cloak
+#     textureSource: cloak
+#     soundType: Fabric clothing
 
-- name: DungiumArmour
-  code: JKYL4271
-  extends: Clothes
-  unitWeight: MetalArmour
-  baseQuantity: 180
-  defenceBonus: 60
-  craftTasks:
-    - MetalArmour
-    - DungiumGear
-  clientConfig:
-    translationId: Dungium armour
-    textureSource: dungium-armour
-    soundType: Metal clothing
+# - name: DungiumArmour
+#   code: JKYL4271
+#   extends: Clothes
+#   unitWeight: MetalArmour
+#   baseQuantity: 180
+#   defenceBonus: 60
+#   craftTasks:
+#     - MetalArmour
+#     - DungiumGear
+#   clientConfig:
+#     translationId: Dungium armour
+#     textureSource: dungium-armour
+#     soundType: Metal clothing
 
 # - name: Etherweave
 #   code: CAMJ8537
@@ -245,89 +245,89 @@
 #     textureSource: etherweave
 #     soundType: Fabric clothing
 
-- name: IronArmour
-  code: XEBH5037
-  extends: Clothes
-  unitWeight: MetalArmour
-  baseQuantity: 160
-  defenceBonus: 50
-  craftTasks:
-    - MetalArmour
-    - IronGear
-  clientConfig:
-    translationId: Iron armour
-    textureSource: iron-armour
-    soundType: Metal clothing
+# - name: IronArmour
+#   code: XEBH5037
+#   extends: Clothes
+#   unitWeight: MetalArmour
+#   baseQuantity: 160
+#   defenceBonus: 50
+#   craftTasks:
+#     - MetalArmour
+#     - IronGear
+#   clientConfig:
+#     translationId: Iron armour
+#     textureSource: iron-armour
+#     soundType: Metal clothing
 
-- name: MageRobe
-  code: UIQB4427
-  extends: Clothes
-  unitWeight: Robe
-  baseQuantity: 100
-  defenceBonus: 20
-  craftTasks:
-    - Robes
-    - FabricGear
-  clientConfig:
-    translationId: Mage robe
-    textureSource: mage-robe
-    soundType: Fabric clothing
+# - name: MageRobe
+#   code: UIQB4427
+#   extends: Clothes
+#   unitWeight: Robe
+#   baseQuantity: 100
+#   defenceBonus: 20
+#   craftTasks:
+#     - Robes
+#     - FabricGear
+#   clientConfig:
+#     translationId: Mage robe
+#     textureSource: mage-robe
+#     soundType: Fabric clothing
 
-- name: NecromancerRobe
-  code: HNOI4167
-  extends: Clothes
-  unitWeight: Robe
-  baseQuantity: 100
-  defenceBonus: 20
-  craftTasks:
-    - Robes
-    - FabricGear
-  clientConfig:
-    translationId: Necromancer robe
-    textureSource: necromancer-robe
-    soundType: Fabric clothing
+# - name: NecromancerRobe
+#   code: HNOI4167
+#   extends: Clothes
+#   unitWeight: Robe
+#   baseQuantity: 100
+#   defenceBonus: 20
+#   craftTasks:
+#     - Robes
+#     - FabricGear
+#   clientConfig:
+#     translationId: Necromancer robe
+#     textureSource: necromancer-robe
+#     soundType: Fabric clothing
 
-- name: NinjaGarb
-  code: MYJZ0020
-  extends: Clothes
-  unitWeight: Cloak
-  baseQuantity: 100
-  defenceBonus: 30
-  craftTasks:
-    - Cloaks
-    - FabricGear
-  clientConfig:
-    translationId: Ninja garb
-    textureSource: ninja-garb
-    soundType: Fabric clothing
+# - name: NinjaGarb
+#   code: MYJZ0020
+#   extends: Clothes
+#   unitWeight: Cloak
+#   baseQuantity: 100
+#   defenceBonus: 30
+#   craftTasks:
+#     - Cloaks
+#     - FabricGear
+#   clientConfig:
+#     translationId: Ninja garb
+#     textureSource: ninja-garb
+#     soundType: Fabric clothing
 
-- name: NoctisArmour
-  code: OELK7246
-  extends: Clothes
-  unitWeight: MetalArmour
-  baseQuantity: 220
-  defenceBonus: 80
-  craftTasks:
-    - MetalArmour
-    - NoctisGear
-  clientConfig:
-    translationId: Noctis armour
-    textureSource: noctis-armour
-    soundType: Metal clothing
+# - name: NoctisArmour
+#   code: OELK7246
+#   extends: Clothes
+#   unitWeight: MetalArmour
+#   baseQuantity: 220
+#   defenceBonus: 80
+#   craftTasks:
+#     - MetalArmour
+#     - NoctisGear
+#   clientConfig:
+#     translationId: Noctis armour
+#     textureSource: noctis-armour
+#     soundType: Metal clothing
 
-- name: PlainRobe
-  code: RBKW4762
-  extends: Clothes
-  unitWeight: Robe
-  baseQuantity: 100
-  defenceBonus: 20
-  craftTasks:
-    - Robes
-    - FabricGear
-  clientConfig:
-    translationId: Plain robe
-    textureSource: plain-robe
-    soundType: Fabric clothing
+# - name: PlainRobe
+#   code: RBKW4762
+#   extends: Clothes
+#   unitWeight: Robe
+#   baseQuantity: 100
+#   defenceBonus: 20
+#   craftTasks:
+#     - Robes
+#     - FabricGear
+#   clientConfig:
+#     translationId: Plain robe
+#     textureSource: plain-robe
+#     soundType: Fabric clothing
 
 # Food
 
@@ -343,86 +343,86 @@
 
 # Holdable - Spell books
 
-- name: AgoniteDagger
-  code: KVKC1852
-  extends: Holdable
-  unitWeight: MetalDagger
-  baseQuantity: 50
-  useRange: 1
-  expGivenStatName: Melee
-  craftTasks:
-    - Daggers
-    - AgoniteGear
-  clientConfig:
-    translationId: Agonite dagger
-    textureSource: agonite-dagger
-    soundType: Metal weapon
+# - name: AgoniteDagger
+#   code: KVKC1852
+#   extends: Holdable
+#   unitWeight: MetalDagger
+#   baseQuantity: 50
+#   useRange: 1
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Daggers
+#     - AgoniteGear
+#   clientConfig:
+#     translationId: Agonite dagger
+#     textureSource: agonite-dagger
+#     soundType: Metal weapon
 
-- name: AgoniteHammer
-  code: TMWQ0215
-  extends: Holdable
-  unitWeight: MetalHammer
-  baseQuantity: 50
-  useRange: 2
-  expGivenStatName: Melee
-  craftTasks:
-    - Hammers
-    - AgoniteGear
-  clientConfig:
-    translationId: Agonite hammer
-    textureSource: agonite-hammer
-    soundType: Metal weapon
+# - name: AgoniteHammer
+#   code: TMWQ0215
+#   extends: Holdable
+#   unitWeight: MetalHammer
+#   baseQuantity: 50
+#   useRange: 2
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Hammers
+#     - AgoniteGear
+#   clientConfig:
+#     translationId: Agonite hammer
+#     textureSource: agonite-hammer
+#     soundType: Metal weapon
 
-- name: AgoniteHatchet
-  code: KDJM6256
-  extends: Holdable
-  unitWeight: GatheringTool
-  baseQuantity: 50
-  useRange: 2
-  craftTasks:
-    - Hatchets
-  clientConfig:
-    translationId: Agonite hatchet
-    textureSource: agonite-hatchet
+# - name: AgoniteHatchet
+#   code: KDJM6256
+#   extends: Holdable
+#   unitWeight: GatheringTool
+#   baseQuantity: 50
+#   useRange: 2
+#   craftTasks:
+#     - Hatchets
+#   clientConfig:
+#     translationId: Agonite hatchet
+#     textureSource: agonite-hatchet
 
-- name: AgonitePickaxe
-  code: UXBP5028
-  extends: Holdable
-  unitWeight: GatheringTool
-  baseQuantity: 50
-  useRange: 2
-  craftTasks:
-    - Pickaxes
-  clientConfig:
-    translationId: Agonite pickaxe
-    textureSource: agonite-pickaxe
+# - name: AgonitePickaxe
+#   code: UXBP5028
+#   extends: Holdable
+#   unitWeight: GatheringTool
+#   baseQuantity: 50
+#   useRange: 2
+#   craftTasks:
+#     - Pickaxes
+#   clientConfig:
+#     translationId: Agonite pickaxe
+#     textureSource: agonite-pickaxe
 
-- name: AgoniteSickle
-  code: ITJQ1040
-  extends: Holdable
-  unitWeight: Sickle
-  baseQuantity: 50
-  useRange: 1
-  craftTasks:
-    - Sickles
-  clientConfig:
-    translationId: Agonite sickle
-    textureSource: agonite-sickle
+# - name: AgoniteSickle
+#   code: ITJQ1040
+#   extends: Holdable
+#   unitWeight: Sickle
+#   baseQuantity: 50
+#   useRange: 1
+#   craftTasks:
+#     - Sickles
+#   clientConfig:
+#     translationId: Agonite sickle
+#     textureSource: agonite-sickle
 
-- name: AgoniteSword
-  code: BNZQ3113
-  extends: Holdable
-  unitWeight: MetalSword
-  baseQuantity: 50
-  useRange: 2
-  expGivenStatName: Melee
-  craftTasks:
-    - Swords
-    - AgoniteGear
-  clientConfig:
-    translationId: Agonite sword
-    textureSource: agonite-sword
-    soundType: Metal weapon
+# - name: AgoniteSword
+#   code: BNZQ3113
+#   extends: Holdable
+#   unitWeight: MetalSword
+#   baseQuantity: 50
+#   useRange: 2
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Swords
+#     - AgoniteGear
+#   clientConfig:
+#     translationId: Agonite sword
+#     textureSource: agonite-sword
+#     soundType: Metal weapon
 
 - name: BloodStaff
   code: CRMZ8928
@@ -462,86 +462,86 @@
     translationId: Bone pickaxe
     textureSource: bone-pickaxe
 
-- name: DungiumDagger
-  code: EDBL4872
-  extends: Holdable
-  unitWeight: MetalDagger
-  baseQuantity: 45
-  useRange: 1
-  expGivenStatName: Melee
-  craftTasks:
-    - Daggers
-    - DungiumGear
-  clientConfig:
-    translationId: Dungium dagger
-    textureSource: dungium-dagger
-    soundType: Metal weapon
+# - name: DungiumDagger
+#   code: EDBL4872
+#   extends: Holdable
+#   unitWeight: MetalDagger
+#   baseQuantity: 45
+#   useRange: 1
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Daggers
+#     - DungiumGear
+#   clientConfig:
+#     translationId: Dungium dagger
+#     textureSource: dungium-dagger
+#     soundType: Metal weapon
 
-- name: DungiumHammer
-  code: LBVC0112
-  extends: Holdable
-  unitWeight: MetalHammer
-  baseQuantity: 45
-  useRange: 2
-  expGivenStatName: Melee
-  craftTasks:
-    - Hammers
-    - DungiumGear
-  clientConfig:
-    translationId: Dungium hammer
-    textureSource: dungium-hammer
-    soundType: Metal weapon
+# - name: DungiumHammer
+#   code: LBVC0112
+#   extends: Holdable
+#   unitWeight: MetalHammer
+#   baseQuantity: 45
+#   useRange: 2
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Hammers
+#     - DungiumGear
+#   clientConfig:
+#     translationId: Dungium hammer
+#     textureSource: dungium-hammer
+#     soundType: Metal weapon
 
-- name: DungiumHatchet
-  code: NIWY6955
-  extends: Holdable
-  unitWeight: GatheringTool
-  baseQuantity: 45
-  useRange: 2
-  craftTasks:
-    - Hatchets
-  clientConfig:
-    translationId: Dungium hatchet
-    textureSource: dungium-hatchet
+# - name: DungiumHatchet
+#   code: NIWY6955
+#   extends: Holdable
+#   unitWeight: GatheringTool
+#   baseQuantity: 45
+#   useRange: 2
+#   craftTasks:
+#     - Hatchets
+#   clientConfig:
+#     translationId: Dungium hatchet
+#     textureSource: dungium-hatchet
 
-- name: DungiumPickaxe
-  code: HGKW8248
-  extends: Holdable
-  unitWeight: GatheringTool
-  baseQuantity: 45
-  useRange: 2
-  craftTasks:
-    - Pickaxes
-  clientConfig:
-    translationId: Dungium pickaxe
-    textureSource: dungium-pickaxe
+# - name: DungiumPickaxe
+#   code: HGKW8248
+#   extends: Holdable
+#   unitWeight: GatheringTool
+#   baseQuantity: 45
+#   useRange: 2
+#   craftTasks:
+#     - Pickaxes
+#   clientConfig:
+#     translationId: Dungium pickaxe
+#     textureSource: dungium-pickaxe
 
-- name: DungiumSickle
-  code: WAHF0883
-  extends: Holdable
-  unitWeight: Sickle
-  baseQuantity: 45
-  useRange: 1
-  craftTasks:
-    - Sickles
-  clientConfig:
-    translationId: Dungium sickle
-    textureSource: dungium-sickle
+# - name: DungiumSickle
+#   code: WAHF0883
+#   extends: Holdable
+#   unitWeight: Sickle
+#   baseQuantity: 45
+#   useRange: 1
+#   craftTasks:
+#     - Sickles
+#   clientConfig:
+#     translationId: Dungium sickle
+#     textureSource: dungium-sickle
 
-- name: DungiumSword
-  code: OFLM3602
-  extends: Holdable
-  unitWeight: MetalSword
-  baseQuantity: 45
-  useRange: 2
-  expGivenStatName: Melee
-  craftTasks:
-    - Swords
-    - DungiumGear
-  clientConfig:
-    translationId: Dungium sword
-    textureSource: dungium-sword
-    soundType: Metal weapon
+# - name: DungiumSword
+#   code: OFLM3602
+#   extends: Holdable
+#   unitWeight: MetalSword
+#   baseQuantity: 45
+#   useRange: 2
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Swords
+#     - DungiumGear
+#   clientConfig:
+#     translationId: Dungium sword
+#     textureSource: dungium-sword
+#     soundType: Metal weapon
 
 # - name: Hellraiser
 #   code: HDYY9831
@@ -589,6 +589,9 @@
   baseQuantity: 40
   useRange: 1
   expGivenStatName: Melee
+  damageOnUseAmount: 10
+  damageOnUseTypes:
+    - Physical
   craftTasks:
     - Daggers
     - IronGear
@@ -604,6 +607,11 @@
   baseQuantity: 40
   useRange: 2
   expGivenStatName: Melee
+  damageOnUseAmount: 14
+  damageOnUseTypes:
+    - Physical
+  statusEffectsOnUse:
+    - BrokenBones
   craftTasks:
     - Hammers
     - IronGear
@@ -618,6 +626,9 @@
   unitWeight: GatheringTool
   baseQuantity: 40
   useRange: 1
+  damageOnUseAmount: 8
+  damageOnUseTypes:
+    - Physical
   craftTasks:
     - Hatchets
   clientConfig:
@@ -630,6 +641,9 @@
   unitWeight: GatheringTool
   baseQuantity: 40
   useRange: 1
+  damageOnUseAmount: 8
+  damageOnUseTypes:
+    - Physical
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -642,6 +656,9 @@
   unitWeight: Sickle
   baseQuantity: 40
   useRange: 1
+  damageOnUseAmount: 8
+  damageOnUseTypes:
+    - Physical
   craftTasks:
     - Sickles
   clientConfig:
@@ -655,7 +672,7 @@
   baseQuantity: 40
   useRange: 2
   expGivenStatName: Melee
-  damageOnUseAmount: 20
+  damageOnUseAmount: 18
   damageOnUseTypes:
     - Physical
   craftTasks:
@@ -666,86 +683,86 @@
     textureSource: iron-sword
     soundType: Metal weapon
 
-- name: NoctisDagger
-  code: EMGG7774
-  extends: Holdable
-  unitWeight: MetalDagger
-  baseQuantity: 55
-  useRange: 1
-  expGivenStatName: Melee
-  craftTasks:
-    - Daggers
-    - NoctisGear
-  clientConfig:
-    translationId: Noctis dagger
-    textureSource: noctis-dagger
-    soundType: Metal weapon
+# - name: NoctisDagger
+#   code: EMGG7774
+#   extends: Holdable
+#   unitWeight: MetalDagger
+#   baseQuantity: 55
+#   useRange: 1
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Daggers
+#     - NoctisGear
+#   clientConfig:
+#     translationId: Noctis dagger
+#     textureSource: noctis-dagger
+#     soundType: Metal weapon
 
-- name: NoctisHammer
-  code: FYOP1681
-  extends: Holdable
-  unitWeight: MetalHammer
-  baseQuantity: 55
-  useRange: 2
-  expGivenStatName: Melee
-  craftTasks:
-    - Hammers
-    - NoctisGear
-  clientConfig:
-    translationId: Noctis hammer
-    textureSource: noctis-hammer
-    soundType: Metal weapon
+# - name: NoctisHammer
+#   code: FYOP1681
+#   extends: Holdable
+#   unitWeight: MetalHammer
+#   baseQuantity: 55
+#   useRange: 2
+#   expGivenStatName: Melee
+#   craftTasks:
+#     - Hammers
+#     - NoctisGear
+#   clientConfig:
+#     translationId: Noctis hammer
+#     textureSource: noctis-hammer
+#     soundType: Metal weapon
 
-- name: NoctisHatchet
-  code: CTPW6414
-  extends: Holdable
-  unitWeight: GatheringTool
-  baseQuantity: 55
-  useRange: 1
-  craftTasks:
-    - Hatchets
-  clientConfig:
-    translationId: Noctis hatchet
-    textureSource: noctis-hatchet
+# - name: NoctisHatchet
+#   code: CTPW6414
+#   extends: Holdable
+#   unitWeight: GatheringTool
+#   baseQuantity: 55
+#   useRange: 1
+#   craftTasks:
+#     - Hatchets
+#   clientConfig:
+#     translationId: Noctis hatchet
+#     textureSource: noctis-hatchet
 
-- name: NoctisPickaxe
-  code: LOEF4388
-  extends: Holdable
-  unitWeight: GatheringTool
-  baseQuantity: 55
-  useRange: 1
-  craftTasks:
-    - Pickaxes
-  clientConfig:
-    translationId: Noctis pickaxe
-    textureSource: noctis-pickaxe
+# - name: NoctisPickaxe
+#   code: LOEF4388
+#   extends: Holdable
+#   unitWeight: GatheringTool
+#   baseQuantity: 55
+#   useRange: 1
+#   craftTasks:
+#     - Pickaxes
+#   clientConfig:
+#     translationId: Noctis pickaxe
+#     textureSource: noctis-pickaxe
 
-- name: NoctisSickle
-  code: EZGR0794
-  extends: Holdable
-  unitWeight: Sickle
-  baseQuantity: 55
-  useRange: 1
-  craftTasks:
-    - Sickles
-  clientConfig:
-    translationId: Noctis sickle
-    textureSource: noctis-sickle
+# - name: NoctisSickle
+#   code: EZGR0794
+#   extends: Holdable
+#   unitWeight: Sickle
+#   baseQuantity: 55
+#   useRange: 1
+#   craftTasks:
+#     - Sickles
+#   clientConfig:
+#     translationId: Noctis sickle
+#     textureSource: noctis-sickle
 
-- name: NoctisSword
-  code: BPHJ9303
-  extends: Holdable
-  unitWeight: MetalSword
-  baseQuantity: 55
-  expGivenStatName: Melee
-  useRange: 2
-  craftTasks:
-    - Swords
-    - NoctisGear
-  clientConfig:
-    translationId: Noctis sword
-    textureSource: noctis-sword
-    soundType: Metal weapon
+# - name: NoctisSword
+#   code: BPHJ9303
+#   extends: Holdable
+#   unitWeight: MetalSword
+#   baseQuantity: 55
+#   expGivenStatName: Melee
+#   useRange: 2
+#   craftTasks:
+#     - Swords
+#     - NoctisGear
+#   clientConfig:
+#     translationId: Noctis sword
+#     textureSource: noctis-sword
+#     soundType: Metal weapon
 
 - name: Shuriken
   code: FKUT5967

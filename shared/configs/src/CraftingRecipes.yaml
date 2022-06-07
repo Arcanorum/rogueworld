@@ -70,65 +70,65 @@
     itemName: IronBar
     baseQuantity: 5
 
-- stationClasses:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: DungiumOre
-  result:
-    itemName: DungiumBar
+# - stationClasses:
+#     - Furnace
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: DungiumOre
+#   result:
+#     itemName: DungiumBar
 
-- stationClasses:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: DungiumOre
-      quantity: 5
-  result:
-    itemName: DungiumBar
-    baseQuantity: 5
+# - stationClasses:
+#     - Furnace
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: DungiumOre
+#       quantity: 5
+#   result:
+#     itemName: DungiumBar
+#     baseQuantity: 5
 
-- stationClasses:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: AgoniteOre
-  result:
-    itemName: AgoniteBar
+# - stationClasses:
+#     - Furnace
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: AgoniteOre
+#   result:
+#     itemName: AgoniteBar
 
-- stationClasses:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: AgoniteOre
-      quantity: 5
-  result:
-    itemName: AgoniteBar
-    baseQuantity: 5
+# - stationClasses:
+#     - Furnace
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: AgoniteOre
+#       quantity: 5
+#   result:
+#     itemName: AgoniteBar
+#     baseQuantity: 5
 
-- stationClasses:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: NoctisOre
-  result:
-    itemName: NoctisBar
+# - stationClasses:
+#     - Furnace
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: NoctisOre
+#   result:
+#     itemName: NoctisBar
 
-- stationClasses:
-    - Furnace
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: NoctisOre
-      quantity: 5
-  result:
-    itemName: NoctisBar
-    baseQuantity: 5
+# - stationClasses:
+#     - Furnace
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: NoctisOre
+#       quantity: 5
+#   result:
+#     itemName: NoctisBar
+#     baseQuantity: 5
 
 # Potions
 
@@ -308,326 +308,326 @@
   result:
     itemName: IronHammer
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Armoury
-    - Melee
-  ingredients:
-    - itemName: IronBar
-      quantity: 14
-    - itemName: Bones
-      quantity: 2
-    - itemName: Fabric
-      quantity: 2
-  result:
-    itemName: IronArmour
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Armoury
+#     - Melee
+#   ingredients:
+#     - itemName: IronBar
+#       quantity: 14
+#     - itemName: Bones
+#       quantity: 2
+#     - itemName: Fabric
+#       quantity: 2
+#   result:
+#     itemName: IronArmour
 
 # Dungium equipment
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 2
-    - itemName: PineLogs
-      quantity: 4
-    - itemName: Feathers
-      quantity: 2
-  result:
-    itemName: DungiumArrows
-    baseQuantity: 20
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 2
+#     - itemName: PineLogs
+#       quantity: 4
+#     - itemName: Feathers
+#       quantity: 2
+#   result:
+#     itemName: DungiumArrows
+#     baseQuantity: 20
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 6
-  result:
-    itemName: DungiumPickaxe
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 6
+#   result:
+#     itemName: DungiumPickaxe
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 6
-  result:
-    itemName: DungiumHatchet
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 6
+#   result:
+#     itemName: DungiumHatchet
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 2
-  result:
-    itemName: DungiumSickle
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 2
+#   result:
+#     itemName: DungiumSickle
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 6
-  result:
-    itemName: DungiumDagger
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 6
+#   result:
+#     itemName: DungiumDagger
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 8
-  result:
-    itemName: DungiumSword
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 8
+#   result:
+#     itemName: DungiumSword
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 6
-    - itemName: PineLogs
-      quantity: 5
-  result:
-    itemName: DungiumHammer
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 6
+#     - itemName: PineLogs
+#       quantity: 5
+#   result:
+#     itemName: DungiumHammer
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Armoury
-    - Melee
-  ingredients:
-    - itemName: DungiumBar
-      quantity: 14
-    - itemName: Fabric
-      quantity: 4
-  result:
-    itemName: DungiumArmour
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Armoury
+#     - Melee
+#   ingredients:
+#     - itemName: DungiumBar
+#       quantity: 14
+#     - itemName: Fabric
+#       quantity: 4
+#   result:
+#     itemName: DungiumArmour
 
 # Agonite equipment
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 2
-    - itemName: PineLogs
-      quantity: 4
-    - itemName: Feathers
-      quantity: 2
-  result:
-    itemName: AgoniteArrows
-    baseQuantity: 20
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 2
+#     - itemName: PineLogs
+#       quantity: 4
+#     - itemName: Feathers
+#       quantity: 2
+#   result:
+#     itemName: AgoniteArrows
+#     baseQuantity: 20
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 6
-  result:
-    itemName: AgonitePickaxe
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 6
+#   result:
+#     itemName: AgonitePickaxe
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 6
-  result:
-    itemName: AgoniteHatchet
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 6
+#   result:
+#     itemName: AgoniteHatchet
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 2
-  result:
-    itemName: AgoniteSickle
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 2
+#   result:
+#     itemName: AgoniteSickle
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 6
-  result:
-    itemName: AgoniteDagger
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 6
+#   result:
+#     itemName: AgoniteDagger
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 8
-  result:
-    itemName: AgoniteSword
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 8
+#   result:
+#     itemName: AgoniteSword
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 6
-    - itemName: PineLogs
-      quantity: 5
-  result:
-    itemName: AgoniteHammer
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 6
+#     - itemName: PineLogs
+#       quantity: 5
+#   result:
+#     itemName: AgoniteHammer
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Armoury
-    - Melee
-  ingredients:
-    - itemName: AgoniteBar
-      quantity: 14
-    - itemName: Bones
-      quantity: 4
-  result:
-    itemName: AgoniteArmour
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Armoury
+#     - Melee
+#   ingredients:
+#     - itemName: AgoniteBar
+#       quantity: 14
+#     - itemName: Bones
+#       quantity: 4
+#   result:
+#     itemName: AgoniteArmour
 
 # Noctis equipment
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 2
-    - itemName: PineLogs
-      quantity: 4
-    - itemName: Feathers
-      quantity: 2
-  result:
-    itemName: NoctisArrows
-    baseQuantity: 20
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 2
+#     - itemName: PineLogs
+#       quantity: 4
+#     - itemName: Feathers
+#       quantity: 2
+#   result:
+#     itemName: NoctisArrows
+#     baseQuantity: 20
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 6
-  result:
-    itemName: NoctisPickaxe
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 6
+#   result:
+#     itemName: NoctisPickaxe
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 6
-  result:
-    itemName: NoctisHatchet
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 6
+#   result:
+#     itemName: NoctisHatchet
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 3
-    - itemName: PineLogs
-      quantity: 2
-  result:
-    itemName: NoctisSickle
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 3
+#     - itemName: PineLogs
+#       quantity: 2
+#   result:
+#     itemName: NoctisSickle
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 6
-  result:
-    itemName: NoctisDagger
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 6
+#   result:
+#     itemName: NoctisDagger
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 8
-  result:
-    itemName: NoctisSword
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 8
+#   result:
+#     itemName: NoctisSword
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Weaponry
-    - Melee
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 6
-    - itemName: PineLogs
-      quantity: 5
-  result:
-    itemName: NoctisHammer
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Weaponry
+#     - Melee
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 6
+#     - itemName: PineLogs
+#       quantity: 5
+#   result:
+#     itemName: NoctisHammer
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Armoury
-    - Melee
-  ingredients:
-    - itemName: NoctisBar
-      quantity: 14
-    - itemName: Fabric
-      quantity: 4
-  result:
-    itemName: NoctisArmour
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Armoury
+#     - Melee
+#   ingredients:
+#     - itemName: NoctisBar
+#       quantity: 14
+#     - itemName: Fabric
+#       quantity: 4
+#   result:
+#     itemName: NoctisArmour
 
 # Ranged equipment
 
@@ -697,81 +697,81 @@
 #   result:
 #     itemName: IllOmen
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Armoury
-    - Ranged
-  ingredients:
-    - itemName: Fabric
-      quantity: 12
-    - itemName: String
-      quantity: 4
-    - itemName: Greencap
-      quantity: 4
-  result:
-    itemName: Cloak
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Armoury
+#     - Ranged
+#   ingredients:
+#     - itemName: Fabric
+#       quantity: 12
+#     - itemName: String
+#       quantity: 4
+#     - itemName: Greencap
+#       quantity: 4
+#   result:
+#     itemName: Cloak
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Armoury
-    - Ranged
-  ingredients:
-    - itemName: Fabric
-      quantity: 12
-    - itemName: NoctisOre
-      quantity: 4
-  result:
-    itemName: NinjaGarb
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Armoury
+#     - Ranged
+#   ingredients:
+#     - itemName: Fabric
+#       quantity: 12
+#     - itemName: NoctisOre
+#       quantity: 4
+#   result:
+#     itemName: NinjaGarb
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: Bomb
-      quantity: 2
-    - itemName: PineLogs
-      quantity: 4
-    - itemName: Feathers
-      quantity: 2
-  result:
-    itemName: ExplosiveArrows
-    baseQuantity: 5
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: Bomb
+#       quantity: 2
+#     - itemName: PineLogs
+#       quantity: 4
+#     - itemName: Feathers
+#       quantity: 2
+#   result:
+#     itemName: ExplosiveArrows
+#     baseQuantity: 5
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: IceShard
-      quantity: 2
-    - itemName: PineLogs
-      quantity: 4
-    - itemName: Feathers
-      quantity: 2
-  result:
-    itemName: IceArrows
-    baseQuantity: 5
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: IceShard
+#       quantity: 2
+#     - itemName: PineLogs
+#       quantity: 4
+#     - itemName: Feathers
+#       quantity: 2
+#   result:
+#     itemName: IceArrows
+#     baseQuantity: 5
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Ranged
-  ingredients:
-    - itemName: Greencap
-      quantity: 2
-    - itemName: PineLogs
-      quantity: 4
-    - itemName: Feathers
-      quantity: 2
-  result:
-    itemName: PoisonArrows
-    baseQuantity: 5
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Ranged
+#   ingredients:
+#     - itemName: Greencap
+#       quantity: 2
+#     - itemName: PineLogs
+#       quantity: 4
+#     - itemName: Feathers
+#       quantity: 2
+#   result:
+#     itemName: PoisonArrows
+#     baseQuantity: 5
 
 # Mage equipment
 
@@ -875,17 +875,17 @@
 #   result:
 #     itemName: Hellraiser
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Armoury
-  ingredients:
-    - itemName: Fabric
-      quantity: 12
-    - itemName: String
-      quantity: 2
-  result:
-    itemName: PlainRobe
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Armoury
+#   ingredients:
+#     - itemName: Fabric
+#       quantity: 12
+#     - itemName: String
+#       quantity: 2
+#   result:
+#     itemName: PlainRobe
 
 # - stationClasses:
 #     - Workbench
@@ -900,18 +900,18 @@
 #   result:
 #     itemName: MageRobe
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Armoury
-    - Magic
-  ingredients:
-    - itemName: Fabric
-      quantity: 12
-    - itemName: NoctisOre
-      quantity: 4
-  result:
-    itemName: NecromancerRobe
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Armoury
+#     - Magic
+#   ingredients:
+#     - itemName: Fabric
+#       quantity: 12
+#     - itemName: NoctisOre
+#       quantity: 4
+#   result:
+#     itemName: NecromancerRobe
 
 # - stationClasses:
 #     - GloryAltar
@@ -927,35 +927,35 @@
 
 # Misc
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-    - Weaponry
-  ingredients:
-    - itemName: String
-      quantity: 1
-    - itemName: FireGem
-      quantity: 6
-    - itemName: WindGem
-      quantity: 6
-    - itemName: IronBar
-      quantity: 10
-  result:
-    itemName: Bomb
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#     - Weaponry
+#   ingredients:
+#     - itemName: String
+#       quantity: 1
+#     - itemName: FireGem
+#       quantity: 6
+#     - itemName: WindGem
+#       quantity: 6
+#     - itemName: IronBar
+#       quantity: 10
+#   result:
+#     itemName: Bomb
 
-- stationClasses:
-    - Anvil
-  stats:
-    - Toolery
-    - Weaponry
-  ingredients:
-    - itemName: String
-      quantity: 2
-    - itemName: IronBar
-      quantity: 7
-  result:
-    itemName: Trap
+# - stationClasses:
+#     - Anvil
+#   stats:
+#     - Toolery
+#     - Weaponry
+#   ingredients:
+#     - itemName: String
+#       quantity: 2
+#     - itemName: IronBar
+#       quantity: 7
+#   result:
+#     itemName: Trap
 
 # - stationClasses:
 #     - GloryAltar

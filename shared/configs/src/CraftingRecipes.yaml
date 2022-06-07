@@ -143,16 +143,16 @@
     itemName: HealthPotion
     baseQuantity: 5
 
-- stationClasses:
-    - Laboratory
-  stats:
-    - Potionry
-  ingredients:
-    - itemName: Bluecap
-      quantity: 8
-  result:
-    itemName: EnergyPotion
-    baseQuantity: 5
+# - stationClasses:
+#     - Laboratory
+#   stats:
+#     - Potionry
+#   ingredients:
+#     - itemName: Bluecap
+#       quantity: 8
+#   result:
+#     itemName: EnergyPotion
+#     baseQuantity: 5
 
 - stationClasses:
     - Laboratory
@@ -775,31 +775,31 @@
 
 # Mage equipment
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Magic
-  ingredients:
-    - itemName: FireGem
-      quantity: 5
-    - itemName: PineLogs
-      quantity: 8
-  result:
-    itemName: FireStaff
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Magic
+#   ingredients:
+#     - itemName: FireGem
+#       quantity: 5
+#     - itemName: PineLogs
+#       quantity: 8
+#   result:
+#     itemName: FireStaff
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Magic
-  ingredients:
-    - itemName: FireGem
-      quantity: 8
-    - itemName: PineLogs
-      quantity: 8
-  result:
-    itemName: SuperFireStaff
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Magic
+#   ingredients:
+#     - itemName: FireGem
+#       quantity: 8
+#     - itemName: PineLogs
+#       quantity: 8
+#   result:
+#     itemName: SuperFireStaff
 
 - stationClasses:
     - Workbench
@@ -814,18 +814,18 @@
   result:
     itemName: WindStaff
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Magic
-  ingredients:
-    - itemName: WindGem
-      quantity: 8
-    - itemName: PineLogs
-      quantity: 8
-  result:
-    itemName: SuperWindStaff
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Magic
+#   ingredients:
+#     - itemName: WindGem
+#       quantity: 8
+#     - itemName: PineLogs
+#       quantity: 8
+#   result:
+#     itemName: SuperWindStaff
 
 - stationClasses:
     - Workbench
@@ -840,18 +840,18 @@
   result:
     itemName: BloodStaff
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Weaponry
-    - Magic
-  ingredients:
-    - itemName: BloodGem
-      quantity: 8
-    - itemName: PineLogs
-      quantity: 8
-  result:
-    itemName: SuperBloodStaff
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Weaponry
+#     - Magic
+#   ingredients:
+#     - itemName: BloodGem
+#       quantity: 8
+#     - itemName: PineLogs
+#       quantity: 8
+#   result:
+#     itemName: SuperBloodStaff
 
 # - stationClasses:
 #     - GloryAltar
@@ -887,18 +887,18 @@
   result:
     itemName: PlainRobe
 
-- stationClasses:
-    - Workbench
-  stats:
-    - Armoury
-    - Magic
-  ingredients:
-    - itemName: Fabric
-      quantity: 12
-    - itemName: Bluecap
-      quantity: 4
-  result:
-    itemName: MageRobe
+# - stationClasses:
+#     - Workbench
+#   stats:
+#     - Armoury
+#     - Magic
+#   ingredients:
+#     - itemName: Fabric
+#       quantity: 12
+#     - itemName: Bluecap
+#       quantity: 4
+#   result:
+#     itemName: MageRobe
 
 - stationClasses:
     - Workbench

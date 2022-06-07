@@ -194,17 +194,17 @@
     textureSource: agonite-armour
     soundType: Metal clothing
 
-- name: ArmorOfIre
-  code: CFBO6832
-  extends: Clothes
-  unitWeight: MetalArmour
-  useGloryCost: 10
-  baseQuantity: 1000
-  defenceBonus: 100
-  clientConfig:
-    translationId: Armor of Ire
-    textureSource: armor-of-ire
-    soundType: Fabric clothing
+# - name: ArmorOfIre
+#   code: CFBO6832
+#   extends: Clothes
+#   unitWeight: MetalArmour
+#   useGloryCost: 10
+#   baseQuantity: 1000
+#   defenceBonus: 100
+#   clientConfig:
+#     translationId: Armor of Ire
+#     textureSource: armor-of-ire
+#     soundType: Fabric clothing
 
 - name: Cloak
   code: XVXP6397
@@ -528,17 +528,17 @@
     textureSource: dungium-sword
     soundType: Metal weapon
 
-- name: Hellraiser
-  code: HDYY9831
-  extends: Holdable
-  unitWeight: Staff
-  useGloryCost: 10
-  baseQuantity: 1000
-  expGivenStatName: Magic
-  clientConfig:
-    translationId: Hellraiser
-    textureSource: hellraiser
-    soundType: Magic weapon
+# - name: Hellraiser
+#   code: HDYY9831
+#   extends: Holdable
+#   unitWeight: Staff
+#   useGloryCost: 10
+#   baseQuantity: 1000
+#   expGivenStatName: Magic
+#   clientConfig:
+#     translationId: Hellraiser
+#     textureSource: hellraiser
+#     soundType: Magic weapon
 
 - name: FireStaff
   code: JZYO3459
@@ -554,17 +554,17 @@
     translationId: Fire staff
     textureSource: fire-staff
 
-- name: HammerOfGlory
-  code: OWEF7178
-  extends: Holdable
-  unitWeight: MetalHammer
-  useGloryCost: 15
-  expGivenStatName: Melee
-  baseQuantity: 1000
-  clientConfig:
-    translationId: Hammer of Glory
-    textureSource: hammer-of-glory
-    soundType: Metal weapon
+# - name: HammerOfGlory
+#   code: OWEF7178
+#   extends: Holdable
+#   unitWeight: MetalHammer
+#   useGloryCost: 15
+#   expGivenStatName: Melee
+#   baseQuantity: 1000
+#   clientConfig:
+#     translationId: Hammer of Glory
+#     textureSource: hammer-of-glory
+#     soundType: Metal weapon
 
 - name: IronDagger
   code: WFCA0984
@@ -733,52 +733,52 @@
     textureSource: shuriken
     soundType: Metal weapon
 
-- name: Galestorm
-  code: YNIU9709
-  unitWeight: Staff
-  useGloryCost: 10
-  baseQuantity: 1000
-  expGivenStatName: Magic
-  clientConfig:
-    translationId: Galestorm
-    textureSource: galestorm
-    soundType: Magic weapon
+# - name: Galestorm
+#   code: YNIU9709
+#   unitWeight: Staff
+#   useGloryCost: 10
+#   baseQuantity: 1000
+#   expGivenStatName: Magic
+#   clientConfig:
+#     translationId: Galestorm
+#     textureSource: galestorm
+#     soundType: Magic weapon
 
-- name: SuperBloodStaff
-  code: FZBN5698
-  extends: Holdable
-  unitWeight: Staff
-  baseQuantity: 30
-  expGivenStatName: Magic
-  craftTasks:
-    - Staffs
-  clientConfig:
-    translationId: Super blood staff
-    textureSource: super-blood-staff
+# - name: SuperBloodStaff
+#   code: FZBN5698
+#   extends: Holdable
+#   unitWeight: Staff
+#   baseQuantity: 30
+#   expGivenStatName: Magic
+#   craftTasks:
+#     - Staffs
+#   clientConfig:
+#     translationId: Super blood staff
+#     textureSource: super-blood-staff
 
-- name: SuperFireStaff
-  code: CPAO5445
-  extends: Holdable
-  unitWeight: Staff
-  baseQuantity: 30
-  expGivenStatName: Magic
-  craftTasks:
-    - Staffs
-  clientConfig:
-    translationId: Super fire staff
-    textureSource: super-fire-staff
+# - name: SuperFireStaff
+#   code: CPAO5445
+#   extends: Holdable
+#   unitWeight: Staff
+#   baseQuantity: 30
+#   expGivenStatName: Magic
+#   craftTasks:
+#     - Staffs
+#   clientConfig:
+#     translationId: Super fire staff
+#     textureSource: super-fire-staff
 
-- name: SuperWindStaff
-  code: SGBE8487
-  extends: Holdable
-  unitWeight: Staff
-  baseQuantity: 30
-  expGivenStatName: Magic
-  craftTasks:
-    - Staffs
-  clientConfig:
-    translationId: Super wind staff
-    textureSource: super-wind-staff
+# - name: SuperWindStaff
+#   code: SGBE8487
+#   extends: Holdable
+#   unitWeight: Staff
+#   baseQuantity: 30
+#   expGivenStatName: Magic
+#   craftTasks:
+#     - Staffs
+#   clientConfig:
+#     translationId: Super wind staff
+#     textureSource: super-wind-staff
 
 - name: VampireFang
   code: VSVM7178
@@ -854,18 +854,18 @@
 #   craftTasks:
 #     - Bows
 
-- name: IllOmen
-  code: VOVA1616
-  extends: Holdable
-  unitWeight: Bow
-  baseQuantity: 1000
-  expGivenStatName: Ranged
-  craftTasks:
-    - Bows
-  clientConfig:
-    translationId: Ill Omen
-    textureSource: ill-om
-    soundType: Bow
+# - name: IllOmen
+#   code: VOVA1616
+#   extends: Holdable
+#   unitWeight: Bow
+#   baseQuantity: 1000
+#   expGivenStatName: Ranged
+#   craftTasks:
+#     - Bows
+#   clientConfig:
+#     translationId: Ill Omen
+#     textureSource: ill-om
+#     soundType: Bow
 
 # Loot boxes
 
@@ -889,97 +889,97 @@
 
 # Spell scrolls
 
-- name: CleanseSpellScroll
-  code: KVHL3512
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of cleansing
-    textureSource: cleanse-spell-scroll
-    soundType: Scroll
+# - name: CleanseSpellScroll
+#   code: KVHL3512
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of cleansing
+#     textureSource: cleanse-spell-scroll
+#     soundType: Scroll
 
-- name: ConsumeSpellScroll
-  code: VMFW6679
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of consume
-    textureSource: consume-spell-scroll
-    soundType: Scroll
+# - name: ConsumeSpellScroll
+#   code: VMFW6679
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of consume
+#     textureSource: consume-spell-scroll
+#     soundType: Scroll
 
-- name: DeathbindSpellScroll
-  code: VNHK6849
-  extends: Holdable
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of deathbind
-    textureSource: deathbind-spell-scroll
-    soundType: Scroll
+# - name: DeathbindSpellScroll
+#   code: VNHK6849
+#   extends: Holdable
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of deathbind
+#     textureSource: deathbind-spell-scroll
+#     soundType: Scroll
 
-- name: EnthrallSpellScroll
-  code: FYRX1359
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of enthrall
-    textureSource: enthrall-spell-scroll
-    soundType: Scroll
+# - name: EnthrallSpellScroll
+#   code: FYRX1359
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of enthrall
+#     textureSource: enthrall-spell-scroll
+#     soundType: Scroll
 
-- name: HealAreaSpellScroll
-  code: KXAD5315
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of heal area
-    textureSource: heal-area-spell-scroll
-    soundType: Scroll
+# - name: HealAreaSpellScroll
+#   code: KXAD5315
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of heal area
+#     textureSource: heal-area-spell-scroll
+#     soundType: Scroll
 
-- name: PacifySpellScroll
-  code: TFCL0641
-  extends: Holdable
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of pacify
-    textureSource: pacify-spell-scroll
-    soundType: Scroll
+# - name: PacifySpellScroll
+#   code: TFCL0641
+#   extends: Holdable
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of pacify
+#     textureSource: pacify-spell-scroll
+#     soundType: Scroll
 
-- name: ReanimateSpellScroll
-  code: KMGJ5860
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of reanimate
-    textureSource: reanimate-spell-scroll
-    soundType: Scroll
+# - name: ReanimateSpellScroll
+#   code: KMGJ5860
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of reanimate
+#     textureSource: reanimate-spell-scroll
+#     soundType: Scroll
 
-- name: WardSpellScroll
-  code: ZZAB3297
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 15
-  clientConfig:
-    translationId: Scroll of warding
-    textureSource: ward-spell-scroll
-    soundType: Scroll
+# - name: WardSpellScroll
+#   code: ZZAB3297
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 15
+#   clientConfig:
+#     translationId: Scroll of warding
+#     textureSource: ward-spell-scroll
+#     soundType: Scroll
 
-- name: TailwindSpellScroll
-  code: UIVL3131
-  unitWeight: Scroll
-  expGivenStatName: Magic
-  expGivenOnUse: 1
-  clientConfig:
-    translationId: Scroll of tailwind
-    textureSource: tailwind-spell-scroll
-    soundType: Scroll
+# - name: TailwindSpellScroll
+#   code: UIVL3131
+#   unitWeight: Scroll
+#   expGivenStatName: Magic
+#   expGivenOnUse: 1
+#   clientConfig:
+#     translationId: Scroll of tailwind
+#     textureSource: tailwind-spell-scroll
+#     soundType: Scroll
 
 # Structures
 
@@ -1024,12 +1024,12 @@
     textureSource: anti-freeze-potion
     soundType: Drink
 
-- name: AngelHair
-  code: KZWG2153
-  unitWeight: RelicGem
-  clientConfig:
-    translationId: Angel hair
-    textureSource: angel-hair
+# - name: AngelHair
+#   code: KZWG2153
+#   unitWeight: RelicGem
+#   clientConfig:
+#     translationId: Angel hair
+#     textureSource: angel-hair
 
 - name: BloodGem
   code: SFTP8910
@@ -1039,15 +1039,15 @@
     translationId: Blood gem
     textureSource: blood-gem
 
-- name: Bluecap
-  code: NKJQ0632
-  unitWeight: PotionIngredient
-  craftingExpValue: 10
-  expGivenStatName: Potionry
-  expGivenOnUse: 5
-  clientConfig:
-    translationId: Bluecap
-    textureSource: bluecap
+# - name: Bluecap
+#   code: NKJQ0632
+#   unitWeight: PotionIngredient
+#   craftingExpValue: 10
+#   expGivenStatName: Potionry
+#   expGivenOnUse: 5
+#   clientConfig:
+#     translationId: Bluecap
+#     textureSource: bluecap
 
 - name: Bomb
   code: MAHF2091
@@ -1096,24 +1096,24 @@
     translationId: Dungium ore
     textureSource: dungium-ore
 
-- name: EnergyPotion
-  code: FPEV2793
-  unitWeight: Potion
-  craftingExpValue: 20
-  craftTasks:
-    - Potions
-  clientConfig:
-    translationId: Energy potion
-    textureSource: energy-potion
-    soundType: Drink
+# - name: EnergyPotion
+#   code: FPEV2793
+#   unitWeight: Potion
+#   craftingExpValue: 20
+#   craftTasks:
+#     - Potions
+#   clientConfig:
+#     translationId: Energy potion
+#     textureSource: energy-potion
+#     soundType: Drink
 
-- name: EternalFlame
-  code: DHQI3663
-  unitWeight: RelicGem
-  craftingExpValue: 100
-  clientConfig:
-    translationId: Eternal flame
-    textureSource: eternal-flame
+# - name: EternalFlame
+#   code: DHQI3663
+#   unitWeight: RelicGem
+#   craftingExpValue: 100
+#   clientConfig:
+#     translationId: Eternal flame
+#     textureSource: eternal-flame
 
 - name: ExpOrbArmoury
   code: FPYN6527
@@ -1179,13 +1179,13 @@
     translationId: "Exp orb: Weaponry"
     textureSource: exp-orb
 
-- name: EyeOfTheStorm
-  code: NULZ2450
-  unitWeight: RelicGem
-  craftingExpValue: 100
-  clientConfig:
-    translationId: Eye of the storm
-    textureSource: eye-of-the-storm
+# - name: EyeOfTheStorm
+#   code: NULZ2450
+#   unitWeight: RelicGem
+#   craftingExpValue: 100
+#   clientConfig:
+#     translationId: Eye of the storm
+#     textureSource: eye-of-the-storm
 
 - name: Fabric
   code: TMCC2407
@@ -1202,13 +1202,6 @@
     translationId: Feathers
     textureSource: feathers
     pickupSpriteScaleModifier: 0.8
-
-- name: FighterKey
-  code: AMGH8457
-  baseQuantity: 1
-  clientConfig:
-    translationId: Fighter key
-    textureSource: fighter-key
 
 - name: FireGem
   code: XHSO3018
@@ -1270,12 +1263,12 @@
     textureSource: health-potion
     soundType: Drink
 
-- name: HeartOfTheMountain
-  code: MKIP5608
-  unitWeight: RelicGem
-  clientConfig:
-    translationId: Heart of the mountain
-    textureSource: heart-of-the-mountain
+# - name: HeartOfTheMountain
+#   code: MKIP5608
+#   unitWeight: RelicGem
+#   clientConfig:
+#     translationId: Heart of the mountain
+#     textureSource: heart-of-the-mountain
   
 - name: IceShard
   code: XRHI1546
@@ -1319,13 +1312,6 @@
     translationId: Oak logs
     textureSource: oak-logs
 
-- name: PitKey
-  code: NRQI3219
-  baseQuantity: 1
-  clientConfig:
-    translationId: Pit key
-    textureSource: pit-key
-
 - name: PineLogs
   code: EIYO7730
   unitWeight: Logs
@@ -1333,12 +1319,12 @@
     translationId: Pine logs
     textureSource: pine-logs
 
-- name: PrimeMatter
-  code: PPOQ8228
-  unitWeight: 14
-  clientConfig:
-    translationId: Prime matter
-    textureSource: prime-matter
+# - name: PrimeMatter
+#   code: PPOQ8228
+#   unitWeight: 14
+#   clientConfig:
+#     translationId: Prime matter
+#     textureSource: prime-matter
 
 - name: Redcap
   code: BYKI5361
@@ -1352,13 +1338,13 @@
     translationId: Redcap
     textureSource: redcap
 
-- name: SacredBranch
-  code: AYTE6455
-  craftingExpValue: 100
-  unitWeight: 8
-  clientConfig:
-    translationId: Sacred branch
-    textureSource: sacred-branch
+# - name: SacredBranch
+#   code: AYTE6455
+#   craftingExpValue: 100
+#   unitWeight: 8
+#   clientConfig:
+#     translationId: Sacred branch
+#     textureSource: sacred-branch
 
 - name: String
   code: ETGI7171

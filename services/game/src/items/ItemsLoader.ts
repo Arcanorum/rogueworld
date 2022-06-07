@@ -8,6 +8,7 @@ import { TaskTypes } from '../tasks';
 import Item from './classes/Item';
 import ItemsList from './ItemsList';
 import StatusEffects from '../gameplay/status_effects';
+import { EntitiesList } from '../entities';
 
 /**
  * Creates a generic class for an item based on the Item class, or one of it's abstract subclasses.
@@ -194,6 +195,18 @@ export const initialiseList = () => {
                         });
                     }
 
+                    // Check for any configs that are referencing an entity type by name.
+                    if(key === 'entityTypeSpawnedOnUse') {
+                        if(typeof value !== 'string') {
+                            error('Invalid entity type name to spawn on use. Must be a string:', value);
+                            return;
+                        }
+                        if(!EntitiesList.BY_NAME[value]) {
+                            error('Invalid entity type name to spawn on use. Not found in entities list:', value);
+                        }
+                        value = EntitiesList.BY_NAME[value];
+                    }
+
                     // eslint-disable-next-line
                     // @ts-ignore
                     ItemClass[key] = value;
@@ -209,7 +222,6 @@ export const initialiseList = () => {
                 ItemClass.damageOnUseAmount !== Item.damageOnUseAmount ||
                 ItemClass.foodOnUseAmount !== Item.foodOnUseAmount ||
                 ItemClass.statusEffectsOnUse !== Item.statusEffectsOnUse ||
-                ItemClass.actionName !== Item.actionName ||
                 ItemClass.prototype.use !== Item.prototype.use ||
                 ItemClass.prototype.onUsed !== Item.prototype.onUsed
             ) {

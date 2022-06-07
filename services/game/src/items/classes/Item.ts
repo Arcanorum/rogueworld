@@ -126,7 +126,7 @@ class Item {
      */
     static statusEffectsOnUse: Array<typeof StatusEffect> = [];
 
-    static actionName?: string = undefined;
+    static entityTypeSpawnedOnUse?: typeof Entity = undefined;
 
     itemState: ItemState;
 
@@ -170,26 +170,26 @@ class Item {
         EntitiesList.BY_NAME[GenericPickup.typeName] = GenericPickup;
     }
 
+    checkUseCriteria(targetEntity?: Entity, targetPosition?: RowCol) { return true; }
+
     /**
      * Activate the effect of this item. i.e. Restore energy, equip armour, use tool.
      */
     use(targetEntity?: Entity, targetPosition?: RowCol) {
-        if (this.checkUseCriteria()) {
-            const ItemType = this.constructor as typeof Item;
-            const action: Action = { name: ItemType.typeName, duration: 1000 };
-            this.owner.performAction(
-                action,
-                targetEntity,
-                targetPosition?.row,
-                targetPosition?.col,
-                () => {
-                    this.onUsed(targetEntity, targetPosition);
-                },
-            );
-        }
-    }
+        if (!this.checkUseCriteria(targetEntity, targetPosition)) return;
 
-    checkUseCriteria(options?: object) { return true; }
+        const ItemType = this.constructor as typeof Item;
+        const action: Action = { name: ItemType.typeName, duration: 1000 };
+        this.owner.performAction(
+            action,
+            targetEntity,
+            targetPosition?.row,
+            targetPosition?.col,
+            () => {
+                this.onUsed(targetEntity, targetPosition);
+            },
+        );
+    }
 
     onUsed(targetEntity?: Entity, targetPosition?: RowCol) {
         // Keep a reference to the owner, as if the item gets destroyed when used
@@ -200,17 +200,14 @@ class Item {
         // Such as eating a greencap on 1HP to suicide, but then owner is null.
         if (!owner) return;
 
-        let target: Entity = owner;
-
-        if(targetEntity) {
-            target = targetEntity;
-        }
-        else if(targetPosition) {
+        if(!targetEntity && targetPosition) {
             const boardTile = owner.board?.getTileAt(targetPosition.row, targetPosition.col);
             if(!boardTile) return;
 
-            const foundEntity = boardTile.getFirstEntity();
-            if(!foundEntity) return;
+            targetEntity = boardTile.getFirstEntity();
+
+            // If there is neither a target entity, or an entity at the target position, target the owner as a fallback.
+            if(!targetEntity) targetEntity = owner;
         }
 
         const ItemType = this.constructor as typeof Item;
@@ -219,11 +216,11 @@ class Item {
 
         if (ItemType.hasUseEffect) {
             if(ItemType.healingOnUseAmount) {
-                target.heal({ amount: ItemType.healingOnUseAmount }, owner);
+                targetEntity?.heal({ amount: ItemType.healingOnUseAmount }, owner);
             }
 
             if(ItemType.damageOnUseAmount) {
-                target.damage({
+                targetEntity?.damage({
                     amount: ItemType.damageOnUseAmount,
                     types: ItemType.damageOnUseTypes,
                     penetration: ItemType.damageOnUsePenetration,
@@ -236,8 +233,18 @@ class Item {
 
             if(ItemType.statusEffectsOnUse.length > 0) {
                 ItemType.statusEffectsOnUse.forEach((StatusEffect) => {
-                    target.addStatusEffect(StatusEffect, owner);
+                    targetEntity?.addStatusEffect(StatusEffect, owner);
                 });
+            }
+
+            if(ItemType.entityTypeSpawnedOnUse) {
+                if(targetPosition && owner.board) {
+                    new ItemType.entityTypeSpawnedOnUse({
+                        row: targetPosition?.row,
+                        col: targetPosition?.col,
+                        board: owner.board,
+                    }).emitToNearbyPlayers();
+                }
             }
 
             // // Check if this item gives any stat exp when used.

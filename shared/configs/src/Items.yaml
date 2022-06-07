@@ -985,21 +985,27 @@
 
 - name: ClayOven
   code: XUQX7366
+  extends: Holdable
   unitWeight: 20
+  entityTypeSpawnedOnUse: ClayOven
   clientConfig:
     translationId: Clay oven
     textureSource: clay-oven
 
 - name: Workbench
   code: BQAT2939
+  extends: Holdable
   unitWeight: 20
+  entityTypeSpawnedOnUse: Workbench
   clientConfig:
     translationId: Workbench
     textureSource: workbench
 
 - name: WoodenFence
   code: UDNK9493
+  extends: Holdable
   unitWeight: 5
+  entityTypeSpawnedOnUse: WoodenFence
   clientConfig:
     translationId: Wooden fence
     textureSource: wooden-fence

@@ -14,28 +14,37 @@ abstract class Holdable extends Item {
         super.destroy();
     }
 
+    checkUseCriteria(targetEntity?: Entity, targetPosition?: RowCol) {
+        const ItemType = this.constructor as typeof Item;
+        if(ItemType.entityTypeSpawnedOnUse) {
+            if(!targetPosition) return false;
+        }
+
+        return true;
+    }
+
     use() {
         this.equip();
     }
 
     useWhileHeld(targetEntity?: Entity, targetPosition?: RowCol) {
-        if (this.checkUseCriteria({ targetEntity, targetPosition })) {
-            const ItemType = this.constructor as typeof Item;
-            const action: Action = { name: ItemType.typeName, duration: 1000 };
-            this.owner.performAction(
-                action,
-                targetEntity,
-                targetPosition?.row,
-                targetPosition?.col,
-                () => {
-                    this.onUsedWhileHeld(targetEntity, targetPosition);
-                },
-            );
-        }
+        if (!this.checkUseCriteria(targetEntity, targetPosition)) return;
+
+        const ItemType = this.constructor as typeof Item;
+        const action: Action = { name: ItemType.typeName, duration: 1000 };
+        this.owner.performAction(
+            action,
+            targetEntity,
+            targetPosition?.row,
+            targetPosition?.col,
+            () => {
+                this.onUsedWhileHeld(targetEntity, targetPosition);
+            },
+        );
     }
 
     /**
-     * Use this held item. Typically attacks.
+     * Use this held item.
      */
     onUsedWhileHeld(targetEntity?: Entity, targetPosition?: RowCol) {
         this.onUsed(targetEntity, targetPosition);

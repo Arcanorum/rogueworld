@@ -23,7 +23,9 @@ const StatusEffects = () => {
     eventResponses.effect_start_poison = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.poisonEffect) return;
+        if (!entity.spriteContainer.poisonEffect) {
+            entity.spriteContainer.poisonEffect = entity.spriteContainer.addEffect('poison-effect-1');
+        }
         entity.spriteContainer.poisonEffect.anims.play('poison');
     };
 
@@ -31,8 +33,8 @@ const StatusEffects = () => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.poisonEffect) return;
-        entity.spriteContainer.poisonEffect.anims.stop();
-        entity.spriteContainer.poisonEffect.visible = false;
+        entity.spriteContainer.poisonEffect.destroy();
+        delete entity.spriteContainer.poisonEffect;
     };
 
     eventResponses.effect_start_health_regen = (data: string) => {

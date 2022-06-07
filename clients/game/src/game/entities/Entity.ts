@@ -129,14 +129,6 @@ class Entity extends Container {
             this.addDisplayName(displayName);
         }
 
-        // this.curedEffect = this.addEffect('cured-effect-1');
-        // this.coldResistanceEffect = this.addEffect('cold-resistance-effect-1');
-        // this.poisonEffect = this.addEffect('poison-effect-1');
-        // this.burnEffect = this.addEffect('burn-effect-1');
-        // this.chillEffect = this.addEffect('chill-effect-1');
-        // this.chillEffect.setAlpha(0.5);
-        // this.brokenBonesEffect = this.addEffect('broken-bones-effect-1');
-
         // this.curseEffect = this.addEffect('curse-effect-1');
         // this.curseEffect.x = -6;
         // this.curseEffect.y = -10;

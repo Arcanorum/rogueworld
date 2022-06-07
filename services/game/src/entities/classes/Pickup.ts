@@ -12,7 +12,7 @@ class Pickup extends Entity {
     /**
      * A timer to auto destroy this item if it isn't picked up within the given time.
      */
-    static lifespan = OneMinute;
+    static baseLifespan? = OneMinute;
 
     /**
      * The type of item to be added to the inventory of the player that picks this pickup up.

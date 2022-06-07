@@ -1,33 +1,3 @@
-- name: ClayOven
-  highBlocking: true
-  baseMaxHitPoints: 100
-  baseGloryValue: 10
-  craftingStationClass: Furnace
-  clientConfig:
-    displayName: Clay oven
-    animationSetName: clay-oven
-    animationRepeats: true
-
-- name: Workbench
-  highBlocking: true
-  baseMaxHitPoints: 100
-  baseGloryValue: 10
-  craftingStationClass: Workbench
-  clientConfig:
-    displayName: Workbench
-    animationSetName: workbench
-    animationFrameSequence: [1]
-
-- name: StoneWall
-  # code: QMYX4544
-  highBlocking: true
-  baseMaxHitPoints: 200
-  baseGloryValue: 5
-  clientConfig:
-    displayName: Stone wall
-    animationSetName: stone-wall
-    animationFrameSequence: [1]
-
 - name: Bandit
   baseMaxHitPoints: 50
   baseGloryValue: 30
@@ -185,3 +155,43 @@
 #   maxHitPoints: 20
 #   ignoresProjectiles: true
 #   flooring: true
+
+# Structures
+
+- name: ClayOven
+  highBlocking: true
+  baseMaxHitPoints: 100
+  baseGloryValue: 10
+  craftingStationClass: Furnace
+  clientConfig:
+    displayName: Clay oven
+    animationSetName: clay-oven
+    animationRepeats: true
+
+- name: Workbench
+  highBlocking: true
+  baseMaxHitPoints: 100
+  baseGloryValue: 10
+  craftingStationClass: Workbench
+  clientConfig:
+    displayName: Workbench
+    animationSetName: workbench
+    animationFrameSequence: [1]
+
+- name: WoodenFence
+  highBlocking: true
+  baseMaxHitPoints: 50
+  baseGloryValue: 5
+  clientConfig:
+    displayName: Wooden fence
+    animationSetName: wooden-fence
+    animationFrameSequence: [1]
+
+- name: StoneWall
+  highBlocking: true
+  baseMaxHitPoints: 200
+  baseGloryValue: 5
+  clientConfig:
+    displayName: Stone wall
+    animationSetName: stone-wall
+    animationFrameSequence: [1]

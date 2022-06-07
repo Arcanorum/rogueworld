@@ -997,6 +997,13 @@
     translationId: Workbench
     textureSource: workbench
 
+- name: WoodenFence
+  code: UDNK9493
+  unitWeight: 5
+  clientConfig:
+    translationId: Wooden fence
+    textureSource: wooden-fence
+
 # Everything else
 
 - name: AgoniteBar

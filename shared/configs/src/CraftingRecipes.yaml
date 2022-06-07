@@ -1006,3 +1006,13 @@
       quantity: 4
   result:
     itemName: Workbench
+
+- stationClasses:
+    - Self
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: PineLogs
+      quantity: 4
+  result:
+    itemName: WoodenFence

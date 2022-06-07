@@ -1008,6 +1008,16 @@
     itemName: Workbench
 
 - stationClasses:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: IronBar
+      quantity: 12
+  result:
+    itemName: Anvil
+
+- stationClasses:
     - Self
   stats:
     - Toolery

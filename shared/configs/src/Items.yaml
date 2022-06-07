@@ -1032,6 +1032,15 @@
     translationId: Workbench
     textureSource: workbench
 
+- name: Anvil
+  code: QIXD3656
+  extends: Holdable
+  unitWeight: 20
+  entityTypeSpawnedOnUse: Anvil
+  clientConfig:
+    translationId: Anvil
+    textureSource: anvil
+
 - name: WoodenFence
   code: UDNK9493
   extends: Holdable

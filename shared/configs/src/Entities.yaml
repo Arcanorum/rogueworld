@@ -178,6 +178,16 @@
     animationSetName: workbench
     animationFrameSequence: [1]
 
+- name: Anvil
+  highBlocking: true
+  baseMaxHitPoints: 100
+  baseGloryValue: 10
+  craftingStationClass: Anvil
+  clientConfig:
+    displayName: Anvil
+    animationSetName: anvil
+    animationFrameSequence: [1]
+
 - name: WoodenFence
   highBlocking: true
   baseMaxHitPoints: 50

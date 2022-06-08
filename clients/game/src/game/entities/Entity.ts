@@ -41,6 +41,9 @@ class Entity extends Container {
     /** Whether this entity should allow opening the crafting panel, and for what station. */
     static craftingStationClass = '';
 
+    /** The sound to play when this entity is destroyed. */
+    static destroySound = '';
+
     entityId: string;
 
     hitPoints: number;
@@ -186,11 +189,18 @@ class Entity extends Container {
 
         // Check they are both still in the dynamics list.
         if (playerDynamic && thisDynamic) {
-        // If they are close enough to the player, play a death splat sound.
-            if (tileDistanceBetween(
-                dynamics[PlayerState.entityId], dynamics[this.entityId],
-            ) <= 5) {
-                Global.gameScene.sound.play('sword-cutting-flesh', { volume: GUIState.effectsVolume / 100 });
+            const EntityType = this.constructor as typeof Entity;
+
+            if(EntityType.destroySound) {
+                // If they are close enough to the player, play a death splat sound.
+                if (tileDistanceBetween(
+                    dynamics[PlayerState.entityId], dynamics[this.entityId],
+                ) <= 5) {
+                    Global.gameScene.sound.play(
+                        EntityType.destroySound,
+                        { volume: GUIState.effectsVolume / 100 },
+                    );
+                }
             }
         }
 

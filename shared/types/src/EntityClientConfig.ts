@@ -5,6 +5,7 @@ export interface SpriteConfig {
     animationSetName?: string;
     animationFrameSequence?: Array<number>;
     animationRepeats?: boolean;
+    destroySound?: string;
 }
 
 export interface EntityClientConfig extends SpriteConfig {

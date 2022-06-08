@@ -59,6 +59,7 @@ const PlayerValues = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setFood(PlayerState.maxFood);
         GUIState.setActivePanel(Panels.NONE);
+        Global.gameScene.soundManager.music.sounds.deathLoop.stop();
         // Clear in combat status after respawn.
         PubSub.publish(COMBAT_STATUS_TRIGGER, 0);
     };

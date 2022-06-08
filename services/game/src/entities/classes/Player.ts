@@ -483,9 +483,18 @@ class Player extends Entity {
         }
         // Nothing there, so try digging up whatever the ground is made up of.
         else {
-            if(boardTile.groundType.gatherItemType) {
-                this.inventory.addItem(
-                    new ItemState({ ItemType: boardTile.groundType.gatherItemType }),
+            const ItemType = boardTile.groundType.gatherItemType;
+            if(ItemType) {
+                this.performAction(
+                    { name: 'dig', duration: 1000 },
+                    undefined,
+                    undefined,
+                    undefined,
+                    () => {
+                        this.inventory.addItem(
+                            new ItemState({ ItemType }),
+                        );
+                    },
                 );
             }
         }

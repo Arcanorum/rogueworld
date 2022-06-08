@@ -200,7 +200,7 @@ class StatusEffect {
         // Stop the loop.
         clearTimeout(this._effectLoop);
         // Remove this effect from the thing it is applied to.
-        delete this.appliedTo.statusEffects[this.effectName];
+        this.appliedTo.removeStatusEffectByName(this.effectName);
         // Don't send if they are already dead.
         if (this.appliedTo.hitPoints > 0) {
             this.appliedTo.board?.emitToNearbyPlayers(

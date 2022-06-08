@@ -102,7 +102,9 @@ const StatusEffects = () => {
     eventResponses.effect_start_broken_bones = (data: string) => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
-        if (!entity.spriteContainer.brokenBonesEffect) return;
+        if (!entity.spriteContainer.brokenBonesEffect) {
+            entity.spriteContainer.brokenBonesEffect = entity.spriteContainer.addEffect('broken-bones-effect-1');
+        }
         entity.spriteContainer.brokenBonesEffect.anims.play('broken-bones');
     };
 
@@ -110,8 +112,8 @@ const StatusEffects = () => {
         const entity = Global.gameScene.dynamics[data];
         if (!entity) return;
         if (!entity.spriteContainer.brokenBonesEffect) return;
-        entity.spriteContainer.brokenBonesEffect.anims.stop();
-        entity.spriteContainer.brokenBonesEffect.visible = false;
+        entity.spriteContainer.brokenBonesEffect.destroy();
+        delete entity.spriteContainer.brokenBonesEffect;
     };
 
     eventResponses.curse_set = (data: string) => {

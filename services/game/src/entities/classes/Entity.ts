@@ -545,7 +545,25 @@ class Entity {
     /**
      * Can be overridden in a subclass to run any extra functionality after this entity has successfully moved.
      */
-    postMove() { return; }
+    postMove() {
+        const boardTile = this.getBoardTile();
+        if(!boardTile) return;
+        const { groundType } = boardTile;
+
+        // Add the status effect FIRST, in case they die from the damage below, so they
+        // don't have status effect while dead, as they should have all been removed.
+        if (groundType.statusEffects) {
+            groundType.statusEffects.forEach((StatusEffect) => {
+                this.addStatusEffect(StatusEffect, this);
+            });
+        }
+
+        if(this.statusEffects) {
+            Object.values(this.statusEffects).forEach((statusEffect) => {
+                statusEffect.onMove();
+            });
+        }
+    }
 
     /**
      * Changes the position of this entity on the board it is on.
@@ -593,8 +611,14 @@ class Entity {
         new StatusEffectClass(this, source);
     }
 
+    removeStatusEffectByName(name: string) {
+        if(!this.statusEffects) return;
+
+        delete this.statusEffects[name];
+    }
+
     removeStatusEffects() {
-        if(this.statusEffects === undefined) return;
+        if(!this.statusEffects) return;
 
         Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
 

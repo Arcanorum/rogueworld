@@ -1,5 +1,3 @@
-import * as Phaser from 'phaser';
-
 interface BoardPoint {
     row: number;
     col: number;

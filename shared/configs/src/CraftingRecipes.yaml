@@ -130,6 +130,18 @@
 #     itemName: NoctisBar
 #     baseQuantity: 5
 
+# Food
+
+- stationClasses:
+    - Furnace
+  stats:
+    - Potionry
+  ingredients:
+    - itemName: RawMeat
+      quantity: 1
+  result:
+    itemName: CookedMeat
+
 # Potions
 
 - stationClasses:

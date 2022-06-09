@@ -274,8 +274,8 @@ class Board {
         // Get a random position on the map.
         const rows = this.grid.length;
         const cols = this.grid[0].length;
-        const clusterRow = 700; //getRandomIntInclusive(0, rows - 1);
-        const clusterCol = 700; //getRandomIntInclusive(0, cols - 1);
+        const clusterRow = 400; //getRandomIntInclusive(0, rows - 1);
+        const clusterCol = 900; //getRandomIntInclusive(0, cols - 1);
         const clusterBoardTile = this.grid[clusterRow][clusterCol];
         const clusterSize = 50;
         const spreadRange = 20;

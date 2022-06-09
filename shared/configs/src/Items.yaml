@@ -339,6 +339,23 @@
     translationId: Carrot
     textureSource: carrot
 
+- name: RawMeat
+  code: OKFQ2813
+  unitWeight: GenericMaterial
+  foodOnUseAmount: 12
+  clientConfig:
+    translationId: Raw meat
+    textureSource: raw-meat
+
+- name: CookedMeat
+  code: PHPJ5686
+  unitWeight: GenericMaterial
+  foodOnUseAmount: 20
+  clientConfig:
+    translationId: Cooked meat
+    textureSource: cooked-meat
+
+
 # Holdable
 
 # Holdable - Spell books

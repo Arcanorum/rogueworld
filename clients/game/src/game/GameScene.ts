@@ -251,11 +251,15 @@ class GameScene extends Phaser.Scene {
         // Game finished loading. Let the loading/hint screen be closed.
         ApplicationState.setLoading(false);
 
+        // Start the default background music.
+        const music = this.soundManager.music;
+        music.changeBackgroundMusic(music.sounds['exploration-theme']);
+
         this.subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
                 // If they were damaged, play a hit sound.
                 if (data.old > data.new) {
-                    Global.gameScene.sound.play('falling-hit-on-gravel', { volume: GUIState.effectsVolume / 100 });
+                    this.sound.play('falling-hit-on-gravel', { volume: GUIState.effectsVolume / 100 });
                 }
                 // If the player is now dead, play the death music.
                 if (data.new <= 0) {
@@ -795,13 +799,13 @@ class GameScene extends Phaser.Scene {
             },
         };
 
-        const chatText = Global.gameScene.add.text(0, -16, message, style);
+        const chatText = this.add.text(0, -16, message, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);
         chatText.setOrigin(0.5);
         chatText.setScale(0.3);
         // Make the chat message scroll up.
-        Global.gameScene.tweens.add({
+        this.tweens.add({
             targets: chatText,
             duration: Config.CHAT_BASE_LIFESPAN + (60 * message.length),
             y: '-=30',

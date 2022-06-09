@@ -21,6 +21,26 @@
     animationRepeats: true
     destroySound: sword-cutting-flesh
 
+- name: Cow
+  baseMaxHitPoints: 50
+  baseGloryValue: 15
+  baseMoveRate: 700
+  baseWanderRate: 10000
+  baseAttackRange: 1
+  viewRange: 8
+  actions:
+    - punch
+    - bite
+  dropList:
+    - itemName: Bones
+      dropRate: 100
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Cow
+    animationSetName: adult-cow
+    animationRepeats: true
+    destroySound: sword-cutting-flesh
+
 - name: FruitBat
   baseMaxHitPoints: 50
   baseGloryValue: 15

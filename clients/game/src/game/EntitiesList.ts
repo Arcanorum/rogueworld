@@ -1,4 +1,4 @@
-import { error, warning } from '@rogueworld/utils';
+import { error, message, warning } from '@rogueworld/utils';
 import Config from '../shared/Config';
 import Entity from './entities/Entity';
 import { generateGenericPickupsList } from './entities/pickups/GenericPickupsList';
@@ -103,9 +103,12 @@ const generateEntitiesList = () => {
         const SpriteClass = Config.EntitiesList[typeName];
 
         if(SpriteClass.loadConfig) {
+            console.log('loading config:', config);
             SpriteClass.loadConfig(config);
         }
     });
+
+    message('Generated entities list');
 };
 
 export default generateEntitiesList;

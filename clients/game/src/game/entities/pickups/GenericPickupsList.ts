@@ -1,3 +1,4 @@
+import { message } from '@rogueworld/utils';
 import Global from '../../../shared/Global';
 import Pickup from './Pickup';
 
@@ -28,6 +29,7 @@ const makeClass = ({
  * and then extend the Pickup class in it.
  */
 export const generateGenericPickupsList = () => {
+    message('Generating generic pickups list');
     return Object.values(Global.Config.ItemTypes).reduce((accumulator, itemType) => {
         accumulator[itemType.typeName] = makeClass({
             frameName: itemType.pickupSource || '',

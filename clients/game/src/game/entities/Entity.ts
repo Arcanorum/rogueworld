@@ -1,4 +1,4 @@
-import { tileDistanceBetween, warning } from '@rogueworld/utils';
+import { message, tileDistanceBetween, warning } from '@rogueworld/utils';
 import Panels from '../../components/game/gui/panels/Panels';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
@@ -462,6 +462,8 @@ class Entity extends Container {
             duration,
             repeat: repeats ? -1 : undefined,
         });
+
+        message('Added animation set for:', this.typeName, ', set name:', setName);
     }
 }
 

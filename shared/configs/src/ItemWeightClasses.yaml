@@ -13,8 +13,8 @@ Cloak: 1
 Robe: 1
 
 # Tools
-GatheringTool: 30
-Sickle: 20
+GatheringTool: 1
+Sickle: 1
 
 # Resources/ingredients.
 GenericMaterial: 4

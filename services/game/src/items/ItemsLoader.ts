@@ -257,7 +257,6 @@ export const createCatalogue = () => {
             typeCode: ItemType.typeCode,
             hasUseEffect: ItemType.hasUseEffect,
             equippable: itemTypePrototype.equip !== Item.prototype.equip,
-            categories: ItemType.categories,
             translationId: '',
             iconSource: '',
         };

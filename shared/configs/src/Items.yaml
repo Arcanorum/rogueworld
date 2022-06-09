@@ -50,13 +50,6 @@
 # # Optional. The name of the group of sounds to play when this item is dropped, equipped,
 # unequipped, or used. See SoundManager.js in client.
 
-# category
-# # Optional. A generic way of grouping items by purpose.
-# What this does specifically depends on what the item is interacting with.
-# e.g. An ore rock resource node would take bonus damage when attacked with an item of the
-# "Pickaxe" category is used on it, so any pickaxe type items should use that category here.
-# See the ResourceNodes.yaml configs for what item category is required for each resource node type.
-
 # ProjectileType
 # Optional. The class name of the projectile type to create an instance of when this item is used.
 # Each weapon item that shoots out some kind of projectile should have an associated projectile entity class.
@@ -460,7 +453,13 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 20
-  useRange: 2
+  useRange: 1
+  damageOnUseAmount: 5
+  damageOnUseTypes:
+    - Physical
+  damageOnUseModifiers:
+    - category: Tree
+      multiplier: 6
   craftTasks:
     - Hatchets
   clientConfig:
@@ -472,7 +471,13 @@
   extends: Holdable
   unitWeight: GatheringTool
   baseQuantity: 20
-  useRange: 2
+  useRange: 1
+  damageOnUseAmount: 5
+  damageOnUseTypes:
+    - Physical
+  damageOnUseModifiers:
+    - category: OreRock
+      multiplier: 6
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -646,6 +651,9 @@
   damageOnUseAmount: 8
   damageOnUseTypes:
     - Physical
+  damageOnUseModifiers:
+    - category: Tree
+      multiplier: 6
   craftTasks:
     - Hatchets
   clientConfig:
@@ -661,6 +669,9 @@
   damageOnUseAmount: 8
   damageOnUseTypes:
     - Physical
+  damageOnUseModifiers:
+    - category: OreRock
+      multiplier: 6
   craftTasks:
     - Pickaxes
   clientConfig:
@@ -676,6 +687,9 @@
   damageOnUseAmount: 8
   damageOnUseTypes:
     - Physical
+  damageOnUseModifiers:
+    - category: Crop
+      multiplier: 6
   craftTasks:
     - Sickles
   clientConfig:

@@ -8,7 +8,7 @@ enum DamageTypes {
      * Magic related things, like fire balls, wind blasts and curses.
      */
     Magical,
-    
+
     /**
      * Organic related things, such as disease, poison, and possibly
      * environmental effects like heat and cold.

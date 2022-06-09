@@ -1,4 +1,12 @@
-import { Directions, DirectionsValues, ObjectOfUnknown, Offset, RowCol, SpriteConfig } from '@rogueworld/types';
+import {
+    Directions,
+    DirectionsValues,
+    EntityCategories,
+    ObjectOfUnknown,
+    Offset,
+    RowCol,
+    SpriteConfig,
+} from '@rogueworld/types';
 import { Counter, getRandomElement } from '@rogueworld/utils';
 import Action from '../../gameplay/actions/Action';
 import ActionsList from '../../gameplay/actions/ActionsList';
@@ -149,6 +157,8 @@ class Entity {
     // static faction?: number = undefined;
 
     static craftingStationClass?: string = undefined;
+
+    static categories?: Array<EntityCategories> = undefined;
 
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
@@ -408,8 +418,38 @@ class Entity {
     onDamage(damage: Damage, source?: Entity) {
         if(this.hitPoints === undefined) return;
 
-        damage.amount = Math.floor(damage.amount);
-        this.hitPoints -= damage.amount;
+        let amount = damage.amount;
+
+        if(damage.bonuses) {
+            // Get the highest applicable damage bonus multiplier.
+            // Don't just apply all of them.
+            const entityTypeCategories = (this.constructor as typeof Entity).categories;
+
+            let applicableModifiers = 0;
+            const totalMultiplier = damage.bonuses.reduce(
+                (previousValue, bonus) => {
+                    // Check this damage bonus is applicable to any of the categories of this entity type.
+                    if(entityTypeCategories?.some((category) => category === bonus.category)) {
+                        applicableModifiers += 1;
+                        return previousValue + bonus.multiplier;
+                    }
+                    return previousValue;
+                },
+                0,
+            );
+
+            if(applicableModifiers > 0) {
+                // Use an average of all applied modifier values.
+                amount = amount * (totalMultiplier / applicableModifiers);
+            }
+        }
+
+        amount = Math.floor(amount);
+
+        // Don't allow negative damage, or things might get weird, and shouldn't be abused to implement a pseudo-healing mechanic.
+        if(amount < 0) amount = 0;
+
+        this.hitPoints -= amount;
 
         // Check if this entity is destroyed.
         if (this.hitPoints <= 0) {
@@ -421,7 +461,7 @@ class Entity {
                 this.row,
                 this.col,
                 'damage',
-                { id: this.id, amount: -damage.amount },
+                { id: this.id, amount: -amount },
             );
         }
     }

@@ -1,5 +1,6 @@
 export * from './DayPhases';
 export * from './Directions';
+export * from './EntityCategories';
 export * from './EntityClientConfig';
 export * from './ItemCategories';
 export * from './ItemClientConfig';

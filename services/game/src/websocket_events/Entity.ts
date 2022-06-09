@@ -41,8 +41,6 @@ EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?
     const playerEntity = clientSocket.entity;
     if(!playerEntity) return;
 
-    console.log('doing interaction:', data);
-
     let targetEntity: Entity | undefined;
 
     if(data.id) {

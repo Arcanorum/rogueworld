@@ -1,3 +1,4 @@
+import DamageModifier from './DamageModifier';
 import DamageTypes from './DamageTypes';
 
 interface Damage {
@@ -17,6 +18,8 @@ interface Damage {
      * e.g. 0.3 => 30%
      */
     penetration: number;
+
+    bonuses?: Array<DamageModifier>;
 }
 
 export default Damage;

@@ -111,6 +111,8 @@
   highBlocking: true
   baseMaxHitPoints: 100
   baseGloryValue: 10
+  categories:
+    - Tree
   dropList:
     - itemName: PineLogs
       dropRate: 100
@@ -124,6 +126,8 @@
   highBlocking: true
   baseMaxHitPoints: 200
   baseGloryValue: 20
+  categories:
+    - OreRock
   dropList:
     - itemName: IronOre
       dropRate: 100
@@ -136,6 +140,8 @@
 - name: CarrotPlant
   baseMaxHitPoints: 20
   baseGloryValue: 5
+  categories:
+    - Crop
   dropList:
     - itemName: Carrot
       dropRate: 100

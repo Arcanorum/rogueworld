@@ -1,4 +1,4 @@
-import { ItemCategories, RowCol } from '@rogueworld/types';
+import { RowCol } from '@rogueworld/types';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
 import { EntitiesList } from '../../entities';
@@ -8,6 +8,7 @@ import DamageTypes from '../../gameplay/DamageTypes';
 import { StatusEffect } from '../../gameplay/status_effects';
 import Entity from '../../entities/classes/Entity';
 import { Action } from '../../gameplay/actions';
+import DamageModifier from '../../gameplay/DamageModifier';
 
 class Item {
     /**
@@ -63,13 +64,6 @@ class Item {
     static craftTaskIds: Array<string> = [];
 
     /**
-     * Useful for grouping similar items for checking if a certain kind of tool was used, regardless of
-     * what specific tool it was.
-     * i.e. any hatchet can be used to cut a tree.
-     */
-    static categories: Array<ItemCategories> = [];
-
-    /**
      * The type of entity to be added to the board if this item is dropped on the ground. The class itself, NOT an instance of it.
      * If left null, the item to drop will disappear and won't leave anything on the ground.
      */
@@ -115,6 +109,11 @@ class Item {
      * How much penetration should be used when dealing damage with damageOnUseAmount.
      */
     static damageOnUsePenetration = 100;
+
+    /**
+     * Any modifiers to apply to the damage dealt to certain categories of entity.
+     */
+    static damageOnUseModifiers?: Array<DamageModifier> = undefined;
 
     /**
      * How much food to restore when this item is used.
@@ -222,6 +221,7 @@ class Item {
                     amount: ItemType.damageOnUseAmount,
                     types: ItemType.damageOnUseTypes,
                     penetration: ItemType.damageOnUsePenetration,
+                    bonuses: ItemType.damageOnUseModifiers,
                 }, owner);
             }
 

@@ -315,7 +315,7 @@ class Board {
 
             if(!randomBoardTile) return;
             if(!randomBoardTile.groundType.canBeStoodOn) return;
-            if(!randomBoardTile.groundType.canBeBuiltOn) return;
+            if(!randomBoardTile.isBuildable()) return;
             if(randomBoardTile.groundType.hazardous) return;
             if(randomBoardTile.groundType === PlayerSpawn) return;
 

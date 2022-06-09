@@ -34,6 +34,9 @@
   dropList:
     - itemName: Bones
       dropRate: 100
+    - itemName: RawMeat
+      dropRate: 100
+      quantity: 2
   clientConfig:
     extendsClassName: Mob
     displayName: Cow

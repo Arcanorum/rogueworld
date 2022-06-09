@@ -1,4 +1,5 @@
 import { Offset } from '@rogueworld/types';
+import { tileDistanceBetween } from '@rogueworld/utils';
 import Entity from '../entities/classes/Entity';
 import EventResponses from './EventResponses';
 import PlayerWebSocket from './PlayerWebSocket';
@@ -70,6 +71,12 @@ EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?
         }
     }
     else {
+        // Weird TS bug? Won't allow just passing `data` to `tileDistanceBetween` even after doing truthy checks.
+        const targetPosition = { row: data.row || 1, col: data.row || 1 };
+
+        // Make sure they aren't too far away.
+        if(tileDistanceBetween(playerEntity, targetEntity || targetPosition) > 1) return;
+
         playerEntity.performAction('punch', targetEntity, data.row, data.col);
     }
 };

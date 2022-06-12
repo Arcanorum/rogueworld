@@ -192,6 +192,7 @@
 # Structures
 
 - name: ClayOven
+  code: FDHS7551
   highBlocking: true
   baseMaxHitPoints: 100
   baseGloryValue: 10
@@ -202,6 +203,7 @@
     animationRepeats: true
 
 - name: Workbench
+  code: LLSV8391
   highBlocking: true
   baseMaxHitPoints: 100
   baseGloryValue: 10
@@ -212,6 +214,7 @@
     animationFrameSequence: [1]
 
 - name: Anvil
+  code: ZXUS3914
   highBlocking: true
   baseMaxHitPoints: 100
   baseGloryValue: 10
@@ -232,6 +235,7 @@
     animationFrameSequence: [1]
 
 - name: StoneWall
+  code: YXPK5024
   highBlocking: true
   baseMaxHitPoints: 200
   baseGloryValue: 5

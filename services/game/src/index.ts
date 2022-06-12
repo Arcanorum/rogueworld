@@ -29,10 +29,10 @@ async function init() {
     EntitiesLoader.createCatalogue();
     CraftingRecipesLoader.createCatalogue();
 
+    await connect();
+
     GroundTypes.init();
     World.init();
-
-    await connect();
 
     message('Game service started.');
 }

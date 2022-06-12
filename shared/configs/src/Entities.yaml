@@ -222,6 +222,7 @@
     animationFrameSequence: [1]
 
 - name: WoodenFence
+  code: AOBB6092
   highBlocking: true
   baseMaxHitPoints: 50
   baseGloryValue: 5

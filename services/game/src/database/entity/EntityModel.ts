@@ -1,22 +1,22 @@
 import { model, Schema } from 'mongoose';
 
-export interface EntityDocument {
-    id: string;
-    typeCode: string;
+export interface SavableEntityProperties {
     row: number;
     col: number;
-    hitPoints: number;
+    hitPoints?: number;
+}
+
+export interface EntityDocument extends SavableEntityProperties {
+    typeCode: string;
 }
 
 const entitySchema = new Schema<EntityDocument>(
     {
-        id: { type: String },
-        typeCode: { type: String }, // Wooden fence
+        typeCode: { type: String },
         row: { type: Number },
         col: { type: Number },
         hitPoints: { type: Number },
     },
-    { _id: false },
 );
 
 const EntityModel = model<EntityDocument>('Entity', entitySchema);

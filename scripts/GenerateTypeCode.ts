@@ -14,7 +14,7 @@ import { getRandomElement, message } from '@rogueworld/utils';
     code += getRandomElement(numbers);
     code += getRandomElement(numbers);
 
-    message('Generated item code:');
+    message('Generated type code:');
     // eslint-disable-next-line no-console
     console.log(code);
 })();

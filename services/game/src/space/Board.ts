@@ -3,6 +3,7 @@ import { MapLayer, TiledMap } from '@rogueworld/maps';
 import { DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol } from '@rogueworld/types';
 import { Counter, error, getRandomElement, getRandomIntInclusive, warning } from '@rogueworld/utils';
 import { GroundTypes } from '.';
+import { getPaginatedEntityDocuments } from '../database';
 import { EntitiesList } from '../entities';
 import Entity from '../entities/classes/Entity';
 import Pickup from '../entities/classes/Pickup';
@@ -85,7 +86,7 @@ class Board {
      */
     populateRate = Settings.BOARD_POPULATION_RATE || (OneSecond * 5);
 
-    populateLoop: NodeJS.Timeout;
+    populateLoop?: NodeJS.Timeout;
 
     constructor({
         name,
@@ -105,7 +106,7 @@ class Board {
 
         this.init(mapData);
 
-        this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
+        this.loadSavedEntities(1);
     }
 
     init(mapData: TiledMap) {
@@ -265,6 +266,52 @@ class Board {
         }
     }
 
+    /**
+     * Gets some of the persisted entities from the DB and uses them to populate the game world.
+     */
+    async loadSavedEntities(page: number) {
+        const entityDocs = await getPaginatedEntityDocuments(page, 5);
+
+        if(entityDocs.length > 0) {
+            entityDocs.forEach((entityDoc) => {
+                // Check the entity type to spawn is valid. This might happen when:
+                // - The entity type has been removed from the game.
+                // - Type code for the entity type changed (shouldn't have been, but might have)
+                // - Bad data saved.
+                if(!EntitiesList.BY_CODE[entityDoc.typeCode]) {
+                    // Invalid entity data, remove it from the DB.
+                    entityDoc.delete();
+                    return;
+                }
+
+                const entity = new EntitiesList.BY_CODE[entityDoc.typeCode]({
+                    row: entityDoc.row,
+                    col: entityDoc.col,
+                    board: this,
+                    documentId: entityDoc._id.toString(),
+                });
+
+                if(entityDoc.hitPoints) entity.hitPoints = entityDoc.hitPoints;
+
+                entity.emitToNearbyPlayers();
+
+                this.population += 1;
+
+                // Don't go over the max population for this board.
+                // This may cause some saved bases/etc. to not be added fully, but if the max
+                // population for the board was lowered since it was built then it was probably for
+                // a good reason (i.e. not enough memory).
+                if(this.population >= this.maxPopulation) return;
+            });
+
+            // Get the next batch of entities to load.
+            this.loadSavedEntities(page + 1);
+        }
+        else {
+            this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
+        }
+    }
+
     populate() {
         this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
 
@@ -282,7 +329,7 @@ class Board {
 
         const SpawnableEntityTypes = Object
             .values(EntitiesList.BY_NAME)
-            .filter((EntityType) => EntityType.baseGloryValue);
+            .filter((EntityType) => EntityType.baseGloryValue && !EntityType.typeCode);
 
         // const SpawnableEntityTypes = [
         //     EntitiesList.BY_NAME['Bandit'],

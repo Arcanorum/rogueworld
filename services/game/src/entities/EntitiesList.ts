@@ -6,11 +6,17 @@ import Entity from './classes/Entity';
 const ABSTRACT_CLASSES: { [key: string]: typeof Entity } = {};
 
 /**
+ * The list of entity types, by their unique code. i.e. "ABCD1234".
+ */
+const BY_CODE: { [key: string]: typeof Entity } = {};
+
+/**
  * The list of entity types, by their unique class name. i.e. "Goblin".
  */
 const BY_NAME: { [key: string]: typeof Entity } = {};
 
 export default {
     ABSTRACT_CLASSES,
+    BY_CODE,
     BY_NAME,
 };

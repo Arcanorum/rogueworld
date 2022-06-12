@@ -105,6 +105,13 @@ export const initialiseList = () => {
         Object.entries(config).forEach(([_key, value]) => {
             const key = _key as PropName;
 
+            if (_key === 'code') {
+                EntityClass.typeCode = value as string;
+                // Add a reference to the item by its type code.
+                EntitiesList.BY_CODE[value as string] = EntityClass;
+                return;
+            }
+
             // Load whatever properties that have the same key in the config as on this class.
             if (key in EntityClass) {
                 // Check if the property has already been loaded by a

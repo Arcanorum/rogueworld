@@ -1,32 +1,47 @@
+import { ObjectOfAny } from '@rogueworld/types';
+import { warning } from '@rogueworld/utils';
 import { CallbackError, Document } from 'mongoose';
-import EntityModel from './EntityModel';
-import Entity from '../../entities/classes/Entity';
+import EntityModel, { EntityDocument } from './EntityModel';
 
 export { default as EntityModel, EntityDocument } from './EntityModel';
 
-export function createEntityDocument(entity: Entity) {
-    const { row, col, hitPoints } = entity;
-    const { typeCode } = (entity.constructor as typeof Entity);
-
+export function createEntityDocument(
+    data: EntityDocument,
+    onSuccess: (documentId: string) => void,
+) {
     EntityModel.create(
-        {
-            typeCode,
-            row,
-            col,
-            hitPoints,
-        },
+        data,
         (err: CallbackError, res: Document) => {
-            if(err) return;
+            if(err) {
+                warning(err);
+                return;
+            }
 
-            entity.documentId = res.id;
+            onSuccess(res.id);
         },
     );
 }
 
-export function updateEntityDocument(id: string, entity: Entity) {
-    //
+export function updateEntityDocument(id: string, data: ObjectOfAny) {
+    EntityModel.findByIdAndUpdate(id, data, undefined, (err) => {
+        if(err) {
+            warning(err);
+        }
+    });
 }
 
 export function deleteEntityDocument(id: string) {
-    //
+    EntityModel.findByIdAndDelete(id, undefined, (err) => {
+        if(err) {
+            warning(err);
+        }
+    });
+}
+
+export async function getPaginatedEntityDocuments(page: number, limit: number) {
+    return EntityModel
+        .find()
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .exec();
 }

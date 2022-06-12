@@ -62,6 +62,12 @@ MAX_PLAYERS: 1000
 # If the server crashes between intervals, then players will lose any changes since their last save.
 ACCOUNT_AUTO_SAVE_RATE: 15000
 
+# How often to save the current state of a persistent entity to their document in the DB.
+# State changes (hitpoints/position/etc. modified) are done in memory and then saved to the DB
+# every interval.
+# If the server crashes between intervals, then entities will lose any changes since their last save.
+ENTITY_AUTO_SAVE_RATE: 30000
+
 # Each game day is split up into an amount of sections, but the total length of a full day cycle
 # is always the same regardless of the ratio between dawn/day/dusk/night.
 FULL_DAY_DURATION_MINUTES: 24

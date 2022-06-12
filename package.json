@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "git-webhook": "npx ts-node --transpile-only ./git-webhook.ts",
-    "itemcode": "npx ts-node --transpile-only ./scripts/GenerateItemCode.ts"
+    "typecode": "npx ts-node --transpile-only ./scripts/GenerateTypeCode.ts"
   },
   "dependencies": {
     "@rogueworld/configs": "*",

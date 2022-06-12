@@ -1,3 +1,4 @@
+import { Settings } from '@rogueworld/configs';
 import {
     Directions,
     DirectionsValues,
@@ -7,7 +8,9 @@ import {
     RowCol,
     SpriteConfig,
 } from '@rogueworld/types';
-import { Counter, getRandomElement } from '@rogueworld/utils';
+import { Counter, getRandomElement, getRandomIntInclusive } from '@rogueworld/utils';
+import { createEntityDocument, deleteEntityDocument, updateEntityDocument } from '../../database';
+import { EntityDocument, SavableEntityProperties } from '../../database/entity/EntityModel';
 import Action from '../../gameplay/actions/Action';
 import ActionsList from '../../gameplay/actions/ActionsList';
 import Damage from '../../gameplay/Damage';
@@ -25,6 +28,7 @@ export interface EntityConfig {
     row: number;
     col: number;
     board: Board;
+    documentId?: string;
 }
 
 class Entity {
@@ -44,7 +48,13 @@ class Entity {
     static typeNumber: number;
 
     /**
-     * Class name of this entity type. Useful for debugging.
+     * The unique identifier of this type of entity. Should be set in the entity values list and never
+     * changed, as changing this would invalidate the data saved in the DB for persistent entities of this type.
+     */
+    static typeCode?: string = undefined;
+
+    /**
+     * Class name of this entity type. Useful for debugging. Don't save this anywhere as it may change if the entity gets renamed. Use typeCode instead for persistence.
      */
     static typeName: string;
 
@@ -57,6 +67,22 @@ class Entity {
      * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
      */
     protected destroyed = false;
+
+    /**
+     * For persistent entity types, this is the Mongo document ID for the stored data for this entity.
+     */
+    documentId?: string;
+
+    /**
+     * A loop that periodically updates the state of this entity in the DB. State changes between loops will be lost when the server stops.
+     */
+    documentUpdateLoop?: NodeJS.Timeout;
+
+    /**
+     * For persistent entity types, this is the set of most recently saved values for each of the properties that are to be persisted with this entity.
+     * Used to compare changes in state when considering whether to update the document for this entity in the DB.
+     */
+    mostRecentSavablePropertyValues?: SavableEntityProperties;
 
     /**
      * A unique id for this entity.
@@ -196,6 +222,27 @@ class Entity {
             this.gloryValue = EntityType.baseGloryValue;
         }
 
+        if(EntityType.typeCode) {
+            if(config.documentId) {
+                this.startUpdateDocumentLoop(config.documentId);
+            }
+            else {
+                createEntityDocument(
+                    {
+                        typeCode: EntityType.typeCode,
+                        row: this.row,
+                        col: this.col,
+                        hitPoints: this.hitPoints,
+                    },
+                    (documentId) => {
+                        if(!documentId) return;
+
+                        this.startUpdateDocumentLoop(documentId);
+                    },
+                );
+            }
+        }
+
         this.board.addEntity(this);
     }
 
@@ -227,25 +274,73 @@ class Entity {
         // Make sure this entity is marked as dead, so anything that is targeting it will stop doing so.
         this.hitPoints = -1;
 
-        if(this.lifespanTimeout) {
-            clearTimeout(this.lifespanTimeout);
-        }
+        if(this.lifespanTimeout) clearTimeout(this.lifespanTimeout);
 
-        if(this.actionTimeout) {
-            clearTimeout(this.actionTimeout);
-        }
+        if(this.actionTimeout) clearTimeout(this.actionTimeout);
 
         if (this.curse) this.curse.remove();
+
         if (this.enchantment) this.enchantment.remove();
 
         // Tell players around this entity to remove it.
         this.board?.emitToNearbyPlayers(this.row, this.col, 'remove_entity', this.id);
+
+        if(this.documentUpdateLoop) clearInterval(this.documentUpdateLoop);
+
+        if(this.documentId) deleteEntityDocument(this.documentId);
 
         this.board?.removeEntity(this);
 
         // Remove the reference to the board it was on (that every entity has), so it can be
         // cleaned up if the board is to be destroyed.
         this.board = undefined;
+    }
+
+    updateDocument() {
+        if(!this.documentId) return;
+        if(!this.mostRecentSavablePropertyValues) return;
+
+        // Check for any state that has been modified that should now be saved.
+        const dataToUpdate: Partial<EntityDocument> = {};
+
+        if(this.row !== this.mostRecentSavablePropertyValues.row) {
+            dataToUpdate.row = this.row;
+            this.mostRecentSavablePropertyValues.row = this.row;
+        }
+
+        if(this.col !== this.mostRecentSavablePropertyValues.col) {
+            dataToUpdate.col = this.col;
+            this.mostRecentSavablePropertyValues.col = this.col;
+        }
+
+        if(this.hitPoints !== this.mostRecentSavablePropertyValues.hitPoints) {
+            dataToUpdate.hitPoints = this.hitPoints;
+            this.mostRecentSavablePropertyValues.hitPoints = this.hitPoints;
+        }
+
+        // Don't bother if nothing has changed.
+        if(Object.keys(dataToUpdate).length < 1) return;
+
+        updateEntityDocument(this.documentId, dataToUpdate);
+    }
+
+    startUpdateDocumentLoop(documentId: string) {
+        this.documentId = documentId;
+
+        this.mostRecentSavablePropertyValues = {
+            row: this.row,
+            col: this.col,
+            hitPoints: this.hitPoints,
+        };
+
+        // Start the loop for this entity to save itself.
+        this.documentUpdateLoop = setInterval(
+            this.updateDocument.bind(this),
+            // Add a bit of random offset between each update loop so if a lot of entities
+            // are spawned together (persistent entities loaded from DB on startup) they
+            // don't all try to update at the same time.
+            (Settings.ENTITY_AUTO_SAVE_RATE || 30000) + getRandomIntInclusive(0, 1000),
+        );
     }
 
     /**

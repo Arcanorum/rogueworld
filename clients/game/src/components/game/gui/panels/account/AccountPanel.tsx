@@ -71,17 +71,17 @@ function AccountPanel({
                 icon={exitIcon.src}
                 onCloseCallback={onCloseCallback}
             >
-                <div className={`account-inner-cont ${passwordChanged ? 'password-changed' : ''}`}>
+                <div className={`${styles['account-inner-cont']} ${passwordChanged ? 'password-changed' : ''}`}>
                     {!passwordChanged && (
                         <>
-                            <div className={panelTemplateStyles['account-top-info-cont']}>
+                            <div className={styles['account-top-info-cont']}>
                                 {getTextDef('Account panel: info')}
                             </div>
 
                             <input
                                 type="password"
                                 maxLength={50}
-                                className={panelTemplateStyles['account-input']}
+                                className={styles['account-input']}
                                 placeholder={getTextDef('Current password')}
                                 onChange={(event) => {
                                     setCurrentPassword(event.target.value);
@@ -94,7 +94,7 @@ function AccountPanel({
                             <input
                                 type="password"
                                 maxLength={50}
-                                className={panelTemplateStyles['account-input']}
+                                className={styles['account-input']}
                                 placeholder={getTextDef('New password')}
                                 onChange={(event) => {
                                     setNewPassword(event.target.value);
@@ -105,7 +105,7 @@ function AccountPanel({
                             />
 
                             <div
-                                className={panelTemplateStyles['account-accept-button-cont']}
+                                className={styles['account-accept-button-cont']}
                                 onClick={acceptPressed}
                                 onMouseEnter={() => {
                                     Global.gameScene.soundManager.effects.playGUITick();
@@ -113,10 +113,10 @@ function AccountPanel({
                             >
                                 <img
                                     src={borderImage.src}
-                                    className={panelTemplateStyles['account-accept-button']}
+                                    className={styles['account-accept-button']}
                                     draggable={false}
                                 />
-                                <div className={panelTemplateStyles['account-accept-button-text']}>
+                                <div className={styles['account-accept-button-text']}>
                                     {getTextDef('Accept')}
                                 </div>
 
@@ -125,7 +125,7 @@ function AccountPanel({
                     )}
 
                     {warningText && (
-                        <div className={`${panelTemplateStyles['account-warning-text']} ${passwordChanged ? panelTemplateStyles['password-changed'] : ''}`}>
+                        <div className={`${styles['account-warning-text']} ${passwordChanged ? styles['password-changed'] : ''}`}>
                             {warningText}
                         </div>
                     )}

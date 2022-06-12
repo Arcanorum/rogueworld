@@ -289,11 +289,11 @@ class Item {
             );
 
             // If this player has an account, save the new quantity.
-            // if (this.owner.socket.account) {
-            //     this.owner.socket.account.inventoryItems[this.slotIndex].quantity = ( TODO
-            //         this.itemState.quantity
-            //     );
-            // }
+            if (this.owner.socket?.account) {
+                this.owner.socket.account.inventoryItems[this.slotIndex].quantity = (
+                    this.itemState.quantity
+                );
+            }
         }
     }
 }

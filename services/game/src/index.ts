@@ -10,7 +10,7 @@ import { ItemsLoader } from './items';
 import { EntitiesLoader } from './entities';
 import { CraftingRecipesLoader } from './crafting';
 import { StarterInventoryItemStates } from './inventory';
-import AccountManager from './account/AccountManager';
+import { connect } from './database';
 
 message('Starting game service.');
 
@@ -32,7 +32,7 @@ async function init() {
     GroundTypes.init();
     World.init();
 
-    await AccountManager.setup();
+    await connect();
 
     message('Game service started.');
 }

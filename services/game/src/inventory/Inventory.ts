@@ -2,7 +2,7 @@ import { Settings } from '@rogueworld/configs';
 import { message, warning } from '@rogueworld/utils';
 import { Types } from 'mongoose';
 import { ItemState } from '.';
-import { AccountDocument } from '../account';
+import { AccountDocument } from '../database';
 import Player from '../entities/classes/Player';
 import { ItemsList } from '../items';
 import Item from '../items/classes/Item';

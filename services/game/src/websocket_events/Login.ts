@@ -1,5 +1,5 @@
 import { isDisplayNameValid } from '.';
-import { AccountManager } from '../account';
+import { logIn } from '../database';
 import { World } from '../space';
 import EventResponses from './EventResponses';
 
@@ -14,7 +14,7 @@ EventResponses.log_in = (clientSocket, data: {username: string; password: string
     // Don't check username length, so they can still log in even if the max username length
     // setting has been lowered since they made the account.
 
-    AccountManager.logIn(clientSocket, data.username, data.password, (account) => {
+    logIn(clientSocket, data.username, data.password, (account) => {
         World.addExistingPlayer(clientSocket, account);
     });
 };

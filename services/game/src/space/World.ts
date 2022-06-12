@@ -3,7 +3,7 @@ import { GameMap, Maps } from '@rogueworld/maps';
 import { DayPhases, ObjectOfUnknown, RowCol } from '@rogueworld/types';
 import { arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning } from '@rogueworld/utils';
 import { Board } from '.';
-import { AccountDocument, AccountManager } from '../account';
+import { AccountDocument, loadPlayerData, logOut } from '../database';
 import Player from '../entities/classes/Player';
 import { EntitiesList } from '../entities';
 import { webSocketServer as wss } from '../Server';
@@ -171,7 +171,7 @@ const World = {
             socket: clientSocket,
         });
 
-        AccountManager.loadPlayerData(playerEntity, account);
+        loadPlayerData(playerEntity, account);
 
         const dataToSend = this.getPlayerDataToSend(playerEntity);
 
@@ -255,7 +255,7 @@ const World = {
         if (clientSocket.entity !== undefined) {
             // If they have an account log them out.
             if (clientSocket.account) {
-                AccountManager.logOut(clientSocket);
+                logOut(clientSocket);
             }
 
             clientSocket.entity?.remove();

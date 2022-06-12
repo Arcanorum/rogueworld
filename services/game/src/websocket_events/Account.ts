@@ -1,7 +1,7 @@
 import { Settings } from '@rogueworld/configs';
 import { message } from '@rogueworld/utils';
 import { isDisplayNameValid } from '.';
-import { AccountManager } from '../account';
+import { changePassword, createAccount } from '../database';
 import EventResponses from './EventResponses';
 
 EventResponses.create_account = (clientSocket, data: {username: string; password: string}) => {
@@ -26,7 +26,7 @@ EventResponses.create_account = (clientSocket, data: {username: string; password
         return;
     }
 
-    AccountManager.createAccount(data.username, data.password, clientSocket.entity,
+    createAccount(data.username, data.password, clientSocket.entity,
         () => {
             message('Create account success:', data.username);
             clientSocket.sendEvent('create_account_success');
@@ -50,7 +50,7 @@ EventResponses.change_password = (clientSocket, data) => {
     if (!data.currentPassword) return;
     if (!data.newPassword) return;
 
-    AccountManager.changePassword(clientSocket, data.currentPassword, data.newPassword);
+    changePassword(clientSocket, data.currentPassword, data.newPassword);
 };
 
 EventResponses.change_display_name = (clientSocket, data) => {

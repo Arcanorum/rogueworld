@@ -1,7 +1,7 @@
 import ChatScopes from '@rogueworld/types/src/ChatScopes';
 import WebSocket from 'ws';
 import Player from '../entities/classes/Player';
-import { AccountDocument } from '../account';
+import { AccountDocument } from '../database';
 
 type ChatMessageTimes = {
     [scope in ChatScopes]: number;

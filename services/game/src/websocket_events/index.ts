@@ -70,6 +70,8 @@ wss.broadcastToInGame = (eventName: string, data?: any) => {
 };
 
 wss.on('connection', (clientSocket: PlayerWebSocket) => {
+    if(!World.initialised) clientSocket.close(1013, 'Game world not yet initialised.');
+
     PlayerWebSocket.extend(clientSocket);
 
     clientSocket.on('pong', () => { clientSocket.isAlive = true; });

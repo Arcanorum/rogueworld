@@ -59,6 +59,9 @@ const World = {
     /** The time of day. Dawn, night, etc. */
     dayPhase: DayPhases.Day,
 
+    /** Whether the game world has been initialised and is ready to be used. */
+    initialised: false,
+
     init() {
         Maps.forEach((map) => {
             if (this.createBoard(map)) {
@@ -68,12 +71,10 @@ const World = {
             }
         });
 
-        // Load the saved structures into the game world after the boards are created, or there
-        // will be nothing to add them to.
-        // TODO ^
-
         // Start the day/night cycle loop.
         setTimeout(this.progressTime, dayPhaseRate);
+
+        this.initialised = true;
     },
 
     /**

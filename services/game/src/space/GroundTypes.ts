@@ -1,7 +1,6 @@
 import GroundTile from './GroundTile';
 import * as status_effects from '../gameplay/status_effects';
 import DamageTypes from '../gameplay/DamageTypes';
-import { ItemsList } from '../items';
 
 export type GroundTypeName =
     'Empty' |

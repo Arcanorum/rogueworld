@@ -272,7 +272,7 @@ class Board {
     async loadSavedEntities(page: number) {
         const entityDocs = await getPaginatedEntityDocuments(page, 5);
 
-        if(entityDocs.length > 0) {
+        if(entityDocs && entityDocs.length > 0) {
             entityDocs.forEach((entityDoc) => {
                 // Check the entity type to spawn is valid. This might happen when:
                 // - The entity type has been removed from the game.

@@ -6,6 +6,10 @@ import { AccountModel } from './account';
 export * from './account';
 export * from './entity';
 
+export function isDBConnected() {
+    return mongoose.connection.readyState === mongoose.STATES.connected;
+}
+
 export async function connect() {
     try {
         await mongoose.connect('mongodb://localhost/rogueworldDB', {

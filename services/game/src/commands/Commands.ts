@@ -68,7 +68,7 @@ Commands.spawnitem = {
 
         const pickupTypeName = `Pickup${typeName}`;
 
-        if (!EntitiesListByName[pickupTypeName]) return;
+        if (!EntitiesListByName[pickupTypeName]) return 'Invalid item type name.';
 
         if(!player.board) return;
 
@@ -116,7 +116,6 @@ Commands.spawnentity = {
         const [typeName, row, col] = options;
 
         if (typeName === 'Player') return 'Restricted entity type.';
-        if (typeName === 'ABSTRACT_CLASSES') return 'Restricted entity type.';
         if (!EntitiesListByName[typeName]) return 'Invalid entity type name.';
         if (Object.prototype.hasOwnProperty.call(EntitiesListByName[typeName], 'abstract')) return 'Restricted entity type.';
 

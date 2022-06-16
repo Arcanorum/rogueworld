@@ -20,12 +20,6 @@ class Music {
             deathLoop: this.addSound(scene.sound.add('death-loop') as SoundType),
             // Themes.
             'exploration-theme': this.addSound(scene.sound.add('exploration-theme') as SoundType),
-            'city-theme': this.addSound(scene.sound.add('city-theme') as SoundType),
-            'blood-halls-theme': this.addSound(scene.sound.add('blood-halls-theme') as SoundType),
-            'vampire-island-overworld-theme': this.addSound(scene.sound.add('vampire-island-overworld-theme') as SoundType),
-            'desert-overworld-theme': this.addSound(scene.sound.add('desert-overworld-theme') as SoundType),
-            'forest-maze-theme': this.addSound(scene.sound.add('forest-maze-theme') as SoundType),
-            generic2: this.addSound(scene.sound.add('generic-theme-2') as SoundType),
         };
 
         this.currentBackgroundMusic = this.sounds.generic2;

@@ -608,7 +608,7 @@ class Entity {
         this.defence += amount;
     }
 
-    preMove() { return; }
+    preMove() { return true; }
 
     /**
      * Moves this entity along the board relative to its current position.
@@ -617,6 +617,8 @@ class Entity {
      * @param byCols - How many cols to move along by. +1 to move right, -1 to move left.
      */
     move(byRows: Offset, byCols: Offset) {
+        if(!this.preMove()) return false;
+
         const origRow = this.row;
         const origCol = this.col;
 
@@ -629,8 +631,11 @@ class Entity {
 
         if(!nextBoardTile) return false;
 
+        // Check if there is an entity there that is interacted with by moving into it (i.e. a door).
+        nextBoardTile.getFirstEntity()?.onMovedInto(this);
+
         // Check path isn't blocked.
-        if (nextBoardTile.isLowBlocked() === true) return false;
+        if (nextBoardTile.isLowBlocked()) return false;
 
         // Check if the next tile can be stood on.
         if (nextBoardTile.groundType.canBeStoodOn === false) return false;
@@ -699,6 +704,8 @@ class Entity {
             });
         }
     }
+
+    onMovedInto(otherEntity: Entity) { return; }
 
     /**
      * Changes the position of this entity on the board it is on.

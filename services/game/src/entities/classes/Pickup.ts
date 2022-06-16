@@ -9,6 +9,8 @@ interface PickupConfig extends EntityConfig {
 }
 
 class Pickup extends Entity {
+    static abstract = true;
+
     /**
      * A timer to auto destroy this item if it isn't picked up within the given time.
      */

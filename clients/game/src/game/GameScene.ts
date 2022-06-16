@@ -658,8 +658,17 @@ class GameScene extends Phaser.Scene {
             return;
         }
 
+        const EntityType = Config.EntityTypes[typeNumber];
+
+        if(!EntityType) {
+            warning('Invalid entity type number:', typeNumber);
+            return;
+        }
+
+        const typeName = EntityType.typeName;
+
         // Check that an entity type exists with the type name that corresponds to the given type number.
-        if (!Config.EntitiesList[Config.EntityTypes[typeNumber].typeName]) {
+        if (!Config.EntitiesList[typeName]) {
             warning(`Invalid entity type number: "${typeNumber}". Entity types:`, Config.EntityTypes);
             return;
         }
@@ -669,7 +678,7 @@ class GameScene extends Phaser.Scene {
             id,
             row,
             col,
-            spriteContainer: new Config.EntitiesList[Config.EntityTypes[typeNumber].typeName](
+            spriteContainer: new Config.EntitiesList[typeName](
                 col * Config.TILE_SIZE * Config.GAME_SCALE,
                 row * Config.TILE_SIZE * Config.GAME_SCALE,
                 data,

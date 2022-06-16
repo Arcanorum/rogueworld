@@ -243,3 +243,15 @@
     displayName: Stone wall
     animationSetName: stone-wall
     animationFrameSequence: [1]
+
+- name: WoodenDoor
+  code: FEQV9326
+  extends: Door
+  highBlocking: true
+  baseMaxHitPoints: 50
+  baseGloryValue: 5
+  clientConfig:
+    extendsClassName: Door
+    displayName: Wooden door
+    animationSetName: wooden-door
+    animationFrameSequence: [1]

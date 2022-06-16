@@ -1098,6 +1098,15 @@
     translationId: Wooden fence
     textureSource: wooden-fence
 
+- name: WoodenDoor
+  code: JFBH5833
+  extends: Holdable
+  unitWeight: 10
+  entityTypeSpawnedOnUse: WoodenDoor
+  clientConfig:
+    translationId: Wooden door
+    textureSource: wooden-door
+
 # Everything else
 
 - name: AgoniteBar

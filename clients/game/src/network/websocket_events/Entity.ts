@@ -230,11 +230,29 @@ const Entity = () => {
         );
     };
 
+    eventResponses.active_state = (data: string) => {
+        const dynamic = Global.gameScene.dynamics[data];
+        if (!dynamic) return;
+
+        const { spriteContainer } = dynamic;
+
+        spriteContainer.setActiveState(true);
+    };
+
+    eventResponses.inactive_state = (data: string) => {
+        const dynamic = Global.gameScene.dynamics[data];
+        if (!dynamic) return;
+
+        const { spriteContainer } = dynamic;
+
+        spriteContainer.setActiveState(false);
+    };
+
     eventResponses.change_direction = (data: {id: string}) => {
         // console.log("change_direction:", data);
         // Check the entity id is valid.
         const dynamic = Global.gameScene.dynamics[data.id];
-        if (dynamic === undefined) return;
+        if (!dynamic) return;
 
         const { spriteContainer } = dynamic;
 
@@ -244,7 +262,7 @@ const Entity = () => {
     eventResponses.start_action = (data: {id: string; actionName: string; duration: number}) => {
         // console.log('start action:', data);
         const dynamic = Global.gameScene.dynamics[data.id];
-        if (dynamic === undefined) return;
+        if (!dynamic) return;
 
         dynamic.spriteContainer.startAction(data.actionName, data.duration);
     };

@@ -88,7 +88,12 @@ export const populateList = () => {
         // Only generate a class for this entity if one doesn't already
         // exist, as it might have it's own special logic file.
         if (!EntitiesList.BY_NAME[config.name]) {
-            EntitiesList.BY_NAME[config.name] = makeClass(config);
+            EntitiesList.BY_NAME[config.name] = makeClass(
+                {
+                    ...config,
+                    extendsClassName: config.extends,
+                },
+            );
         }
     });
 
@@ -109,6 +114,11 @@ export const initialiseList = () => {
                 EntityClass.typeCode = value as string;
                 // Add a reference to the item by its type code.
                 EntitiesList.BY_CODE[value as string] = EntityClass;
+                return;
+            }
+
+            // Already used to create the entity class.
+            if(_key === 'extends') {
                 return;
             }
 

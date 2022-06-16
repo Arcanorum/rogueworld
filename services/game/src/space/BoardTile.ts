@@ -55,7 +55,7 @@ class BoardTile {
         return Object
             .values(this.entities)
             .some((entity) => {
-                return (entity.constructor as typeof Entity).lowBlocking;
+                return entity.isBlocking && (entity.constructor as typeof Entity).lowBlocking;
             });
     }
 
@@ -66,7 +66,7 @@ class BoardTile {
         return Object
             .values(this.entities)
             .some((entity) => {
-                return (entity.constructor as typeof Entity).highBlocking;
+                return entity.isBlocking && (entity.constructor as typeof Entity).highBlocking;
             });
     }
 

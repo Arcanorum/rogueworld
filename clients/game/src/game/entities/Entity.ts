@@ -117,7 +117,9 @@ class Entity extends Container {
 
         // Don't bother playing 1 frame animations.
         if(EntityType.animationFrameSequence.length > 1) {
-            this.baseSprite.anims.play(EntityType.animationSetName);
+            if(EntityType.animationSetName) {
+                this.baseSprite.anims.play(EntityType.animationSetName);
+            }
         }
 
         // Use a specific display name if given, or the one for this entity type.
@@ -385,6 +387,8 @@ class Entity extends Container {
 
         // Play an optional ending animation here.
     }
+
+    setActiveState(state: boolean) { return; }
 
     static loadConfig(config) {
         // Load anything else that hasn't already been set by the loadConfig method of a subclass.

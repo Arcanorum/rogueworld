@@ -1,5 +1,5 @@
 import { tileDistanceBetween } from '@rogueworld/utils';
-import Player from '../../game/entities/characters/Player';
+import Player from '../../game/entities/classes/Player';
 import Pickup from '../../game/entities/pickups/Pickup';
 import Config from '../../shared/Config';
 import getTextDef from '../../shared/GetTextDef';

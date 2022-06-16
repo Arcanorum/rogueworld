@@ -1,7 +1,7 @@
 // All types that are used across the game client, NOT across the project.
 // Project-scoped types belong in the @rogueworld/types package.
 
-import Player from '../../game/entities/characters/Player';
+import Player from '../../game/entities/classes/Player';
 import Entity from '../../game/entities/Entity';
 
 export interface WebpackRequireValue {

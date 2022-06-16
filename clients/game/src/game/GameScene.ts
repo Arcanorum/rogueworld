@@ -26,7 +26,7 @@ import eventResponses from '../network/websocket_events/EventResponses';
 import { message, warning } from '@rogueworld/utils';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
 import { DayPhases } from '@rogueworld/types';
-import Player from './entities/characters/Player';
+import Player from './entities/classes/Player';
 
 class GameScene extends Phaser.Scene {
     /**

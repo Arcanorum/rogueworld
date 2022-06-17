@@ -1030,6 +1030,18 @@
     itemName: Anvil
 
 - stationClasses:
+    - Workbench
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: PineLogs
+      quantity: 8
+    - itemName: IronBar
+      quantity: 2
+  result:
+    itemName: Laboratory
+
+- stationClasses:
     - Self
   stats:
     - Toolery

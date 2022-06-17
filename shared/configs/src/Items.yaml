@@ -1089,6 +1089,15 @@
     translationId: Anvil
     textureSource: anvil
 
+- name: Laboratory
+  code: URBK5016
+  extends: Holdable
+  unitWeight: 20
+  entityTypeSpawnedOnUse: Laboratory
+  clientConfig:
+    translationId: Laboratory
+    textureSource: laboratory
+
 - name: WoodenFence
   code: UDNK9493
   extends: Holdable

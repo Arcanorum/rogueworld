@@ -224,6 +224,17 @@
     animationSetName: anvil
     animationFrameSequence: [1]
 
+- name: Laboratory
+  code: QGBL5850
+  highBlocking: true
+  baseMaxHitPoints: 100
+  baseGloryValue: 10
+  craftingStationClass: Laboratory
+  clientConfig:
+    displayName: Laboratory
+    animationSetName: laboratory
+    animationFrameSequence: [1]
+
 - name: WoodenFence
   code: AOBB6092
   highBlocking: true

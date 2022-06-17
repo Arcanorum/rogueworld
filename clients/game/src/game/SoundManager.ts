@@ -22,7 +22,7 @@ class Music {
             'exploration-theme': this.addSound(scene.sound.add('exploration-theme') as SoundType),
         };
 
-        this.currentBackgroundMusic = this.sounds.generic2;
+        this.currentBackgroundMusic = this.sounds['exploration-theme'];
 
         this.updateVolume();
     }

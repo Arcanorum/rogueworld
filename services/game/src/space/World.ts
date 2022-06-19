@@ -177,7 +177,7 @@ const World = {
         const dataToSend = this.getPlayerDataToSend(playerEntity);
 
         // Tell them they are logged in.
-        dataToSend.isLoggedIn = true;
+        dataToSend.isLoggedIn = account.isLoggedIn;
 
         // To uniquely identify accounts on the client.
         dataToSend.accountId = account._id;

@@ -3,8 +3,6 @@ import { rowColOffsetToDirection, getRowColsToSides } from './Directions';
 
 describe('directions', () => {
     test('should return the correct directions', async() => {
-        console.log('correct dirs');
-
         expect(rowColOffsetToDirection(-1, 0)).toEqual(Directions.UP);
 
         expect(rowColOffsetToDirection(1, 0)).toEqual(Directions.DOWN);

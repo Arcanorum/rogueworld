@@ -58,6 +58,9 @@ jspm_packages/
 .next
 out
 
+# jest-mongodb generated file
+globalConfig.json
+
 # User specific configs
 Settings.yaml
 

@@ -4,13 +4,13 @@ import { Directions, Offset, RowCol } from '@rogueworld/types';
  * Converts a row and column offset into a direction.
  */
 export const rowColOffsetToDirection = (rowOffset: Offset, colOffset: Offset) => {
-    if (rowOffset < 0) return Directions.UP;
+    if (rowOffset === -1) return Directions.UP;
 
-    if (rowOffset > 0) return Directions.DOWN;
+    if (rowOffset === 1) return Directions.DOWN;
 
-    if (colOffset < 0) return Directions.LEFT;
+    if (colOffset === -1) return Directions.LEFT;
 
-    if (colOffset > 0) return Directions.RIGHT;
+    if (colOffset === 1) return Directions.RIGHT;
 
     return Directions.UP;
 };

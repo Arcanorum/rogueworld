@@ -6,7 +6,7 @@ const { Biological } = DamageTypes;
 class Disease extends StatusEffect { }
 
 Disease.prototype._effectDamageAmount = 3;
-Disease.prototype._effectDamageTypes = [ Biological ];
+Disease.prototype._effectDamageTypes = [Biological];
 Disease.prototype._effectDamagePenetration = 100;
 Disease.prototype._startingEffectsRemaining = 20;
 Disease.prototype._effectRate = 4000;

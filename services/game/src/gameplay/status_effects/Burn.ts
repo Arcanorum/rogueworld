@@ -32,7 +32,7 @@ class Burn extends StatusEffect {
 
 Burn.prototype._effectOnStart = true;
 Burn.prototype._effectDamageAmount = 10;
-Burn.prototype._effectDamageTypes = [ Physical, Magical ];
+Burn.prototype._effectDamageTypes = [Physical, Magical];
 Burn.prototype._effectDamagePenetration = 50;
 Burn.prototype._startingEffectsRemaining = 3;
 Burn.prototype._startEffectEventName = 'effect_start_burn';

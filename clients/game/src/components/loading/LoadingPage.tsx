@@ -64,7 +64,7 @@ function LoadingPage() {
 
     useEffect(() => {
         setHint(randomHints[currentHintIndex]);
-    }, [currentHintIndex]);
+    }, [randomHints, currentHintIndex]);
 
     const nextHintPressed = () => {
         if (currentHintIndex === randomHints.length - 1) {

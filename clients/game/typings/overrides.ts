@@ -4,4 +4,6 @@
  * can do it here.
  */
 
-export default null;
+const overrides = null;
+
+export default overrides;

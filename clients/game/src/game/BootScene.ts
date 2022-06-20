@@ -133,7 +133,7 @@ class BootScene extends Phaser.Scene {
 
         if (Config.Settings.DEV_MODE === false) {
             // Disable the right click context menu on the game in prod.
-            document.getElementById('game-cont')!.addEventListener('contextmenu', (event) => event.preventDefault());
+            document.getElementById('game-cont').addEventListener('contextmenu', (event) => event.preventDefault());
         }
 
         // Start the game state.

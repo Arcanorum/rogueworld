@@ -15,7 +15,7 @@ function App() {
 
     useEffect(() => {
         // Hide the initial page load loading message.
-        document.getElementById('page-load')!.style.display = 'none';
+        document.getElementById('page-load').style.display = 'none';
 
         // Preload the hint images, or they might not be ready during the loading screen, which makes them a bit pointless.
         Hints.forEach((hintConfig) => {

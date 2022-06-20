@@ -254,7 +254,7 @@ const Entity = () => {
         const dynamic = Global.gameScene.dynamics[data.id];
         if (!dynamic) return;
 
-        const { spriteContainer } = dynamic;
+        // const { spriteContainer } = dynamic;
 
         // TODO: maybe still need this in case want to tell other players when someone clicks in a direction, i.e. side to side, but without moving.
     };

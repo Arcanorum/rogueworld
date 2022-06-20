@@ -19,9 +19,9 @@ class Player extends Entity {
     constructor(x: number, y: number, config: any) {
         super(x, y, config);
 
-        this.bringToTop(this.curseEffect!);
-        this.bringToTop(this.enchantmentEffect!);
-        this.bringToTop(this.displayName!);
+        this.bringToTop(this.curseEffect);
+        this.bringToTop(this.enchantmentEffect);
+        this.bringToTop(this.displayName);
         this.sendToBack(this.baseSprite);
 
         const style = {

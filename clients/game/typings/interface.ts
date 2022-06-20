@@ -2,4 +2,6 @@
  * Put and export your interfaces here
  */
 
-export default null;
+const anInterface = null;
+
+export default anInterface;

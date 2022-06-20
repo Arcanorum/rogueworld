@@ -62,11 +62,11 @@ function Meters() {
     const [combatTimer, setCombatTimer] = useState(0);
 
     let combatTimerUpdateInterval = -1;
-    let combatTimerInternal = 0;
+    let combatTimerInterval = 0;
 
     const updateCombatTimer = () => {
-        combatTimerInternal = Math.max(0, combatTimerInternal - 1000);
-        setCombatTimer(Math.ceil(combatTimerInternal / 1000));
+        combatTimerInterval = Math.max(0, combatTimerInterval - 1000);
+        setCombatTimer(Math.ceil(combatTimerInterval / 1000));
     };
 
     const refreshCombatTimer = () => {
@@ -95,8 +95,8 @@ function Meters() {
                 if (Number.isNaN(data)) {
                     data = 0;
                 }
-                combatTimerInternal = data;
-                setCombatTimer(Math.ceil(combatTimerInternal / 1000));
+                combatTimerInterval = data;
+                setCombatTimer(Math.ceil(combatTimerInterval / 1000));
                 refreshCombatTimer();
             }),
         ];

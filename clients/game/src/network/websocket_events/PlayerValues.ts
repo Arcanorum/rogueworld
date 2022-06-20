@@ -89,7 +89,7 @@ const PlayerValues = () => {
         PlayerState.setGlory(data);
     };
 
-    eventResponses.exp_gained = (data) => {
+    eventResponses.exp_gained = () => {
         //
     };
 };

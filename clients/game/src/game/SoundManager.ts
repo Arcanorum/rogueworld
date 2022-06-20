@@ -232,7 +232,7 @@ class SoundManager {
             const values = paths.map(context) as Array<string>;
             // Add each class to the list by file name.
             return paths.reduce((list, path, index) => {
-                const end = path.split('/').pop()!;
+                const end = path.split('/').pop();
                 // Trim the "mp3", "ogg", or "opus" from the end of the file name.
                 let fileName = '';
                 if (end.slice(end.length - 4) === '.mp3') {

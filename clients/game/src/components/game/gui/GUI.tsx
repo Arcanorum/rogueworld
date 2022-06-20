@@ -98,7 +98,7 @@ function GUI() {
         if (shownPanel === Panels.CreateAccount) {
             setShownPanel(Panels.Account);
         }
-    }, [loggedIn]);
+    }, [shownPanel, loggedIn]);
 
     useEffect(() => {
         GUIState.setActivePanel(shownPanel);

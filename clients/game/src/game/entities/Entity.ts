@@ -216,7 +216,7 @@ class Entity extends Container {
      */
     onPointerDown(pointer, x, y, event) {
         // Only do game canvas related logic if the input wasn't over any other GUI element.
-        if ((pointer.event.target as Element)!.id !== 'game-canvas') return;
+        if ((pointer.event.target as Element).id !== 'game-canvas') return;
 
         // Prevent the pointer event from bubbling up to the scene, so it doesn't try to do a tile
         // action as well.

@@ -2,13 +2,11 @@ import PubSub from 'pubsub-js';
 import { ReactElement } from 'react';
 import { GUIState } from '.';
 import Panels from '../../components/game/gui/panels/Panels';
-import PanelTemplate from '../../components/game/gui/panels/panel_template/PanelTemplate';
 import Entity from '../../game/entities/Entity';
 import {
     CURSOR_MOVE,
     TOOLTIP_CONTENT,
     CRAFTING_STATION,
-    SHOP,
     STOCK_PRICES,
     PANEL_CHANGE,
     SHOW_CHAT_BOX,

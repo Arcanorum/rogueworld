@@ -11,7 +11,7 @@ import MapPanel from './panels/map/MapPanel';
 import InventoryPanel from './panels/inventory/InventoryPanel';
 import CraftingPanel from './panels/crafting/CraftingPanel';
 // import BankPanel from './panels/bank/BankPanel';
-import ShopPanel from './panels/shop/ShopPanel';
+// import ShopPanel from './panels/shop/ShopPanel';
 import ChangeNamePanel from './panels/change_name/ChangeNamePanel';
 
 function GUIPanelWindows({
@@ -87,11 +87,11 @@ function GUIPanelWindows({
                     onCloseCallback={closePanelCallback}
                 />
             )} */}
-            {shownPanel === Panels.Shop && (
+            {/* {shownPanel === Panels.Shop && (
                 <ShopPanel
                     onCloseCallback={closePanelCallback}
                 />
-            )}
+            )} */}
         </>
     );
 }

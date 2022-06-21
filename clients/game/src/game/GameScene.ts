@@ -253,7 +253,7 @@ class GameScene extends Phaser.Scene {
 
         // Start the default background music.
         const music = this.soundManager.music;
-        music.changeBackgroundMusic(music.sounds['exploration-theme']);
+        music.startMusic(music.sounds['exploration-theme']);
 
         this.subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {

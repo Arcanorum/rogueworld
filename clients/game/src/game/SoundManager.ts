@@ -3,9 +3,17 @@ import Config from '../shared/Config';
 import Global from '../shared/Global';
 import { GUIState } from '../shared/state';
 
+interface HTML5AudioSound extends Phaser.Sound.HTML5AudioSound {
+    fadeTween?: Phaser.Tweens.Tween;
+}
+
+interface WebAudioSound extends Phaser.Sound.WebAudioSound {
+    fadeTween?: Phaser.Tweens.Tween;
+}
+
 type SoundType = (
-    Phaser.Sound.HTML5AudioSound |
-    Phaser.Sound.WebAudioSound
+    HTML5AudioSound |
+    WebAudioSound
 );
 
 class Music {
@@ -38,11 +46,41 @@ class Music {
         });
     }
 
+    startMusic(sound: SoundType) {
+        this.currentBackgroundMusic = sound;
+
+        this.currentBackgroundMusic.fadeTween?.stop();
+
+        sound.play({
+            loop: true,
+        });
+
+        // Fade playing the audio in.
+        this.currentBackgroundMusic.fadeTween = Global.gameScene.tweens.add({
+            targets: this.currentBackgroundMusic,
+            volume: {
+                getStart() {
+                    return 0;
+                },
+                getEnd() {
+                    return GUIState.musicVolume / 100;
+                },
+            },
+            duration: 2000,
+            ease: 'Linear',
+        });
+    }
+
     changeBackgroundMusic(sound: SoundType) {
+        // Don't bother if it is already playing.
+        if(sound === this.currentBackgroundMusic) return;
+
         const fromMusic = this.currentBackgroundMusic;
 
+        fromMusic.fadeTween?.stop();
+
         // Fade out the current audio.
-        Global.gameScene.tweens.add({
+        fromMusic.fadeTween = Global.gameScene.tweens.add({
             targets: fromMusic,
             volume: {
                 getStart() {
@@ -59,26 +97,7 @@ class Music {
             },
         });
 
-        sound.play({
-            loop: true,
-        });
-
-        this.currentBackgroundMusic = sound;
-
-        // Fade playing the audio in.
-        Global.gameScene.tweens.add({
-            targets: this.currentBackgroundMusic,
-            volume: {
-                getStart() {
-                    return 0;
-                },
-                getEnd() {
-                    return GUIState.musicVolume / 100;
-                },
-            },
-            duration: 2000,
-            ease: 'Linear',
-        });
+        this.startMusic(sound);
     }
 }
 

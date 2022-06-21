@@ -1,3 +1,5 @@
+@import "../../../../shared/Variables.scss";
+
 .meters {
     position: absolute;
     left: 50%;
@@ -33,6 +35,35 @@
             margin-top: 12px;
         }
     }
+
+    .new-items {
+        position: absolute;
+        left: 0;
+        bottom: 120px;
+        
+        .new-item {
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            left: -80px;
+
+            animation: bounce-up 1s ease-out forwards;
+
+            img {
+                height: 48px;
+            }
+        }
+    }
+
+    @keyframes bounce-up {
+        from {
+              transform: translateY(0);
+        }
+        to {
+            transform: translateY(-60px);
+        }
+      }
 
     .shake-horizontal {
         -webkit-animation: shake-horizontal 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -95,5 +126,4 @@
                 transform: translateX(-7px);
         }
     }
-  
 }

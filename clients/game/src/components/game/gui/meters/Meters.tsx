@@ -12,13 +12,17 @@ import guiStyles from '../GUI.module.scss';
 import {
     HITPOINTS_VALUE, MAX_HITPOINTS_VALUE, FOOD_VALUE, MAX_FOOD_VALUE,
     COMBAT_STATUS_TRIGGER,
+    ADD_INVENTORY_ITEM,
+    MODIFY_INVENTORY_ITEM,
 } from '../../../../shared/EventTypes';
-import { GUIState } from '../../../../shared/state';
+import { GUIState, InventoryState } from '../../../../shared/state';
 import inventoryIcon from '../../../../assets/images/gui/hud/inventory-icon.png';
 import craftIcon from '../../../../assets/images/gui/hud/craft-icon.png';
 import PanelButton from '../panel_button/PanelButton';
 import Panels from '../panels/Panels';
 import getTextDef from '../../../../shared/GetTextDef';
+import ItemIconsList from '../../../../shared/ItemIconsList';
+import Config from '../../../../shared/Config';
 
 // How many of the little circle counters to show on each meter bar.
 const maxCounters = 20;
@@ -48,6 +52,25 @@ function Counters({
     }</>;
 }
 
+interface INewItem {
+    key: string;
+    typeCode: string;
+    quantity: number;
+    timeout: NodeJS.Timeout;
+}
+
+function NewItem(config: INewItem) {
+    return (
+        <div key={config.key} className={styles['new-item']}>
+            <img
+                src={ItemIconsList[Config.ItemTypes[config.typeCode].iconSource]}
+                draggable={false}
+            />
+            <div className={'high-contrast-text'}>+{config.quantity}</div>
+        </div>
+    );
+}
+
 const Tooltip = (content: ReactElement | string) => (
     <div style={{ width: '500px' }}>{content}</div>
 );
@@ -58,6 +81,8 @@ function Meters() {
 
     const [food, setFood] = useState(0);
     const [maxFood, setMaxFood] = useState(0);
+
+    const [newItems, setNewItems] = useState<Array<INewItem>>([]);
 
     const [combatTimer, setCombatTimer] = useState(0);
 
@@ -76,6 +101,23 @@ function Meters() {
         combatTimerUpdateInterval = window.setInterval(() => updateCombatTimer(), 1000);
     };
 
+    const addNewItem = (typeCode: string, quantity: number) => {
+        const key = `${Date.now()}`;
+        setNewItems(
+            prev => [
+                ...prev,
+                {
+                    key,
+                    typeCode,
+                    quantity,
+                    timeout: setTimeout(() => {
+                        setNewItems(prev => [...prev.slice(1)]);
+                    }, 2000),
+                },
+            ],
+        );
+    };
+
     useEffect(() => {
         const subs = [
             PubSub.subscribe(HITPOINTS_VALUE, (msg, data) => {
@@ -89,6 +131,18 @@ function Meters() {
             }),
             PubSub.subscribe(MAX_FOOD_VALUE, (msg, data) => {
                 setMaxFood(data.new);
+            }),
+            PubSub.subscribe(ADD_INVENTORY_ITEM, (msg, data) => {
+                addNewItem(data.typeCode, data.quantity);
+            }),
+            PubSub.subscribe(MODIFY_INVENTORY_ITEM, (msg, data) => {
+                if(!data) return;
+
+                const diff = data.new.quantity - data.old.quantity;
+
+                if(diff <= 0) return;
+
+                addNewItem(InventoryState.items[data.new.slotIndex].typeCode, diff);
             }),
             PubSub.subscribe(COMBAT_STATUS_TRIGGER, (msg, data) => {
                 data = parseInt(data, 10);
@@ -115,6 +169,11 @@ function Meters() {
 
     return (
         <div className={styles['meters']}>
+            <div className={styles['new-items']}>
+                {newItems.map((newItem) => {
+                    return NewItem(newItem);
+                })}
+            </div>
             <div className={styles['inventory-button']}>
                 <PanelButton
                     icon={inventoryIcon.src}

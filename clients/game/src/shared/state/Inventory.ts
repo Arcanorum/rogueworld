@@ -180,13 +180,23 @@ class Inventory {
         });
     }
 
-    modifyItem(itemState: ItemState) {
+    modifyItem(itemState: {
+        slotIndex: number;
+        quantity: number;
+        totalWeight: number;
+    }) {
         const item = this.items[itemState.slotIndex];
 
         if (!item) {
             warning('Cannot modify item in inventory. Invalid slot index given. Config:', itemState);
             return;
         }
+
+        const oldItemState = {
+            slotIndex: item.slotIndex,
+            quantity: item.quantity,
+            totalWeight: item.totalWeight,
+        };
 
         if (itemState.quantity) {
             item.quantity = itemState.quantity;
@@ -196,7 +206,7 @@ class Inventory {
             warning('Cannot modify item in inventory. No quantity given. Config:', itemState);
         }
 
-        PubSub.publish(MODIFY_INVENTORY_ITEM, { new: itemState });
+        PubSub.publish(MODIFY_INVENTORY_ITEM, { new: itemState, old: oldItemState });
     }
 
     setWeight(value: number) {

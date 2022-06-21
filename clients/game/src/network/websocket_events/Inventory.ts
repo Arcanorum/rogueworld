@@ -17,7 +17,11 @@ const Inventory = () => {
         InventoryState.removeAllFromInventory();
     };
 
-    eventResponses.modify_inventory_item = (data: ItemState) => {
+    eventResponses.modify_inventory_item = (data: {
+        slotIndex: number;
+        quantity: number;
+        totalWeight: number;
+    }) => {
         InventoryState.modifyItem(data);
     };
 

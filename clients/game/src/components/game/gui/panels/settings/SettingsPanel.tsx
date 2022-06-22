@@ -6,9 +6,10 @@ import toggleInactiveIcon from '../../../../../assets/images/gui/panels/settings
 import plusIcon from '../../../../../assets/images/gui/hud/plus-icon.png';
 import minusIcon from '../../../../../assets/images/gui/hud/minus-icon.png';
 import styles from './SettingsPanel.module.scss';
+import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import Global from '../../../../../shared/Global';
 import { GUIState, InventoryState } from '../../../../../shared/state';
-import { getStyle, warning } from '@rogueworld/utils';
+import { warning } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function MinusButton({
@@ -21,7 +22,7 @@ function MinusButton({
     return (
         <img
             src={minusIcon.src}
-            className={`button ${state === 0 ? 'disabled' : ''}`}
+            className={`${styles['button']} ${state === 0 ? styles['disabled'] : ''}`}
             draggable={false}
             onClick={() => {
                 setter(state - 5);
@@ -40,7 +41,7 @@ function PlusButton({
     return (
         <img
             src={plusIcon.src}
-            className={`button ${state === 200 ? 'disabled' : ''}`}
+            className={`${styles['button']} ${state === 200 ? styles['disabled'] : ''}`}
             draggable={false}
             onClick={() => {
                 setter(state + 5);
@@ -150,7 +151,7 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     };
 
     return (
-        <div className="settings-panel centered panel-template-cont">
+        <div className={`${styles['settings-panel']} ${panelTemplateStyles.centered} ${panelTemplateStyles['panel-template-cont']}`}>
             <PanelTemplate
                 width="50vw"
                 height="80vh"
@@ -158,84 +159,69 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 icon={settingsIcon.src}
                 onCloseCallback={onCloseCallback}
             >
-                <div className="inner-cont">
-                    <div className="rows">
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Fullscreen')}</span>
-                            <div className="action">
+                <div className={styles['inner-cont']}>
+                    <div className={styles['rows']}>
+                        <div className={styles['row']}>
+                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Fullscreen')}</span>
+                            <div className={styles['action']}>
                                 <img
                                     src={fullscreen ? toggleActiveIcon.src : toggleInactiveIcon.src}
-                                    className="button"
+                                    className={styles['button']}
                                     draggable={false}
                                     onClick={onFullscreenTogglePressed}
                                 />
                             </div>
                         </div>
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Music volume')}</span>
-                            <div className="action">
+                        <div className={styles['row']}>
+                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Music volume')}</span>
+                            <div className={styles['action']}>
                                 <MinusButton state={musicVolume} setter={setMusicVolume} />
-                                <span className="high-contrast-text value">{`${musicVolume}%`}</span>
+                                <span className={`high-contrast-text ${styles['value']}`}>{`${musicVolume}%`}</span>
                                 <PlusButton state={musicVolume} setter={setMusicVolume} />
                             </div>
                         </div>
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Effects volume')}</span>
-                            <div className="action">
+                        <div className={styles['row']}>
+                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Effects volume')}</span>
+                            <div className={styles['action']}>
                                 <MinusButton state={effectsVolume} setter={setEffectsVolume} />
-                                <span className="high-contrast-text value">{`${effectsVolume}%`}</span>
+                                <span className={`high-contrast-text ${styles['value']}`}>{`${effectsVolume}%`}</span>
                                 <PlusButton state={effectsVolume} setter={setEffectsVolume} />
                             </div>
                         </div>
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Add to hotbar')}</span>
-                            <div className="action">
+                        <div className={styles['row']}>
+                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Add to hotbar')}</span>
+                            <div className={styles['action']}>
                                 <img
                                     src={autoAddToHotbar
                                         ? toggleActiveIcon.src
                                         : toggleInactiveIcon.src}
-                                    className="button"
+                                    className={styles['button']}
                                     draggable={false}
                                     onClick={onAutoAddToHotbarTogglePressed}
                                 />
                             </div>
                         </div>
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Profanity filter')}</span>
-                            <div className="action">
+                        <div className={styles['row']}>
+                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Profanity filter')}</span>
+                            <div className={styles['action']}>
                                 <img
                                     src={
                                         profanityFilterEnabled
                                             ? toggleActiveIcon.src
                                             : toggleInactiveIcon.src
                                     }
-                                    className="button"
+                                    className={styles['button']}
                                     draggable={false}
                                     onClick={onProfanityFilterTogglePressed}
                                 />
                             </div>
                         </div>
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Light flicker')}</span>
-                            <div className="action">
-                                <img
-                                    src={
-                                        lightFlickerEnabled ?
-                                            toggleActiveIcon.src :
-                                            toggleInactiveIcon.src
-                                    }
-                                    className="button"
-                                    draggable={false}
-                                    onClick={onLightFlickerTogglePressed}
-                                />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <span className="high-contrast-text description">{getTextDef('Setting: Show FPS')}</span>
-                            <div className="action">
+                        <div className={styles['row']}>
+                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Show FPS')}</span>
+                            <div className={styles['action']}>
                                 <img
                                     src={showFPS ? toggleActiveIcon.src : toggleInactiveIcon.src}
-                                    className="button"
+                                    className={styles['button']}
                                     draggable={false}
                                     onClick={onShowFPSTogglePressed}
                                 />

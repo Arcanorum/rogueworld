@@ -55,17 +55,6 @@ export const digestMessage = async(message: string) => {
     return hashHex;
 };
 
-export const getStyle = (className: string) => {
-    const classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
-    for (let x = 0; x < classes.length; x += 1) {
-        const cssClass = (classes[x] as CSSStyleRule);
-        if (cssClass.selectorText === className) {
-            return cssClass.style;
-        }
-    }
-    return false;
-};
-
 export * from './Arrays';
 export * from './Logging';
 export * from './Profanity';

@@ -163,7 +163,7 @@ class Inventory {
         this.loadHotBarRequest = `${this.userAccountId}_hotbar`;
         const loadStorageHotbar = window.localStorage.getItem(this.loadHotBarRequest);
         // If the session does not exist or user is not logged in
-        if (this.userAccountId === null || loadStorageHotbar === null) {
+        if (!this.userAccountId || !loadStorageHotbar) {
             this.defaultHotBar();
             return;
         }

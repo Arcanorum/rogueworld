@@ -22,5 +22,11 @@ module.exports = {
             args: 'run prod -w services/map',
             exp_backoff_restart_delay: 1000,
         },
+        {
+            name: 'Language service',
+            script: 'npm',
+            args: 'run prod -w services/map',
+            exp_backoff_restart_delay: 1000,
+        },
     ],
 };

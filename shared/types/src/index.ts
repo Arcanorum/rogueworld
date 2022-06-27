@@ -6,4 +6,5 @@ export * from './ItemCategories';
 export * from './ItemClientConfig';
 export * from './ObjectOf';
 export * from './RowCol';
+export { default as TextDefinitions } from './TextDefinitions';
 export * from './Times';

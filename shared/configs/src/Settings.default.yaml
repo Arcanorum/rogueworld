@@ -23,11 +23,19 @@ GAME_SERVICE_PORT: 1111
 
 # URL of the map service. e.g. rogueworld.io (reverse-proxied to where ever the service is running).
 # Example Caddyfile rule
-# reverse_proxy /map/* 154.72.186.149:4567
+# reverse_proxy /map/* 154.72.186.149:2222
 MAP_SERVICE_URL: localhost:2222
 
 # Port number of the map service. Should match whatever is set for the port in MAP_SERVICE_URL.
 MAP_SERVICE_PORT: 2222
+
+# URL of the language service. e.g. rogueworld.io (reverse-proxied to where ever the service is running).
+# Example Caddyfile rule
+# reverse_proxy /language/* 154.72.186.149:4444
+LANGUAGE_SERVICE_URL: localhost:4444
+
+# Port number of the language service. Should match whatever is set for the port in LANGUAGE_SERVICE_URL.
+LANGUAGE_SERVICE_PORT: 4444
 
 # Absolute path to where ever the Tiled tmxrasterizer script is installed.
 # Tiled comes with tmxrasterizer which is used by the map service to generate the source images of

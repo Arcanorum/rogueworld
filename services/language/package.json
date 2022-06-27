@@ -1,0 +1,23 @@
+{
+    "name": "@rogueworld/language-service",
+    "version": "1.0.0",
+    "description": "REST API for getting the translations of the in-game text for the selected language.",
+    "scripts": {
+        "dev": "nodemon src/Server.ts",
+        "prod": "npx ts-node --transpile-only src/Server.ts"
+    },
+    "module": "esnext",
+    "nodemonConfig": {
+        "watch": [
+            "src",
+            "../../shared/configs",
+            "../../shared/types",
+            "../../shared/utils"
+        ],
+        "ignore": [
+            "src/build/*"
+        ],
+        "ext": "ts,js,json,yaml",
+        "verbose": true
+    }
+}

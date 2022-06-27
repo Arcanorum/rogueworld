@@ -1,7 +1,8 @@
 import { Settings } from '@rogueworld/configs';
-import { message, warning } from '@rogueworld/utils';
+import { initService, message, warning } from '@rogueworld/utils';
 import express from 'express';
 import path from 'path';
+initService();
 
 const expressServer = express();
 
@@ -9,7 +10,7 @@ const port = Settings.MAP_SERVICE_PORT || 2222;
 
 expressServer.listen(
     port,
-    () => { message(`Map server ready on port ${port}`); },
+    () => { message(`Map service ready on port ${port}`); },
 );
 
 expressServer.get('/map/:z/:x/:y', (req, res) => {

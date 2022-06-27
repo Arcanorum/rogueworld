@@ -1,8 +1,0 @@
-{
-    "name": "@rogueworld/translations-service",
-    "version": "1.0.0",
-    "description": "REST API for getting translations of the in-game text when other languages are selected.",
-    "scripts": {
-        "start": "npx ts-node src/Server.ts"
-    }
-}

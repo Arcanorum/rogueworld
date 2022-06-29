@@ -11,7 +11,7 @@ import getTextDefinitions from './TextDefinitionsParser';
 
     const expressServer = express();
 
-    const port = Settings.LANGUAGE_SERVICE_PORT || 2222;
+    const port = Settings.LANGUAGE_SERVICE_PORT || 4444;
 
     expressServer.listen(
         port,

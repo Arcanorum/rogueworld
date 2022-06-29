@@ -2,15 +2,15 @@ import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { init } from '../shared/Config';
-import { loadSettings } from '@rogueworld/configs';
+import { loadSettings, loadTranslations } from '@rogueworld/configs';
 
 const App = dynamic(
     () => import('../components/App'),
     { ssr: false },
 );
 
-const HomePage = ({ Settings }) => {
-    init(Settings);
+const HomePage = ({ Settings, TextDefs }) => {
+    init({ Settings, TextDefs });
 
     return (
         <>
@@ -31,10 +31,16 @@ export async function getStaticProps() {
     // Anything from the @rogueworld/configs package that is needed in this client app should be
     // added here (basically just copy pasted from the index file that lists the exported configs).
     const Settings = loadSettings(pathToConfigs);
+    const Translations = loadTranslations(pathToConfigs);
 
     return {
         props: {
             Settings,
+            // Only load English by default. Get another language on demand from the language service.
+            // Avoids having them all loaded at once when only one is being used.
+            TextDefs: {
+                English: Translations['English'],
+            },
         },
     };
 }

@@ -1,10 +1,6 @@
-import { EntityClientConfig, ItemClientConfig, ObjectOfAny, ObjectOfStrings } from '@rogueworld/types';
+import { EntityClientConfig, ItemClientConfig, ObjectOfAny, TextDefinitions } from '@rogueworld/types';
 import { CraftingRecipe } from './types';
 import Entity from '../game/entities/Entity';
-
-interface TextDefsType {
-    [key: string]: ObjectOfStrings;
-}
 
 interface ItemTypes {
     [key: string]: ItemClientConfig;
@@ -78,7 +74,7 @@ const Config = {
     ANIMATED_NUMBER_FORMAT: (value: number) => value.toFixed(0),
 
     /** The catalogue of text definitions for the selected language. */
-    TextDefs: {} as TextDefsType,
+    TextDefs: {} as TextDefinitions,
 
     /** The catalogue of all item types, including most of how it is configured. */
     ItemTypes: {} as ItemTypes,
@@ -91,16 +87,17 @@ const Config = {
     EntitiesList: {} as EntitiesList,
 };
 
-export const init = (Settings: ObjectOfAny) => {
+export const init = (config: {Settings: ObjectOfAny; TextDefs: TextDefinitions}) => {
     // Make the settings available to the rest of the app at runtime through the globalish config object.
-    Config.Settings = Settings;
+    Config.Settings = config.Settings;
+    Config.TextDefs = config.TextDefs;
 
-    Config.GAME_SCALE = Settings.CLIENT_DISPLAY_SCALE;
+    Config.GAME_SCALE = Config.Settings.CLIENT_DISPLAY_SCALE;
 
     Config.SCALED_TILE_SIZE = Config.TILE_SIZE * Config.GAME_SCALE;
     Config.CENTER_OFFSET = Config.SCALED_TILE_SIZE * 0.5;
 
-    Config.VIEW_RANGE = Settings.PLAYER_VIEW_RANGE;
+    Config.VIEW_RANGE = Config.Settings.PLAYER_VIEW_RANGE;
     Config.VIEW_DIAMETER = (1 + Config.VIEW_RANGE * 2);
 };
 

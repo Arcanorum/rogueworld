@@ -1,3 +1,11 @@
+import { TextDefinitions } from '@rogueworld/types';
+import parseXLSXWorkbookSheet from './ParseXLSXWorkbookSheet';
+
+export * from './Arrays';
+export * from './Logging';
+export * from './Profanity';
+export { default as parseXLSXWorkbookSheet } from './ParseXLSXWorkbookSheet';
+
 interface BoardPoint {
     row: number;
     col: number;
@@ -55,6 +63,14 @@ export const digestMessage = async(message: string) => {
     return hashHex;
 };
 
-export * from './Arrays';
-export * from './Logging';
-export * from './Profanity';
+export const xlsxWorkbookToTextDefs = (workbook: any) => {
+    const asJSON: TextDefinitions = {};
+
+    const firstTabIndex = 0;
+
+    for (let i = firstTabIndex; i < workbook.SheetNames.length; i += 1) {
+        parseXLSXWorkbookSheet(workbook, workbook.SheetNames[i], asJSON);
+    }
+
+    return asJSON;
+};

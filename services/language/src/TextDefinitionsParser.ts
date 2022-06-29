@@ -1,10 +1,8 @@
-import { TextDefinitions } from '@rogueworld/types';
-import { message, warning } from '@rogueworld/utils';
+import { message, warning, xlsxWorkbookToTextDefs } from '@rogueworld/utils';
 import { ensureDirSync, readFileSync } from 'fs-extra';
 import path from 'path';
 import { read } from 'xlsx';
 import downloadFile from './DownloadFile';
-import parseSheet from './ParseSheet';
 
 export default async function getTextDefinitions() {
     const URL = 'https://docs.google.com/spreadsheets/d/1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA/export?format=xlsx&id=1n6jSigPBWrubNQMTz00GsLIh3U8CMtfZH8wMFYmfHaA';
@@ -35,20 +33,16 @@ export default async function getTextDefinitions() {
 
         const workbook = read(buffer);
 
-        const defsAsJSON: TextDefinitions = {};
-
-        const firstTabIndex = 0;
-
-        for (let i = firstTabIndex; i < workbook.SheetNames.length; i += 1) {
-            parseSheet(workbook, workbook.SheetNames[i], defsAsJSON);
-        }
+        const textDefs = xlsxWorkbookToTextDefs(workbook);
 
         message('Translations spreadsheet loaded.');
 
-        return defsAsJSON;
+        return textDefs;
     }
     catch(err2) {
         warning('Error loading fallback.');
+
+        // TODO: load the static translations data from config package as last resort.
     }
 
     return {};

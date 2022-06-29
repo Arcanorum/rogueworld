@@ -7,7 +7,11 @@ import { TextDefinitions } from '@rogueworld/types';
  * @param defs The definitions so far, to add this sheet's contents to.
  * @returns The definitions so far with this sheed added.
  */
-export default function parseSheet(workbook: any, sheetName: string, defs: TextDefinitions) {
+export default function parseXLSXWorkbookSheet(
+    workbook: any,
+    sheetName: string,
+    defs: TextDefinitions,
+) {
     // Get the worksheet.
     const worksheet = workbook.Sheets[sheetName];
     // Some characters to loop though, to go across the columns.

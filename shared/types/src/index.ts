@@ -1,11 +1,11 @@
-export { default as ChatScopes } from './ChatScopes';
+export type { default as ChatScopes } from './ChatScopes';
 export { default as DayPhases } from './DayPhases';
 export * from './Directions';
 export { default as EntityCategories } from './EntityCategories';
 export * from './EntityClientConfig';
 export { default as ItemCategories } from './ItemCategories';
-export { default as ItemClientConfig } from './ItemClientConfig';
+export type { default as ItemClientConfig } from './ItemClientConfig';
 export * from './ObjectOf';
 export * from './RowCol';
-export { default as TextDefinitions } from './TextDefinitions';
+export type { default as TextDefinitions } from './TextDefinitions';
 export * from './Times';

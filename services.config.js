@@ -25,7 +25,7 @@ module.exports = {
         {
             name: 'Language service',
             script: 'npm',
-            args: 'run prod -w services/map',
+            args: 'run prod -w services/language',
             exp_backoff_restart_delay: 1000,
         },
     ],

@@ -7,7 +7,6 @@ import getTextDefinitions from './TextDefinitionsParser';
 
 (async() => {
     const textDefs = await getTextDefinitions();
-    // TODO: add some kind of retry logic if there are no defs, i.e. couldn't download the spreadsheet
 
     const expressServer = express();
 

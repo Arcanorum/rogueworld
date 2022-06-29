@@ -1,3 +1,5 @@
+import { Translations } from '@rogueworld/configs';
+import { TextDefinitions } from '@rogueworld/types';
 import { message, warning, xlsxWorkbookToTextDefs } from '@rogueworld/utils';
 import { ensureDirSync, readFileSync } from 'fs-extra';
 import path from 'path';
@@ -16,6 +18,8 @@ export default async function getTextDefinitions() {
 
     const filePath = `${buildPath}/Translations.xlsx`;
 
+    let textDefs: TextDefinitions = {};
+
     try {
         ensureDirSync(buildPath);
 
@@ -24,7 +28,7 @@ export default async function getTextDefinitions() {
         message('Latest translations spreadsheet version downloaded.');
     }
     catch(err) {
-        warning('Error getting latest translations spreadsheet version. Using local fallback.');
+        warning('Error getting latest translations spreadsheet version. Using latest successfully downloaded version.');
     }
 
     try {
@@ -33,17 +37,16 @@ export default async function getTextDefinitions() {
 
         const workbook = read(buffer);
 
-        const textDefs = xlsxWorkbookToTextDefs(workbook);
+        textDefs = xlsxWorkbookToTextDefs(workbook);
 
         message('Translations spreadsheet loaded.');
-
-        return textDefs;
     }
     catch(err2) {
-        warning('Error loading fallback.');
+        // Use the static translations data from config package as last resort.
+        warning('Error loading local backup. Using static fallback. This may be very out of date. :/');
 
-        // TODO: load the static translations data from config package as last resort.
+        if(Translations) textDefs = Translations;
     }
 
-    return {};
+    return textDefs;
 }

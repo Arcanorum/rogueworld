@@ -5,18 +5,19 @@ import Config from './Config';
  * Defaults to English if the definition is not found in the selected language.
  */
 function getTextDef(definitionId: string) {
-    if(!Config.TextDefs[Config.language]) return `??? ${definitionId} ???`;
+    if(!Config.TextDefs[Config.language]) return 'Unsupported language.';
 
-    const text = Config.TextDefs[Config.language][definitionId];
+    let text = Config.TextDefs[Config.language][definitionId];
     // Check if definition is defined for selected language.
-    if (text === null) {
-        // Use English instead.
-        return Config.TextDefs.English[definitionId];
-    }
-    // Check if the text def is even defined.
-    if (text === undefined) return `??? ${definitionId} ???`;
-    // Return the text, in the selected language.
-    return text;
+    if (text) return text;
+
+    // Use English instead as a fallback.
+    text = Config.TextDefs.English[definitionId];
+
+    if(text) return text;
+
+    // Check if the text def is even defined for English, which it should be is if it is valid.
+    return `??? ${definitionId} ???`;
 }
 
 export default getTextDef;

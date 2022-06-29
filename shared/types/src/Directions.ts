@@ -1,5 +1,5 @@
 import { getPermutations } from '@rogueworld/utils';
-import { RowCol, RowColOffset } from '.';
+import { RowColOffset } from '.';
 
 /**
  * Valid directions for relative movement. Entities don't have a direction they are facing as such,

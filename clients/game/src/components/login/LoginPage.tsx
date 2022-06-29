@@ -1,31 +1,28 @@
-import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
+import { useEffect, useState } from 'react';
 import News from './news/News';
 // import Partners from './partners/Partners';
+import { message } from '@rogueworld/utils';
+import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.png';
+import notFandomLogo from '../../assets/images/misc/branding/notfandom-logo.png';
+import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
+import notRedditLogo from '../../assets/images/misc/branding/notreddit-logo.png';
 import rogueworldLogo from '../../assets/images/misc/branding/rogueworld-title.png';
 import background from '../../assets/images/misc/home-background.gif';
-import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.png';
-import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
-import notFandomLogo from '../../assets/images/misc/branding/notfandom-logo.png';
-import notRedditLogo from '../../assets/images/misc/branding/notreddit-logo.png';
-import styles from './LoginPage.module.scss';
+import { ConnectionCloseTypes, connectToGameServer, joinGameContinue, joinGameNewCharacter } from '../../network/ConnectionManager';
+import Config from '../../shared/Config';
 import {
-    CONNECTED,
+    ALREADY_LOGGED_IN, CONNECTED,
     CONNECTING,
     INVALID_LOGIN_DETAILS,
     JOINED,
     JOINING,
-    WORLD_FULL,
-    WEBSOCKET_CLOSE,
     SOMETHING_WENT_WRONG,
-    ALREADY_LOGGED_IN,
+    WEBSOCKET_CLOSE,
+    WORLD_FULL,
 } from '../../shared/EventTypes';
-import {
-    connectToGameServer, joinGameContinue, joinGameNewCharacter, ConnectionCloseTypes,
-} from '../../network/ConnectionManager';
-import { message } from '@rogueworld/utils';
 import getTextDef from '../../shared/GetTextDef';
-import Config from '../../shared/Config';
+import styles from './LoginPage.module.scss';
 
 const Languages = [
     { listName: 'English', translationId: 'English' },
@@ -37,6 +34,9 @@ const Languages = [
     { listName: 'русский язык', translationId: 'Russian' },
     { listName: 'Polski', translationId: 'Polish' },
     { listName: '中文', translationId: 'Chinese' },
+    { listName: 'Tiếng Việt', translationId: 'Vietnamese' },
+    { listName: 'Hrvatski', translationId: 'Croatian' },
+    { listName: '한국어', translationId: 'Korean' },
 ];
 
 function LoginPage() {

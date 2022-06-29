@@ -1,0 +1,6 @@
+{
+    "name": "@rogueworld/node-utils",
+    "version": "1.0.0",
+    "description": "NodeJS specific utilities.",
+    "main": "src/index.ts"
+}

@@ -1,5 +1,3 @@
-import { Settings } from '@rogueworld/configs';
-
 interface BoardPoint {
     row: number;
     col: number;
@@ -17,20 +15,6 @@ export class Counter {
         return this.count;
     }
 }
-
-/**
- * General process initialisation to be done at the very start of any service.
- */
-export const initService = () => {
-    const devMode = Settings.DEV_MODE;
-
-    if(devMode || devMode === undefined) {
-        (process.env.NODE_ENV as string) = 'development';
-    }
-    else {
-        (process.env.NODE_ENV as string) = 'production';
-    }
-};
 
 /**
  * Gets a random number between, and including, min and max.

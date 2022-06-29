@@ -1,5 +1,5 @@
 import { Settings } from '@rogueworld/configs';
-import ChatScopes from '@rogueworld/types/src/ChatScopes';
+import { ChatScopes } from '@rogueworld/types';
 import { message, warning } from '@rogueworld/utils';
 import Commands from '../commands/Commands';
 import { webSocketServer as wss } from '../Server';

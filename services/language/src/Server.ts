@@ -1,5 +1,6 @@
 import { Settings } from '@rogueworld/configs';
-import { initService, message } from '@rogueworld/utils';
+import { initService } from '@rogueworld/node-utils';
+import { message } from '@rogueworld/utils';
 initService();
 import express from 'express';
 import getTextDefinitions from './TextDefinitionsParser';
@@ -26,7 +27,7 @@ import getTextDefinitions from './TextDefinitionsParser';
             return;
         }
 
-        // Always send back the English definitoons too, to use as a fallback as the text for English should always be defined.
+        // Always send back the English definitions too, to use as a fallback as the text for English should always be defined.
         res.send({
             English: textDefs['English'],
             [languageName]: textDefs[languageName],

@@ -1,4 +1,4 @@
-export interface ItemClientConfig {
+interface ItemClientConfig {
     typeName: string;
     typeCode: string;
     hasUseEffect: boolean;
@@ -9,3 +9,5 @@ export interface ItemClientConfig {
     pickupScaleModifier?: number;
     soundType?: string;
 }
+
+export default ItemClientConfig;

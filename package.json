@@ -12,6 +12,7 @@
   "dependencies": {
     "@rogueworld/configs": "*",
     "@rogueworld/maps": "*",
+    "@rogueworld/node-utils": "*",
     "@rogueworld/types": "*",
     "@rogueworld/utils": "*",
     "@shelf/jest-mongodb": "^3.0.1",
@@ -73,6 +74,7 @@
     "./services/language",
     "./shared/configs",
     "./shared/maps",
+    "./shared/node_utils",
     "./shared/types",
     "./shared/utils"
   ]

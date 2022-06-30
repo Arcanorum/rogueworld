@@ -2,6 +2,7 @@ import { Settings } from '@rogueworld/configs';
 import { initService } from '@rogueworld/node-utils';
 import { message } from '@rogueworld/utils';
 initService();
+import cors from 'cors';
 import express from 'express';
 import getTextDefinitions from './TextDefinitionsParser';
 
@@ -9,6 +10,8 @@ import getTextDefinitions from './TextDefinitionsParser';
     const textDefs = await getTextDefinitions();
 
     const expressServer = express();
+
+    expressServer.use(cors());
 
     const port = Settings.LANGUAGE_SERVICE_PORT || 4444;
 

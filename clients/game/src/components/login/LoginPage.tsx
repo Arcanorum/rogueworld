@@ -2,7 +2,7 @@ import PubSub from 'pubsub-js';
 import { useEffect, useState } from 'react';
 import News from './news/News';
 // import Partners from './partners/Partners';
-import { message } from '@rogueworld/utils';
+import { message, warning } from '@rogueworld/utils';
 import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.png';
 import notFandomLogo from '../../assets/images/misc/branding/notfandom-logo.png';
 import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
@@ -23,6 +23,7 @@ import {
 } from '../../shared/EventTypes';
 import getTextDef from '../../shared/GetTextDef';
 import styles from './LoginPage.module.scss';
+import { ApplicationState } from '../../shared/state';
 
 const Languages = [
     { listName: 'English', translationId: 'English' },
@@ -55,6 +56,34 @@ function LoginPage() {
 
     const [showLanguageList, setShowLanguageList] = useState(false);
 
+    if(Config.Settings.USE_SECURE_PROTOCOLS) {
+        // Live or test. Connect to server, which should be using SSL.
+        ApplicationState.languageServiceHTTPServerURL = `https://${Config.Settings.LANGUAGE_SERVICE_URL}`;
+    }
+    else {
+        // Connect without SSL for environments (localhost) that don't need it.
+        ApplicationState.languageServiceHTTPServerURL = `http://${Config.Settings.LANGUAGE_SERVICE_URL}`;
+    }
+
+    const changeLanguage = async(languageName: string) => {
+        try {
+            const url = `${ApplicationState.languageServiceHTTPServerURL}/language/${languageName}`;
+
+            const res = await fetch(url);
+
+            const json = await res.json();
+
+            Config.language = languageName;
+
+            Config.TextDefs = json;
+        }
+        catch(err) {
+            warning('Error changing language:', err);
+        }
+
+        setShowLanguageList(false);
+    };
+
     const playPressed = () => {
         message('Play pressed');
 
@@ -83,12 +112,6 @@ function LoginPage() {
 
             setConnectionIssue(null);
         }
-    };
-
-    const changeLanguage = (language: string) => {
-        Config.language = language;
-
-        setShowLanguageList(false);
     };
 
     useEffect(() => {

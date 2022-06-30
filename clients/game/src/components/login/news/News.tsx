@@ -7,7 +7,7 @@ function News() {
             <h1 className={styles['news-header']}>News</h1>
             <p className={styles['news-date']}>15/05/2022</p>
             <p className={styles['news-title']}>
-                Release
+                Test title
                 <br />
                 <br />
                 Welcome to Rogueworld

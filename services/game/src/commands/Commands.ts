@@ -13,7 +13,7 @@ interface Command {
     help: string;
 }
 
-const Commands: {[key: string]: Command} = {};
+const Commands: { [key: string]: Command } = {};
 
 Commands.help = {
     run: (player, ...options: [string]) => {
@@ -42,12 +42,10 @@ Commands.help = {
 };
 
 Commands.commands = {
-    run: () => {
-        return `
+    run: () => `
             Commands list:
             ${Object.keys(Commands).join('\n')}
-        `;
-    },
+        `,
     help: `
         Shows a list of all available chat commands.
     `,
@@ -70,7 +68,7 @@ Commands.spawnitem = {
 
         if (!EntitiesListByName[pickupTypeName]) return 'Invalid item type name.';
 
-        if(!player.board) return;
+        if (!player.board) return 'Player has no board... somehow.';
 
         new (EntitiesListByName[pickupTypeName] as typeof Pickup)({
             row: player.row,
@@ -81,6 +79,8 @@ Commands.spawnitem = {
                 quantity: size,
             }),
         }).emitToNearbyPlayers();
+
+        return false;
     },
     help: `
         Spawns an item pickup on the floor at your position.
@@ -117,9 +117,10 @@ Commands.spawnentity = {
 
         if (typeName === 'Player') return 'Restricted entity type.';
         if (!EntitiesListByName[typeName]) return 'Invalid entity type name.';
-        if (Object.prototype.hasOwnProperty.call(EntitiesListByName[typeName], 'abstract')) return 'Restricted entity type.';
+        if (Object.hasOwn(EntitiesListByName[typeName], 'abstract')) return 'Restricted entity type.';
 
-        let parsedRow = 0, parsedCol = 0;
+        let parsedRow = 0;
+        let parsedCol = 0;
 
         if (row) {
             // Use an offset from player row.
@@ -208,7 +209,8 @@ Commands.teleport = {
 
         if (!row || !col) return 'Missing inputs.';
 
-        let parsedRow = 0, parsedCol = 0;
+        let parsedRow = 0;
+        let parsedCol = 0;
 
         // Use an offset from player row.
         if (row.startsWith('+') || row.startsWith('-')) {

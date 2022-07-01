@@ -10,7 +10,8 @@ import Entity from './classes/Entity';
 import Drop, { DropConfig } from '../gameplay/Drop';
 
 /**
- * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract subclasses.
+ * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract
+ * subclasses.
  */
 const makeClass = ({
     name,
@@ -53,7 +54,7 @@ export const populateList = () => {
     // eslint-disable-next-line global-require
     requireDir('classes', {
         recurse: true,
-        mapKey: (value: {default: typeof Dynamic}, baseName: string) => {
+        mapKey: (value: { default: typeof Dynamic }, baseName: string) => {
             const EntityClass = value.default;
             if (typeof EntityClass === 'function') {
                 if (EntitiesList.BY_NAME[baseName]) {
@@ -70,7 +71,8 @@ export const populateList = () => {
                     if (EntitiesList.ABSTRACT_CLASSES[baseName]) {
                         error(`Cannot load abstract entity type "${baseName}", as it already exists in the abstract classes list.`);
                     }
-                    // Still add it to the separate list of abstract classes though, as it may still be needed.
+                    // Still add it to the separate list of abstract classes though, as it may
+                    // still be needed.
                     EntitiesList.ABSTRACT_CLASSES[baseName] = EntityClass;
                     return;
                 }
@@ -107,8 +109,9 @@ export const initialiseList = () => {
         const EntityClass = EntitiesList.BY_NAME[config.name] as typeof Dynamic;
         type PropName = keyof typeof Dynamic;
 
-        Object.entries(config).forEach(([_key, value]) => {
+        Object.entries(config).forEach(([_key, _value]) => {
             const key = _key as PropName;
+            let value = _value;
 
             if (_key === 'code') {
                 EntityClass.typeCode = value as string;
@@ -118,7 +121,7 @@ export const initialiseList = () => {
             }
 
             // Already used to create the entity class.
-            if(_key === 'extends') {
+            if (_key === 'extends') {
                 return;
             }
 
@@ -130,7 +133,7 @@ export const initialiseList = () => {
                     Object.getPrototypeOf(EntityClass)[key] === EntityClass[key]
                 ) {
                     // Add any specific config property loaders here.
-                    if(key === 'dropList') {
+                    if (key === 'dropList') {
                         if (!Array.isArray(value)) error('Invalid drop list given. Must be an array:', config.dropList);
 
                         const dropList: Array<Drop> = [];
@@ -143,8 +146,8 @@ export const initialiseList = () => {
                     }
 
                     // Check the given crafting station class is valid.
-                    if(key === 'craftingStationClass') {
-                        if(!CraftingStationClasses.includes(value as string)) {
+                    if (key === 'craftingStationClass') {
+                        if (!CraftingStationClasses.includes(value as string)) {
                             error('Invalid crafting station class given. Must be in the crafting station classes list:', config.craftingStationClass);
                         }
                     }
@@ -160,16 +163,13 @@ export const initialiseList = () => {
         });
     });
 
-    // EntitiesList.ABSTRACT_CLASSES.Mob.loadConfigs();
-
-    // EntitiesList.ABSTRACT_CLASSES.ResourceNode.loadConfigs();
-
     message('Finished initialising entities list. EntitiesList is ready to use.');
 };
 
 export const createCatalogue = () => {
-    // Write the registered entity types to the client, so the client knows what entity to add for each type number.
-    const dataToWrite: {[key: number]: EntityClientConfig} = {};
+    // Write the registered entity types to the client, so the client knows what entity to add for
+    // each type number.
+    const dataToWrite: { [key: number]: EntityClientConfig } = {};
 
     Object.entries(EntitiesList.BY_NAME).forEach(([entityTypeKey, EntityType]) => {
         // Only add registered types.
@@ -178,7 +178,7 @@ export const createCatalogue = () => {
         }
 
         // Skip entity classes that are irrelevant to the frontend.
-        if(EntityType.hasOwnProperty('serverOnly') && EntityType.serverOnly) return;
+        if (Object.hasOwn(EntityType, 'serverOnly') && EntityType.serverOnly) return;
 
         // Add this entity type to the type catalogue.
         dataToWrite[EntityType.typeNumber] = {

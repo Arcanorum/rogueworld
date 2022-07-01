@@ -17,7 +17,8 @@ function App() {
         // Hide the initial page load loading message.
         document.getElementById('page-load').style.display = 'none';
 
-        // Preload the hint images, or they might not be ready during the loading screen, which makes them a bit pointless.
+        // Preload the hint images, or they might not be ready during the loading screen, which
+        // makes them a bit pointless.
         Hints.forEach((hintConfig) => {
             new Image().src = hintConfig.image;
         });
@@ -50,7 +51,9 @@ function App() {
     }, []);
 
     return (
-        <div className="press-start-font normal-cursor">
+        <div
+            className="press-start-font normal-cursor"
+        >
             {currentPage === 'login' && <LoginPage />}
             {currentPage === 'game' && <GamePage />}
             {loading && <LoadingPage />}

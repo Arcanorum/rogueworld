@@ -41,46 +41,57 @@ class Entity {
     static serverOnly = true;
 
     /**
-     * A type number is an ID for all entities that appear on the client, so the client knows which entity to add.
-     * Used to send a number to get the entity name from the entity type catalogue, instead of a lengthy string of the entity name.
-     * All entities that appear on the client must be registered with ENTITYCLASS.registerEntityType().
+     * A type number is an ID for all entities that appear on the client, so the client knows which
+     * entity to add.
+     * Used to send a number to get the entity name from the entity type catalogue, instead of a
+     * lengthy string of the entity name.
+     * All entities that appear on the client must be registered with
+     * ENTITYCLASS.registerEntityType().
      */
     static typeNumber: number;
 
     /**
-     * The unique identifier of this type of entity. Should be set in the entity values list and never
-     * changed, as changing this would invalidate the data saved in the DB for persistent entities of this type.
+     * The unique identifier of this type of entity. Should be set in the entity values list and
+     * never changed, as changing this would invalidate the data saved in the DB for persistent
+     * entities of this type.
      */
     static typeCode?: string = undefined;
 
     /**
-     * Class name of this entity type. Useful for debugging. Don't save this anywhere as it may change if the entity gets renamed. Use typeCode instead for persistence.
+     * Class name of this entity type. Useful for debugging. Don't save this anywhere as it may
+     * change if the entity gets renamed. Use typeCode instead for persistence.
      */
     static typeName: string;
 
     /**
-     * Any configs that need to be passed to the entity types list for the game client to use when setting up the sprite classes.
+     * Any configs that need to be passed to the entity types list for the game client to use when
+     * setting up the sprite classes.
      */
     static clientConfig: SpriteConfig = {};
 
     /**
-     * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
+     * Whether this entity has had it's destroy method called, and is just waiting to be GCed, so
+     * shouldn't be usable any more.
      */
     protected destroyed = false;
 
     /**
-     * For persistent entity types, this is the Mongo document ID for the stored data for this entity.
+     * For persistent entity types, this is the Mongo document ID for the stored data for this
+     * entity.
      */
     documentId?: string;
 
     /**
-     * A loop that periodically updates the state of this entity in the DB. State changes between loops will be lost when the server stops.
+     * A loop that periodically updates the state of this entity in the DB. State changes between
+     * loops will be lost when the server stops.
      */
     documentUpdateLoop?: NodeJS.Timeout;
 
     /**
-     * For persistent entity types, this is the set of most recently saved values for each of the properties that are to be persisted with this entity.
-     * Used to compare changes in state when considering whether to update the document for this entity in the DB.
+     * For persistent entity types, this is the set of most recently saved values for each of the
+     * properties that are to be persisted with this entity.
+     * Used to compare changes in state when considering whether to update the document for this
+     * entity in the DB.
      */
     mostRecentSavablePropertyValues?: SavableEntityProperties;
 
@@ -138,7 +149,8 @@ class Entity {
     /**
      * Whether this entity is capable of moving at all.
      * Things that can move: Players and most creatures.
-     * Things that can not move: Walls, doors, rocks, trees (including tree-type NPCs), item pickups.
+     * Things that can not move: Walls, doors, rocks, trees (including tree-type NPCs), item
+     * pickups.
      */
     static baseMoveRate?: number = undefined;
 
@@ -161,7 +173,7 @@ class Entity {
 
     enchantment?: Enchantment;
 
-    statusEffects?: {[key: string]: StatusEffect};
+    statusEffects?: { [key: string]: StatusEffect };
 
     /**
      * The list of actions that this entity type can pick from.
@@ -195,9 +207,12 @@ class Entity {
 
         this.board = config.board;
 
-        // Need to mess around a bit to get the values of any subclass properties that have been overridden.
-        // For instance, Entity.baseMaxHitPoints would be undefined, but any subclass may then define baseMaxHitPoints.
-        // Since we don't know the class where it was defined we can't just get the static properties from it directly,
+        // Need to mess around a bit to get the values of any subclass properties that have been
+        // overridden.
+        // For instance, Entity.baseMaxHitPoints would be undefined, but any subclass may then
+        // define baseMaxHitPoints.
+        // Since we don't know the class where it was defined we can't just get the static
+        // properties from it directly,
         // so deduce the class from the constructor of the instance.
         const EntityType = this.constructor as typeof Entity;
 
@@ -208,22 +223,22 @@ class Entity {
 
         this.isBlocking = true;
 
-        if(EntityType.baseLifespan) {
+        if (EntityType.baseLifespan) {
             this.lifespan = EntityType.baseLifespan;
             this.lifespanTimeout = setTimeout(this.destroy.bind(this), this.lifespan);
         }
 
-        if(EntityType.baseMaxHitPoints) {
+        if (EntityType.baseMaxHitPoints) {
             this.maxHitPoints = EntityType.baseMaxHitPoints;
             this.hitPoints = this.maxHitPoints;
         }
 
-        if(EntityType.baseGloryValue) {
+        if (EntityType.baseGloryValue) {
             this.gloryValue = EntityType.baseGloryValue;
         }
 
-        if(EntityType.typeCode) {
-            if(config.documentId) {
+        if (EntityType.typeCode) {
+            if (config.documentId) {
                 this.startUpdateDocumentLoop(config.documentId);
             }
             else {
@@ -235,7 +250,7 @@ class Entity {
                         hitPoints: this.hitPoints,
                     },
                     (documentId) => {
-                        if(!documentId) return;
+                        if (!documentId) return;
 
                         this.startUpdateDocumentLoop(documentId);
                     },
@@ -252,7 +267,8 @@ class Entity {
 
     /**
      * Remove this entity from the game world completely, and allow it to be GCed.
-     * Any specific destruction functionality should be added to onDestroy, which is called from this method.
+     * Any specific destruction functionality should be added to onDestroy, which is called from
+     * this method.
      */
     destroy() {
         // Prevent multiple destruction of entities.
@@ -264,19 +280,21 @@ class Entity {
     }
 
     /**
-     * Specific destruction functionality. If overridden, should still be chained from the overrider up to this.
+     * Specific destruction functionality. If overridden, should still be chained from the
+     * overrider up to this.
      */
     onDestroy() {
-        // Stop all status effects, otherwise they can keep being damaged, and
-        // potentially die multiple times while already dead, or be healed and revived.
+        // Stop all status effects, otherwise they can keep being damaged, and potentially die
+        // multiple times while already dead, or be healed and revived.
         this.removeStatusEffects();
 
-        // Make sure this entity is marked as dead, so anything that is targeting it will stop doing so.
+        // Make sure this entity is marked as dead, so anything that is targeting it will stop
+        // doing so.
         this.hitPoints = -1;
 
-        if(this.lifespanTimeout) clearTimeout(this.lifespanTimeout);
+        if (this.lifespanTimeout) clearTimeout(this.lifespanTimeout);
 
-        if(this.actionTimeout) clearTimeout(this.actionTimeout);
+        if (this.actionTimeout) clearTimeout(this.actionTimeout);
 
         if (this.curse) this.curse.remove();
 
@@ -285,9 +303,9 @@ class Entity {
         // Tell players around this entity to remove it.
         this.board?.emitToNearbyPlayers(this.row, this.col, 'remove_entity', this.id);
 
-        if(this.documentUpdateLoop) clearInterval(this.documentUpdateLoop);
+        if (this.documentUpdateLoop) clearInterval(this.documentUpdateLoop);
 
-        if(this.documentId) deleteEntityDocument(this.documentId);
+        if (this.documentId) deleteEntityDocument(this.documentId);
 
         this.board?.removeEntity(this);
 
@@ -297,29 +315,29 @@ class Entity {
     }
 
     updateDocument() {
-        if(!this.documentId) return;
-        if(!this.mostRecentSavablePropertyValues) return;
+        if (!this.documentId) return;
+        if (!this.mostRecentSavablePropertyValues) return;
 
         // Check for any state that has been modified that should now be saved.
         const dataToUpdate: Partial<EntityDocument> = {};
 
-        if(this.row !== this.mostRecentSavablePropertyValues.row) {
+        if (this.row !== this.mostRecentSavablePropertyValues.row) {
             dataToUpdate.row = this.row;
             this.mostRecentSavablePropertyValues.row = this.row;
         }
 
-        if(this.col !== this.mostRecentSavablePropertyValues.col) {
+        if (this.col !== this.mostRecentSavablePropertyValues.col) {
             dataToUpdate.col = this.col;
             this.mostRecentSavablePropertyValues.col = this.col;
         }
 
-        if(this.hitPoints !== this.mostRecentSavablePropertyValues.hitPoints) {
+        if (this.hitPoints !== this.mostRecentSavablePropertyValues.hitPoints) {
             dataToUpdate.hitPoints = this.hitPoints;
             this.mostRecentSavablePropertyValues.hitPoints = this.hitPoints;
         }
 
         // Don't bother if nothing has changed.
-        if(Object.keys(dataToUpdate).length < 1) return;
+        if (Object.keys(dataToUpdate).length < 1) return;
 
         updateEntityDocument(this.documentId, dataToUpdate);
     }
@@ -347,11 +365,12 @@ class Entity {
      * Get all of the properties of this entity that can be emitted to clients.
      * This method should be overridden on each subclass (and any further subclasses), and
      * then called on the superclass of every subclass, calling it's way back up to Entity.
-     * So if Player.getEmittableProperties is called, it adds the relevant properties from Player, then
-     * any parent classes, and so on until Entity, then returns the result back down the stack.
-     * @param properties The properties of this entity that have been added so far. If this is the start of the chain, pass in an empty object.
+     * So if Player.getEmittableProperties is called, it adds the relevant properties from Player,
+     * then any parent classes, and so on until Entity, then returns the result back down the stack.
+     * @param properties The properties of this entity that have been added so far. If this is the
+     * start of the chain, pass in an empty object.
      */
-    getEmittableProperties(properties: ObjectOfUnknown) {
+    getEmittableProperties(properties: ObjectOfUnknown) { /* eslint-disable no-param-reassign */
         properties.id = this.id;
         properties.typeNumber = (this.constructor as typeof Entity).typeNumber;
         properties.row = this.row;
@@ -363,7 +382,8 @@ class Entity {
 
     /**
      * Returns the board tile this entity is currently occupying.
-     * Shouldn't have to worry about the tile being valid, as they shouldn't be occupying an invalid tile.
+     * Shouldn't have to worry about the tile being valid, as they shouldn't be occupying an
+     * invalid tile.
      */
     getBoardTile() {
         return this.board?.grid[this.row][this.col];
@@ -377,7 +397,8 @@ class Entity {
      * @param toCol - The board grid col to reposition the entity to.
      */
     changeBoard(fromBoard: Board | undefined, toBoard: Board, toRow: number, toCol: number) {
-        // Need to check if there is a board, as the board reference will be removed if the entity dies, but might be revivable (i.e. players).
+        // Need to check if there is a board, as the board reference will be removed if the entity
+        // dies, but might be revivable (i.e. players).
         if (fromBoard) {
             // Tell players around this entity on the previous board to remove it.
             fromBoard.emitToNearbyPlayers(
@@ -388,7 +409,8 @@ class Entity {
             );
 
             // Remove this entity from the board it is currently in before adding to the next board.
-            // Don't use Entity.reposition as that would only move it around on the same board, not between boards.
+            // Don't use Entity.reposition as that would only move it around on the same board, not
+            // between boards.
             fromBoard.removeEntity(this);
         }
 
@@ -408,7 +430,8 @@ class Entity {
     }
 
     /**
-     * When finished constructing this entity, use this to tell the nearby players to add this entity.
+     * When finished constructing this entity, use this to tell the nearby players to add this
+     * entity.
      */
     emitToNearbyPlayers() {
         // Tell all players around this one (including itself) that this one has joined.
@@ -422,12 +445,13 @@ class Entity {
     }
 
     /**
-     * Change the hitpoints value of this entity, if it has the hitpoints property set (not undefined).
+     * Change the hitpoints value of this entity, if it has the hitpoints property set (not
+     * undefined).
      * Calls onDamage or onHeal based on the amount, and also onModHitPoints.
      * @param hitPointModifier An object that details how much to increase or decrease the HP by.
      * @param source The entity that caused this change.
      */
-    modHitPoints(hitPointModifier: Damage|Heal, source?: Entity) {
+    modHitPoints(hitPointModifier: Damage | Heal, source?: Entity) {
         // Make it impossible to change the HP if this entity is destroyed.
         if (this.destroyed === true) return;
 
@@ -457,7 +481,7 @@ class Entity {
      * @param source The entity that caused this healing.
      */
     heal(heal: Heal, source?: Entity) {
-        // Make sure the amount is valid.
+    // Make sure the amount is valid.
         if (heal.amount < 1) return;
 
         this.modHitPoints(heal, source);
@@ -469,8 +493,8 @@ class Entity {
      * @param heal A heal config object.
      */
     onHeal(heal: Heal) {
-        if(this.hitPoints === undefined) return;
-        if(this.maxHitPoints === undefined) return;
+        if (this.hitPoints === undefined) return;
+        if (this.maxHitPoints === undefined) return;
 
         const amount = Math.floor(heal.amount);
 
@@ -494,7 +518,8 @@ class Entity {
     }
 
     /**
-     * Deal damage to this entity. Lowers the hitpoints. Used mainly by weapons and melee mobs when attacking.
+     * Deal damage to this entity. Lowers the hitpoints. Used mainly by weapons and melee mobs when
+     * attacking.
      * @param damage A damage config object.
      * @param source The entity that caused this damage.
      */
@@ -511,11 +536,11 @@ class Entity {
      * @param source The entity that caused this damage.
      */
     onDamage(damage: Damage, source?: Entity) {
-        if(this.hitPoints === undefined) return;
+        if (this.hitPoints === undefined) return;
 
-        let amount = damage.amount;
+        let { amount } = damage;
 
-        if(damage.bonuses) {
+        if (damage.bonuses) {
             // Get the highest applicable damage bonus multiplier.
             // Don't just apply all of them.
             const entityTypeCategories = (this.constructor as typeof Entity).categories;
@@ -523,8 +548,9 @@ class Entity {
             let applicableModifiers = 0;
             const totalMultiplier = damage.bonuses.reduce(
                 (previousValue, bonus) => {
-                    // Check this damage bonus is applicable to any of the categories of this entity type.
-                    if(entityTypeCategories?.some((category) => category === bonus.category)) {
+                    // Check this damage bonus is applicable to any of the categories of this
+                    // entity type.
+                    if (entityTypeCategories?.some((category) => category === bonus.category)) {
                         applicableModifiers += 1;
                         return previousValue + bonus.multiplier;
                     }
@@ -533,16 +559,17 @@ class Entity {
                 0,
             );
 
-            if(applicableModifiers > 0) {
+            if (applicableModifiers > 0) {
                 // Use an average of all applied modifier values.
-                amount = amount * (totalMultiplier / applicableModifiers);
+                amount *= (totalMultiplier / applicableModifiers);
             }
         }
 
         amount = Math.floor(amount);
 
-        // Don't allow negative damage, or things might get weird, and shouldn't be abused to implement a pseudo-healing mechanic.
-        if(amount < 0) amount = 0;
+        // Don't allow negative damage, or things might get weird, and shouldn't be abused to
+        // implement a pseudo-healing mechanic.
+        if (amount < 0) amount = 0;
 
         this.hitPoints -= amount;
 
@@ -566,7 +593,7 @@ class Entity {
      * If overridden, should still be chained from the overrider up to this.
      */
     onAllHitPointsLost() {
-        if(this.board) {
+        if (this.board) {
             if (this.curse) {
                 // If should keep processing after curse has fired, create a corpse.
                 if (this.curse.onEntityDeath() === true) {
@@ -592,18 +619,16 @@ class Entity {
 
         // Destroy this entity.
         this.destroy();
-
-        return;
     }
 
     /**
      * This entity has had its hitpoints changed.
      * If overridden, should still be chained from the overrider up to this.
      */
-    onModHitPoints() { return; }
+    onModHitPoints() { }
 
     modDefence(amount: number) {
-        if(this.defence === undefined) return;
+        if (this.defence === undefined) return;
 
         this.defence += amount;
     }
@@ -617,21 +642,23 @@ class Entity {
      * @param byCols - How many cols to move along by. +1 to move right, -1 to move left.
      */
     move(byRows: Offset, byCols: Offset) {
-        if(!this.preMove()) return false;
+        if (!this.preMove()) return false;
 
         const origRow = this.row;
         const origCol = this.col;
 
-        // Only let an entity move along a row OR a col, not both at the same time or they can move diagonally through things.
-        if(byRows && byCols) return false;
+        // Only let an entity move along a row OR a col, not both at the same time or they can move
+        // diagonally through things.
+        if (byRows && byCols) return false;
 
         const currentBoard = this.board;
 
         const nextBoardTile = currentBoard?.getTileAt(this.row + byRows, this.col + byCols);
 
-        if(!nextBoardTile) return false;
+        if (!nextBoardTile) return false;
 
-        // Check if there is an entity there that is interacted with by moving into it (i.e. a door).
+        // Check if there is an entity there that is interacted with by moving into it (i.e. a
+        // door).
         nextBoardTile.getFirstEntity()?.onMovedInto(this);
 
         // Check path isn't blocked.
@@ -642,7 +669,7 @@ class Entity {
 
         this.reposition(this.row + byRows, this.col + byCols);
 
-        if(!this.board) return false;
+        if (!this.board) return false;
 
         // Tell the players in this zone that this dynamic has moved.
         this.board.emitToNearbyPlayers(
@@ -657,8 +684,9 @@ class Entity {
             },
         );
 
-        // Only the players that can already see this dynamic will move it, but for ones that this has just come in range of, they will
-        // need to be told to add this entity, so tell any players at the edge of the view range in the direction this entity moved.
+        // Only the players that can already see this dynamic will move it, but for ones that this
+        // has just come in range of, they will need to be told to add this entity, so tell any
+        // players at the edge of the view range in the direction this entity moved.
         this.board.emitToPlayersAtViewRange(
             this.row,
             this.col,
@@ -666,13 +694,14 @@ class Entity {
             'add_entity',
             this.getEmittableProperties({}),
         );
-        // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that only calls getEmittableProperties
-        // if any other players have been found, as the current way calls it for every move, even if there is nobody else seeing it,
-        // but it doesn't seem like it would make much difference, as it would still need to get the props for every tile that another
-        // player is found on, instead of just once and use it if needed.
+        // Thought about making a similar, but separate, function to emitToPlayersAtViewRange that
+        // only calls getEmittableProperties if any other players have been found, as the current
+        // way calls it for every move, even if there is nobody else seeing it, but it doesn't seem
+        // like it would make much difference, as it would still need to get the props for every
+        // tile that another player is found on, instead of just once and use it if needed.
 
         // Cancel any action if one is in progress.
-        if(this.actionTimeout) {
+        if (this.actionTimeout) {
             clearTimeout(this.actionTimeout);
             this.actionTimeout = undefined;
         }
@@ -683,29 +712,30 @@ class Entity {
     }
 
     /**
-     * Can be overridden in a subclass to run any extra functionality after this entity has successfully moved.
+     * Can be overridden in a subclass to run any extra functionality after this entity has
+     * successfully moved.
      */
     postMove() {
         const boardTile = this.getBoardTile();
-        if(!boardTile) return;
+        if (!boardTile) return;
         const { groundType } = boardTile;
 
         // Add the status effect FIRST, in case they die from the damage below, so they
         // don't have status effect while dead, as they should have all been removed.
         if (groundType.statusEffects) {
-            groundType.statusEffects.forEach((StatusEffect) => {
-                this.addStatusEffect(StatusEffect, this);
+            groundType.statusEffects.forEach((eachStatusEffect) => {
+                this.addStatusEffect(eachStatusEffect, this);
             });
         }
 
-        if(this.statusEffects) {
+        if (this.statusEffects) {
             Object.values(this.statusEffects).forEach((statusEffect) => {
                 statusEffect.onMove();
             });
         }
     }
 
-    onMovedInto(otherEntity: Entity) { return; }
+    onMovedInto(otherEntity: Entity) { }
 
     /**
      * Changes the position of this entity on the board it is on.
@@ -713,7 +743,7 @@ class Entity {
      * @param toCol - The board grid col to reposition the entity to.
      */
     reposition(toRow: number, toCol: number) {
-        if(!this.board) return;
+        if (!this.board) return;
 
         // Remove this entity from the tile it currently occupies on the board.
         this.board.removeEntity(this);
@@ -737,7 +767,7 @@ class Entity {
     getMoveRate(chainedMoveRate?: number): number {
         let moveRate = chainedMoveRate || this.moveRate || 0;
 
-        if(this.statusEffects) {
+        if (this.statusEffects) {
             // Check for any status effects that modify the move rate.
             Object.values(this.statusEffects).forEach((statusEffect) => {
                 moveRate *= statusEffect.moveRateModifier;
@@ -748,26 +778,26 @@ class Entity {
     }
 
     addStatusEffect(StatusEffectClass: typeof StatusEffect, source: Entity) {
-        if(!this.statusEffects) this.statusEffects = {};
+        if (!this.statusEffects) this.statusEffects = {};
 
         new StatusEffectClass(this, source);
     }
 
     removeStatusEffectByName(name: string) {
-        if(!this.statusEffects) return;
+        if (!this.statusEffects) return;
 
         delete this.statusEffects[name];
     }
 
     removeStatusEffects() {
-        if(!this.statusEffects) return;
+        if (!this.statusEffects) return;
 
         Object.values(this.statusEffects).forEach((statusEffect) => statusEffect.stop());
 
         delete this.statusEffects;
     }
 
-    dropItems() { return; }
+    dropItems() { }
 
     performAction(
         action: Action | string,
@@ -776,26 +806,26 @@ class Entity {
         col?: number,
         onComplete?: () => void,
     ) {
-        if(this.actionTimeout) {
+        if (this.actionTimeout) {
             // Cancel any in-progress action before starting this one
             clearTimeout(this.actionTimeout);
             // Empty the property in case it doesn't get set again below.
             this.actionTimeout = undefined;
         }
 
-        if(typeof action === 'string') {
+        if (typeof action === 'string') {
             action = ActionsList[action];
-            if(!action) return;
+            if (!action) return;
         }
 
         // Check if it is a entity targetted action.
-        if(entity) {
+        if (entity) {
             this.startAction(action, undefined, entity, onComplete);
         }
         // Check if it is a position targetted action.
-        else if(row && col) {
+        else if (row && col) {
             const boardTile = this.board?.getTileAt(row, col);
-            if(!boardTile) return;
+            if (!boardTile) return;
 
             this.startAction(action, { row, col }, undefined, onComplete);
         }
@@ -804,7 +834,8 @@ class Entity {
             this.startAction(action, undefined, undefined, onComplete);
         }
 
-        // Tell the clients to start the action on this entity, so they can show the telegraph for it.
+        // Tell the clients to start the action on this entity, so they can show the telegraph for
+        // it.
         this.board?.emitToNearbyPlayers(
             this.row,
             this.col,
@@ -825,11 +856,11 @@ class Entity {
     ) {
         this.actionTimeout = setTimeout(
             () => {
-                if(action.run) action.run(this, targetPosition, targetEntity, action.config);
+                if (action.run) action.run(this, targetPosition, targetEntity, action.config);
                 // Action is over, so clear the reference to it doesn't block anything.
                 this.actionTimeout = undefined;
 
-                if(onComplete) onComplete();
+                if (onComplete) onComplete();
             },
             action.duration,
         );
@@ -842,50 +873,48 @@ class Entity {
         // Prefer which one has the greatest magnitude.
 
         // Further away vertically.
-        if(Math.abs(rowDist) > Math.abs(colDist)) {
+        if (Math.abs(rowDist) > Math.abs(colDist)) {
             // Is above.
-            if(rowDist > 0) {
+            if (rowDist > 0) {
                 return Directions.UP;
             }
             // Is below.
-            else if(rowDist < 0) {
+            if (rowDist < 0) {
                 return Directions.DOWN;
             }
         }
         // Further away horizontally.
-        else if(Math.abs(rowDist) < Math.abs(colDist)) {
+        else if (Math.abs(rowDist) < Math.abs(colDist)) {
             // Is left.
-            if(colDist > 0) {
+            if (colDist > 0) {
                 return Directions.LEFT;
             }
             // Is right.
-            else if(colDist < 0) {
+            if (colDist < 0) {
                 return Directions.RIGHT;
             }
         }
         // Same distance both ways. Pick one at random.
-        else {
-            // Vertically.
-            if(Math.random() < 0.5) {
-                // Is above.
-                if(rowDist > 0) {
-                    return Directions.UP;
-                }
-                // Is below.
-                else if(rowDist < 0) {
-                    return Directions.DOWN;
-                }
+        // Vertically.
+        else if (Math.random() < 0.5) {
+            // Is above.
+            if (rowDist > 0) {
+                return Directions.UP;
             }
-            // Horizontally.
-            else {
-                // Is left.
-                if(colDist > 0) {
-                    return Directions.LEFT;
-                }
-                // Is right.
-                else if(colDist < 0) {
-                    return Directions.RIGHT;
-                }
+            // Is below.
+            if (rowDist < 0) {
+                return Directions.DOWN;
+            }
+        }
+        // Horizontally.
+        else {
+            // Is left.
+            if (colDist > 0) {
+                return Directions.LEFT;
+            }
+            // Is right.
+            if (colDist < 0) {
+                return Directions.RIGHT;
             }
         }
 

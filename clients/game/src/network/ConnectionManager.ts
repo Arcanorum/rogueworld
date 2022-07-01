@@ -4,6 +4,7 @@ import Config from '../shared/Config';
 import { WEBSOCKET_CLOSE, WEBSOCKET_ERROR } from '../shared/EventTypes';
 import { ApplicationState } from '../shared/state';
 import eventResponses from './websocket_events/EventResponses';
+
 const { Settings } = Config;
 
 export class GameWebSocket extends WebSocket {
@@ -108,7 +109,7 @@ const getErrorCategory = () => {
  * @returns Whether a the function finished without a problem.
  */
 export const connectToGameServer = () => {
-    if(Settings.USE_SECURE_PROTOCOLS) {
+    if (Settings.USE_SECURE_PROTOCOLS) {
         // Live or test. Connect to server, which should be using SSL.
         ApplicationState.gameServiceHTTPServerURL = `https://${Settings.GAME_SERVICE_URL}`;
         ApplicationState.gameServiceWebSocketServerURL = `wss://${Settings.GAME_SERVICE_URL}`;
@@ -137,7 +138,7 @@ export const joinGameNewCharacter = (characterName: string) => {
     ApplicationState.setJoining(true);
 };
 
-export const joinGameContinue = async(username: string, password: string) => {
+export const joinGameContinue = async (username: string, password: string) => {
     // Check username and password are valid.
     if (username === '') return;
     if (password === '') return;

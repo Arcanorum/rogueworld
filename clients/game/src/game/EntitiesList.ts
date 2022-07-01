@@ -4,7 +4,8 @@ import Entity from './entities/Entity';
 import { generateGenericPickupsList } from './entities/pickups/GenericPickupsList';
 
 /**
- * Creates a generic class for an entity based on the Entity class, or one of it's abstract subclasses.
+ * Creates a generic class for an entity based on the Entity class, or one of it's abstract
+ * subclasses.
  */
 const makeClass = ({
     typeName,
@@ -52,12 +53,12 @@ const makeClass = ({
 const generateEntitiesList = () => {
     const context = require.context('./entities/', true, /.ts$/);
     const paths = context.keys();
-    const values = paths.map(context) as Array<{[key: string]: typeof Entity}>;
+    const values = paths.map(context) as Array<{ [key: string]: typeof Entity }>;
 
     // Add each class to the list by file name.
     paths.forEach((path, index) => {
         const popped = path.split('/').pop();
-        if(!popped) return;
+        if (!popped) return;
 
         let fileName = popped;
         // Skip the generic lists.
@@ -65,7 +66,7 @@ const generateEntitiesList = () => {
         // Trim the ".ts" from the end of the file name.
         fileName = fileName.slice(0, -3);
         // Check it isn't already loaded.
-        if(Config.EntitiesList[fileName]) {
+        if (Config.EntitiesList[fileName]) {
             warning('Loading entities list. Entity type already exists in entities list:', fileName);
             return;
         }
@@ -75,8 +76,8 @@ const generateEntitiesList = () => {
 
     // Add the generic pickups that don't have their own class files.
     // They get classes made for them on startup.
-    Object.entries(generateGenericPickupsList()).forEach(([key, value]) => {
-        key = `Pickup${key}`;
+    Object.entries(generateGenericPickupsList()).forEach(([_key, value]) => {
+        const key = `Pickup${_key}`;
         // Check for duplicate entries in the list.
         if (Config.EntitiesList[key]) {
             warning(
@@ -91,7 +92,7 @@ const generateEntitiesList = () => {
 
     Object.entries(Config.EntityTypes).forEach(([typeNumber, config]) => {
         const { typeName } = config;
-        if(!Config.EntitiesList[typeName]) {
+        if (!Config.EntitiesList[typeName]) {
             // Make a new generic sprite class.
             Config.EntitiesList[typeName] = makeClass(config);
         }
@@ -102,7 +103,7 @@ const generateEntitiesList = () => {
         const { typeName } = config;
         const SpriteClass = Config.EntitiesList[typeName];
 
-        if(SpriteClass.loadConfig) {
+        if (SpriteClass.loadConfig) {
             console.log('loading config:', config);
             SpriteClass.loadConfig(config);
         }

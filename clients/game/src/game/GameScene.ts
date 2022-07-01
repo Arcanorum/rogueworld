@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import PubSub from 'pubsub-js';
+import { message, warning } from '@rogueworld/utils';
+import { DayPhases } from '@rogueworld/types';
 import Tilemap from './Tilemap';
 import UseItem from '../shared/UseItem';
 import SoundManager from './SoundManager';
@@ -23,9 +25,7 @@ import {
 import Panels from '../components/game/gui/panels/Panels';
 import Global from '../shared/Global';
 import eventResponses from '../network/websocket_events/EventResponses';
-import { message, warning } from '@rogueworld/utils';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
-import { DayPhases } from '@rogueworld/types';
 import Player from './entities/classes/Player';
 
 class GameScene extends Phaser.Scene {
@@ -71,18 +71,19 @@ class GameScene extends Phaser.Scene {
      * A list of all dynamic entities. Dynamics are display entities that can be added
      * at any time, and cannot be loaded into the map data.
      */
-    dynamics: {[key: string]: DynamicEntity} = {};
+    dynamics: { [key: string]: DynamicEntity } = {};
 
     /**
      * A list of any dynamics that do anything when interacted
      * with (moved into/pressed), such as opening a panel.
      */
-    interactables: {[key: string]: DynamicEntity} = {};
+    interactables: { [key: string]: DynamicEntity } = {};
 
     /**
-     * A list of all light sources, used to update the darkness grid. Light sources can be static or dynamic.
+     * A list of all light sources, used to update the darkness grid. Light sources can be static
+     * or dynamic.
      */
-    lightSources: {[key: string]: DynamicEntity} = {};
+    lightSources: { [key: string]: DynamicEntity } = {};
 
     dynamicSpritesContainer!: Phaser.GameObjects.Container;
 
@@ -90,8 +91,11 @@ class GameScene extends Phaser.Scene {
 
     // Flags for if a move key is held down, to allow continuous movement.
     moveUpIsDown = false;
+
     moveDownIsDown = false;
+
     moveLeftIsDown = false;
+
     moveRightIsDown = false;
 
     damageParticleEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
@@ -103,7 +107,7 @@ class GameScene extends Phaser.Scene {
      */
     subs: Array<string> = [];
 
-    keyboardKeys: {[key: string]: any} = {};
+    keyboardKeys: { [key: string]: any } = {};
 
     boundKeyDownHandler!: (event: any) => void;
 
@@ -143,7 +147,8 @@ class GameScene extends Phaser.Scene {
         // BankState.setWeight(data.bank.weight);
         // BankState.setMaxWeight(data.bank.maxWeight);
         // BankState.setMaxWeightUpgradeCost(data.bank.maxWeightUpgradeCost);
-        // BankState.additionalMaxBankWeightPerUpgrade = data.bank.additionalMaxBankWeightPerUpgrade;
+        // BankState.additionalMaxBankWeightPerUpgrade = (
+        //    data.bank.additionalMaxBankWeightPerUpgrade);
 
         this.dynamicsData = data.dynamicsData;
 
@@ -154,7 +159,7 @@ class GameScene extends Phaser.Scene {
             // The file might be commented out to disable it for the time being.
             // Check it has something added for this entity type.
             if (EntityType) {
-                if (EntityType.hasOwnProperty('setupAnimations')) EntityType.setupAnimations();
+                if (Object.hasOwn(EntityType, 'setupAnimations')) EntityType.setupAnimations();
                 if (EntityType.addAnimationSet) EntityType.addAnimationSet();
             }
         });
@@ -163,7 +168,7 @@ class GameScene extends Phaser.Scene {
         // is entered, instead of just the game canvas, or the GUI will be invisible.
         this.scale.fullscreenTarget = document.getElementById('game-cont');
 
-        if(playerData.moveRate) {
+        if (playerData.moveRate) {
             this.moveRate = playerData.moveRate;
         }
     }
@@ -171,7 +176,8 @@ class GameScene extends Phaser.Scene {
     create() {
         message('Game create');
 
-        // A containert to put all dynamics into, so they stay on the same layer relative to other things in the display order.
+        // A containert to put all dynamics into, so they stay on the same layer relative to other
+        // things in the display order.
         this.dynamicSpritesContainer = this.add.container();
         this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
 
@@ -252,7 +258,7 @@ class GameScene extends Phaser.Scene {
         ApplicationState.setLoading(false);
 
         // Start the default background music.
-        const music = this.soundManager.music;
+        const { music } = this.soundManager;
         music.startMusic(music.sounds['exploration-theme']);
 
         this.subs = [
@@ -278,7 +284,8 @@ class GameScene extends Phaser.Scene {
             }),
             PubSub.subscribe(POSITION_VALUE, (msg, data) => {
                 // Check the music to play.
-                // const positionMusicName = this.currentMapMusicZones[`${data.new.row}-${data.new.col}`];
+                // const positionMusicName = this.currentMapMusicZones[
+                //    `${data.new.row}-${data.new.col}`];
 
                 // // Nothing to play here, keep playing whatever is currently playing.
                 // if (!positionMusicName) return;
@@ -330,7 +337,8 @@ class GameScene extends Phaser.Scene {
     shutdown() {
         message('Game shutdown:', this);
 
-        // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on the landing screen.
+        // Remove the handler for keyboard events, so it doesn't try to do gameplay stuff while on
+        // the landing screen.
         document.removeEventListener('keydown', this.boundKeyDownHandler);
 
         // Clean up subscriptions before stopping the game.
@@ -370,7 +378,7 @@ class GameScene extends Phaser.Scene {
 
         const interactableInFront = this.interactables[`${playerNextRow}-${playerNextCol}`];
 
-        if (interactableInFront) {
+        if (interactableInFront) { // TODO: remove?
             // // If it is a static, which is just a sprite.
             // if (interactableInFront.onMovedInto) {
             //     interactableInFront.onMovedInto();
@@ -396,7 +404,7 @@ class GameScene extends Phaser.Scene {
         // Need to have this here, as if a bunch of players are piled on top of each other
         // they player might not be able to click their own sprite display object, so can't
         // just listen for a pointerdown event on the player's sprite.
-        if(targetRow === PlayerState.row && targetCol === PlayerState.col) {
+        if (targetRow === PlayerState.row && targetCol === PlayerState.col) {
             ApplicationState.connection?.sendEvent('pick_up_item');
             return;
         }
@@ -468,7 +476,7 @@ class GameScene extends Phaser.Scene {
 
         const { key } = event;
 
-        const number = parseInt(key);
+        const number = parseInt(key, 10);
 
         // Get the 0 - 9 keys.
         if (number > -1
@@ -650,7 +658,8 @@ class GameScene extends Phaser.Scene {
             id, typeNumber, row, col,
         } = data;
 
-        // console.log("adding dynamic entity type:", typeNumber, "at row:", row, ", col:", col, ", config:", data);
+        // console.log("adding dynamic entity type:", typeNumber, "at row:",
+        // row, ", col:", col, ", config:", data);
 
         // Don't add another entity if the one with this ID already exists.
         if (this.dynamics[id] !== undefined) {
@@ -660,14 +669,15 @@ class GameScene extends Phaser.Scene {
 
         const EntityType = Config.EntityTypes[typeNumber];
 
-        if(!EntityType) {
+        if (!EntityType) {
             warning('Invalid entity type number:', typeNumber);
             return;
         }
 
-        const typeName = EntityType.typeName;
+        const { typeName } = EntityType;
 
-        // Check that an entity type exists with the type name that corresponds to the given type number.
+        // Check that an entity type exists with the type name that corresponds to the given type
+        // number.
         if (!Config.EntitiesList[typeName]) {
             warning(`Invalid entity type number: "${typeNumber}". Entity types:`, Config.EntityTypes);
             return;
@@ -703,7 +713,9 @@ class GameScene extends Phaser.Scene {
         //     this.tilemap.updateDarknessGrid();
         // }
 
-        // If this entity does anything on the client when interacted with, add it to the interactables list.
+        // TODO: remove
+        // If this entity does anything on the client when interacted with, add it to the
+        // interactables list.
         // if (dynamicSpriteContainer.interactable === true) {
         //     this.interactables[id] = this.dynamics[id];
         // }
@@ -771,7 +783,7 @@ class GameScene extends Phaser.Scene {
                 //     // Just do it once at the end if needed.
                 //     darknessGridDirty = true;
                 // }
-                return;
+                // return;
             }
         });
 

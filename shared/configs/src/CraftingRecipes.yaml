@@ -1052,6 +1052,16 @@
     itemName: WoodenFence
 
 - stationClasses:
+    - Furnace
+  stats:
+    - Toolery
+  ingredients:
+    - itemName: Clay
+      quantity: 8
+  result:
+    itemName: BrickWall
+
+- stationClasses:
     - Workbench
   stats:
     - Toolery

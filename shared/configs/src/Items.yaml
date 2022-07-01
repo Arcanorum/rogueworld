@@ -1098,6 +1098,15 @@
     translationId: Laboratory
     textureSource: laboratory
 
+- name: BrickWall
+  code: IALM4765
+  extends: Holdable
+  unitWeight: 5
+  entityTypeSpawnedOnUse: BrickWall
+  clientConfig:
+    translationId: Brick wall
+    textureSource: brick-wall
+
 - name: WoodenFence
   code: UDNK9493
   extends: Holdable

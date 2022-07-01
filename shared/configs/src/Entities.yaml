@@ -119,6 +119,7 @@
       quantity: 4
   clientConfig:
     displayName: Pine tree
+    showDisplayNameOnHover: false
     animationSetName: pine-tree
     animationFrameSequence: [1]
 
@@ -134,6 +135,7 @@
       quantity: 4
   clientConfig:
     displayName: Iron rocks
+    showDisplayNameOnHover: false
     animationSetName: iron-rocks
     animationFrameSequence: [1]
 
@@ -199,6 +201,7 @@
   craftingStationClass: Furnace
   clientConfig:
     displayName: Clay oven
+    showDisplayNameOnHover: false
     animationSetName: clay-oven
     animationRepeats: true
 
@@ -210,6 +213,7 @@
   craftingStationClass: Workbench
   clientConfig:
     displayName: Workbench
+    showDisplayNameOnHover: false
     animationSetName: workbench
     animationFrameSequence: [1]
 
@@ -221,6 +225,7 @@
   craftingStationClass: Anvil
   clientConfig:
     displayName: Anvil
+    showDisplayNameOnHover: false
     animationSetName: anvil
     animationFrameSequence: [1]
 
@@ -232,6 +237,7 @@
   craftingStationClass: Laboratory
   clientConfig:
     displayName: Laboratory
+    showDisplayNameOnHover: false
     animationSetName: laboratory
     animationFrameSequence: [1]
 
@@ -242,17 +248,19 @@
   baseGloryValue: 5
   clientConfig:
     displayName: Wooden fence
+    showDisplayNameOnHover: false
     animationSetName: wooden-fence
     animationFrameSequence: [1]
 
-- name: StoneWall
+- name: BrickWall
   code: YXPK5024
   highBlocking: true
   baseMaxHitPoints: 200
   baseGloryValue: 5
   clientConfig:
-    displayName: Stone wall
-    animationSetName: stone-wall
+    displayName: Brick wall
+    showDisplayNameOnHover: false
+    animationSetName: brick-wall
     animationFrameSequence: [1]
 
 - name: WoodenDoor
@@ -264,5 +272,6 @@
   clientConfig:
     extendsClassName: Door
     displayName: Wooden door
+    showDisplayNameOnHover: false
     animationSetName: wooden-door
     animationFrameSequence: [1]

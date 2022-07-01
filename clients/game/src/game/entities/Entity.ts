@@ -3,6 +3,7 @@ import Panels from '../../components/game/gui/panels/Panels';
 import Config from '../../shared/Config';
 import { setDefaultCursor, setHandCursor } from '../../shared/Cursors';
 import { SELECTED_ENTITY_HITPOINTS } from '../../shared/EventTypes';
+import getTextDef from '../../shared/GetTextDef';
 import Global from '../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
 import Container from './Container';
@@ -21,7 +22,11 @@ class Entity extends Container {
     /** Debug name of this entity type. Useful for generated classes where the constructor name is meaningless. */
     static typeName = 'Entity';
 
+    /** The text definition ID of this entity type, used to get the actual display name value from the loaded text definitions in the current language. */
     static displayName = '';
+
+    /** Whether the display name should be shown over the top of the entity when hovered over. */
+    static showDisplayNameOnHover = true;
 
     /** The file name (without file type extension) of the image to use for this entity (i.e. when selected). */
     static iconName = '';
@@ -122,16 +127,23 @@ class Entity extends Container {
             }
         }
 
+        this.baseSprite.on('animationcomplete', this.moveAnimCompleted, this);
+
+        this.baseSprite.setInteractive();
+
+        this.baseSprite.on('destroy', this.onDestroy, this);
+
+        this.baseSprite.on('pointerdown', this.onPointerDown, this);
+
         // Use a specific display name if given, or the one for this entity type.
         const displayName = config.displayName || EntityType.displayName;
 
-        if(displayName) {
-            // Can be undefined or an object with an optional "fill" and "stroke"
-            // property to be set as any color string value Phaser can take.
-            // Used for differentiating clan members by name color.
-            // this.displayNameColor = config.displayNameColor; TODO: remove this? might use for teammates/aggroed?
-
+        if(displayName && EntityType.showDisplayNameOnHover) {
             this.addDisplayName(displayName);
+
+            this.baseSprite.on('pointerover', this.onPointerOver, this);
+
+            this.baseSprite.on('pointerout', this.onPointerOut, this);
         }
 
         // this.curseEffect = this.addEffect('curse-effect-1');
@@ -162,16 +174,6 @@ class Entity extends Container {
         this.actionIcon.setOrigin(0.5);
         this.actionIcon.visible = false;
         this.add(this.actionIcon);
-
-        this.baseSprite.on('animationcomplete', this.moveAnimCompleted, this);
-
-        this.baseSprite.setInteractive();
-
-        this.baseSprite.on('pointerdown', this.onPointerDown, this);
-        this.baseSprite.on('pointerover', this.onPointerOver, this);
-        this.baseSprite.on('pointerout', this.onPointerOut, this);
-
-        this.baseSprite.on('destroy', this.onDestroy, this);
     }
 
     onDestroy() {
@@ -411,6 +413,8 @@ class Entity extends Container {
         if(!this.iconName && this.animationSetName) {
             this.iconName = `${this.animationSetName}-1`;
         }
+
+        this.displayName = getTextDef(`Entity name: ${config.displayName}`);
     }
 
     static setupAnimations() {

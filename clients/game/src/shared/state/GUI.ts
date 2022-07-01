@@ -198,7 +198,7 @@ class GUI {
         // Make this entity be the current selection target.
         PubSub.publish(SELECTED_ENTITY, { new: {
             icon: entityIconsList[EntityType.iconName],
-            name: entity.displayName?.text,
+            name: entity.displayName?.text || EntityType.displayName,
             hitPoints: entity.hitPoints,
             maxHitPoints: entity.maxHitPoints,
             canBeCraftedAt: Boolean(EntityType.craftingStationClass),

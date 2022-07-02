@@ -1,3 +1,4 @@
+/* eslint-disable-next-line max-classes-per-file */
 import { RowCol } from '@rogueworld/types';
 import Pickup from '../../entities/classes/Pickup';
 import Player from '../../entities/classes/Player';
@@ -12,13 +13,14 @@ import DamageModifier from '../../gameplay/DamageModifier';
 
 class Item {
     /**
-     * Need this here to check if this class is abstract during runtime so the abstract classes can be
-     * separated in the items list.
+     * Need this here to check if this class is abstract during runtime so the abstract classes can
+     * be separated in the items list.
      */
     static abstract = true;
 
     /**
-     * Whether this item has had it's destroy method called, and is just waiting to be GCed, so shouldn't be usable any more.
+     * Whether this item has had it's destroy method called, and is just waiting to be GCed, so
+     * shouldn't be usable any more.
      */
     private destroyed = false;
 
@@ -58,19 +60,23 @@ class Item {
     static craftingExpValue = 0;
 
     /**
-     * The ids of the task types that will be progressed on a player that crafts this item, from any recipe it is a result of.
-     * Can be multiple, i.e. crafting iron arrows would progress both "CraftIronGear" and "CraftArrows" tasks.
+     * The ids of the task types that will be progressed on a player that crafts this item, from
+     * any recipe it is a result of.
+     * Can be multiple, i.e. crafting iron arrows would progress both "CraftIronGear" and
+     * "CraftArrows" tasks.
      */
     static craftTaskIds: Array<string> = [];
 
     /**
-     * The type of entity to be added to the board if this item is dropped on the ground. The class itself, NOT an instance of it.
+     * The type of entity to be added to the board if this item is dropped on the ground.
+     * The class itself, NOT an instance of it.
      * If left null, the item to drop will disappear and won't leave anything on the ground.
      */
     static PickupType: typeof Pickup | null = null;
 
     /**
-     * A flag of wether this item type does something when used, such as creating a projectile, restoring HP, or giving stat exp.
+     * A flag of wether this item type does something when used, such as starting an action,
+     * restoring HP, or giving stat exp.
      * Not all items are "usable" as such, e.g. materials.
      */
     static hasUseEffect = false;
@@ -125,10 +131,11 @@ class Item {
      */
     static statusEffectsOnUse: Array<typeof StatusEffect> = [];
 
-    static entityTypeSpawnedOnUse?: typeof Entity = undefined;
+    static EntityTypeSpawnedOnUse?: typeof Entity = undefined;
 
     /**
-     * How far away in tiles (Manhattan distance) the target of this item can be away from the owner.
+     * How far away in tiles (Manhattan distance) the target of this item can be away from the
+     * owner.
      */
     static useRange?: number = undefined;
 
@@ -161,6 +168,7 @@ class Item {
     static assignPickupType(itemName: string) {
         // Don't bother having a pickup type file. Just create one for each item
         // type, as it will always be 1-1 (except items that cannot be dropped).
+
         class GenericPickup extends Pickup { }
         GenericPickup.ItemType = this;
 
@@ -170,7 +178,8 @@ class Item {
 
         GenericPickup.typeName = `Pickup${itemName}`;
 
-        // Add the pickup to the entities list, so it can still be manually instantiated, for spawners.
+        // Add the pickup to the entities list, so it can still be manually instantiated, for
+        // spawners.
         EntitiesList.BY_NAME[GenericPickup.typeName] = GenericPickup;
     }
 
@@ -205,18 +214,18 @@ class Item {
         if (!owner) return;
 
         // Target the owner if no other entity was specified.
-        if(!targetEntity) targetEntity = owner;
+        if (!targetEntity) targetEntity = owner;
 
         const ItemType = this.constructor as typeof Item;
 
         if (ItemType.useGloryCost) owner.modGlory(-ItemType.useGloryCost);
 
         if (ItemType.hasUseEffect) {
-            if(ItemType.healingOnUseAmount) {
+            if (ItemType.healingOnUseAmount) {
                 targetEntity?.heal({ amount: ItemType.healingOnUseAmount }, owner);
             }
 
-            if(ItemType.damageOnUseAmount) {
+            if (ItemType.damageOnUseAmount) {
                 targetEntity?.damage({
                     amount: ItemType.damageOnUseAmount,
                     types: ItemType.damageOnUseTypes,
@@ -225,19 +234,19 @@ class Item {
                 }, owner);
             }
 
-            if(ItemType.foodOnUseAmount) {
+            if (ItemType.foodOnUseAmount) {
                 owner.modFood(ItemType.foodOnUseAmount);
             }
 
-            if(ItemType.statusEffectsOnUse.length > 0) {
-                ItemType.statusEffectsOnUse.forEach((StatusEffect) => {
-                    targetEntity?.addStatusEffect(StatusEffect, owner);
+            if (ItemType.statusEffectsOnUse.length > 0) {
+                ItemType.statusEffectsOnUse.forEach((eachStatusEffect) => {
+                    targetEntity?.addStatusEffect(eachStatusEffect, owner);
                 });
             }
 
-            if(ItemType.entityTypeSpawnedOnUse) {
-                if(targetPosition && owner.board) {
-                    new ItemType.entityTypeSpawnedOnUse({
+            if (ItemType.EntityTypeSpawnedOnUse) {
+                if (targetPosition && owner.board) {
+                    new ItemType.EntityTypeSpawnedOnUse({
                         row: targetPosition?.row,
                         col: targetPosition?.col,
                         board: owner.board,
@@ -261,9 +270,9 @@ class Item {
         }
     }
 
-    equip() { return; }
+    equip() { }
 
-    unequip() { return; }
+    unequip() { }
 
     modQuantity(amount: number) {
         // Check a valid value was given.

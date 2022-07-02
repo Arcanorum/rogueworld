@@ -22,8 +22,8 @@ async function img2LeafletTile(config: Config) {
     }
 
     function getPadding(dimension: number | undefined, cropDimension: number | undefined) {
-        if(!dimension) return 0;
-        if(!cropDimension) return 0;
+        if (!dimension) return 0;
+        if (!cropDimension) return 0;
         if (dimension % cropDimension === 0) return 0;
 
         return cropDimension - (dimension % cropDimension);

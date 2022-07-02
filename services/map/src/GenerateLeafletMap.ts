@@ -5,10 +5,11 @@ import path from 'path';
 // import generateMapImages from './GenerateMapImages';
 import img2LeafletTile from './GenerateMapTiles';
 
-// Delete all existing build files before generating new ones, to make sure redundant ones are cleaned up.
+// Delete all existing build files before generating new ones, to make sure redundant ones are
+// cleaned up.
 fs.emptyDirSync(path.join(__dirname, '../build'));
 
-(async() => {
+(async () => {
     // TODO: Disabled as it uses way more memory than a 1GB VPS has and crashes. :/
     // Just generating them locally and uploading them to git for now.
     // await generateMapImages();

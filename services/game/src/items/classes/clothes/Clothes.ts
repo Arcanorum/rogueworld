@@ -33,7 +33,8 @@ abstract class Clothes extends Item {
 
     onUsed() {
         // Use this empty onUsed method to override the Item.prototype.onUsed one, or this item
-        // type will be flagged as unusable and therefore won't be equippable, as it is equipped on use.
+        // type will be flagged as unusable and therefore won't be equippable, as it is equipped
+        // on use.
         super.onUsed();
     }
 
@@ -86,13 +87,14 @@ abstract class Clothes extends Item {
      */
     damage(damage: Damage, source: Entity) {
         // Reduce the damage taken by the piercing amount.
-        // The higher the piercing, the more damage the wearer takes and the less the clothing takes.
+        // The higher the piercing, the more damage the wearer takes and the less the clothing
+        // takes.
         damage.amount *= ((100 - damage.penetration) / 100);
         this.modQuantity(-Math.abs(damage.amount));
         this.onDamaged(damage, source);
     }
 
-    onDamaged(damage: Damage, source: Entity) { return; }
+    onDamaged(damage: Damage, source: Entity) { }
 }
 
 export default Clothes;

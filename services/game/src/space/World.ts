@@ -1,7 +1,9 @@
 import { Settings } from '@rogueworld/configs';
 import { GameMap, Maps } from '@rogueworld/maps';
 import { DayPhases, ObjectOfUnknown, RowCol } from '@rogueworld/types';
-import { arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning } from '@rogueworld/utils';
+import {
+    arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning,
+} from '@rogueworld/utils';
 import { Board } from '.';
 import { AccountDocument, loadPlayerData, logOut } from '../database';
 import Player from '../entities/classes/Player';
@@ -65,8 +67,9 @@ const World = {
     init() {
         Maps.forEach((map) => {
             if (this.createBoard(map)) {
-                // Do this after the board/dungeon manager is created, or the client board data won't
-                // have the dungeon manager ID to use for any dungeon portals that need that ID.
+                // Do this after the board/dungeon manager is created, or the client board data
+                // won't have the dungeon manager ID to use for any dungeon portals that need that
+                // ID.
                 createClientBoardData(map);
             }
         });
@@ -78,7 +81,8 @@ const World = {
     },
 
     /**
-     * Create an instance of a board for a map that should exist at the start and not be added in later.
+     * Create an instance of a board for a map that should exist at the start and not be added in
+     * later.
      * @returns Whether the world should continue any other setup that involves this board.
      */
     createBoard(map: GameMap) {
@@ -182,7 +186,8 @@ const World = {
         // To uniquely identify accounts on the client.
         dataToSend.accountId = account._id;
 
-        // Tell the nearby players to add this new player, after they are fully set up (if an account was loaded, the properties will have been modified after object creation).
+        // Tell the nearby players to add this new player, after they are fully set up (if an
+        // account was loaded, the properties will have been modified after object creation).
         playerEntity.emitToNearbyPlayers();
 
         clientSocket.sendEvent('join_world_success', dataToSend);
@@ -217,8 +222,8 @@ const World = {
         );
 
         const playerEntity = new (EntitiesList.BY_NAME.Player as typeof Player)({
-            row: 400, //randomPosition.row,
-            col: 900, //randomPosition.col,
+            row: 400, // randomPosition.row,
+            col: 900, // randomPosition.col,
             board: boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME],
             displayName,
             socket: clientSocket,
@@ -283,13 +288,15 @@ const World = {
 
         // Utils.message("Day phase progressed:", dayPhaseCycle[0]);
 
-        // Check if the period is different than last. Don't bother updating the boards/players if it is the same. i.e. day and night last more than one phase.
+        // Check if the period is different than last. Don't bother updating the boards/players if
+        // it is the same. i.e. day and night last more than one phase.
         if (dayPhaseCycle[0] !== this.dayPhase) {
             // Get whatever is at the front.
             this.dayPhase = dayPhaseCycle[0];
 
             boardsArray.forEach((board) => {
-                // Don't change the time inside dungeons and caves etc. They are always dark (night).
+                // Don't change the time inside dungeons and caves etc.
+                // They are always dark (night).
                 if (board.alwaysNight === false) {
                     board.dayPhase = this.dayPhase;
                 }

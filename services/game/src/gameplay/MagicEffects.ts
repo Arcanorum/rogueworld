@@ -28,7 +28,7 @@ class MagicEffect {
     }: MagicEffectConfig) {
         this.entity = entity;
 
-        if(source) {
+        if (source) {
             this.source = source;
         }
 
@@ -69,7 +69,7 @@ export class Curse extends MagicEffect {
 
         super(config);
 
-        if(!this.entity) return;
+        if (!this.entity) return;
 
         if (this.entity.curse) {
             // The entity didn't already have a curse, so tell all nearby players this now has one.
@@ -85,7 +85,7 @@ export class Curse extends MagicEffect {
     }
 
     remove() {
-        if(this.entity) {
+        if (this.entity) {
             this.entity.curse = undefined;
 
             this.entity.board?.emitToNearbyPlayers(
@@ -105,7 +105,7 @@ export class Enchantment extends MagicEffect {
 
         super(config);
 
-        if(!this.entity) return;
+        if (!this.entity) return;
 
         if (this.entity.enchantment) {
             // The entity didn't already have an enchantment, so tell all nearby players this now has one.
@@ -120,7 +120,7 @@ export class Enchantment extends MagicEffect {
     }
 
     remove() {
-        if(this.entity) {
+        if (this.entity) {
             this.entity.enchantment = undefined;
             if (this.entity.board) {
                 this.entity.board.emitToNearbyPlayers(
@@ -156,7 +156,7 @@ class Pacify extends Curse {
 
 class Deathbind extends Curse {
     onEntityDeath() {
-        if(this.entity) {
+        if (this.entity) {
             // if (this.entity.CorpseType) {
             //     new this.entity.CorpseType.prototype.ZombieType({
             //         row: this.entity.row,

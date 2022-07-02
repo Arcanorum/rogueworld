@@ -1,8 +1,8 @@
+import { message, warning } from '@rogueworld/utils';
+import { Settings } from '@rogueworld/configs';
 import { webSocketServer as wss } from '../Server';
 import PlayerWebSocket from './PlayerWebSocket';
-import { message, warning } from '@rogueworld/utils';
 import EventResponses from './EventResponses';
-import { Settings } from '@rogueworld/configs';
 import { World } from '../space';
 import './Account';
 import './Communication';
@@ -10,6 +10,7 @@ import './Entity';
 import './Item';
 import './Login';
 
+// eslint-disable-next-line import/prefer-default-export
 export function isDisplayNameValid(displayName: string) {
     // Check a display name was given.
     if (!displayName) return false;
@@ -29,7 +30,7 @@ export function isDisplayNameValid(displayName: string) {
 // "What is all this stuff below?"
 // https://github.com/websockets/ws#how-to-detect-and-close-broken-connections
 
-function noop() { return; }
+function noop() { }
 
 function closeConnection(clientSocket: PlayerWebSocket) {
     message('Closing dead connection.');
@@ -70,7 +71,7 @@ wss.broadcastToInGame = (eventName: string, data?: any) => {
 };
 
 wss.on('connection', (clientSocket: PlayerWebSocket) => {
-    if(!World.initialised) clientSocket.close(1013, 'Game world not yet initialised.');
+    if (!World.initialised) clientSocket.close(1013, 'Game world not yet initialised.');
 
     PlayerWebSocket.extend(clientSocket);
 

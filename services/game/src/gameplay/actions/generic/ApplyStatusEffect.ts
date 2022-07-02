@@ -10,21 +10,21 @@ export default function applyStatusEffect(
         StatusEffect: typeof StatusEffect;
     },
 ) {
-    if(!statusEffectConfig) return;
+    if (!statusEffectConfig) return;
 
     // Target a specific entity if given.
-    if(targetEntity) {
+    if (targetEntity) {
         targetEntity.addStatusEffect(statusEffectConfig.StatusEffect, source);
     }
     // If targetting a board tile, get any entity that is now on it.
     // Player might have chose to act on a specific tile, such as predicting where a target entity
     // will move to so act there instead.
-    else if(targetPosition) {
+    else if (targetPosition) {
         const boardTile = source.board?.getTileAt(targetPosition.row, targetPosition.col);
-        if(!boardTile) return;
+        if (!boardTile) return;
 
         const foundEntity = boardTile.getFirstEntity();
-        if(!foundEntity) return;
+        if (!foundEntity) return;
 
         foundEntity.addStatusEffect(statusEffectConfig.StatusEffect, source);
     }

@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { init } from '../shared/Config';
 import { loadSettings, loadTranslations } from '@rogueworld/configs';
+import { init } from '../shared/Config';
 
 const App = dynamic(
     () => import('../components/App'),
@@ -33,13 +33,18 @@ export async function getStaticProps() {
     const Settings = loadSettings(pathToConfigs);
     const Translations = loadTranslations(pathToConfigs);
 
+    let English;
+    if (Translations) {
+        English = Translations.English;
+    }
+
     return {
         props: {
             Settings,
             // Only load English by default. Get another language on demand from the language service.
             // Avoids having them all loaded at once when only one is being used.
             TextDefs: {
-                English: Translations['English'],
+                English,
             },
         },
     };

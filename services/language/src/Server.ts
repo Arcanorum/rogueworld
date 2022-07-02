@@ -1,12 +1,11 @@
+import '@rogueworld/node-utils';
 import { Settings } from '@rogueworld/configs';
-import { initService } from '@rogueworld/node-utils';
 import { message } from '@rogueworld/utils';
-initService();
 import cors from 'cors';
 import express from 'express';
 import getTextDefinitions from './TextDefinitionsParser';
 
-(async() => {
+(async () => {
     const textDefs = await getTextDefinitions();
 
     const expressServer = express();
@@ -23,15 +22,16 @@ import getTextDefinitions from './TextDefinitionsParser';
     expressServer.get('/language/:languageName', (req, res) => {
         const { languageName } = req.params;
 
-        if(!textDefs[languageName]) {
+        if (!textDefs[languageName]) {
             res.statusCode = 400;
             res.send('Invalid language name');
             return;
         }
 
-        // Always send back the English definitions too, to use as a fallback as the text for English should always be defined.
+        // Always send back the English definitions too, to use as a fallback as the text for
+        // English should always be defined.
         res.send({
-            English: textDefs['English'],
+            English: textDefs.English,
             [languageName]: textDefs[languageName],
         });
     });

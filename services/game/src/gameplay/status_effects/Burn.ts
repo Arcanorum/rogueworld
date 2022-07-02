@@ -19,7 +19,7 @@ class Burn extends StatusEffect {
         // Check if they are standing in anything that burns. If so, keep burning.
         const tileBurns = this.appliedTo
             .getBoardTile()?.groundType.statusEffects
-            ?.some((StatusEffect) => { return StatusEffect === Burn; });
+            ?.some((someStatusEffect) => someStatusEffect === Burn);
 
         if (tileBurns) {
             this._effectsRemaining = this._startingEffectsRemaining;

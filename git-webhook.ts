@@ -5,6 +5,7 @@ import { createServer } from 'http';
 import util from 'util';
 
 const exec = util.promisify(require('child_process').exec);
+
 const port = Settings.GIT_WEBHOOK_PORT || 3333;
 const branchName = Settings.GIT_WEBHOOK_BRANCH_NAME || '';
 const secret = Settings.GIT_WEBHOOK_SECRET || '';
@@ -64,18 +65,18 @@ restart();
  * Used to trigger a restart of the game every time a commit is pushed, so it is up to date with
  * the latest code.
  */
-createServer(function(req, res) {
+createServer((req, res) => {
     message('Request received.');
 
-    req.on('data', async function(chunk) {
+    req.on('data', async (chunk) => {
         const data = JSON.parse(chunk.toString());
         message('Triggered by payload data:', data);
 
         try {
             // Github sends events for all branches that are pushed to, so need to check the specific one that was updated.
-            if(refName) {
+            if (refName) {
                 message('Target branch provided, checking incoming ref.');
-                if(refName !== data.ref) {
+                if (refName !== data.ref) {
                     message('Invalid target branch or incoming ref, skipping.');
                     message(`Branch: ${refName}`);
                     message(`Incoming ref: ${data.ref}`);

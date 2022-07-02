@@ -46,7 +46,8 @@ class Inventory {
                         quantity: inventoryItem.quantity,
                     });
 
-                    // Update the document with the new id if it didn't already have one (old account).
+                    // Update the document with the new id if it didn't already have one (old
+                    // account).
                     if (itemState.id !== inventoryItem.id) {
                         // Need to use Mongoose setter when modifying array by index directly.
                         // https://mongoosejs.com/docs/faq.html#array-changes-not-saved
@@ -109,7 +110,8 @@ class Inventory {
                     id: item.itemState.id,
                     quantity: item.itemState.quantity,
                     totalWeight: item.itemState.totalWeight,
-                });
+                },
+            );
         }
 
         // If this player has an account, save the new inventory item.
@@ -233,7 +235,8 @@ class Inventory {
     /**
      *
      * @param itemState
-     * @param forceAdd - Ignore anything that might check and limit how much can be added, such as if it would be over max weight.
+     * @param forceAdd - Ignore anything that might check and limit how much can be added, such as
+     * if it would be over max weight.
      */
     addItem(itemState: ItemState, forceAdd = false) {
         if (!(itemState instanceof ItemState)) {
@@ -255,22 +258,25 @@ class Inventory {
                     (nonFullStack.itemState.quantity + quantityToAdd)
                     > (nonFullStack.itemState.constructor as typeof ItemState).MAX_QUANTITY
                 ) {
-                    // Not enough space. Add what can be added and keep the rest where it is, to then
-                    // see if another stack of the same type exists that it can be added to instead.
+                    // Not enough space. Add what can be added and keep the rest where it is, to
+                    // then see if another stack of the same type exists that it can be added to
+                    // instead.
 
                     const availableQuantity = (
-                        (nonFullStack.itemState.constructor as typeof ItemState).MAX_QUANTITY -
-                        nonFullStack.itemState.quantity
+                        (nonFullStack.itemState.constructor as typeof ItemState).MAX_QUANTITY
+                        - nonFullStack.itemState.quantity
                     );
 
                     // Add to the found stack.
                     nonFullStack.modQuantity(+availableQuantity);
 
-                    // Some of the quantity to add has now been added to an existing stack, so reduce the amount
-                    // that will go into any other stacks, or into the new overflow stack if no other stack exists.
+                    // Some of the quantity to add has now been added to an existing stack, so
+                    // reduce the amount that will go into any other stacks, or into the new
+                    // overflow stack if no other stack exists.
                     quantityToAdd -= availableQuantity;
 
-                    // Check if there are any other non full stacks that the remainder can be added to.
+                    // Check if there are any other non full stacks that the remainder can be
+                    // added to.
                     nonFullStack = this.findNonFullItemTypeStack(itemState.ItemType);
                 }
                 else {
@@ -287,10 +293,11 @@ class Inventory {
                 }
             }
 
-            // If there is anything left to add after all of the existing stacks have been filled, then
-            // make some new stacks.
-            // This should only need to add one stack, but catces any weird cases where they somehow
-            // try to add a stack larger than the max stack size by splitting it up into smaller stacks.
+            // If there is anything left to add after all of the existing stacks have been filled,
+            // then make some new stacks.
+            // This should only need to add one stack, but catces any weird cases where they
+            // somehow try to add a stack larger than the max stack size by splitting it up into
+            // smaller stacks.
             while (quantityToAdd > 0) {
                 let stackQuantity = quantityToAdd;
 
@@ -362,7 +369,8 @@ class Inventory {
         // Tell the player the item was removed from their inventory.
         this.owner.socket?.sendEvent('remove_inventory_item', slotIndex);
 
-        // If this player has an account, update their account document that the item has been removed.
+        // If this player has an account, update their account document that the item has been
+        // removed.
         if (!skipSave && this.owner.socket?.account) {
             this.owner.socket.account.inventoryItems.splice(slotIndex, 1);
         }
@@ -410,20 +418,21 @@ class Inventory {
 
         const { owner } = this;
 
-        if(!owner.board) return;
+        if (!owner.board) return;
 
         const boardTile = owner.getBoardTile();
 
-        if(!boardTile) return;
+        if (!boardTile) return;
 
-        // Check the board tile the player is standing on doesn't already have an item or interactable on it.
+        // Check the board tile the player is standing on doesn't already have an item or
+        // interactable on it.
         if (boardTile.isLowBlocked() === true) {
             // TODO: figure out what to do about this.
             // clientSocket.sendEvent("cannot_drop_here");
             return;
         }
 
-        const PickupType = (item.constructor as typeof Item).PickupType;
+        const { PickupType } = item.constructor as typeof Item;
 
         // If no pickup type set, destroy the item without leaving a pickup on the ground.
         if (!PickupType) {
@@ -431,7 +440,8 @@ class Inventory {
             return;
         }
 
-        // If a quantity to drop was given, only drop that amount, and keep the rest in the inventory.
+        // If a quantity to drop was given, only drop that amount, and keep the rest in the
+        // inventory.
         if (quantity && item.itemState.quantity && quantity < item.itemState.quantity) {
             // Remove from the stack.
             item.modQuantity(-quantity);
@@ -475,7 +485,7 @@ class Inventory {
         const { owner } = this;
 
         this.items.forEach((item) => {
-            const PickupType = (item.constructor as typeof Item).PickupType;
+            const { PickupType } = item.constructor as typeof Item;
 
             // If no pickup type set, destroy the item without leaving a pickup on the ground.
             if (!PickupType) {
@@ -483,7 +493,7 @@ class Inventory {
                 return;
             }
 
-            if(!owner.board) return;
+            if (!owner.board) return;
 
             // Add a pickup entity of that item to the board.
             new PickupType({

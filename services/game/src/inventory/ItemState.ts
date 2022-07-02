@@ -59,7 +59,7 @@ class ItemState {
         // Use a given quantity, or default to the base value for quantity from the item type.
         // Also handles the case for older saved items that used durability, so they can fall back
         // to the default base quantity for that item type.
-        if(quantity) {
+        if (quantity) {
             this.quantity = Math.floor(quantity);
         }
         else {

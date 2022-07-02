@@ -10,13 +10,15 @@ class Bow extends Holdable {
 
     // /**
     //  * Use this bow. Typically creates a projectile.
-    //  * @param {String} direction - A specific direction to use the item in. Otherwise uses the owner's direction.
+    //  * @param {String} direction - A specific direction to use the item in.
+    // Otherwise uses the owner's direction.
     //  */
     // onUsedWhileHeld(direction) {
     //     // Use the projectile type of the equipped arrows.
     //     this.ProjectileType = this.owner.ammunition.ProjectileType;
 
-    //     // Keep this at the bottom otherwise the item might be broken and destroyed when the durability is updated, so the above stuff will get buggy.
+    //     // Keep this at the bottom otherwise the item might be broken and destroyed when the
+    // durability is updated, so the above stuff will get buggy.
     //     super.onUsedWhileHeld(direction);
     // }
 
@@ -30,4 +32,4 @@ class Bow extends Holdable {
 
 Bow.abstract = true;
 
-module.exports = Bow;
+export default Bow;

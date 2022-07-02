@@ -1,7 +1,6 @@
+import '@rogueworld/node-utils';
 import { Settings } from '@rogueworld/configs';
-import { initService } from '@rogueworld/node-utils';
 import { message, warning } from '@rogueworld/utils';
-initService();
 import express from 'express';
 import path from 'path';
 

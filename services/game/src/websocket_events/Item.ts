@@ -47,7 +47,7 @@ EventResponses.craft_item = (clientSocket, data: number) => {
  * @param data.slotIndex - The key of the inventory slot of the item to drop.
  * @param data.quantity - How many of the stack in the given slot to drop.
  */
-EventResponses.drop_item = (clientSocket, data: {slotIndex: number; quantity: number}) => {
+EventResponses.drop_item = (clientSocket, data: { slotIndex: number; quantity: number }) => {
     if (!data) return;
     if (clientSocket.inGame === false) return;
 

@@ -4,7 +4,7 @@ import { isDisplayNameValid } from '.';
 import { changePassword, createAccount } from '../database';
 import EventResponses from './EventResponses';
 
-EventResponses.create_account = (clientSocket, data: {username: string; password: string}) => {
+EventResponses.create_account = (clientSocket, data: { username: string; password: string }) => {
     if (!data) return;
     if (!data.username) {
         clientSocket.sendEvent('create_account_failure', { messageId: 'No username' });
@@ -21,12 +21,15 @@ EventResponses.create_account = (clientSocket, data: {username: string; password
         return;
     }
 
-    if(!clientSocket.entity) {
+    if (!clientSocket.entity) {
         clientSocket.sendEvent('something_went_wrong');
         return;
     }
 
-    createAccount(data.username, data.password, clientSocket.entity,
+    createAccount(
+        data.username,
+        data.password,
+        clientSocket.entity,
         () => {
             message('Create account success:', data.username);
             clientSocket.sendEvent('create_account_success');
@@ -42,7 +45,8 @@ EventResponses.create_account = (clientSocket, data: {username: string; password
                     clientSocket.sendEvent('create_account_failure', { messageId: 'Database error' });
                 }
             }
-        });
+        },
+    );
 };
 
 EventResponses.change_password = (clientSocket, data) => {
@@ -60,7 +64,7 @@ EventResponses.change_display_name = (clientSocket, data) => {
     // Prevent invlaid names.
     if (!isDisplayNameValid(data)) return;
 
-    if(!clientSocket.entity) return;
+    if (!clientSocket.entity) return;
 
     // Check they have enough glory.
     if (clientSocket.entity.glory < (Settings.DISPLAY_NAME_CHANGE_COST || 1000)) return;

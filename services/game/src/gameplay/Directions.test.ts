@@ -2,7 +2,7 @@ import { Directions } from '@rogueworld/types';
 import { rowColOffsetToDirection, getRowColsToSides } from './Directions';
 
 describe('directions', () => {
-    test('should return the correct directions', async() => {
+    test('should return the correct directions', async () => {
         expect(rowColOffsetToDirection(-1, 0)).toEqual(Directions.UP);
 
         expect(rowColOffsetToDirection(1, 0)).toEqual(Directions.DOWN);
@@ -12,13 +12,13 @@ describe('directions', () => {
         expect(rowColOffsetToDirection(0, 1)).toEqual(Directions.RIGHT);
     });
 
-    test('should return the up as the default for invalid offsets', async() => {
+    test('should return the up as the default for invalid offsets', async () => {
         expect(rowColOffsetToDirection(0, 0)).toEqual(Directions.UP);
 
         expect(rowColOffsetToDirection(5 as any, -5 as any)).toEqual(Directions.UP);
     });
 
-    test('should return the correct side positions relative of each direction', async() => {
+    test('should return the correct side positions relative of each direction', async () => {
         const row = 15;
         const col = 20;
 

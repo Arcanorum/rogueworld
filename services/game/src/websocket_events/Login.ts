@@ -6,7 +6,7 @@ import EventResponses from './EventResponses';
 /**
  * When a user tries to log in to an existing account.
  */
-EventResponses.log_in = (clientSocket, data: {username: string; password: string}) => {
+EventResponses.log_in = (clientSocket, data: { username: string; password: string }) => {
     // console.log("log in:", data);
     if (!data) return;
     if (!data.username) return;
@@ -22,7 +22,7 @@ EventResponses.log_in = (clientSocket, data: {username: string; password: string
 /**
  * Create a new character to use, but that is NOT an account yet.
  */
-EventResponses.new_char = (clientSocket, data: {displayName: string}) => {
+EventResponses.new_char = (clientSocket, data: { displayName: string }) => {
     // console.log("new char:", data);
     if (!data) return;
     // Don't let them join a world if they are already in one.

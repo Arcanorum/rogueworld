@@ -27,7 +27,7 @@ export default async function getTextDefinitions() {
 
         message('Latest translations spreadsheet version downloaded.');
     }
-    catch(err) {
+    catch (err) {
         warning('Error getting latest translations spreadsheet version. Using latest successfully downloaded version.');
     }
 
@@ -41,11 +41,11 @@ export default async function getTextDefinitions() {
 
         message('Translations spreadsheet loaded.');
     }
-    catch(err2) {
+    catch (err2) {
         // Use the static translations data from config package as last resort.
         warning('Error loading local backup. Using static fallback. This may be very out of date. :/');
 
-        if(Translations) textDefs = Translations;
+        if (Translations) textDefs = Translations;
     }
 
     return textDefs;

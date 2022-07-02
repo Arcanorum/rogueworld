@@ -1,4 +1,6 @@
-import { model, Schema, Document, Types } from 'mongoose';
+import {
+    model, Schema, Document, Types,
+} from 'mongoose';
 
 // const integerValidator = {
 //     validator: Number.isInteger,
@@ -51,7 +53,8 @@ export interface AccountDocument extends Document {
     inventoryItems: Types.DocumentArray<ItemDocument>;
 }
 
-const accountSchema = new Schema( // TODO: figure out how to type this as the Account interface, weird Date issue...
+// TODO: figure out how to type this as the Account interface, weird Date issue...
+const accountSchema = new Schema(
     {
         username: {
             type: String, required: true, index: true, unique: true,
@@ -71,5 +74,3 @@ const accountSchema = new Schema( // TODO: figure out how to type this as the Ac
 const AccountModel = model<AccountDocument>('Account', accountSchema);
 
 export default AccountModel;
-
-

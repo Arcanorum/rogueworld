@@ -53,7 +53,7 @@ export const populateList = () => {
     // eslint-disable-next-line global-require
     requireDir('classes', {
         recurse: true,
-        mapKey: (value: {default: typeof Item}, baseName: string) => {
+        mapKey: (value: { default: typeof Item }, baseName: string) => {
             const ItemClass = value.default;
             if (typeof ItemClass === 'function') {
                 if (ItemsList.BY_NAME[baseName]) {
@@ -65,7 +65,8 @@ export const populateList = () => {
                     if (ItemsList.ABSTRACT_CLASSES[baseName]) {
                         error(`Cannot load abstract item type "${baseName}", as it already exists in the abstract classes list.`);
                     }
-                    // Still add it to the separate list of abstract classes though, as it may still be needed.
+                    // Still add it to the separate list of abstract classes though, as it may
+                    // still be needed.
                     ItemsList.ABSTRACT_CLASSES[baseName] = ItemClass;
                     return;
                 }
@@ -79,7 +80,7 @@ export const populateList = () => {
     });
 
     // Load all of the item configs.
-    Items.forEach((config: {name: string; extends: string}) => {
+    Items.forEach((config: { name: string; extends: string }) => {
         // Only generate a class for this item if one doesn't already
         // exist, as it might have it's own special logic file.
         if (!ItemsList.BY_NAME[config.name]) {
@@ -104,7 +105,8 @@ export const initialiseList = () => {
     // Items list is now complete. Finish any setup for the classes in it.
     message('Initialising items list.');
 
-    // Use the pure config items values again to finish setting them up, now that the classes are created.
+    // Use the pure config items values again to finish setting them up, now that the classes
+    // are created.
     Items.forEach((config: any) => {
         if (!config.code) {
             error('Item config missing type code:', config);
@@ -131,7 +133,7 @@ export const initialiseList = () => {
             }
 
             // Already used to create the item class.
-            if(_key === 'extends') {
+            if (_key === 'extends') {
                 return;
             }
 
@@ -141,7 +143,8 @@ export const initialiseList = () => {
                     error('Item config property `craftTasks` must be an array:', config);
                 }
 
-                // Set own property for this item type, to prevent pushing into the parent (Item class) one.
+                // Set own property for this item type, to prevent pushing into the
+                // parent (Item class) one.
                 ItemClass.craftTaskIds = [];
 
                 (value as Array<string>).forEach((taskName) => {
@@ -158,7 +161,20 @@ export const initialiseList = () => {
             }
 
             // Used later to create the data for how to configure the items on the client.
-            if(_key === 'clientConfig') {
+            if (_key === 'clientConfig') {
+                return;
+            }
+
+            // Check for any configs that are referencing an entity type by name.
+            if (_key === 'entityTypeSpawnedOnUse') {
+                if (typeof value !== 'string') {
+                    error('Invalid entity type name to spawn on use. Must be a string:', value);
+                    return;
+                }
+                if (!EntitiesList.BY_NAME[value]) {
+                    error('Invalid entity type name to spawn on use. Not found in entities list:', value);
+                }
+                ItemClass.EntityTypeSpawnedOnUse = EntitiesList.BY_NAME[value];
                 return;
             }
 
@@ -189,22 +205,12 @@ export const initialiseList = () => {
                     }
 
                     // Check for any configs that are referencing status effects by name.
-                    if(key === 'statusEffectsOnUse' && Array.isArray(value)) {
-                        value = value.map((statusEffectClassName: keyof typeof StatusEffects) => {
-                            return StatusEffects[statusEffectClassName];
-                        });
-                    }
-
-                    // Check for any configs that are referencing an entity type by name.
-                    if(key === 'entityTypeSpawnedOnUse') {
-                        if(typeof value !== 'string') {
-                            error('Invalid entity type name to spawn on use. Must be a string:', value);
-                            return;
-                        }
-                        if(!EntitiesList.BY_NAME[value]) {
-                            error('Invalid entity type name to spawn on use. Not found in entities list:', value);
-                        }
-                        value = EntitiesList.BY_NAME[value];
+                    if (key === 'statusEffectsOnUse' && Array.isArray(value)) {
+                        value = value.map(
+                            (statusEffectClassName: keyof typeof StatusEffects) => (
+                                StatusEffects[statusEffectClassName]
+                            ),
+                        );
                     }
 
                     // eslint-disable-next-line
@@ -218,12 +224,12 @@ export const initialiseList = () => {
 
             // Mark any items that do something when used.
             if (
-                ItemClass.healingOnUseAmount !== Item.healingOnUseAmount ||
-                ItemClass.damageOnUseAmount !== Item.damageOnUseAmount ||
-                ItemClass.foodOnUseAmount !== Item.foodOnUseAmount ||
-                ItemClass.statusEffectsOnUse !== Item.statusEffectsOnUse ||
-                ItemClass.prototype.use !== Item.prototype.use ||
-                ItemClass.prototype.onUsed !== Item.prototype.onUsed
+                ItemClass.healingOnUseAmount !== Item.healingOnUseAmount
+                || ItemClass.damageOnUseAmount !== Item.damageOnUseAmount
+                || ItemClass.foodOnUseAmount !== Item.foodOnUseAmount
+                || ItemClass.statusEffectsOnUse !== Item.statusEffectsOnUse
+                || ItemClass.prototype.use !== Item.prototype.use
+                || ItemClass.prototype.onUsed !== Item.prototype.onUsed
             ) {
                 ItemClass.hasUseEffect = true;
             }
@@ -245,8 +251,9 @@ export const initialiseList = () => {
 };
 
 export const createCatalogue = () => {
-    // Write the registered item types to the client, so the client knows what item to add for each type number.
-    const dataToWrite: {[key: string]: ItemClientConfig} = {};
+    // Write the registered item types to the client, so the client knows what item to add for each
+    // type number.
+    const dataToWrite: { [key: string]: ItemClientConfig } = {};
 
     Object.values(ItemsList.BY_NAME).forEach((ItemType) => {
         const itemTypePrototype = ItemType.prototype;

@@ -8,7 +8,7 @@ const move = (clientSocket: PlayerWebSocket, rowOffset: Offset, colOffset: Offse
     // Make sure they are in the game.
     if (clientSocket.inGame === false) return;
 
-    if(!clientSocket.entity) return;
+    if (!clientSocket.entity) return;
 
     // Ignore this event if they are dead.
     if (clientSocket.entity.hitPoints <= 0) return;
@@ -32,36 +32,34 @@ EventResponses.respawn = (clientSocket) => {
     clientSocket.entity?.respawn();
 };
 
-EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?: number}) => {
+EventResponses.interact = (clientSocket, data?: { id?: number; row?: number; col?: number }) => {
     if (clientSocket.inGame === false) return;
     // Ignore this event if they are alive.
     if (clientSocket.entity?.hitPoints <= 0) return;
-    if(!data) return;
+    if (!data) return;
 
     const playerEntity = clientSocket.entity;
-    if(!playerEntity) return;
+    if (!playerEntity) return;
 
     let targetEntity: Entity | undefined;
 
-    if(data.id) {
+    if (data.id) {
         // Check if it is in the movables list, so we can get a reference to it.
-        if(playerEntity.board?.movables[data.id]) {
+        if (playerEntity.board?.movables[data.id]) {
             targetEntity = playerEntity.board.movables[data.id];
         }
         // Non-movable entity, so access it by row/col, which should have been provided.
-        else {
-            if(data.row && data.col) {
-                const boardTile = playerEntity.board?.getTileAt(data.row, data.col);
-                if(!boardTile) return;
+        else if (data.row && data.col) {
+            const boardTile = playerEntity.board?.getTileAt(data.row, data.col);
+            if (!boardTile) return;
 
-                targetEntity = boardTile.entities[data.id];
-                if(!targetEntity) return;
-            }
+            targetEntity = boardTile.entities[data.id];
+            if (!targetEntity) return;
         }
     }
 
-    if(playerEntity.holding) {
-        if(data.row && data.col) {
+    if (playerEntity.holding) {
+        if (data.row && data.col) {
             playerEntity.holding.useWhileHeld(targetEntity, { row: data.row, col: data.col });
         }
         else {
@@ -69,11 +67,12 @@ EventResponses.interact = (clientSocket, data?: {id?: number; row?: number; col?
         }
     }
     else {
-        // Weird TS bug? Won't allow just passing `data` to `tileDistanceBetween` even after doing truthy checks.
+        // Weird TS bug? Won't allow just passing `data` to `tileDistanceBetween` even after doing
+        // truthy checks.
         const targetPosition = { row: data.row || 1, col: data.row || 1 };
 
         // Make sure they aren't too far away.
-        if(tileDistanceBetween(playerEntity, targetEntity || targetPosition) > 1) return;
+        if (tileDistanceBetween(playerEntity, targetEntity || targetPosition) > 1) return;
 
         playerEntity.performAction('punch', targetEntity, data.row, data.col);
     }

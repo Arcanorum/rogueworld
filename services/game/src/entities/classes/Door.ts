@@ -17,7 +17,7 @@ class Door extends Dynamic {
 
     onMovedInto(otherEntity: Entity) {
         // Don't bother if they are already doing something.
-        if(otherEntity.actionTimeout) return;
+        if (otherEntity.actionTimeout) return;
 
         // Start an action to open the door.
         const action: Action = { name: 'open-door', duration: 1000 };
@@ -44,10 +44,10 @@ class Door extends Dynamic {
 
     close() {
         const boardTile = this.getBoardTile();
-        if(!boardTile) return;
+        if (!boardTile) return;
 
         // Check there are no other entities on this tile.
-        if(Object.keys(boardTile.entities).length === 1) {
+        if (Object.keys(boardTile.entities).length === 1) {
             this.isBlocking = true;
             // Tell any nearby players that this entity is now active.
             this.board?.emitToNearbyPlayers(this.row, this.col, 'active_state', this.id);

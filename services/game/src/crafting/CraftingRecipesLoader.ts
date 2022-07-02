@@ -10,7 +10,7 @@ import CraftingRecipe from './CraftingRecipe';
 import CraftingRecipesList from './CraftingRecipesList';
 
 interface CraftingRecipeConfig {
-    ingredients: Array<{itemName: string; quantity: number}>;
+    ingredients: Array<{ itemName: string; quantity: number }>;
     result: {
         itemName: string;
         baseQuantity: number;
@@ -29,7 +29,7 @@ export const populateList = () => {
         CraftingRecipes.forEach((config: CraftingRecipeConfig) => {
             const ResultItemType = ItemsList.BY_NAME[config.result.itemName];
 
-            if(!ResultItemType) {
+            if (!ResultItemType) {
                 error('Invalid crafting recipe. Result item type doesn\'t exist in the item types list for itemName:', config.result.itemName);
             }
 
@@ -46,7 +46,7 @@ export const populateList = () => {
 
             // Check all of the crafting station classes used in the recipe are valid.
             craftingRecipe.stationClasses?.forEach((stationClass) => {
-                if(!CraftingStationClasses.includes(stationClass)) {
+                if (!CraftingStationClasses.includes(stationClass)) {
                     error('Invalid crafting recipe. Crafting station type doesn\'t exist in the entity types list for stationTypeName:', stationClass);
                 }
             });
@@ -55,7 +55,8 @@ export const populateList = () => {
             //     // Check all of the stat names used in the recipe are valid stats.
             //     config.stats.forEach((statName) => {
             //         if (!Statset.prototype.StatNames[statName]) {
-            //             error('Invalid crafting recipe. Stat name isn\'t a valid stat:', statName);
+            //             error('Invalid crafting recipe. Stat name isn\'t a
+            //                 valid stat:', statName);
             //         }
             //     });
             // }
@@ -103,8 +104,8 @@ export const populateList = () => {
                 error('Invalid crafting recipe. \'quantity\' given for result. Did you mean \'baseQuantity\'? Result config:', config.result);
             }
 
-            // Check the weight of the item to craft is not more than the total weight of the ingredients,
-            // or they might end up with more than max carry weight after crafting.
+            // Check the weight of the item to craft is not more than the total weight of the
+            // ingredients, or they might end up with more than max carry weight after crafting.
             {
                 let totalIngredientsWeight = 0;
 
@@ -144,7 +145,9 @@ export const createCatalogue = () => {
         dataToWrite.push({
             // Add a unique id to stop React crying when this recipe is used in displaying a list...
             id: uuidv4(),
-            index, // Add the index of this entry in the recipes list, so the client can send it to identify the recipe when crafting.
+            // Add the index of this entry in the recipes list, so the client can send it to
+            // identify the recipe when crafting.
+            index,
             stationClasses: craftingRecipe.stationClasses,
             ingredients: craftingRecipe.ingredients.map(
                 (ingredient) => ({

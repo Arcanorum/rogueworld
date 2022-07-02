@@ -9,11 +9,12 @@ import sharp from 'sharp';
 import { expressServer } from '../Server';
 
 /**
- * Need to provide these resources for the game client via an API request, as this info is only available
- * once the server has started, so isn't suitable for being included in the client build files.
+ * Need to provide these resources for the game client via an API request, as this info is only
+ * available once the server has started, so isn't suitable for being included in the client build
+ * files.
  */
 
-(async() => {
+(async () => {
     try {
         const outputDir = path.join(__dirname, './resources/images');
 
@@ -22,7 +23,8 @@ import { expressServer } from '../Server';
 
         const outputPath = `${outputDir}/ground.png`;
 
-        // Serve the same ground tileset image as what is used in the map editor to keep them in sync.
+        // Serve the same ground tileset image as what is used in the map editor to keep them in
+        // sync.
         copyFileSync(`${mapsDirname}/tilesets/ground.png`, outputPath);
 
         // Scale the ground tileset, as Phaser blitter bobs can't be scaled, but the texture can,
@@ -30,8 +32,8 @@ import { expressServer } from '../Server';
         const metadata = await sharp(outputPath).metadata();
         const buffer = await sharp(outputPath)
             .resize(
-                (metadata.width! * Settings.CLIENT_DISPLAY_SCALE) | 1,
-                (metadata.height! * Settings.CLIENT_DISPLAY_SCALE) | 1,
+                (metadata.width! * Settings.CLIENT_DISPLAY_SCALE) || 1,
+                (metadata.height! * Settings.CLIENT_DISPLAY_SCALE) || 1,
                 { kernel: sharp.kernel.nearest },
             )
             .toBuffer();
@@ -54,7 +56,7 @@ const sendFile = (req: Request, res: Response, filePath: string) => {
             (err) => { if (err) res.statusCode = 500; },
         );
     }
-    catch(err) {
+    catch (err) {
         warning('Error sending file: ', err);
         res.send(err);
     }

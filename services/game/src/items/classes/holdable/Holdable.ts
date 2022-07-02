@@ -20,27 +20,27 @@ abstract class Holdable extends Item {
     checkUseCriteria(targetEntity?: Entity, targetPosition?: RowCol) {
         const ItemType = this.constructor as typeof Item;
 
-        if(ItemType.useRange) {
+        if (ItemType.useRange) {
             const target = targetEntity || targetPosition;
-            if(!target) return false;
+            if (!target) return false;
 
-            if(tileDistanceBetween(this.owner, target) > ItemType.useRange) {
+            if (tileDistanceBetween(this.owner, target) > ItemType.useRange) {
                 return false;
             }
         }
 
-        if(ItemType.entityTypeSpawnedOnUse) {
-            if(!targetPosition) return false;
+        if (ItemType.EntityTypeSpawnedOnUse) {
+            if (!targetPosition) return false;
 
-            if(ItemType.entityTypeSpawnedOnUse.lowBlocking) {
+            if (ItemType.EntityTypeSpawnedOnUse.lowBlocking) {
                 const targetTile = this.owner.board?.getTileAt(
                     targetPosition.row,
                     targetPosition.col,
                 );
                 // Check the target tile is valid.
-                if(!targetTile) return false;
+                if (!targetTile) return false;
 
-                if(!targetTile.isBuildable()) return false;
+                if (!targetTile.isBuildable()) return false;
             }
         }
 
@@ -50,18 +50,18 @@ abstract class Holdable extends Item {
     postActionCheckUseCriteria(targetEntity?: Entity, targetPosition?: RowCol) {
         const ItemType = this.constructor as typeof Item;
 
-        if(ItemType.entityTypeSpawnedOnUse) {
-            if(!targetPosition) return false;
+        if (ItemType.EntityTypeSpawnedOnUse) {
+            if (!targetPosition) return false;
 
-            if(ItemType.entityTypeSpawnedOnUse.lowBlocking) {
+            if (ItemType.EntityTypeSpawnedOnUse.lowBlocking) {
                 const targetTile = this.owner.board?.getTileAt(
                     targetPosition.row,
                     targetPosition.col,
                 );
                 // Check the target tile is valid.
-                if(!targetTile) return false;
+                if (!targetTile) return false;
 
-                if(!targetTile.isBuildable()) return false;
+                if (!targetTile.isBuildable()) return false;
             }
         }
 
@@ -92,17 +92,18 @@ abstract class Holdable extends Item {
      * Use this held item.
      */
     onUsedWhileHeld(targetEntity?: Entity, targetPosition?: RowCol) {
-        // Need to make sure it can still be used here, as the board state may have changed during the action. i.e. tile now blocked while building.
-        if(!this.postActionCheckUseCriteria(targetEntity, targetPosition)) return;
+        // Need to make sure it can still be used here, as the board state may have changed during
+        // the action. i.e. tile now blocked while building.
+        if (!this.postActionCheckUseCriteria(targetEntity, targetPosition)) return;
 
-        if(!targetEntity && targetPosition) {
+        if (!targetEntity && targetPosition) {
             const boardTile = this.owner.board?.getTileAt(targetPosition.row, targetPosition.col);
-            if(!boardTile) return;
+            if (!boardTile) return;
 
             targetEntity = boardTile.getFirstEntity();
-            if(!targetEntity) {
+            if (!targetEntity) {
                 const ItemType = this.constructor as typeof Item;
-                if(!ItemType.entityTypeSpawnedOnUse) return;
+                if (!ItemType.EntityTypeSpawnedOnUse) return;
             }
         }
 

@@ -1,7 +1,11 @@
 import { Settings } from '@rogueworld/configs';
 import { MapLayer, TiledMap } from '@rogueworld/maps';
-import { DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol } from '@rogueworld/types';
-import { Counter, error, getRandomElement, getRandomIntInclusive, warning } from '@rogueworld/utils';
+import {
+    DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol,
+} from '@rogueworld/types';
+import {
+    Counter, error, getRandomElement, getRandomIntInclusive, warning,
+} from '@rogueworld/utils';
 import { GroundTypes } from '.';
 import { getPaginatedEntityDocuments } from '../database';
 import { EntitiesList } from '../entities';
@@ -14,9 +18,11 @@ import { GroundTypeName, PlayerSpawn } from './GroundTypes';
 
 const playerViewRange = Settings.PLAYER_VIEW_RANGE;
 /**
- * Need this so that the loops in the functions that emit to players around the player view range go all the way to
- * the end of the bottom row and right column, otherwise the actual emit area will be the player view range - 1.
- * Precomputed value to avoid having to do `i <= playerViewRange`, or `i < playerViewRange + 1` every time.
+ * Need this so that the loops in the functions that emit to players around the player view range
+ * go all the way to the end of the bottom row and right column, otherwise the actual emit area
+ * will be the player view range - 1.
+ * Precomputed value to avoid having to do `i <= playerViewRange`, or `i < playerViewRange + 1`
+ * every time.
  */
 const playerViewRangePlusOne = playerViewRange + 1;
 const idCounter = new Counter();
@@ -49,7 +55,7 @@ class Board {
      * redundant as the majority of entities on the board will most likely be non-moving things
      * like walls and resource nodes, which can be reliably accessed by row & col.
      */
-    movables: {[key: number]: Entity} = {};
+    movables: { [key: number]: Entity } = {};
 
     /**
      * Keep a list of the positions that a player can spawn onto.
@@ -58,13 +64,15 @@ class Board {
     entranceTilePositions: Array<RowCol> = [];
 
     /**
-     * What phase of the day it is. Each day is split up into phases, with each phase corresponding to a time of day (i.e. dusk).
+     * What phase of the day it is. Each day is split up into phases, with each phase corresponding
+     * to a time of day (i.e. dusk).
      * Updated from World when the time changes.
      */
     dayPhase = 1;
 
     /**
-     * Whether this board should always be night time, and will not observe changes in the world day phase.
+     * Whether this board should always be night time, and will not observe changes in the world day
+     * phase.
      */
     alwaysNight: boolean;
 
@@ -116,7 +124,8 @@ class Board {
             if (foundLayer) return foundLayer;
 
             warning(`Couldn't find tilemap layer '${layerName}' for board ${this.name}.`);
-            return;
+
+            return undefined;
         };
 
         let i = 0;
@@ -166,7 +175,7 @@ class Board {
                     // Assign it to the matching ground type object of the type of this tile.
                     this.grid[row][col].groundType = GroundTypes[type];
 
-                    if(GroundTypes[type] === PlayerSpawn) {
+                    if (GroundTypes[type] === PlayerSpawn) {
                         this.entranceTilePositions.push({ row, col });
                     }
                 }
@@ -182,7 +191,7 @@ class Board {
     addEntity(entity: Entity) {
         // Add movable entities to the movables list.
         const EntityType = entity.constructor as typeof Entity;
-        if(EntityType.baseMoveRate) {
+        if (EntityType.baseMoveRate) {
             this.movables[entity.id] = entity;
         }
 
@@ -200,7 +209,7 @@ class Board {
 
     removeEntity(entity: Entity) {
         // If the entity was added to the movables list, remove them from it.
-        if(this.movables[entity.id]) {
+        if (this.movables[entity.id]) {
             delete this.movables[entity.id];
         }
 
@@ -209,8 +218,9 @@ class Board {
         delete tile.entities[entity.id];
 
         // Free up this tile if there is nothing else on it.
-        if(!tile.containsAnyEntities()) {
-            // Little hack to avoid making this property optional (as it still exists on the prototype).
+        if (!tile.containsAnyEntities()) {
+            // Little hack to avoid making this property optional (as it still exists on the
+            // prototype).
             delete (tile as any).entities;
         }
     }
@@ -236,8 +246,9 @@ class Board {
         // Players are also removed from the entities list, in the onDestroy of Entity.
 
         // Free up this tile if there is nothing else on it.
-        if(!tile.containsAnyPlayers()) {
-            // Little hack to avoid making this property optional (as it still exists on the prototype).
+        if (!tile.containsAnyPlayers()) {
+            // Little hack to avoid making this property optional (as it still exists on the
+            // prototype).
             delete (tile as any).players;
         }
     }
@@ -260,8 +271,9 @@ class Board {
         delete tile.pickups[pickup.id];
 
         // Free up this tile if there is nothing else on it.
-        if(!tile.containsAnyPickups()) {
-            // Little hack to avoid making this property optional (as it still exists on the prototype).
+        if (!tile.containsAnyPickups()) {
+            // Little hack to avoid making this property optional (as it still exists on the
+            // prototype).
             delete (tile as any).pickups;
         }
     }
@@ -272,16 +284,22 @@ class Board {
     async loadSavedEntities(page: number) {
         const entityDocs = await getPaginatedEntityDocuments(page, 5);
 
-        if(entityDocs && entityDocs.length > 0) {
-            entityDocs.forEach((entityDoc) => {
+        if (entityDocs && entityDocs.length > 0) {
+            entityDocs.some((entityDoc) => {
+                // Don't go over the max population for this board.
+                // This may cause some saved bases/etc. to not be added fully, but if the max
+                // population for the board was lowered since it was built then it was probably for
+                // a good reason (i.e. not enough memory).
+                if (this.population >= this.maxPopulation) return true;
+
                 // Check the entity type to spawn is valid. This might happen when:
                 // - The entity type has been removed from the game.
                 // - Type code for the entity type changed (shouldn't have been, but might have)
                 // - Bad data saved.
-                if(!EntitiesList.BY_CODE[entityDoc.typeCode]) {
+                if (!EntitiesList.BY_CODE[entityDoc.typeCode]) {
                     // Invalid entity data, remove it from the DB.
                     entityDoc.delete();
-                    return;
+                    return false;
                 }
 
                 const entity = new EntitiesList.BY_CODE[entityDoc.typeCode]({
@@ -291,17 +309,13 @@ class Board {
                     documentId: entityDoc._id.toString(),
                 });
 
-                if(entityDoc.hitPoints) entity.hitPoints = entityDoc.hitPoints;
+                if (entityDoc.hitPoints) entity.hitPoints = entityDoc.hitPoints;
 
                 entity.emitToNearbyPlayers();
 
                 this.population += 1;
 
-                // Don't go over the max population for this board.
-                // This may cause some saved bases/etc. to not be added fully, but if the max
-                // population for the board was lowered since it was built then it was probably for
-                // a good reason (i.e. not enough memory).
-                if(this.population >= this.maxPopulation) return;
+                return false;
             });
 
             // Get the next batch of entities to load.
@@ -316,13 +330,13 @@ class Board {
         this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
 
         // Don't go over the max population for this board.
-        if(this.population >= this.maxPopulation) return;
+        if (this.population >= this.maxPopulation) return;
 
         // Get a random position on the map.
         const rows = this.grid.length;
         const cols = this.grid[0].length;
-        const clusterRow = 400; //getRandomIntInclusive(0, rows - 1);
-        const clusterCol = 900; //getRandomIntInclusive(0, cols - 1);
+        const clusterRow = 400; // getRandomIntInclusive(0, rows - 1);
+        const clusterCol = 900; // getRandomIntInclusive(0, cols - 1);
         const clusterBoardTile = this.grid[clusterRow][clusterCol];
         const clusterSize = 50;
         const spreadRange = 20;
@@ -354,16 +368,16 @@ class Board {
 
         const RandomEntityType = getRandomElement(SpawnableEntityTypes);
 
-        for(let i = 0; i < clusterSize; i += 1) {
+        for (let i = 0; i < clusterSize; i += 1) {
             const randomRow = clusterRow + getRandomIntInclusive(-spreadRange, spreadRange);
             const randomCol = clusterCol + getRandomIntInclusive(-spreadRange, spreadRange);
             const randomBoardTile = this.getTileAt(randomRow, randomCol);
 
-            if(!randomBoardTile) return;
-            if(!randomBoardTile.groundType.canBeStoodOn) return;
-            if(!randomBoardTile.isBuildable()) return;
-            if(randomBoardTile.groundType.hazardous) return;
-            if(randomBoardTile.groundType === PlayerSpawn) return;
+            if (!randomBoardTile) return;
+            if (!randomBoardTile.groundType.canBeStoodOn) return;
+            if (!randomBoardTile.isBuildable()) return;
+            if (randomBoardTile.groundType.hazardous) return;
+            if (randomBoardTile.groundType === PlayerSpawn) return;
 
             new RandomEntityType({
                 row: randomRow,
@@ -374,9 +388,7 @@ class Board {
             this.population += 1;
 
             // Don't go over the max population for this board.
-            if(this.population >= this.maxPopulation) break;
-
-            // console.log('pop:', this.population, ', type:', RandomEntityType.typeName, ', spawned at:', clusterRow, clusterCol);
+            if (this.population >= this.maxPopulation) break;
         }
     }
 
@@ -420,7 +432,8 @@ class Board {
     }
 
     /**
-     * Get all of the destroyables (and any interactables that are not in their default state) along the edge of the player view range in a given direction.
+     * Get all of the destroyables (and any interactables that are not in their default state)
+     * along the edge of the player view range in a given direction.
      * @param row
      * @param col
      * @param direction
@@ -432,7 +445,8 @@ class Board {
         let currentTile: BoardTile;
 
         if (direction === Directions.LEFT) {
-            // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
+            // Go to the left column of the view range, then loop down that column from the top of
+            // the view range to the bottom.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
@@ -445,7 +459,8 @@ class Board {
             }
         }
         else if (direction === Directions.RIGHT) {
-            // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
+            // Go to the right column of the view range, then loop down that column from the top of
+            // the view range to the bottom.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
@@ -458,7 +473,8 @@ class Board {
             }
         }
         else if (direction === Directions.UP) {
-            // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
+            // Go to the top row of the view range, then loop along that row from the left of the
+            // view range to the right.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
@@ -471,7 +487,8 @@ class Board {
             }
         }
         else {
-            // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
+            // Go to the bottom row of the view range, then loop along that row from the left of
+            // the view range to the right.
             for (let i = -playerViewRange; i < playerViewRangePlusOne; i += 1) {
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
@@ -535,7 +552,8 @@ class Board {
      * @param col Target column on this board to emit to players around.
      * @param eventName The name of the event to send.
      * @param data Any optional data to send with the event.
-     * @param range A specific range to define "nearby" to be, otherwise uses the player view range + 1.
+     * @param range A specific range to define "nearby" to be, otherwise uses the player view
+     * range + 1.
      */
     emitToNearbyPlayers(row: number, col: number, eventName: string, data?: any, range?: number) {
         let nearbyRange = playerViewRange;
@@ -581,7 +599,8 @@ class Board {
         // Find all of the player entities on this board tile.
         Object.values(players).forEach((player) => {
             const { socket } = player;
-            // Make sure this socket connection is in a ready state. Might have just closed or be closing.
+            // Make sure this socket connection is in a ready state. Might have just closed or be
+            // closing.
             if (socket.readyState === 1) {
                 socket.sendEvent(eventName, data);
             }
@@ -589,7 +608,8 @@ class Board {
     }
 
     /**
-     * Sends an event name ID and optional data to all players at the edge of the view range in a direction.
+     * Sends an event name ID and optional data to all players at the edge of the view range in a
+     * direction.
      */
     emitToPlayersAtViewRange(
         row: number,
@@ -601,7 +621,8 @@ class Board {
         let currentRow;
 
         if (direction === Directions.LEFT) {
-            // Go to the left column of the view range, then loop down that column from the top of the view range to the bottom.
+            // Go to the left column of the view range, then loop down that column from the top of
+            // the view range to the bottom.
             for (
                 let rowOffset = -playerViewRange;
                 rowOffset < playerViewRangePlusOne;
@@ -620,7 +641,8 @@ class Board {
             }
         }
         else if (direction === Directions.RIGHT) {
-            // Go to the right column of the view range, then loop down that column from the top of the view range to the bottom.
+            // Go to the right column of the view range, then loop down that column from the top of
+            // the view range to the bottom.
             for (
                 let rowOffset = -playerViewRange;
                 rowOffset < playerViewRangePlusOne;
@@ -639,7 +661,8 @@ class Board {
             }
         }
         else if (direction === Directions.UP) {
-            // Go to the top row of the view range, then loop along that row from the left of the view range to the right.
+            // Go to the top row of the view range, then loop along that row from the left of the
+            // view range to the right.
             for (
                 let colOffset = -playerViewRange;
                 colOffset < playerViewRangePlusOne;
@@ -658,7 +681,8 @@ class Board {
             }
         }
         else {
-            // Go to the bottom row of the view range, then loop along that row from the left of the view range to the right.
+            // Go to the bottom row of the view range, then loop along that row from the left of
+            // the view range to the right.
             for (
                 let colOffset = -playerViewRange;
                 colOffset < playerViewRangePlusOne;
@@ -683,7 +707,6 @@ class Board {
      * Returns false if the position is invalid.
      */
     getTileAt(row: number, col: number) {
-        // TODO: replace cases of ...board.grid[row][col] manaual tile validity checks with this method.
         if (this.grid[row] === undefined) return false;
         const tile = this.grid[row][col];
         // Check the grid col element (the tile itself) being accessed is valid.

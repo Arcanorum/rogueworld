@@ -10,12 +10,12 @@ export function createEntityDocument(
     data: EntityDocument,
     onSuccess: (documentId: string) => void,
 ) {
-    if(!isDBConnected()) return;
+    if (!isDBConnected()) return;
 
     EntityModel.create(
         data,
         (err: CallbackError, res: Document) => {
-            if(err) {
+            if (err) {
                 warning(err);
                 return;
             }
@@ -26,27 +26,27 @@ export function createEntityDocument(
 }
 
 export function updateEntityDocument(id: string, data: ObjectOfAny) {
-    if(!isDBConnected()) return;
+    if (!isDBConnected()) return;
 
     EntityModel.findByIdAndUpdate(id, data, undefined, (err) => {
-        if(err) {
+        if (err) {
             warning(err);
         }
     });
 }
 
 export function deleteEntityDocument(id: string) {
-    if(!isDBConnected()) return;
+    if (!isDBConnected()) return;
 
     EntityModel.findByIdAndDelete(id, undefined, (err) => {
-        if(err) {
+        if (err) {
             warning(err);
         }
     });
 }
 
 export async function getPaginatedEntityDocuments(page: number, limit: number) {
-    if(!isDBConnected()) return;
+    if (!isDBConnected()) return undefined;
 
     return EntityModel
         .find()

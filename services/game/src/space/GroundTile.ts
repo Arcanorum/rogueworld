@@ -32,7 +32,8 @@ class GroundTile {
     damageTypes: Array<DamageTypes> = [];
 
     /**
-     * what percentage of defence is ignored when this tile deals damage to entities that stand on it. 0 to 1.
+     * what percentage of defence is ignored when this tile deals damage to entities that stand on
+     * it. 0 to 1.
      */
     damagePenetration = 0;
 
@@ -76,14 +77,14 @@ class GroundTile {
         if (this.damageAmount > 0) this.hazardous = true;
 
         if (this.statusEffects) {
-            this.hazardous = this.statusEffects.some((StatusEffect) => {
-                return StatusEffect.prototype.hazardous;
-            });
+            this.hazardous = this.statusEffects.some(
+                (someStatusEffect) => someStatusEffect.prototype.hazardous,
+            );
         }
 
-        if(config.gatherItemTypeName) {
+        if (config.gatherItemTypeName) {
             const ItemType = ItemsList.BY_NAME[config.gatherItemTypeName];
-            if(!ItemType) {
+            if (!ItemType) {
                 error('Invalid item to give for ground type, item name not found in the items list:', config.gatherItemTypeName);
             }
             this.gatherItemType = ItemType;

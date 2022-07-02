@@ -104,8 +104,8 @@ class StatusEffect {
     }
 
     start() {
-        if(this.appliedTo.hitPoints === undefined) return;
-        if(this.appliedTo.statusEffects === undefined) return;
+        if (!this.appliedTo.hitPoints) return;
+        if (!this.appliedTo.statusEffects) return;
 
         if (this.shouldStart() === false) {
             return;
@@ -151,7 +151,7 @@ class StatusEffect {
     }
 
     _effect() {
-        if(this.appliedTo.hitPoints === undefined) return;
+        if (!this.appliedTo.hitPoints) return;
 
         if (!this.appliedTo.board || !this.shouldContinueEffect()) {
             this.stop();
@@ -193,8 +193,8 @@ class StatusEffect {
     }
 
     stop() {
-        if(this.appliedTo.statusEffects === undefined) return;
-        if(this.appliedTo.hitPoints === undefined) return;
+        if (!this.appliedTo.statusEffects) return;
+        if (!this.appliedTo.hitPoints) return;
 
         this._effectsRemaining = 0;
         // Stop the loop.
@@ -225,7 +225,7 @@ class StatusEffect {
     }
 
     onMove() {
-        if(this.appliedTo.hitPoints === undefined) return;
+        if (!this.appliedTo.hitPoints) return;
 
         if (!this.appliedTo.board) {
             this.stop();

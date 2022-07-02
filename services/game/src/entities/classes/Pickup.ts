@@ -44,8 +44,8 @@ class Pickup extends Entity {
         const EntityType = this.constructor as typeof Pickup;
 
         this.itemState = (
-            config.itemState ||
-            new ItemState({ ItemType: EntityType.ItemType })
+            config.itemState
+            || new ItemState({ ItemType: EntityType.ItemType })
         );
     }
 
@@ -55,9 +55,9 @@ class Pickup extends Entity {
         super.onDestroy();
     }
 
-    onDropped(droppedBy: Entity) { return; }
+    onDropped(droppedBy: Entity) { }
 
-    onPickedUp(pickedUpBy: Player) { return; }
+    onPickedUp(pickedUpBy: Player) { }
 }
 
 export default Pickup;

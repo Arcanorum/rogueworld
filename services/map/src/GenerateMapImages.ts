@@ -6,12 +6,14 @@ import path from 'path';
 import util from 'util';
 
 async function generateMapImages() {
+    // eslint-disable-next-line global-require
     const exec = util.promisify(require('child_process').exec);
 
     // Make sure the output directory exists.
     fs.ensureDirSync(path.join(__dirname, '../build/images'));
 
-    for(const map of Maps) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const map of Maps) {
         message('Generating map image file for:', map.name);
 
         // Input map file path.
@@ -22,18 +24,20 @@ async function generateMapImages() {
         // Run the tiled script to generate the source images for the map service from the map data.
         try {
             message('Trying headless rendering of map image.');
+            // eslint-disable-next-line no-await-in-loop
             await exec(`xvfb-run ${Settings.TMXRASTERIZER_PATH} --platform offscreen ${input} ${output}`);
             message('Map image rendered.');
         }
-        catch(err1) {
+        catch (err1) {
             message('Failed to render headlessly:', err1);
             // Try using it normally if there is a connected display for a development setup.
             try {
                 message('Trying normal rendering of map image.');
+                // eslint-disable-next-line no-await-in-loop
                 await exec(`${Settings.TMXRASTERIZER_PATH} ${input} ${output}`);
                 message('Map image rendered.');
             }
-            catch(err2) {
+            catch (err2) {
                 message('Failed to render normally:', err2);
             }
         }

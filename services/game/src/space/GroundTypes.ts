@@ -17,7 +17,9 @@ export type GroundTypeName =
     'Spikes';
 
 const { Physical } = DamageTypes;
-const { Burn, Chill, HealthRegen, Poison } = status_effects;
+const {
+    Burn, Chill, HealthRegen, Poison,
+} = status_effects;
 
 const Empty = new GroundTile();
 const PlayerSpawn = new GroundTile();

@@ -6,7 +6,7 @@ const { Biological } = DamageTypes;
 
 class Poison extends StatusEffect {
     shouldStart() {
-        if(this.appliedTo.statusEffects === undefined) return false;
+        if (this.appliedTo.statusEffects === undefined) return false;
 
         // If the target is cured, don't apply the poison effect.
         if (this.appliedTo.statusEffects[Cured.name]) {
@@ -17,7 +17,7 @@ class Poison extends StatusEffect {
     }
 
     shouldContinueEffect() {
-        if(this.appliedTo.statusEffects === undefined) return false;
+        if (this.appliedTo.statusEffects === undefined) return false;
 
         // If the target is cured, stop the poison effect.
         if (this.appliedTo.statusEffects[Cured.name]) {
@@ -31,7 +31,7 @@ class Poison extends StatusEffect {
         // Check if they are standing in poison. If so, keep poisoned.
         const tilePoisons = this.appliedTo
             .getBoardTile()?.groundType.statusEffects
-            ?.some((StatusEffect) => { return StatusEffect === Poison; });
+            ?.some((someStatusEffect) => someStatusEffect === Poison);
 
         if (tilePoisons) {
             this._effectsRemaining = this._startingEffectsRemaining;

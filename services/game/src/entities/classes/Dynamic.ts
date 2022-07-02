@@ -1,7 +1,8 @@
-import { DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection } from '@rogueworld/types';
+import {
+    DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection,
+} from '@rogueworld/types';
 import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@rogueworld/utils';
 import Damage from '../../gameplay/Damage';
-// import DamageTypes from '../../gameplay/DamageTypes';
 import Drop from '../../gameplay/Drop';
 // import { FactionRelationshipStatuses, getFactionRelationship } from '../../gameplay/Factions';
 import { ItemState } from '../../inventory';
@@ -18,7 +19,8 @@ class Dynamic extends Entity {
     target?: Entity;
 
     /**
-     * How often (in ms) this mob looks for a new position within the wander range to wander towards.
+     * How often (in ms) this mob looks for a new position within the wander range to wander
+     * towards.
      * Lower is more often.
      */
     static baseWanderRate?: number = undefined;
@@ -26,13 +28,15 @@ class Dynamic extends Entity {
     wanderLoop?: NodeJS.Timeout;
 
     /**
-     * How far this entity will wander the next time it does so. Somewhere between 1 tile, and it's view range.
+     * How far this entity will wander the next time it does so. Somewhere between 1 tile, and it's
+     * view range.
      * Changes each time it wanders, so it doesn't just move the same distance each time.
      */
     wanderTargetPosition?: RowCol;
 
     /**
-     * How far away the target needs to be for this mob to start targeting it, and any further away before this mob stops targeting it.
+     * How far away the target needs to be for this mob to start targeting it, and any further away
+     * before this mob stops targeting it.
      * Also used for the max wander distance per wander.
      */
     static viewRange?: number = undefined;
@@ -79,7 +83,7 @@ class Dynamic extends Entity {
     move() {
         if (!this.board) return false;
 
-        if(this.moveLoop) {
+        if (this.moveLoop) {
             // Prevent multiple move loops from being created if this move function is called again.
             clearTimeout(this.moveLoop);
             this.moveLoop = setTimeout(this.move.bind(this), this.getMoveRate());
@@ -100,7 +104,7 @@ class Dynamic extends Entity {
             // If they are on the same tile, try to move apart.
             if (this.row === this.target.row && this.col === this.target.col) {
                 // Don't move if doing an action, or it will interrupt itself.
-                if(this.actionTimeout) return;
+                if (this.actionTimeout) return;
 
                 this.moveAwayFromCurrentTile();
                 return;
@@ -116,38 +120,34 @@ class Dynamic extends Entity {
                 if (!this.checkForMoveHazards(offset.row, offset.col)) return;
 
                 // Don't move if doing an action, or it will interrupt itself.
-                if(this.actionTimeout) return;
+                if (this.actionTimeout) return;
 
                 super.move(offset.row, offset.col);
             }
             // Target is within attack range, attack them.
-            else {
-                // Don't attempt to attack while they are already doing something.
-                if(!this.actionTimeout) {
-                    // Use one of their available actions.
-                    const EntityType = this.constructor as typeof Entity;
-                    if(!EntityType.actions) return;
+            // Don't attempt to attack while they are already doing something.
+            else if (!this.actionTimeout) {
+                // Use one of their available actions.
+                const EntityType = this.constructor as typeof Entity;
+                if (!EntityType.actions) return;
 
-                    this.performAction(
-                        getRandomElement(EntityType.actions),
-                        this.target,
-                    );
-                }
+                this.performAction(
+                    getRandomElement(EntityType.actions),
+                    this.target,
+                );
             }
         }
         // No target, wander around.
-        else {
-            if(this.wanderTargetPosition) {
-                // If still too far away, move closer.
-                if(tileDistanceBetween(this.wanderTargetPosition, this) > 1) {
-                    const offset = RowColOffsetsByDirection[
-                        this.getDirectionToPosition(this.wanderTargetPosition)
-                    ];
+        else if (this.wanderTargetPosition) {
+            // If still too far away, move closer.
+            if (tileDistanceBetween(this.wanderTargetPosition, this) > 1) {
+                const offset = RowColOffsetsByDirection[
+                    this.getDirectionToPosition(this.wanderTargetPosition)
+                ];
                     // Check if there is a damaging tile in front.
-                    if (!this.checkForMoveHazards(offset.row, offset.col)) return;
+                if (!this.checkForMoveHazards(offset.row, offset.col)) return;
 
-                    super.move(offset.row, offset.col);
-                }
+                super.move(offset.row, offset.col);
             }
         }
     }
@@ -156,7 +156,7 @@ class Dynamic extends Entity {
      * Move this entity away from the tile it is on. Tries each direction in a random order.
      */
     moveAwayFromCurrentTile() {
-        if(!this.board) return;
+        if (!this.board) return;
 
         const { row, col } = this;
         const { grid } = this.board;
@@ -181,7 +181,7 @@ class Dynamic extends Entity {
         if (!this.board?.grid[this.row + byRows]) return false;
 
         /** @type {BoardTile} */
-        const boardTile = this.board.grid[this.row + byRows][this.col + byCols];
+        const boardTile = this.board.getTileAt(this.row + byRows, this.col + byCols);
 
         // Check the grid col element (the tile itself) being accessed is valid.
         if (!boardTile) return false;
@@ -240,11 +240,11 @@ class Dynamic extends Entity {
     }
 
     onAllHitPointsLost() {
-        if(this.board) {
+        if (this.board) {
             // Give all nearby players the glory value of this mob.
             const nearbyPlayers = this.board.getNearbyPlayers(this.row, this.col, 7);
 
-            if(this.gloryValue) {
+            if (this.gloryValue) {
                 for (let i = 0; i < nearbyPlayers.length; i += 1) {
                     nearbyPlayers[i].modGlory(+this.gloryValue);
                     // nearbyPlayers[i].tasks.progressTask(this.taskIdKilled);
@@ -264,7 +264,7 @@ class Dynamic extends Entity {
         const EntityType = this.constructor as typeof Dynamic;
 
         EntityType.dropList.forEach((dropConfig) => {
-            if(!this.board) return;
+            if (!this.board) return;
 
             // Roll for this drop as many times as it is configured to.
             for (let roll = 0; roll < dropConfig.rolls; roll += 1) {

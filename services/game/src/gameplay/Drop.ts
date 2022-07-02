@@ -1,6 +1,6 @@
+import { error } from '@rogueworld/utils';
 import ItemsList from '../items/ItemsList';
 import Pickup from '../entities/classes/Pickup';
-import { error } from '@rogueworld/utils';
 
 export interface DropConfig {
     itemName: string;
@@ -35,7 +35,7 @@ class Drop {
 
         const ItemPickupType = ItemsList.BY_NAME[config.itemName].PickupType;
 
-        if(!ItemPickupType) {
+        if (!ItemPickupType) {
             error(`Cannot add to drop list. Drop item name "${config.itemName}" does not have a pickup, and so cannot be made droppable.`);
             return;
         }

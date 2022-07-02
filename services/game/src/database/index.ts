@@ -19,8 +19,9 @@ export async function connect() {
         message('Connected to database.');
 
         try {
-            // Log out all of the accounts, in case they were logged in the last time the server shut down,
-            // otherwise some players will not be able to log in as their accounts are already logged in.
+            // Log out all of the accounts, in case they were logged in the last time the server
+            // shut down, otherwise some players will not be able to log in as their accounts are
+            // already logged in.
             await AccountModel.updateMany({}, { isLoggedIn: false });
         }
         catch (err) {

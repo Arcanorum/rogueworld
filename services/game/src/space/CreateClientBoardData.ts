@@ -1,12 +1,15 @@
 import { GameMap, MapLayer, Tilesets } from '@rogueworld/maps';
 import { ObjectOfAny } from '@rogueworld/types';
-import { arrayOfObjectsToObject, error, message, runLengthEncodeArray, warning } from '@rogueworld/utils';
+import {
+    arrayOfObjectsToObject, error, message, runLengthEncodeArray, warning,
+} from '@rogueworld/utils';
 import { ensureDirSync, writeFileSync } from 'fs-extra';
 import path from 'path';
 import { GroundTypes } from '.';
 import { GroundTypeName } from './GroundTypes';
 
-// A recent version of Tiled may have changed the tileset.tiles property to be an array of {id: Number, type: String}
+// A recent version of Tiled may have changed the tileset.tiles property to be an
+// array of {id: Number, type: String}
 // Map the values back to an object by ID.
 export const groundTilesetTiles = Tilesets.groundTileset.tiles.reduce((map, obj) => {
     map[obj.id] = obj;
@@ -38,7 +41,8 @@ export const createClientBoardData = (map: GameMap) => {
         if (foundLayer) return foundLayer;
 
         warning(`Couldn't find tilemap layer '${layerName}' for board ${map.name}.`);
-        return;
+
+        return undefined;
     };
 
     const clientData = {
@@ -94,8 +98,8 @@ export const createClientBoardData = (map: GameMap) => {
     }
 
     // Compress the grids to reduce file size/transfer times.
-    clientData.groundGrid.forEach((row, i) => {
-        clientData.groundGrid[i] = runLengthEncodeArray(row);
+    clientData.groundGrid.forEach((eachRow, eachIndex) => {
+        clientData.groundGrid[eachIndex] = runLengthEncodeArray(eachRow);
     });
 
     // Save the client map data that was extracted.

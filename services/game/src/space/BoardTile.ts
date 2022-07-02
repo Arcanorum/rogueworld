@@ -17,8 +17,8 @@ class BoardTile {
     safeZone!: boolean;
 
     /**
-     * Entities that do not have a definite existence, and so must be sent dynamically to the player.
-     * Anything that can be added to and be removed from a board, change board, or can move.
+     * Entities that do not have a definite existence, and so must be sent dynamically to the
+     * player. Anything that can be added to and be removed from a board, change board, or can move.
      * Should NOT occupy a tile that has an active blocking static.
      * Accessed by their entity ID.
      * Keep this on the prototype, so not every instance has this as it's own property.
@@ -30,7 +30,8 @@ class BoardTile {
     /**
      * A sepearate list of entities that can be picked up by players and added to their inventory.
      * Anything in here should also be in the entities list.
-     * They don't interact with anything else, so less filtering other entities when being picked up.
+     * They don't interact with anything else, so less filtering other entities when being
+     * picked up.
      * Should NOT occupy a tile that has an active blocking static.
      * Accessed by their entity ID.
      * Keep this on the prototype, so not every instance has this as it's own property.
@@ -39,7 +40,8 @@ class BoardTile {
     pickups!: { [key: string]: Pickup };
 
     /**
-     * A separate list of entities just for Players, mainly for emitting events, less messing around filtering other entities.
+     * A separate list of entities just for Players, mainly for emitting events, less messing around
+     * filtering other entities.
      * Anything in here should also be in the entities list.
      * Accessed by their entity ID.
      * Keep this on the prototype, so not every instance has this as it's own property.
@@ -54,9 +56,9 @@ class BoardTile {
     isLowBlocked() {
         return Object
             .values(this.entities)
-            .some((entity) => {
-                return entity.isBlocking && (entity.constructor as typeof Entity).lowBlocking;
-            });
+            .some(
+                (entity) => entity.isBlocking && (entity.constructor as typeof Entity).lowBlocking,
+            );
     }
 
     /**
@@ -65,9 +67,9 @@ class BoardTile {
     isHighBlocked() {
         return Object
             .values(this.entities)
-            .some((entity) => {
-                return entity.isBlocking && (entity.constructor as typeof Entity).highBlocking;
-            });
+            .some(
+                (entity) => entity.isBlocking && (entity.constructor as typeof Entity).highBlocking,
+            );
     }
 
     /**
@@ -111,15 +113,15 @@ class BoardTile {
 
     /**
      * Gets the first entity that can be found on this tile.
-     * @returns Whatever entity is at the top of the entities list, or undefined if there are no entities.
+     * @returns Whatever entity is at the top of the entities list, or undefined if there are no
+     * entities.
      */
     getFirstEntity() {
-        for(const key in this.entities) {
-            if(this.entities.hasOwnProperty(key)) {
+        for (const key in this.entities) {
+            if (this.entities.hasOwnProperty(key)) {
                 return this.entities[key];
             }
         }
-        return;
     }
 
     /**

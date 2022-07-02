@@ -5,7 +5,7 @@ import Commands from '../commands/Commands';
 import { webSocketServer as wss } from '../Server';
 import EventResponses from './EventResponses';
 
-EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string}) => {
+EventResponses.chat = (clientSocket, data: { scope: ChatScopes; content: string }) => {
     // Can't use ChatState here 'cause it's located outside module.
     const { CHAT_SCOPES } = Settings;
 
@@ -16,7 +16,7 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
     const { content, scope } = data;
     const { entity } = clientSocket;
 
-    if(!entity) return;
+    if (!entity) return;
 
     // Ignore this event if they are dead.
     if (entity.hitPoints <= 0) return;
@@ -72,7 +72,7 @@ EventResponses.chat = (clientSocket, data: {scope: ChatScopes; content: string})
                 // Separate the command (first word) from the arguments (everything after).
                 const parts = content.split(' ');
                 const commandName = parts.shift()?.substring(1);
-                if(!commandName) return;
+                if (!commandName) return;
 
                 let response;
                 // Check the command is valid.

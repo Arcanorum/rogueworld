@@ -48,7 +48,9 @@ class Player extends Entity {
     moveRate = Settings.PLAYER_MOVE_RATE || 1000;
 
     nextMoveTime = 0;
+
     isMovePending = false;
+
     pendingMove = setTimeout(() => { /**/ });
 
     /** The time when this player was last damaged. */
@@ -124,7 +126,7 @@ class Player extends Entity {
         clearTimeout(this.autoSaveTimeout);
         clearTimeout(this.foodDrainLoop);
         // clearTimeout(this.hitpointRegenLoop);
-        if(this.actionTimeout) clearTimeout(this.actionTimeout);
+        if (this.actionTimeout) clearTimeout(this.actionTimeout);
 
         // They might be dead when they disconnect, and so will already be removed from the board.
         // Check they are on the board/alive first.
@@ -233,7 +235,8 @@ class Player extends Entity {
             moveRate *= Settings.PLAYER_COMBAT_SLOWDOWN_MOVE_RATE_MODIFIER;
         }
 
-        // Check the time since the last move, otherwise they will be able to continue with their momentum. Momentum should be lost after standing still.
+        // Check the time since the last move, otherwise they will be able to continue with their
+        // momentum. Momentum should be lost after standing still.
         if (Date.now() > this.nextMoveTime + 500) {
             this.momentum = 0;
         }
@@ -304,14 +307,15 @@ class Player extends Entity {
     }
 
     changeBoard(fromBoard: Board | undefined, toBoard: Board, toRow: number, toCol: number) {
-        // Need to check if there is a board, as the board will be nulled if the player dies, but they can be revived.
+        // Need to check if there is a board, as the board will be nulled if the player dies, but
+        // they can be revived.
         if (fromBoard) {
             fromBoard.removePlayer(this);
         }
 
         super.changeBoard(fromBoard, toBoard, toRow, toCol);
 
-        if(this.board) {
+        if (this.board) {
             this.board.addPlayer(this);
 
             // Tell the client to load the new board map.
@@ -362,7 +366,7 @@ class Player extends Entity {
         }
     }
 
-    modHitPoints(hitPointModifier: Damage|Heal, source: Entity) {
+    modHitPoints(hitPointModifier: Damage | Heal, source: Entity) {
         // If damaged by another player in a safe zone, ignore the damage.
         if (source instanceof Player) {
             if (this.board?.grid[this.row][this.col].safeZone === true) {
@@ -401,7 +405,8 @@ class Player extends Entity {
      */
     modClothing(clothing?: Clothes) {
         if (clothing) {
-            // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
+            // Tell the player to show the equip icon on the inventory slot of the item that was
+            // equipped.
             this.socket?.sendEvent('activate_clothing', clothing.slotIndex);
 
             // Object.entries(clothing.statBonuses).forEach(([statKey, statBonus]) => {
@@ -411,7 +416,8 @@ class Player extends Entity {
             this.clothing = clothing;
         }
         else {
-            // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
+            // Tell the player to hide the equip icon on the inventory slot of the item that was
+            // removed.
             this.socket?.sendEvent('deactivate_clothing');
 
             // Object.entries(this.clothing.statBonuses).forEach(([statKey, statBonus]) => {
@@ -424,13 +430,15 @@ class Player extends Entity {
 
     modHolding(holding?: Holdable) {
         if (holding) {
-            // Tell the player to show the equip icon on the inventory slot of the item that was equipped.
+            // Tell the player to show the equip icon on the inventory slot of the item that was
+            // equipped.
             this.socket?.sendEvent('activate_holding', holding.slotIndex);
 
             this.holding = holding;
         }
         else {
-            // Tell the player to hide the equip icon on the inventory slot of the item that was removed.
+            // Tell the player to hide the equip icon on the inventory slot of the item that was
+            // removed.
             this.socket?.sendEvent('deactivate_holding');
 
             this.holding = undefined;
@@ -439,13 +447,15 @@ class Player extends Entity {
 
     modAmmunition(ammunition?: Ammunition) {
         if (ammunition) {
-            // Tell the player to show the ammunition icon on the inventory slot of the item that was equipped.
+            // Tell the player to show the ammunition icon on the inventory slot of the item that
+            // was equipped.
             this.socket?.sendEvent('activate_ammunition', ammunition.slotIndex);
 
             this.ammunition = ammunition;
         }
         else {
-            // Tell the player to hide the ammunition icon on the inventory slot of the item that was removed.
+            // Tell the player to hide the ammunition icon on the inventory slot of the item that
+            // was removed.
             this.socket?.sendEvent('deactivate_ammunition');
 
             this.ammunition = undefined;
@@ -456,7 +466,7 @@ class Player extends Entity {
         // Get the tile the character is standing on.
         const boardTile = this.getBoardTile();
 
-        if(!boardTile) return;
+        if (!boardTile) return;
 
         // Get the first entity in the pickups list.
         const pickup = Object.values(boardTile.pickups)[0];
@@ -475,8 +485,9 @@ class Player extends Entity {
                 warning('Cannot add item to player inventory. Error:', error);
             }
 
-            // If it is a pickup of a stackable, then there might still be some in the stack that they
-            // couldn't fit in their inventory, so check there is anything left before destroying.
+            // If it is a pickup of a stackable, then there might still be some in the stack that
+            // they couldn't fit in their inventory, so check there is anything left before
+            // destroying.
             if (pickup.itemState.quantity < 1) {
                 pickup.destroy();
             }
@@ -484,7 +495,7 @@ class Player extends Entity {
         // Nothing there, so try digging up whatever the ground is made up of.
         else {
             const ItemType = boardTile.groundType.gatherItemType;
-            if(ItemType) {
+            if (ItemType) {
                 this.performAction(
                     { name: 'dig', duration: 1000 },
                     undefined,
@@ -508,7 +519,8 @@ class Player extends Entity {
         if (!recipe) return;
 
         // TODO: figure out what to do about moving stations :S
-        // Check the player is stood next to any of the valid types of crafting station for this recipe.
+        // Check the player is stood next to any of the valid types of crafting station for this
+        // recipe.
         // const nextToStation = recipe.stationClasses.some((stationType) => (
         //     this.isAdjacentToStaticType(stationType.prototype.typeNumber)));
 
@@ -566,7 +578,7 @@ class Player extends Entity {
         // total weight), not all of it might have been able to fit into the inventory, so some
         // might be left over. Add anything remaining to the ground.
         if (itemState.quantity > 0) {
-            if(itemState.ItemType.PickupType && this.board) {
+            if (itemState.ItemType.PickupType && this.board) {
                 new itemState.ItemType.PickupType(
                     {
                         row: this.row,

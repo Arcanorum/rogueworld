@@ -56,6 +56,12 @@ module.exports = {
                 '@typescript-eslint/no-unused-vars': [
                     'warn',
                 ],
+                'no-param-reassign': [
+                    'warn',
+                ],
+                'prefer-destructuring': [
+                    'warn',
+                ]
             }
         }
     ],

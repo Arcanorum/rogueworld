@@ -1,3 +1,1 @@
-import { initService } from '@rogueworld/node-utils';
-
-initService();
+import '@rogueworld/init-service';

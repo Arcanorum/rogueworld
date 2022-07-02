@@ -1,0 +1,6 @@
+{
+    "name": "@rogueworld/init-service",
+    "version": "1.0.0",
+    "description": "Service initialisation utility. Should be ran at the very start of each service.",
+    "main": "src/index.ts"
+}

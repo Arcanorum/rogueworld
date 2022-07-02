@@ -1,4 +1,4 @@
-import '@rogueworld/node-utils';
+import '@rogueworld/init-service';
 import { message } from '@rogueworld/utils';
 import { GroundTypes, World } from './space';
 import './Server';

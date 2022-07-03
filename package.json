@@ -8,7 +8,7 @@
     "git-webhook": "npx ts-node --transpile-only ./git-webhook.ts",
     "typecode": "npx ts-node --transpile-only ./scripts/GenerateTypeCode.ts",
     "test": "jest",
-    "lint": "eslint --quiet --fix ./services/**"
+    "lint": "eslint ./ ./clients/** ./services/** ./shared/**"
   },
   "dependencies": {
     "@rogueworld/configs": "*",

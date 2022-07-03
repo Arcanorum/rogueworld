@@ -4,7 +4,8 @@ import Global from '../../shared/Global';
 import { BouncyText } from '../../shared/types';
 
 /**
- * Wrapper around the core Phaser container, for some common things that might be used by any entity containers.
+ * Wrapper around the core Phaser container, for some common things that might be used by any
+ * entity containers.
  * Avoids having to modify the Phaser container prototype.
  */
 class Container extends Phaser.GameObjects.Container {
@@ -15,13 +16,13 @@ class Container extends Phaser.GameObjects.Container {
         Global.gameScene.add.existing(this);
     }
 
-    onMove(playMoveAnim?: boolean, moveAnimDuration?: number) { return; }
+    onMove(playMoveAnim?: boolean, moveAnimDuration?: number) { }
 
     /**
      * Show the damage marker, with the amount of damage/healing taken.
      */
     onHitPointsModified(amount: string) {
-        if (parseInt(amount) < 0) {
+        if (parseInt(amount, 10) < 0) {
             const damageParticle = Global.gameScene.add.text(0, 0, amount, {
                 fontFamily: '\'Press Start 2P\'',
                 fontSize: '16px',

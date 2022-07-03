@@ -38,16 +38,12 @@ const Inventory = () => {
      * food, firing an arrow, etc.
      * Does NOT trigger for item state changes, like equipping/unequipping an item.
      */
-    eventResponses.item_used = (data: {itemTypeCode: string}) => {
+    eventResponses.item_used = (data: { itemTypeCode: string }) => {
         // console.log("item used event:", data);
         Global.gameScene.soundManager.effects.playUsedSound(data.itemTypeCode);
     };
 
-    eventResponses.item_broken = () => {
-        // Global.gameScene.GUI.textCounterSetText(Global.gameScene.GUI.inventoryBar.message, getTextDef("Item broken warning"));
-    };
-
-    eventResponses.item_dropped = (data: {itemTypeCode: string}) => {
+    eventResponses.item_dropped = (data: { itemTypeCode: string }) => {
         Global.gameScene.soundManager.effects.playDroppedSound(data.itemTypeCode);
     };
 
@@ -110,7 +106,7 @@ const Inventory = () => {
     eventResponses.deactivate_holding = () => {
         const item = InventoryState.holding;
 
-        if(item) {
+        if (item) {
             Global.gameScene.soundManager.effects.playUnequippedSound(
                 item.typeCode,
             );

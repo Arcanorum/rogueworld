@@ -7,6 +7,38 @@ import eventResponses from './websocket_events/EventResponses';
 
 const { Settings } = Config;
 
+export enum ConnectionCloseTypes {
+    // No connection made yet. User has no internet access.
+    CANNOT_CONNECT_NO_INTERNET,
+    // No connection made yet. Connection can't be made to server.
+    CANNOT_CONNECT_NO_SERVER,
+    // Already connected. User lost internet access.
+    DISCONNECTED_NO_INTERNET,
+    // Already connected. Server crashed or something.
+    DISCONNECTED_NO_SERVER,
+}
+
+const getErrorCategory = () => {
+    if (ApplicationState.connected) {
+        if (window.navigator.onLine) {
+            // Something happened to the connection, probably server related.
+            return ConnectionCloseTypes.DISCONNECTED_NO_SERVER;
+        }
+
+        // Lost internet connection.
+        return ConnectionCloseTypes.DISCONNECTED_NO_INTERNET;
+    }
+
+    // Not connected yet.
+    if (window.navigator.onLine) {
+        // Something wrong creating the connection, probably server related.
+        return ConnectionCloseTypes.CANNOT_CONNECT_NO_SERVER;
+    }
+
+    // No internet connection.
+    return ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET;
+};
+
 export class GameWebSocket extends WebSocket {
     /**
      * Event emit helper. Attach this to a socket, and use it to send an event to the server.
@@ -71,38 +103,6 @@ export class GameWebSocket extends WebSocket {
         PubSub.publish(WEBSOCKET_ERROR, error);
     };
 }
-
-export enum ConnectionCloseTypes {
-    // No connection made yet. User has no internet access.
-    CANNOT_CONNECT_NO_INTERNET,
-    // No connection made yet. Connection can't be made to server.
-    CANNOT_CONNECT_NO_SERVER,
-    // Already connected. User lost internet access.
-    DISCONNECTED_NO_INTERNET,
-    // Already connected. Server crashed or something.
-    DISCONNECTED_NO_SERVER,
-}
-
-const getErrorCategory = () => {
-    if (ApplicationState.connected) {
-        if (window.navigator.onLine) {
-            // Something happened to the connection, probably server related.
-            return ConnectionCloseTypes.DISCONNECTED_NO_SERVER;
-        }
-
-        // Lost internet connection.
-        return ConnectionCloseTypes.DISCONNECTED_NO_INTERNET;
-    }
-
-    // Not connected yet.
-    if (window.navigator.onLine) {
-        // Something wrong creating the connection, probably server related.
-        return ConnectionCloseTypes.CANNOT_CONNECT_NO_SERVER;
-    }
-
-    // No internet connection.
-    return ConnectionCloseTypes.CANNOT_CONNECT_NO_INTERNET;
-};
 
 /**
  * Attempt to create a new websocket connection to the game server.

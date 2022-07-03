@@ -20,5 +20,5 @@ export default ((context) => {
         list[fileName] = values[index].default.src;
 
         return list;
-    }, {} as {[key: string]: string});
+    }, {} as { [key: string]: string });
 })(require.context('../assets/images/entities', true, /.png$/));

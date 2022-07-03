@@ -43,7 +43,7 @@ const PlayerValues = () => {
         );
     };
 
-    eventResponses.change_display_name = (data: {id: string; displayName: string}) => {
+    eventResponses.change_display_name = (data: { id: string; displayName: string }) => {
         // If it the name changed for this player, then update their state.
         if (data.id === PlayerState.entityId) {
             PlayerState.setDisplayName(data.displayName);
@@ -65,7 +65,7 @@ const PlayerValues = () => {
         PubSub.publish(COMBAT_STATUS_TRIGGER, 0);
     };
 
-    eventResponses.player_in_combat = (data: {duration: number}) => {
+    eventResponses.player_in_combat = (data: { duration: number }) => {
         PubSub.publish(COMBAT_STATUS_TRIGGER, data.duration);
     };
 

@@ -8,6 +8,7 @@ class Pickup extends Entity {
 
     // Pickups don't use regular animations.
     static animationSetName = null;
+
     static animationFrameSequence = [];
 
     constructor(x: number, y: number, config: EntityConfig) {

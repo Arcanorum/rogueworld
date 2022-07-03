@@ -796,13 +796,13 @@ class GameScene extends Phaser.Scene {
      * Create a text chat message above the target entity.
      * @param entityId - The entity to make this chat appear from. If not given, uses this player.
      */
-    chat(entityId: string, message: string, fillColour = '#f5f5f5') {
+    chat(entityId: string, text: string, fillColour = '#f5f5f5') {
         // console.log("chat");
         // Check an entity ID was given. If not, use this player.
         entityId = entityId || PlayerState.entityId;
 
         // Make sure the message is a string.
-        message += '';
+        text += '';
 
         const dynamic = this.dynamics[entityId];
         // Check the entity id is valid.
@@ -820,7 +820,7 @@ class GameScene extends Phaser.Scene {
             },
         };
 
-        const chatText = this.add.text(0, -16, message, style);
+        const chatText = this.add.text(0, -16, text, style);
         // Add it to the dynamics group so that it will be affected by scales/transforms correctly.
         dynamic.spriteContainer.add(chatText);
         chatText.setOrigin(0.5);
@@ -828,11 +828,11 @@ class GameScene extends Phaser.Scene {
         // Make the chat message scroll up.
         this.tweens.add({
             targets: chatText,
-            duration: Config.CHAT_BASE_LIFESPAN + (60 * message.length),
+            duration: Config.CHAT_BASE_LIFESPAN + (60 * text.length),
             y: '-=30',
         });
         // How long the message should stay for.
-        const duration = Config.CHAT_BASE_LIFESPAN + (80 * message.length);
+        const duration = Config.CHAT_BASE_LIFESPAN + (80 * text.length);
         // Destroy and remove from the list of chat messages when the lifespan is over.
         setTimeout(() => {
             chatText.destroy();

@@ -18,7 +18,9 @@ type SoundType = (
 
 class Music {
     list: Array<SoundType>;
-    sounds: {[key: string]: SoundType};
+
+    sounds: { [key: string]: SoundType };
+
     currentBackgroundMusic: SoundType;
 
     constructor(scene: Phaser.Scene) {
@@ -73,7 +75,7 @@ class Music {
 
     changeBackgroundMusic(sound: SoundType) {
         // Don't bother if it is already playing.
-        if(sound === this.currentBackgroundMusic) return;
+        if (sound === this.currentBackgroundMusic) return;
 
         const fromMusic = this.currentBackgroundMusic;
 
@@ -103,9 +105,10 @@ class Music {
 
 class Effects {
     list: Array<SoundType>;
+
     sounds: {
         [key: string]: SoundType | Array<SoundType> |
-        {[key: string]: SoundType | Array<SoundType>};
+        { [key: string]: SoundType | Array<SoundType> };
     };
 
     constructor(scene: Phaser.Scene) {
@@ -186,7 +189,7 @@ class Effects {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    playSoundType(scope: {[key: string]: any}, itemTypeCode: string) {
+    playSoundType(scope: { [key: string]: any }, itemTypeCode: string) {
         const itemType = Config.ItemTypes[itemTypeCode];
 
         // Play the specific sound for the sound type of this item if one is defined.
@@ -212,6 +215,7 @@ class Effects {
  */
 class SoundManager {
     music: Music;
+
     effects: Effects;
 
     constructor(scene: Phaser.Scene) {
@@ -274,7 +278,7 @@ class SoundManager {
                     list[fileName] = [values[index]];
                 }
                 return list;
-            }, {} as {[key: string]: Array<string>});
+            }, {} as { [key: string]: Array<string> });
         })(require.context('../assets/audio/', true, /.mp3|.ogg|.opus$/));
     }
 }

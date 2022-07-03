@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 // All types that are used across the game client, NOT across the project.
 // Project-scoped types belong in the @rogueworld/types package.
 
@@ -60,5 +62,10 @@ export interface DynamicEntity {
  */
 export class BouncyText extends Phaser.GameObjects.Text {
     horizontalTween?: Phaser.Tweens.Tween;
+
+    verticalTween?: Phaser.Tweens.Tween;
+}
+
+export class GloryParticleIcon extends Phaser.GameObjects.Sprite {
     verticalTween?: Phaser.Tweens.Tween;
 }

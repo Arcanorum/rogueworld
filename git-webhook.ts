@@ -51,11 +51,12 @@ async function restart() {
 }
 
 /**
- * The PM2 file watcher should restart this REST app when this file changes, such as when doing a git pull.
- * This comes with the problem that this app might be in the middle of restarting the game (i.e. building
- * the client) when it is restarted by PM2, so won't be able to finish each step.
- * So just run the game restart process on startup to make sure it runs through everything again from
- * the start in case this app was restarted part way through.
+ * The PM2 file watcher should restart this REST app when this file changes, such as when doing a
+ * git pull.
+ * This comes with the problem that this app might be in the middle of restarting the game (i.e.
+ * building the client) when it is restarted by PM2, so won't be able to finish each step.
+ * So just run the game restart process on startup to make sure it runs through everything again
+ * from the start in case this app was restarted part way through.
  */
 restart();
 
@@ -73,7 +74,8 @@ createServer((req, res) => {
         message('Triggered by payload data:', data);
 
         try {
-            // Github sends events for all branches that are pushed to, so need to check the specific one that was updated.
+            // Github sends events for all branches that are pushed to, so need to check the
+            // specific one that was updated.
             if (refName) {
                 message('Target branch provided, checking incoming ref.');
                 if (refName !== data.ref) {

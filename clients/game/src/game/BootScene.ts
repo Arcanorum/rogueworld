@@ -61,7 +61,7 @@ class BootScene extends Phaser.Scene {
         mapNames.forEach((mapName) => {
             const key = `${mapName}-map`;
             this.load.json(key, `${ApplicationState.gameServiceHTTPServerURL}/api/maps/${mapName}`);
-            this.load.on(`filecomplete-json-${key}`, (key, type, data) => {
+            this.load.on(`filecomplete-json-${key}`, (cbKey, type, data) => {
                 // Data arrives RLE compressed. Inflate it back to its full form.
                 data.groundGrid.forEach((row: Array<number>, index: number) => {
                     data.groundGrid[index] = runLengthDecodeArray(row);
@@ -84,7 +84,8 @@ class BootScene extends Phaser.Scene {
             message('visible');
         }, this);
 
-        // Make sure the window always has focus when clicked on. Fixes not detecting input when iframed.
+        // Make sure the window always has focus when clicked on.
+        // Fixes not detecting input when iframed.
         // TODO: Need to clean this up. in this scene, or in game scene destroy event?
         document.addEventListener('click', () => {
             // console.log("click");

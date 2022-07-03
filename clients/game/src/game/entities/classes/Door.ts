@@ -21,7 +21,7 @@ class Door extends Mob {
     }
 
     setActiveState(state: boolean) {
-        if(state) {
+        if (state) {
             this.baseSprite.setFrame(`${(this.constructor as typeof Door).animationSetName}-1`);
         }
         else {

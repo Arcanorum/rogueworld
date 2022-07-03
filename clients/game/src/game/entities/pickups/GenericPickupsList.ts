@@ -5,7 +5,7 @@ import Pickup from './Pickup';
 /**
  * Creates a generic class for a pickup based on the Pickup class.
  * @param frameName - The name of the texture (in the game atlas) to use for this sprite.
- * @param scaleModifier - A multiplier to scale the sprite by, after also being scaled to GAME_SCALE.
+ * @param scaleModifier - A multiplier to scale the sprite by, after being scaled to GAME_SCALE.
  */
 const makeClass = ({
     frameName,
@@ -22,13 +22,14 @@ const makeClass = ({
 };
 
 /**
- * A list of pickup items that have their class created on startup, instead of being in a dedicated class file.
- * Avoids having many class files that are exactly the same (apart from specifying the texture frame).
+ * A list of pickup items that have their class created on startup, instead of being in a dedicated
+ * class file. Avoids having many class files that are exactly the same (apart from specifying the
+ * texture frame).
  * A pickup type can still have it's own class file if it needs to do something special.
- * Just make a JS file for it in /entities/pickups (it must be prefixed with "Pickup", i.e. "PickupIronSword")
- * and then extend the Pickup class in it.
+ * Just make a JS file for it in /entities/pickups (it must be prefixed with "Pickup",
+ * i.e. "PickupIronSword") and then extend the Pickup class in it.
  */
-export const generateGenericPickupsList = () => {
+export default function generateGenericPickupsList() {
     message('Generating generic pickups list');
     return Object.values(Global.Config.ItemTypes).reduce((accumulator, itemType) => {
         accumulator[itemType.typeName] = makeClass({
@@ -37,5 +38,5 @@ export const generateGenericPickupsList = () => {
         });
 
         return accumulator;
-    }, {} as {[key: string]: typeof Pickup});
-};
+    }, {} as { [key: string]: typeof Pickup });
+}

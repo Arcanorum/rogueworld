@@ -1,4 +1,6 @@
-import { EntityClientConfig, ItemClientConfig, ObjectOfAny, TextDefinitions } from '@rogueworld/types';
+import {
+    EntityClientConfig, ItemClientConfig, ObjectOfAny, TextDefinitions,
+} from '@rogueworld/types';
 import { CraftingRecipe } from './types';
 import Entity from '../game/entities/Entity';
 
@@ -24,7 +26,10 @@ interface MapsData {
  * A global object of things that relate to gameplay.
  */
 const Config = {
-    /** A copy of the Settings object from the config package, due to NextJS weirdness. See index.tsx. */
+    /**
+     * A copy of the Settings object from the config package, due to NextJS weirdness.
+     * See index.tsx.
+     */
     Settings: {} as ObjectOfAny,
 
     /** A list of the map data for every map. */
@@ -55,7 +60,8 @@ const Config = {
     VIEW_RANGE: 0,
 
     /**
-     * The edge to edge view distance. x2 for both sides, and +1 for the middle (where this player is).
+     * The edge to edge view distance. x2 for both sides, and +1 for the middle (where this
+     * player is).
      */
     VIEW_DIAMETER: 0,
 
@@ -87,8 +93,9 @@ const Config = {
     EntitiesList: {} as EntitiesList,
 };
 
-export const init = (config: {Settings: ObjectOfAny; TextDefs: TextDefinitions}) => {
-    // Make the settings available to the rest of the app at runtime through the globalish config object.
+export const init = (config: { Settings: ObjectOfAny; TextDefs: TextDefinitions }) => {
+    // Make the settings available to the rest of the app at runtime through the globalish config
+    // object.
     Config.Settings = config.Settings;
     Config.TextDefs = config.TextDefs;
 

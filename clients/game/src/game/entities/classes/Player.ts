@@ -1,17 +1,14 @@
 import { getRandomIntInclusive, tileDistanceBetween } from '@rogueworld/utils';
 import Global from '../../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../../shared/state';
-import { BouncyText } from '../../../shared/types';
+import { BouncyText, GloryParticleIcon } from '../../../shared/types';
 import Entity from '../Entity';
-
-class GloryParticleIcon extends Phaser.GameObjects.Sprite {
-    verticalTween?: Phaser.Tweens.Tween;
-}
 
 class Player extends Entity {
     static typeName = 'Player';
 
     static animationSetName = 'player';
+
     static animationRepeats = true;
 
     warningText?: Phaser.GameObjects.Text;
@@ -51,7 +48,8 @@ class Player extends Entity {
             //         key: `${this.clothes.clothesName}`,
             //         // See Character.onMove for what is going on here.
             //         duration: moveAnimDuration * 1.9 || 4000,
-            //         frameRate: null, // Need to provide this or the duration won't take effect. Phaser 3.55.2 bug.
+            //         // Need to provide this or the duration won't take effect. Phaser 3.55.2 bug.
+            //         frameRate: null,
             //     });
             // }
         }
@@ -71,7 +69,7 @@ class Player extends Entity {
         const thisDynamic = Global.gameScene.dynamics[this.entityId];
         const dist = tileDistanceBetween(playerDynamic, thisDynamic);
 
-        if(dist <= 1) {
+        if (dist <= 1) {
             ApplicationState.connection?.sendEvent(
                 'interact',
                 {
@@ -84,9 +82,9 @@ class Player extends Entity {
     }
 
     onFoodModified?(amount: string) {
-        if(parseInt(amount) < 0) {
+        if (parseInt(amount, 10) < 0) {
             // Only show the food drain when on low food.
-            if(PlayerState.food > (PlayerState.maxFood * 0.2)) return;
+            if (PlayerState.food > (PlayerState.maxFood * 0.2)) return;
         }
         else {
             amount = `+${amount}`;
@@ -145,7 +143,7 @@ class Player extends Entity {
 
         this.add(icon);
 
-        if (parseInt(amount) > 0) {
+        if (parseInt(amount, 10) > 0) {
             amount = `+${amount}`;
         }
 

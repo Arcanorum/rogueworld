@@ -24,7 +24,8 @@ export default function parseXLSXWorkbookSheet(
     const firstDefRow = 9;
     // The current row being accessed.
     let currentDefRow = 9;
-    // The index of the column character in the chars array for the current language. Incremented as the languages are gone through.
+    // The index of the column character in the chars array for the current language.
+    // Incremented as the languages are gone through.
     let currentLanguageCharIndex = 1;
     // The value of that index in the chars array.
     let currentLanguageCol = chars[currentLanguageCharIndex];
@@ -37,7 +38,8 @@ export default function parseXLSXWorkbookSheet(
     defsAsJSON[currentLanguageName] = defsAsJSON[currentLanguageName] || {};
 
     while (true) {
-        // Check if this language is valid. The previous one might have been the last one, in which case end.
+        // Check if this language is valid.
+        // The previous one might have been the last one, in which case end.
         if (currentLanguageName === undefined) break;
 
         // Shorthand.
@@ -62,7 +64,8 @@ export default function parseXLSXWorkbookSheet(
             currentLanguageCharIndex += 1;
             currentLanguageCol = chars[currentLanguageCharIndex];
 
-            // Check if there is another language. The previous one might have been the last one, in which case end.
+            // Check if there is another language.
+            // The previous one might have been the last one, in which case end.
             if (worksheet[currentLanguageCol + languageNameRow] === undefined) break;
 
             // Get the name of the language.

@@ -54,7 +54,8 @@ export const RowColOffsetsByDirection = {
 
 /**
  * A precomputed list of all of the different ways that the directions can be arranged.
- * Useful for picking a random set of directions to try to move an entity in, to make them less predictable.
+ * Useful for picking a random set of directions to try to move an entity in, to make them less
+ * predictable.
  *  [
  *      ["u", "d", "l", "r"],
  *      ["u", "d", "r", "l"],

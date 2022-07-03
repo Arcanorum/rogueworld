@@ -4,10 +4,11 @@ import Sprite from '../Sprite';
 class Clothes extends Sprite {
     clothesName: string;
 
-    constructor(config: {clothingTypeCode: string}) {
+    constructor(config: { clothingTypeCode: string }) {
         super(0, 0, config);
 
-        // If clothes were specified (a character came into range already wearing something), then use those clothes.
+        // If clothes were specified (a character came into range already wearing something), then
+        // use those clothes.
         if (config.clothingTypeCode !== undefined) {
             this.clothesName = Config.ItemTypes[config.clothingTypeCode].translationId;
         }
@@ -63,7 +64,7 @@ class Clothes extends Sprite {
     }
 
     setDirection(direction: string) {
-        return;
+
     }
 }
 

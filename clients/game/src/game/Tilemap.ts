@@ -53,7 +53,8 @@ class Tilemap {
     }
 
     /**
-     * Updates the whole ground grid. Used at init and board change. Use the edge ones for player movement.
+     * Updates the whole ground grid. Used at init and board change. Use the edge ones for player
+     * movement.
      */
     updateGroundGrid() {
         const { groundTilesGrid, currentMapGroundGrid } = this;
@@ -64,7 +65,8 @@ class Tilemap {
         let targetRow;
         let targetCol;
 
-        // Change the frame in use by each tile sprite of the ground grid for each tile within the player's view range.
+        // Change the frame in use by each tile sprite of the ground grid for each tile within the
+        // player's view range.
         for (row = 0; row < viewDiameter; row += 1) {
             targetRow = playerRow - viewRange + row;
             for (col = 0; col < viewDiameter; col += 1) {
@@ -79,7 +81,8 @@ class Tilemap {
                         continue;
                     }
                 }
-                // If the cell to view is out of the current map bounds, show a black frame for that tile.
+                // If the cell to view is out of the current map bounds, show a black frame for
+                // that tile.
                 groundTilesGrid[row][col].setFrame(this.blackFrame);
             }
         }
@@ -97,7 +100,8 @@ class Tilemap {
     }
 
     /**
-     * Updates the sprites around the edge in the direction that was moved in, as the rest of the data is just shifted and wraps back around.
+     * Updates the sprites around the edge in the direction that was moved in, as the rest of the
+     * data is just shifted and wraps back around.
      */
     updateGroundGridEdgeTop() {
         shiftMatrixDown(this.groundTilesGrid);
@@ -121,7 +125,8 @@ class Tilemap {
                     return;
                 }
             }
-            // If the cell to view is out of the current map bounds, show a black frame for that tile.
+            // If the cell to view is out of the current map bounds, show a black frame for that
+            // tile.
             tileSprite.setFrame(this.blackFrame);
         });
     }
@@ -148,7 +153,8 @@ class Tilemap {
                     return;
                 }
             }
-            // If the cell to view is out of the current map bounds, show a black frame for that tile.
+            // If the cell to view is out of the current map bounds, show a black frame for that
+            // tile.
             tileSprite.setFrame(this.blackFrame);
         });
     }
@@ -177,7 +183,8 @@ class Tilemap {
                     return;
                 }
             }
-            // If the cell to view is out of the current map bounds, show a black frame for that tile.
+            // If the cell to view is out of the current map bounds, show a black frame for that
+            // tile.
             tileSprite.setFrame(this.blackFrame);
         });
     }
@@ -206,7 +213,8 @@ class Tilemap {
                     return;
                 }
             }
-            // If the cell to view is out of the current map bounds, show a black frame for that tile.
+            // If the cell to view is out of the current map bounds, show a black frame for that
+            // tile.
             tileSprite.setFrame(this.blackFrame);
         });
     }
@@ -225,7 +233,8 @@ class Tilemap {
         this.mapRows = this.currentMapGroundGrid.length;
         this.mapCols = this.currentMapGroundGrid[0].length;
 
-        // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
+        // Make sure the current tween has stopped, so it finishes with moving the tilemap in that
+        // direction correctly.
         if (this.scene.playerTween !== null) {
             this.scene.playerTween.stop();
         }

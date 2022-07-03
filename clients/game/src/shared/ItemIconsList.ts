@@ -1,5 +1,5 @@
 import { ObjectOfStrings } from '@rogueworld/types';
-import { WebpackRequireValue } from '../shared/types';
+import { WebpackRequireValue } from './types';
 
 /**
  * Returns a list of all of the item icon source URIs as output by webpack, so
@@ -17,10 +17,11 @@ export default (() => {
     const itemIconsList = paths
         .reduce((list: ObjectOfStrings, path, index) => {
             const popped = path.split('/').pop();
-            if(!popped) return list;
+            if (!popped) return list;
             // Trim the ".png" from the end of the path.
             const itemName = popped.slice(0, -4);
-            // Need to use .default to get the value of the path, or would need to actually import it.
+            // Need to use .default to get the value of the path, or would need to actually
+            // import it.
             list[itemName] = values[index].default.src;
             return list;
         }, {});

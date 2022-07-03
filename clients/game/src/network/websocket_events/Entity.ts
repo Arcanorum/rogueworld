@@ -47,7 +47,7 @@ const Entity = () => {
         }
     };
 
-    eventResponses.moved = (data: {id: string; row: number; col: number; moveRate: number}) => {
+    eventResponses.moved = (data: { id: string; row: number; col: number; moveRate: number }) => {
         if (Global.gameScene.dynamics === undefined) {
             // Something went wrong... Reload the page.
             // location.reload();
@@ -77,7 +77,8 @@ const Entity = () => {
             const origRow = PlayerState.row;
             const origCol = PlayerState.col;
 
-            // Make sure the current tween has stopped, so it finishes with moving the tilemap in that direction correctly.
+            // Make sure the current tween has stopped, so it finishes with moving the tilemap in
+            // that direction correctly.
             if (Global.gameScene.playerTween !== null) {
                 Global.gameScene.playerTween.stop();
             }
@@ -110,7 +111,7 @@ const Entity = () => {
             }
             // No movement (somehow).
             else {
-                tweenOnCompleteFunction = () => { return; };
+                tweenOnCompleteFunction = () => { };
             }
 
             Global.gameScene.checkDynamicsInViewRange();
@@ -132,7 +133,8 @@ const Entity = () => {
                 onStop: tweenOnCompleteFunction,
             });
 
-            // Update the move rate on the client, so they can still send the move events at the right rate,
+            // Update the move rate on the client, so they can still send the move events at the
+            // right rate,
             Global.gameScene.moveRate = data.moveRate || 100;
 
             // Check for any interactables that are now in range to be interacted with.
@@ -216,11 +218,11 @@ const Entity = () => {
         }
     };
 
-    eventResponses.heal = (data: {id: string; amount: string}) => {
+    eventResponses.heal = (data: { id: string; amount: string }) => {
         Global.gameScene.dynamics[data.id].spriteContainer.onHitPointsModified(data.amount);
     };
 
-    eventResponses.damage = (data: {id: string; amount: string}) => {
+    eventResponses.damage = (data: { id: string; amount: string }) => {
         const { spriteContainer } = Global.gameScene.dynamics[data.id];
         spriteContainer.onHitPointsModified(data.amount);
         // Squirt some juice.
@@ -248,18 +250,19 @@ const Entity = () => {
         spriteContainer.setActiveState(false);
     };
 
-    eventResponses.change_direction = (data: {id: string}) => {
+    eventResponses.change_direction = (data: { id: string }) => {
         // console.log("change_direction:", data);
         // Check the entity id is valid.
-        const dynamic = Global.gameScene.dynamics[data.id];
-        if (!dynamic) return;
+        // const dynamic = Global.gameScene.dynamics[data.id];
+        // if (!dynamic) return;
 
         // const { spriteContainer } = dynamic;
 
-        // TODO: maybe still need this in case want to tell other players when someone clicks in a direction, i.e. side to side, but without moving.
+        // TODO: maybe still need this in case want to tell other players when someone clicks in a
+        // direction, i.e. side to side, but without moving.
     };
 
-    eventResponses.start_action = (data: {id: string; actionName: string; duration: number}) => {
+    eventResponses.start_action = (data: { id: string; actionName: string; duration: number }) => {
         // console.log('start action:', data);
         const dynamic = Global.gameScene.dynamics[data.id];
         if (!dynamic) return;

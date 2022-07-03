@@ -36,9 +36,9 @@ export const getRandomIntInclusive = (min: number, max: number) => {
 /**
  * Gets the Manhattan distance in tiles between two points.
  */
-export const tileDistanceBetween = (dynamic1: BoardPoint, dynamic2: BoardPoint) => {
-    return Math.abs(dynamic1.row - dynamic2.row) + Math.abs(dynamic1.col - dynamic2.col);
-};
+export const tileDistanceBetween = (dynamic1: BoardPoint, dynamic2: BoardPoint) => (
+    Math.abs(dynamic1.row - dynamic2.row) + Math.abs(dynamic1.col - dynamic2.col)
+);
 
 /**
  * When showing an item value (i.e. quantity) on a client, if it would be too long, show a
@@ -55,7 +55,7 @@ export const formatItemValue = (value: string | number) => {
  * Useful for securing passwords before sending.
  * https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#Converting_a_digest_to_a_hex_string
  */
-export const digestMessage = async(message: string) => {
+export const digestMessage = async (message: string) => {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8); // hash the message
     const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array

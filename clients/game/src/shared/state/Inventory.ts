@@ -35,7 +35,10 @@ class Inventory {
 
     maxWeight!: number;
 
-    /** Whether usable items will be automatically added to the hotbar when picked up if there is a free hotbar slot. */
+    /**
+     * Whether usable items will be automatically added to the hotbar when picked up if there is a
+     * free hotbar slot.
+     */
     autoAddToHotbar!: boolean;
 
     userAccountId!: string | null;

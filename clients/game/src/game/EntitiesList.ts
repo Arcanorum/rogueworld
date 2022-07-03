@@ -1,7 +1,7 @@
 import { error, message, warning } from '@rogueworld/utils';
 import Config from '../shared/Config';
 import Entity from './entities/Entity';
-import { generateGenericPickupsList } from './entities/pickups/GenericPickupsList';
+import generateGenericPickupsList from './entities/pickups/GenericPickupsList';
 
 /**
  * Creates a generic class for an entity based on the Entity class, or one of it's abstract

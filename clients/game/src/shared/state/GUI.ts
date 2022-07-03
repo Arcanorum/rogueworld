@@ -35,25 +35,37 @@ interface CraftingStation {
 
 class GUI {
     cursorX!: number;
+
     cursorY!: number;
+
     cursorInLeftSide!: boolean;
+
     cursorInTopSide!: boolean;
+
     tooltipContent!: string | ReactElement | null;
+
     activePanel!: Panels | null;
+
     quickChatEnabled!: boolean;
+
     showChatBox!: boolean;
+
     craftingStation!: CraftingStation | null;
+
     shop!: Shop | null;
+
     selectedEntity!: Entity | null;
 
     /**
-     * The volume of the music. 0 is no music, 100 is full volume. Can't use floats due to imperfect decimal precision.
+     * The volume of the music. 0 is no music, 100 is full volume. Can't use floats due to
+     * imperfect decimal precision.
      * @todo find somewhere else for this, doesn't really belong with this GUI stuff
      */
     musicVolume!: number;
 
     /**
-     * The volume of the sound effects. 0 is no effects, 100 is full volume. Can't use floats due to imperfect decimal precision.
+     * The volume of the sound effects. 0 is no effects, 100 is full volume. Can't use floats due
+     * to imperfect decimal precision.
      * @todo find somewhere else for this, doesn't really belong with this GUI stuff
      */
     effectsVolume!: number;
@@ -64,7 +76,10 @@ class GUI {
     /** Whether profanity in chat messages from other players should be censored. */
     profanityFilterEnabled!: boolean;
 
-    /** Whether tiles on the darkness layer of the tilemap should flicker when affected by a light source. */
+    /**
+     * Whether tiles on the darkness layer of the tilemap should flicker when affected by a light
+     * source.
+     */
     lightFlickerEnabled!: boolean;
 
     /** Whether the virtual D-pad is enabled. */
@@ -172,7 +187,8 @@ class GUI {
 
     // setShop(merchantId: string, name: string, shopType: ShopType) {
     //     this.shop = {
-    //         // The merchant entity that this player is trading with, to send when buying something so the server knows who to buy from.
+    //         // The merchant entity that this player is trading with, to send when buying
+    //         // something so the server knows who to buy from.
     //         merchantId,
     //         name,
     //         shopType,
@@ -183,12 +199,12 @@ class GUI {
 
     setSelectedEntity(entity: Entity) {
         // Don't update if this is already the selected entity.
-        if(entity === GUIState.selectedEntity) return;
+        if (entity === GUIState.selectedEntity) return;
 
         GUIState.selectedEntity = entity;
 
         // Check if it was unset (i.e. no selection).
-        if(!GUIState.selectedEntity) {
+        if (!GUIState.selectedEntity) {
             PubSub.publish(SELECTED_ENTITY);
             return;
         }
@@ -196,17 +212,19 @@ class GUI {
         const EntityType = entity.constructor as typeof Entity;
 
         // Make this entity be the current selection target.
-        PubSub.publish(SELECTED_ENTITY, { new: {
-            icon: entityIconsList[EntityType.iconName],
-            name: entity.displayName?.text || EntityType.displayName,
-            hitPoints: entity.hitPoints,
-            maxHitPoints: entity.maxHitPoints,
-            canBeCraftedAt: Boolean(EntityType.craftingStationClass),
-        } });
+        PubSub.publish(SELECTED_ENTITY, {
+            new: {
+                icon: entityIconsList[EntityType.iconName],
+                name: entity.displayName?.text || EntityType.displayName,
+                hitPoints: entity.hitPoints,
+                maxHitPoints: entity.maxHitPoints,
+                canBeCraftedAt: Boolean(EntityType.craftingStationClass),
+            },
+        });
     }
 
     setStockPrices(value: Array<number>) {
-        if(this.shop) {
+        if (this.shop) {
             this.shop.prices = value;
 
             PubSub.publish(STOCK_PRICES, this.shop.prices);

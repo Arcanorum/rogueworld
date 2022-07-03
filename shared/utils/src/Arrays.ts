@@ -149,15 +149,15 @@ export const runLengthEncodeArray = <T>(array: Array<T>) => {
     if (array.length > 0) {
         let count = 1;
         let value = array[0];
-        for (let i = 1; i < array.length; ++i) {
+        for (let i = 1; i < array.length; i += 1) {
             const entry = array[i];
-            if (entry == value) {
+            if (entry === value) {
                 count += 1;
             }
             else {
                 result.push(count);
                 result.push(value);
-              	count = 1;
+                count = 1;
                 value = entry;
             }
         }
@@ -178,7 +178,7 @@ export const runLengthDecodeArray = <T>(array: Array<T | number>) => {
 
     array.forEach((runLength, i) => {
         // Only use the even numbered elements, as they are the run length values.
-        if(!(i % 2)) {
+        if (!(i % 2)) {
             arrayMultiPush(result, array[i + 1], runLength as number);
         }
     });

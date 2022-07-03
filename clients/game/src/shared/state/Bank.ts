@@ -12,9 +12,13 @@ import ItemState from '../ItemState';
 
 class Bank {
     items!: Array<ItemState>;
+
     weight!: number;
+
     maxWeight!: number;
+
     maxWeightUpgradeCost!: number;
+
     additionalMaxBankWeightPerUpgrade!: number;
 
     constructor() {

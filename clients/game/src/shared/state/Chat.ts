@@ -1,9 +1,9 @@
 import PubSub from 'pubsub-js';
 import { v4 as uuidv4 } from 'uuid';
-import Global from '../Global';
-import { NEW_CHAT } from '../EventTypes';
 import { censorString } from '@rogueworld/utils';
 import BadWords from '@rogueworld/utils/src/BadWords.yaml';
+import Global from '../Global';
+import { NEW_CHAT } from '../EventTypes';
 
 export type ChatScope = 'ALL' | 'LOCAL' | 'GLOBAL' | 'TRADE';
 
@@ -98,8 +98,10 @@ class Chat {
     addNewChat(data: ChatMessage) {
         this.validateScope(data.scope);
 
-        // Don't filter profanity of current player's chat, so they can't see what might have been censored for other players.
-        // Makes offenders less likely to try and get around the filter if they think it wasn't censored at all.
+        // Don't filter profanity of current player's chat, so they can't see what might have been
+        // censored for other players.
+        // Makes offenders less likely to try and get around the filter if they think it wasn't
+        // censored at all.
         if (data.id !== Global.states.PlayerState.entityId) {
             data.content = this.filterProfanity(data.content);
             this.newChatNotification = true;

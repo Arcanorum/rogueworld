@@ -47,18 +47,31 @@ export interface JoinWorldData {
 
 class Application {
     connection!: GameWebSocket | null;
+
     connecting!: boolean;
+
     connected!: boolean;
+
     joining!: boolean;
+
     joined!: boolean;
+
     joinWorldData!: JoinWorldData | null;
+
     loading!: boolean;
+
     loadAccepted!: boolean;
+
     loggedIn!: boolean;
+
     gameServiceHTTPServerURL!: string;
+
     gameServiceWebSocketServerURL!: string;
+
     mapServiceHTTPServerURL!: string;
+
     languageServiceHTTPServerURL!: string;
+
     missedWebsocketEvents!: Array<MissedWebsocketEvent>;
 
     constructor() {

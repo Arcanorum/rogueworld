@@ -6,7 +6,8 @@ import path from 'path';
 /**
  * Only .yaml is allowed (not .yml, .json, or anything else).
  * @param fileName - The name part of the file to load, WITHOUT the extension.
- * @param relativePath - A relative path to the src directory of this package, for when `__dirname` gets messed up by NextJS...
+ * @param relativePath - A relative path to the src directory of this package, for when `__dirname`
+ * gets messed up by NextJS...
  */
 export default function loadYAMLConfig(fileName: string, relativePath?: string) {
     try {
@@ -24,7 +25,7 @@ export default function loadYAMLConfig(fileName: string, relativePath?: string) 
         // Check if this package is being used correctly before warning about missing config files.
         // When used incorrectly by a build tool (see NextJS __dirname bug...) then it shouldn't
         // bother logging the error to avoid terminal spam for each file it can't find.
-        if(__dirname.includes('shared/configs/src')) {
+        if (__dirname.includes('shared/configs/src')) {
             warning(err);
         }
 

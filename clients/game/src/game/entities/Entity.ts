@@ -19,16 +19,25 @@ export interface EntityConfig {
 }
 
 class Entity extends Container {
-    /** Debug name of this entity type. Useful for generated classes where the constructor name is meaningless. */
+    /**
+     * Debug name of this entity type. Useful for generated classes where the constructor name is
+     * meaningless.
+     */
     static typeName = 'Entity';
 
-    /** The text definition ID of this entity type, used to get the actual display name value from the loaded text definitions in the current language. */
+    /**
+     * The text definition ID of this entity type, used to get the actual display name value from
+     * the loaded text definitions in the current language.
+     */
     static displayName = '';
 
     /** Whether the display name should be shown over the top of the entity when hovered over. */
     static showDisplayNameOnHover = true;
 
-    /** The file name (without file type extension) of the image to use for this entity (i.e. when selected). */
+    /**
+     * The file name (without file type extension) of the image to use for this entity (i.e. when
+     * selected).
+     */
     static iconName = '';
 
     /** The base name of this set of animations. */
@@ -114,15 +123,15 @@ class Entity extends Container {
             frame = `${EntityType.animationSetName}-1`;
         }
         this.baseSprite = Global.gameScene.add.sprite(0, 0, 'game-atlas', frame);
-        if(frame) {
+        if (frame) {
             this.baseSprite.setFrame(frame);
         }
         this.baseSprite.setOrigin(0.5);
         this.add(this.baseSprite);
 
         // Don't bother playing 1 frame animations.
-        if(EntityType.animationFrameSequence.length > 1) {
-            if(EntityType.animationSetName) {
+        if (EntityType.animationFrameSequence.length > 1) {
+            if (EntityType.animationSetName) {
                 this.baseSprite.anims.play(EntityType.animationSetName);
             }
         }
@@ -138,7 +147,7 @@ class Entity extends Container {
         // Use a specific display name if given, or the one for this entity type.
         const displayName = config.displayName || EntityType.displayName;
 
-        if(displayName && EntityType.showDisplayNameOnHover) {
+        if (displayName && EntityType.showDisplayNameOnHover) {
             this.addDisplayName(displayName);
 
             this.baseSprite.on('pointerover', this.onPointerOver, this);
@@ -177,7 +186,7 @@ class Entity extends Container {
     }
 
     onDestroy() {
-        if(this.particlesOnDestroy) {
+        if (this.particlesOnDestroy) {
             // Squirt a lot of juice on death.
             Global.gameScene.damageParticleEmitter.emitParticleAt(
                 this.x,
@@ -195,11 +204,14 @@ class Entity extends Container {
         if (playerDynamic && thisDynamic) {
             const EntityType = this.constructor as typeof Entity;
 
-            if(EntityType.destroySound) {
+            if (EntityType.destroySound) {
                 // If they are close enough to the player, play a death splat sound.
-                if (tileDistanceBetween(
-                    dynamics[PlayerState.entityId], dynamics[this.entityId],
-                ) <= 5) {
+                if (
+                    tileDistanceBetween(
+                        dynamics[PlayerState.entityId],
+                        dynamics[this.entityId],
+                    ) <= 5
+                ) {
                     Global.gameScene.sound.play(
                         EntityType.destroySound,
                         { volume: GUIState.effectsVolume / 100 },
@@ -208,7 +220,7 @@ class Entity extends Container {
             }
         }
 
-        if(this === GUIState.selectedEntity) {
+        if (this === GUIState.selectedEntity) {
             GUIState.setSelectedEntity(null);
         }
     }
@@ -232,10 +244,11 @@ class Entity extends Container {
 
         const EntityType = this.constructor as typeof Entity;
         // If this is something that can be crafted at, open the crafting panel.
-        if(EntityType.craftingStationClass) {
+        if (EntityType.craftingStationClass) {
             // Check they are within range to interact with the entity.
-            if(dist <= 1) {
-                // Prevent opening the crafting panel when a station is clicked on behind and already open panel.
+            if (dist <= 1) {
+                // Prevent opening the crafting panel when a station is clicked on behind and
+                // already open panel.
                 if (GUIState.activePanel !== Panels.NONE) {
                     // Except chat panel.
                     if (GUIState.activePanel !== Panels.Chat) return;
@@ -266,7 +279,7 @@ class Entity extends Container {
      * Show the display name of this entity when it is hovered over.
      */
     onPointerOver() {
-        if(this.displayName) {
+        if (this.displayName) {
             this.displayName.visible = true;
         }
         setHandCursor();
@@ -276,7 +289,7 @@ class Entity extends Container {
      * Hide the display name when it isn't being hovered over any more.
      */
     onPointerOut() {
-        if(this.displayName) {
+        if (this.displayName) {
             this.displayName.visible = false;
         }
         setDefaultCursor();
@@ -295,7 +308,8 @@ class Entity extends Container {
 
     /**
      * Should be called when the entity moves.
-     * Move can be a normal move (like a running), or from a manual reposition (teleport/map change).
+     * Move can be a normal move (like a running), or from a manual reposition (teleport/map
+     * change).
      * @param playMoveAnim Whether the move animation should be played. Don't play on
      *      reposition as it looks weird when they teleport but still do a move animation.
      */
@@ -307,9 +321,8 @@ class Entity extends Container {
         //     // TODO: flip the base sprite if moving the other way since the last move
         //     // dont bother for up/down
 
-        //     // Don't bother if this is a looping animation. An animation should already been running.
+        // // Don't bother if this is a looping animation. An animation should already been running.
         //     if (this.animationRepeats) return;
-
 
         //     if (playMoveAnim === true) {
         //         if (EntityType.animationSetName) {
@@ -319,22 +332,24 @@ class Entity extends Container {
         //                 }
         //                 this.baseSprite.play({
         //                     key: `${EntityType.animationSetName}`,
-        //                     // An animation should play in full over 2 move steps, and also in full
-        //                     // over just 1 (so it looks like a winddown).
-        //                     // If the animation were to run in full for every move step, it would look
-        //                     // very fast, so slow it down artificially so it appears more natural when
-        //                     // played over a longer distance (i.e. over 2 tiles, instead of just 1).
-        //                     // x2 the move duration (i.e. half the frame rate), and don't start a new
-        //                     // animation for any incoming move events while this animation is still
-        //                     // playing, so for the first step it plays the first half of the animation,
-        //                     // but it will keep running, so when a second move event happens, the
-        //                     // previous animation should still be running, on it's second half, thus
-        //                     // completing the full move animation over 2 move steps.
-        //                     // x2 might be too precice, so use 1.9 to give some margin for timing
-        //                     // weirdness like lag, low FPS, etc.
+        //               // An animation should play in full over 2 move steps, and also in full
+        //               // over just 1 (so it looks like a winddown).
+        //               // If the animation were to run in full for every move step, it would look
+        //               // very fast, so slow it down artificially so it appears more natural when
+        //               // played over a longer distance (i.e. over 2 tiles, instead of just 1).
+        //               // x2 the move duration (i.e. half the frame rate), and don't start a new
+        //               // animation for any incoming move events while this animation is still
+        //               // playing, so for the first step it plays the first half of the animation,
+        //               // but it will keep running, so when a second move event happens, the
+        //               // previous animation should still be running, on it's second half, thus
+        //               // completing the full move animation over 2 move steps.
+        //               // x2 might be too precice, so use 1.9 to give some margin for timing
+        //               // weirdness like lag, low FPS, etc.
         //                     duration: moveAnimDuration,
         //                     // TODO: test this has been fixed in recent phaser version
-        //                     // frameRate: null, // Need to provide this or the duration won't take effect. Phaser 3.55.2 bug.
+        //                     // Need to provide this or the duration won't take effect.
+        //                     // Phaser 3.55.2 bug.
+        //                     // frameRate: null,
         //                 });
         //             }
         //         }
@@ -342,9 +357,9 @@ class Entity extends Container {
     }
 
     onHitPointsModified(amount: string) {
-        this.hitPoints += parseInt(amount);
+        this.hitPoints += parseInt(amount, 10);
 
-        if(GUIState.selectedEntity === this) {
+        if (GUIState.selectedEntity === this) {
             PubSub.publish(SELECTED_ENTITY_HITPOINTS, { new: this.hitPoints });
         }
 
@@ -352,7 +367,7 @@ class Entity extends Container {
     }
 
     moveAnimCompleted() {
-        return;
+
     }
 
     startAction(actionName: string, duration: number) {
@@ -381,7 +396,7 @@ class Entity extends Container {
     endAction() {
         clearTimeout(this.actionTimeout);
 
-        if(this.actionTween) this.actionTween.stop();
+        if (this.actionTween) this.actionTween.stop();
 
         this.actionProgress.visible = false;
         this.actionBorder.visible = false;
@@ -390,13 +405,13 @@ class Entity extends Container {
         // Play an optional ending animation here.
     }
 
-    setActiveState(state: boolean) { return; }
+    setActiveState(state: boolean) { }
 
     static loadConfig(config) {
         // Load anything else that hasn't already been set by the loadConfig method of a subclass.
         Object.entries(config).forEach(([key, value]) => {
             // Load whatever properties that have the same key in the config as on this class.
-            if(key in this) {
+            if (key in this) {
                 // Check if the property has already been loaded by a
                 // subclass, or set on the class prototype for class files.
                 if (
@@ -410,7 +425,7 @@ class Entity extends Container {
         });
 
         // If no config is set for a specific icon name, use the first frame of the animation set.
-        if(!this.iconName && this.animationSetName) {
+        if (!this.iconName && this.animationSetName) {
             this.iconName = `${this.animationSetName}-1`;
         }
 

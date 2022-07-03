@@ -5,6 +5,8 @@ class Mob extends Entity {
 
     static animationSetName = null;
 
+    static animationRepeats = true;
+
     static destroySound = 'sword-cutting-flesh';
 }
 

@@ -139,7 +139,21 @@
     animationSetName: iron-rocks
     animationFrameSequence: [1]
 
+- name: CarrotSeedling
+  code: SGEJ4470
+  baseMaxHitPoints: 20
+  baseGloryValue: 5
+  transformationEntityType: CarrotPlant
+  transformationTimer: 600000
+  categories:
+    - Crop
+  clientConfig:
+    displayName: Carrot seedling
+    animationSetName: carrot-seedling
+    animationFrameSequence: [1]
+
 - name: CarrotPlant
+  code: LMAU2310
   baseMaxHitPoints: 20
   baseGloryValue: 5
   categories:

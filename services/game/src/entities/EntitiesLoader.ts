@@ -125,6 +125,19 @@ export const initialiseList = () => {
                 return;
             }
 
+            // Check for any configs that are referencing an entity type by name.
+            if (_key === 'transformationEntityType') {
+                if (typeof value !== 'string') {
+                    error('Invalid entity type name to transform into. Must be a string:', value);
+                    return;
+                }
+                if (!EntitiesList.BY_NAME[value]) {
+                    error('Invalid entity type name to transform into. Not found in entities list:', value);
+                }
+                EntityClass.TransformationEntityType = EntitiesList.BY_NAME[value];
+                return;
+            }
+
             // Load whatever properties that have the same key in the config as on this class.
             if (key in EntityClass) {
                 // Check if the property has already been loaded by a

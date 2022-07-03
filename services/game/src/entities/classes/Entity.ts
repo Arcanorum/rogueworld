@@ -198,6 +198,10 @@ class Entity {
 
     static categories?: Array<EntityCategories> = undefined;
 
+    static TransformationEntityType?: typeof Entity = undefined;
+
+    static transformationTimer?: number = undefined;
+
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
 
@@ -256,6 +260,21 @@ class Entity {
                     },
                 );
             }
+        }
+
+        if (EntityType.transformationTimer && EntityType.TransformationEntityType) {
+            setTimeout(() => {
+                if (!this.board) return;
+                if (!EntityType.TransformationEntityType) return;
+
+                new EntityType.TransformationEntityType({
+                    row: this.row,
+                    col: this.col,
+                    board: this.board,
+                }).emitToNearbyPlayers();
+
+                this.destroy();
+            }, EntityType.transformationTimer);
         }
 
         this.board.addEntity(this);

@@ -1125,6 +1125,15 @@
     translationId: Wooden door
     textureSource: wooden-door
 
+- name: CarrotSeed
+  code: WGVF9970
+  extends: Holdable
+  unitWeight: Seed
+  entityTypeSpawnedOnUse: CarrotSeedling
+  clientConfig:
+    translationId: Carrot seed
+    textureSource: carrot-seed
+
 # Everything else
 
 - name: AgoniteBar

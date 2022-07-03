@@ -10,6 +10,17 @@
     "generate-item-action-icons": "node src/scripts/GenerateItemActionIcons.js",
     "pack": "npm run pack:sprites",
     "pack:sprites": "free-tex-packer-cli --project src/assets/images/game-atlas-packer.ftpp --output src/assets/images",
-    "watch:images": "nodemon --watch src/assets/images/entities --ignore src/assets/images/entities/pickups --ignore src/assets/images/gui/actions/items --exec 'npm run generate-assets'"
-  }
+    "watch:images": "nodemon --exec 'npm run generate-assets'"
+  },
+  "nodemonConfig": {
+    "watch": [
+        "src/assets/images/entities",
+        "src/assets/images/gui"
+    ],
+    "ignore": [
+        "src/assets/images/entities/pickups/*",
+        "src/assets/images/gui/actions/items/*"
+    ],
+    "ext": "png"
+}
 }

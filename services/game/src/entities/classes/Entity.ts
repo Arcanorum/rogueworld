@@ -17,7 +17,7 @@ import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import Heal from '../../gameplay/Heal';
-import { Curse, Enchantment } from '../../gameplay/MagicEffects';
+import { Curse, Enchantment } from '../../gameplay/magic_effects';
 import { StatusEffect } from '../../gameplay/status_effects';
 import Board from '../../space/Board';
 

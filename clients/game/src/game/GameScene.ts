@@ -4,7 +4,7 @@ import { message, warning } from '@rogueworld/utils';
 import { DayPhases } from '@rogueworld/types';
 import Tilemap from './Tilemap';
 import UseItem from '../shared/UseItem';
-import SoundManager from './SoundManager';
+import SoundManager from './sound_manager';
 import Config from '../shared/Config';
 import {
     ApplicationState,

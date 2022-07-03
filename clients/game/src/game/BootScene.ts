@@ -7,7 +7,7 @@ import highlightImage from '../assets/images/gui/highlight.png';
 import Config from '../shared/Config';
 import { LOAD_FILE_PROGRESS, LOAD_PROGRESS } from '../shared/EventTypes';
 import { ApplicationState, GUIState, InventoryState } from '../shared/state';
-import SoundManager from './SoundManager';
+import SoundManager from './sound_manager';
 import generateEntitiesList from './EntitiesList';
 
 const audioAssetPaths = SoundManager.getAudioAssetPaths();

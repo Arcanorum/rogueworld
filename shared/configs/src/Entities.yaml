@@ -18,7 +18,28 @@
     extendsClassName: Mob
     displayName: Bandit
     animationSetName: bandit
-    animationRepeats: true
+
+- name: Lizardman
+  baseMaxHitPoints: 50
+  baseGloryValue: 40
+  baseDefence: 30
+  baseMoveRate: 700
+  baseWanderRate: 10000
+  baseAttackRange: 1
+  viewRange: 8
+  actions:
+    - punch
+    - bite
+  dropList:
+    - itemName: Bones
+      dropRate: 100
+    - itemName: CarrotSeed
+      quantity: 4
+    - itemName: Greencap
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Lizardman
+    animationSetName: lizardman
 
 - name: Orc
   baseMaxHitPoints: 80
@@ -40,7 +61,6 @@
     extendsClassName: Mob
     displayName: Orc
     animationSetName: orc
-    animationRepeats: true
 
 - name: OrcBerserker
   baseMaxHitPoints: 80
@@ -62,7 +82,6 @@
     extendsClassName: Mob
     displayName: Orc berserker
     animationSetName: orc-berserker
-    animationRepeats: true
 
 - name: Cow
   baseMaxHitPoints: 50
@@ -84,7 +103,6 @@
     extendsClassName: Mob
     displayName: Cow
     animationSetName: adult-cow
-    animationRepeats: true
 
 - name: FruitBat
   baseMaxHitPoints: 50
@@ -105,7 +123,6 @@
     extendsClassName: Mob
     displayName: Fruit bat
     animationSetName: fruit-bat
-    animationRepeats: true
 
 - name: Snake
   baseMaxHitPoints: 40
@@ -125,7 +142,6 @@
     extendsClassName: Mob
     displayName: Snake
     animationSetName: snake
-    animationRepeats: true
 
 - name: FireElemental
   baseMaxHitPoints: 60
@@ -144,7 +160,6 @@
     extendsClassName: Mob
     displayName: Fire elemental
     animationSetName: fire-elemental
-    animationRepeats: true
 
 - name: PineTree
   highBlocking: true

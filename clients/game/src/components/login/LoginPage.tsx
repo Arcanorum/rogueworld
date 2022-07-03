@@ -1,15 +1,17 @@
 import PubSub from 'pubsub-js';
 import { useEffect, useState } from 'react';
+import { message, warning } from '@rogueworld/utils';
 import News from './news/News';
 // import Partners from './partners/Partners';
-import { message, warning } from '@rogueworld/utils';
 import notDiscordLogo from '../../assets/images/misc/branding/notdiscord-logo.png';
 import notFandomLogo from '../../assets/images/misc/branding/notfandom-logo.png';
 import notGithubLogo from '../../assets/images/misc/branding/notgithub-logo.png';
 import notRedditLogo from '../../assets/images/misc/branding/notreddit-logo.png';
 import rogueworldLogo from '../../assets/images/misc/branding/rogueworld-title.png';
 import background from '../../assets/images/misc/home-background.gif';
-import { ConnectionCloseTypes, connectToGameServer, joinGameContinue, joinGameNewCharacter } from '../../network/ConnectionManager';
+import {
+    ConnectionCloseTypes, connectToGameServer, joinGameContinue, joinGameNewCharacter,
+} from '../../network/ConnectionManager';
 import Config from '../../shared/Config';
 import {
     ALREADY_LOGGED_IN, CONNECTED,
@@ -56,7 +58,7 @@ function LoginPage() {
 
     const [showLanguageList, setShowLanguageList] = useState(false);
 
-    if(Config.Settings.USE_SECURE_PROTOCOLS) {
+    if (Config.Settings.USE_SECURE_PROTOCOLS) {
         // Live or test. Connect to server, which should be using SSL.
         ApplicationState.languageServiceHTTPServerURL = `https://${Config.Settings.LANGUAGE_SERVICE_URL}`;
     }
@@ -65,7 +67,7 @@ function LoginPage() {
         ApplicationState.languageServiceHTTPServerURL = `http://${Config.Settings.LANGUAGE_SERVICE_URL}`;
     }
 
-    const changeLanguage = async(languageName: string) => {
+    const changeLanguage = async (languageName: string) => {
         try {
             const url = `${ApplicationState.languageServiceHTTPServerURL}/language/${languageName}`;
 
@@ -77,7 +79,7 @@ function LoginPage() {
 
             Config.TextDefs = json;
         }
-        catch(err) {
+        catch (err) {
             warning('Error changing language:', err);
         }
 
@@ -89,7 +91,8 @@ function LoginPage() {
 
         if (connected && !joining) {
             if (!loginExistingUser) {
-                // New character option selected. Start as a new character with the given display name.
+                // New character option selected. Start as a new character with the given display
+                // name.
                 joinGameNewCharacter(newCharacterName);
             }
             else if (!username) {
@@ -278,7 +281,7 @@ function LoginPage() {
                                 {getTextDef('New character')}
                             </div>
                             <div
-                                id={styles['continue']}
+                                id={styles.continue}
                                 className={loginExistingUser ? styles['title-button-selected'] : styles['title-button-unselected']}
                                 onClick={continuePressed}
                             >

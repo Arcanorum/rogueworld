@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
 import AnimatedNumber from 'animated-number-react';
+import { formatItemValue } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import weightIcon from '../../../../../assets/images/gui/hud/weight-icon.png';
 import infoIcon from '../../../../../assets/images/gui/panels/crafting/info-icon.png';
@@ -16,7 +17,6 @@ import {
 } from '../../../../../shared/EventTypes';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '@rogueworld/utils';
 import Config from '../../../../../shared/Config';
 import { CraftingRecipe, CraftingRecipeIngredient } from '../../../../../shared/types';
 import EntityIconsList from '../../../../../game/EntityIconsList';
@@ -81,7 +81,7 @@ function IngredientRow({ ingredient }: { ingredient: CraftingRecipeIngredient })
                     GUIState.setTooltipContent(null);
                 }}
             />
-            <span className={`${styles['text']} high-contrast-text`}>{ingredient.quantity}</span>
+            <span className={`${styles.text} high-contrast-text`}>{ingredient.quantity}</span>
             <span className={styles.space} />
             <span className={`${styles.text} high-contrast-text ${amountInInventory < ingredient.quantity ? styles.invalid : ''}`}>
                 {`(${amountInInventory})`}
@@ -153,7 +153,7 @@ function RecipeSlot({
     );
 }
 
-function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
+function CraftingPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     const [items, setItems] = useState(InventoryState.items);
     const [recipes] = useState(Config.CraftingRecipes.filter((recipe) => {
         // Get all of the recipes that are valid at this kind of crafting station.
@@ -195,10 +195,9 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
     }, [selectedRecipe, items]);
 
     useEffect(() => {
-        const filteredRecipes = recipes.filter((recipe) =>
-            getTextDef(`Item name: ${Config.ItemTypes[recipe.result.itemTypeCode].translationId}`)
-                .toLowerCase()
-                .includes(searchText));
+        const filteredRecipes = recipes.filter((recipe) => getTextDef(`Item name: ${Config.ItemTypes[recipe.result.itemTypeCode].translationId}`)
+            .toLowerCase()
+            .includes(searchText));
 
         setSearchRecipes(filteredRecipes);
 
@@ -246,7 +245,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                     <div className={styles['list-cont']}>
                         <div className={styles['top-bar']}>
                             <div
-                                className={styles['weight']}
+                                className={styles.weight}
                                 onMouseEnter={() => {
                                     GUIState.setTooltipContent(getTextDef('Inventory weight'));
                                 }}
@@ -274,7 +273,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                     />
                                 </span>
                             </div>
-                            <div className={styles['search']}>
+                            <div className={styles.search}>
                                 <input
                                     placeholder={getTextDef('Item search')}
                                     onChange={(event) => {
@@ -284,7 +283,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                 />
                             </div>
                         </div>
-                        <div className={styles['list']}>
+                        <div className={styles.list}>
                             {searchText && searchRecipes.map((recipe) => (
                                 <RecipeSlot
                                     key={recipe.id}
@@ -293,7 +292,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                     onClick={onRecipePressed}
                                 />
                             ))}
-                            {searchText && !searchRecipes.length && <div className={styles['warning']}>{getTextDef('No items found')}</div>}
+                            {searchText && !searchRecipes.length && <div className={styles.warning}>{getTextDef('No items found')}</div>}
                             {!searchText && recipes.map((recipe) => (
                                 <RecipeSlot
                                     key={recipe.id}
@@ -302,7 +301,7 @@ function CraftingPanel({ onCloseCallback }: {onCloseCallback: () => void}) {
                                     onClick={onRecipePressed}
                                 />
                             ))}
-                            {!searchText && !recipes.length && <div className={styles['warning']}>{getTextDef('No crafting options')}</div>}
+                            {!searchText && !recipes.length && <div className={styles.warning}>{getTextDef('No crafting options')}</div>}
                         </div>
                     </div>
                     <div className={`${styles['selection-cont']} ${selectedRecipe ? '' : styles.unselected}`}>

@@ -1,3 +1,4 @@
+import { getRandomIntInclusive } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import respawnIcon from '../../../../../assets/images/gui/panels/respawn/respawn-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/respawn/respawn-button-border.png';
@@ -6,10 +7,9 @@ import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { getRandomIntInclusive } from '@rogueworld/utils';
 
 function RespawnPanel() {
-    const respawnPressed = async() => {
+    const respawnPressed = async () => {
         ApplicationState.connection?.sendEvent('respawn');
     };
 
@@ -23,7 +23,7 @@ function RespawnPanel() {
             >
                 <div className={styles['inner-cont']}>
                     <div className={styles['main-cont']}>
-                        <div className={styles['info']}>
+                        <div className={styles.info}>
                             {getTextDef(`Respawn panel: info ${getRandomIntInclusive(1, 3)}`)}
                         </div>
                     </div>
@@ -37,10 +37,10 @@ function RespawnPanel() {
                         >
                             <img
                                 src={borderImage.src}
-                                className={`${styles['button']} ${panelTemplateStyles.centered}`}
+                                className={`${styles.button} ${panelTemplateStyles.centered}`}
                                 draggable={false}
                             />
-                            <div className={`${styles['text']} ${panelTemplateStyles.centered}`}>
+                            <div className={`${styles.text} ${panelTemplateStyles.centered}`}>
                                 {getTextDef('Respawn')}
                             </div>
                         </div>

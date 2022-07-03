@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PubSub from 'pubsub-js';
 import AnimatedNumber from 'animated-number-react';
+import { formatItemValue } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import inventoryIcon from '../../../../../assets/images/gui/hud/inventory-icon.png';
 import weightIcon from '../../../../../assets/images/gui/hud/weight-icon.png';
@@ -19,7 +20,6 @@ import UseItem from '../../../../../shared/UseItem';
 import ItemTooltip from '../../item_tooltip/ItemTooltip';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { formatItemValue } from '@rogueworld/utils';
 import ItemState from '../../../../../shared/ItemState';
 import Config from '../../../../../shared/Config';
 
@@ -67,7 +67,7 @@ function DropOptions({
     };
 
     return (
-        <div className={styles['buttons']}>
+        <div className={styles.buttons}>
             <div className={styles['number-buttons']}>
                 <div className={`${styles['number-button']} ${styles['options-add-1']}`} onClick={() => { modDropQuantity(1); }}>+1</div>
                 <div className={`${styles['number-button']} ${styles['options-add-10']}`} onClick={() => { modDropQuantity(10); }}>+10</div>
@@ -79,16 +79,16 @@ function DropOptions({
                 <div className={`${styles['number-button']} ${styles['options-remove-100']}`} onClick={() => { modDropQuantity(-100); }}>-100</div>
             </div>
             <div className={styles['input-bar']}>
-                <div className={`${styles['button']} ${styles['clear']}`} onClick={() => { setDropQuantity(0); }}>x</div>
-                <input className={styles['button']} type="number" min="0" value={dropQuantity} onChange={inputChanged} />
+                <div className={`${styles.button} ${styles.clear}`} onClick={() => { setDropQuantity(0); }}>x</div>
+                <input className={styles.button} type="number" min="0" value={dropQuantity} onChange={inputChanged} />
             </div>
             {dropQuantity > 0 && (
                 <>
-                    <div className={`${styles['button']} ${styles['options-drop']}`} onClick={() => { dropPressed(false); }}>{getTextDef('Drop')}</div>
-                    <div className={`${styles['button']} ${styles['options-drop-all']}`} onClick={() => { dropPressed(true); }}>{getTextDef('Drop entire stack')}</div>
+                    <div className={`${styles.button} ${styles['options-drop']}`} onClick={() => { dropPressed(false); }}>{getTextDef('Drop')}</div>
+                    <div className={`${styles.button} ${styles['options-drop-all']}`} onClick={() => { dropPressed(true); }}>{getTextDef('Drop entire stack')}</div>
                 </>
             )}
-            {dropQuantity <= 0 && <div className={`${styles['button']} ${styles['options-full-hotbar']}`}>{getTextDef('Drop')}</div>}
+            {dropQuantity <= 0 && <div className={`${styles.button} ${styles['options-full-hotbar']}`}>{getTextDef('Drop')}</div>}
         </div>
     );
 }
@@ -164,25 +164,25 @@ function ItemOptions({
             }}
             onMouseLeave={() => onCursorLeave()}
         >
-            <div className={`${styles['info']} ${GUIState.cursorInTopSide ? styles['top'] : styles['bottom']} ${GUIState.cursorInLeftSide ? styles['left'] : styles['right']}`}>
-                <div className={styles['name']}>
+            <div className={`${styles.info} ${GUIState.cursorInTopSide ? styles.top : styles.bottom} ${GUIState.cursorInLeftSide ? styles.left : styles.right}`}>
+                <div className={styles.name}>
                     {getTextDef(`Item name: ${Config.ItemTypes[itemConfig.typeCode].translationId}`)}
                 </div>
-                {itemConfig.quantity && <div className={styles['detail']}>{`x${itemConfig.quantity}`}</div>}
-                <div className={styles['detail']}>{`${getTextDef('Weight')}: ${itemConfig.totalWeight}`}</div>
-                <div className={styles['description']}>
+                {itemConfig.quantity && <div className={styles.detail}>{`x${itemConfig.quantity}`}</div>}
+                <div className={styles.detail}>{`${getTextDef('Weight')}: ${itemConfig.totalWeight}`}</div>
+                <div className={styles.description}>
                     {getTextDef(`Item description: ${Config.ItemTypes[itemConfig.typeCode].translationId}`)}
                 </div>
             </div>
             {!showDropOptions && (
-                <div className={styles['buttons']}>
-                    {hasUseEffect && inHotbar && <div className={`${styles['button']} ${styles['options-remove-hotbar']}`} onClick={removeFromHotbarPressed}>{getTextDef('Remove from hotbar')}</div>}
-                    {hasUseEffect && hotbarFull && !inHotbar && <div className={`${styles['button']} ${styles['options-full-hotbar']}`}>{getTextDef('Hotbar full')}</div>}
-                    {hasUseEffect && !hotbarFull && !inHotbar && <div className={`${styles['button']} ${styles['options-add-hotbar']}`} onClick={addToHotbarPressed}>{getTextDef('Add to hotbar')}</div>}
-                    {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className={`${styles['button']} ${styles['options-equip']}`} onClick={quickEquipPressed}>{getTextDef('Quick equip')}</div>}
-                    {hasUseEffect && !isEquippable && <div className={`${styles['button']} ${styles['options-equip']}`} onClick={quickUsePressed}>{getTextDef('Quick use')}</div>}
-                    {itemConfig.quantity > 1 && <div className={`${styles['button']} ${styles['options-drop']}`} onClick={() => { setShowDropOptions(true); }}>{getTextDef('Drop')}</div>}
-                    {itemConfig.quantity === 1 && <div className={`${styles['button']} ${styles['options-drop']}`} onClick={dropPressed}>{getTextDef('Drop')}</div>}
+                <div className={styles.buttons}>
+                    {hasUseEffect && inHotbar && <div className={`${styles.button} ${styles['options-remove-hotbar']}`} onClick={removeFromHotbarPressed}>{getTextDef('Remove from hotbar')}</div>}
+                    {hasUseEffect && hotbarFull && !inHotbar && <div className={`${styles.button} ${styles['options-full-hotbar']}`}>{getTextDef('Hotbar full')}</div>}
+                    {hasUseEffect && !hotbarFull && !inHotbar && <div className={`${styles.button} ${styles['options-add-hotbar']}`} onClick={addToHotbarPressed}>{getTextDef('Add to hotbar')}</div>}
+                    {hasUseEffect && !hotbarFull && isEquippable && !inHotbar && <div className={`${styles.button} ${styles['options-equip']}`} onClick={quickEquipPressed}>{getTextDef('Quick equip')}</div>}
+                    {hasUseEffect && !isEquippable && <div className={`${styles.button} ${styles['options-equip']}`} onClick={quickUsePressed}>{getTextDef('Quick use')}</div>}
+                    {itemConfig.quantity > 1 && <div className={`${styles.button} ${styles['options-drop']}`} onClick={() => { setShowDropOptions(true); }}>{getTextDef('Drop')}</div>}
+                    {itemConfig.quantity === 1 && <div className={`${styles.button} ${styles['options-drop']}`} onClick={dropPressed}>{getTextDef('Drop')}</div>}
                 </div>
             )}
             {showDropOptions && (
@@ -221,7 +221,7 @@ function ItemSlot({
     return (
         <div className={styles['item-slot']}>
             <div
-                className={`${styles['details']} ${inHotbar ? styles['in-hotbar'] : ''}`}
+                className={`${styles.details} ${inHotbar ? styles['in-hotbar'] : ''}`}
                 draggable={false}
                 onMouseEnter={() => {
                     GUIState.setTooltipContent(
@@ -250,7 +250,7 @@ function ItemSlot({
                     draggable={false}
                 />
                 <div
-                    className={`high-contrast-text ${(itemConfig.quantity > 999) ? styles['small'] : ''}`}
+                    className={`high-contrast-text ${(itemConfig.quantity > 999) ? styles.small : ''}`}
                 >
                     {formatItemValue(itemConfig.quantity) || '???'}
                 </div>
@@ -273,10 +273,9 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     };
 
     useEffect(() => {
-        const filteredItems = items.filter((item) =>
-            getTextDef(`Item name: ${Config.ItemTypes[item.typeCode].translationId}`)
-                .toLowerCase()
-                .includes(searchText));
+        const filteredItems = items.filter((item) => getTextDef(`Item name: ${Config.ItemTypes[item.typeCode].translationId}`)
+            .toLowerCase()
+            .includes(searchText));
 
         setSearchItems(filteredItems);
 
@@ -327,7 +326,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 <div className={styles['inner-cont']}>
                     <div className={styles['top-bar']}>
                         <div
-                            className={styles['weight']}
+                            className={styles.weight}
                             onMouseEnter={() => {
                                 GUIState.setTooltipContent(getTextDef('Inventory weight'));
                             }}
@@ -354,7 +353,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                                 />
                             </span>
                         </div>
-                        <div className={styles['search']}>
+                        <div className={styles.search}>
                             <input
                                 placeholder={getTextDef('Item search')}
                                 onChange={(event) => {
@@ -364,7 +363,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                             />
                         </div>
                     </div>
-                    <div className={styles['list']}>
+                    <div className={styles.list}>
                         {searchText && searchItems.map((item) => (
                             <ItemSlot
                                 key={item.id}
@@ -372,7 +371,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                                 onClick={onItemPressed}
                             />
                         ))}
-                        {searchText && !searchItems.length && <div className={styles['warning']}>{getTextDef('No items found')}</div>}
+                        {searchText && !searchItems.length && <div className={styles.warning}>{getTextDef('No items found')}</div>}
                         {!searchText && items.map((item) => (
                             <ItemSlot
                                 key={item.id}
@@ -380,7 +379,7 @@ function InventoryPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                                 onClick={onItemPressed}
                             />
                         ))}
-                        {!searchText && !items.length && <div className={styles['warning']}>{getTextDef('Empty inventory')}</div>}
+                        {!searchText && !items.length && <div className={styles.warning}>{getTextDef('Empty inventory')}</div>}
                     </div>
                 </div>
             </PanelTemplate>

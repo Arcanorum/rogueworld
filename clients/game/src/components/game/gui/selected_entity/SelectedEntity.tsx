@@ -38,21 +38,21 @@ function SelectedEntity() {
     }, []);
 
     return (
-        <div className={`${styles['selection']} ${styles['centered']}`}>
-            {icon &&
-                <div className={`${styles['entity-icon']}`}>
+        <div className={`${styles.selection} ${styles.centered}`}>
+            {icon
+                && <div className={`${styles['entity-icon']}`}>
                     <img src={icon} />
                 </div>
             }
-            {hitPoints &&
-                <div className={`${styles['hp-bar']} ${!icon ? styles['all-padding'] : ''}`}>
+            {(hitPoints
+                && <div className={`${styles['hp-bar']} ${!icon ? styles['all-padding'] : ''}`}>
                     <div className={`${styles['entity-name']} high-contrast-text`}>{name}</div>
-                    <div className={`${styles['hp']}`} style={{ width: `${(hitPoints / maxHitPoints) * 100}%` }}></div>
-                    <div className={`${styles['value']} high-contrast-text`}>{`${hitPoints}/${maxHitPoints}`}</div>
-                </div>
+                    <div className={`${styles.hp}`} style={{ width: `${(hitPoints / maxHitPoints) * 100}%` }}></div>
+                    <div className={`${styles.value} high-contrast-text`}>{`${hitPoints}/${maxHitPoints}`}</div>
+                </div>)
             || ''}
-            {canBeCraftedAt &&
-                <div className={styles['craft-icon']}>
+            {canBeCraftedAt
+                && <div className={styles['craft-icon']}>
                     <img
                         src={craftIcon.src}
                         draggable={false}

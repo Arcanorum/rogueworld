@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
+import { digestMessage, message } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import exitIcon from '../../../../../assets/images/gui/hud/exit-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
@@ -8,7 +9,6 @@ import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
-import { digestMessage, message } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function AccountPanel({
@@ -21,7 +21,7 @@ function AccountPanel({
     const [warningText, setWarningText] = useState('');
     const [passwordChanged, setPasswordChanged] = useState(false);
 
-    const acceptPressed = async() => {
+    const acceptPressed = async () => {
         message('Reset password pressed.');
 
         // Check the current and new passwords are valid.

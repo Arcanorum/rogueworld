@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
+import { formatItemValue } from '@rogueworld/utils';
 import ItemIconsList from '../../../../shared/ItemIconsList';
 import {
     AMMUNITION_ITEM,
@@ -17,7 +18,6 @@ import holdingIcon from '../../../../assets/images/gui/hud/hotbar/holding-icon.p
 import ammunitionIcon from '../../../../assets/images/gui/hud/hotbar/ammunition-icon.png';
 import clothingIcon from '../../../../assets/images/gui/hud/hotbar/clothing-icon.png';
 import Global from '../../../../shared/Global';
-import { formatItemValue } from '@rogueworld/utils';
 import getTextDef from '../../../../shared/GetTextDef';
 import ItemState from '../../../../shared/ItemState';
 import Config from '../../../../shared/Config';
@@ -142,7 +142,7 @@ function Hotbar() {
     }, []);
 
     return (
-        <div className={styles['hotbar']}>
+        <div className={styles.hotbar}>
             {hotbarItems.map((item) => (
                 <HotbarSlot
                     key={item.id}

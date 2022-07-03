@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
+import { digestMessage, message } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import exitIcon from '../../../../../assets/images/gui/hud/exit-icon.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
@@ -8,7 +9,6 @@ import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import { CREATE_ACCOUNT_FAILURE } from '../../../../../shared/EventTypes';
 import { ApplicationState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
-import { digestMessage, message } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 import Config from '../../../../../shared/Config';
 
@@ -17,7 +17,7 @@ function CreateAccountPanel({ onCloseCallback }: { onCloseCallback: () => void }
     const [password, setPassword] = useState('');
     const [warningText, setWarningText] = useState('');
 
-    const createAccountPressed = async() => {
+    const createAccountPressed = async () => {
         message('Create account pressed.');
 
         // Check username and password are valid.

@@ -23,19 +23,19 @@ function ChatSelectScope({
     return (
         <div className={styles['chat-select-scope']}>
             <p
-                className={`${styles['scope-text']} ${chatPanelStyles['local']}`}
+                className={`${styles['scope-text']} ${chatPanelStyles.local}`}
                 onClick={() => setChatScope(ChatState.Scopes.LOCAL.value)}
             >
                 {getTextDef('Chat scope: Local')}
             </p>
             <p
-                className={`${styles['scope-text']} ${chatPanelStyles['global']}`}
+                className={`${styles['scope-text']} ${chatPanelStyles.global}`}
                 onClick={() => setChatScope(ChatState.Scopes.GLOBAL.value)}
             >
                 {getTextDef('Chat scope: Global')}
             </p>
             <p
-                className={`${styles['scope-text']} ${chatPanelStyles['trade']}`}
+                className={`${styles['scope-text']} ${chatPanelStyles.trade}`}
                 onClick={() => setChatScope(ChatState.Scopes.TRADE.value)}
             >
                 {getTextDef('Chat scope: Trade')}

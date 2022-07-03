@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // import { useEffect, useRef, useState } from 'react';
 // import PubSub from 'pubsub-js';
 // import AnimatedNumber from 'animated-number-react';
@@ -309,6 +311,6 @@
 //     );
 // }
 
-function ShopPanel() { return; }
+function ShopPanel() { }
 
 export default ShopPanel;

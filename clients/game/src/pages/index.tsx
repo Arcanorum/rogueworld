@@ -22,7 +22,8 @@ const HomePage = ({ Settings, TextDefs }) => {
     );
 };
 
-// Need to fuck around a bit to get NextJS to include the imported settings in the build due to a bug.
+// Need to fuck around a bit to get NextJS to include the imported settings in the build due to a
+// bug.
 // https://github.com/vercel/next.js/issues/10943
 // https://github.com/vercel/next.js/discussions/32236
 export async function getStaticProps() {
@@ -41,7 +42,8 @@ export async function getStaticProps() {
     return {
         props: {
             Settings,
-            // Only load English by default. Get another language on demand from the language service.
+            // Only load English by default. Get another language on demand from the language
+            // service.
             // Avoids having them all loaded at once when only one is being used.
             TextDefs: {
                 English,

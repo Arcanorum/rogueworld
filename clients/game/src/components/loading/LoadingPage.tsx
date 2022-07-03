@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
+import { getShuffledArray } from '@rogueworld/utils';
 import playButtonBorder from '../../assets/images/misc/play-button-border.png';
 import styles from './LoadingPage.module.scss';
 import { LOADING, LOAD_PROGRESS, LOAD_FILE_PROGRESS } from '../../shared/EventTypes';
 import { ApplicationState } from '../../shared/state';
 import Hints from './Hints';
-import { getShuffledArray } from '@rogueworld/utils';
 import getTextDef from '../../shared/GetTextDef';
 
 function LoadingBar() {
@@ -88,7 +88,7 @@ function LoadingPage() {
                 </div>
             )}
             {!loading && (
-                <div className={styles['heading']}>{getTextDef('Game loaded')}</div>
+                <div className={styles.heading}>{getTextDef('Game loaded')}</div>
             )}
 
             <div className={styles['loading-hint-cont']}>

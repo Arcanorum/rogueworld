@@ -87,11 +87,11 @@ function MapPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                     crs={CRS.Simple}
                     doubleClickZoom={false}
                     /*
-                   this should restrict the user from panning outside the map and avoid useless request to server,
-                   but can't seem to find a way to dynamically set bounds based on TileLayer's LatLng
-                   arrays are coordinates of southwest and northeast corner of TileLayer
-                   this can cause problem if different map size is loaded
-                  */
+                    this should restrict the user from panning outside the map and avoid useless
+                    request to server, but can't seem to find a way to dynamically set bounds based
+                    on TileLayer's LatLng arrays are coordinates of southwest and northeast corner
+                    of TileLayer this can cause problem if different map size is loaded
+                    */
                     // bounds={[[-676, 0], [0, 774]]}
                     // maxBounds={[[-676, 0], [0, 774]]}
                     // maxBoundsViscosity={0.9}
@@ -101,7 +101,8 @@ function MapPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                         <Tooltip className={`press-start-font ${styles.tooltip}`} direction="top" offset={[0, -44]} opacity={1} permanent>
                             You
                             <br />
-                            {/* The center is a decimal (with the extra half tile), so round down for display. */}
+                            {/* The center is a decimal (with the extra half tile), so round down
+                            for display. */}
                             { `X: ${Math.abs(Math.floor(leafletConfig.center[1]))}, Y: ${Math.abs(leafletConfig.center[0])}` }
                         </Tooltip>
                     </Marker>

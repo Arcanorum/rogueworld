@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { warning } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import settingsIcon from '../../../../../assets/images/gui/panels/settings/settings-icon.png';
 import toggleActiveIcon from '../../../../../assets/images/gui/panels/settings/toggle-active.png';
@@ -9,7 +10,6 @@ import styles from './SettingsPanel.module.scss';
 import panelTemplateStyles from '../panel_template/PanelTemplate.module.scss';
 import Global from '../../../../../shared/Global';
 import { GUIState, InventoryState } from '../../../../../shared/state';
-import { warning } from '@rogueworld/utils';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 function MinusButton({
@@ -22,7 +22,7 @@ function MinusButton({
     return (
         <img
             src={minusIcon.src}
-            className={`${styles['button']} ${state === 0 ? styles['disabled'] : ''}`}
+            className={`${styles.button} ${state === 0 ? styles.disabled : ''}`}
             draggable={false}
             onClick={() => {
                 setter(state - 5);
@@ -41,7 +41,7 @@ function PlusButton({
     return (
         <img
             src={plusIcon.src}
-            className={`${styles['button']} ${state === 200 ? styles['disabled'] : ''}`}
+            className={`${styles.button} ${state === 200 ? styles.disabled : ''}`}
             draggable={false}
             onClick={() => {
                 setter(state + 5);
@@ -81,7 +81,8 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
 
         setFullscreen(!Global.gameScene.scale.isFullscreen);
 
-        // Don't save fullscreen setting. They should choose if they want to go fullscreen every time they play.
+        // Don't save fullscreen setting. They should choose if they want to go fullscreen every
+        // time they play.
     };
 
     useEffect(() => {
@@ -160,68 +161,68 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
                 onCloseCallback={onCloseCallback}
             >
                 <div className={styles['inner-cont']}>
-                    <div className={styles['rows']}>
-                        <div className={styles['row']}>
-                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Fullscreen')}</span>
-                            <div className={styles['action']}>
+                    <div className={styles.rows}>
+                        <div className={styles.row}>
+                            <span className={`high-contrast-text ${styles.description}`}>{getTextDef('Setting: Fullscreen')}</span>
+                            <div className={styles.action}>
                                 <img
                                     src={fullscreen ? toggleActiveIcon.src : toggleInactiveIcon.src}
-                                    className={styles['button']}
+                                    className={styles.button}
                                     draggable={false}
                                     onClick={onFullscreenTogglePressed}
                                 />
                             </div>
                         </div>
-                        <div className={styles['row']}>
-                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Music volume')}</span>
-                            <div className={styles['action']}>
+                        <div className={styles.row}>
+                            <span className={`high-contrast-text ${styles.description}`}>{getTextDef('Setting: Music volume')}</span>
+                            <div className={styles.action}>
                                 <MinusButton state={musicVolume} setter={setMusicVolume} />
-                                <span className={`high-contrast-text ${styles['value']}`}>{`${musicVolume}%`}</span>
+                                <span className={`high-contrast-text ${styles.value}`}>{`${musicVolume}%`}</span>
                                 <PlusButton state={musicVolume} setter={setMusicVolume} />
                             </div>
                         </div>
-                        <div className={styles['row']}>
-                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Effects volume')}</span>
-                            <div className={styles['action']}>
+                        <div className={styles.row}>
+                            <span className={`high-contrast-text ${styles.description}`}>{getTextDef('Setting: Effects volume')}</span>
+                            <div className={styles.action}>
                                 <MinusButton state={effectsVolume} setter={setEffectsVolume} />
-                                <span className={`high-contrast-text ${styles['value']}`}>{`${effectsVolume}%`}</span>
+                                <span className={`high-contrast-text ${styles.value}`}>{`${effectsVolume}%`}</span>
                                 <PlusButton state={effectsVolume} setter={setEffectsVolume} />
                             </div>
                         </div>
-                        <div className={styles['row']}>
-                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Add to hotbar')}</span>
-                            <div className={styles['action']}>
+                        <div className={styles.row}>
+                            <span className={`high-contrast-text ${styles.description}`}>{getTextDef('Setting: Add to hotbar')}</span>
+                            <div className={styles.action}>
                                 <img
                                     src={autoAddToHotbar
                                         ? toggleActiveIcon.src
                                         : toggleInactiveIcon.src}
-                                    className={styles['button']}
+                                    className={styles.button}
                                     draggable={false}
                                     onClick={onAutoAddToHotbarTogglePressed}
                                 />
                             </div>
                         </div>
-                        <div className={styles['row']}>
-                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Profanity filter')}</span>
-                            <div className={styles['action']}>
+                        <div className={styles.row}>
+                            <span className={`high-contrast-text ${styles.description}`}>{getTextDef('Setting: Profanity filter')}</span>
+                            <div className={styles.action}>
                                 <img
                                     src={
                                         profanityFilterEnabled
                                             ? toggleActiveIcon.src
                                             : toggleInactiveIcon.src
                                     }
-                                    className={styles['button']}
+                                    className={styles.button}
                                     draggable={false}
                                     onClick={onProfanityFilterTogglePressed}
                                 />
                             </div>
                         </div>
-                        <div className={styles['row']}>
-                            <span className={`high-contrast-text ${styles['description']}`}>{getTextDef('Setting: Show FPS')}</span>
-                            <div className={styles['action']}>
+                        <div className={styles.row}>
+                            <span className={`high-contrast-text ${styles.description}`}>{getTextDef('Setting: Show FPS')}</span>
+                            <div className={styles.action}>
                                 <img
                                     src={showFPS ? toggleActiveIcon.src : toggleInactiveIcon.src}
-                                    className={styles['button']}
+                                    className={styles.button}
                                     draggable={false}
                                     onClick={onShowFPSTogglePressed}
                                 />

@@ -112,10 +112,10 @@ function GUI() {
 
     return (
         <div
-            className={`${styles['gui']}`}
+            className={`${styles.gui}`}
         >
             {shownPanel !== Panels.NONE && <div
-                className={styles['backdrop']}
+                className={styles.backdrop}
                 onClick={closePanelCallback}
             />}
 

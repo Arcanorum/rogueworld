@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import styles from './ChatPanel.module.scss';
 import PubSub from 'pubsub-js';
+import styles from './ChatPanel.module.scss';
 import {
     GUIState, PlayerState, ChatState,
 } from '../../../../../shared/state';
@@ -15,7 +15,7 @@ import { ChatScope } from '../../../../../shared/state/Chat';
 import getTextDef from '../../../../../shared/GetTextDef';
 
 export const getScopeColor = (scope: ChatScope) => {
-    // return css class based on current scope
+    // Return css class based on current scope.
     if (scope === ChatState.Scopes.LOCAL.value) return styles.local;
     if (scope === ChatState.Scopes.GLOBAL.value) return styles.global;
     if (scope === ChatState.Scopes.TRADE.value) return styles.trade;
@@ -35,15 +35,15 @@ function ChatPanel() {
     let autoScroll = true;
     let placeHolderInterval: number;
 
-    // auto scroll only if user is not scrolling upwards
-    // if user is scrolling upwards it usually means the that user is back reading (auto-scroll = on)
-    // if user scroll all the way down that means the user is done back reading (auto-scroll = off)
+    // Auto scroll only if user is not scrolling upwards.
+    // If user is scrolled upwards it usually means that the user is back reading (auto-scroll = on)
+    // If user scrolls all the way down that means the user is done back reading (auto-scroll = off)
     const registerChatScrollWatcher = () => {
         let isSent = true;
         let pendingPublish: number;
 
-        // debounce this so we don't blow up PubSub when user scrolls
-        // no need to remove eventListener as it is automatically removed
+        // Debounce this so we don't blow up PubSub when user scrolls.
+        // No need to remove eventListener as it is automatically removed.
         chatContentsRef.current?.addEventListener('scroll', (e) => {
             if (isSent === false) clearTimeout(pendingPublish);
             const {
@@ -62,10 +62,10 @@ function ChatPanel() {
 
     const scrollChatToBottom = () => {
         if (!autoScroll) return;
-        // add some delay to properly scroll down to edge of chats
+        // Add some delay to properly scroll down to edge of chats.
         setTimeout(() => {
             if (GUIState.showChatBox) {
-                if(!chatContentsRef || !chatContentsRef.current) return;
+                if (!chatContentsRef || !chatContentsRef.current) return;
                 chatContentsRef.current.scrollTop = chatContentsRef.current.scrollHeight;
             }
         }, 10);
@@ -193,7 +193,7 @@ function ChatPanel() {
                     className={`${styles['player-name']} ${getScopeColor(sendChatScope)}`}
                     onClick={toggleSelectScopeDropdown}
                 >
-                    <span className={styles['arrow']}>{`${showSelectScopeDropdown ? '⬇' : '⬆'}`}</span>
+                    <span className={styles.arrow}>{`${showSelectScopeDropdown ? '⬇' : '⬆'}`}</span>
                     <span className={styles['scope-label']}>{`(${sendChatScope})`}</span>
                     { `${PlayerState.displayName}:` }
                 </p>

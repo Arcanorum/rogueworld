@@ -1,8 +1,8 @@
+import { ReactElement } from 'react';
 import { GUIState } from '../../../../shared/state';
 import styles from './PanelButton.module.scss';
 import guiStyles from '../GUI.module.scss';
 import Global from '../../../../shared/Global';
-import { ReactElement } from 'react';
 
 function Tooltip(content: ReactElement | string) {
     return (

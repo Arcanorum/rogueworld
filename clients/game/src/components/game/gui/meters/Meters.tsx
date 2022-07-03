@@ -36,7 +36,8 @@ function Counters({
     maxStat: number;
     counterImage: string;
 }) {
-    // The value might be in 0.5s as well as whole numbers, so round down to only count each full counter.
+    // The value might be in 0.5s as well as whole numbers, so round down to only count each full
+    // counter.
     stat = Math.floor(stat);
     // Get the % of the stat this player has. i.e.
     const filledCount = Math.floor((stat / maxStat) * maxCounters);
@@ -104,14 +105,14 @@ function Meters() {
     const addNewItem = (typeCode: string, quantity: number) => {
         const key = `${Date.now()}`;
         setNewItems(
-            prev => [
+            (prev) => [
                 ...prev,
                 {
                     key,
                     typeCode,
                     quantity,
                     timeout: setTimeout(() => {
-                        setNewItems(prev => [...prev.slice(1)]);
+                        setNewItems((prev2) => [...prev2.slice(1)]);
                     }, 2000),
                 },
             ],
@@ -136,11 +137,11 @@ function Meters() {
                 addNewItem(data.typeCode, data.quantity);
             }),
             PubSub.subscribe(MODIFY_INVENTORY_ITEM, (msg, data) => {
-                if(!data) return;
+                if (!data) return;
 
                 const diff = data.new.quantity - data.old.quantity;
 
-                if(diff <= 0) return;
+                if (diff <= 0) return;
 
                 addNewItem(InventoryState.items[data.new.slotIndex].typeCode, diff);
             }),
@@ -168,11 +169,9 @@ function Meters() {
     }, []);
 
     return (
-        <div className={styles['meters']}>
+        <div className={styles.meters}>
             <div className={styles['new-items']}>
-                {newItems.map((newItem) => {
-                    return NewItem(newItem);
-                })}
+                {newItems.map((newItem) => NewItem(newItem))}
             </div>
             <div className={styles['inventory-button']}>
                 <PanelButton
@@ -194,7 +193,7 @@ function Meters() {
                     tooltipText={`${getTextDef('Craft tooltip')} ( C )`}
                 />
             </div>
-            <div className={styles['meter']}>
+            <div className={styles.meter}>
                 <img
                     className={guiStyles['gui-icon']}
                     src={hitpointIcon.src}
@@ -216,7 +215,7 @@ function Meters() {
                     />
                 </div>
             </div>
-            <div className={styles['meter']}>
+            <div className={styles.meter}>
                 <img
                     className={guiStyles['gui-icon']}
                     src={foodIcon.src}

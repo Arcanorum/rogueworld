@@ -9,27 +9,23 @@ import bluecaps from '../../assets/images/misc/hints/bluecaps.png';
 import redcaps from '../../assets/images/misc/hints/redcaps.png';
 // import sharedGlory from '../../assets/images/misc/hints/shared-glory.png';
 
-class Hint {
+interface Hint {
     image: string;
-    textDefId: string;
 
-    constructor(image: string, textDefId: string) {
-        this.image = image;
-        this.textDefId = textDefId;
-    }
+    textDefId: string;
 }
 
-const Hints = [
-    new Hint(github.src, 'Open source'),
-    // new Hint(bat.src, 'Night creatures'),
-    new Hint(cave.src, 'Resource rarity'),
-    // new Hint(banditLeader.src, 'Overworld bosses'),
-    new Hint(stats.src, 'Stat level inventory weight'),
-    new Hint(craftingHammer.src, 'Crafting stat bonus'),
-    new Hint(discord.src, 'Join discord'),
-    new Hint(bluecaps.src, 'Bluecaps location'),
-    new Hint(redcaps.src, 'Redcaps location'),
-    // new Hint(sharedGlory.src, 'Shared glory'),
+const Hints: Array<Hint> = [
+    { image: github.src, textDefId: 'Open source' },
+    // {image: bat.src, textDefId: 'Night creatures'},
+    { image: cave.src, textDefId: 'Resource rarity' },
+    // {image: banditLeader.src, textDefId: 'Overworld bosses'},
+    { image: stats.src, textDefId: 'Stat level inventory weight' },
+    { image: craftingHammer.src, textDefId: 'Crafting stat bonus' },
+    { image: discord.src, textDefId: 'Join discord' },
+    { image: bluecaps.src, textDefId: 'Bluecaps location' },
+    { image: redcaps.src, textDefId: 'Redcaps location' },
+    // {image: sharedGlory.src, textDefId: 'Shared glory'},
 ];
 
 export default Hints;

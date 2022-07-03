@@ -58,7 +58,7 @@ function GloryCounter() {
                 formatValue={Config.ANIMATED_NUMBER_FORMAT}
                 className="high-contrast-text"
             />
-            {difference && <div className={`high-contrast-text ${parseInt(difference) >= 0 ? styles['glory-gained'] : styles['glory-lost']}`}>{difference}</div>}
+            {difference && <div className={`high-contrast-text ${parseInt(difference, 10) >= 0 ? styles['glory-gained'] : styles['glory-lost']}`}>{difference}</div>}
         </div>
     );
 }

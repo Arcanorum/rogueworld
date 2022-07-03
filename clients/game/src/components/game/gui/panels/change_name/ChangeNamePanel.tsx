@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import PubSub from 'pubsub-js';
+import { message } from '@rogueworld/utils';
 import PanelTemplate from '../panel_template/PanelTemplate';
 import registerIcon from '../../../../../assets/images/gui/panels/change_name/register.png';
 import borderImage from '../../../../../assets/images/gui/panels/account/create-account-button-border.png';
@@ -9,7 +10,6 @@ import { DISPLAY_NAME_VALUE } from '../../../../../shared/EventTypes';
 import { ApplicationState, PlayerState } from '../../../../../shared/state';
 import Global from '../../../../../shared/Global';
 import getTextDef from '../../../../../shared/GetTextDef';
-import { message } from '@rogueworld/utils';
 import Config from '../../../../../shared/Config';
 
 function ChangeNamePanel({
@@ -21,7 +21,7 @@ function ChangeNamePanel({
     const [warningText, setWarningText] = useState<string | null>(null);
     const [nameChanged, setNameChanged] = useState(false);
 
-    const acceptPressed = async() => {
+    const acceptPressed = async () => {
         message('Change name pressed.');
 
         // Check the new name is valid.
@@ -37,12 +37,14 @@ function ChangeNamePanel({
             return;
         }
 
-        // Trim spaces from the ends to prevent players from making their usernames look out of place.
+        // Trim spaces from the ends to prevent players from making their usernames look out of
+        // place.
         ApplicationState.connection?.sendEvent('change_display_name', newName.trim());
     };
 
     useEffect(() => {
-        // The warning text might have been cleared, but some other message to show might still be met.
+        // The warning text might have been cleared, but some other message to show might still
+        // be met.
         if (!warningText) {
             // Check they have enough glory.
             if (Config.Settings.DISPLAY_NAME_CHANGE_COST > PlayerState.glory) {

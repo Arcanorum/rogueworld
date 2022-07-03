@@ -21,6 +21,33 @@
     animationRepeats: true
     destroySound: sword-cutting-flesh
 
+- name: Orc
+  baseMaxHitPoints: 50
+  baseGloryValue: 30
+  baseDefence: 30
+  baseMoveRate: 700
+  baseWanderRate: 10000
+  baseAttackRange: 1
+  viewRange: 8
+  actions:
+    - punch
+  dropList:
+    - itemName: Bones
+      dropRate: 100
+    - itemName: Fabric
+      dropRate: 100
+      quantity: 1
+    - itemName: CarrotSeed
+      quantity: 4
+    - itemName: Redcap
+    - itemName: Greencap
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Orc
+    animationSetName: orc
+    animationRepeats: true
+    destroySound: sword-cutting-flesh
+
 - name: Cow
   baseMaxHitPoints: 50
   baseGloryValue: 15

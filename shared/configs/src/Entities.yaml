@@ -19,11 +19,10 @@
     displayName: Bandit
     animationSetName: bandit
     animationRepeats: true
-    destroySound: sword-cutting-flesh
 
 - name: Orc
-  baseMaxHitPoints: 50
-  baseGloryValue: 30
+  baseMaxHitPoints: 80
+  baseGloryValue: 50
   baseDefence: 30
   baseMoveRate: 700
   baseWanderRate: 10000
@@ -34,19 +33,36 @@
   dropList:
     - itemName: Bones
       dropRate: 100
-    - itemName: Fabric
-      dropRate: 100
-      quantity: 1
     - itemName: CarrotSeed
       quantity: 4
     - itemName: Redcap
-    - itemName: Greencap
   clientConfig:
     extendsClassName: Mob
     displayName: Orc
     animationSetName: orc
     animationRepeats: true
-    destroySound: sword-cutting-flesh
+
+- name: OrcBerserker
+  baseMaxHitPoints: 80
+  baseGloryValue: 70
+  baseDefence: 50
+  baseMoveRate: 600
+  baseWanderRate: 10000
+  baseAttackRange: 2
+  viewRange: 8
+  actions:
+    - iron-sword
+  dropList:
+    - itemName: Bones
+      dropRate: 100
+    - itemName: CarrotSeed
+      quantity: 4
+    - itemName: IronOre
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Orc berserker
+    animationSetName: orc-berserker
+    animationRepeats: true
 
 - name: Cow
   baseMaxHitPoints: 50
@@ -69,7 +85,6 @@
     displayName: Cow
     animationSetName: adult-cow
     animationRepeats: true
-    destroySound: sword-cutting-flesh
 
 - name: FruitBat
   baseMaxHitPoints: 50
@@ -91,7 +106,6 @@
     displayName: Fruit bat
     animationSetName: fruit-bat
     animationRepeats: true
-    destroySound: sword-cutting-flesh
 
 - name: Snake
   baseMaxHitPoints: 40
@@ -112,7 +126,6 @@
     displayName: Snake
     animationSetName: snake
     animationRepeats: true
-    destroySound: sword-cutting-flesh
 
 - name: FireElemental
   baseMaxHitPoints: 60
@@ -132,7 +145,6 @@
     displayName: Fire elemental
     animationSetName: fire-elemental
     animationRepeats: true
-    destroySound: sword-cutting-flesh
 
 - name: PineTree
   highBlocking: true

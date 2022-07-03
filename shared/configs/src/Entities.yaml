@@ -35,11 +35,34 @@
       dropRate: 100
     - itemName: CarrotSeed
       quantity: 4
+    - itemName: PineLogs
+      quantity: 2
     - itemName: Greencap
   clientConfig:
     extendsClassName: Mob
     displayName: Lizardman
     animationSetName: lizardman
+
+- name: LizardmanGuard
+  baseMaxHitPoints: 80
+  baseGloryValue: 60
+  baseDefence: 50
+  baseMoveRate: 700
+  baseWanderRate: 10000
+  baseAttackRange: 2
+  viewRange: 8
+  actions:
+    - iron-spear
+  dropList:
+    - itemName: Bones
+      dropRate: 100
+    - itemName: CarrotSeed
+      quantity: 4
+    - itemName: IronOre
+  clientConfig:
+    extendsClassName: Mob
+    displayName: Lizardman guard
+    animationSetName: lizardman-guard
 
 - name: Orc
   baseMaxHitPoints: 80

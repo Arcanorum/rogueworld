@@ -262,12 +262,14 @@ const Entity = () => {
         // direction, i.e. side to side, but without moving.
     };
 
-    eventResponses.start_action = (data: { id: string; actionName: string; duration: number }) => {
+    eventResponses.start_action = (data: {
+        id: string; actionName: string; duration: number, target?: string
+    }) => {
         // console.log('start action:', data);
         const dynamic = Global.gameScene.dynamics[data.id];
         if (!dynamic) return;
 
-        dynamic.spriteContainer.startAction(data.actionName, data.duration);
+        dynamic.spriteContainer.startAction(data.actionName, data.duration, data.target);
     };
 };
 

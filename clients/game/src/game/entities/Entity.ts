@@ -220,6 +220,9 @@ class Entity extends Container {
             }
         }
 
+        clearTimeout(this.actionTimeout);
+        this.actionTimeout = undefined;
+
         if (this === GUIState.selectedEntity) {
             GUIState.setSelectedEntity(null);
         }
@@ -316,7 +319,7 @@ class Entity extends Container {
     onMove(playMoveAnim?: boolean, moveAnimDuration = 4000) {
         // console.log('character.onMove:', moveAnimDuration);
 
-        this.endAction();
+        if (this.actionTimeout) this.endAction();
 
         //     // TODO: flip the base sprite if moving the other way since the last move
         //     // dont bother for up/down
@@ -370,8 +373,8 @@ class Entity extends Container {
 
     }
 
-    startAction(actionName: string, duration: number) {
-        this.endAction();
+    startAction(actionName: string, duration: number, target?: string) {
+        if (this.actionTimeout) this.endAction();
 
         this.actionProgress.visible = true;
         this.actionProgress.scaleY = 0;
@@ -388,13 +391,14 @@ class Entity extends Container {
         this.actionIcon.visible = true;
         this.actionIcon.setFrame(`action-${actionName}`);
 
-        this.actionTimeout = setTimeout(this.endAction.bind(this), duration || 1000);
+        this.actionTimeout = setTimeout(this.endAction.bind(this, target), duration || 1000);
 
         // Play an optional starting animation here.
     }
 
-    endAction() {
+    endAction(targetId?: string) {
         clearTimeout(this.actionTimeout);
+        this.actionTimeout = undefined;
 
         if (this.actionTween) this.actionTween.stop();
 
@@ -402,7 +406,40 @@ class Entity extends Container {
         this.actionBorder.visible = false;
         this.actionIcon.visible = false;
 
-        // Play an optional ending animation here.
+        if (targetId) {
+            const targetEntity = Global.gameScene.dynamics[targetId];
+            if (!targetEntity) return;
+
+            const { spriteContainer } = targetEntity;
+
+            const emitterSprite = Global.gameScene.add.image(this.x, this.y, 'game-atlas', '');
+
+            const emitter = Global.gameScene.attackParticles.createEmitter({
+                frame: 'action-path',
+                lifespan: 150,
+                scale: Config.GAME_SCALE,
+                alpha: { start: 1, end: 0 },
+                frequency: 5,
+                on: true,
+            });
+
+            emitter.startFollow(emitterSprite);
+
+            const dist = Phaser.Math.Distance.BetweenPoints(this, spriteContainer);
+
+            const duration = dist * 3;
+
+            Global.gameScene.tweens.add({
+                targets: emitterSprite,
+                x: spriteContainer.x,
+                y: spriteContainer.y,
+                duration,
+                onComplete: () => {
+                    emitter.manager.emitters.remove(emitter);
+                    emitterSprite.destroy();
+                },
+            });
+        }
     }
 
     setActiveState(state: boolean) { }

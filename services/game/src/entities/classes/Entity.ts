@@ -863,6 +863,7 @@ class Entity {
                 id: this.id,
                 actionName: action.name,
                 duration: action.duration,
+                target: entity?.id,
             },
         );
     }

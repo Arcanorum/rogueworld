@@ -98,6 +98,8 @@ class GameScene extends Phaser.Scene {
 
     moveRightIsDown = false;
 
+    attackParticles!: Phaser.GameObjects.Particles.ParticleEmitterManager;
+
     damageParticleEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
 
     skillUpParticleEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
@@ -237,6 +239,10 @@ class GameScene extends Phaser.Scene {
         });
 
         skillUpParticles.setDepth(this.renderOrder.particles);
+
+        this.attackParticles = this.add.particles('game-atlas');
+
+        this.attackParticles.setDepth(this.renderOrder.particles);
 
         // Add the websocket event responses after the game state is started.
         addGameEventResponses();

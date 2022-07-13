@@ -19,6 +19,7 @@ import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import Heal from '../../gameplay/Heal';
 import { Curse, Enchantment } from '../../gameplay/magic_effects';
 import { StatusEffect } from '../../gameplay/status_effects';
+import { GroundTile } from '../../space';
 import Board from '../../space/Board';
 
 const idCounter = new Counter();
@@ -197,6 +198,8 @@ class Entity {
     static craftingStationClass?: string = undefined;
 
     static categories?: Array<EntityCategories> = undefined;
+
+    static spawnGroundTypes?: Array<GroundTile> = undefined;
 
     static TransformationEntityType?: typeof Entity = undefined;
 

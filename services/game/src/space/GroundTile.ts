@@ -1,4 +1,5 @@
 import { error } from '@rogueworld/utils';
+import Entity from '../entities/classes/Entity';
 import Damage from '../gameplay/Damage';
 import DamageTypes from '../gameplay/DamageTypes';
 import { StatusEffect } from '../gameplay/status_effects';
@@ -58,6 +59,14 @@ class GroundTile {
     hazardous = false;
 
     gatherItemType?: typeof Item;
+
+    spawnCategories?: {
+        forage: Array<typeof Entity>,
+        trees: Array<typeof Entity>,
+        oreRocks: Array<typeof Entity>,
+        otherResourceNodes: Array<typeof Entity>,
+        mobs: Array<typeof Entity>,
+    };
 
     init(config: GroundTileConfig) {
         this.name = config.name;

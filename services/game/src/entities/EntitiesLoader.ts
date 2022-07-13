@@ -8,6 +8,8 @@ import { EntitiesList } from '.';
 import Dynamic from './classes/Dynamic';
 import Entity from './classes/Entity';
 import Drop, { DropConfig } from '../gameplay/Drop';
+import { GroundTypes } from '../space';
+import { GroundTypeName } from '../space/GroundTypes';
 
 /**
  * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract
@@ -163,6 +165,20 @@ export const initialiseList = () => {
                         if (!CraftingStationClasses.includes(value as string)) {
                             error('Invalid crafting station class given. Must be in the crafting station classes list:', config.craftingStationClass);
                         }
+                    }
+
+                    // Check the given ground types to spawn on are valid.
+                    if (key === 'spawnGroundTypes') {
+                        if (!Array.isArray(value)) {
+                            error('Invalid spawn ground types list. Must be an array:', config.spawnGroundTypes);
+                            return;
+                        }
+
+                        value = value.map((groundTypeName: GroundTypeName) => {
+                            if (!GroundTypes[groundTypeName]) error('Invalid spawn ground type name. Must be in the ground types list:', groundTypeName);
+
+                            GroundTypes[groundTypeName].spawnCategories[]???
+                        });
                     }
 
                     // eslint-disable-next-line

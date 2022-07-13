@@ -6,6 +6,9 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  spawnGrounds: <-- what to name these?
+    - Grass
+  spawnGroundType: Mob
   actions:
     - iron-sword
   dropList:

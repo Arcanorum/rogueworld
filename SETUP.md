@@ -27,11 +27,11 @@ Go to localhost:3000 in your browser.
 - [MongoDB]((https://www.mongodb.com/download-center/community)) (storage of player accounts and game world state)
 
 ## To run the project, you will need:
-- NodeJS installed (currently only v16.13.0 is officially supported, though other versions may work).
+- NodeJS installed (currently only v16.13.0 is officially supported, though other later versions may work).
 - MongoDB installed (or in a Docker container).
 - Git installed.
-- An IDE (such as VS Code.
-- A [GitHub](https://github.com/) account.
+- An IDE (such as VS Code).
+- A GitHub account.
 - Maybe a Git GUI client (such as GitHub Desktop).
 
 # Repository overview

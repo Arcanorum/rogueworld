@@ -335,8 +335,8 @@ class Board {
         // Get a random position on the map.
         const rows = this.grid.length;
         const cols = this.grid[0].length;
-        const clusterRow = 400; // getRandomIntInclusive(0, rows - 1);
-        const clusterCol = 900; // getRandomIntInclusive(0, cols - 1);
+        const clusterRow = 50; // getRandomIntInclusive(0, rows - 1);
+        const clusterCol = 50; // getRandomIntInclusive(0, cols - 1);
         const clusterBoardTile = this.grid[clusterRow][clusterCol];
         const clusterSize = 50;
         const spreadRange = 20;
@@ -712,6 +712,17 @@ class Board {
         // Check the grid col element (the tile itself) being accessed is valid.
         if (tile === undefined) return false;
         return tile;
+    }
+
+    /**
+     * Gets a random tile on this board.
+     */
+    getRandomTile() {
+        return this.grid[
+            getRandomIntInclusive(0, this.grid.length - 1) // Random row.
+        ][
+            getRandomIntInclusive(0, this.grid[0].length - 1) // Random col.
+        ];
     }
 }
 

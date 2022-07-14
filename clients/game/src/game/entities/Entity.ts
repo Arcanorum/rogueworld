@@ -259,7 +259,7 @@ class Entity extends Container {
 
                 GUIState.setCraftingStation(
                     EntityType.craftingStationClass,
-                    this.displayName.text,
+                    EntityType.displayName,
                     EntityType.iconName,
                 );
                 GUIState.setActivePanel(Panels.Crafting);
@@ -282,8 +282,8 @@ class Entity extends Container {
      * Show the display name of this entity when it is hovered over.
      */
     onPointerOver() {
-        if (this.displayName) {
-            this.displayName.visible = true;
+        if (this.displayNameTextObject) {
+            this.displayNameTextObject.visible = true;
         }
         setHandCursor();
     }
@@ -292,8 +292,8 @@ class Entity extends Container {
      * Hide the display name when it isn't being hovered over any more.
      */
     onPointerOut() {
-        if (this.displayName) {
-            this.displayName.visible = false;
+        if (this.displayNameTextObject) {
+            this.displayNameTextObject.visible = false;
         }
         setDefaultCursor();
     }
@@ -466,7 +466,7 @@ class Entity extends Container {
             this.iconName = `${this.animationSetName}-1`;
         }
 
-        this.displayName = getTextDef(`Entity name: ${config.displayName}`);
+        this.displayName = getTextDef(`Entity name: ${config.displayNameId}`);
     }
 
     static setupAnimations() {

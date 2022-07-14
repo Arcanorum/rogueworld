@@ -16,7 +16,7 @@
       quantity: 4
   clientConfig:
     extendsClassName: Mob
-    displayName: Bandit
+    displayNameId: Bandit
     animationSetName: bandit
 
 - name: Lizardman
@@ -40,7 +40,7 @@
     - itemName: Greencap
   clientConfig:
     extendsClassName: Mob
-    displayName: Lizardman
+    displayNameId: Lizardman
     animationSetName: lizardman
 
 - name: LizardmanGuard
@@ -61,7 +61,7 @@
     - itemName: IronOre
   clientConfig:
     extendsClassName: Mob
-    displayName: Lizardman guard
+    displayNameId: Lizardman guard
     animationSetName: lizardman-guard
 
 - name: Orc
@@ -82,7 +82,7 @@
     - itemName: Redcap
   clientConfig:
     extendsClassName: Mob
-    displayName: Orc
+    displayNameId: Orc
     animationSetName: orc
 
 - name: OrcBerserker
@@ -103,7 +103,7 @@
     - itemName: IronOre
   clientConfig:
     extendsClassName: Mob
-    displayName: Orc berserker
+    displayNameId: Orc berserker
     animationSetName: orc-berserker
 
 - name: Cow
@@ -124,7 +124,7 @@
       quantity: 2
   clientConfig:
     extendsClassName: Mob
-    displayName: Cow
+    displayNameId: Cow
     animationSetName: adult-cow
 
 - name: FruitBat
@@ -144,7 +144,7 @@
       quantity: 4
   clientConfig:
     extendsClassName: Mob
-    displayName: Fruit bat
+    displayNameId: Fruit bat
     animationSetName: fruit-bat
 
 - name: Snake
@@ -163,7 +163,7 @@
       quantity: 4
   clientConfig:
     extendsClassName: Mob
-    displayName: Snake
+    displayNameId: Snake
     animationSetName: snake
 
 - name: FireElemental
@@ -181,7 +181,7 @@
       dropRate: 100
   clientConfig:
     extendsClassName: Mob
-    displayName: Fire elemental
+    displayNameId: Fire elemental
     animationSetName: fire-elemental
 
 - name: PineTree
@@ -195,7 +195,7 @@
       dropRate: 100
       quantity: 4
   clientConfig:
-    displayName: Pine tree
+    displayNameId: Pine tree
     showDisplayNameOnHover: false
     animationSetName: pine-tree
     animationFrameSequence: [1]
@@ -211,7 +211,7 @@
       dropRate: 100
       quantity: 4
   clientConfig:
-    displayName: Iron rocks
+    displayNameId: Iron rocks
     showDisplayNameOnHover: false
     animationSetName: iron-rocks
     animationFrameSequence: [1]
@@ -225,7 +225,7 @@
   categories:
     - Crop
   clientConfig:
-    displayName: Carrot seedling
+    displayNameId: Carrot seedling
     animationSetName: carrot-seedling
     animationFrameSequence: [1]
 
@@ -244,7 +244,7 @@
       quantity: 1
       rolls: 3
   clientConfig:
-    displayName: Carrots
+    displayNameId: Carrots
     animationSetName: carrot-plant
     animationFrameSequence: [1]
 
@@ -291,7 +291,7 @@
   baseGloryValue: 10
   craftingStationClass: Furnace
   clientConfig:
-    displayName: Clay oven
+    displayNameId: Clay oven
     showDisplayNameOnHover: false
     animationSetName: clay-oven
     animationRepeats: true
@@ -303,7 +303,7 @@
   baseGloryValue: 10
   craftingStationClass: Workbench
   clientConfig:
-    displayName: Workbench
+    displayNameId: Workbench
     showDisplayNameOnHover: false
     animationSetName: workbench
     animationFrameSequence: [1]
@@ -315,7 +315,7 @@
   baseGloryValue: 10
   craftingStationClass: Anvil
   clientConfig:
-    displayName: Anvil
+    displayNameId: Anvil
     showDisplayNameOnHover: false
     animationSetName: anvil
     animationFrameSequence: [1]
@@ -327,7 +327,7 @@
   baseGloryValue: 10
   craftingStationClass: Laboratory
   clientConfig:
-    displayName: Laboratory
+    displayNameId: Laboratory
     showDisplayNameOnHover: false
     animationSetName: laboratory
     animationFrameSequence: [1]
@@ -338,7 +338,7 @@
   baseMaxHitPoints: 50
   baseGloryValue: 5
   clientConfig:
-    displayName: Wooden fence
+    displayNameId: Wooden fence
     showDisplayNameOnHover: false
     animationSetName: wooden-fence
     animationFrameSequence: [1]
@@ -349,7 +349,7 @@
   baseMaxHitPoints: 200
   baseGloryValue: 5
   clientConfig:
-    displayName: Brick wall
+    displayNameId: Brick wall
     showDisplayNameOnHover: false
     animationSetName: brick-wall
     animationFrameSequence: [1]
@@ -362,7 +362,7 @@
   baseGloryValue: 5
   clientConfig:
     extendsClassName: Door
-    displayName: Wooden door
+    displayNameId: Wooden door
     showDisplayNameOnHover: false
     animationSetName: wooden-door
     animationFrameSequence: [1]

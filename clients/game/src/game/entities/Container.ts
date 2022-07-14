@@ -9,7 +9,7 @@ import { BouncyText } from '../../shared/types';
  * Avoids having to modify the Phaser container prototype.
  */
 class Container extends Phaser.GameObjects.Container {
-    displayName?: Phaser.GameObjects.Text;
+    displayNameTextObject?: Phaser.GameObjects.Text;
 
     constructor(x: number, y: number, data: any) {
         super(Global.gameScene, x, y);
@@ -97,7 +97,7 @@ class Container extends Phaser.GameObjects.Container {
      */
     addDisplayName(displayName: string) {
         // The anchor is still in the top left, so offset by half the width to center the text.
-        this.displayName = Global.gameScene.add.text(0, -6, displayName, {
+        this.displayNameTextObject = Global.gameScene.add.text(0, -6, displayName, {
             fontFamily: '\'Press Start 2P\'',
             fontSize: '16px',
             align: 'center',
@@ -105,10 +105,10 @@ class Container extends Phaser.GameObjects.Container {
             stroke: '#000000',
             strokeThickness: 5,
         });
-        this.displayName.setOrigin(0.5, 1);
-        this.displayName.setScale(0.25);
-        this.displayName.visible = false;
-        this.add(this.displayName);
+        this.displayNameTextObject.setOrigin(0.5, 1);
+        this.displayNameTextObject.setScale(0.25);
+        this.displayNameTextObject.visible = false;
+        this.add(this.displayNameTextObject);
     }
 }
 

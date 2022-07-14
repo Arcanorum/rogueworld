@@ -211,7 +211,7 @@
       dropRate: 100
       quantity: 4
   clientConfig:
-    displayNameId: Iron rocks
+    displayNameId: Iron ore
     showDisplayNameOnHover: false
     animationSetName: iron-rocks
     animationFrameSequence: [1]

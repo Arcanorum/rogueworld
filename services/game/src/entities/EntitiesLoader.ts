@@ -10,6 +10,7 @@ import Entity from './classes/Entity';
 import Drop, { DropConfig } from '../gameplay/Drop';
 import { GroundTypes } from '../space';
 import { GroundTypeName } from '../space/GroundTypes';
+import { SpawnCategories } from '../space/GroundTile';
 
 /**
  * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract
@@ -167,18 +168,28 @@ export const initialiseList = () => {
                         }
                     }
 
-                    // Check the given ground types to spawn on are valid.
+                    // Add this entity type to the ground tile types that it should be allowed to
+                    // spawn onto.
                     if (key === 'spawnGroundTypes') {
                         if (!Array.isArray(value)) {
                             error('Invalid spawn ground types list. Must be an array:', config.spawnGroundTypes);
                             return;
                         }
 
-                        value = value.map((groundTypeName: GroundTypeName) => {
+                        value.forEach((groundTypeName: GroundTypeName) => {
+                            // Check the given ground types to spawn on are valid.
                             if (!GroundTypes[groundTypeName]) error('Invalid spawn ground type name. Must be in the ground types list:', groundTypeName);
 
-                            GroundTypes[groundTypeName].spawnCategories[]???
+                            const spawnCategory = config.spawnCategory as keyof SpawnCategories;
+
+                            GroundTypes[groundTypeName].spawnCategories[spawnCategory]
+                                .push(EntityClass);
                         });
+
+                        // Don't need to actually store the spawn categories on the entity type
+                        // itself once we have added the entity type to the ground type, as that
+                        // is all this property is used for.
+                        return;
                     }
 
                     // eslint-disable-next-line

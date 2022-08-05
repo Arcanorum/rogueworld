@@ -86,9 +86,6 @@ FULL_DAY_DURATION_MINUTES: 24
 # higher population weight, i.e. a rat might take 1 population space, but a boss might take 8.
 MAX_BOARD_POPULATION: 500
 
-# How often to try to populate each board with a new entity or group of entities. (ms)
-BOARD_POPULATION_RATE: 100
-
 # A factor to scale display objects by on the client, and any specific size assets that need to be generated and served over API.
 CLIENT_DISPLAY_SCALE: 2
 

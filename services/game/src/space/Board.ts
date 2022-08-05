@@ -1,10 +1,10 @@
 import { Settings } from '@rogueworld/configs';
 import { MapLayer, TiledMap } from '@rogueworld/maps';
 import {
-    DayPhases, Directions, ObjectOfUnknown, OneSecond, RowCol,
+    DayPhases, Directions, ObjectOfUnknown, RowCol,
 } from '@rogueworld/types';
 import {
-    Counter, error, getRandomElement, getRandomIntInclusive, warning,
+    Counter, error, getRandomIntInclusive, warning,
 } from '@rogueworld/utils';
 import { GroundTypes } from '.';
 import { getPaginatedEntityDocuments } from '../database';
@@ -15,6 +15,7 @@ import Player from '../entities/classes/Player';
 import BoardTile from './BoardTile';
 import { groundTilesetTiles } from './CreateClientBoardData';
 import { GroundTypeName, PlayerSpawn } from './GroundTypes';
+import PopulationManager from './PopulationManager';
 
 const playerViewRange = Settings.PLAYER_VIEW_RANGE;
 /**
@@ -88,13 +89,6 @@ class Board {
      * How many entities are currently on the board.
      */
     population = 0;
-
-    /**
-     * How often (in ms) to try to populate the board with a new entity.
-     */
-    populateRate = Settings.BOARD_POPULATION_RATE || (OneSecond * 5);
-
-    populateLoop?: NodeJS.Timeout;
 
     constructor({
         name,
@@ -321,74 +315,9 @@ class Board {
             // Get the next batch of entities to load.
             this.loadSavedEntities(page + 1);
         }
+        // No more entities to load. Start the population manager.
         else {
-            this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
-        }
-    }
-
-    populate() {
-        this.populateLoop = setTimeout(this.populate.bind(this), this.populateRate);
-
-        // Don't go over the max population for this board.
-        if (this.population >= this.maxPopulation) return;
-
-        // Get a random position on the map.
-        const rows = this.grid.length;
-        const cols = this.grid[0].length;
-        const clusterRow = 50; // getRandomIntInclusive(0, rows - 1);
-        const clusterCol = 50; // getRandomIntInclusive(0, cols - 1);
-        const clusterBoardTile = this.grid[clusterRow][clusterCol];
-        const clusterSize = 50;
-        const spreadRange = 20;
-
-        const SpawnableEntityTypes = Object
-            .values(EntitiesList.BY_NAME)
-            .filter((EntityType) => EntityType.baseGloryValue && !EntityType.typeCode);
-
-        // const SpawnableEntityTypes = [
-        //     EntitiesList.BY_NAME['Bandit'],
-        //     EntitiesList.BY_NAME['Bat'],
-        //     EntitiesList.BY_NAME['IronRocks'],
-        //     EntitiesList.BY_NAME['PineTree'],
-        // ];
-
-        // const houseLayout = [
-        //     { row: -2, col: -1 },
-        //     { row: -2, col: 0 },
-        //     { row: -2, col: 1 },
-        //     { row: -2, col: 2 },
-        //     { row: -1, col: -1 },
-        //     { row: -1, col: 2 },
-        //     { row: 0, col: -1 },
-        //     { row: 0, col: 2 },
-        //     { row: 1, col: -1 },
-        //     { row: 1, col: 1 },
-        //     { row: 1, col: 2 },
-        // ];
-
-        const RandomEntityType = getRandomElement(SpawnableEntityTypes);
-
-        for (let i = 0; i < clusterSize; i += 1) {
-            const randomRow = clusterRow + getRandomIntInclusive(-spreadRange, spreadRange);
-            const randomCol = clusterCol + getRandomIntInclusive(-spreadRange, spreadRange);
-            const randomBoardTile = this.getTileAt(randomRow, randomCol);
-
-            if (!randomBoardTile) return;
-            if (!randomBoardTile.groundType.canBeStoodOn) return;
-            if (!randomBoardTile.isBuildable()) return;
-            if (randomBoardTile.groundType.hazardous) return;
-            if (randomBoardTile.groundType === PlayerSpawn) return;
-
-            new RandomEntityType({
-                row: randomRow,
-                col: randomCol,
-                board: this,
-            }).emitToNearbyPlayers();
-
-            this.population += 1;
-
-            // Don't go over the max population for this board.
-            if (this.population >= this.maxPopulation) break;
+            new PopulationManager({ board: this });
         }
     }
 
@@ -715,14 +644,21 @@ class Board {
     }
 
     /**
+     * Gets a random row and col within this board.
+     */
+    getRandomRowCol(): RowCol {
+        return {
+            row: getRandomIntInclusive(0, this.grid.length - 1), // Random row.
+            col: getRandomIntInclusive(0, this.grid[0].length - 1), // Random col.
+        };
+    }
+
+    /**
      * Gets a random tile on this board.
      */
     getRandomTile() {
-        return this.grid[
-            getRandomIntInclusive(0, this.grid.length - 1) // Random row.
-        ][
-            getRandomIntInclusive(0, this.grid[0].length - 1) // Random col.
-        ];
+        const randomRowCol = this.getRandomRowCol();
+        return this.grid[randomRowCol.row][randomRowCol.col];
     }
 }
 

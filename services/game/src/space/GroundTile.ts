@@ -16,6 +16,14 @@ interface GroundTileConfig {
     gatherItemTypeName?: string;
 }
 
+export interface SpawnCategories {
+    forage: Array<typeof Entity>,
+    trees: Array<typeof Entity>,
+    oreRocks: Array<typeof Entity>,
+    otherResourceNodes: Array<typeof Entity>,
+    mobs: Array<typeof Entity>,
+}
+
 class GroundTile {
     /**
      * A unique name for this type of tile.
@@ -60,12 +68,12 @@ class GroundTile {
 
     gatherItemType?: typeof Item;
 
-    spawnCategories?: {
-        forage: Array<typeof Entity>,
-        trees: Array<typeof Entity>,
-        oreRocks: Array<typeof Entity>,
-        otherResourceNodes: Array<typeof Entity>,
-        mobs: Array<typeof Entity>,
+    spawnCategories: SpawnCategories = {
+        forage: [],
+        trees: [],
+        oreRocks: [],
+        otherResourceNodes: [],
+        mobs: [],
     };
 
     init(config: GroundTileConfig) {

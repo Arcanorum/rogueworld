@@ -6,9 +6,9 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
-  spawnGrounds: <-- what to name these?
+  spawnGroundTypes:
     - Grass
-  spawnGroundType: Mob
+  spawnCategory: mobs
   actions:
     - iron-sword
   dropList:
@@ -30,6 +30,9 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  spawnGroundTypes:
+    - Grass
+  spawnCategory: mobs
   actions:
     - punch
     - bite
@@ -54,6 +57,9 @@
   baseWanderRate: 10000
   baseAttackRange: 2
   viewRange: 8
+  spawnGroundTypes:
+    - Grass
+  spawnCategory: mobs
   actions:
     - iron-spear
   dropList:
@@ -75,6 +81,9 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  spawnGroundTypes:
+    - Snow
+  spawnCategory: mobs
   actions:
     - punch
   dropList:
@@ -96,6 +105,9 @@
   baseWanderRate: 10000
   baseAttackRange: 2
   viewRange: 8
+  spawnGroundTypes:
+    - Snow
+  spawnCategory: mobs
   actions:
     - iron-sword
   dropList:
@@ -116,6 +128,9 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  spawnGroundTypes:
+    - Grass
+  spawnCategory: mobs
   actions:
     - punch
     - bite
@@ -137,6 +152,9 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
+  spawnGroundTypes:
+    - Grass
+  spawnCategory: mobs
   actions:
     - bite
   dropList:
@@ -157,6 +175,9 @@
   baseWanderRate: 10000
   baseAttackRange: 2
   viewRange: 8
+  spawnGroundTypes:
+    - Grass
+  spawnCategory: mobs
   actions:
     - bite
     - spit-venom
@@ -177,6 +198,9 @@
   baseAttackRange: 3
   viewRange: 8
   craftingStationClass: Furnace
+  spawnGroundTypes:
+    - Lava
+  spawnCategory: mobs
   actions:
     - fireball
   dropList:
@@ -193,6 +217,10 @@
   baseGloryValue: 10
   categories:
     - Tree
+  spawnGroundTypes:
+    - Grass
+    - Snow
+  spawnCategory: trees
   dropList:
     - itemName: PineLogs
       dropRate: 100
@@ -209,6 +237,10 @@
   baseGloryValue: 20
   categories:
     - OreRock
+  spawnGroundTypes:
+    - Grass
+    - Snow
+  spawnCategory: oreRocks
   dropList:
     - itemName: IronOre
       dropRate: 100
@@ -227,6 +259,9 @@
   transformationTimer: 600000
   categories:
     - Crop
+  spawnGroundTypes:
+    - Grass
+  spawnCategory: forage
   clientConfig:
     displayNameId: Carrot seedling
     animationSetName: carrot-seedling

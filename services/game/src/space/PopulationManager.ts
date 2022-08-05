@@ -1,70 +1,86 @@
+import { getRandomElement } from '@rogueworld/utils';
 import Board from './Board';
+import { SpawnCategories } from './GroundTile';
 
 interface Populator {
-    name: string,
-    count: number;
-    max: number;
-    spawnLoop: NodeJS.Timer;
+    spawnCategory: keyof SpawnCategories,
+    population: number;
+    maxPopulation: number;
+    board: Board;
 }
 
 export default class PopulationManager {
     board: Board;
 
-    // populators: Array<Populator> = [];
-
     constructor(config: { board: Board }) {
         this.board = config.board;
 
-        const populatorConfigs = [
+        const populatorConfigs: Array<{
+            spawnCategory: keyof SpawnCategories;
+            maxPopulation: number;
+            /** How often (in ms) to try to populate the board with a new entity. */
+            spawnRate: number
+        }> = [
             {
-                name: 'forage',
-                max: 500,
-                spawnRate: 1000,
+                spawnCategory: 'forage',
+                maxPopulation: 600,
+                spawnRate: 500,
             },
             {
-                name: 'trees',
-                max: 500,
-                spawnRate: 1000,
+                spawnCategory: 'trees',
+                maxPopulation: 5000,
+                spawnRate: 500,
             },
             {
-                name: 'oreRocks',
-                max: 300,
-                spawnRate: 1000,
+                spawnCategory: 'oreRocks',
+                maxPopulation: 2000,
+                spawnRate: 500,
             },
             {
-                name: 'other',
-                max: 200,
-                spawnRate: 1000,
+                spawnCategory: 'otherResourceNodes',
+                maxPopulation: 600,
+                spawnRate: 500,
             },
             {
-                name: 'mobs',
-                max: 500,
-                spawnRate: 1000,
+                spawnCategory: 'mobs',
+                maxPopulation: 4000,
+                spawnRate: 500,
             },
         ];
 
         populatorConfigs.forEach((populatorConfig) => {
-            const populator = {
+            const populator: Populator = {
                 ...populatorConfig,
                 board: config.board,
-                count: 0,
-
+                population: 0,
             };
             setInterval(this.spawn.bind(populator), populatorConfig.spawnRate, populator);
         });
     }
 
-    spawn() {
-        const boardTile = this.board.getRandomTile();
+    spawn(populator: Populator) {
+        // console.log('spawning:', populator.spawnCategory);
 
-        // TODO: make a list of all entities that can be spawned on a given ground type.
-        // Can still do it from the entity config, just don't keep it as an Entity property
-        // just grab it and add this entity type to the matching ground type's list of spawnable
-        // entities in the given category
-        // - forage <-- most important right at the start!
-        // - trees
-        // - orerocks
-        // - otherresource
-        // - mob
+        // Don't go over the max population.
+        if (populator.population >= populator.maxPopulation) return;
+
+        const randomRowCol = this.board.getRandomRowCol();
+        const boardTile = this.board.grid[randomRowCol.row][randomRowCol.col];
+
+        const RandomEntityType = getRandomElement(
+            boardTile.groundType.spawnCategories[populator.spawnCategory],
+        );
+
+        // Check the ground type actually has anything that can spawn on it that is also of this
+        // category.
+        if (!RandomEntityType) return;
+
+        new RandomEntityType({
+            row: randomRowCol.row,
+            col: randomRowCol.col,
+            board: populator.board,
+        }).emitToNearbyPlayers();
+
+        populator.population += 1;
     }
 }

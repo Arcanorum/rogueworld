@@ -199,7 +199,24 @@ class Entity {
 
     static categories?: Array<EntityCategories> = undefined;
 
-    static spawnGroundTypes?: Array<GroundTile> = undefined;
+    /**
+     * CONFIG ONLY PROPERTY, DOESN'T ACTUALLY EXIST ON CLASS AT RUNTIME.
+     * This property only exists here to please the type checker and the entities loader.
+     * See EntitiesLoader for explanation.
+     * Which ground types this entity type can be spawned onto.
+     * e.g. An ice elemental should only spawn on snow tiles.
+     */
+    static spawnGroundTypes? = undefined;
+
+    /**
+     * CONFIG ONLY PROPERTY, DOESN'T ACTUALLY EXIST ON CLASS AT RUNTIME.
+     * This property only exists here to please the type checker and the entities loader.
+     * See EntitiesLoader for explanation.
+     * Which category of spawnable entities this entity type falls into.
+     * e.g. Both iron rocks and dungium rocks are both metal ore nodes, so they are grouped under
+     * the oreRocks category.
+     */
+    static spawnCategory? = undefined;
 
     static TransformationEntityType?: typeof Entity = undefined;
 

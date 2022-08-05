@@ -1,5 +1,5 @@
 import { Settings } from '@rogueworld/configs';
-import { message } from '@rogueworld/utils';
+import { message, warning } from '@rogueworld/utils';
 import { isDisplayNameValid } from '.';
 import { changePassword, createAccount } from '../database';
 import EventResponses from './EventResponses';
@@ -37,11 +37,12 @@ EventResponses.create_account = (clientSocket, data: { username: string; passwor
         (err) => {
             if (err) {
                 // An index with this key (the username) already exists. Must be unique.
-                if (err.code === '11000') {
+                if (`${err.code}` === '11000') {
                     // Username already taken.
                     clientSocket.sendEvent('create_account_failure', { messageId: 'Username taken' });
                 }
                 else {
+                    warning('Create account, DB error:', err);
                     clientSocket.sendEvent('create_account_failure', { messageId: 'Database error' });
                 }
             }

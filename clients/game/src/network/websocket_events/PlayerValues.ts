@@ -52,14 +52,14 @@ const PlayerValues = () => {
         // Update the display name text on the sprite.
         const dynamic = Global.gameScene.dynamics[data.id];
 
-        dynamic.spriteContainer?.displayName?.setText(data.displayName);
+        dynamic.spriteContainer?.displayNameTextObject?.setText(data.displayName);
     };
 
     eventResponses.player_respawn = () => {
         PlayerState.setHitPoints(PlayerState.maxHitPoints);
         PlayerState.setFood(PlayerState.maxFood);
         GUIState.setActivePanel(Panels.NONE);
-        const music = Global.gameScene.soundManager.music;
+        const { music } = Global.gameScene.soundManager;
         music.changeBackgroundMusic(music.sounds['exploration-theme']);
         // Clear in combat status after respawn.
         PubSub.publish(COMBAT_STATUS_TRIGGER, 0);

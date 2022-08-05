@@ -74,7 +74,7 @@ function GUI() {
                 setQuickChatEnabled(GUIState.quickChatEnabled);
             }),
             PubSub.subscribe(BEFORE_PAGE_UNLOAD, () => {
-                if (ApplicationState.loggedIn !== true) {
+                if (!ApplicationState.loggedIn) {
                     setShownPanel(Panels.CreateAccount);
                 }
             }),
@@ -93,9 +93,8 @@ function GUI() {
     }, []);
 
     useEffect(() => {
-        // If there were looking at the create account
-        // panel, switch to the account panel.
-        if (shownPanel === Panels.CreateAccount) {
+        // If they were looking at the create account panel, switch to the account panel.
+        if (shownPanel === Panels.CreateAccount && loggedIn) {
             setShownPanel(Panels.Account);
         }
     }, [shownPanel, loggedIn]);

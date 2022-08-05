@@ -215,7 +215,7 @@ class GUI {
         PubSub.publish(SELECTED_ENTITY, {
             new: {
                 icon: entityIconsList[EntityType.iconName],
-                name: entity.displayName?.text || EntityType.displayName,
+                name: entity.displayNameTextObject?.text || EntityType.displayName,
                 hitPoints: entity.hitPoints,
                 maxHitPoints: entity.maxHitPoints,
                 canBeCraftedAt: Boolean(EntityType.craftingStationClass),

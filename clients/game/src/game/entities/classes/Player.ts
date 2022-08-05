@@ -18,7 +18,7 @@ class Player extends Entity {
 
         this.bringToTop(this.curseEffect);
         this.bringToTop(this.enchantmentEffect);
-        this.bringToTop(this.displayName);
+        this.bringToTop(this.displayNameTextObject);
         this.sendToBack(this.baseSprite);
 
         const style = {

@@ -163,7 +163,7 @@ class GameScene extends Phaser.Scene {
             // The file might be commented out to disable it for the time being.
             // Check it has something added for this entity type.
             if (EntityType) {
-                if (Object.hasOwn(EntityType, 'setupAnimations')) EntityType.setupAnimations();
+                if (Object.prototype.hasOwnProperty.call(EntityType, 'setupAnimations')) EntityType.setupAnimations();
                 if (EntityType.addAnimationSet) EntityType.addAnimationSet();
             }
         });

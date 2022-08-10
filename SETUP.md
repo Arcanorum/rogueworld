@@ -42,6 +42,20 @@ Note the presence and structure of the `services` and `clients` directories.
 
 There are commonalities and assumptions that are made about what each sub-project is using in it's tech stack, so this isn't a *true* monorepo in the strictest definition of the term (where every sub-project is self-contained), but instead the goal is to make development easier to get started with by standardising the tech stack across the project somewhat for the sake of simplicity and stability, while still offering enough separation of concerns as to how the various parts of the codebase relate to each other, and defining a suitable structure to easily expand into as the needs of the game grow.
 
+This is managed using NPM's [workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces) feature.
+
+Commands in each sub-project can be ran from the project root level using the following convention:
+
+`npm run [command name] -w [sub-project path]`
+
+The `-w [sub-project path]` denotes the workspace (sub-project) that the given command should be ran in.
+
+For example, to run the `build` command of the map service:
+
+`npm run build -w services/map`
+
+This is merely a slightly higher level interface for working with the sub-projects. You can still just go to that directory and run the command there directly if you wish, i.e. `cd services/map` then `npm run build`.
+
 # Services
 A "service" is typically a backend server that can be connected to by a client or another service, that handles a particular area of functionality.
 

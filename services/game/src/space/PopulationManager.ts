@@ -2,11 +2,12 @@ import { getRandomElement } from '@rogueworld/utils';
 import Board from './Board';
 import { SpawnCategories } from './GroundTile';
 
-interface Populator {
+export interface Populator {
     spawnCategory: keyof SpawnCategories,
     population: number;
     maxPopulation: number;
     board: Board;
+    onChildDestroyed: () => void;
 }
 
 export default class PopulationManager {
@@ -53,13 +54,16 @@ export default class PopulationManager {
                 ...populatorConfig,
                 board: config.board,
                 population: 0,
+                onChildDestroyed: () => {
+                    populator.population -= 1;
+                },
             };
             setInterval(this.spawn.bind(populator), populatorConfig.spawnRate, populator);
         });
     }
 
     spawn(populator: Populator) {
-        // console.log('spawning:', populator.spawnCategory);
+        // console.log('spawning:', populator.spawnCategory, populator.population);
 
         // Don't go over the max population.
         if (populator.population >= populator.maxPopulation) return;
@@ -79,6 +83,7 @@ export default class PopulationManager {
             row: randomRowCol.row,
             col: randomRowCol.col,
             board: populator.board,
+            spawnedBy: populator,
         }).emitToNearbyPlayers();
 
         populator.population += 1;

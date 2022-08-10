@@ -21,6 +21,7 @@ import { Curse, Enchantment } from '../../gameplay/magic_effects';
 import { StatusEffect } from '../../gameplay/status_effects';
 import { GroundTile } from '../../space';
 import Board from '../../space/Board';
+import { Populator } from '../../space/PopulationManager';
 
 const idCounter = new Counter();
 const typeNumberCounter = new Counter();
@@ -29,6 +30,7 @@ export interface EntityConfig {
     row: number;
     col: number;
     board: Board;
+    spawnedBy?: Entity | Populator;
     documentId?: string;
 }
 
@@ -218,6 +220,12 @@ class Entity {
      */
     static spawnCategory? = undefined;
 
+    /**
+     * A reference to the thing (other entity, populator, whatever) that created this entity.
+     * Useful for doing cleanup logic that involves the creator.
+     */
+    spawnedBy?: Entity | Populator = undefined;
+
     static TransformationEntityType?: typeof Entity = undefined;
 
     static transformationTimer?: number = undefined;
@@ -230,6 +238,8 @@ class Entity {
         this.col = config.col;
 
         this.board = config.board;
+
+        this.spawnedBy = config.spawnedBy;
 
         // Need to mess around a bit to get the values of any subclass properties that have been
         // overridden.
@@ -338,6 +348,8 @@ class Entity {
         if (this.curse) this.curse.remove();
 
         if (this.enchantment) this.enchantment.remove();
+
+        if (this.spawnedBy) this.spawnedBy.onChildDestroyed();
 
         // Tell players around this entity to remove it.
         this.board?.emitToNearbyPlayers(this.row, this.col, 'remove_entity', this.id);
@@ -665,6 +677,8 @@ class Entity {
      * If overridden, should still be chained from the overrider up to this.
      */
     onModHitPoints() { }
+
+    onChildDestroyed() { }
 
     modDefence(amount: number) {
         if (this.defence === undefined) return;

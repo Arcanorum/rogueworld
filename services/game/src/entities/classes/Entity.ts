@@ -271,7 +271,10 @@ class Entity {
             this.gloryValue = EntityType.baseGloryValue;
         }
 
-        if (EntityType.typeCode) {
+        // Prevent entities that are spawned by a system from being persisted, otherwise repeated
+        // restarts would just keep stacking them, going over any intended max population for that
+        // entity category.
+        if (!this.spawnedBy && EntityType.typeCode) {
             if (config.documentId) {
                 this.startUpdateDocumentLoop(config.documentId);
             }

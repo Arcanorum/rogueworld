@@ -8,12 +8,12 @@
          "name":"Object Layer 1",
          "objects":[
                 {
+                 "class":"",
                  "gid":820,
                  "height":14439.4259086673,
                  "id":1381,
                  "name":"",
                  "rotation":0,
-                 "type":"",
                  "visible":true,
                  "width":16377.911205074,
                  "x":22.088794926005,
@@ -955,19 +955,15 @@
          "value":false
         }],
  "renderorder":"right-down",
- "tiledversion":"1.8.5",
+ "tiledversion":"1.9.2",
  "tileheight":16,
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/..\/..\/..\/..\/monorepo-typescript-next-the-sane-way\/shared\/maps\/src\/tilesets\/ground.json"
-        }, 
-        {
-         "firstgid":821,
-         "source":"iceland.tsx"
+         "source":"..\/tilesets\/ground.json"
         }],
  "tilewidth":16,
  "type":"map",
- "version":"1.8",
+ "version":"1.9",
  "width":1024
 }

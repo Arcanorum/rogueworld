@@ -1,10 +1,18 @@
 import { Settings } from '@rogueworld/configs';
 import { MapLayer, TiledMap } from '@rogueworld/maps';
 import {
-    DayPhases, Directions, ObjectOfUnknown, RowCol,
+    DayPhases,
+    Directions,
+    ObjectOfUnknown,
+    OneMinute,
+    RowCol,
 } from '@rogueworld/types';
 import {
-    Counter, error, getRandomIntInclusive, warning,
+    Counter,
+    error,
+    getRandomElement,
+    getRandomIntInclusive,
+    warning,
 } from '@rogueworld/utils';
 import { GroundTypes } from '.';
 import { getPaginatedEntityDocuments } from '../database';
@@ -12,10 +20,12 @@ import { EntitiesList } from '../entities';
 import Entity from '../entities/classes/Entity';
 import Pickup from '../entities/classes/Pickup';
 import Player from '../entities/classes/Player';
+import WorldTree from '../entities/classes/WorldTree';
 import BoardTile from './BoardTile';
 import { groundTilesetTiles } from './CreateClientBoardData';
-import { GroundTypeName, PlayerSpawn } from './GroundTypes';
+import { GroundTypeName } from './GroundTypes';
 import PopulationManager from './PopulationManager';
+import Dynamic from '../entities/classes/Dynamic';
 
 const playerViewRange = Settings.PLAYER_VIEW_RANGE;
 /**
@@ -30,6 +40,8 @@ const idCounter = new Counter();
 const entitiesString = 'entities';
 const playersString = 'players';
 const pickupsString = 'pickups';
+
+const invasionWaveRate = OneMinute;
 
 class Board {
     /**
@@ -59,12 +71,6 @@ class Board {
     movables: { [key: number]: Entity } = {};
 
     /**
-     * Keep a list of the positions that a player can spawn onto.
-     * Can't just refer to the board tiles directly as they don't track their own row/col.
-     */
-    entranceTilePositions: Array<RowCol> = [];
-
-    /**
      * What phase of the day it is. Each day is split up into phases, with each phase corresponding
      * to a time of day (i.e. dusk).
      * Updated from World when the time changes.
@@ -90,6 +96,8 @@ class Board {
      */
     population = 0;
 
+    worldTree?: WorldTree;
+
     constructor({
         name,
         mapData,
@@ -109,15 +117,22 @@ class Board {
         this.init(mapData);
 
         this.loadSavedEntities(1);
+
+        // Start the attack wave cycle loop.
+        setTimeout(this.spawnWave.bind(this), invasionWaveRate);
     }
 
     init(mapData: TiledMap) {
         const findLayer = (layerName: string) => {
-            const foundLayer = mapData.layers.find((eachLayer) => eachLayer.name === layerName);
+            const foundLayer = mapData.layers.find(
+                (eachLayer) => eachLayer.name === layerName,
+            );
 
             if (foundLayer) return foundLayer;
 
-            warning(`Couldn't find tilemap layer '${layerName}' for board ${this.name}.`);
+            warning(
+                `Couldn't find tilemap layer '${layerName}' for board ${this.name}.`,
+            );
 
             return undefined;
         };
@@ -128,7 +143,7 @@ class Board {
         let tilesData: Array<number>;
         // A tile layer tile on the tilemap data.
         let mapTile: number;
-        let type: GroundTypeName;
+        let className: GroundTypeName;
         let row: number;
         let col: number;
 
@@ -155,31 +170,59 @@ class Board {
                 mapTile = tilesData[i] - 1;
 
                 if (groundTilesetTiles[mapTile] === undefined) {
-                    error(`Invalid/empty map tile found while creating board: ${this.name} at row: ${row}, col: ${col}`);
+                    error(
+                        `Invalid/empty map tile found while creating board: ${this.name} at row: ${row}, col: ${col}`,
+                    );
                 }
-                // Get and separate the type from the prefix using the tile GID.
-                type = groundTilesetTiles[mapTile].type;
+                // Get and separate the class name from the prefix using the tile GID.
+                className = groundTilesetTiles[mapTile].class;
                 // Move to the next row when at the width of the map.
                 if (col === mapData.width) {
                     col = 0;
                     row += 1;
                 }
-                // Check that the type of this tile is a valid one.
-                if (GroundTypes[type]) {
-                    // Assign it to the matching ground type object of the type of this tile.
-                    this.grid[row][col].groundType = GroundTypes[type];
 
-                    if (GroundTypes[type] === PlayerSpawn) {
-                        this.entranceTilePositions.push({ row, col });
-                    }
+                // Check that the class of this tile is a valid one.
+                if (GroundTypes[className]) {
+                    // Assign it to the matching ground type object of the class of this tile.
+                    this.grid[row][col].groundType = GroundTypes[className];
                 }
                 else {
-                    warning(`Invalid ground mapTile type: ${type}`);
+                    warning(`Invalid ground mapTile type: ${className} at row: ${row}, col: ${col}`);
                 }
                 // Move to the next column.
                 col += 1;
             }
         }
+    }
+
+    addExistingWorldTree(row: number, col: number) {
+        new WorldTree({
+            board: this,
+            row,
+            col,
+        });
+    }
+
+    addNewWorldTree() {
+        let randRowCol = this.getRandomRowCol();
+        let isWorldTreeSpawnValid = false;
+
+        while (!isWorldTreeSpawnValid) {
+            randRowCol = this.getRandomRowCol();
+
+            const boardTile = this.getTileAt(randRowCol.row, randRowCol.col);
+
+            if (boardTile) {
+                isWorldTreeSpawnValid = boardTile.isBuildable();
+            }
+        }
+
+        new WorldTree({
+            board: this,
+            row: randRowCol.row,
+            col: randRowCol.col,
+        });
     }
 
     addEntity(entity: Entity) {
@@ -336,7 +379,11 @@ class Board {
         let entities: { [key: string]: Entity };
 
         for (; rowOffset < playerViewRangePlusOne; rowOffset += 1) {
-            for (colOffset = -playerViewRange; colOffset < playerViewRangePlusOne; colOffset += 1) {
+            for (
+                colOffset = -playerViewRange;
+                colOffset < playerViewRangePlusOne;
+                colOffset += 1
+            ) {
                 currentRow = this.grid[row + rowOffset];
                 // Check for invalid array index access.
                 // eslint-disable-next-line no-continue
@@ -350,9 +397,7 @@ class Board {
                 // Get all of the entities on this board tile.
                 Object.values(entities).forEach((entity) => {
                     // Add the relevant data of this entity to the data to return.
-                    nearbyDynamics.push(
-                        entity.getEmittableProperties({}),
-                    );
+                    nearbyDynamics.push(entity.getEmittableProperties({}));
                 });
             }
         }
@@ -465,10 +510,9 @@ class Board {
                 // eslint-disable-next-line no-continue
                 if (tile === undefined) continue;
 
-                Object.values(tile.players)
-                    .forEach((player) => {
-                        nearbyPlayers.push(player);
-                    });
+                Object.values(tile.players).forEach((player) => {
+                    nearbyPlayers.push(player);
+                });
             }
         }
 
@@ -484,7 +528,13 @@ class Board {
      * @param range A specific range to define "nearby" to be, otherwise uses the player view
      * range + 1.
      */
-    emitToNearbyPlayers(row: number, col: number, eventName: string, data?: any, range?: number) {
+    emitToNearbyPlayers(
+        row: number,
+        col: number,
+        eventName: string,
+        data?: any,
+        range?: number,
+    ) {
         let nearbyRange = playerViewRange;
         let nearbyRangePlusOne = playerViewRangePlusOne;
 
@@ -502,7 +552,11 @@ class Board {
         let players;
 
         for (; rowOffset < nearbyRangePlusOne; rowOffset += 1) {
-            for (colOffset = -nearbyRange; colOffset < nearbyRangePlusOne; colOffset += 1) {
+            for (
+                colOffset = -nearbyRange;
+                colOffset < nearbyRangePlusOne;
+                colOffset += 1
+            ) {
                 targetRow = rowOffset + row;
                 // Check the grid element being accessed is valid.
                 // eslint-disable-next-line no-continue
@@ -525,7 +579,7 @@ class Board {
      * @param data Any optional data to send with the event.
      */
     emitToPlayers(players: object, eventName: string, data?: any) {
-        // Find all of the player entities on this board tile.
+    // Find all of the player entities on this board tile.
         Object.values(players).forEach((player) => {
             const { socket } = player;
             // Make sure this socket connection is in a ready state. Might have just closed or be
@@ -659,6 +713,31 @@ class Board {
     getRandomTile() {
         const randomRowCol = this.getRandomRowCol();
         return this.grid[randomRowCol.row][randomRowCol.col];
+    }
+
+    spawnWave() {
+        const invaderEntityTypes = [EntitiesList.BY_NAME.Bandit];
+
+        if (!this.worldTree) return;
+
+        // Spawn in a square around the world tree.
+        const rowCols = this.worldTree.getRowColsAtRange(10);
+
+        const invaderCount = 4;
+
+        for (let i = 0; i < invaderCount; i += 1) {
+            const EntityType = getRandomElement(invaderEntityTypes);
+
+            const rowCol = getRandomElement(rowCols);
+
+            const invader = new EntityType({
+                board: this,
+                row: rowCol.row,
+                col: rowCol.col,
+            }).emitToNearbyPlayers() as Dynamic;
+        }
+
+        setTimeout(this.spawnWave.bind(this), invasionWaveRate);
     }
 }
 

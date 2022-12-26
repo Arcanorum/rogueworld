@@ -1,17 +1,21 @@
 import { Settings } from '@rogueworld/configs';
 import { GameMap, Maps } from '@rogueworld/maps';
-import { DayPhases, ObjectOfUnknown, RowCol } from '@rogueworld/types';
+import { DayPhases, ObjectOfUnknown } from '@rogueworld/types';
 import {
-    arrayMultiPush, arrayOfObjectsToObject, getRandomElement, message, warning,
+    arrayMultiPush, arrayOfObjectsToObject, error, message, warning,
 } from '@rogueworld/utils';
 import { Board } from '.';
-import { AccountDocument, loadPlayerData, logOut } from '../database';
+import {
+    AccountDocument, isDBConnected, loadPlayerData, logOut,
+} from '../database';
 import Player from '../entities/classes/Player';
 import { EntitiesList } from '../entities';
 import { webSocketServer as wss } from '../Server';
 import PlayerWebSocket from '../websocket_events/PlayerWebSocket';
 import { boardsArray, boardsObject } from './BoardsList';
 import { createClientBoardData } from './CreateClientBoardData';
+import WorldTree from '../entities/classes/WorldTree';
+import { updateWorldDocument, WorldModel } from '../database/world';
 
 // Set up the day phase cycle.
 const dayPhaseCycle: Array<DayPhases> = [];
@@ -61,18 +65,29 @@ const World = {
     /** The time of day. Dawn, night, etc. */
     dayPhase: DayPhases.Day,
 
+    /**
+     * What level/progress/difficulty this world is up to.
+     * Resets when the world tree is destroyed.
+     */
+    level: 1,
+
+    /** The highest level ever reached by any world tree. */
+    highestLevelRecord: 1,
+
     /** Whether the game world has been initialised and is ready to be used. */
     initialised: false,
 
-    init() {
-        Maps.forEach((map) => {
-            if (this.createBoard(map)) {
-                // Do this after the board/dungeon manager is created, or the client board data
-                // won't have the dungeon manager ID to use for any dungeon portals that need that
-                // ID.
-                createClientBoardData(map);
-            }
-        });
+    async init() {
+        const map = Maps[0];
+
+        if (this.createBoard(map)) {
+            // Do this after the board/dungeon manager is created, or the client board data
+            // won't have the dungeon manager ID to use for any dungeon portals that need that
+            // ID.
+            createClientBoardData(map);
+        }
+
+        await this.loadWorld();
 
         // Start the day/night cycle loop.
         setTimeout(this.progressTime, dayPhaseRate);
@@ -164,13 +179,16 @@ const World = {
             return;
         }
 
-        const randomPosition: RowCol = getRandomElement(
-            boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME].entranceTilePositions,
-        );
+        // Get a random position around the world tree.
+        const randomPosition = boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME]
+            .worldTree?.getRandomPositionInRange(
+                WorldTree.rangeOfInfluence,
+                false,
+            );
 
         const playerEntity = new (EntitiesList.BY_NAME.Player as typeof Player)({
-            row: 50, // randomPosition.row,
-            col: 50, // randomPosition.col,
+            row: randomPosition?.row || 0,
+            col: randomPosition?.col || 0,
             board: boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME],
             displayName: account.displayName,
             socket: clientSocket,
@@ -217,13 +235,16 @@ const World = {
             return;
         }
 
-        const randomPosition: RowCol = getRandomElement(
-            boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME].entranceTilePositions,
-        );
+        // Get a random position around the world tree.
+        const randomPosition = boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME]
+            .worldTree?.getRandomPositionInRange(
+                WorldTree.rangeOfInfluence,
+                false,
+            );
 
         const playerEntity = new (EntitiesList.BY_NAME.Player as typeof Player)({
-            row: 50, // randomPosition.row,
-            col: 50, // randomPosition.col,
+            row: randomPosition?.row || 0,
+            col: randomPosition?.col || 0,
             board: boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME],
             displayName,
             socket: clientSocket,
@@ -309,6 +330,69 @@ const World = {
         setTimeout(World.progressTime, dayPhaseRate);
     },
 
+    async loadWorld() {
+        const board = boardsArray[0];
+        if (isDBConnected()) {
+            // Get the world document so the world tree can be placed back in the same position.
+            const worldDocument = await WorldModel.findOne();
+
+            if (worldDocument) {
+                board.addExistingWorldTree(worldDocument.spawnRow, worldDocument.spawnCol);
+            }
+            else {
+                board.addNewWorldTree();
+
+                updateWorldDocument({
+                    level: World.level,
+                    highestLevelRecord: World.highestLevelRecord,
+                    spawnRow: board.worldTree!.row,
+                    spawnCol: board.worldTree!.col,
+                });
+            }
+
+            return;
+        }
+
+        board.addNewWorldTree();
+    },
+
+    levelUp() {
+        this.level += 1;
+
+        const board = boardsArray[0];
+
+        if (!board.worldTree) {
+            error('World.levelUp, world tree is not defined when it should be!');
+            return;
+        }
+
+        updateWorldDocument({
+            level: World.level,
+            highestLevelRecord: World.highestLevelRecord,
+            spawnRow: board.worldTree.row,
+            spawnCol: board.worldTree.col,
+        });
+    },
+
+    reset() {
+        this.level = 1;
+
+        const board = boardsArray[0];
+
+        board.addNewWorldTree();
+
+        if (!board.worldTree) {
+            error('World.reset, world tree is not defined when it should be!');
+            return;
+        }
+
+        updateWorldDocument({
+            level: World.level,
+            highestLevelRecord: World.highestLevelRecord,
+            spawnRow: board.worldTree.row,
+            spawnCol: board.worldTree.col,
+        });
+    },
 };
 
 export default World;

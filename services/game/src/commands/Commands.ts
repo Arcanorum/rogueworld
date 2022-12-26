@@ -266,4 +266,41 @@ Commands.killself = {
     `,
 };
 
+Commands.killarea = {
+    run:
+        (player, ...options: [number]) => {
+            let [range] = options;
+
+            if (!range) range = 10;
+
+            for (let rowOffset = -range; rowOffset <= range; rowOffset += 1) {
+                for (let colOffset = -range; colOffset <= range; colOffset += 1) {
+                    const tile = player.board?.getTileAt(
+                        player.row + rowOffset,
+                        player.col + colOffset,
+                    );
+                    /* eslint-disable-next-line */
+                    if (!tile) continue;
+
+                    Object.values(tile.entities).forEach((entity) => {
+                        if (entity === player) return;
+
+                        entity.damage({
+                            amount: 99999,
+                            types: [
+                                DamageTypes.Biological,
+                                DamageTypes.Magical,
+                                DamageTypes.Physical,
+                            ],
+                            penetration: 100,
+                        });
+                    });
+                }
+            }
+        },
+    help: `
+        Kills all entities around you (except yourself) within the given range (default 10).
+    `,
+};
+
 export default Commands;

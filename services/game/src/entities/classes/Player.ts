@@ -1,6 +1,6 @@
 import { Settings } from '@rogueworld/configs';
-import { ObjectOfUnknown, Offset, RowCol } from '@rogueworld/types';
-import { getRandomElement, warning } from '@rogueworld/utils';
+import { ObjectOfUnknown, Offset } from '@rogueworld/types';
+import { warning } from '@rogueworld/utils';
 import { CraftingRecipesList } from '../../crafting';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
@@ -14,6 +14,7 @@ import { Board } from '../../space';
 import { boardsObject } from '../../space/BoardsList';
 import PlayerWebSocket from '../../websocket_events/PlayerWebSocket';
 import Entity, { EntityConfig } from './Entity';
+import WorldTree from './WorldTree';
 
 interface PlayerConfig extends EntityConfig {
     socket: PlayerWebSocket;
@@ -182,16 +183,18 @@ class Player extends Entity {
 
         this.startFoodDrainLoop();
 
-        // Reposition them to somewhere within the respawn entrance bounds.
-        const randomPosition: RowCol = getRandomElement(
-            boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME].entranceTilePositions,
-        );
+        // Reposition them to somewhere around the world tree.
+        const randomPosition = boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME]
+            .worldTree?.getRandomPositionInRange(
+                WorldTree.rangeOfInfluence,
+                false,
+            );
 
         this.changeBoard(
             this.board,
             boardsObject[Settings.PLAYER_SPAWN_BOARD_NAME],
-            randomPosition.row,
-            randomPosition.col,
+            randomPosition?.row || 0,
+            randomPosition?.col || 0,
         );
 
         this.socket?.sendEvent('player_respawn');

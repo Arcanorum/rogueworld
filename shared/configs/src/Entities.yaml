@@ -1,4 +1,17 @@
+- name: WorldTree
+  code: ORNR8756
+  extends: WorldTree
+  highBlocking: true
+  baseMaxHitPoints: 5000
+  baseGloryValue: 0
+  clientConfig:
+    extendsClassName: Boss
+    displayNameId: World Tree
+    animationSetName: world-tree
+    animationFrameSequence: [1]
+
 - name: Bandit
+  extends: Invader
   baseMaxHitPoints: 50
   baseGloryValue: 30
   baseDefence: 30
@@ -6,9 +19,6 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
-  spawnGroundTypes:
-    - Grass
-  spawnCategory: mobs
   actions:
     - iron-sword
   dropList:
@@ -30,9 +40,6 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
-  spawnGroundTypes:
-    - Grass
-  spawnCategory: mobs
   actions:
     - punch
     - bite
@@ -57,9 +64,6 @@
   baseWanderRate: 10000
   baseAttackRange: 2
   viewRange: 8
-  spawnGroundTypes:
-    - Grass
-  spawnCategory: mobs
   actions:
     - iron-spear
   dropList:
@@ -81,9 +85,6 @@
   baseWanderRate: 10000
   baseAttackRange: 1
   viewRange: 8
-  spawnGroundTypes:
-    - Snow
-  spawnCategory: mobs
   actions:
     - punch
   dropList:
@@ -105,9 +106,6 @@
   baseWanderRate: 10000
   baseAttackRange: 2
   viewRange: 8
-  spawnGroundTypes:
-    - Snow
-  spawnCategory: mobs
   actions:
     - iron-sword
   dropList:

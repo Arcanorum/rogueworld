@@ -9,7 +9,7 @@ import { GroundTypes } from '.';
 import { GroundTypeName } from './GroundTypes';
 
 // A recent version of Tiled may have changed the tileset.tiles property to be an
-// array of {id: Number, type: String}
+// array of {id: Number, class: String}
 // Map the values back to an object by ID.
 export const groundTilesetTiles = Tilesets.groundTileset.tiles.reduce((map, obj) => {
     map[obj.id] = obj;
@@ -55,7 +55,7 @@ export const createClientBoardData = (map: GameMap) => {
     let tilesData: Array<number>;
     // A tile layer tile on the tilemap data.
     let mapTile: number;
-    let type: GroundTypeName;
+    let className: GroundTypeName;
     let row: number;
     let col: number;
 
@@ -79,8 +79,8 @@ export const createClientBoardData = (map: GameMap) => {
             if (groundTilesetTiles[mapTile] === undefined) {
                 error(`Invalid/empty map tile found while creating client board data: ${map.name} at row: ${row}, col: ${col}`);
             }
-            // Get and separate the type from the prefix using the tile GID.
-            type = groundTilesetTiles[mapTile].type;
+            // Get and separate the class from the prefix using the tile GID.
+            className = groundTilesetTiles[mapTile].class;
             // Move to the next row when at the width of the map.
             if (col === map.data.width) {
                 col = 0;
@@ -88,9 +88,9 @@ export const createClientBoardData = (map: GameMap) => {
             }
             // Keep the tile number to create the client map data.
             clientData.groundGrid[row][col] = mapTile;
-            // Check that the type of this tile is a valid one.
-            if (!GroundTypes[type]) {
-                warning(`Invalid ground mapTile type: ${type}`);
+            // Check that the class of this tile is a valid one.
+            if (!GroundTypes[className]) {
+                warning(`Invalid ground mapTile class: ${className}`);
             }
             // Move to the next column.
             col += 1;

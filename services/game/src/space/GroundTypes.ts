@@ -4,7 +4,6 @@ import DamageTypes from '../gameplay/DamageTypes';
 
 export type GroundTypeName =
     'Empty' |
-    'PlayerSpawn' |
     'Path' |
     'Grass' |
     'Dirt' |
@@ -22,7 +21,6 @@ const {
 } = status_effects;
 
 const Empty = new GroundTile();
-const PlayerSpawn = new GroundTile();
 const Path = new GroundTile();
 const Grass = new GroundTile();
 const Dirt = new GroundTile();
@@ -36,7 +34,6 @@ const Spikes = new GroundTile();
 
 const init = () => {
     Empty.init({ name: 'Empty', canBeStoodOn: false });
-    PlayerSpawn.init({ name: 'PlayerSpawn' });
     Path.init({ name: 'Path' });
     Grass.init({ name: 'Grass', canBeBuiltOn: true, gatherItemTypeName: 'Clay' });
     Dirt.init({ name: 'Dirt', canBeBuiltOn: true });
@@ -59,7 +56,6 @@ const init = () => {
 export {
     init,
     Empty,
-    PlayerSpawn,
     Path,
     Grass,
     Dirt,

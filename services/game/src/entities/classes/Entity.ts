@@ -6,6 +6,7 @@ import {
     ObjectOfUnknown,
     Offset,
     RowCol,
+    RowColOffsetsByDirection,
     SpriteConfig,
 } from '@rogueworld/types';
 import { Counter, getRandomElement, getRandomIntInclusive } from '@rogueworld/utils';
@@ -19,7 +20,6 @@ import { rowColOffsetToDirection } from '../../gameplay/Directions';
 import Heal from '../../gameplay/Heal';
 import { Curse, Enchantment } from '../../gameplay/magic_effects';
 import { StatusEffect } from '../../gameplay/status_effects';
-import { GroundTile } from '../../space';
 import Board from '../../space/Board';
 import { Populator } from '../../space/PopulationManager';
 
@@ -226,8 +226,16 @@ class Entity {
      */
     spawnedBy?: Entity | Populator = undefined;
 
+    /**
+     * The type of entity this entity will transform into, after some criteria, usually after a
+     * timer (see `Entity.transformactionTimer`).
+     */
     static TransformationEntityType?: typeof Entity = undefined;
 
+    /**
+     * How long this entity will last for before it transforms into another type of entity, as
+     * defined by `Entity.TransformationEntityType`.
+     */
     static transformationTimer?: number = undefined;
 
     constructor(config: EntityConfig) {
@@ -274,7 +282,10 @@ class Entity {
         // Prevent entities that are spawned by a system from being persisted, otherwise repeated
         // restarts would just keep stacking them, going over any intended max population for that
         // entity category.
-        if (!this.spawnedBy && EntityType.typeCode) {
+        // Also ignore the world tree, as it should be persisted elsewhere, as we can't guarantee
+        // there will be room on the board to add it as a regular persisted entity if the world is
+        // already full when it tries to add the world tree, if it is too late to be added.
+        if (!this.spawnedBy && EntityType.typeCode && EntityType.typeCode !== 'ORNR8756') {
             if (config.documentId) {
                 this.startUpdateDocumentLoop(config.documentId);
             }
@@ -978,6 +989,86 @@ class Entity {
         // They must be on top of each other.
         // Pick a random direction so they have something to work with.
         return getRandomElement(DirectionsValues);
+    }
+
+    /**
+     * Gets a random row & col around this entity within the given range.
+     * Useful for spawning entities somewhere around another entity.
+     * @param range How far away from this entity to get a position within.
+     * @param includeOwnPosition Whether or not to include the position of this entity as a valid
+     * position to return. Default false.
+     */
+    getRandomPositionInRange(range: number, includeOwnPosition = true) {
+        let randomRow = this.row + getRandomIntInclusive(-range, +range);
+        let randomCol = this.col + getRandomIntInclusive(-range, +range);
+
+        if (!includeOwnPosition) {
+            // If it would be on top of this entity, move it up, down, left or right randomly.
+            if (randomRow === this.row && randomCol === this.col) {
+                const randomOffset = getRandomElement(
+                    Object.values(RowColOffsetsByDirection),
+                );
+                randomRow += randomOffset.row;
+                randomCol += randomOffset.col;
+            }
+        }
+
+        // TODO: check these for validity on the board, might be random and out of bounds.
+        return {
+            row: randomRow,
+            col: randomCol,
+        };
+    }
+
+    /**
+     * Gets all of the row/cols around (as in the square/diameter around it) this entity at the
+     * given range.
+     */
+    getRowColsAtRange(range: number) {
+        const rowCols: RowCol[] = [];
+
+        // Top edge.
+        const topRow = this.row - range;
+        for (let col = -range; col <= range; col += 1) {
+            rowCols.push({
+                row: topRow,
+                col: this.col + col,
+            });
+        }
+
+        // Bottom edge.
+        const bottomRow = this.row + range;
+        for (let col = -range; col <= range; col += 1) {
+            rowCols.push({
+                row: bottomRow,
+                col: this.col + col,
+            });
+        }
+
+        // Since we got the full rows of the top and bottom, we need to exclude those top and
+        // bottom rows from the sides, or the corners will be counted twice.
+        const rangeMinusOne = range - 1;
+
+        // Left edge.
+        const leftCol = this.col - range;
+        for (let row = -rangeMinusOne; row <= rangeMinusOne; row += 1) {
+            rowCols.push({
+                row: this.row + row,
+                col: leftCol,
+            });
+        }
+
+        // Left edge.
+        const rightCol = this.col + range;
+        for (let row = -rangeMinusOne; row <= rangeMinusOne; row += 1) {
+            rowCols.push({
+                row: this.row + row,
+                col: rightCol,
+            });
+        }
+
+        // TODO: check these for validity on the board, might be out of bounds.
+        return rowCols;
     }
 }
 

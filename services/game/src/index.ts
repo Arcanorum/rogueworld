@@ -33,7 +33,8 @@ async function init() {
     await connect();
 
     GroundTypes.init();
-    World.init();
+
+    await World.init();
 
     message('Game service started.');
 }

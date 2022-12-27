@@ -17,6 +17,7 @@ import ActionsList from '../../gameplay/actions/ActionsList';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
+import Factions from '../../gameplay/Factions';
 import Heal from '../../gameplay/Heal';
 import { Curse, Enchantment } from '../../gameplay/magic_effects';
 import { StatusEffect } from '../../gameplay/status_effects';
@@ -195,7 +196,9 @@ class Entity {
 
     defence?: number;
 
-    // static faction?: number = undefined;
+    static baseFaction = Factions.Naturals;
+
+    protected faction: number;
 
     static craftingStationClass?: string = undefined;
 
@@ -278,6 +281,8 @@ class Entity {
         if (EntityType.baseGloryValue) {
             this.gloryValue = EntityType.baseGloryValue;
         }
+
+        this.faction = EntityType.baseFaction;
 
         // Prevent entities that are spawned by a system from being persisted, otherwise repeated
         // restarts would just keep stacking them, going over any intended max population for that

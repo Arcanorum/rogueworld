@@ -4,6 +4,7 @@
   highBlocking: true
   baseMaxHitPoints: 5000
   baseGloryValue: 0
+  baseFaction: Players
   clientConfig:
     extendsClassName: Boss
     displayNameId: World Tree
@@ -18,7 +19,6 @@
   baseMoveRate: 700
   baseWanderRate: 10000
   baseAttackRange: 1
-  viewRange: 8
   actions:
     - iron-sword
   dropList:
@@ -257,9 +257,6 @@
   transformationTimer: 600000
   categories:
     - Crop
-  spawnGroundTypes:
-    - Grass
-  spawnCategory: forage
   clientConfig:
     displayNameId: Carrot seedling
     animationSetName: carrot-seedling
@@ -326,6 +323,7 @@
   baseMaxHitPoints: 100
   baseGloryValue: 10
   craftingStationClass: Furnace
+  baseFaction: Players
   clientConfig:
     displayNameId: Clay oven
     showDisplayNameOnHover: false
@@ -338,6 +336,7 @@
   baseMaxHitPoints: 100
   baseGloryValue: 10
   craftingStationClass: Workbench
+  baseFaction: Players
   clientConfig:
     displayNameId: Workbench
     showDisplayNameOnHover: false
@@ -350,6 +349,7 @@
   baseMaxHitPoints: 100
   baseGloryValue: 10
   craftingStationClass: Anvil
+  baseFaction: Players
   clientConfig:
     displayNameId: Anvil
     showDisplayNameOnHover: false
@@ -362,6 +362,7 @@
   baseMaxHitPoints: 100
   baseGloryValue: 10
   craftingStationClass: Laboratory
+  baseFaction: Players
   clientConfig:
     displayNameId: Laboratory
     showDisplayNameOnHover: false
@@ -373,6 +374,7 @@
   highBlocking: true
   baseMaxHitPoints: 50
   baseGloryValue: 5
+  baseFaction: Players
   clientConfig:
     displayNameId: Wooden fence
     showDisplayNameOnHover: false
@@ -384,6 +386,7 @@
   highBlocking: true
   baseMaxHitPoints: 200
   baseGloryValue: 5
+  baseFaction: Players
   clientConfig:
     displayNameId: Brick wall
     showDisplayNameOnHover: false
@@ -396,6 +399,7 @@
   highBlocking: true
   baseMaxHitPoints: 50
   baseGloryValue: 5
+  baseFaction: Players
   clientConfig:
     extendsClassName: Door
     displayNameId: Wooden door

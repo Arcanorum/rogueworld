@@ -11,6 +11,7 @@ import Drop, { DropConfig } from '../gameplay/Drop';
 import { GroundTypes } from '../space';
 import { GroundTypeName } from '../space/GroundTypes';
 import { SpawnCategories } from '../space/GroundTile';
+import Factions from '../gameplay/Factions';
 
 /**
  * Creates a generic class for an entity based on the Dynamic class, or one of it's abstract
@@ -190,6 +191,13 @@ export const initialiseList = () => {
                         // itself once we have added the entity type to the ground type, as that
                         // is all this property is used for.
                         return;
+                    }
+
+                    // Check the faction is valid and get the actual number value.
+                    if (key === 'baseFaction') {
+                        if (!Object.hasOwn(Factions, value as string)) error('Invalid faction name. Must be in the factions list:', value);
+
+                        value = (Factions as any)[value as string];
                     }
 
                     // eslint-disable-next-line

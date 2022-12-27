@@ -1,4 +1,4 @@
-let counter = 1;
+let counter = 0;
 function registerFaction() {
     counter += 1;
     return counter;
@@ -17,81 +17,29 @@ export const FactionRelationshipStatuses = {
 };
 
 const Factions = {
-    Barbarians: registerFaction(),
-    CityGuards: registerFaction(),
-    Citizens: registerFaction(),
-    Goblins: registerFaction(),
-    HostileAnimals: registerFaction(),
-    Mages: registerFaction(),
-    Necromancers: registerFaction(),
-    Outlaws: registerFaction(),
-    PeacefulAnimals: registerFaction(),
-    Vampires: registerFaction(),
-    Zombies: registerFaction(),
+    Players: registerFaction(),
+    Naturals: registerFaction(),
+    Invaders: registerFaction(),
 };
 
 const Relationships = {
-
-    [Factions.CityGuards]: {
-        [Factions.CityGuards]: FactionRelationshipStatuses.Friendly,
-        [Factions.Citizens]: FactionRelationshipStatuses.Friendly,
-        [Factions.Mages]: FactionRelationshipStatuses.Friendly,
-        [Factions.Outlaws]: FactionRelationshipStatuses.Hostile,
-        [Factions.Zombies]: FactionRelationshipStatuses.Hostile,
+    [Factions.Players]: {
+        [Factions.Players]: FactionRelationshipStatuses.Friendly,
+        [Factions.Naturals]: FactionRelationshipStatuses.Neutral,
+        [Factions.Invaders]: FactionRelationshipStatuses.Neutral,
     },
 
-    [Factions.Goblins]: {
-        [Factions.CityGuards]: FactionRelationshipStatuses.Hostile,
-        [Factions.Outlaws]: FactionRelationshipStatuses.Hostile,
-        [Factions.Citizens]: FactionRelationshipStatuses.Hostile,
-        [Factions.Barbarians]: FactionRelationshipStatuses.Hostile,
+    [Factions.Naturals]: {
+        [Factions.Naturals]: FactionRelationshipStatuses.Neutral,
+        [Factions.Players]: FactionRelationshipStatuses.Neutral,
+        [Factions.Invaders]: FactionRelationshipStatuses.Neutral,
     },
 
-    [Factions.Outlaws]: {
-        [Factions.Outlaws]: FactionRelationshipStatuses.Friendly,
-        [Factions.CityGuards]: FactionRelationshipStatuses.Hostile,
-        [Factions.Citizens]: FactionRelationshipStatuses.Hostile,
+    [Factions.Invaders]: {
+        [Factions.Invaders]: FactionRelationshipStatuses.Friendly,
+        [Factions.Players]: FactionRelationshipStatuses.Hostile,
+        [Factions.Naturals]: FactionRelationshipStatuses.Neutral,
     },
-
-    [Factions.Zombies]: {
-        [Factions.Zombies]: FactionRelationshipStatuses.Friendly,
-        [Factions.Outlaws]: FactionRelationshipStatuses.Hostile,
-        [Factions.Barbarians]: FactionRelationshipStatuses.Hostile,
-        [Factions.Citizens]: FactionRelationshipStatuses.Hostile,
-        [Factions.CityGuards]: FactionRelationshipStatuses.Hostile,
-        [Factions.Vampires]: FactionRelationshipStatuses.Hostile,
-        [Factions.Mages]: FactionRelationshipStatuses.Hostile,
-    },
-
-    [Factions.HostileAnimals]: {
-        [Factions.HostileAnimals]: FactionRelationshipStatuses.Friendly,
-        [Factions.Outlaws]: FactionRelationshipStatuses.Hostile,
-        [Factions.Barbarians]: FactionRelationshipStatuses.Hostile,
-        [Factions.CityGuards]: FactionRelationshipStatuses.Hostile,
-        [Factions.Citizens]: FactionRelationshipStatuses.Hostile,
-        [Factions.PeacefulAnimals]: FactionRelationshipStatuses.Hostile,
-        [Factions.Goblins]: FactionRelationshipStatuses.Hostile,
-        [Factions.Mages]: FactionRelationshipStatuses.Hostile,
-    },
-
-    [Factions.Mages]: {
-        [Factions.Mages]: FactionRelationshipStatuses.Friendly,
-        [Factions.CityGuards]: FactionRelationshipStatuses.Friendly,
-        [Factions.Citizens]: FactionRelationshipStatuses.Friendly,
-        [Factions.Zombies]: FactionRelationshipStatuses.Hostile,
-        [Factions.Necromancers]: FactionRelationshipStatuses.Hostile,
-    },
-
-    [Factions.Vampires]: {
-        [Factions.Vampires]: FactionRelationshipStatuses.Friendly,
-        [Factions.Outlaws]: FactionRelationshipStatuses.Hostile,
-        [Factions.Barbarians]: FactionRelationshipStatuses.Hostile,
-        [Factions.CityGuards]: FactionRelationshipStatuses.Hostile,
-        [Factions.Citizens]: FactionRelationshipStatuses.Hostile,
-        [Factions.Zombies]: FactionRelationshipStatuses.Hostile,
-        [Factions.Mages]: FactionRelationshipStatuses.Hostile,
-    },
-
 };
 
 export function getFactionRelationship(fromFaction: number, toFaction: number) {

@@ -5,6 +5,7 @@ import { CraftingRecipesList } from '../../crafting';
 import Damage from '../../gameplay/Damage';
 import DamageTypes from '../../gameplay/DamageTypes';
 import { rowColOffsetToDirection } from '../../gameplay/Directions';
+import Factions from '../../gameplay/Factions';
 import Heal from '../../gameplay/Heal';
 import { Inventory, ItemState } from '../../inventory';
 import Ammunition from '../../items/classes/ammunition/Ammunition';
@@ -45,6 +46,8 @@ class Player extends Entity {
     foodDrainAmount: number = Settings.PLAYER_FOOD_DRAIN_AMOUNT || 0;
 
     foodDrainLoop = setTimeout(() => { /**/ });
+
+    static baseFaction = Factions.Players;
 
     moveRate = Settings.PLAYER_MOVE_RATE || 1000;
 

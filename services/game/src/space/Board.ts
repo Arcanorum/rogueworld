@@ -41,7 +41,7 @@ const entitiesString = 'entities';
 const playersString = 'players';
 const pickupsString = 'pickups';
 
-const invasionWaveRate = OneMinute;
+const invasionWaveRate = OneMinute * 1;
 
 class Board {
     /**
@@ -723,7 +723,7 @@ class Board {
         // Spawn in a square around the world tree.
         const rowCols = this.worldTree.getRowColsAtRange(10);
 
-        const invaderCount = 4;
+        const invaderCount = 10;
 
         for (let i = 0; i < invaderCount; i += 1) {
             const EntityType = getRandomElement(invaderEntityTypes);

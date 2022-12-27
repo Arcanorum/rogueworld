@@ -26,7 +26,7 @@ const Relationships = {
     [Factions.Players]: {
         [Factions.Players]: FactionRelationshipStatuses.Friendly,
         [Factions.Naturals]: FactionRelationshipStatuses.Neutral,
-        [Factions.Invaders]: FactionRelationshipStatuses.Neutral,
+        [Factions.Invaders]: FactionRelationshipStatuses.Hostile,
     },
 
     [Factions.Naturals]: {

@@ -87,7 +87,6 @@
 # craftTasks
 # Optional. A list of the names of tasks that will be progressed when this item is crafted. e.g. Craft,
 
-
 # Ammunition
 
 # - name: AgoniteArrows
@@ -347,7 +346,6 @@
   clientConfig:
     translationId: Cooked meat
     textureSource: cooked-meat
-
 
 # Holdable
 
@@ -1125,6 +1123,15 @@
     translationId: Wooden door
     textureSource: wooden-door
 
+- name: FireTurret
+  code: NIPJ6146
+  extends: Holdable
+  unitWeight: 20
+  entityTypeSpawnedOnUse: FireTurret
+  clientConfig:
+    translationId: Fire turret
+    textureSource: anvil
+
 - name: CarrotSeed
   code: WGVF9970
   extends: Holdable
@@ -1406,7 +1413,7 @@
 #   clientConfig:
 #     translationId: Heart of the mountain
 #     textureSource: heart-of-the-mountain
-  
+
 - name: IceShard
   code: XRHI1546
   unitWeight: GenericMaterial

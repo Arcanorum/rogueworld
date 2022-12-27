@@ -86,7 +86,7 @@ class Dynamic extends Entity {
         if (EntityType.targetSearchRate) {
             if (EntityType.targetSearchRate > 0) {
                 this.targetSearchLoop = setTimeout(
-                    this.getNearestHostile.bind(this),
+                    this.targetNearestHostile.bind(this),
                     EntityType.targetSearchRate
                     + getRandomIntInclusive(0, EntityType.targetSearchRate),
                 );
@@ -254,21 +254,23 @@ class Dynamic extends Entity {
     }
 
     onDamage(damage: Damage, damagedBy?: Entity) {
-        if (damagedBy instanceof Player) {
-            this.setTarget(damagedBy);
-        }
-        else if (damagedBy instanceof Entity) {
-            // // Check the faction relationship for if to target the attacker or not.
-            // // If damaged by a friendly entity, ignore the damage.
-            // if (getFactionRelationship(
-            //     this.faction,
-            //     damagedBy.faction,
-            // ) === FactionRelationshipStatuses.Friendly) {
-            //     return;
-            // }
-            // // Damaged by a hostile or neutral entity, target it.
+        if (damagedBy) {
+            // Check the faction relationship for if to target the attacker or not.
+            // If damaged by a friendly entity, ignore the damage.
+            if (getFactionRelationship(
+                this.faction,
+                damagedBy.faction,
+            ) === FactionRelationshipStatuses.Friendly) {
+                return;
+            }
+            // Damaged by a hostile or neutral entity, target it.
 
-            // this.setTarget();
+            // Only bother if they are within the attack range so the can attack it right away,
+            // otherwise they can keep getting distacted when attacked frequently from different
+            // directions, constantly switching targets but getting nowhere.
+            if (this.target && this.isEntityWithinAttackRange(damagedBy)) {
+                this.setTarget(damagedBy);
+            }
         }
 
         // this.lastDamagedTime = Date.now();
@@ -409,6 +411,25 @@ class Dynamic extends Entity {
         }
 
         return nearestEntity;
+    }
+
+    targetNearestHostile() {
+        if (this.targetSearchLoop) {
+            const EntityType = this.constructor as typeof Dynamic;
+            // Prevent multiple target search loops from being created if this function is called
+            // again.
+            clearTimeout(this.targetSearchLoop);
+            this.targetSearchLoop = setTimeout(
+                this.targetNearestHostile.bind(this),
+                EntityType.targetSearchRate,
+            );
+        }
+
+        const nearestHostile = this.getNearestHostile();
+
+        if (nearestHostile) {
+            this.setTarget(nearestHostile);
+        }
     }
 }
 

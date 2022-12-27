@@ -15,7 +15,7 @@ interface Action {
     name: string;
     /**
      * The delay between this action being started and it being completed.
-     * Can be cancelled/interupted during this time.
+     * Can be cancelled/interrupted during this time.
      */
     duration: number;
     /**

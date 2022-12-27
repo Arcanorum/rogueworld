@@ -198,7 +198,7 @@ class Entity {
 
     static baseFaction = Factions.Naturals;
 
-    protected faction: number;
+    faction: number;
 
     static craftingStationClass?: string = undefined;
 

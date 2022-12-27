@@ -406,3 +406,21 @@
     showDisplayNameOnHover: false
     animationSetName: wooden-door
     animationFrameSequence: [1]
+
+- name: FireTurret
+  code: JRHX3057
+  highBlocking: true
+  baseMaxHitPoints: 50
+  baseDefence: 50
+  baseAttackRange: 10
+  viewRange: 10
+  baseMoveRate: 5000
+  targetSearchRate: 5000
+  actions:
+    - fireball
+  baseFaction: Players
+  clientConfig:
+    extendsClassName: Mob
+    displayNameId: Fire turret
+    showDisplayNameOnHover: false
+    animationSetName: fire-turret

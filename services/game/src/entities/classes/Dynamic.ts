@@ -2,6 +2,8 @@ import {
     DirectionsPermutationsAsRowColOffsets, Offset, RowCol, RowColOffsetsByDirection,
 } from '@rogueworld/types';
 import { getRandomElement, getRandomIntInclusive, tileDistanceBetween } from '@rogueworld/utils';
+import { ActionsList } from '../../gameplay/actions';
+import { ConditionFunction } from '../../gameplay/actions/Action';
 import Damage from '../../gameplay/Damage';
 import Drop from '../../gameplay/Drop';
 import { FactionRelationshipStatuses, getFactionRelationship } from '../../gameplay/Factions';
@@ -134,7 +136,9 @@ class Dynamic extends Entity {
             // If the target is out of the attack range, move closer.
             if (!this.isEntityWithinAttackRange(this.target)) {
                 // Check to see if there are any closer hostiles to attack instead.
-                const potentialTarget = this.getNearestHostile();
+                const potentialTarget = this.getNearestOfRelationshipStatus(
+                    FactionRelationshipStatuses.Hostile,
+                );
 
                 // Check if the closest hostile is already the current target.
                 if (potentialTarget && potentialTarget !== this.target) {
@@ -347,10 +351,14 @@ class Dynamic extends Entity {
     }
 
     /**
-     * Gets the nearest entity to this entity that it considers hostile, according to it's faction
-     * status.
+     * Gets the nearest entity to this entity that it considers to be of the given relationship
+     * type, according to it's faction status.
      */
-    getNearestHostile() {
+    getNearestOfRelationshipStatus(
+        relationshipStatus: FactionRelationshipStatuses,
+        condition?: ConditionFunction,
+        conditionConfig?: any,
+    ) {
         const EntityType = this.constructor as typeof Dynamic;
         const { viewRange } = EntityType;
 
@@ -388,9 +396,20 @@ class Dynamic extends Entity {
                     // TODO: if using this function again, check the isHostileToCharacter faction.
                     const entity = entities[entityKey] as Dynamic;
 
+                    // Don't check against self.
+                    // eslint-disable-next-line no-continue
+                    if (entity === this) continue;
+
+                    // Sometimes we want to check a condition on the action this entity is about to
+                    // use before selecting a target.
+                    if (condition && !condition(this, undefined, entity, conditionConfig)) {
+                        // eslint-disable-next-line no-continue
+                        continue;
+                    }
+
                     // Check this entity is hostile towards the other entity.
                     if (getFactionRelationship(this.faction, entity.faction)
-                    === FactionRelationshipStatuses.Hostile) {
+                    === relationshipStatus) {
                         distBetween = (
                             Math.abs(this.col - entity.col)
                             + Math.abs(this.row - entity.row)
@@ -425,10 +444,38 @@ class Dynamic extends Entity {
             );
         }
 
-        const nearestHostile = this.getNearestHostile();
+        // If this entity has any beneficial actions that can be used on other
+        // friendly entities, search for a friendly entity.
+        const EntityType = this.constructor as typeof Entity;
+        const beneficialActionName = EntityType.actions?.find((actionName) => {
+            const action = ActionsList[actionName];
+            return action.beneficial;
+        });
 
-        if (nearestHostile) {
-            this.setTarget(nearestHostile);
+        let relationshipStatus = FactionRelationshipStatuses.Hostile;
+
+        let nearestTarget: Entity | null = null;
+
+        if (beneficialActionName) {
+            const beneficialAction = ActionsList[beneficialActionName];
+
+            relationshipStatus = FactionRelationshipStatuses.Friendly;
+
+            nearestTarget = this.getNearestOfRelationshipStatus(
+                relationshipStatus,
+                beneficialAction.condition,
+                beneficialAction.config,
+            );
+        }
+
+        if (!nearestTarget) {
+            nearestTarget = this.getNearestOfRelationshipStatus(
+                relationshipStatus,
+            );
+        }
+
+        if (nearestTarget) {
+            this.setTarget(nearestTarget);
         }
     }
 }

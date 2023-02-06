@@ -1,10 +1,10 @@
 import ActionsList from './ActionsList';
-import { ActionFunction } from './Action';
+import Action from './Action';
 
-function addAction(name: string, duration: number, run?: ActionFunction, config?: any) {
-    ActionsList[name] = {
-        name, duration, run, config,
-    };
+function addAction(
+    config: Action,
+) {
+    ActionsList[config.name] = config;
 }
 
 export default addAction;

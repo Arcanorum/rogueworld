@@ -26,6 +26,7 @@ import { groundTilesetTiles } from './CreateClientBoardData';
 import { GroundTypeName } from './GroundTypes';
 import PopulationManager from './PopulationManager';
 import Dynamic from '../entities/classes/Dynamic';
+import { webSocketServer as wss } from '../Server';
 
 const playerViewRange = Settings.PLAYER_VIEW_RANGE;
 /**
@@ -41,7 +42,7 @@ const entitiesString = 'entities';
 const playersString = 'players';
 const pickupsString = 'pickups';
 
-const invasionWaveRate = OneMinute * 1;
+const invasionWaveRate = OneMinute * 4;
 
 class Board {
     /**
@@ -120,6 +121,8 @@ class Board {
 
         // Start the attack wave cycle loop.
         setTimeout(this.spawnWave.bind(this), invasionWaveRate);
+        // Start a timer to warn the players just before the wave is due to arrive.
+        setTimeout(this.invasionWarning.bind(this), invasionWaveRate * 0.9);
     }
 
     init(mapData: TiledMap) {
@@ -716,17 +719,24 @@ class Board {
     }
 
     spawnWave() {
-        const invaderEntityTypes = [EntitiesList.BY_NAME.Bandit];
+        const InvaderEntityTypes = [
+            EntitiesList.BY_NAME.Bandit,
+            EntitiesList.BY_NAME.Lizardman,
+            EntitiesList.BY_NAME.LizardmanGuard,
+            EntitiesList.BY_NAME.Orc,
+            EntitiesList.BY_NAME.OrcBerserker,
+            EntitiesList.BY_NAME.FireElemental,
+        ];
 
         if (!this.worldTree) return;
 
         // Spawn in a square around the world tree.
-        const rowCols = this.worldTree.getRowColsAtRange(10);
+        const rowCols = this.worldTree.getRowColsAtRange(20);
 
-        const invaderCount = 10;
+        const invaderCount = 50;
 
         for (let i = 0; i < invaderCount; i += 1) {
-            const EntityType = getRandomElement(invaderEntityTypes);
+            const EntityType = getRandomElement(InvaderEntityTypes);
 
             const rowCol = getRandomElement(rowCols);
 
@@ -738,6 +748,17 @@ class Board {
         }
 
         setTimeout(this.spawnWave.bind(this), invasionWaveRate);
+        // Start a timer to warn the players just before the wave is due to arrive.
+        setTimeout(this.invasionWarning.bind(this), invasionWaveRate * 0.9);
+    }
+
+    invasionWarning() {
+        wss.broadcastToInGame('chat', {
+            id: this.worldTree?.id,
+            displayName: 'World Tree',
+            scope: 'GLOBAL',
+            content: 'The next invasion will arrive soon!',
+        });
     }
 }
 

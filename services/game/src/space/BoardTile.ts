@@ -25,7 +25,7 @@ class BoardTile {
      * Just add it as an own property for the tiles that need it.
      * Saves a lot of memory. Like, hundreds of MB...
      */
-    entities!: { [key: string]: Entity };
+    entities!: { [key: number]: Entity };
 
     /**
      * A sepearate list of entities that can be picked up by players and added to their inventory.

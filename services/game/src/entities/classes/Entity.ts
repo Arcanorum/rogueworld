@@ -551,7 +551,7 @@ class Entity {
      * @param source The entity that caused this healing.
      */
     heal(heal: Heal, source?: Entity) {
-    // Make sure the amount is valid.
+        // Make sure the amount is valid.
         if (heal.amount < 1) return;
 
         this.modHitPoints(heal, source);
@@ -890,6 +890,9 @@ class Entity {
             if (!action) return;
         }
 
+        // Check if the condition for using this action is met.
+        if (action.condition && !action.condition?.(this, undefined, entity, action.config)) return;
+
         // Check if it is a entity targetted action.
         if (entity) {
             this.startAction(action, undefined, entity, onComplete);
@@ -919,6 +922,13 @@ class Entity {
                 target: entity?.id,
             },
         );
+    }
+
+    checkStartActionCondition(action: Action, targetPosition?: RowCol, targetEntity?: Entity) {
+        return (
+            action.condition
+                ? action.condition(this, targetPosition, targetEntity, action.config)
+                : false);
     }
 
     startAction(

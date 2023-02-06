@@ -33,6 +33,7 @@
     animationSetName: bandit
 
 - name: Lizardman
+  extends: Invader
   baseMaxHitPoints: 50
   baseGloryValue: 40
   baseDefence: 30
@@ -57,6 +58,7 @@
     animationSetName: lizardman
 
 - name: LizardmanGuard
+  extends: Invader
   baseMaxHitPoints: 80
   baseGloryValue: 60
   baseDefence: 50
@@ -78,6 +80,7 @@
     animationSetName: lizardman-guard
 
 - name: Orc
+  extends: Invader
   baseMaxHitPoints: 80
   baseGloryValue: 50
   baseDefence: 30
@@ -99,6 +102,7 @@
     animationSetName: orc
 
 - name: OrcBerserker
+  extends: Invader
   baseMaxHitPoints: 80
   baseGloryValue: 70
   baseDefence: 50
@@ -189,6 +193,7 @@
     animationSetName: snake
 
 - name: FireElemental
+  extends: Invader
   baseMaxHitPoints: 60
   baseGloryValue: 40
   baseMoveRate: 600
@@ -422,5 +427,23 @@
   clientConfig:
     extendsClassName: Mob
     displayNameId: Fire turret
+    showDisplayNameOnHover: false
+    animationSetName: fire-turret
+
+- name: HealingTurret
+  code: BAPA5971
+  highBlocking: true
+  baseMaxHitPoints: 50
+  baseDefence: 50
+  baseAttackRange: 10
+  viewRange: 10
+  baseMoveRate: 5000
+  targetSearchRate: 5000
+  actions:
+    - heal
+  baseFaction: Players
+  clientConfig:
+    extendsClassName: Mob
+    displayNameId: Healing turret
     showDisplayNameOnHover: false
     animationSetName: fire-turret

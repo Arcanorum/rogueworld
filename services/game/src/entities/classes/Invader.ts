@@ -1,4 +1,4 @@
-import { OneSecond } from '@rogueworld/types';
+import { OneMinute, OneSecond } from '@rogueworld/types';
 import Factions from '../../gameplay/Factions';
 import Dynamic from './Dynamic';
 import { EntityConfig } from './Entity';
@@ -8,7 +8,7 @@ export default class Invader extends Dynamic {
 
     static viewRange = 20;
 
-    static baseLifespan = OneSecond * 30;
+    static baseLifespan = OneMinute;
 
     static targetSearchRate = OneSecond * 10;
 

@@ -1132,6 +1132,15 @@
     translationId: Fire turret
     textureSource: anvil
 
+- name: HealingTurret
+  code: IOLM6175
+  extends: Holdable
+  unitWeight: 20
+  entityTypeSpawnedOnUse: HealingTurret
+  clientConfig:
+    translationId: Healing turret
+    textureSource: anvil
+
 - name: CarrotSeed
   code: WGVF9970
   extends: Holdable

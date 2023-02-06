@@ -4,7 +4,7 @@ import Entity, { EntityConfig } from './Entity';
 import Player from './Player';
 
 export default class WorldTree extends Entity {
-    static rangeOfInfluence = 5;
+    static rangeOfInfluence = 1;
 
     constructor(config: EntityConfig) {
         super(config);

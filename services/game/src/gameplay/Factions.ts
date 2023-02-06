@@ -7,14 +7,14 @@ function registerFaction() {
 // TODO: add some kind of 'defaultRelationshipStatus' for factions to make them normally
 // hostile/friendly etc if a certain relationship is not specified
 // TODO: and maybe a 'hosileTo', 'friendlyTo, etc lists
-export const FactionRelationshipStatuses = {
+export enum FactionRelationshipStatuses {
     // Will help if attacked, heal if injured, etc.
-    Friendly: 1,
+    Friendly,
     // Attack on sight.
-    Hostile: 2,
+    Hostile,
     // Will attack if attacked. Default when no relationship specified.
-    Neutral: 3,
-};
+    Neutral,
+}
 
 const Factions = {
     Players: registerFaction(),

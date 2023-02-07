@@ -52,7 +52,7 @@
     "next": "12.1.0",
     "next-plugin-yaml": "1.0.1",
     "next-transpile-modules": "9.0.0",
-    "nodemon": "2.0.15",
+    "nodemon": "2.0.20",
     "outline-image": "0.0.5",
     "phaser": "3.60.0-beta.18",
     "pubsub-js": "1.9.3",

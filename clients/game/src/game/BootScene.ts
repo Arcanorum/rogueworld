@@ -122,11 +122,6 @@ class BootScene extends Phaser.Scene {
             GUIState.profanityFilterEnabled = profanityFilterEnabled;
         }
 
-        const lightFlickerEnabled = JSON.parse(localStorage.getItem('light_flicker_enabled') || 'null');
-        if (typeof lightFlickerEnabled === 'boolean') {
-            GUIState.lightFlickerEnabled = lightFlickerEnabled;
-        }
-
         const showFPS = JSON.parse(localStorage.getItem('show_fps') || 'null');
         if (typeof showFPS === 'boolean') {
             GUIState.showFPS = showFPS;

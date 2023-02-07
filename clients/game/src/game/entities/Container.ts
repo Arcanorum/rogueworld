@@ -16,6 +16,8 @@ class Container extends Phaser.GameObjects.Container {
         Global.gameScene.add.existing(this);
     }
 
+    preUpdate(time: number, delta: number) {}
+
     onMove(playMoveAnim?: boolean, moveAnimDuration?: number) { }
 
     /**

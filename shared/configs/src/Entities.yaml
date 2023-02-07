@@ -10,6 +10,7 @@
     displayNameId: World Tree
     animationSetName: world-tree
     animationFrameSequence: [1]
+    lightScale: 4
 
 - name: Bandit
   extends: Invader
@@ -213,6 +214,7 @@
     extendsClassName: Mob
     displayNameId: Fire elemental
     animationSetName: fire-elemental
+    lightScale: 2
 
 - name: PineTree
   highBlocking: true
@@ -334,6 +336,7 @@
     showDisplayNameOnHover: false
     animationSetName: clay-oven
     animationRepeats: true
+    lightScale: 1
 
 - name: Workbench
   code: LLSV8391
@@ -429,6 +432,7 @@
     displayNameId: Fire turret
     showDisplayNameOnHover: false
     animationSetName: fire-turret
+    lightScale: 2
 
 - name: HealingTurret
   code: BAPA5971
@@ -446,4 +450,5 @@
     extendsClassName: Mob
     displayNameId: Healing turret
     showDisplayNameOnHover: false
-    animationSetName: fire-turret
+    animationSetName: healing-turret
+    lightScale: 1

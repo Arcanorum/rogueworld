@@ -76,12 +76,6 @@ class GUI {
     /** Whether profanity in chat messages from other players should be censored. */
     profanityFilterEnabled!: boolean;
 
-    /**
-     * Whether tiles on the darkness layer of the tilemap should flicker when affected by a light
-     * source.
-     */
-    lightFlickerEnabled!: boolean;
-
     /** Whether the virtual D-pad is enabled. */
     virtualDPadEnabled!: boolean;
 
@@ -131,8 +125,6 @@ class GUI {
         this.showFPS = true;
 
         this.profanityFilterEnabled = true;
-
-        this.lightFlickerEnabled = true;
 
         this.virtualDPadEnabled = false;
     }

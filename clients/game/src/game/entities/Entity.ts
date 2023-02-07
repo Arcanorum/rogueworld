@@ -6,6 +6,8 @@ import { SELECTED_ENTITY_HITPOINTS } from '../../shared/EventTypes';
 import getTextDef from '../../shared/GetTextDef';
 import Global from '../../shared/Global';
 import { ApplicationState, GUIState, PlayerState } from '../../shared/state';
+import GameScene from '../GameScene';
+import renderOrder from '../RenderOrder';
 import Container from './Container';
 
 export interface EntityConfig {
@@ -51,6 +53,9 @@ class Entity extends Container {
 
     /** How long the animation should last, in ms. */
     static animationDuration = 500;
+
+    /** How much to scale the light sprite by that is used for the darkness mask. 0 = No light. */
+    static lightScale = 0;
 
     /** Whether this entity should allow opening the crafting panel, and for what station. */
     static craftingStationClass = '';
@@ -100,6 +105,8 @@ class Entity extends Container {
 
     actionTween?: Phaser.Tweens.Tween;
 
+    lightSource?: Phaser.GameObjects.Sprite;
+
     constructor(
         x: number,
         y: number,
@@ -134,6 +141,34 @@ class Entity extends Container {
             if (EntityType.animationSetName) {
                 this.baseSprite.anims.play(EntityType.animationSetName);
             }
+        }
+
+        if (EntityType.lightScale) {
+            const light = this.scene.make.sprite({
+                x,
+                y,
+                key: 'game-atlas',
+                frame: 'light-mask',
+                add: false,
+            });
+
+            light.setScale(EntityType.lightScale);
+
+            this.scene.tweens.add({
+                targets: light,
+                alpha: () => Phaser.Math.FloatBetween(0.7, 1),
+                duration: 400,
+                ease: 'Sine.easeInOut',
+                yoyo: true,
+                repeat: -1,
+                onRepeat: (tween) => {
+                    tween.setTimeScale(Phaser.Math.FloatBetween(0.5, 1));
+                },
+            });
+
+            (this.scene as GameScene).lightSources.add(light);
+
+            this.lightSource = light;
         }
 
         this.baseSprite.on('animationcomplete', this.moveAnimCompleted, this);
@@ -195,6 +230,8 @@ class Entity extends Container {
             );
         }
 
+        this.lightSource?.destroy();
+
         const { dynamics } = Global.gameScene;
 
         const playerDynamic = dynamics[PlayerState.entityId];
@@ -225,6 +262,15 @@ class Entity extends Container {
 
         if (this === GUIState.selectedEntity) {
             GUIState.setSelectedEntity(null);
+        }
+    }
+
+    preUpdate(time: number, delta: number) {
+        super.preUpdate(time, delta);
+
+        if (this.lightSource) {
+            this.lightSource.x = this.x;
+            this.lightSource.y = this.y;
         }
     }
 
@@ -389,7 +435,11 @@ class Entity extends Container {
         this.actionBorder.visible = true;
 
         this.actionIcon.visible = true;
-        this.actionIcon.setFrame(`action-${actionName}`);
+
+        // Make sure the action frame exists and is configured right.
+        if (this.actionIcon.texture.has(`action-${actionName}`)) {
+            this.actionIcon.setFrame(`action-${actionName}`);
+        }
 
         this.actionTimeout = setTimeout(this.endAction.bind(this, target), duration || 1000);
 
@@ -414,14 +464,15 @@ class Entity extends Container {
 
             const emitterSprite = Global.gameScene.add.image(this.x, this.y, 'game-atlas', '');
 
-            const emitter = Global.gameScene.attackParticles.createEmitter({
+            const emitter = this.scene.add.particles(0, 0, 'game-atlas', {
                 frame: 'action-path',
                 lifespan: 150,
                 scale: Config.GAME_SCALE,
                 alpha: { start: 1, end: 0 },
                 frequency: 5,
-                on: true,
             });
+
+            emitter.setDepth(renderOrder.particles);
 
             emitter.startFollow(emitterSprite);
 
@@ -435,7 +486,7 @@ class Entity extends Container {
                 y: spriteContainer.y,
                 duration,
                 onComplete: () => {
-                    emitter.manager.emitters.remove(emitter);
+                    emitter.destroy();
                     emitterSprite.destroy();
                 },
             });

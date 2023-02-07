@@ -27,6 +27,7 @@ import Global from '../shared/Global';
 import eventResponses from '../network/websocket_events/EventResponses';
 import { DynamicEntity, DynamicEntityData } from '../shared/types';
 import Player from './entities/classes/Player';
+import renderOrder from './RenderOrder';
 
 class GameScene extends Phaser.Scene {
     /**
@@ -36,16 +37,6 @@ class GameScene extends Phaser.Scene {
     currentBoardName!: string;
 
     boardAlwaysNight!: boolean;
-
-    /** The Z depth of the various display containers, as set by .setDepth. */
-    renderOrder = {
-        ground: 1,
-        statics: 2,
-        dynamics: 3,
-        particles: 4,
-        darkness: 5,
-        borders: 6,
-    };
 
     dynamicsData: Array<DynamicEntityData> = [];
 
@@ -80,12 +71,13 @@ class GameScene extends Phaser.Scene {
     interactables: { [key: string]: DynamicEntity } = {};
 
     /**
-     * A list of all light sources, used to update the darkness grid. Light sources can be static
-     * or dynamic.
+     * A list of all light sources. Used as part of the mask against the darkness overlay.
      */
-    lightSources: { [key: string]: DynamicEntity } = {};
+    lightSources?: Phaser.GameObjects.Container;
 
-    dynamicSpritesContainer!: Phaser.GameObjects.Container;
+    darkness?: Phaser.GameObjects.Image;
+
+    dynamicSpritesContainer!: Phaser.GameObjects.Layer;
 
     soundManager!: SoundManager;
 
@@ -98,11 +90,7 @@ class GameScene extends Phaser.Scene {
 
     moveRightIsDown = false;
 
-    attackParticles!: Phaser.GameObjects.Particles.ParticleEmitterManager;
-
     damageParticleEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
-
-    skillUpParticleEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
 
     /**
      * A list of PubSub subscription IDs, to be removed on shutdown.
@@ -182,17 +170,29 @@ class GameScene extends Phaser.Scene {
 
         // A containert to put all dynamics into, so they stay on the same layer relative to other
         // things in the display order.
-        this.dynamicSpritesContainer = this.add.container();
-        this.dynamicSpritesContainer.setDepth(this.renderOrder.dynamics);
+        this.dynamicSpritesContainer = this.add.layer();
+        this.dynamicSpritesContainer.setDepth(renderOrder.dynamics);
 
         this.soundManager = new SoundManager(this);
         this.tilemap = new Tilemap(this);
         this.tilemap.loadMap(this.currentBoardName);
 
+        this.lightSources = this.add.container();
+        this.lightSources.setVisible(false);
+
+        this.darkness = this.add.image(0, 0, 'ground-tileset', 4)
+            .setDisplaySize(this.cameras.main.width, this.cameras.main.height)
+            .setAlpha(0.9)
+            .setOrigin(0.5)
+            .setDepth(renderOrder.darkness);
+
         // Add the entities that are visible on start.
         this.dynamicsData.forEach((dynamicData) => {
             this.addEntity(dynamicData);
         });
+
+        this.darkness.mask = new Phaser.Display.Masks.BitmapMask(this, this.lightSources);
+        this.darkness.mask.invertAlpha = true;
 
         // Initial entities data not needed any more.
         delete this.dynamicsData;
@@ -206,9 +206,7 @@ class GameScene extends Phaser.Scene {
 
         this.fpsText = document.getElementById('fps-counter');
 
-        const damageParticles = this.add.particles('game-atlas');
-
-        this.damageParticleEmitter = damageParticles.createEmitter({
+        this.damageParticleEmitter = this.add.particles(0, 0, 'game-atlas', {
             frame: ['damage-particle-1', 'damage-particle-2', 'damage-particle-3'],
             x: { min: -200, max: 200 },
             speed: { min: 200, max: 300 },
@@ -219,32 +217,9 @@ class GameScene extends Phaser.Scene {
             alpha: { start: 1, end: 0 },
             rotate: { min: 0, max: 360 },
             gravityY: 1000,
-            on: false,
-        });
+        }).stop();
 
-        damageParticles.setDepth(this.renderOrder.particles);
-
-        const skillUpParticles = this.add.particles('game-atlas');
-
-        this.skillUpParticleEmitter = skillUpParticles.createEmitter({
-            frame: ['star-particle-01', 'star-particle-02', 'star-particle-03', 'star-particle-04', 'star-particle-05'],
-            x: { min: -200, max: 200 },
-            speed: { min: 200, max: 300 },
-            angle: { min: 220, max: 320 },
-            quantity: { min: 3, max: 7 },
-            lifespan: { min: 1800, max: 2200 },
-            scale: { min: Config.GAME_SCALE * 0.4, max: Config.GAME_SCALE * 0.4 },
-            alpha: { start: 1, end: 0 },
-            rotate: { min: 0, max: 360 },
-            gravityY: 450,
-            on: false,
-        });
-
-        skillUpParticles.setDepth(this.renderOrder.particles);
-
-        this.attackParticles = this.add.particles('game-atlas');
-
-        this.attackParticles.setDepth(this.renderOrder.particles);
+        this.damageParticleEmitter.setDepth(renderOrder.particles);
 
         // Add the websocket event responses after the game state is started.
         addGameEventResponses();
@@ -340,6 +315,12 @@ class GameScene extends Phaser.Scene {
         if (GUIState.showFPS) {
             this.fpsText.textContent = `FPS: ${Math.floor(this.game.loop.actualFps)}`;
         }
+
+        const playerContainer = this.dynamics[PlayerState.entityId].spriteContainer;
+        this.darkness.setPosition(
+            playerContainer.x,
+            playerContainer.y,
+        );
     }
 
     shutdown() {
@@ -705,29 +686,6 @@ class GameScene extends Phaser.Scene {
 
         const dynamicSpriteContainer = this.dynamics[id].spriteContainer;
 
-        // Add the sprite to the world group, as it extends sprite but
-        // overrides the constructor so doesn't get added automatically.
-        // Global.gameScene.add.existing(dynamicSpriteContainer);
-
-        // if (dynamicSpriteContainer.centered === true) {
-        //     dynamicSpriteContainer.setOrigin(0.5);
-        // }
-
-        // If the entity has a light distance, add it to the light sources list.
-        // Even if it is 0, still add it if it is defined as it could be something like a
-        // extinguished torch that could be relit later, would still need to be in the list.
-        // if (dynamicSpriteContainer.lightDistance !== undefined) {
-        //     this.lightSources[id] = this.dynamics[id];
-        //     this.tilemap.updateDarknessGrid();
-        // }
-
-        // TODO: remove
-        // If this entity does anything on the client when interacted with, add it to the
-        // interactables list.
-        // if (dynamicSpriteContainer.interactable === true) {
-        //     this.interactables[id] = this.dynamics[id];
-        // }
-
         this.dynamicSpritesContainer.add(dynamicSpriteContainer);
 
         // Move sprites further down the screen above ones further up.
@@ -739,19 +697,7 @@ class GameScene extends Phaser.Scene {
      */
     removeDynamic(id: string) {
         // Don't try to remove an entity that doesn't exist.
-        if (this.dynamics[id] === undefined) {
-            // console.log("skipping remove entity, doesn't exist:", id);
-            return;
-        }
-
-        // if (this.lightSources[id]) {
-        //     delete this.lightSources[id];
-        //     this.tilemap.updateDarknessGrid();
-        // }
-
-        // if (this.interactables[id]) {
-        //     delete this.interactables[id];
-        // }
+        if (this.dynamics[id] === undefined) return;
 
         this.dynamics[id].spriteContainer.destroy();
 
@@ -769,7 +715,6 @@ class GameScene extends Phaser.Scene {
         const playerColLeftViewRange = PlayerState.col - Config.VIEW_RANGE;
         const playerRowBotViewRange = PlayerState.row + Config.VIEW_RANGE;
         const playerColRightViewRange = PlayerState.col + Config.VIEW_RANGE;
-        // let darknessGridDirty = false;
 
         Object.entries(dynamics).forEach(([key, dynamic]) => {
             dynamicSpriteContainer = dynamic.spriteContainer;
@@ -785,19 +730,8 @@ class GameScene extends Phaser.Scene {
                 // Out of view range. Remove it.
                 dynamicSpriteContainer.destroy();
                 delete this.dynamics[key];
-                // if (dynamicSpriteContainer.lightDistance) {
-                //     delete this.lightSources[key];
-                //     // Don't need to update the darkness grid each time.
-                //     // Just do it once at the end if needed.
-                //     darknessGridDirty = true;
-                // }
-                // return;
             }
         });
-
-        // if (darknessGridDirty) {
-        //     this.tilemap.updateDarknessGrid();
-        // }
     }
 
     /**

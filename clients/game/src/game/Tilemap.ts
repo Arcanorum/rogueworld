@@ -9,6 +9,7 @@ import Phaser from 'phaser';
 import Config from '../shared/Config';
 import { PlayerState } from '../shared/state';
 import GameScene from './GameScene';
+import renderOrder from './RenderOrder';
 
 const scaledTileSize = Config.SCALED_TILE_SIZE;
 const halfScaledTileSize = scaledTileSize * 0.5;
@@ -37,7 +38,7 @@ class Tilemap {
 
         // Create the ground grid.
         this.groundTilesBlitter = this.scene.add.blitter(0, 0, 'ground-tileset');
-        this.groundTilesBlitter.setDepth(this.scene.renderOrder.ground);
+        this.groundTilesBlitter.setDepth(renderOrder.ground);
 
         for (let row = 0; row < viewDiameter; row += 1) {
             this.groundTilesGrid[row] = [];

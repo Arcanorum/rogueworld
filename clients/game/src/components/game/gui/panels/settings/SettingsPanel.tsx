@@ -58,7 +58,6 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
     const [profanityFilterEnabled, setProfanityFilterEnabled] = useState(
         GUIState.profanityFilterEnabled,
     );
-    const [lightFlickerEnabled, setLightFlickerEnabled] = useState(GUIState.lightFlickerEnabled);
     const [showFPS, setShowFPS] = useState(GUIState.showFPS);
 
     const saveSetting = (key: string, value: any) => {
@@ -129,14 +128,6 @@ function SettingsPanel({ onCloseCallback }: { onCloseCallback: () => void }) {
         setProfanityFilterEnabled(!profanityFilterEnabled);
 
         saveSetting('profanity_filter_enabled', !profanityFilterEnabled);
-    };
-
-    const onLightFlickerTogglePressed = () => {
-        GUIState.lightFlickerEnabled = !lightFlickerEnabled;
-
-        setLightFlickerEnabled(!lightFlickerEnabled);
-
-        saveSetting('light_flicker_enabled', !lightFlickerEnabled);
     };
 
     const onShowFPSTogglePressed = () => {

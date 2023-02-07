@@ -687,9 +687,6 @@ class GameScene extends Phaser.Scene {
         const dynamicSpriteContainer = this.dynamics[id].spriteContainer;
 
         this.dynamicSpritesContainer.add(dynamicSpriteContainer);
-
-        // Move sprites further down the screen above ones further up.
-        this.dynamicSpritesContainer.sort('y');
     }
 
     /**

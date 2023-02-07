@@ -1150,6 +1150,15 @@
     translationId: Carrot seed
     textureSource: carrot-seed
 
+- name: WoodenPath
+  code: IMUH0554
+  extends: Holdable
+  unitWeight: 1
+  entityTypeSpawnedOnUse: WoodenPath
+  clientConfig:
+    translationId: Wooden path
+    textureSource: wooden-path
+
 # Everything else
 
 - name: AgoniteBar

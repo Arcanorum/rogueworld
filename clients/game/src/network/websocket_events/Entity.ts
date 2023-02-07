@@ -124,9 +124,6 @@ const Entity = () => {
                 y: data.row * Config.SCALED_TILE_SIZE,
                 onComplete: () => {
                     tweenOnCompleteFunction();
-
-                    // Move sprites further down the screen above ones further up.
-                    Global.gameScene.dynamicSpritesContainer.sort('y');
                 },
                 // Need to do stop callback too in case the tween hasn't finished
                 // yet, as calling Tween.stop() then doesn't call onComplete.
@@ -205,9 +202,6 @@ const Entity = () => {
                 x: data.col * Config.SCALED_TILE_SIZE,
                 y: data.row * Config.SCALED_TILE_SIZE,
             });
-
-            // Move sprites further down the screen above ones further up.
-            Global.gameScene.dynamicSpritesContainer.sort('y');
         }
 
         // If the dynamic does something extra when it moves, do it.

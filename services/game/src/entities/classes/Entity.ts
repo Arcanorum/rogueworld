@@ -241,6 +241,12 @@ class Entity {
      */
     static transformationTimer?: number = undefined;
 
+    /**
+     * Whether this entity will cause any kind of obstruction to anything on
+     * top of it, such as a door trying to close.
+     */
+    static isFlooring?: boolean = undefined;
+
     constructor(config: EntityConfig) {
         this.id = idCounter.getNext();
 

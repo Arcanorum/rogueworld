@@ -316,12 +316,6 @@
 #   code: JTUR9078
 #   maxHitPoints: 100
 
-# - name: PurpleFlower
-#   code: OAQN7604
-#   maxHitPoints: 20
-#   ignoresProjectiles: true
-#   flooring: true
-
 # Structures
 
 - name: ClayOven
@@ -452,3 +446,13 @@
     showDisplayNameOnHover: false
     animationSetName: healing-turret
     lightScale: 1
+
+- name: WoodenPath
+  code: OAQN7604
+  baseMaxHitPoints: 100
+  isFlooring: true
+  clientConfig:
+    showDisplayNameOnHover: false
+    animationSetName: wooden-path
+    animationFrameSequence: [1]
+    alwaysAtBack: true

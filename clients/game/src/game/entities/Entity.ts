@@ -63,6 +63,12 @@ class Entity extends Container {
     /** The sound to play when this entity is destroyed. */
     static destroySound = '';
 
+    /**
+     * Whether this entity should ever be sorted in front of anything else.
+     * Mostly for decoration type stuff like flooring.
+     */
+    static alwaysAtBack = false;
+
     entityId: string;
 
     hitPoints: number;
@@ -267,6 +273,12 @@ class Entity extends Container {
 
     preUpdate(time: number, delta: number) {
         super.preUpdate(time, delta);
+
+        // Ignore things like flooring for sorting.
+        if (!(this.constructor as typeof Entity).alwaysAtBack) {
+            // Move sprites further down the screen above ones further up.
+            this.setDepth(this.y);
+        }
 
         if (this.lightSource) {
             this.lightSource.x = this.x;

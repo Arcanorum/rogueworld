@@ -46,14 +46,31 @@ class Door extends Dynamic {
         const boardTile = this.getBoardTile();
         if (!boardTile) return;
 
+        const tileEntities = Object.values(boardTile.entities);
+
         // Check there are no other entities on this tile.
-        if (Object.keys(boardTile.entities).length === 1) {
+        if (tileEntities.length === 1) {
             this.isBlocking = true;
             // Tell any nearby players that this entity is now active.
             this.board?.emitToNearbyPlayers(this.row, this.col, 'active_state', this.id);
         }
-        // Something in the way, try to close again later.
+        // If the other entity is just a piece of flooring, ignore it and close anyway.
+        else if (tileEntities.length === 2) {
+            const otherEntity = tileEntities[0] === this ? tileEntities[1] : tileEntities[0];
+            if ((otherEntity.constructor as typeof Entity).isFlooring) {
+                this.isBlocking = true;
+                // Tell any nearby players that this entity is now active.
+                this.board?.emitToNearbyPlayers(this.row, this.col, 'active_state', this.id);
+            }
+            // Not flooring.
+            else {
+                // Try to close again later.
+                this.startCloseTimeout();
+            }
+        }
+        // Too much stuff in the way.
         else {
+            // Try to close again later.
             this.startCloseTimeout();
         }
     }

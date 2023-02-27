@@ -1,16 +1,16 @@
+import { DayPhases } from '@rogueworld/types';
 import { message } from '@rogueworld/utils';
-import eventResponses from './EventResponses';
-// import Global from '../../shared/Global';
-import Login from './Login';
-import Inventory from './Inventory';
-// import Bank from './Bank';
-import StatusEffects from './StatusEffects';
-import PlayerValues from './PlayerValues';
-import Entity from './Entity';
-import Account from './Account';
-import { GUIState, ChatState } from '../../shared/state';
+import Global from '../../shared/Global';
+import { ChatState, GUIState } from '../../shared/state';
 import { ChatMessage } from '../../shared/state/Chat';
-// import { DayPhases } from '@rogueworld/types';
+import Account from './Account';
+import Entity from './Entity';
+import eventResponses from './EventResponses';
+import Inventory from './Inventory';
+import Login from './Login';
+import PlayerValues from './PlayerValues';
+import StatusEffects from './StatusEffects';
+// import Bank from './Bank';
 
 // Add the login/home page related events immediately.
 Login();
@@ -35,20 +35,39 @@ export const addGameEventResponses = () => {
 
     // Misc/ungrouped events.
 
-    // eventResponses.change_day_phase = (data) => {
-    //     // console.log("changing day phase:", data);
-    //     Global.gameScene.dayPhase = data;
+    eventResponses.change_day_phase = (data: DayPhases) => {
+        // console.log('changing day phase:', data);
 
-    //     if (Global.gameScene.boardAlwaysNight === false) {
-    //         // Make the darkness layer invisible during day time.
-    //         if (Global.gameScene.dayPhase === DayPhases.Day) {
-    //             Global.gameScene.tilemap.darknessTilesBlitter.setVisible(false);
-    //         }
-    //         else {
-    //             Global.gameScene.tilemap.updateDarknessGrid();
-    //         }
-    //     }
-    // };
+        // Don't bother if the day phase hasn't actualy changed.
+        if (Global.gameScene.dayPhase === data) return;
+
+        Global.gameScene.dayPhase = data;
+
+        if (Global.gameScene.boardAlwaysNight === false) {
+            // Make the darkness layer invisible during day time.
+            if (Global.gameScene.dayPhase === DayPhases.Day) {
+                Global.gameScene.tweens.add({
+                    targets: Global.gameScene.darkness,
+                    alpha: 0,
+                    duration: 5000,
+                });
+            }
+            else if (Global.gameScene.dayPhase === DayPhases.Night) {
+                Global.gameScene.tweens.add({
+                    targets: Global.gameScene.darkness,
+                    alpha: 0.9,
+                    duration: 5000,
+                });
+            }
+            else {
+                Global.gameScene.tweens.add({
+                    targets: Global.gameScene.darkness,
+                    alpha: 0.4,
+                    duration: 5000,
+                });
+            }
+        }
+    };
 
     eventResponses.chat = (data: ChatMessage) => {
         // console.log('chat:', data);

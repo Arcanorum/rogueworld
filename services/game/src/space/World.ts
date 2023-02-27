@@ -21,9 +21,9 @@ import { updateWorldDocument, WorldModel } from '../database/world';
 const dayPhaseCycle: Array<DayPhases> = [];
 // 11 parts day and night, 1 part transition between them.
 arrayMultiPush(dayPhaseCycle, DayPhases.Day, 10);
-arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 3);
+arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 4);
 arrayMultiPush(dayPhaseCycle, DayPhases.Night, 9);
-arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 2);
+arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
 
 const fullDayDuration = 60000 * Settings.FULL_DAY_DURATION_MINUTES;
 // Keep the length of a whole day the same, regarless of how many cycle phases each day has.

@@ -42,7 +42,7 @@ const entitiesString = 'entities';
 const playersString = 'players';
 const pickupsString = 'pickups';
 
-const invasionWaveRate = OneMinute * 4;
+const invasionWaveRate = Settings.FULL_DAY_DURATION_MINUTES;
 
 class Board {
     /**

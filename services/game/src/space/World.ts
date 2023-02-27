@@ -90,7 +90,7 @@ const World = {
         await this.loadWorld();
 
         // Start the day/night cycle loop.
-        setTimeout(this.progressTime, dayPhaseRate);
+        setTimeout(this.progressTime.bind(this), dayPhaseRate);
 
         this.initialised = true;
     },
@@ -309,8 +309,8 @@ const World = {
 
         // Utils.message("Day phase progressed:", dayPhaseCycle[0]);
 
-        // Check if the period is different than last. Don't bother updating the boards/players if
-        // it is the same. i.e. day and night last more than one phase.
+        // Check if the phase is different than last.
+        // Don't bother updating the boards/players if the time hasn't actually changed.
         if (dayPhaseCycle[0] !== this.dayPhase) {
             // Get whatever is at the front.
             this.dayPhase = dayPhaseCycle[0];
@@ -327,7 +327,7 @@ const World = {
             wss.broadcastToInGame('change_day_phase', this.dayPhase);
         }
 
-        setTimeout(World.progressTime, dayPhaseRate);
+        setTimeout(World.progressTime.bind(this), dayPhaseRate);
     },
 
     async loadWorld() {

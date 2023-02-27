@@ -1,6 +1,6 @@
 import { Settings } from '@rogueworld/configs';
 import { GameMap, Maps } from '@rogueworld/maps';
-import { DayPhases, ObjectOfUnknown } from '@rogueworld/types';
+import { DayPhases, ObjectOfUnknown, OneMinute } from '@rogueworld/types';
 import {
     arrayMultiPush, arrayOfObjectsToObject, error, message, warning,
 } from '@rogueworld/utils';
@@ -19,17 +19,17 @@ import { updateWorldDocument, WorldModel } from '../database/world';
 
 // Set up the day phase cycle.
 const dayPhaseCycle: Array<DayPhases> = [];
-// 11 parts day and night, 1 part transition between them.
-arrayMultiPush(dayPhaseCycle, DayPhases.Day, 10);
-arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, 4);
-arrayMultiPush(dayPhaseCycle, DayPhases.Night, 9);
-arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, 1);
 
-const fullDayDuration = 60000 * Settings.FULL_DAY_DURATION_MINUTES;
+arrayMultiPush(dayPhaseCycle, DayPhases.Day, Settings.DAY_PHASE_LENGTH_DAY || 10);
+arrayMultiPush(dayPhaseCycle, DayPhases.Dusk, Settings.DAY_PHASE_LENGTH_DUSK || 4);
+arrayMultiPush(dayPhaseCycle, DayPhases.Night, Settings.DAY_PHASE_LENGTH_NIGHT || 9);
+arrayMultiPush(dayPhaseCycle, DayPhases.Dawn, Settings.DAY_PHASE_LENGTH_DAWN || 1);
+
+const fullDayDuration = OneMinute * Settings.FULL_DAY_DURATION_MINUTES;
 // Keep the length of a whole day the same, regarless of how many cycle phases each day has.
 const dayPhaseRate = fullDayDuration / dayPhaseCycle.length;
 message('Full day duration:', Settings.FULL_DAY_DURATION_MINUTES, 'minutes.');
-message('Day phase rate:', dayPhaseRate / 60000, 'minutes.');
+message('Day phase rate:', dayPhaseRate / OneMinute, 'minutes.');
 
 interface PlayerData {
     inventory: ObjectOfUnknown;
@@ -63,7 +63,7 @@ const World = {
     maxPlayers: Settings.MAX_PLAYERS || 1000,
 
     /** The time of day. Dawn, night, etc. */
-    dayPhase: DayPhases.Day,
+    dayPhase: dayPhaseCycle[0],
 
     /**
      * What level/progress/difficulty this world is up to.

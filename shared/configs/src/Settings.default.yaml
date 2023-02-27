@@ -59,7 +59,7 @@ GIT_WEBHOOK_BRANCH_NAME: dev
 # The request should contain this secret from the source, i.e. GitHub Webhooks.
 # When not set, ALL requests to the REST server will trigger the event logic, even ones not from
 # the intended source (i.e. GitHub).
-GIT_WEBHOOK_SECRET: ''
+GIT_WEBHOOK_SECRET: ""
 
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000
@@ -78,7 +78,21 @@ ENTITY_AUTO_SAVE_RATE: 30000
 
 # Each game day is split up into an amount of sections, but the total length of a full day cycle
 # is always the same regardless of the ratio between dawn/day/dusk/night.
-FULL_DAY_DURATION_MINUTES: 24
+# e.g. Changing the length of night from 6 to 10, will only give it a larger propertion of this
+# full duration value, not make the whole day any longer.
+FULL_DAY_DURATION_MINUTES: 1
+
+# What proportion of the whole day should be day.
+DAY_PHASE_LENGTH_DAY: 10
+
+# What proportion of the whole day should be dusk.
+DUSK_PHASE_LENGTH_DUSK: 4
+
+# What proportion of the whole day should be night.
+NIGHT_PHASE_LENGTH_NIGHT: 9
+
+# What proportion of the whole day should be dawn.
+DAWN_PHASE_LENGTH_DAWN: 1
 
 # How much "stuff" can be on a board at once.
 # These could be all kinds of entities.

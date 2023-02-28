@@ -321,6 +321,11 @@ const World = {
                 if (board.alwaysNight === false) {
                     board.dayPhase = this.dayPhase;
                 }
+
+                if (this.dayPhase === DayPhases.Day) board.onDayPhaseEntered();
+                else if (this.dayPhase === DayPhases.Dusk) board.onDuskPhaseEntered();
+                else if (this.dayPhase === DayPhases.Night) board.onNightPhaseEntered();
+                else if (this.dayPhase === DayPhases.Dawn) board.onDawnPhaseEntered();
             });
 
             // Tell the boards and everyone on them the time has changed.

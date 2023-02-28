@@ -42,8 +42,6 @@ const entitiesString = 'entities';
 const playersString = 'players';
 const pickupsString = 'pickups';
 
-const invasionWaveRate = OneMinute * Settings.FULL_DAY_DURATION_MINUTES;
-
 class Board {
     /**
      * A generic unique ID for this board.
@@ -118,11 +116,6 @@ class Board {
         this.init(mapData);
 
         this.loadSavedEntities(1);
-
-        // Start the attack wave cycle loop.
-        setTimeout(this.spawnWave.bind(this), invasionWaveRate);
-        // Start a timer to warn the players just before the wave is due to arrive.
-        setTimeout(this.invasionWarning.bind(this), invasionWaveRate * 0.9);
     }
 
     init(mapData: TiledMap) {
@@ -718,6 +711,20 @@ class Board {
         return this.grid[randomRowCol.row][randomRowCol.col];
     }
 
+    onDayPhaseEntered() {
+    }
+
+    onDuskPhaseEntered() {
+        this.invasionWarning();
+    }
+
+    onNightPhaseEntered() {
+        this.spawnWave();
+    }
+
+    onDawnPhaseEntered() {
+    }
+
     spawnWave() {
         const InvaderEntityTypes = [
             EntitiesList.BY_NAME.Bandit,
@@ -746,10 +753,6 @@ class Board {
                 col: rowCol.col,
             }).emitToNearbyPlayers() as Dynamic;
         }
-
-        setTimeout(this.spawnWave.bind(this), invasionWaveRate);
-        // Start a timer to warn the players just before the wave is due to arrive.
-        setTimeout(this.invasionWarning.bind(this), invasionWaveRate * 0.9);
     }
 
     invasionWarning() {

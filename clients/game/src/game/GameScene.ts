@@ -144,7 +144,7 @@ class GameScene extends Phaser.Scene {
 
         this.dynamicsData = data.dynamicsData;
 
-        // this.dayPhase = data.dayPhase || DayPhases.Day;
+        this.dayPhase = data.dayPhase || DayPhases.Day;
 
         // Setup animations for entity types that have them configured.
         Object.values(Config.EntitiesList).forEach((EntityType) => {
@@ -182,9 +182,19 @@ class GameScene extends Phaser.Scene {
 
         this.darkness = this.add.image(0, 0, 'ground-tileset', 4)
             .setDisplaySize(this.cameras.main.width, this.cameras.main.height)
-            .setAlpha(0.9)
             .setOrigin(0.5)
             .setDepth(renderOrder.darkness);
+
+        if (this.dayPhase === DayPhases.Day) {
+            this.darkness.setAlpha(0);
+        }
+        else if (this.dayPhase === DayPhases.Night) {
+            this.darkness.setAlpha(0.9);
+        }
+        // Dawn or dusk.
+        else {
+            this.darkness.setAlpha(0.4);
+        }
 
         // Add the entities that are visible on start.
         this.dynamicsData.forEach((dynamicData) => {

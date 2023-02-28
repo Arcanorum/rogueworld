@@ -64,6 +64,10 @@ GIT_WEBHOOK_SECRET: ""
 # Up to how many players can be playing at once.
 MAX_PLAYERS: 1000
 
+# How many players have to be online at once before waves of invaders start spawning at night.
+# Stops the base just getting chipped away at when not enough players are online.
+SPAWN_WAVE_MIN_PLAYERS: 5
+
 # How often to save the current state of logged in players to their account in the DB.
 # State changes (glory/stat exp/inventory item/bank item/etc. modified) are done in memory and then
 # saved to the DB every interval.

@@ -14,7 +14,7 @@ import {
     getRandomIntInclusive,
     warning,
 } from '@rogueworld/utils';
-import { GroundTypes } from '.';
+import { GroundTypes, World } from '.';
 import { getPaginatedEntityDocuments } from '../database';
 import { EntitiesList } from '../entities';
 import Entity from '../entities/classes/Entity';
@@ -715,11 +715,16 @@ class Board {
     }
 
     onDuskPhaseEntered() {
-        this.invasionWarning();
+        // Check for minimum players.
+        if (World.playerCount >= (Settings.SPAWN_WAVE_MIN_PLAYERS || 5)) {
+            this.invasionWarning();
+        }
     }
 
     onNightPhaseEntered() {
-        this.spawnWave();
+        if (World.playerCount >= (Settings.SPAWN_WAVE_MIN_PLAYERS || 5)) {
+            this.spawnWave();
+        }
     }
 
     onDawnPhaseEntered() {
@@ -760,7 +765,7 @@ class Board {
             id: this.worldTree?.id,
             displayName: 'World Tree',
             scope: 'GLOBAL',
-            content: 'The next invasion will arrive soon!',
+            content: 'Night is approaching!',
         });
     }
 }

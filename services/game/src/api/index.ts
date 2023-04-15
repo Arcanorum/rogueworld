@@ -3,7 +3,7 @@ import { dirname as mapsDirname } from '@rogueworld/maps';
 import { error, message, warning } from '@rogueworld/utils';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
-import { copyFileSync, ensureDir } from 'fs-extra';
+import { copyFileSync, ensureDirSync } from 'fs-extra';
 import path from 'path';
 import sharp from 'sharp';
 import { expressServer } from '../Server';
@@ -19,7 +19,7 @@ import { expressServer } from '../Server';
         const outputDir = path.join(__dirname, './resources/images');
 
         // Check the location to write to exists. If not, create it.
-        ensureDir(outputDir);
+        ensureDirSync(outputDir);
 
         const outputPath = `${outputDir}/ground.png`;
 

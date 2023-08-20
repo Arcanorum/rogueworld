@@ -14,7 +14,7 @@ For things like balance changes or missing features, use the feature request tem
 ### Describe the bug
 <!-- A clear and concise description of what the bug is. -->
 
-### To reproduce
+### Reproduction steps
 <!--
 Example steps to reproduce the behaviour:
 1. Go to '...'

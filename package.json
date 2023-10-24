@@ -49,7 +49,7 @@
     "js-yaml": "4.1.0",
     "leaflet": "1.7.1",
     "mongoose": "6.11.3",
-    "next": "12.1.0",
+    "next": "13.5.0",
     "next-plugin-yaml": "1.0.1",
     "next-transpile-modules": "9.0.0",
     "nodemon": "2.0.20",

@@ -61,7 +61,7 @@
     "react-leaflet": "3.2.2",
     "require-dir": "1.2.0",
     "sass": "1.49.7",
-    "sharp": "0.30.5",
+    "sharp": "0.32.6",
     "ts-jest": "28.0.5",
     "ts-node": "10.8.1",
     "typescript": "4.7.4",
